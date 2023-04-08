@@ -15,3 +15,6 @@
 var/cache/dev/profiler/index.csv
 var/log/dev.log
 /.htaccess
+/var/cache/dev/profiler/index.csv
+/var/cache/dev/*
+/var/log/dev.log

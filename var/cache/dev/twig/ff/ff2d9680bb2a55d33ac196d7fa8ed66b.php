@@ -325,7 +325,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
             <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> ensemble, <span class=\"text-primary\">réussir</span> ensemble </h1>
-            <p class=\"fs-3\">OLING est une société composée d'expert en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
+            <p class=\"fs-3\">OLING est une société composée d'experts en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
@@ -1238,7 +1238,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
             <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> ensemble, <span class=\"text-primary\">réussir</span> ensemble </h1>
-            <p class=\"fs-3\">OLING est une société composée d'expert en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
+            <p class=\"fs-3\">OLING est une société composée d'experts en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">

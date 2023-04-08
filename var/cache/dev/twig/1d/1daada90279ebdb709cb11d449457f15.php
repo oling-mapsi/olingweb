@@ -288,7 +288,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- Sign up -->
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href=\"./page-signup.html\">Contactez-nous</a>
+                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href=";
+        // line 237
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
+        echo ">Contactez-nous</a>
                     </li>
                     <!-- End Sign up -->
                     </ul>
@@ -316,10 +319,13 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- End Col -->
             
                 <div class=\"col-md-auto\">
-                <div class=\"d-grid d-sm-flex gap-3\">
-                    <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
-                    <a class=\"btn btn-ghost-light btn-pointer\" href=\"#\">Contactez nous</a>
-                </div>
+                    <div class=\"d-grid d-sm-flex gap-3\">
+                        <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
+                        <a class=\"btn btn-ghost-light btn-pointer\" href=";
+        // line 264
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
+        echo ">Contactez nous</a>
+                    </div>
                 </div>
                 <!-- End Col -->
             </div>
@@ -622,7 +628,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  596 => 249,  583 => 15,  573 => 14,  560 => 11,  550 => 10,  531 => 6,  307 => 250,  305 => 249,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  602 => 249,  589 => 15,  579 => 14,  566 => 11,  556 => 10,  537 => 6,  326 => 264,  310 => 250,  308 => 249,  293 => 237,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -863,7 +869,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- Sign up -->
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href=\"./page-signup.html\">Contactez-nous</a>
+                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href={{ path('contact')}}>Contactez-nous</a>
                     </li>
                     <!-- End Sign up -->
                     </ul>
@@ -888,10 +894,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- End Col -->
             
                 <div class=\"col-md-auto\">
-                <div class=\"d-grid d-sm-flex gap-3\">
-                    <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
-                    <a class=\"btn btn-ghost-light btn-pointer\" href=\"#\">Contactez nous</a>
-                </div>
+                    <div class=\"d-grid d-sm-flex gap-3\">
+                        <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
+                        <a class=\"btn btn-ghost-light btn-pointer\" href={{ path('contact')}}>Contactez nous</a>
+                    </div>
                 </div>
                 <!-- End Col -->
             </div>

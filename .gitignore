@@ -12,3 +12,5 @@
 !/var/cache/.gitkeep
 /var/log/*
 !/var/log/.gitkeep
+var/cache/dev/profiler/index.csv
+var/log/dev.log

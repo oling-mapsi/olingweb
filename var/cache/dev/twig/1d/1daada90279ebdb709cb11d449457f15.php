@@ -77,7 +77,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
                 <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-                <img class=\"navbar-brand-logo\" src=\"";
+                    <img class=\"navbar-brand-logo\" src=\"";
         // line 29
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("./img/logo/logoling.png"), "html", null, true);
         echo "\" alt=\"Logo\">
@@ -661,7 +661,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
                 <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-                <img class=\"navbar-brand-logo\" src=\"{{ asset('./img/logo/logoling.png') }}\" alt=\"Logo\">
+                    <img class=\"navbar-brand-logo\" src=\"{{ asset('./img/logo/logoling.png') }}\" alt=\"Logo\">
                 </a>
                 <!-- End Default Logo -->
 

@@ -126,11 +126,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Une offre sur mesure</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Etudes <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
                             </div>
                             </div>
                         </div>
@@ -169,14 +169,14 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Des compétences certifiées</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Finances</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> RSE</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Finances</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> RSE</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
 
 
                             </div>
@@ -218,11 +218,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">De nombreux déploiements</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> ERP</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> SIG <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> ERP</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> SIG </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
 
 
                             </div>
@@ -265,9 +265,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Teams, Sharepoints, Onedrive...</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Intégration</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Intégration</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
 
 
                             </div>
@@ -353,7 +353,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING</a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->
@@ -617,11 +617,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Une offre sur mesure</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Etudes <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
                             </div>
                             </div>
                         </div>
@@ -660,14 +660,14 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Des compétences certifiées</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Finances</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> RSE</a>
-                                <a class=\"dropdown-item \" href=\"./landing-services.html\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Finances</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> RSE</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
 
 
                             </div>
@@ -709,11 +709,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">De nombreux déploiements</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> ERP</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
-                                <a class=\"dropdown-item active\" href=\"./landing-consulting.html\"><i class=\"bi-chat-right-dots me-2\"></i> SIG <span class=\"badge text-primary\">New</span></a>
-                                <a class=\"dropdown-item \" href=\"./landing-saas.html\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> ERP</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> SIG </a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
 
 
                             </div>
@@ -756,9 +756,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             <div class=\"col-sm\">
                             <div class=\"navbar-dropdown-menu-inner\">
                                 <span class=\"dropdown-header\">Teams, Sharepoints, Onedrive...</span>
-                                <a class=\"dropdown-item \" href=\"./index.html\"><i class=\"bi-building me-2\"></i> Intégration</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
-                                <a class=\"dropdown-item \" href=\"./landing-business.html\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Intégration</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
+                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
 
 
                             </div>
@@ -835,7 +835,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING</a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->

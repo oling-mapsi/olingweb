@@ -101,7 +101,10 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
             <a class=\"btn btn-primary\" href=\"#\">Découvrir les solutions</a>
-            <a class=\"btn btn-ghost-dark btn-pointer\" href=\"#\">Contactez-nous</a>
+            <a class=\"btn btn-ghost-dark btn-pointer\" href=";
+        // line 22
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
+        echo ">Contactez-nous</a>
           </div>
         </div>
         <!-- End Col -->
@@ -376,20 +379,20 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               </div>
 
               <h5>Services publiques</h5>
-
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Marketing Websites</li>
-                    <li class=\"list-checked-item\">Landing Pages</li>
+                    <li class=\"list-checked-item\">Conception de schéma directeur SI et digitalisation</li>
+                    <li class=\"list-checked-item\">Conformité ISO RGPD PCA</li>
+                    <li class=\"list-checked-item\">Audit et étude SI (Infrastructure, serveur, réseau, téléphonie)</li>
                   </ul>
                 </div>
                 <!-- End Col -->
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Design System</li>
-                    <li class=\"list-checked-item\">Icon Design</li>
+                    <li class=\"list-checked-item\">Appuie à l’intégration d’applications métier/li>
+                    <li class=\"list-checked-item\">Délégation de service SI</li>
                   </ul>
                 </div>
                 <!-- End Col -->
@@ -405,8 +408,9 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
+                    <li class=\"list-checked-item\">Audit et conseil SI et Organisation</li>
+                    <li class=\"list-checked-item\">Accompagnement à l’intégration de solutions applicatives métiers CRM, ERP (achat, logistique, finance)</li>
+                    <li class=\"list-checked-item\">Organisation de la collaboration sur Office 365</li>
 
                   </ul>
                 </div>
@@ -414,14 +418,14 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
+                    <li class=\"list-checked-item\">Audit et conseil SI et Organisation</li>
+                    <li class=\"list-checked-item\">Management de transition SI, Conformité, etc.</li>
                   </ul>
                 </div>
                 <!-- End Col -->
               </div>
               <!-- End Row -->
-                <div class=\"mb-3\">
+            <div class=\"mb-3\">
                 <i class=\"bi-circle-square fs-2 text-dark\"></i>
               </div>
 
@@ -430,8 +434,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
+                    <li class=\"list-checked-item\">Conformité QSE, Qualiopi, RGPD</li>
+                    <li class=\"list-checked-item\">Digitalisation des processus et des documents/li>
 
                   </ul>
                 </div>
@@ -439,33 +443,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
-                  </ul>
-                </div>
-                <!-- End Col -->
-
-
-                <div class=\"mb-3\">
-                <i class=\"bi-circle-square fs-2 text-dark\"></i>
-              </div>
-
-              <h5>Education</h5>
-
-              <div class=\"row mb-5\">
-                <div class=\"col-6\">
-                  <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
-
-                  </ul>
-                </div>
-                <!-- End Col -->
-
-                <div class=\"col-6\">
-                  <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
+                    <li class=\"list-checked-item\">Expertises et audit</li>
+                    <li class=\"list-checked-item\">Recherche de programmes et élaboration des dossiers de candidatures et de demande de subventions</li>
                   </ul>
                 </div>
                 <!-- End Col -->
@@ -552,7 +531,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -578,7 +557,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
             <a class=\"btn btn-primary\" href=\"#\">Découvrir les solutions</a>
-            <a class=\"btn btn-ghost-dark btn-pointer\" href=\"#\">Contactez-nous</a>
+            <a class=\"btn btn-ghost-dark btn-pointer\" href={{ path('contact')}}>Contactez-nous</a>
           </div>
         </div>
         <!-- End Col -->
@@ -853,20 +832,20 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               </div>
 
               <h5>Services publiques</h5>
-
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Marketing Websites</li>
-                    <li class=\"list-checked-item\">Landing Pages</li>
+                    <li class=\"list-checked-item\">Conception de schéma directeur SI et digitalisation</li>
+                    <li class=\"list-checked-item\">Conformité ISO RGPD PCA</li>
+                    <li class=\"list-checked-item\">Audit et étude SI (Infrastructure, serveur, réseau, téléphonie)</li>
                   </ul>
                 </div>
                 <!-- End Col -->
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Design System</li>
-                    <li class=\"list-checked-item\">Icon Design</li>
+                    <li class=\"list-checked-item\">Appuie à l’intégration d’applications métier/li>
+                    <li class=\"list-checked-item\">Délégation de service SI</li>
                   </ul>
                 </div>
                 <!-- End Col -->
@@ -882,8 +861,9 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
+                    <li class=\"list-checked-item\">Audit et conseil SI et Organisation</li>
+                    <li class=\"list-checked-item\">Accompagnement à l’intégration de solutions applicatives métiers CRM, ERP (achat, logistique, finance)</li>
+                    <li class=\"list-checked-item\">Organisation de la collaboration sur Office 365</li>
 
                   </ul>
                 </div>
@@ -891,14 +871,14 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
+                    <li class=\"list-checked-item\">Audit et conseil SI et Organisation</li>
+                    <li class=\"list-checked-item\">Management de transition SI, Conformité, etc.</li>
                   </ul>
                 </div>
                 <!-- End Col -->
               </div>
               <!-- End Row -->
-                <div class=\"mb-3\">
+            <div class=\"mb-3\">
                 <i class=\"bi-circle-square fs-2 text-dark\"></i>
               </div>
 
@@ -907,8 +887,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               <div class=\"row mb-5\">
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
+                    <li class=\"list-checked-item\">Conformité QSE, Qualiopi, RGPD</li>
+                    <li class=\"list-checked-item\">Digitalisation des processus et des documents/li>
 
                   </ul>
                 </div>
@@ -916,33 +896,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
                 <div class=\"col-6\">
                   <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
-                  </ul>
-                </div>
-                <!-- End Col -->
-
-
-                <div class=\"mb-3\">
-                <i class=\"bi-circle-square fs-2 text-dark\"></i>
-              </div>
-
-              <h5>Education</h5>
-
-              <div class=\"row mb-5\">
-                <div class=\"col-6\">
-                  <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">User Research</li>
-                    <li class=\"list-checked-item\">Usability Testing</li>
-
-                  </ul>
-                </div>
-                <!-- End Col -->
-
-                <div class=\"col-6\">
-                  <ul class=\"list-checked list-checked-soft-bg-primary\">
-                    <li class=\"list-checked-item\">Wireframes</li>
-                    <li class=\"list-checked-item\">Some of my current</li>
+                    <li class=\"list-checked-item\">Expertises et audit</li>
+                    <li class=\"list-checked-item\">Recherche de programmes et élaboration des dossiers de candidatures et de demande de subventions</li>
                   </ul>
                 </div>
                 <!-- End Col -->

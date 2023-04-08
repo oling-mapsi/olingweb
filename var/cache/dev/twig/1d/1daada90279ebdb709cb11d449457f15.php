@@ -354,6 +354,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING</a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -408,7 +409,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- List -->
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Politique générale de protection des données</a></li>
-                    <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Mentions légales</a></li>
+                    <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
+        // line 349
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("discloser");
+        echo ">Mentions légales</a></li>
                     <li class=\"list-inline-item\">
 
                     </li>
@@ -418,7 +422,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- End Col -->
 
                 <div class=\"col-md-auto\">
-                <p class=\"fs-5 text-white-70 mb-0\">© OLING Management et Technologie 2023</p>
+                <p class=\"fs-5 text-white-70 mb-0\">© OLING Management et Technologie 2012 - 2023</p>
                 </div>
                 <!-- End Col -->
             </div>
@@ -534,7 +538,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  508 => 249,  495 => 15,  485 => 14,  472 => 11,  462 => 10,  443 => 6,  326 => 264,  310 => 250,  308 => 249,  293 => 237,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  512 => 249,  499 => 15,  489 => 14,  476 => 11,  466 => 10,  447 => 6,  414 => 349,  326 => 264,  310 => 250,  308 => 249,  293 => 237,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -832,6 +836,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING</a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -886,7 +891,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- List -->
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Politique générale de protection des données</a></li>
-                    <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Mentions légales</a></li>
+                    <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href={{ path('discloser')}}>Mentions légales</a></li>
                     <li class=\"list-inline-item\">
 
                     </li>
@@ -896,7 +901,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- End Col -->
 
                 <div class=\"col-md-auto\">
-                <p class=\"fs-5 text-white-70 mb-0\">© OLING Management et Technologie 2023</p>
+                <p class=\"fs-5 text-white-70 mb-0\">© OLING Management et Technologie 2012 - 2023</p>
                 </div>
                 <!-- End Col -->
             </div>

@@ -353,7 +353,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->
@@ -835,7 +835,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a><span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     </ul>
                     <!-- End List -->

@@ -20,4 +20,5 @@ return [
     'app_practice' => [[], ['_controller' => 'App\\Controller\\PracticeController::practice'], [], [['text', '/practice']], [], [], []],
     'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
     'contact' => [[], ['_controller' => 'App\\Controller\\PracticeController::contact'], [], [['text', '/contact']], [], [], []],
+    'service' => [[], ['_controller' => 'App\\Controller\\PracticeController::service'], [], [['text', '/service']], [], [], []],
 ];

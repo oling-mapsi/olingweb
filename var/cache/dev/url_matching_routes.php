@@ -18,6 +18,7 @@ return [
         '/practice' => [[['_route' => 'app_practice', '_controller' => 'App\\Controller\\PracticeController::practice'], null, null, null, false, false, null]],
         '/discloser' => [[['_route' => 'discloser', '_controller' => 'App\\Controller\\PracticeController::discloser'], null, null, null, false, false, null]],
         '/contact' => [[['_route' => 'contact', '_controller' => 'App\\Controller\\PracticeController::contact'], null, null, null, false, false, null]],
+        '/service' => [[['_route' => 'service', '_controller' => 'App\\Controller\\PracticeController::service'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

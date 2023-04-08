@@ -96,7 +96,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <nav class=\"js-mega-menu navbar-nav-wrap\">
         <!-- Default Logo -->
         <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-          <img class=\"navbar-brand-logo\" src=\"/img/logoling.png\" alt=\"Image Description\">
+          <img class=\"navbar-brand-logo\" src=\"/img/logo/logoling.png\" alt=\"Image Description\">
         </a>
         <!-- End Default Logo -->
 
@@ -1009,7 +1009,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <nav class=\"js-mega-menu navbar-nav-wrap\">
         <!-- Default Logo -->
         <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-          <img class=\"navbar-brand-logo\" src=\"/img/logoling.png\" alt=\"Image Description\">
+          <img class=\"navbar-brand-logo\" src=\"/img/logo/logoling.png\" alt=\"Image Description\">
         </a>
         <!-- End Default Logo -->
 

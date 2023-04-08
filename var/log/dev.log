@@ -2309,3 +2309,6 @@
 [2023-04-08T03:30:01.841393+00:00] request.INFO: Matched route "index". {"route":"index","route_parameters":{"_route":"index","_controller":"App\\Controller\\PracticeController::index"},"request_uri":"http://127.0.0.1:8001/","method":"GET"} []
 [2023-04-08T03:30:01.842043+00:00] security.DEBUG: Checking for authenticator support. {"firewall_name":"main","authenticators":0} []
 [2023-04-08T03:30:01.881070+00:00] request.INFO: Matched route "_wdt". {"route":"_wdt","route_parameters":{"_route":"_wdt","_controller":"web_profiler.controller.profiler::toolbarAction","token":"e15a82"},"request_uri":"http://127.0.0.1:8001/_wdt/e15a82","method":"GET"} []
+[2023-04-08T04:02:47.707555+00:00] request.INFO: Matched route "index". {"route":"index","route_parameters":{"_route":"index","_controller":"App\\Controller\\PracticeController::index"},"request_uri":"http://127.0.0.1:8001/","method":"GET"} []
+[2023-04-08T04:02:47.709862+00:00] security.DEBUG: Checking for authenticator support. {"firewall_name":"main","authenticators":0} []
+[2023-04-08T04:02:47.794394+00:00] request.INFO: Matched route "_wdt". {"route":"_wdt","route_parameters":{"_route":"_wdt","_controller":"web_profiler.controller.profiler::toolbarAction","token":"893f98"},"request_uri":"http://127.0.0.1:8001/_wdt/893f98","method":"GET"} []

@@ -14,3 +14,4 @@
 !/var/log/.gitkeep
 var/cache/dev/profiler/index.csv
 var/log/dev.log
+/.htaccess

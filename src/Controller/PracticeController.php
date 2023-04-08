@@ -32,4 +32,12 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
         ]);
     }
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(): Response
+    {
+        return $this->render('contact.html.twig', [
+            'controller_name' => 'PracticeController',
+        ]);
+    }
 }

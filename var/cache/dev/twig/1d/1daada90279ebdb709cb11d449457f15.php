@@ -77,7 +77,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
                 <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-                <img class=\"navbar-brand-logo\" src=\"/img/logo/logoling.png\" alt=\"Image Description\">
+                <img class=\"navbar-brand-logo\" src=\"";
+        // line 29
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("/img/logo/logoling.png"), "html", null, true);
+        echo "\" alt=\"Image Description\">
                 </a>
                 <!-- End Default Logo -->
 
@@ -612,9 +615,14 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         return "base.html.twig";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array (  593 => 249,  580 => 15,  570 => 14,  557 => 11,  547 => 10,  528 => 6,  304 => 250,  302 => 249,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  596 => 249,  583 => 15,  573 => 14,  560 => 11,  550 => 10,  531 => 6,  307 => 250,  305 => 249,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -647,7 +655,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
                 <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
-                <img class=\"navbar-brand-logo\" src=\"/img/logo/logoling.png\" alt=\"Image Description\">
+                <img class=\"navbar-brand-logo\" src=\"{{ asset('/img/logo/logoling.png') }}\" alt=\"Image Description\">
                 </a>
                 <!-- End Default Logo -->
 

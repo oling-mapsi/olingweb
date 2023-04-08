@@ -19,4 +19,5 @@ return [
     'index' => [[], ['_controller' => 'App\\Controller\\PracticeController::index'], [], [['text', '/']], [], [], []],
     'app_practice' => [[], ['_controller' => 'App\\Controller\\PracticeController::practice'], [], [['text', '/practice']], [], [], []],
     'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
+    'contact' => [[], ['_controller' => 'App\\Controller\\PracticeController::contact'], [], [['text', '/contact']], [], [], []],
 ];

@@ -1,0 +1,14 @@
+### Symfony ###
+/.env
+/.env.local
+/.env.*.local
+/vendor/
+/node_modules/
+/public/bundles/
+/var/
+/.phpunit.result.cache
+/.php_cs.cache
+/var/cache/*
+!/var/cache/.gitkeep
+/var/log/*
+!/var/log/.gitkeep

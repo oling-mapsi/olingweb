@@ -111,6 +111,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
                         <!-- Main Content -->
+                        
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
@@ -289,7 +290,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- Sign up -->
                     <li class=\"nav-item\">
                         <a class=\"btn btn-primary d-none d-lg-inline-block\" href=";
-        // line 237
+        // line 238
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">Contactez-nous</a>
                     </li>
@@ -304,9 +305,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
         <!-- ========== END HEADER ========== -->
         ";
-        // line 249
-        $this->displayBlock('body', $context, $blocks);
         // line 250
+        $this->displayBlock('body', $context, $blocks);
+        // line 251
         echo "
 
         <!-- ========== FOOTER ========== -->
@@ -322,7 +323,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <div class=\"d-grid d-sm-flex gap-3\">
                         <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
                         <a class=\"btn btn-ghost-light btn-pointer\" href=";
-        // line 264
+        // line 265
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">Contactez nous</a>
                     </div>
@@ -410,7 +411,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Politique générale de protection des données</a></li>
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
-        // line 349
+        // line 350
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("discloser");
         echo ">Mentions légales</a></li>
                     <li class=\"list-inline-item\">
@@ -508,7 +509,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 249
+    // line 250
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -538,7 +539,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  512 => 249,  499 => 15,  489 => 14,  476 => 11,  466 => 10,  447 => 6,  414 => 349,  326 => 264,  310 => 250,  308 => 249,  293 => 237,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  513 => 250,  500 => 15,  490 => 14,  477 => 11,  467 => 10,  448 => 6,  415 => 350,  327 => 265,  311 => 251,  309 => 250,  294 => 238,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -602,6 +603,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
                         <!-- Main Content -->
+                        
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">

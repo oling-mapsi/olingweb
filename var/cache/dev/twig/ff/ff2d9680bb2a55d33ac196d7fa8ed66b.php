@@ -462,18 +462,9 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <!-- End Row -->
           
 
-          <!-- SVG Shape -->
-          <figure class=\"position-absolute top-0 end-0 me-n7\" style=\"width: 4rem;\">
-            <img class=\"img-fluid\" src=\"/svg/components/pointer-up.svg\" alt=\"Image Description\">
-          </figure>
-          <!-- End SVG Shape -->
-
-          <!-- SVG Shape -->
-          <figure class=\"position-absolute bottom-0 end-0 start-sm-0 mb-n8 ms-n8\" style=\"width: 12rem;\">
-            <img class=\"img-fluid\" src=\"/svg/components/curved-shape.svg\" alt=\"Image Description\">
-          </figure>
-          <!-- End SVG Shape -->
-        </div>
+          ";
+        // line 391
+        echo "        </div>
 
       </div>
     </div>
@@ -531,7 +522,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  467 => 391,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -915,7 +906,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <!-- End Row -->
           
 
-          <!-- SVG Shape -->
+          {# <!-- SVG Shape -->
           <figure class=\"position-absolute top-0 end-0 me-n7\" style=\"width: 4rem;\">
             <img class=\"img-fluid\" src=\"/svg/components/pointer-up.svg\" alt=\"Image Description\">
           </figure>
@@ -925,7 +916,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <figure class=\"position-absolute bottom-0 end-0 start-sm-0 mb-n8 ms-n8\" style=\"width: 12rem;\">
             <img class=\"img-fluid\" src=\"/svg/components/curved-shape.svg\" alt=\"Image Description\">
           </figure>
-          <!-- End SVG Shape -->
+          <!-- End SVG Shape --> #}
         </div>
 
       </div>

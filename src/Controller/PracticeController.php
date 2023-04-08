@@ -24,4 +24,12 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
         ]);
     }
+
+    #[Route('/discloser', name: 'discloser')]
+    public function discloser(): Response
+    {
+        return $this->render('page-terms.html.twig', [
+            'controller_name' => 'PracticeController',
+        ]);
+    }
 }

@@ -16,6 +16,448 @@
         {% endblock %}
     </head>
     <body>
+        <!-- ========== HEADER ========== -->
+        <header id="header" class="navbar navbar-expand-lg navbar-end navbar-light navbar-absolute-top navbar-show-hide"
+                data-hs-header-options='{
+                    "fixMoment": 0,
+                    "fixEffect": "slide"
+                }'>
+            <div class="container">
+            <nav class="js-mega-menu navbar-nav-wrap">
+                <!-- Default Logo -->
+                <a class="navbar-brand" href="./" aria-label="Oling">
+                <img class="navbar-brand-logo" src="/img/logo/logoling.png" alt="Image Description">
+                </a>
+                <!-- End Default Logo -->
+
+                <!-- Toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-default">
+                    <i class="bi-list"></i>
+                </span>
+                <span class="navbar-toggler-toggled">
+                    <i class="bi-x"></i>
+                </span>
+                </button>
+                <!-- End Toggler -->
+            
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="navbar-absolute-top-scroller">
+                    <ul class="navbar-nav nav-pills">
+                    <!-- Landings -->
+                    <li class="hs-has-mega-menu nav-item"
+                        data-hs-mega-menu-item-options='{
+                            "desktop": {
+                            "maxWidth": "40rem"
+                            }
+                        }'>
+                        <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " aria-current="page" href="#" role="button" aria-expanded="false">Consulting</a>
+
+                        <!-- Mega Menu -->
+                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                        <!-- Main Content -->
+                        <div class="row">
+                            <div class="col-lg d-none d-lg-block">
+                            <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
+                                <span class="fs-3 fw-bold d-block">Consulting</span>
+                                <p class="text-body">Accompagnement personnalisé pour une transformation digitale réussie et performante.</p>
+                                <div class="mt-auto">
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Découvrir</a></p>
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">A propos</a></p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="col-sm">
+                            <div class="navbar-dropdown-menu-inner">
+                                <span class="dropdown-header">Une offre sur mesure</span>
+                                <a class="dropdown-item " href="./index.html"><i class="bi-building me-2"></i> Schéma directeur</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Etudes <span class="badge text-primary">New</span></a>
+                                <a class="dropdown-item active" href="./landing-consulting.html"><i class="bi-chat-right-dots me-2"></i> Assistance à maitrise d'ouvrage <span class="badge text-primary">New</span></a>
+                                <a class="dropdown-item " href="./landing-saas.html"><i class="bi-tropical-storm me-2"></i> Pilotage des projets d'entreprise</a>
+                                <a class="dropdown-item " href="./landing-services.html"><i class="bi-gear me-2"></i> Gouvernance des données</a>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- End Main Content -->
+                        </div>
+                        <!-- End Mega Menu -->
+                    </li>
+                    <!-- End Landings -->
+
+                    <!-- Landings -->
+                    <li class="hs-has-mega-menu nav-item"
+                        data-hs-mega-menu-item-options='{
+                            "desktop": {
+                            "maxWidth": "40rem"
+                            }
+                        }'>
+                        <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " aria-current="page" href="#" role="button" aria-expanded="false">Expertises et Audit</a>
+
+                        <!-- Mega Menu -->
+                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                        <!-- Main Content -->
+                        <div class="row">
+                            <div class="col-lg d-none d-lg-block">
+                            <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
+                                <span class="fs-3 fw-bold d-block">Expertises et Audit</span>
+                                <img class="img-fluid rounded-2 mb-2" src="/svg/components/card-2.svg" alt="Image Description">
+                                <p class="text-body">Analyse rigoureuse, amélioration continue, conformité réglementaire, renforcement des processus, soutenant votre croissance durable.</p>
+                                
+                                <div class="mt-auto">
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Découvrir</a></p>
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">A propos</a></p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="col-sm">
+                            <div class="navbar-dropdown-menu-inner">
+                                <span class="dropdown-header">Des compétences certifiées</span>
+                                <a class="dropdown-item " href="./index.html"><i class="bi-building me-2"></i> Finances</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Contrôle de gestion</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Contrôle interne</a>
+                                <a class="dropdown-item active" href="./landing-consulting.html"><i class="bi-chat-right-dots me-2"></i> RGPD <span class="badge text-primary">New</span></a>
+                                <a class="dropdown-item " href="./landing-saas.html"><i class="bi-tropical-storm me-2"></i> QSE</a>
+                                <a class="dropdown-item " href="./landing-services.html"><i class="bi-gear me-2"></i> QUALIOPI</a>
+                                <a class="dropdown-item " href="./landing-services.html"><i class="bi-gear me-2"></i> RSE</a>
+                                <a class="dropdown-item " href="./landing-services.html"><i class="bi-gear me-2"></i> Gouvernance des données</a>
+
+
+                            </div>
+                            </div>
+                        </div>
+                        <!-- End Main Content -->
+                        </div>
+                        <!-- End Mega Menu -->
+                    </li>
+                    <!-- End Landings -->
+
+
+                    <!-- Landings -->
+                    <li class="hs-has-mega-menu nav-item"
+                            data-hs-mega-menu-item-options='{
+                            "desktop": {
+                                "maxWidth": "40rem"
+                            }
+                            }'>
+                        <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Business Apps</a>
+
+                        <!-- Mega Menu -->
+                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                        <!-- Main Content -->
+                        <div class="row">
+                            <div class="col-lg d-none d-lg-block">
+                            <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
+                                <span class="fs-3 fw-bold d-block">Expertises et Audit</span>
+                                <img class="img-fluid rounded-2 mb-2" src="/svg/components/card-1.svg" alt="Image Description">
+                                <p class="text-body">Solutions applicatives innovantes, déploiement efficace, soutien aux opérations, adaptabilité, propulsant votre entreprise vers l'avenir.</p>
+                                
+                                <div class="mt-auto">
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Découvrir</a></p>
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">A propos</a></p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="col-sm">
+                            <div class="navbar-dropdown-menu-inner">
+                                <span class="dropdown-header">De nombreux déploiements</span>
+                                <a class="dropdown-item " href="./index.html"><i class="bi-building me-2"></i> ERP</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> BI et informatique analytique</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Développement d'applications</a>
+                                <a class="dropdown-item active" href="./landing-consulting.html"><i class="bi-chat-right-dots me-2"></i> SIG <span class="badge text-primary">New</span></a>
+                                <a class="dropdown-item " href="./landing-saas.html"><i class="bi-tropical-storm me-2"></i> GED / GEC</a>
+
+
+                            </div>
+                            </div>
+                        </div>
+                        <!-- End Main Content -->
+                        </div>
+                        <!-- End Mega Menu -->
+                    </li>
+                    <!-- End Landings -->              
+
+                    
+
+                    <!-- Landings -->
+                    <li class="hs-has-mega-menu nav-item"
+                            data-hs-mega-menu-item-options='{
+                            "desktop": {
+                                "maxWidth": "40rem"
+                            }
+                            }'>
+                        <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button" aria-expanded="false">Microsoft 365</a>
+
+                        <!-- Mega Menu -->
+                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                        <!-- Main Content -->
+                        <div class="row">
+                            <div class="col-lg d-none d-lg-block">
+                            <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
+                                <span class="fs-3 fw-bold d-block">Solutions collaboratives</span>
+                                <img class="img-fluid rounded-2 mb-2" src="/svg/components/card-1.svg" alt="Image Description">
+                                <p class="text-body">Collaboration fluide, gestion optimisée, sécurité renforcée, propulsez votre productivité vers de nouveaux horizons</p>
+                                
+                                <div class="mt-auto">
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Découvrir</a></p>
+                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">A propos</a></p>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="col-sm">
+                            <div class="navbar-dropdown-menu-inner">
+                                <span class="dropdown-header">Teams, Sharepoints, Onedrive...</span>
+                                <a class="dropdown-item " href="./index.html"><i class="bi-building me-2"></i> Intégration</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Arborescence</a>
+                                <a class="dropdown-item " href="./landing-business.html"><i class="bi-briefcase me-2"></i> Automatisation et Wrokflows</a>
+
+
+                            </div>
+                            </div>
+                        </div>
+                        <!-- End Main Content -->
+                        </div>
+                        <!-- End Mega Menu -->
+                    </li>
+                    <!-- End Landings -->   
+
+                    <!-- Log in -->
+                    <li class="nav-item ms-lg-auto">
+                    
+                        
+                    </li>
+                    <!-- End Log in -->
+
+                    <!-- Sign up -->
+                    <li class="nav-item">
+                        <a class="btn btn-primary d-none d-lg-inline-block" href="./page-signup.html">Contactez-nous</a>
+                    </li>
+                    <!-- End Sign up -->
+                    </ul>
+                </div>
+                </div>
+                <!-- End Collapse -->
+            </nav>
+            </div>
+        </header>
+
+        <!-- ========== END HEADER ========== -->
         {% block body %}{% endblock %}
+
+
+        <!-- ========== FOOTER ========== -->
+        <footer class="bg-dark">
+            <div class="container">
+            <div class="row align-items-center pt-8 pb-4">
+                <div class="col-md mb-5 mb-md-0">
+                <h2 class="fw-medium text-white-70 mb-0">Join the thriving<br><span class="fw-bold text-white">Unify</span> business agency</h2>
+                </div>
+                <!-- End Col -->
+            
+                <div class="col-md-auto">
+                <div class="d-grid d-sm-flex gap-3">
+                    <a class="btn btn-primary" href="#">Découvrir</a>
+                    <a class="btn btn-ghost-light btn-pointer" href="#">Contactez nous</a>
+                </div>
+                </div>
+                <!-- End Col -->
+            </div>
+            <!-- End Row -->
+
+            <div class="border-bottom border-white-10">
+                <div class="row py-6">
+                <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+                    <span class="text-cap text-white">Resources</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-1 mb-0">
+                    <li><a class="link link-light link-light-75" href="#">Blog</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Guidance</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Customer Stories</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Support <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li><a class="link link-light link-light-75" href="#">API</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Packages</a></li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-6 col-sm-4 col-lg mb-7 mb-lg-0">
+                    <span class="text-cap text-white">Company</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-1 mb-0">
+                    <li><a class="link link-light link-light-75" href="#">Belonging <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li><a class="link link-light link-light-75" href="#">Company</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Careers</a> <span class="fs-6 fw-bold text-primary">&mdash; We're hiring</span></li>
+                    <li><a class="link link-light link-light-75" href="#">Contacts</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Security</a></li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-6 col-sm-4 col-lg mb-7 mb-sm-0">
+                    <span class="text-cap text-white">Platform</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-1 mb-0">
+                    <li><a class="link link-light link-light-75" href="#">Web</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Mobile</a></li>
+                    <li><a class="link link-light link-light-75" href="#">iOS</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Android</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Figma Importing</a></li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-6 col-sm-4 col-lg mb-7 mb-sm-0">
+                    <span class="text-cap text-white">Legal</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-1 mb-5">
+                    <li><a class="link link-light link-light-75" href="#">Terms of use</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Privacy policy <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    </ul>
+                    <!-- End List -->
+
+                    <span class="text-cap text-white">Docs</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-1 mb-0">
+                    <li><a class="link link-light link-light-75" href="#">Documentation</a></li>
+                    <li><a class="link link-light link-light-75" href="#">Snippets</a></li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-6 col-sm-4 col-lg">
+                    <span class="text-cap text-white">Follow us</span>
+
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-2 mb-0">
+                    <li><a class="link link-light link-light-75" href="#">
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-envelope-open-fill"></i>
+                        </div>
+
+                        <div class="flex-grow-1 ms-2">
+                            <span>Subscribe by email</span>
+                        </div>
+                        </div>
+                    </a></li>
+
+                    <li><a class="link link-light link-light-75" href="#">
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-facebook"></i>
+                        </div>
+
+                        <div class="flex-grow-1 ms-2">
+                            <span>Facebook</span>
+                        </div>
+                        </div>
+                    </a></li>
+                    
+                    <li><a class="link link-light link-light-75" href="#">
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-linkedin"></i>
+                        </div>
+
+                        <div class="flex-grow-1 ms-2">
+                            <span>Linkedin</span>
+                        </div>
+                        </div>
+                    </a></li>
+                    
+                    <li><a class="link link-light link-light-75" href="#">
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-twitter"></i>
+                        </div>
+
+                        <div class="flex-grow-1 ms-2">
+                            <span>Twitter</span>
+                        </div>
+                        </div>
+                    </a></li>
+                    
+                    <li><a class="link link-light link-light-75" href="#">
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-slack"></i>
+                        </div>
+
+                        <div class="flex-grow-1 ms-2">
+                            <span>Slack</span>
+                        </div>
+                        </div>
+                    </a></li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="row align-items-md-center py-6">
+                <div class="col-md mb-3 mb-md-0">
+                <!-- List -->
+                <ul class="list-inline list-px-2 mb-0">
+                    <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Privacy and Policy</a></li>
+                    <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Terms</a></li>
+                    <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Status</a></li>
+                    <li class="list-inline-item">
+                    <!-- Button Group -->
+                    <div class="btn-group">
+                        <a class="link link-light link-light-75" href="javascript:;" id="selectLanguage" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="d-flex align-items-center">
+                            <img class="avatar avatar-xss avatar-circle me-2" src="/svg/flags/1x1/us.svg" alt="Image description" width="16"/>
+                            <span>English</span>
+                        </span>
+                        </a>
+
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item d-flex align-items-center active" href="#">
+                            <img class="avatar avatar-xss avatar-circle me-2" src="/svg/flags/1x1/us.svg" alt="Image description" width="16"/>
+                            <span>English</span>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <img class="avatar avatar-xss avatar-circle me-2" src="/svg/flags/1x1/de.svg" alt="Image description" width="16"/>
+                            <span>Deutsch</span>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <img class="avatar avatar-xss avatar-circle me-2" src="/svg/flags/1x1/es.svg" alt="Image description" width="16"/>
+                            <span>Español</span>
+                        </a>
+                        </div>
+                    </div>
+                    <!-- End Button Group -->
+                    </li>
+                </ul>
+                <!-- End List -->
+                </div>
+                <!-- End Col -->
+
+                <div class="col-md-auto">
+                <p class="fs-5 text-white-70 mb-0">© Unify. 2021</p>
+                </div>
+                <!-- End Col -->
+            </div>
+            <!-- End Row -->
+            </div>
+        </footer>
+        <!-- ========== END FOOTER ========== -->
+
+
     </body>
 </html>

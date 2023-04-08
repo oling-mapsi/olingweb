@@ -18,4 +18,5 @@ return [
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\PracticeController::index'], [], [['text', '/']], [], [], []],
     'app_practice' => [[], ['_controller' => 'App\\Controller\\PracticeController::practice'], [], [['text', '/practice']], [], [], []],
+    'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
 ];

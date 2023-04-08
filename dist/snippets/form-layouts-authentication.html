@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Form Layouts: Authentication - Snippets | Unify - Multipurpose Responsive Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="../favicon.ico">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- CSS Unify Template -->
+  <link rel="stylesheet" href="../assets/css/theme.min.css">
+  <link rel="stylesheet" href="../assets/css/snippets.min.css">
+</head>
+
+<body class="navbar-sidebar-aside-lg">
+  <!-- ========== HEADER ========== -->
+  <header id="header" class="navbar navbar-expand navbar-fixed navbar-end navbar-light navbar-sticky-lg-top bg-white">
+    <div class="container-fluid">
+      <nav class="navbar-nav-wrap">
+        <div class="row flex-grow-1">
+          <!-- Default Logo -->
+          <div class="docs-navbar-sidebar-container d-flex align-items-center mb-2 mb-lg-0">
+            <a class="navbar-brand" href="../snippets/index.html" aria-label="Unify">
+              <img class="navbar-brand-logo" src="../assets/svg/logos/logo.svg" alt="Logo">
+            </a>
+            <a href="../documentation/changelog.html">
+              <span class="badge bg-soft-primary text-primary">v3.2.2</span>
+            </a>
+          </div>
+          <!-- End Default Logo -->
+
+          <div class="col-md px-lg-0">
+            <div class="d-flex justify-content-between align-items-center px-lg-5 px-xl-10">
+              <div class="d-none d-md-block">
+                <!-- Search Form -->
+                <form id="snippetsSearch" class="position-relative"
+                      data-hs-list-options='{
+                       "searchMenu": true,
+                       "keyboard": true,
+                       "item": "searchTemplate",
+                       "valueNames": ["component", "category", {"name": "link", "attr": "href"}],
+                       "empty": "#searchNoResults"
+                     }'>
+                  <!-- Input Group -->
+                  <div class="input-group-merge navbar-input-group" style="min-width: 20rem;">
+                    <div class="input-group-prepend input-group-text">
+                      <i class="bi-search"></i>
+                    </div>
+
+                    <input type="search" class="search form-control" placeholder="Search in snippets" aria-label="Search in snippets">
+
+                    <a class="input-group-append input-group-text" href="javascript:;">
+                      <i id="clearSearchResultsIcon" class="bi-x" style="display: none;"></i>
+                    </a>
+                  </div>
+                  <!-- End Input Group -->
+
+                  <!-- List -->
+                  <div class="list dropdown-menu w-100 overflow-auto" style="max-height: 16rem;"></div>
+                  <!-- End List -->
+
+                  <!-- Empty -->
+                  <div id="searchNoResults" style="display: none;">
+                    <div class="text-center p-4">
+                      <img class="mb-3" src="../assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 7rem;">
+                      <p class="mb-0">No Results</p>
+                    </div>
+                  </div>
+                  <!-- End Empty -->
+                </form>
+                <!-- End Search Form -->
+
+                <!-- List Item Template -->
+                <div class="d-none">
+                  <div id="searchTemplate" class="dropdown-item">
+                    <a class="d-block link" href="#">
+                      <span class="category d-block text-muted mb-1"></span>
+                      <span class="component fw-bold text-dark"></span>
+                    </a>
+                  </div>
+                </div>
+                <!-- End List Item Template -->
+              </div>
+
+              <!-- Navbar -->
+              <ul class="navbar-nav p-0">
+                <li class="nav-item">
+                  <a class="btn btn-ghost-secondary" href="https://htmlstream.com/contact-us" target="_blank">
+                    Get Support <i class="bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-primary" href="../index.html">
+                    <i class="bi-eye me-1"></i> Preview Demo
+                  </a>
+                </li>
+              </ul>
+              <!-- End Navbar -->
+            </div>
+          </div>
+          <!-- End Col -->
+        </div>
+        <!-- End Row -->
+      </nav>
+    </div>
+  </header>
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- Navbar -->
+    <nav class="js-nav-scroller navbar navbar-expand-lg navbar-sidebar navbar-vertical navbar-light bg-white border-end"
+          data-hs-nav-scroller-options='{
+            "type": "vertical",
+            "target": ".navbar-nav .active",
+            "offset": 80
+           }'>
+      <!-- Navbar Toggle -->
+      <button type="button" class="navbar-toggler btn btn-white d-grid w-100" data-bs-toggle="collapse" data-bs-target="#navbarVerticalNavMenu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenu">
+        <span class="d-flex justify-content-between align-items-center">
+          <span class="h6 mb-0">Nav menu</span>
+
+          <span class="navbar-toggler-default">
+            <i class="bi-list"></i>
+          </span>
+
+          <span class="navbar-toggler-toggled">
+            <i class="bi-x"></i>
+          </span>
+        </span>
+      </button>
+      <!-- End Navbar Toggle -->
+
+      <!-- Navbar Collapse -->
+      <div id="navbarVerticalNavMenu" class="collapse navbar-collapse">
+        <div class="navbar-brand-wrapper border-end" style="height: auto;">
+          <!-- Default Logo -->
+          <div class="d-flex align-items-center mb-3">
+            <a class="navbar-brand" href="../snippets/index.html" aria-label="Unify">
+              <img class="navbar-brand-logo" src="../assets/svg/logos/logo.svg" alt="Logo">
+            </a>
+            <a class="navbar-brand-badge" href="../documentation/changelog.html">
+              <span class="badge bg-soft-primary text-primary ms-2">v3.2.2</span>
+            </a>
+          </div>
+          <!-- End Default Logo -->
+      
+          <!-- Nav -->
+          <ul class="nav nav-segment nav-fill nav-justified">
+            <li class="nav-item">
+              <a class="nav-link" href="../documentation/index.html">Docs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="../snippets/index.html">Snippets</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+
+        <div class="docs-navbar-sidebar-aside-body navbar-sidebar-aside-body">
+          <ul id="navbarSettings" class="navbar-nav nav nav-vertical nav-tabs nav-tabs-borderless nav-sm">
+            <li class="nav-item">
+              <span class="nav-subtitle">Snippets</span>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/index.html">Introduction</a>
+            </li>
+
+            <li class="nav-item my-2 my-lg-5"></li>
+        
+            <li class="nav-item">
+              <span class="nav-subtitle">Navbar / Heroes</span>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/navbar.html">Headers (Navbar)</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/hero-sections.html">Hero Sections</a>
+            </li>
+
+            <li class="nav-item my-2 my-lg-5"></li>
+
+            <li class="nav-item">
+              <span class="nav-subtitle">Foundations</span>
+            </li>
+
+            <li class="nav-item ">
+              <a class="nav-link dropdown-toggle dropdown-toggle-collapse" href="#snippetsSidebarNavFeaturesCollapse" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="snippetsSidebarNavFeaturesCollapse">Features</a>
+
+              <div id="snippetsSidebarNavFeaturesCollapse" class="nav-collapse collapse ">
+                <a class="nav-link " href="features-general.html">General</a>
+                <a class="nav-link " href="features-stats.html">Stats</a>
+                <a class="nav-link " href="features-step.html">Step</a>
+                <a class="nav-link " href="features-navs.html">Navs (Tabs)</a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/icon-blocks.html">Icon Blocks</a>
+            </li>
+
+            <li class="nav-item ">
+              <a class="nav-link dropdown-toggle dropdown-toggle-collapse" href="#snippetsSidebarNavCardsCollapse" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="snippetsSidebarNavCardsCollapse">Cards</a>
+
+              <div id="snippetsSidebarNavCardsCollapse" class="nav-collapse collapse ">
+                <a class="nav-link " href="cards-grid.html">Grid</a>
+                <a class="nav-link " href="cards-list.html">List</a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/testimonials.html">Testimonials</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/pricing.html">Pricing</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/team-sections.html">Team Sections</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/cta.html">Call-to-Action (CTA)</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/gallery.html">Gallery</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/clients.html">Clients</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/faq.html">FAQ</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/comments.html">Comments</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/user-profile.html">User Profile</a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link " href="sidebar-examples.html">Sidebar Examples</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/content-sections.html">Content Sections</a>
+            </li>
+
+            <li class="nav-item my-2 my-lg-5"></li>
+
+            <li class="nav-item">
+              <small class="nav-subtitle">Forms</small>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link active" href="form-layouts-authentication.html">Authentication</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="form-layouts-feedback.html">Feedback</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="form-layouts-filters.html">Filters</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="form-layouts-search.html">Search</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="form-layouts-subscribe.html">Subscribe</a>
+            </li>
+
+            <li class="nav-item my-2 my-lg-5"></li>
+
+            <li class="nav-item">
+              <small class="nav-subtitle">Contact / Footer</small>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/contact-sections.html">Contact Sections</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="../snippets/footer.html">Footer</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End Navbar Collapse -->
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Content -->
+    <div class="navbar-sidebar-aside-content content-space-1 content-space-md-2 px-lg-5 px-xl-10">
+      <!-- Page Header -->
+      <div class="docs-page-header">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <h1 class="docs-page-header-title">Form Layouts: Authentication</h1>
+          </div>
+        </div>
+      </div>
+      <!-- End Page Header -->
+
+      <!-- Heading -->
+      <h2 id="component-1" class="hs-docs-heading">
+        Component #1 <a class="anchorjs-link" href="#component-1" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab1" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab1" href="#nav-result1" data-bs-toggle="pill" data-bs-target="#nav-result1" role="tab" aria-controls="nav-result1" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab1" href="#nav-html1" data-bs-toggle="pill" data-bs-target="#nav-html1" role="tab" aria-controls="nav-html1" aria-selected="false">HTML</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-jsTab1" href="#nav-js1" data-bs-toggle="pill" data-bs-target="#nav-js1" role="tab" aria-controls="nav-js1" aria-selected="false">JS</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent1">
+          <div class="tab-pane fade p-4 show active" id="nav-result1" role="tabpanel" aria-labelledby="nav-resultTab1">
+            <!-- Content -->
+            <div class="container content-space-1">
+              <div class="mx-lg-auto" style="max-width: 55rem;">
+                <div class="position-relative">
+                  <!-- Card -->
+                  <div class="card card-shadow card-login">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <!-- Form -->
+                          <form class="js-validate needs-validation" novalidate>
+                            <div class="text-center">
+                              <div class="mb-5">
+                                <h3 class="card-title">Login to Unify</h3>
+                              </div>
+
+                              <a class="btn btn-white btn-lg d-grid mb-4" href="#">
+                                <span class="d-flex justify-content-center align-items-center">
+                                  <img class="avatar avatar-xss me-2" src="../assets/svg/brands/google-icon.svg" alt="Image Description">
+                                  Log in with Google
+                                </span>
+                              </a>
+
+                              <span class="divider-center text-muted mb-4">OR</span>
+                            </div>
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="signinSrEmail">Your email</label>
+                              <input type="email" class="form-control form-control-lg" name="email" id="signinSrEmail" tabindex="1" placeholder="email@address.com" aria-label="email@address.com" required>
+                              <span class="invalid-feedback">Please enter a valid email address.</span>
+                            </div>
+                            <!-- End Form -->
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="signinSrPassword" tabindex="0">Password</label>
+
+                              <div class="input-group-merge">
+                                <input type="password" class="js-toggle-password form-control form-control-lg" name="password" id="signinSrPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                       data-hs-toggle-password-options='{
+                                         "target": "#changePassTarget",
+                                         "defaultClass": "bi-eye-slash",
+                                         "showClass": "bi-eye",
+                                         "classChangeTarget": "#changePassIcon"
+                                       }'>
+                                <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                                  <i id="changePassIcon" class="bi-eye"></i>
+                                </a>
+
+                                <span class="invalid-feedback">Please enter a valid password.</span>
+                              </div>
+                            </div>
+                            <!-- End Form -->
+
+                            <div class="d-flex justify-content-end mb-4">
+                              <a class="form-label-link" href="../page-reset-password.html">Forgot Password?</a>
+                            </div>
+
+                            <div class="d-grid gap-4">
+                              <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                              <p class="card-text text-muted">Don't have an account yet? <a class="link" href="../page-signup.html">Sign up here</a></p>
+                            </div>
+                          </form>
+                          <!-- End Form -->
+                        </div>
+                      </div>
+                      <!-- End Col -->
+                        
+                      <div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);">
+                        <h5 class="mb-4">Build digital products with:</h5>
+
+                        <!-- List Checked -->
+                        <ul class="list-checked list-checked-primary list-py-2">
+                          <li class="list-checked-item">All-in-one tool</li>
+                          <li class="list-checked-item">Easily add &amp; manage your services</li>
+                        </ul>
+                        <!-- End List Checked -->
+
+                        <span class="d-block">
+                          <a class="link link-pointer" href="#">Learn more</a>
+                        </span>
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;">
+                    <img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;">
+                    <img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+                </div>
+              </div>
+            </div>
+            <!-- End Content -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html1" role="tabpanel" aria-labelledby="nav-htmlTab1">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Content --&gt;
+                &lt;div class="container content-space-1"&gt;
+                  &lt;div class="mx-lg-auto" style="max-width: 55rem;"&gt;
+                    &lt;div class="position-relative"&gt;
+                      &lt;!-- Card --&gt;
+                      &lt;div class="card card-shadow card-login"&gt;
+                        &lt;div class="row"&gt;
+                          &lt;div class="col-md-8"&gt;
+                            &lt;div class="card-body"&gt;
+                              &lt;!-- Form --&gt;
+                              &lt;form class="js-validate needs-validation" novalidate&gt;
+                                &lt;div class="text-center"&gt;
+                                  &lt;div class="mb-5"&gt;
+                                    &lt;h3 class="card-title"&gt;Login to Unify&lt;/h3&gt;
+                                  &lt;/div&gt;
+
+                                  &lt;a class="btn btn-white btn-lg d-grid mb-4" href="#"&gt;
+                                    &lt;span class="d-flex justify-content-center align-items-center"&gt;
+                                      &lt;img class="avatar avatar-xss me-2" src="../assets/svg/brands/google-icon.svg" alt="Image Description"&gt;
+                                      Log in with Google
+                                    &lt;/span&gt;
+                                  &lt;/a&gt;
+
+                                  &lt;span class="divider-center text-muted mb-4"&gt;OR&lt;/span&gt;
+                                &lt;/div&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="signinSrEmail"&gt;Your email&lt;/label&gt;
+                                  &lt;input type="email" class="form-control form-control-lg" name="email" id="signinSrEmail" tabindex="1" placeholder="email@address.com" aria-label="email@address.com" required&gt;
+                                  &lt;span class="invalid-feedback"&gt;Please enter a valid email address.&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="signinSrPassword" tabindex="0"&gt;Password&lt;/label&gt;
+
+                                  &lt;div class="input-group-merge"&gt;
+                                    &lt;input type="password" class="js-toggle-password form-control form-control-lg" name="password" id="signinSrPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                           data-hs-toggle-password-options='{
+                                             "target": "#changePassTarget",
+                                             "defaultClass": "bi-eye-slash",
+                                             "showClass": "bi-eye",
+                                             "classChangeTarget": "#changePassIcon"
+                                           }'&gt;
+                                    &lt;a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;"&gt;
+                                      &lt;i id="changePassIcon" class="bi-eye"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;
+
+                                    &lt;span class="invalid-feedback"&gt;Please enter a valid password.&lt;/span&gt;
+                                  &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;div class="d-flex justify-content-end mb-4"&gt;
+                                  &lt;a class="form-label-link" href="../page-reset-password.html"&gt;Forgot Password?&lt;/a&gt;
+                                &lt;/div&gt;
+
+                                &lt;div class="d-grid gap-4"&gt;
+                                  &lt;button type="submit" class="btn btn-primary btn-lg"&gt;Sign in&lt;/button&gt;
+                                  &lt;p class="card-text text-muted"&gt;Don't have an account yet? &lt;a class="link" href="../page-signup.html"&gt;Sign up here&lt;/a&gt;&lt;/p&gt;
+                                &lt;/div&gt;
+                              &lt;/form&gt;
+                              &lt;!-- End Form --&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                            
+                          &lt;div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);"&gt;
+                            &lt;h5 class="mb-4"&gt;Build digital products with:&lt;/h5&gt;
+
+                            &lt;!-- List Checked --&gt;
+                            &lt;ul class="list-checked list-checked-primary list-py-2"&gt;
+                              &lt;li class="list-checked-item"&gt;All-in-one tool&lt;/li&gt;
+                              &lt;li class="list-checked-item"&gt;Easily add &amp; manage your services&lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;!-- End List Checked --&gt;
+
+                            &lt;span class="d-block"&gt;
+                              &lt;a class="link link-pointer" href="#"&gt;Learn more&lt;/a&gt;
+                            &lt;/span&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                        &lt;/div&gt;
+                        &lt;!-- End Row --&gt;
+                      &lt;/div&gt;
+                      &lt;!-- End Card --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Content --&gt;
+              </code>
+            </pre>
+          </div>
+
+          <div class="tab-pane fade" id="nav-js1" role="tabpanel" aria-labelledby="nav-jsTab1">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- JS Implementing Plugins --&gt;
+                &lt;script src="../assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js"&gt;&lt;/script&gt;
+
+                &lt;!-- JS Unify --&gt;
+
+                &lt;!-- JS Plugins Init. --&gt;
+                &lt;script&gt;
+                  (function() {
+                    // INITIALIZATION OF BOOTSTRAP VALIDATION
+                    // =======================================================
+                    HSBsValidation.init('.js-validate', {
+                      onSubmit: data =&gt; {
+                        data.event.preventDefault()
+                        alert('Submited')
+                      }
+                    })
+
+
+                    // INITIALIZATION OF TOGGLE PASSWORD
+                    // =======================================================
+                    new HSTogglePassword('.js-toggle-password')
+                  })()
+                &lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="component-2" class="hs-docs-heading">
+        Component #2 <a class="anchorjs-link" href="#component-2" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab2" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab2" href="#nav-result2" data-bs-toggle="pill" data-bs-target="#nav-result2" role="tab" aria-controls="nav-result2" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab2" href="#nav-html2" data-bs-toggle="pill" data-bs-target="#nav-html2" role="tab" aria-controls="nav-html2" aria-selected="false">HTML</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-jsTab2" href="#nav-js2" data-bs-toggle="pill" data-bs-target="#nav-js2" role="tab" aria-controls="nav-js2" aria-selected="false">JS</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent2">
+          <div class="tab-pane fade p-4 show active" id="nav-result2" role="tabpanel" aria-labelledby="nav-resultTab2">
+            <!-- Content -->
+            <div class="container content-space-1">
+              <div class="mx-lg-auto" style="max-width: 55rem;">
+                <div class="position-relative">
+                  <!-- Card -->
+                  <div class="card card-shadow card-login">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <!-- Form -->
+                          <form class="js-validate needs-validation" novalidate>
+                            <div class="text-center">
+                              <div class="mb-5">
+                                <h3 class="card-title">Create your account</h3>
+                              </div>
+
+                              <a class="btn btn-white btn-lg d-grid mb-4" href="#">
+                                <span class="d-flex justify-content-center align-items-center">
+                                  <img class="avatar avatar-xss me-2" src="../assets/svg/brands/google-icon.svg" alt="Image Description">
+                                  Sign up with Google
+                                </span>
+                              </a>
+
+                              <span class="divider-center text-muted mb-4">OR</span>
+                            </div>
+
+                            <label class="form-label" for="fullNameSrEmail">Full name</label>
+
+                            <!-- Form -->
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <!-- Form -->
+                                <div class="mb-4">
+                                  <input type="text" class="form-control form-control-lg" name="fullName" id="fullNameSrEmail" placeholder="Mark" aria-label="Mark" required>
+                                  <span class="invalid-feedback">Please enter your first name.</span>
+                                </div>
+                                <!-- End Form -->
+                              </div>
+
+                              <div class="col-sm-6">
+                                <!-- Form -->
+                                <div class="mb-4">
+                                  <input type="text" class="form-control form-control-lg" placeholder="Williams" aria-label="Williams" required>
+                                  <span class="invalid-feedback">Please enter your last name.</span>
+                                </div>
+                                <!-- End Form -->
+                              </div>
+                            </div>
+                            <!-- End Form -->
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="signupSrEmail">Your email</label>
+                              <input type="email" class="form-control form-control-lg" name="email" id="signupSrEmail" placeholder="Markwilliams@site.com" aria-label="Markwilliams@site.com" required>
+                              <span class="invalid-feedback">Please enter a valid email address.</span>
+                            </div>
+                            <!-- End Form -->
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="signupSrPassword">Password</label>
+
+                              <div class="input-group-merge">
+                                <input type="password" class="js-toggle-password form-control form-control-lg" name="password" id="signupSrPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                       data-hs-toggle-password-options='{
+                                         "target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],
+                                         "defaultClass": "bi-eye-slash",
+                                         "showClass": "bi-eye",
+                                         "classChangeTarget": ".js-toggle-password-show-icon-1"
+                                       }'>
+                                <a class="js-toggle-password-target-1 input-group-append input-group-text" href="javascript:;">
+                                  <i class="js-toggle-password-show-icon-1 bi-eye"></i>
+                                </a>
+                
+                                <span class="invalid-feedback">Your password is invalid. Please try again.</span>
+                              </div>
+                            </div>
+                            <!-- End Form -->
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="signupSrConfirmPassword">Confirm password</label>
+
+                              <div class="input-group-merge">
+                                <input type="password" class="js-toggle-password form-control form-control-lg" name="confirmPassword" id="signupSrConfirmPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                       data-hs-toggle-password-options='{
+                                         "target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],
+                                         "defaultClass": "bi-eye-slash",
+                                         "showClass": "bi-eye",
+                                         "classChangeTarget": ".js-toggle-password-show-icon-2"
+                                       }'>
+                                <a class="js-toggle-password-target-2 input-group-append input-group-text" href="javascript:;">
+                                  <i class="js-toggle-password-show-icon-2 bi-eye"></i>
+                                </a>
+                
+                                <span class="invalid-feedback">Password does not match the confirm password.</span>
+                              </div>
+                            </div>
+                            <!-- End Form -->
+
+                            <!-- Form Check -->
+                            <div class="form-check mb-4">
+                              <input class="form-check-input" type="checkbox" value="" id="termsCheckbox" required>
+                              <label class="form-check-label" for="termsCheckbox">I accept the <a href="#">Terms and Conditions</a></label>
+                              <span class="invalid-feedback">Please accept our Terms and Conditions.</span>
+                            </div>
+                            <!-- End Form Check -->
+
+                            <div class="d-grid gap-4">
+                              <button type="submit" class="btn btn-primary btn-lg">Create an account</button>
+                              <p class="card-text text-muted">Remember your password? <a class="link" href="../page-login.html">Log in</a></p>
+                            </div>
+                          </form>
+                          <!-- End Form -->
+                        </div>
+                      </div>
+                      <!-- End Col -->
+                        
+                      <div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);">
+                        <h5 class="mb-4">Build digital products with:</h5>
+
+                        <!-- List Checked -->
+                        <ul class="list-checked list-checked-primary list-py-2">
+                          <li class="list-checked-item">All-in-one tool</li>
+                          <li class="list-checked-item">Easily add &amp; manage your services</li>
+                        </ul>
+                        <!-- End List Checked -->
+
+                        <span class="d-block">
+                          <a class="link link-pointer" href="#">Learn more</a>
+                        </span>
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;">
+                    <img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;">
+                    <img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+                </div>
+              </div>
+            </div>
+            <!-- End Content -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html2" role="tabpanel" aria-labelledby="nav-htmlTab2">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Content --&gt;
+                &lt;div class="container content-space-1"&gt;
+                  &lt;div class="mx-lg-auto" style="max-width: 55rem;"&gt;
+                    &lt;div class="position-relative"&gt;
+                      &lt;!-- Card --&gt;
+                      &lt;div class="card card-shadow card-login"&gt;
+                        &lt;div class="row"&gt;
+                          &lt;div class="col-md-8"&gt;
+                            &lt;div class="card-body"&gt;
+                              &lt;!-- Form --&gt;
+                              &lt;form class="js-validate needs-validation" novalidate&gt;
+                                &lt;div class="text-center"&gt;
+                                  &lt;div class="mb-5"&gt;
+                                    &lt;h3 class="card-title"&gt;Create your account&lt;/h3&gt;
+                                  &lt;/div&gt;
+
+                                  &lt;a class="btn btn-white btn-lg d-grid mb-4" href="#"&gt;
+                                    &lt;span class="d-flex justify-content-center align-items-center"&gt;
+                                      &lt;img class="avatar avatar-xss me-2" src="../assets/svg/brands/google-icon.svg" alt="Image Description"&gt;
+                                      Sign up with Google
+                                    &lt;/span&gt;
+                                  &lt;/a&gt;
+
+                                  &lt;span class="divider-center text-muted mb-4"&gt;OR&lt;/span&gt;
+                                &lt;/div&gt;
+
+                                &lt;label class="form-label" for="fullNameSrEmail"&gt;Full name&lt;/label&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="row"&gt;
+                                  &lt;div class="col-sm-6"&gt;
+                                    &lt;!-- Form --&gt;
+                                    &lt;div class="mb-4"&gt;
+                                      &lt;input type="text" class="form-control form-control-lg" name="fullName" id="fullNameSrEmail" placeholder="Mark" aria-label="Mark" required&gt;
+                                      &lt;span class="invalid-feedback"&gt;Please enter your first name.&lt;/span&gt;
+                                    &lt;/div&gt;
+                                    &lt;!-- End Form --&gt;
+                                  &lt;/div&gt;
+
+                                  &lt;div class="col-sm-6"&gt;
+                                    &lt;!-- Form --&gt;
+                                    &lt;div class="mb-4"&gt;
+                                      &lt;input type="text" class="form-control form-control-lg" placeholder="Williams" aria-label="Williams" required&gt;
+                                      &lt;span class="invalid-feedback"&gt;Please enter your last name.&lt;/span&gt;
+                                    &lt;/div&gt;
+                                    &lt;!-- End Form --&gt;
+                                  &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="signupSrEmail"&gt;Your email&lt;/label&gt;
+                                  &lt;input type="email" class="form-control form-control-lg" name="email" id="signupSrEmail" placeholder="Markwilliams@site.com" aria-label="Markwilliams@site.com" required&gt;
+                                  &lt;span class="invalid-feedback"&gt;Please enter a valid email address.&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="signupSrPassword"&gt;Password&lt;/label&gt;
+
+                                  &lt;div class="input-group-merge"&gt;
+                                    &lt;input type="password" class="js-toggle-password form-control form-control-lg" name="password" id="signupSrPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                           data-hs-toggle-password-options='{
+                                             "target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],
+                                             "defaultClass": "bi-eye-slash",
+                                             "showClass": "bi-eye",
+                                             "classChangeTarget": ".js-toggle-password-show-icon-1"
+                                           }'&gt;
+                                    &lt;a class="js-toggle-password-target-1 input-group-append input-group-text" href="javascript:;"&gt;
+                                      &lt;i class="js-toggle-password-show-icon-1 bi-eye"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;
+                    
+                                    &lt;span class="invalid-feedback"&gt;Your password is invalid. Please try again.&lt;/span&gt;
+                                  &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="signupSrConfirmPassword"&gt;Confirm password&lt;/label&gt;
+
+                                  &lt;div class="input-group-merge"&gt;
+                                    &lt;input type="password" class="js-toggle-password form-control form-control-lg" name="confirmPassword" id="signupSrConfirmPassword" placeholder="8+ characters required" aria-label="8+ characters required" required minlength="8"
+                                           data-hs-toggle-password-options='{
+                                             "target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],
+                                             "defaultClass": "bi-eye-slash",
+                                             "showClass": "bi-eye",
+                                             "classChangeTarget": ".js-toggle-password-show-icon-2"
+                                           }'&gt;
+                                    &lt;a class="js-toggle-password-target-2 input-group-append input-group-text" href="javascript:;"&gt;
+                                      &lt;i class="js-toggle-password-show-icon-2 bi-eye"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;
+                    
+                                    &lt;span class="invalid-feedback"&gt;Password does not match the confirm password.&lt;/span&gt;
+                                  &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;!-- Form Check --&gt;
+                                &lt;div class="form-check mb-4"&gt;
+                                  &lt;input class="form-check-input" type="checkbox" value="" id="termsCheckbox" required&gt;
+                                  &lt;label class="form-check-label" for="termsCheckbox"&gt;I accept the &lt;a href="#"&gt;Terms and Conditions&lt;/a&gt;&lt;/label&gt;
+                                  &lt;span class="invalid-feedback"&gt;Please accept our Terms and Conditions.&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form Check --&gt;
+
+                                &lt;div class="d-grid gap-4"&gt;
+                                  &lt;button type="submit" class="btn btn-primary btn-lg"&gt;Create an account&lt;/button&gt;
+                                  &lt;p class="card-text text-muted"&gt;Remember your password? &lt;a class="link" href="../page-login.html"&gt;Log in&lt;/a&gt;&lt;/p&gt;
+                                &lt;/div&gt;
+                              &lt;/form&gt;
+                              &lt;!-- End Form --&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                            
+                          &lt;div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);"&gt;
+                            &lt;h5 class="mb-4"&gt;Build digital products with:&lt;/h5&gt;
+
+                            &lt;!-- List Checked --&gt;
+                            &lt;ul class="list-checked list-checked-primary list-py-2"&gt;
+                              &lt;li class="list-checked-item"&gt;All-in-one tool&lt;/li&gt;
+                              &lt;li class="list-checked-item"&gt;Easily add &amp; manage your services&lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;!-- End List Checked --&gt;
+
+                            &lt;span class="d-block"&gt;
+                              &lt;a class="link link-pointer" href="#"&gt;Learn more&lt;/a&gt;
+                            &lt;/span&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                        &lt;/div&gt;
+                        &lt;!-- End Row --&gt;
+                      &lt;/div&gt;
+                      &lt;!-- End Card --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Content --&gt;
+              </code>
+            </pre>
+          </div>
+
+          <div class="tab-pane fade" id="nav-js2" role="tabpanel" aria-labelledby="nav-jsTab2">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- JS Implementing Plugins --&gt;
+                &lt;script src="../assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js"&gt;&lt;/script&gt;
+
+                &lt;!-- JS Unify --&gt;
+
+                &lt;!-- JS Plugins Init. --&gt;
+                &lt;script&gt;
+                  (function() {
+                    // INITIALIZATION OF BOOTSTRAP VALIDATION
+                    // =======================================================
+                    HSBsValidation.init('.js-validate', {
+                      onSubmit: data =&gt; {
+                        data.event.preventDefault()
+                        alert('Submited')
+                      }
+                    })
+
+
+                    // INITIALIZATION OF TOGGLE PASSWORD
+                    // =======================================================
+                    new HSTogglePassword('.js-toggle-password')
+                  })()
+                &lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+
+      <!-- Heading -->
+      <h2 id="component-3" class="hs-docs-heading">
+        Component #3 <a class="anchorjs-link" href="#component-3" aria-label="Anchor" data-anchorjs-icon="#"></a>
+      </h2>
+      <!-- End Heading -->
+
+      <!-- Card -->
+      <div class="card">
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Nav -->
+          <ul class="nav nav-segment" id="navTab3" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="nav-resultTab3" href="#nav-result3" data-bs-toggle="pill" data-bs-target="#nav-result3" role="tab" aria-controls="nav-result3" aria-selected="true">Preview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-htmlTab3" href="#nav-html3" data-bs-toggle="pill" data-bs-target="#nav-html3" role="tab" aria-controls="nav-html3" aria-selected="false">HTML</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-jsTab3" href="#nav-js3" data-bs-toggle="pill" data-bs-target="#nav-js3" role="tab" aria-controls="nav-js3" aria-selected="false">JS</a>
+            </li>
+          </ul>
+          <!-- End Nav -->
+        </div>
+        <!-- End Header -->
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="navTabContent3">
+          <div class="tab-pane fade p-4 show active" id="nav-result3" role="tabpanel" aria-labelledby="nav-resultTab3">
+            <!-- Content -->
+            <div class="container content-space-1">
+              <div class="mx-lg-auto" style="max-width: 55rem;">
+                <div class="position-relative">
+                  <!-- Card -->
+                  <div class="card card-shadow card-login">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <!-- Form -->
+                          <form class="js-validate needs-validation" novalidate>
+                            <div class="text-center">
+                              <div class="mb-5">
+                                <h3 class="card-title">Forgot password?</h3>
+                              </div>
+                            </div>
+
+                            <!-- Form -->
+                            <div class="mb-4">
+                              <label class="form-label" for="resetPasswordSrEmail" tabindex="0">Your email</label>
+
+                              <input type="email" class="form-control form-control-lg" name="email" id="resetPasswordSrEmail" tabindex="1" placeholder="Enter your email address" aria-label="Enter your email address" required>
+                              <span class="invalid-feedback">Please enter a valid email address.</span>
+                            </div>
+                            <!-- End Form -->
+
+                            <div class="d-grid gap-4">
+                              <button type="submit" class="btn btn-primary btn-lg">Reset password</button>
+                              <p class="card-text text-muted">Remember your password? <a class="link" href="../page-login.html">Log in</a></p>
+                            </div>
+                          </form>
+                          <!-- End Form -->
+                        </div>
+                      </div>
+                      <!-- End Col -->
+                        
+                      <div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);">
+                        <h5 class="mb-4">Build digital products with:</h5>
+
+                        <!-- List Checked -->
+                        <ul class="list-checked list-checked-primary list-py-2">
+                          <li class="list-checked-item">All-in-one tool</li>
+                          <li class="list-checked-item">Easily add &amp; manage your services</li>
+                        </ul>
+                        <!-- End List Checked -->
+
+                        <span class="d-block">
+                          <a class="link link-pointer" href="#">Learn more</a>
+                        </span>
+                      </div>
+                      <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                  </div>
+                  <!-- End Card -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;">
+                    <img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+
+                  <!-- SVG Shape -->
+                  <figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;">
+                    <img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description">
+                  </figure>
+                  <!-- End SVG Shape -->
+                </div>
+              </div>
+            </div>
+            <!-- End Content -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-html3" role="tabpanel" aria-labelledby="nav-htmlTab3">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- Content --&gt;
+                &lt;div class="container content-space-1"&gt;
+                  &lt;div class="mx-lg-auto" style="max-width: 55rem;"&gt;
+                    &lt;div class="position-relative"&gt;
+                      &lt;!-- Card --&gt;
+                      &lt;div class="card card-shadow card-login"&gt;
+                        &lt;div class="row"&gt;
+                          &lt;div class="col-md-8"&gt;
+                            &lt;div class="card-body"&gt;
+                              &lt;!-- Form --&gt;
+                              &lt;form class="js-validate needs-validation" novalidate&gt;
+                                &lt;div class="text-center"&gt;
+                                  &lt;div class="mb-5"&gt;
+                                    &lt;h3 class="card-title"&gt;Forgot password?&lt;/h3&gt;
+                                  &lt;/div&gt;
+                                &lt;/div&gt;
+
+                                &lt;!-- Form --&gt;
+                                &lt;div class="mb-4"&gt;
+                                  &lt;label class="form-label" for="resetPasswordSrEmail" tabindex="0"&gt;Your email&lt;/label&gt;
+
+                                  &lt;input type="email" class="form-control form-control-lg" name="email" id="resetPasswordSrEmail" tabindex="1" placeholder="Enter your email address" aria-label="Enter your email address" required&gt;
+                                  &lt;span class="invalid-feedback"&gt;Please enter a valid email address.&lt;/span&gt;
+                                &lt;/div&gt;
+                                &lt;!-- End Form --&gt;
+
+                                &lt;div class="d-grid gap-4"&gt;
+                                  &lt;button type="submit" class="btn btn-primary btn-lg"&gt;Reset password&lt;/button&gt;
+                                  &lt;p class="card-text text-muted"&gt;Remember your password? &lt;a class="link" href="../page-login.html"&gt;Log in&lt;/a&gt;&lt;/p&gt;
+                                &lt;/div&gt;
+                              &lt;/form&gt;
+                              &lt;!-- End Form --&gt;
+                            &lt;/div&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                            
+                          &lt;div class="col-md-4 d-md-flex justify-content-center flex-column bg-soft-primary p-8 p-md-5" style="background-image: url(../assets/svg/components/wave-pattern.svg);"&gt;
+                            &lt;h5 class="mb-4"&gt;Build digital products with:&lt;/h5&gt;
+
+                            &lt;!-- List Checked --&gt;
+                            &lt;ul class="list-checked list-checked-primary list-py-2"&gt;
+                              &lt;li class="list-checked-item"&gt;All-in-one tool&lt;/li&gt;
+                              &lt;li class="list-checked-item"&gt;Easily add &amp; manage your services&lt;/li&gt;
+                            &lt;/ul&gt;
+                            &lt;!-- End List Checked --&gt;
+
+                            &lt;span class="d-block"&gt;
+                              &lt;a class="link link-pointer" href="#"&gt;Learn more&lt;/a&gt;
+                            &lt;/span&gt;
+                          &lt;/div&gt;
+                          &lt;!-- End Col --&gt;
+                        &lt;/div&gt;
+                        &lt;!-- End Row --&gt;
+                      &lt;/div&gt;
+                      &lt;!-- End Card --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute top-0 end-0 zi-n1 d-none d-sm-block mt-n7 me-n10" style="width: 4rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/pointer-up.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+
+                      &lt;!-- SVG Shape --&gt;
+                      &lt;figure class="position-absolute bottom-0 start-0 d-none d-sm-block ms-n10 mb-n10" style="width: 15rem;"&gt;
+                        &lt;img class="img-fluid" src="../assets/svg/components/curved-shape.svg" alt="Image Description"&gt;
+                      &lt;/figure&gt;
+                      &lt;!-- End SVG Shape --&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- End Content --&gt;
+              </code>
+            </pre>
+          </div>
+
+          <div class="tab-pane fade" id="nav-js3" role="tabpanel" aria-labelledby="nav-jsTab3">
+            <pre>
+              <code class="language-markup" data-lang="html">
+                &lt;!-- JS Implementing Plugins --&gt;
+                &lt;script src="../assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js"&gt;&lt;/script&gt;
+
+                &lt;!-- JS Unify --&gt;
+
+                &lt;!-- JS Plugins Init. --&gt;
+                &lt;script&gt;
+                  (function() {
+                    // INITIALIZATION OF BOOTSTRAP VALIDATION
+                    // =======================================================
+                    HSBsValidation.init('.js-validate', {
+                      onSubmit: data =&gt; {
+                        data.event.preventDefault()
+                        alert('Submited')
+                      }
+                    })
+                  })()
+                &lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+    </div>
+    <!-- End Content -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Go To -->
+  <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;"
+     data-hs-go-to-options='{
+       "offsetTop": 700,
+       "position": {
+         "init": {
+           "right": "2rem"
+         },
+         "show": {
+           "bottom": "2rem"
+         },
+         "hide": {
+           "bottom": "-2rem"
+         }
+       }
+     }'>
+    <i class="bi-chevron-up"></i>
+  </a>
+  <!-- ========== END SECONDARY CONTENTS ========== -->
+
+  <!-- JS Global Compulsory  -->
+  <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="../assets/vendor/hs-header/dist/hs-header.min.js"></script>
+  <script src="../assets/vendor/hs-nav-scroller/dist/hs-nav-scroller.min.js"></script>
+  <script src="../assets/vendor/list.js/dist/list.min.js"></script>
+  <script src="../assets/vendor/hs-go-to/dist/hs-go-to.min.js"></script>
+  <script src="../assets/vendor/prism/prism.js"></script>
+  <script src="../assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js"></script>
+
+  <!-- JS Unify -->
+  <script src="../assets/js/theme.min.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    (function() {
+      // INITIALIZATION OF HEADER
+      // =======================================================
+      new HSHeader('#header').init()
+
+
+      // INITIALIZATION OF NAV SCROLLER
+      // =======================================================
+      new HsNavScroller('.js-nav-scroller', {
+        delay: 400,
+        offset: 140
+      })
+
+
+      // INITIALIZATION OF LISTJS COMPONENT
+      // =======================================================
+      const snippetsSearch = HSCore.components.HSList.init('#snippetsSearch');
+
+
+      // GET JSON FILE RESULTS
+      // =======================================================
+      fetch('../assets/json/snippets-search.json')
+      .then(response => response.json())
+      .then(data => {
+        snippetsSearch.getItem(0).add(data)
+      })
+
+
+      // INITIALIZATION OF GO TO
+      // =======================================================
+      new HSGoTo('.js-go-to')
+
+
+      // INITIALIZATION OF BOOTSTRAP VALIDATION
+      // =======================================================
+      HSBsValidation.init('.js-validate', {
+        onSubmit: data => {
+          data.event.preventDefault()
+          alert('Submited')
+        }
+      })
+
+
+      // INITIALIZATION OF TOGGLE PASSWORD
+      // =======================================================
+      new HSTogglePassword('.js-toggle-password')
+    })()
+  </script>
+</body>
+</html>

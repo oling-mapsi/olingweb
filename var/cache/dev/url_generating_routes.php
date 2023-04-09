@@ -17,8 +17,8 @@ return [
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\PracticeController::index'], [], [['text', '/']], [], [], []],
-    'app_practice' => [[], ['_controller' => 'App\\Controller\\PracticeController::practice'], [], [['text', '/practice']], [], [], []],
+    'practices' => [[], ['_controller' => 'App\\Controller\\PracticeController::practices'], [], [['text', '/practices']], [], [], []],
     'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
     'contact' => [[], ['_controller' => 'App\\Controller\\PracticeController::contact'], [], [['text', '/contact']], [], [], []],
-    'service' => [[], ['_controller' => 'App\\Controller\\PracticeController::service'], [], [['text', '/service']], [], [], []],
+    'services' => [[], ['_controller' => 'App\\Controller\\PracticeController::services'], [], [['text', '/services']], [], [], []],
 ];

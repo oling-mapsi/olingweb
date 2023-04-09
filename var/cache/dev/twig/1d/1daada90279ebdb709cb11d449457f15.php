@@ -118,8 +118,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                                 <span class=\"fs-3 fw-bold d-block\">Consulting</span>
                                 <p class=\"text-body\">Accompagnement personnalisé pour une transformation digitale réussie et performante.</p>
                                 <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
+                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
+        // line 67
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practices");
+        echo ">Découvrir</a></p>
+                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Nos références</a></p>
                                 </div>
                             </div>
                             </div>
@@ -129,7 +132,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                                 <span class=\"dropdown-header\">Une offre sur mesure</span>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
+                                <a class=\"dropdown-item \" href=";
+        // line 78
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("services");
+        echo "><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
                             </div>
@@ -540,7 +546,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  514 => 250,  501 => 15,  491 => 14,  478 => 11,  468 => 10,  449 => 6,  416 => 351,  327 => 265,  311 => 251,  309 => 250,  294 => 238,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  520 => 250,  507 => 15,  497 => 14,  484 => 11,  474 => 10,  455 => 6,  422 => 351,  333 => 265,  317 => 251,  315 => 250,  300 => 238,  137 => 78,  123 => 67,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -611,8 +617,8 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                                 <span class=\"fs-3 fw-bold d-block\">Consulting</span>
                                 <p class=\"text-body\">Accompagnement personnalisé pour une transformation digitale réussie et performante.</p>
                                 <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
+                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{ path('practices')}}>Découvrir</a></p>
+                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Nos références</a></p>
                                 </div>
                             </div>
                             </div>
@@ -622,7 +628,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                                 <span class=\"dropdown-header\">Une offre sur mesure</span>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
+                                <a class=\"dropdown-item \" href={{ path('services')}}><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
                                 <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
                             </div>

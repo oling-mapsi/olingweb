@@ -17,10 +17,10 @@ class PracticeController extends AbstractController
         ]);
     }
     
-    #[Route('/practice', name: 'app_practice')]
-    public function practice(): Response
+    #[Route('/practices', name: 'practices')]
+    public function practices(): Response
     {
-        return $this->render('practice/index.html.twig', [
+        return $this->render('practices.html.twig', [
             'controller_name' => 'PracticeController',
         ]);
     }
@@ -41,8 +41,8 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/service', name: 'service')]
-    public function service(): Response
+    #[Route('/services', name: 'services')]
+    public function services(): Response
     {
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',

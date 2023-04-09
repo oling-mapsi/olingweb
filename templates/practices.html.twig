@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OLING{% endblock %}
+
+{% block body %}
+<body>
+  
+
+    <!-- Features -->
+    <div class="container content-space-3 content-space-lg-4">
+    <div class="bg-light rounded-3 p-4 p-sm-8 p-lg-10 mx-md-n7 mx-lg-n10">
+      <div class="row align-items-lg-center">
+        <div class="col-lg-5 order-lg-2 mb-10 mb-lg-0">
+          <div class="position-relative">
+            {# <div class="w-75 ms-auto">
+              <img class="img-fluid rounded-3" src="/img/mockups/accenture.webp" alt="Image Description">
+            </div> #}
+
+            <img class="img-fluid" src="/img/mockups/img1.png" alt="Image Description">
+
+            <!-- SVG Shape -->
+            <figure class="position-absolute top-0 end-0 mt-n7 me-n7" style="width: 10rem;">
+              <img class="img-fluid" src="/svg/components/dots-warning.svg" alt="Image Description">
+            </figure>
+            <!-- End SVG Shape -->
+          </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col-lg-7">
+          <div class="pe-lg-5">
+            <div class="mb-5">
+              <h2>Conseil en Organisation et SI</h2>
+              <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
+            </div>
+
+            <!-- End List Checked -->
+            <div class="row border-bottom pb-3 mb-3">
+            <div class="col-6">
+              <a class="link link-secondary link-pointer" href={{ path('services')}}>Assistance à maîtrise d'ouvrage métier et SI</a>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-6">
+              <a class="link link-secondary link-pointer" href="#">Gouvernance des SI</a>
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+
+          <div class="row border-bottom pb-3 mb-3">
+            <div class="col-6">
+              <a class="link link-secondary link-pointer" href="#">Management des processus</a>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-6">
+              <a class="link link-secondary link-pointer" href="#">Management des données</a>
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+
+          <div class="row">
+            <div class="col-6">
+              <a class="link link-secondary link-pointer" href="#">Plan stratégique et pilotage des projets d'entreprise</a>
+            </div>
+            <!-- End Col -->
+
+            <div class="col-6">
+              {# <a class="link link-secondary link-pointer" href="#">Retirement savings</a> #}
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Row -->
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Row -->
+    </div>
+  </div>
+    <!-- End Features -->
+
+  
+
+  <!-- ========== SECONDARY CONTENTS ========== -->
+  <!-- Go To -->
+  <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;"
+     data-hs-go-to-options='{
+       "offsetTop": 700,
+       "position": {
+         "init": {
+           "right": "2rem"
+         },
+         "show": {
+           "bottom": "2rem"
+         },
+         "hide": {
+           "bottom": "-2rem"
+         }
+       }
+     }'>
+    <i class="bi-chevron-up"></i>
+  </a>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    
+  </script>
+</body>
+{% endblock %}

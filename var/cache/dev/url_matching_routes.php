@@ -15,10 +15,10 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\PracticeController::index'], null, null, null, false, false, null]],
-        '/practice' => [[['_route' => 'app_practice', '_controller' => 'App\\Controller\\PracticeController::practice'], null, null, null, false, false, null]],
+        '/practices' => [[['_route' => 'practices', '_controller' => 'App\\Controller\\PracticeController::practices'], null, null, null, false, false, null]],
         '/discloser' => [[['_route' => 'discloser', '_controller' => 'App\\Controller\\PracticeController::discloser'], null, null, null, false, false, null]],
         '/contact' => [[['_route' => 'contact', '_controller' => 'App\\Controller\\PracticeController::contact'], null, null, null, false, false, null]],
-        '/service' => [[['_route' => 'service', '_controller' => 'App\\Controller\\PracticeController::service'], null, null, null, false, false, null]],
+        '/services' => [[['_route' => 'services', '_controller' => 'App\\Controller\\PracticeController::services'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

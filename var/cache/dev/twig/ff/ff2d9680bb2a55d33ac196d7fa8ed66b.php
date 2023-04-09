@@ -96,7 +96,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
             <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> et <span class=\"text-primary\">réussir</span> collectivement </h1>
-            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour les organisations publiques et privées</p>
+            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour accompagner les organisations publiques et privées dans leur transformation</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
@@ -136,7 +136,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
             <h2>Votre allié pour mener à bien vos initiatives d'entreprise</h2>
-            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise méthodologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
+            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise technologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 
@@ -538,7 +538,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
             <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> et <span class=\"text-primary\">réussir</span> collectivement </h1>
-            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour les organisations publiques et privées</p>
+            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour accompagner les organisations publiques et privées dans leur transformation</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
@@ -575,7 +575,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
             <h2>Votre allié pour mener à bien vos initiatives d'entreprise</h2>
-            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise méthodologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
+            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise technologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 

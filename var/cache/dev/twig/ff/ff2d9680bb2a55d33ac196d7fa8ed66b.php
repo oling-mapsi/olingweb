@@ -135,8 +135,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
-            <h2>Votre allié pour mener à bien vos initiatives technologiques</h2>
-            <p>Fort d'une expérience solide en management des organisations et intégration de systèmes complexes, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
+            <h2>Votre allié pour mener à bien vos initiatives stratégiques</h2>
+            <p>Fort d'une expérience solide en management et intégration de systèmes complexes, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 
@@ -197,7 +197,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
                     <h2>Optimisons ensemble votre organisation et votre SI</h2>
-                    <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
+                    <p>Nous mettons à disposition les compétences essentielles pour co-élaborer des stratégies et des solutions organisationnelles et technologiques sur mesure, répondant à vos besoins de développement et de transformation</p>
                   </div>
 
                   ";
@@ -325,14 +325,17 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
         <div class=\"position-relative mb-10\">
           <div class=\"row justify-content-lg-between\">
             <div class=\"col-md-6 col-lg-5 mb-7 mb-lg-0\">
-              <div class=\"mb-5\">
-                <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
-                <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
-                vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
-              </div>
+                <div class=\"mb-5\">
+                  <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
+                  <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
+                  vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
+                  <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
+                </div>
 
-              <a class=\"link link-pointer\" href=\"#\">Découvrez notre méthode</a>
+                <a class=\"link link-pointer\" href=";
+        // line 279
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
+        echo ">Découvrez notre méthode</a>
             </div>
             <!-- End Col -->
 
@@ -392,6 +395,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
                 <!-- End Col -->
               </div>
               <!-- End Row -->
+            
             <div class=\"mb-3\">
                 <i class=\"bi-circle-square fs-2 text-dark\"></i>
               </div>
@@ -430,7 +434,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
           
 
           ";
-        // line 387
+        // line 388
         echo "        </div>
 
       </div>
@@ -491,7 +495,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
 
     public function getDebugInfo()
     {
-        return array (  434 => 387,  300 => 244,  269 => 204,  239 => 167,  208 => 128,  205 => 127,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  438 => 388,  337 => 279,  300 => 244,  269 => 204,  239 => 167,  208 => 128,  205 => 127,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -548,8 +552,8 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
-            <h2>Votre allié pour mener à bien vos initiatives technologiques</h2>
-            <p>Fort d'une expérience solide en management des organisations et intégration de systèmes complexes, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
+            <h2>Votre allié pour mener à bien vos initiatives stratégiques</h2>
+            <p>Fort d'une expérience solide en management et intégration de systèmes complexes, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 
@@ -610,7 +614,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
                     <h2>Optimisons ensemble votre organisation et votre SI</h2>
-                    <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
+                    <p>Nous mettons à disposition les compétences essentielles pour co-élaborer des stratégies et des solutions organisationnelles et technologiques sur mesure, répondant à vos besoins de développement et de transformation</p>
                   </div>
 
                   {# <!-- List Checked -->
@@ -767,14 +771,14 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
         <div class=\"position-relative mb-10\">
           <div class=\"row justify-content-lg-between\">
             <div class=\"col-md-6 col-lg-5 mb-7 mb-lg-0\">
-              <div class=\"mb-5\">
-                <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
-                <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
-                vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
-              </div>
+                <div class=\"mb-5\">
+                  <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
+                  <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
+                  vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
+                  <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
+                </div>
 
-              <a class=\"link link-pointer\" href=\"#\">Découvrez notre méthode</a>
+                <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez notre méthode</a>
             </div>
             <!-- End Col -->
 
@@ -834,6 +838,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
                 <!-- End Col -->
               </div>
               <!-- End Row -->
+            
             <div class=\"mb-3\">
                 <i class=\"bi-circle-square fs-2 text-dark\"></i>
               </div>

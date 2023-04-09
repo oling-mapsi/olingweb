@@ -95,8 +95,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
-            <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> ensemble, <span class=\"text-primary\">réussir</span> ensemble </h1>
-            <p class=\"fs-3\">OLING est une société composée d'experts en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
+            <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> et <span class=\"text-primary\">réussir</span> collectivement </h1>
+            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour les organisations publiques et privées</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
@@ -135,10 +135,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
-            <h2>Votre partenaire pour réussir vos projets d'entreprise</h2>
-            <p>OLING est une entreprise de conseil experte en projets fonctionnels et informatiques pour les entreprises publiques et privées. </p>
-            <p>Avec une forte expérience dans les problématiques d'entreprise et une expertise méthodologique de haut niveau, 
-            OLING offre des solutions sur mesure pour répondre aux besoins spécifiques de ses clients, pour la réussite de leurs projets d'entreprise.</p>
+            <h2>Votre allié pour mener à bien vos initiatives d'entreprise</h2>
+            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise méthodologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 
@@ -180,11 +178,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     <!-- Heading -->
     <div class=\"container content-space-t-2 content-space-t-lg-0 content-space-b-1\">
       <div class=\"w-lg-65 text-center mx-lg-auto\">
-        <h2>Des solutions sur mesure pour répondre à vos besoins spécifiques</h2>
-        <p>OLING est structurée autour de quatre \"practices\", 
-        chacune dédiée à un domaine spécifique de l'entreprise : le conseil en organisation et SI, les expertises et audits, 
-        les applications métier et la transformation digitale. Grâce à l'utilisation de profils experts et de méthodologies éprouvées, 
-        OLING offre des solutions sur mesure pour répondre aux besoins spécifiques de ses clients.</p>
+        <h2>Des solutions personnalisées pour répondre à vos exigences spécifiques</h2>
+        <p>OLING s'organise autour de quatre \"practices\", chacune dédiée à un aspect spécifique de l'entreprise : conseil en organisation et systèmes d'information, spécialités et évaluations, applications professionnelles et transformation numérique. </p>
       </div>
     </div>
     <!-- End Heading -->
@@ -200,13 +195,13 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
-                    <h2>Ensemble, optimisons votre organisation et votre système d'information</h2>
-                    <p>Solutions pour optimiser votre organisation et votre système d'information</p>
+                    <h2>Optimisons ensemble votre organisation et votre SI</h2>
+                    <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
                   </div>
 
                   <!-- List Checked -->
                   <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Assistance à maîtrise d'ouvrage</li>
+                    <li class=\"list-checked-item\">Assistance à maîtrise d'ouvrage métier et SI</li>
                     <li class=\"list-checked-item\">Gouvernance des SI</li>
                     <li class=\"list-checked-item\">Management des processus</li>
                     <li class=\"list-checked-item\">Management des données</li>
@@ -237,8 +232,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Audit et expertises</span>
-                    <h2>Un regard extérieur pour améliorer votre organisation</h2>
-                    <p>OLING propose des services d'audit et d'expertise pour aider les entreprises publiques et privées à atteindre leurs objectifs.</p>
+                    <h2>Un regard externe pour améliorer votre organisation</h2>
+                    <p>OLING offre des services d'audit et d'expertises pour aider les entreprises à atteindre leurs objectifs de pilotage, de contrôle et de conformité.</p>
                   </div>
 
 
@@ -277,8 +272,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Business Apps</span>
-                    <h2>Des applications métier sur mesure pour votre entreprise</h2>
-                    <p>OLING offre des services de développement d'applications métier pour les entreprises publiques et privées</p>
+                    <h2>Des applications métier sur mesure pour votre organisation</h2>
+                    <p>OLING offre des services essentiels d'analyse, de conception, d'accompagnement à l'intégration et de développement d'applications métier, permettant aux entreprises de maîtriser efficacement leurs données et processus grâce à l'adoption des solutions appropriées.</p>
                   </div>
 
                   <!-- List Checked -->
@@ -315,8 +310,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Microsoft 365</span>
                     <h2>La transformation digitale, avec Microsoft 365 et OLING</h2>
-                    <p>OLING propose des services de transformation digitale avec la suite Microsoft 365 
-                    pour aider les entreprises publiques et privées à s'adapter aux changements technologiques.</p>
+                    <p>La transformation numérique, avec Microsoft 365 et OLING
+OLING propose des services de transformation numérique avec la suite Microsoft 365 pour aider les organisations publiques et privées à collaborer et à s'adapter aux évolutions technologiques.</p>
                   </div>
 
                   <!-- List Checked -->
@@ -331,7 +326,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   </ul>
                   <!-- End List Checked -->
 
-                  <a class=\"link link-pointer\" href=\"#\">Explore this step</a>
+                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
                 </div>
               </div>
               <!-- End Col -->
@@ -359,10 +354,10 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <div class=\"row justify-content-lg-between\">
             <div class=\"col-md-6 col-lg-5 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
-                <h2>Vous cherchez un partenaire qui fournit une expertise adaptée à votre métier ?</h2>
+                <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
                 <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
                 vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos capacités pour vous aider à innover, à vous conformer aux réglementations et à optimiser vos processus.</p>
+                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
               </div>
 
               <a class=\"link link-pointer\" href=\"#\">Découvrez notre méthode</a>
@@ -463,7 +458,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           
 
           ";
-        // line 391
+        // line 386
         echo "        </div>
 
       </div>
@@ -522,7 +517,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  467 => 391,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  462 => 386,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -542,8 +537,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-5 mb-lg-0\">
           <div class=\"mb-5\">
-            <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> ensemble, <span class=\"text-primary\">réussir</span> ensemble </h1>
-            <p class=\"fs-3\">OLING est une société composée d'experts en projets fonctionnels et informatiques pour les entreprises publiques et privées</p>
+            <h1 class=\"display-4 text-dark mb-5\"> <span class=\"text-primary\">Innover</span> et <span class=\"text-primary\">réussir</span> collectivement </h1>
+            <p class=\"fs-3\">Une alliance d'experts en projets fonctionnels et technologiques pour les organisations publiques et privées</p>
           </div>
 
           <div class=\"d-grid d-sm-flex gap-3 mb-5\">
@@ -579,10 +574,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"row justify-content-lg-between align-items-lg-center\">
         <div class=\"col-lg-5 mb-9 mb-lg-0\">
           <div class=\"mb-6\">
-            <h2>Votre partenaire pour réussir vos projets d'entreprise</h2>
-            <p>OLING est une entreprise de conseil experte en projets fonctionnels et informatiques pour les entreprises publiques et privées. </p>
-            <p>Avec une forte expérience dans les problématiques d'entreprise et une expertise méthodologique de haut niveau, 
-            OLING offre des solutions sur mesure pour répondre aux besoins spécifiques de ses clients, pour la réussite de leurs projets d'entreprise.</p>
+            <h2>Votre allié pour mener à bien vos initiatives d'entreprise</h2>
+            <p>Fort d'une expérience solide dans les enjeux organisationnels et d'une expertise méthodologique avancée, OLING propose des solutions adaptées aux besoins uniques de ses clients pour assurer le succès de leurs initiatives d'entreprise.</p>
           </div>
 
 
@@ -624,11 +617,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     <!-- Heading -->
     <div class=\"container content-space-t-2 content-space-t-lg-0 content-space-b-1\">
       <div class=\"w-lg-65 text-center mx-lg-auto\">
-        <h2>Des solutions sur mesure pour répondre à vos besoins spécifiques</h2>
-        <p>OLING est structurée autour de quatre \"practices\", 
-        chacune dédiée à un domaine spécifique de l'entreprise : le conseil en organisation et SI, les expertises et audits, 
-        les applications métier et la transformation digitale. Grâce à l'utilisation de profils experts et de méthodologies éprouvées, 
-        OLING offre des solutions sur mesure pour répondre aux besoins spécifiques de ses clients.</p>
+        <h2>Des solutions personnalisées pour répondre à vos exigences spécifiques</h2>
+        <p>OLING s'organise autour de quatre \"practices\", chacune dédiée à un aspect spécifique de l'entreprise : conseil en organisation et systèmes d'information, spécialités et évaluations, applications professionnelles et transformation numérique. </p>
       </div>
     </div>
     <!-- End Heading -->
@@ -644,13 +634,13 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
-                    <h2>Ensemble, optimisons votre organisation et votre système d'information</h2>
-                    <p>Solutions pour optimiser votre organisation et votre système d'information</p>
+                    <h2>Optimisons ensemble votre organisation et votre SI</h2>
+                    <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
                   </div>
 
                   <!-- List Checked -->
                   <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Assistance à maîtrise d'ouvrage</li>
+                    <li class=\"list-checked-item\">Assistance à maîtrise d'ouvrage métier et SI</li>
                     <li class=\"list-checked-item\">Gouvernance des SI</li>
                     <li class=\"list-checked-item\">Management des processus</li>
                     <li class=\"list-checked-item\">Management des données</li>
@@ -681,8 +671,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Audit et expertises</span>
-                    <h2>Un regard extérieur pour améliorer votre organisation</h2>
-                    <p>OLING propose des services d'audit et d'expertise pour aider les entreprises publiques et privées à atteindre leurs objectifs.</p>
+                    <h2>Un regard externe pour améliorer votre organisation</h2>
+                    <p>OLING offre des services d'audit et d'expertises pour aider les entreprises à atteindre leurs objectifs de pilotage, de contrôle et de conformité.</p>
                   </div>
 
 
@@ -721,8 +711,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Business Apps</span>
-                    <h2>Des applications métier sur mesure pour votre entreprise</h2>
-                    <p>OLING offre des services de développement d'applications métier pour les entreprises publiques et privées</p>
+                    <h2>Des applications métier sur mesure pour votre organisation</h2>
+                    <p>OLING offre des services essentiels d'analyse, de conception, d'accompagnement à l'intégration et de développement d'applications métier, permettant aux entreprises de maîtriser efficacement leurs données et processus grâce à l'adoption des solutions appropriées.</p>
                   </div>
 
                   <!-- List Checked -->
@@ -759,8 +749,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   <div class=\"mb-5\">
                     <span class=\"text-cap text-primary\">Microsoft 365</span>
                     <h2>La transformation digitale, avec Microsoft 365 et OLING</h2>
-                    <p>OLING propose des services de transformation digitale avec la suite Microsoft 365 
-                    pour aider les entreprises publiques et privées à s'adapter aux changements technologiques.</p>
+                    <p>La transformation numérique, avec Microsoft 365 et OLING
+OLING propose des services de transformation numérique avec la suite Microsoft 365 pour aider les organisations publiques et privées à collaborer et à s'adapter aux évolutions technologiques.</p>
                   </div>
 
                   <!-- List Checked -->
@@ -775,7 +765,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   </ul>
                   <!-- End List Checked -->
 
-                  <a class=\"link link-pointer\" href=\"#\">Explore this step</a>
+                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
                 </div>
               </div>
               <!-- End Col -->
@@ -803,10 +793,10 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <div class=\"row justify-content-lg-between\">
             <div class=\"col-md-6 col-lg-5 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
-                <h2>Vous cherchez un partenaire qui fournit une expertise adaptée à votre métier ?</h2>
+                <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
                 <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
                 vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos capacités pour vous aider à innover, à vous conformer aux réglementations et à optimiser vos processus.</p>
+                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
               </div>
 
               <a class=\"link link-pointer\" href=\"#\">Découvrez notre méthode</a>

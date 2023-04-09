@@ -111,7 +111,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
                         <!-- Main Content -->
-                        
+
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
@@ -342,7 +342,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Conseil en organisation et système d'information</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Expertises et Audit</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Business Apps</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365 <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365</a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -353,9 +353,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">A propos de OLING <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">MAPSI <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -411,7 +412,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Politique générale de protection des données</a></li>
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
-        // line 350
+        // line 351
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("discloser");
         echo ">Mentions légales</a></li>
                     <li class=\"list-inline-item\">
@@ -539,7 +540,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  513 => 250,  500 => 15,  490 => 14,  477 => 11,  467 => 10,  448 => 6,  415 => 350,  327 => 265,  311 => 251,  309 => 250,  294 => 238,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  514 => 250,  501 => 15,  491 => 14,  478 => 11,  468 => 10,  449 => 6,  416 => 351,  327 => 265,  311 => 251,  309 => 250,  294 => 238,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -603,7 +604,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
                         <!-- Main Content -->
-                        
+
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
@@ -825,7 +826,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Conseil en organisation et système d'information</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Expertises et Audit</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Business Apps</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365 <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365</a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -836,9 +837,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Contact <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe OLING </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">A propos de OLING <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
+                    <li><a class=\"link link-light link-light-75\" href=\"#\">MAPSI <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
                     </ul>
                     <!-- End List -->
                 </div>

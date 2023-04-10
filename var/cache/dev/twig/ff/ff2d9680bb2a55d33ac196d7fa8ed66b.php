@@ -184,35 +184,51 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     </div>
     <!-- End Heading -->
 
+
+
     <!-- Step Features -->
     <div class=\"container\">
       <!-- List Step -->
       <ul class=\"list-unstyled list-step list-py-3 mb-0\">
-
-        <li class=\"list-step-item\">
+        ";
+        // line 108
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 108, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
+            // line 109
+            echo "        <li class=\"list-step-item\">
           <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
             <div class=\"row align-items-lg-center\">
               <div class=\"col-lg-5 mb-7 mb-lg-0\">
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
-                    <h2>Optimisons ensemble votre organisation et votre SI</h2>
-                    <p>Nous mettons à disposition les compétences essentielles pour co-élaborer des stratégies et des solutions organisationnelles et technologiques sur mesure, répondant à vos besoins de développement et de transformation</p>
+                    <span class=\"text-cap text-primary\">";
+            // line 115
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 115), "html", null, true);
+            echo "</span>
+                    <h2>";
+            // line 116
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "introduction", [], "any", false, false, false, 116), "html", null, true);
+            echo "</h2>
+                    <p>";
+            // line 117
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "DescriptionShort", [], "any", false, false, false, 117), "html", null, true);
+            echo "</p>
                   </div>
 
-                  ";
-        // line 127
-        echo "
                   <a class=\"link link-pointer\" href=";
-        // line 128
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practices");
-        echo ">En savoir plus</a>
+            // line 120
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 120), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 120)]), "html", null, true);
+            echo ">En savoir plus</a>
                 </div>
               </div>
               <!-- End Col -->
 
               <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img1.png\" alt=\"Image Description\">
+                <img class=\"img-fluid\" src=\"";
+            // line 126
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "image1", [], "any", false, false, false, 126), "html", null, true);
+            echo "\" alt=\"Image Description\">
               </div>
               <!-- End Col -->
             </div>
@@ -221,98 +237,14 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
             <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
           </div>
         </li>
-
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Audit et expertises</span>
-                    <h2>Un regard externe pour améliorer votre organisation</h2>
-                    <p>OLING offre des services d'audit et d'expertises pour aider les entreprises à atteindre leurs objectifs de pilotage, de contrôle et de conformité.</p>
-                  </div>
-
-
-                  ";
-        // line 167
+        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 136
         echo "
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img2.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
-
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Business Apps</span>
-                    <h2>Des applications métier sur mesure pour votre organisation</h2>
-                    <p>OLING offre des services essentiels d'analyse, de conception, d'accompagnement à l'intégration et de développement d'applications métier, permettant aux entreprises de maîtriser efficacement leurs données et processus grâce à l'adoption des solutions appropriées.</p>
-                  </div>
-
-                  ";
-        // line 204
-        echo "
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img3.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
-
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Microsoft 365</span>
-                    <h2>La transformation digitale, avec Microsoft 365 et OLING</h2>
-                    <p>La transformation numérique, avec Microsoft 365 et OLING
-OLING propose des services de transformation numérique avec la suite Microsoft 365 pour aider les organisations publiques et privées à collaborer et à s'adapter aux évolutions technologiques.</p>
-                  </div>
-
-                  ";
-        // line 244
-        echo "
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img2.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
+        
       </ul>
       <!-- End List Step -->
     </div>
@@ -333,7 +265,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
                 </div>
 
                 <a class=\"link link-pointer\" href=";
-        // line 279
+        // line 157
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
         echo ">Découvrez notre méthode</a>
             </div>
@@ -434,7 +366,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
           
 
           ";
-        // line 388
+        // line 266
         echo "        </div>
 
       </div>
@@ -495,7 +427,7 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
 
     public function getDebugInfo()
     {
-        return array (  438 => 388,  337 => 279,  300 => 244,  269 => 204,  239 => 167,  208 => 128,  205 => 127,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  370 => 266,  269 => 157,  246 => 136,  230 => 126,  221 => 120,  215 => 117,  211 => 116,  207 => 115,  199 => 109,  195 => 108,  106 => 22,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -601,39 +533,31 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
     </div>
     <!-- End Heading -->
 
+
+
     <!-- Step Features -->
     <div class=\"container\">
       <!-- List Step -->
       <ul class=\"list-unstyled list-step list-py-3 mb-0\">
-
+        {% for practice in practices %}
         <li class=\"list-step-item\">
           <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
             <div class=\"row align-items-lg-center\">
               <div class=\"col-lg-5 mb-7 mb-lg-0\">
                 <div class=\"pe-lg-5\">
                   <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Conseil en Organisation et SI</span>
-                    <h2>Optimisons ensemble votre organisation et votre SI</h2>
-                    <p>Nous mettons à disposition les compétences essentielles pour co-élaborer des stratégies et des solutions organisationnelles et technologiques sur mesure, répondant à vos besoins de développement et de transformation</p>
+                    <span class=\"text-cap text-primary\">{{ practice.designation }}</span>
+                    <h2>{{ practice.introduction }}</h2>
+                    <p>{{ practice.DescriptionShort }}</p>
                   </div>
 
-                  {# <!-- List Checked -->
-                  <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Assistance à maîtrise d'ouvrage métier et SI</li>
-                    <li class=\"list-checked-item\">Gouvernance des SI</li>
-                    <li class=\"list-checked-item\">Management des processus</li>
-                    <li class=\"list-checked-item\">Management des données</li>
-                    <li class=\"list-checked-item\">Plan stratégique et pilotage des projets d'entreprise</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class=\"link link-pointer\" href={{ path('practices')}}>En savoir plus</a>
+                  <a class=\"link link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
                 </div>
               </div>
               <!-- End Col -->
 
               <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img1.png\" alt=\"Image Description\">
+                <img class=\"img-fluid\" src=\"{{ practice.image1 }}\" alt=\"Image Description\">
               </div>
               <!-- End Col -->
             </div>
@@ -642,123 +566,9 @@ OLING propose des services de transformation numérique avec la suite Microsoft 
             <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
           </div>
         </li>
+        {% endfor %}
 
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Audit et expertises</span>
-                    <h2>Un regard externe pour améliorer votre organisation</h2>
-                    <p>OLING offre des services d'audit et d'expertises pour aider les entreprises à atteindre leurs objectifs de pilotage, de contrôle et de conformité.</p>
-                  </div>
-
-
-                  {# <!-- List Checked -->
-                  <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Contrôle de gestion</li>
-                    <li class=\"list-checked-item\">Organisation et processus</li>
-                    <li class=\"list-checked-item\">SMI QSE</li>
-                    <li class=\"list-checked-item\">RSE</li>
-                    <li class=\"list-checked-item\">FINANCES</li>
-                    <li class=\"list-checked-item\">RGPD</li>
-                    <li class=\"list-checked-item\">Contrôle interne</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img2.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
-
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Business Apps</span>
-                    <h2>Des applications métier sur mesure pour votre organisation</h2>
-                    <p>OLING offre des services essentiels d'analyse, de conception, d'accompagnement à l'intégration et de développement d'applications métier, permettant aux entreprises de maîtriser efficacement leurs données et processus grâce à l'adoption des solutions appropriées.</p>
-                  </div>
-
-                  {# <!-- List Checked -->
-                  <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Conception, déploiement, AMOA, AMOE des solutions applicatives ERP</li>
-                    <li class=\"list-checked-item\">Informatique analytique et BI</li>
-                    <li class=\"list-checked-item\">GED/GEC</li>
-                    <li class=\"list-checked-item\">SIG</li>
-                    <li class=\"list-checked-item\">Développement d'applications métier</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img3.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
-
-        <li class=\"list-step-item\">
-          <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-            <div class=\"row align-items-lg-center\">
-              <div class=\"col-lg-5 mb-7 mb-lg-0\">
-                <div class=\"pe-lg-5\">
-                  <div class=\"mb-5\">
-                    <span class=\"text-cap text-primary\">Microsoft 365</span>
-                    <h2>La transformation digitale, avec Microsoft 365 et OLING</h2>
-                    <p>La transformation numérique, avec Microsoft 365 et OLING
-OLING propose des services de transformation numérique avec la suite Microsoft 365 pour aider les organisations publiques et privées à collaborer et à s'adapter aux évolutions technologiques.</p>
-                  </div>
-
-                  {# <!-- List Checked -->
-                  <ul class=\"list-checked list-checked-primary mb-7\">
-                    <li class=\"list-checked-item\">Mise en place de solutions digitales avec Microsoft 365</li>
-                    <li class=\"list-checked-item\">Arborescence métier</li>
-                    <li class=\"list-checked-item\">Administration Azure AD</li>
-                    <li class=\"list-checked-item\">Messagerie et calendrier</li>
-                    <li class=\"list-checked-item\">Collaboratif</li>
-                    <li class=\"list-checked-item\">Conseil en stratégie digitale</li>
-                    <li class=\"list-checked-item\">Accompagnement au changement</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class=\"link link-pointer\" href=\"#\">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class=\"col-lg-7\">
-                <img class=\"img-fluid\" src=\"/img/mockups/img2.png\" alt=\"Image Description\">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\"></div>
-          </div>
-        </li>
+        
       </ul>
       <!-- End List Step -->
     </div>

@@ -76,7 +76,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <div class=\"container\">
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
-                <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
+                <a class=\"navbar-brand\" href=";
+        // line 28
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
+        echo " aria-label=\"Oling\">
                     <img class=\"navbar-brand-logo\" src=\"";
         // line 29
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("./img/logo/logoling.png"), "html", null, true);
@@ -99,6 +102,13 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarNavDropdown\">
                 <div class=\"navbar-absolute-top-scroller\">
                     <ul class=\"navbar-nav nav-pills\">
+                    ";
+        // line 48
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 48, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
+            // line 49
+            echo "            
                     <!-- Landings -->
                     <li class=\"hs-has-mega-menu nav-item\"
                         data-hs-mega-menu-item-options='{
@@ -106,87 +116,68 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             \"maxWidth\": \"40rem\"
                             }
                         }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">Consulting</a>
+                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle ";
+            // line 57
+            if ((twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 57) == (isset($context["pract"]) || array_key_exists("pract", $context) ? $context["pract"] : (function () { throw new RuntimeError('Variable "pract" does not exist.', 57, $this->source); })()))) {
+                echo "active";
+            }
+            echo "\" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "DesignationShort", [], "any", false, false, false, 57), "html", null, true);
+            echo "</a>
 
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
+                        
+                        
                         <!-- Main Content -->
 
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Consulting</span>
-                                <p class=\"text-body\">Accompagnement personnalisé pour une transformation digitale réussie et performante.</p>
+                                <span class=\"fs-3 fw-bold d-block\">";
+            // line 68
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 68), "html", null, true);
+            echo "</span>
+                                <img class=\"img-fluid rounded-2 mb-2\" src=\"";
+            // line 69
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "image1", [], "any", false, false, false, 69), "html", null, true);
+            echo "\" alt=\"Image Description\">
+                                    <div>
+                                        <p>";
+            // line 71
+            echo twig_get_attribute($this->env, $this->source, $context["practice"], "description", [], "any", false, false, false, 71);
+            echo "</p>
+                                    </div>
                                 <div class=\"mt-auto\">
                                 <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
-        // line 67
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practices");
-        echo ">Découvrir</a></p>
+            // line 74
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 74), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 74)]), "html", null, true);
+            echo ">Découvrir</a></p>
                                 <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Nos références</a></p>
                                 </div>
                             </div>
                             </div>
 
                             <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Une offre sur mesure</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
-                                <a class=\"dropdown-item \" href=";
-        // line 78
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("services");
-        echo "><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->
-
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                        data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                            \"maxWidth\": \"40rem\"
-                            }
-                        }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">Expertises et Audit</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Expertises et Audit</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-2.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Analyse rigoureuse, amélioration continue, conformité réglementaire, renforcement des processus, soutenant votre croissance durable.</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Des compétences certifiées</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Finances</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> RSE</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
-
-
-                            </div>
+                                <div class=\"navbar-dropdown-menu-inner\">
+                                    ";
+            // line 82
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["practice"], "services", [], "any", false, false, false, 82));
+            foreach ($context['_seq'] as $context["_key"] => $context["service"]) {
+                // line 83
+                echo "                                    <a class=\"dropdown-item \" href=";
+                echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("service", ["practice" => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["service"], "practice", [], "any", false, false, false, 83), "slug", [], "any", false, false, false, 83), "id" => twig_get_attribute($this->env, $this->source, $context["service"], "id", [], "any", false, false, false, 83), "slug" => twig_get_attribute($this->env, $this->source, $context["service"], "slug", [], "any", false, false, false, 83)]), "html", null, true);
+                echo "> ";
+                echo twig_get_attribute($this->env, $this->source, $context["service"], "designation", [], "any", false, false, false, 83);
+                echo "</a>
+                                    ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['service'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 85
+            echo "                                </div>
                             </div>
                         </div>
                         <!-- End Main Content -->
@@ -195,96 +186,16 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     </li>
                     <!-- End Landings -->
 
-
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                            data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                                \"maxWidth\": \"40rem\"
-                            }
-                            }'>
-                        <a id=\"blogMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" href=\"#\" role=\"button\" aria-expanded=\"false\">Business Apps</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Expertises et Audit</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-1.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Solutions applicatives innovantes, déploiement efficace, soutien aux opérations, adaptabilité, propulsant votre entreprise vers l'avenir.</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">De nombreux déploiements</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> ERP</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> SIG </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
+                    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 95
+        echo "
 
 
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->              
-
-                    
-
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                            data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                                \"maxWidth\": \"40rem\"
-                            }
-                            }'>
-                        <a id=\"blogMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" href=\"#\" role=\"button\" aria-expanded=\"false\">Microsoft 365</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Solutions collaboratives</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-1.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Collaboration fluide, gestion optimisée, sécurité renforcée, propulsez votre productivité vers de nouveaux horizons</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Teams, Sharepoints, Onedrive...</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Intégration</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
-
-
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->   
+                   
 
                     <!-- Log in -->
                     <li class=\"nav-item ms-lg-auto\">
@@ -296,7 +207,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- Sign up -->
                     <li class=\"nav-item\">
                         <a class=\"btn btn-primary d-none d-lg-inline-block\" href=";
-        // line 238
+        // line 109
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">Contactez-nous</a>
                     </li>
@@ -311,9 +222,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
         <!-- ========== END HEADER ========== -->
         ";
-        // line 250
+        // line 121
         $this->displayBlock('body', $context, $blocks);
-        // line 251
+        // line 122
         echo "
 
         <!-- ========== FOOTER ========== -->
@@ -329,7 +240,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <div class=\"d-grid d-sm-flex gap-3\">
                         <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
                         <a class=\"btn btn-ghost-light btn-pointer\" href=";
-        // line 265
+        // line 136
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">Contactez nous</a>
                     </div>
@@ -345,11 +256,24 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Conseil en organisation et système d'information</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Expertises et Audit</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Business Apps</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365</a></li>
-                    </ul>
+                    ";
+        // line 150
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 150, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
+            // line 151
+            echo "                    <li><a class=\"link link-light link-light-75\" href=\"";
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 151), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 151)]), "html", null, true);
+            echo "\">";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 151), "html", null, true);
+            echo "</a></li>
+                    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 153
+        echo "                    </ul>
                     <!-- End List -->
                 </div>
                 <!-- End Col -->
@@ -418,7 +342,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=\"#\">Politique générale de protection des données</a></li>
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
-        // line 351
+        // line 221
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("discloser");
         echo ">Mentions légales</a></li>
                     <li class=\"list-inline-item\">
@@ -516,7 +440,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 250
+    // line 121
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -546,7 +470,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  520 => 250,  507 => 15,  497 => 14,  484 => 11,  474 => 10,  455 => 6,  422 => 351,  333 => 265,  317 => 251,  315 => 250,  300 => 238,  137 => 78,  123 => 67,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  444 => 121,  431 => 15,  421 => 14,  408 => 11,  398 => 10,  379 => 6,  346 => 221,  276 => 153,  265 => 151,  261 => 150,  244 => 136,  228 => 122,  226 => 121,  211 => 109,  195 => 95,  180 => 85,  169 => 83,  165 => 82,  154 => 74,  148 => 71,  143 => 69,  139 => 68,  121 => 57,  111 => 49,  107 => 48,  85 => 29,  81 => 28,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -578,7 +502,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             <div class=\"container\">
             <nav class=\"js-mega-menu navbar-nav-wrap\">
                 <!-- Default Logo -->
-                <a class=\"navbar-brand\" href=\"./\" aria-label=\"Oling\">
+                <a class=\"navbar-brand\" href={{ path('index')}} aria-label=\"Oling\">
                     <img class=\"navbar-brand-logo\" src=\"{{ asset('./img/logo/logoling.png') }}\" alt=\"Logo\">
                 </a>
                 <!-- End Default Logo -->
@@ -598,6 +522,8 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarNavDropdown\">
                 <div class=\"navbar-absolute-top-scroller\">
                     <ul class=\"navbar-nav nav-pills\">
+                    {% for practice in practices %}
+            
                     <!-- Landings -->
                     <li class=\"hs-has-mega-menu nav-item\"
                         data-hs-mega-menu-item-options='{
@@ -605,33 +531,35 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             \"maxWidth\": \"40rem\"
                             }
                         }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">Consulting</a>
+                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle {% if practice.slug == pract %}active{% endif %}\" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">{{ practice.DesignationShort }}</a>
 
                         <!-- Mega Menu -->
                         <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
+                        
+                        
                         <!-- Main Content -->
 
                         <div class=\"row\">
                             <div class=\"col-lg d-none d-lg-block\">
                             <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Consulting</span>
-                                <p class=\"text-body\">Accompagnement personnalisé pour une transformation digitale réussie et performante.</p>
+                                <span class=\"fs-3 fw-bold d-block\">{{ practice.designation }}</span>
+                                <img class=\"img-fluid rounded-2 mb-2\" src=\"{{ practice.image1 }}\" alt=\"Image Description\">
+                                    <div>
+                                        <p>{{ practice.description  | raw  }}</p>
+                                    </div>
                                 <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{ path('practices')}}>Découvrir</a></p>
+                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
                                 <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Nos références</a></p>
                                 </div>
                             </div>
                             </div>
 
                             <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Une offre sur mesure</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Schéma directeur</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Etudes</a>
-                                <a class=\"dropdown-item \" href={{ path('services')}}><i class=\"bi-chat-right-dots me-2\"></i> Assistance à maitrise d'ouvrage </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> Pilotage des projets d'entreprise</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
-                            </div>
+                                <div class=\"navbar-dropdown-menu-inner\">
+                                    {% for service in practice.services %}
+                                    <a class=\"dropdown-item \" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                         <!-- End Main Content -->
@@ -640,144 +568,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     </li>
                     <!-- End Landings -->
 
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                        data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                            \"maxWidth\": \"40rem\"
-                            }
-                        }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">Expertises et Audit</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Expertises et Audit</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-2.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Analyse rigoureuse, amélioration continue, conformité réglementaire, renforcement des processus, soutenant votre croissance durable.</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Des compétences certifiées</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Finances</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle de gestion</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Contrôle interne</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> RGPD </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> QSE</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> QUALIOPI</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> RSE</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-gear me-2\"></i> Gouvernance des données</a>
+                    {% endfor %}
 
 
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->
 
-
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                            data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                                \"maxWidth\": \"40rem\"
-                            }
-                            }'>
-                        <a id=\"blogMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" href=\"#\" role=\"button\" aria-expanded=\"false\">Business Apps</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Expertises et Audit</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-1.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Solutions applicatives innovantes, déploiement efficace, soutien aux opérations, adaptabilité, propulsant votre entreprise vers l'avenir.</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">De nombreux déploiements</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> ERP</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> BI et informatique analytique</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Développement d'applications</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-chat-right-dots me-2\"></i> SIG </a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-tropical-storm me-2\"></i> GED / GEC</a>
-
-
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->              
-
-                    
-
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                            data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                                \"maxWidth\": \"40rem\"
-                            }
-                            }'>
-                        <a id=\"blogMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle \" href=\"#\" role=\"button\" aria-expanded=\"false\">Microsoft 365</a>
-
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        <!-- Main Content -->
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">Solutions collaboratives</span>
-                                <img class=\"img-fluid rounded-2 mb-2\" src=\"/svg/components/card-1.svg\" alt=\"Image Description\">
-                                <p class=\"text-body\">Collaboration fluide, gestion optimisée, sécurité renforcée, propulsez votre productivité vers de nouveaux horizons</p>
-                                
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=\"#\">A propos</a></p>
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class=\"col-sm\">
-                            <div class=\"navbar-dropdown-menu-inner\">
-                                <span class=\"dropdown-header\">Teams, Sharepoints, Onedrive...</span>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-building me-2\"></i> Intégration</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Arborescence</a>
-                                <a class=\"dropdown-item \" href=\"./\"><i class=\"bi-briefcase me-2\"></i> Automatisation et Wrokflows</a>
-
-
-                            </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->   
+                   
 
                     <!-- Log in -->
                     <li class=\"nav-item ms-lg-auto\">
@@ -829,10 +624,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Conseil en organisation et système d'information</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Expertises et Audit</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Business Apps</a></li>
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">Microsoft 365</a></li>
+                    {% for practice in practices %}
+                    <li><a class=\"link link-light link-light-75\" href=\"{{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}\">{{ practice.designation }}</a></li>
+                    {% endfor %}
                     </ul>
                     <!-- End List -->
                 </div>

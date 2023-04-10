@@ -17,9 +17,9 @@ return [
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\PracticeController::index'], [], [['text', '/']], [], [], []],
-    'practices' => [[], ['_controller' => 'App\\Controller\\PracticeController::practices'], [], [['text', '/practices']], [], [], []],
+    'practice' => [['id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::practices'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true]], [], [], []],
+    'service' => [['practice', 'id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::services'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true], ['variable', '/', '[^/]++', 'practice', true]], [], [], []],
     'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
     'contact' => [[], ['_controller' => 'App\\Controller\\PracticeController::contact'], [], [['text', '/contact']], [], [], []],
-    'services' => [[], ['_controller' => 'App\\Controller\\PracticeController::services'], [], [['text', '/services']], [], [], []],
     'metiers' => [[], ['_controller' => 'App\\Controller\\PracticeController::metiers'], [], [['text', '/metiers']], [], [], []],
 ];

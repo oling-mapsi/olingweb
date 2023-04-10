@@ -16,11 +16,11 @@
               <img class="img-fluid rounded-3" src="/img/mockups/accenture.webp" alt="Image Description">
             </div> #}
 
-            <img class="img-fluid" src="/img/mockups/img1.png" alt="Image Description">
+            <img class="img-fluid" src="{{ practice.image1 }}" alt="Image Description">
 
             <!-- SVG Shape -->
             <figure class="position-absolute top-0 end-0 mt-n7 me-n7" style="width: 10rem;">
-              <img class="img-fluid" src="/svg/components/dots-warning.svg" alt="Image Description">
+              <img class="img-fluid" src="{{ practice.image2 }}" alt="Image Description">
             </figure>
             <!-- End SVG Shape -->
           </div>
@@ -30,49 +30,27 @@
         <div class="col-lg-7">
           <div class="pe-lg-5">
             <div class="mb-5">
-              <h2>Conseil en Organisation et SI</h2>
-              <p>Mise en oeuvre de solutions et de compétences adaptées aux besoins d'évolution des organisations</p>
+              <h2>{{ practice.designation }}</h2>
+              <p>{{ practice.IntroductionShort | raw }}</p>
             </div>
+
+          
 
             <!-- End List Checked -->
-            <div class="row border-bottom pb-3 mb-3">
-            <div class="col-6">
-              <a class="link link-secondary link-pointer" href={{ path('services')}}>Assistance à maîtrise d'ouvrage métier et SI</a>
-            </div>
-            <!-- End Col -->
-
-            <div class="col-6">
-              <a class="link link-secondary link-pointer" href="#">Gouvernance des SI</a>
-            </div>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
-
           <div class="row border-bottom pb-3 mb-3">
-            <div class="col-6">
-              <a class="link link-secondary link-pointer" href="#">Management des processus</a>
+            {% for service in practice.services %}
+            <div class="col-12 py-2">
+              <a class="link link-secondary link-pointer" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
             </div>
             <!-- End Col -->
-
-            <div class="col-6">
-              <a class="link link-secondary link-pointer" href="#">Management des données</a>
-            </div>
-            <!-- End Col -->
+            {% endfor %}
+          
+            
           </div>
           <!-- End Row -->
 
-          <div class="row">
-            <div class="col-6">
-              <a class="link link-secondary link-pointer" href="#">Plan stratégique et pilotage des projets d'entreprise</a>
-            </div>
-            <!-- End Col -->
-
-            <div class="col-6">
-              {# <a class="link link-secondary link-pointer" href="#">Retirement savings</a> #}
-            </div>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
+      
+          
           </div>
         </div>
         <!-- End Col -->

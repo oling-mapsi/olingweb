@@ -99,39 +99,31 @@
     </div>
     <!-- End Heading -->
 
+
+
     <!-- Step Features -->
     <div class="container">
       <!-- List Step -->
       <ul class="list-unstyled list-step list-py-3 mb-0">
-
+        {% for practice in practices %}
         <li class="list-step-item">
           <div class="position-relative rounded-3 py-8 px-4 px-md-10">
             <div class="row align-items-lg-center">
               <div class="col-lg-5 mb-7 mb-lg-0">
                 <div class="pe-lg-5">
                   <div class="mb-5">
-                    <span class="text-cap text-primary">Conseil en Organisation et SI</span>
-                    <h2>Optimisons ensemble votre organisation et votre SI</h2>
-                    <p>Nous mettons à disposition les compétences essentielles pour co-élaborer des stratégies et des solutions organisationnelles et technologiques sur mesure, répondant à vos besoins de développement et de transformation</p>
+                    <span class="text-cap text-primary">{{ practice.designation }}</span>
+                    <h2>{{ practice.introduction }}</h2>
+                    <p>{{ practice.DescriptionShort }}</p>
                   </div>
 
-                  {# <!-- List Checked -->
-                  <ul class="list-checked list-checked-primary mb-7">
-                    <li class="list-checked-item">Assistance à maîtrise d'ouvrage métier et SI</li>
-                    <li class="list-checked-item">Gouvernance des SI</li>
-                    <li class="list-checked-item">Management des processus</li>
-                    <li class="list-checked-item">Management des données</li>
-                    <li class="list-checked-item">Plan stratégique et pilotage des projets d'entreprise</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class="link link-pointer" href={{ path('practices')}}>En savoir plus</a>
+                  <a class="link link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
                 </div>
               </div>
               <!-- End Col -->
 
               <div class="col-lg-7">
-                <img class="img-fluid" src="/img/mockups/img1.png" alt="Image Description">
+                <img class="img-fluid" src="{{ practice.image1 }}" alt="Image Description">
               </div>
               <!-- End Col -->
             </div>
@@ -140,123 +132,9 @@
             <div class="position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5"></div>
           </div>
         </li>
+        {% endfor %}
 
-        <li class="list-step-item">
-          <div class="position-relative rounded-3 py-8 px-4 px-md-10">
-            <div class="row align-items-lg-center">
-              <div class="col-lg-5 mb-7 mb-lg-0">
-                <div class="pe-lg-5">
-                  <div class="mb-5">
-                    <span class="text-cap text-primary">Audit et expertises</span>
-                    <h2>Un regard externe pour améliorer votre organisation</h2>
-                    <p>OLING offre des services d'audit et d'expertises pour aider les entreprises à atteindre leurs objectifs de pilotage, de contrôle et de conformité.</p>
-                  </div>
-
-
-                  {# <!-- List Checked -->
-                  <ul class="list-checked list-checked-primary mb-7">
-                    <li class="list-checked-item">Contrôle de gestion</li>
-                    <li class="list-checked-item">Organisation et processus</li>
-                    <li class="list-checked-item">SMI QSE</li>
-                    <li class="list-checked-item">RSE</li>
-                    <li class="list-checked-item">FINANCES</li>
-                    <li class="list-checked-item">RGPD</li>
-                    <li class="list-checked-item">Contrôle interne</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class="link link-pointer" href="#">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class="col-lg-7">
-                <img class="img-fluid" src="/img/mockups/img2.png" alt="Image Description">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class="position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5"></div>
-          </div>
-        </li>
-
-        <li class="list-step-item">
-          <div class="position-relative rounded-3 py-8 px-4 px-md-10">
-            <div class="row align-items-lg-center">
-              <div class="col-lg-5 mb-7 mb-lg-0">
-                <div class="pe-lg-5">
-                  <div class="mb-5">
-                    <span class="text-cap text-primary">Business Apps</span>
-                    <h2>Des applications métier sur mesure pour votre organisation</h2>
-                    <p>OLING offre des services essentiels d'analyse, de conception, d'accompagnement à l'intégration et de développement d'applications métier, permettant aux entreprises de maîtriser efficacement leurs données et processus grâce à l'adoption des solutions appropriées.</p>
-                  </div>
-
-                  {# <!-- List Checked -->
-                  <ul class="list-checked list-checked-primary mb-7">
-                    <li class="list-checked-item">Conception, déploiement, AMOA, AMOE des solutions applicatives ERP</li>
-                    <li class="list-checked-item">Informatique analytique et BI</li>
-                    <li class="list-checked-item">GED/GEC</li>
-                    <li class="list-checked-item">SIG</li>
-                    <li class="list-checked-item">Développement d'applications métier</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class="link link-pointer" href="#">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class="col-lg-7">
-                <img class="img-fluid" src="/img/mockups/img3.png" alt="Image Description">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class="position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5"></div>
-          </div>
-        </li>
-
-        <li class="list-step-item">
-          <div class="position-relative rounded-3 py-8 px-4 px-md-10">
-            <div class="row align-items-lg-center">
-              <div class="col-lg-5 mb-7 mb-lg-0">
-                <div class="pe-lg-5">
-                  <div class="mb-5">
-                    <span class="text-cap text-primary">Microsoft 365</span>
-                    <h2>La transformation digitale, avec Microsoft 365 et OLING</h2>
-                    <p>La transformation numérique, avec Microsoft 365 et OLING
-OLING propose des services de transformation numérique avec la suite Microsoft 365 pour aider les organisations publiques et privées à collaborer et à s'adapter aux évolutions technologiques.</p>
-                  </div>
-
-                  {# <!-- List Checked -->
-                  <ul class="list-checked list-checked-primary mb-7">
-                    <li class="list-checked-item">Mise en place de solutions digitales avec Microsoft 365</li>
-                    <li class="list-checked-item">Arborescence métier</li>
-                    <li class="list-checked-item">Administration Azure AD</li>
-                    <li class="list-checked-item">Messagerie et calendrier</li>
-                    <li class="list-checked-item">Collaboratif</li>
-                    <li class="list-checked-item">Conseil en stratégie digitale</li>
-                    <li class="list-checked-item">Accompagnement au changement</li>
-                  </ul>
-                  <!-- End List Checked --> #}
-
-                  <a class="link link-pointer" href="#">En savoir plus</a>
-                </div>
-              </div>
-              <!-- End Col -->
-
-              <div class="col-lg-7">
-                <img class="img-fluid" src="/img/mockups/img2.png" alt="Image Description">
-              </div>
-              <!-- End Col -->
-            </div>
-            <!-- End Row -->
-
-            <div class="position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5"></div>
-          </div>
-        </li>
+        
       </ul>
       <!-- End List Step -->
     </div>

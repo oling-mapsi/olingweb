@@ -9,9 +9,9 @@
     <div class="bg-gradient-to-bottom-sm-light">
     <div class="container content-space-t-3 content-space-t-lg-4">
         <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-lg-10">
-        <span class="text-cap">Conseil en organisation et système d'information</span>
-        <h1>Assistance à maitrise d'ouvrage</h1>
-        <p class="lead">L'Assistance à Maîtrise d'Ouvrage (AMOA) est un service clé proposé par OLING pour accompagner la mise en œuvre de leurs projets d'entreprise dans les domaines fonctionnels et informatiques</p>
+        <span class="text-cap">{{ service.DesignationShort }}</span>
+        <h1>{{ service.designation }}</h1>
+        <p class="lead">{{ service.IntroductionShort }}</p>
         </div>
 
     </div>
@@ -30,30 +30,15 @@
                 <a href={{ path('index')}}>Accueil</a>
             </li>
             <li class="breadcrumb-item">
-                <a href={{ path('practices')}}>Consulting</a>
+                <a href={{path('practice',{'slug' : service.practice.slug, 'id' : service.practice.id} ) }}>{{ service.practice.designation }}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Assistance à maitrise d'ouvrage</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
             </ol>
         </nav>
         <!-- End Breadcrumb -->
 
-        <div class="mb-4">
-            <p>OLING dispose d'une équipe d'experts possédant une connaissance approfondie des enjeux régionaux et nationaux, une longue expérience des problématiques d'entreprise et une expertise méthodologique de très haut niveau dans divers domaines tels que les infrastructures, les applications, les systèmes, la finance, les ressources humaines, le négoce et la normalisation. Ces compétences leur permettent de fournir un soutien personnalisé et adapté aux besoins de chaque client, en fonction de la taille, du secteur et des spécificités de chaque organisation.</p>
-        </div>
-
-        <h4>L'approche d'OLING en matière d'AMOA est structurée autour des étapes clés suivantes</h4>
-
-        <ul class="list-py-1">
-            <li><span class="fw-bold">Analyse des besoins et cadrage : </span>OLING travaille en étroite collaboration avec le client pour comprendre et définir les objectifs, les exigences et les contraintes du projet.</li>
-            <li><span class="fw-bold">Planification et organisation : </span>OLING élabore un plan détaillé du projet, incluant les ressources nécessaires, les échéances et les jalons clés.<span class="fw-bold">24-48 hours</span>.</li>
-            <li><span class="fw-bold">Sélection et pilotage des prestataires : </span>OLING aide le client à choisir les prestataires adaptés et assure le suivi de leur performance tout au long du projet.</li>
-            <li><span class="fw-bold">Procédures d'achat et de marchés : </span>OLING accompagne le client dans la préparation des documents de consultation des entreprises (DCE) et la rédaction des cahiers des clauses techniques particulières (CCTP), en veillant à la conformité aux réglementations en vigueur.</li>
-            <li><span class="fw-bold">Coordination et communication : </span>OLING facilite la communication entre les différentes parties prenantes et veille à la bonne coordination des actions pour assurer la réussite du projet. </li>
-            <li><span class="fw-bold">Contrôle et suivi des risques : </span>OLING identifie et évalue les risques potentiels, met en place des plans de mitigation et assure un suivi régulier pour minimiser leur impact sur le projet. </li>
-            <li><span class="fw-bold">Validation et recette : OLING vérifie que les livrables sont conformes aux exigences définies et valide leur qualité avant leur mise en production.</span> </li>
-        </ul>
-
-        <p>En résumé, l'offre d'Assistance à Maîtrise d'Ouvrage d'OLING permet aux entreprises de bénéficier d'un accompagnement expert et structuré pour la mise en œuvre de leurs projets, en garantissant une meilleure maîtrise des coûts, des délais et de la qualité des livrables.</p>
+        
+        {{ service.description  | raw }}
 
         <div class="bg-soft-primary text-center rounded py-6 px-5 mt-10">
             <div class="mb-3">
@@ -87,25 +72,19 @@
                 "endPoint": "#stickyBlockEndPointEg3",
                 "stickyOffsetTop": 20
             }'>
-            <h5>Nos autres services Consulting</h5>
+            <h5>Nos services {{ service.practice.designation }}</h5>
 
             <!-- List -->
             <ul class="list-pointer list-pointer-secondary">
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">Managing my account</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">Budgeting and Analytics</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">Exchanging money</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">How do I get help with the theme I purchased?</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">What version of Bootstrap are the themes built on?</a>
-                </li>
+
+                {% for serv in services %}
+                    {% if serv.practice == service.practice %}
+                    <li class="list-pointer-item">
+                        <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'id' : serv.id, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
             </ul>
             <!-- End List -->
             </div>

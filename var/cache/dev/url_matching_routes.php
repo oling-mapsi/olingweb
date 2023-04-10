@@ -15,10 +15,8 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\PracticeController::index'], null, null, null, false, false, null]],
-        '/practices' => [[['_route' => 'practices', '_controller' => 'App\\Controller\\PracticeController::practices'], null, null, null, false, false, null]],
         '/discloser' => [[['_route' => 'discloser', '_controller' => 'App\\Controller\\PracticeController::discloser'], null, null, null, false, false, null]],
         '/contact' => [[['_route' => 'contact', '_controller' => 'App\\Controller\\PracticeController::contact'], null, null, null, false, false, null]],
-        '/services' => [[['_route' => 'services', '_controller' => 'App\\Controller\\PracticeController::services'], null, null, null, false, false, null]],
         '/metiers' => [[['_route' => 'metiers', '_controller' => 'App\\Controller\\PracticeController::metiers'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -38,6 +36,10 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
+                .'|/([^/]++)/([^/]++)(?'
+                    .'|(*:190)'
+                    .'|/([^/]++)(*:207)'
+                .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -47,8 +49,10 @@ return [
         116 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        159 => [
-            [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
+        159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        190 => [[['_route' => 'practice', '_controller' => 'App\\Controller\\PracticeController::practices'], ['id', 'slug'], null, null, false, true, null]],
+        207 => [
+            [['_route' => 'service', '_controller' => 'App\\Controller\\PracticeController::services'], ['practice', 'id', 'slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

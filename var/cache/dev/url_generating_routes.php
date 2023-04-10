@@ -20,6 +20,7 @@ return [
     'practice' => [['id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::practices'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true]], [], [], []],
     'service' => [['practice', 'id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::services'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true], ['variable', '/', '[^/]++', 'practice', true]], [], [], []],
     'discloser' => [[], ['_controller' => 'App\\Controller\\PracticeController::discloser'], [], [['text', '/discloser']], [], [], []],
+    'apropos' => [[], ['_controller' => 'App\\Controller\\PracticeController::apropos'], [], [['text', '/a_propos']], [], [], []],
     'contact' => [[], ['_controller' => 'App\\Controller\\PracticeController::contact'], [], [['text', '/contact']], [], [], []],
     'metiers' => [[], ['_controller' => 'App\\Controller\\PracticeController::metiers'], [], [['text', '/metiers']], [], [], []],
 ];

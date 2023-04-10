@@ -283,7 +283,10 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">A propos de OLING <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href=";
+        // line 163
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("apropos");
+        echo ">A propos de OLING </a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">MAPSI <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
@@ -470,7 +473,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  444 => 121,  431 => 15,  421 => 14,  408 => 11,  398 => 10,  379 => 6,  346 => 221,  276 => 153,  265 => 151,  261 => 150,  244 => 136,  228 => 122,  226 => 121,  211 => 109,  195 => 95,  180 => 85,  169 => 83,  165 => 82,  154 => 74,  148 => 71,  143 => 69,  139 => 68,  121 => 57,  111 => 49,  107 => 48,  85 => 29,  81 => 28,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  447 => 121,  434 => 15,  424 => 14,  411 => 11,  401 => 10,  382 => 6,  349 => 221,  288 => 163,  276 => 153,  265 => 151,  261 => 150,  244 => 136,  228 => 122,  226 => 121,  211 => 109,  195 => 95,  180 => 85,  169 => 83,  165 => 82,  154 => 74,  148 => 71,  143 => 69,  139 => 68,  121 => 57,  111 => 49,  107 => 48,  85 => 29,  81 => 28,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -637,7 +640,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
-                    <li><a class=\"link link-light link-light-75\" href=\"#\">A propos de OLING <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
+                    <li><a class=\"link link-light link-light-75\" href={{path('apropos') }}>A propos de OLING </a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">L'Equipe </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">Notre démarche RSE</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"#\">MAPSI <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>

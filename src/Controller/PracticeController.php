@@ -91,6 +91,22 @@ class PracticeController extends AbstractController
         ]);
     }
 
+    #[Route('/a_propos', name: 'apropos')]
+    public function apropos(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices
+        ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('about.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
+
     #[Route('/contact', name: 'contact')]
     public function contact(
         PracticeRepository $repopractice,

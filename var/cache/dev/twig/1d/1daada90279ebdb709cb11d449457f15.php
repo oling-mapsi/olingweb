@@ -206,7 +206,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- Sign up -->
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href=";
+                        <a class=\"btn btn-sm btn-primary d-none d-lg-inline-block\" href=";
         // line 109
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">Contactez-nous</a>
@@ -238,7 +238,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             
                 <div class=\"col-md-auto\">
                     <div class=\"d-grid d-sm-flex gap-3\">
-                        <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
+                        <a class=\"btn btn-primary btn-pointer\" href=\"#\">S'abonner à notre newsletter</a>
                         <a class=\"btn btn-ghost-light btn-pointer\" href=";
         // line 136
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
@@ -586,7 +586,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
                     <!-- Sign up -->
                     <li class=\"nav-item\">
-                        <a class=\"btn btn-primary d-none d-lg-inline-block\" href={{ path('contact')}}>Contactez-nous</a>
+                        <a class=\"btn btn-sm btn-primary d-none d-lg-inline-block\" href={{ path('contact')}}>Contactez-nous</a>
                     </li>
                     <!-- End Sign up -->
                     </ul>
@@ -612,7 +612,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
             
                 <div class=\"col-md-auto\">
                     <div class=\"d-grid d-sm-flex gap-3\">
-                        <a class=\"btn btn-primary\" href=\"#\">Découvrir</a>
+                        <a class=\"btn btn-primary btn-pointer\" href=\"#\">S'abonner à notre newsletter</a>
                         <a class=\"btn btn-ghost-light btn-pointer\" href={{ path('contact')}}>Contactez nous</a>
                     </div>
                 </div>

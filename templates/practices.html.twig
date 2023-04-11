@@ -6,8 +6,8 @@
 <body>
   
 
-    <!-- Features -->
-    <div class="container content-space-3 content-space-lg-4">
+  <!-- Features -->
+  <div class="container content-space-2 content-space-lg-3">
     <div class="bg-light rounded-3 p-4 p-sm-8 p-lg-10 mx-md-n7 mx-lg-n10">
       <div class="row align-items-lg-center">
         <div class="col-lg-5 order-lg-2 mb-10 mb-lg-0">
@@ -16,7 +16,7 @@
               <img class="img-fluid rounded-3" src="/img/mockups/accenture.webp" alt="Image Description">
             </div> #}
 
-            <img class="img-fluid" src="{{ practice.image1 }}" alt="Image Description">
+            <img class="img-fluid rounded" src="{{ practice.image1 }}" alt="Image Description">
 
             <!-- SVG Shape -->
             <figure class="position-absolute top-0 end-0 mt-n7 me-n7" style="width: 10rem;">
@@ -34,29 +34,25 @@
               <p>{{ practice.IntroductionShort | raw }}</p>
             </div>
 
-          
-
-            <!-- End List Checked -->
-          <div class="row border-bottom pb-3 mb-3">
-            {% for service in practice.services %}
-            <div class="col-12 py-2">
-              <a class="link link-secondary link-pointer" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
+            <div class="row pb-1 mb-1">
+              <!-- List -->
+              <ul class="list-equal-height list-equal-height-2-cols">
+                {% for service in practice.services %}
+                <li class="list-equal-height-item p-1 border border-light">
+                  <a class="link link-secondary link-pointer" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              <!-- End List -->
             </div>
-            <!-- End Col -->
-            {% endfor %}
-          
-            
+            <!-- End Row -->
           </div>
           <!-- End Row -->
-
-      
-          
-          </div>
         </div>
-        <!-- End Col -->
       </div>
-      <!-- End Row -->
+      <!-- End Col -->
     </div>
+    <!-- End Row -->
   </div>
     <!-- End Features -->
 

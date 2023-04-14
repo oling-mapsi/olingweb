@@ -341,12 +341,26 @@
     <service id="App\Entity" class="App\Entity" abstract="true">
       <tag name="container.excluded" source="in &quot;config/services.yaml&quot;"/>
     </service>
+    <service id="App\Controller\ContactController" class="App\Controller\ContactController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.CshazM0.App\Controller\ContactController"/>
+      </call>
+    </service>
     <service id="App\Controller\PracticeController" class="App\Controller\PracticeController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.CshazM0.App\Controller\PracticeController"/>
       </call>
+    </service>
+    <service id="App\Form\EmailType" class="App\Form\EmailType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Repository\EmailRepository" class="App\Repository\EmailRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\PracticeRepository" class="App\Repository\PracticeRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
@@ -1200,9 +1214,11 @@
       <argument type="service" id="form.registry"/>
       <argument type="collection">
         <argument>Symfony\Component\Form\Extension\Core\Type</argument>
+        <argument>App\Form</argument>
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>App\Form\EmailType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FileType</argument>
@@ -3373,7 +3389,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.y4dplYt"/>
+      <argument type="service" id=".service_locator.Z3tqLyK"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -4524,7 +4540,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.yD1k08Z"/>
+      <argument type="service" id=".service_locator.Q0QkNw7"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -6500,9 +6516,16 @@
         <argument key="_default" type="service_closure" id="webpack_encore.entrypoint_lookup[_default]"/>
       </argument>
     </service>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\EmailType" class="App\Form\EmailType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\EmailType" class="App\Form\EmailType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\EmailRepository" class="App\Repository\EmailRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\EmailRepository" class="App\Repository\EmailRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PracticeRepository" class="App\Repository\PracticeRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\PracticeRepository" class="App\Repository\PracticeRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ServicesRepository" class="App\Repository\ServicesRepository" autowire="true" abstract="true"/>
@@ -6844,6 +6867,12 @@
         <argument key="loader" type="service_closure" id=".errored..service_locator.y4_Zrx..Symfony\Component\Config\Loader\LoaderInterface"/>
       </argument>
     </service>
+    <service id=".service_locator.uVvF4gL" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="mailer" type="service_closure" id="mailer.mailer"/>
+      </argument>
+    </service>
     <service id=".service_locator.gUI2hNX" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6851,27 +6880,45 @@
         <argument key="reposervices" type="service_closure" id="App\Repository\ServicesRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.VUQ.Bab" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.54JgmIc" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="App\Controller\ContactController::sendEmail" type="service_closure" id=".service_locator.uVvF4gL"/>
+        <argument key="App\Controller\PracticeController::addEmail" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\PracticeController::apropos" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController::client" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::contact" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::discloser" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::index" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::metiers" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController::polrgpd" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::practices" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController::rse" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::services" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController::team" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
+        <argument key="App\Controller\ContactController:sendEmail" type="service_closure" id=".service_locator.uVvF4gL"/>
+        <argument key="App\Controller\PracticeController:addEmail" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\PracticeController:apropos" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController:client" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:contact" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:discloser" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:index" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:metiers" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController:polrgpd" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:practices" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController:rse" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:services" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\PracticeController:team" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
       </argument>
@@ -7045,9 +7092,10 @@
       <argument type="service" id="debug.argument_resolver.not_tagged_controller.inner"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.y4dplYt" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Z3tqLyK" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Form\EmailType" type="service_closure" id="App\Form\EmailType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service_closure" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service_closure" id="form.type.choice"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ColorType" type="service_closure" id="form.type.color"/>
@@ -7141,9 +7189,10 @@
         <argument key="doctrine.orm.messenger.doctrine_schema_subscriber" type="service_closure" id="doctrine.orm.messenger.doctrine_schema_subscriber"/>
       </argument>
     </service>
-    <service id=".service_locator.yD1k08Z" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Q0QkNw7" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Repository\EmailRepository" type="service_closure" id="App\Repository\EmailRepository"/>
         <argument key="App\Repository\PracticeRepository" type="service_closure" id="App\Repository\PracticeRepository"/>
         <argument key="App\Repository\ServicesRepository" type="service_closure" id="App\Repository\ServicesRepository"/>
       </argument>
@@ -7409,6 +7458,12 @@
         <argument key="serializer" type="service_closure" id="debug.serializer" on-invalid="ignore"/>
         <argument key="twig" type="service_closure" id="twig" on-invalid="ignore"/>
       </argument>
+    </service>
+    <service id=".service_locator.CshazM0.App\Controller\ContactController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ContactController"/>
+      <argument>App\Controller\ContactController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.CshazM0" method="withContext"/>
     </service>
     <service id=".service_locator.CshazM0.App\Controller\PracticeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\PracticeController"/>
@@ -7693,12 +7748,12 @@
     <service id="debug.argument_resolver.request.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver"/>
     <service id="debug.argument_resolver.session.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver"/>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.VUQ.Bab"/>
+      <argument type="service" id=".service_locator.54JgmIc"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.VUQ.Bab"/>
+      <argument type="service" id=".service_locator.54JgmIc"/>
     </service>
     <service id="debug.traced.messenger.bus.default.inner" class="Symfony\Component\Messenger\MessageBus">
       <argument type="iterator">
@@ -8672,7 +8727,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.VUQ.Bab"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.54JgmIc"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -8694,9 +8749,9 @@
     <service id=".service_locator.h8Jkkd2" alias="messenger.retry_strategy_locator"/>
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~4JdmOdK"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
-    <service id=".service_locator.V_MGnUE" alias=".service_locator.VUQ.Bab"/>
+    <service id=".service_locator.ISDnCqm" alias=".service_locator.54JgmIc"/>
     <service id=".service_locator.z7kAUPH" alias=".service_locator.vp1pfih"/>
-    <service id=".service_locator.Za9MpXe" alias=".service_locator.y4dplYt"/>
+    <service id=".service_locator.dRCZfFj" alias=".service_locator.Z3tqLyK"/>
     <service id=".service_locator.XW18Svm" alias=".service_locator.TcKhdzh"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.VZoQk0z" alias=".service_locator.CshazM0"/>
@@ -8745,7 +8800,9 @@
     <service id="messenger.bus.default" alias="debug.traced.messenger.bus.default"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
+    <service id=".service_locator.OJmnvRJ" alias=".service_locator.uVvF4gL"/>
     <service id=".service_locator._ZPx4Q1" alias=".service_locator.gUI2hNX"/>
+    <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
     <service id=".service_locator.Kyflpr1" alias=".service_locator.CshazM0"/>
     <service id=".service_locator.u6DWx23" alias=".service_locator.cXsfP3P"/>
     <service id=".service_locator.hnz5ZNh" alias=".service_locator.0TACwl3"/>

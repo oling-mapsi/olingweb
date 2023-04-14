@@ -263,7 +263,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               <a class=\"link link-pointer\" href=";
         // line 156
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
-        echo ">Découvrez notre méthode</a>
+        echo ">Découvrez notre approche par secteur d'activité</a>
           </div>
           <!-- End Col -->
         </div>
@@ -484,7 +484,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
               </div>
 
-              <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez notre méthode</a>
+              <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez notre approche par secteur d'activité</a>
           </div>
           <!-- End Col -->
         </div>

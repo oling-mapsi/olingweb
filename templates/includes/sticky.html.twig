@@ -1,0 +1,57 @@
+<div id="stickyBlockStartPointEg1">
+    <!-- Socials -->
+    <ul class="js-sticky-block list-pointer list-pointer-secondary  position-md-absolute top-0 start-0 col-md-3 col-lg-4 mt-5 mt-md-0"
+        data-hs-sticky-block-options='{
+        "parentSelector": "#stickyBlockStartPointEg1",
+        "targetSelector": "#header",
+        "breakpoint": "md",
+        "startPoint": "#listOfSocialLinks",
+        "endPoint": "#stickyBlockEndPointEg1",
+        "stickyOffsetTop": 130
+    }'>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('apropos')}}>{% if app.request.pathinfo == '/a_propos' %}<strong> {% endif %}A propos de OLING{% if app.request.pathinfo == '/a_propos' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('metiers')}}>{% if app.request.pathinfo == '/metiers' %}<strong> {% endif %}Secteurs d'activité{% if app.request.pathinfo == '/metiers' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('client')}}>{% if app.request.pathinfo == '/client' %}<strong> {% endif %}Principales références{% if app.request.pathinfo == '/client' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('team')}}>{% if app.request.pathinfo == '/team' %}<strong> {% endif %}Notre équipe{% if app.request.pathinfo == '/team' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('rse')}}>{% if app.request.pathinfo == '/rse' %}<strong> {% endif %}Charte RSE{% if app.request.pathinfo == '/rse' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href="https://web.mapsi.fr/">Mapsi</a></span>
+            </div>
+        </div>
+    </li>
+    
+    </ul>
+    <!-- End Socials -->
+</div>

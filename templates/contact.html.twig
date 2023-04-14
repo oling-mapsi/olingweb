@@ -7,91 +7,45 @@
   
 
   <!-- Card Grid -->
-<div class="container content-space-t-4">
-  <div class="text-center mb-7">
-    <h1>Comment pouvons nous vous aider ?</h1>
-  </div>
-
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2">
-    <div class="col mb-6 mb-lg-0">
-      <!-- Card -->
-      <div class="card card-lg text-center h-100">
-        <div class="card-body">
-          <div class="mb-3">
-            <i class="bi-person-circle fs-1 text-dark"></i>
-          </div>
-
-          <div class="mb-5">
-            <h4>Bureau de Paris - France</h4>
-          </div>
-
-          <div class="mb-5">
-            <span class="d-block">Du lundi au vendredi</span>
-            <span class="d-block">8h à 18h du lundi au vendredi</span>
-          </div>
-
-          <div class="d-grid mb-3">
-            <a class="btn btn-white" href="mailto:Contact@oling.fr"><i class="bi-envelope-open me-2"></i> Contact@oling.fr</a>
-          </div>
-
-          <a class="btn btn-ghost-dark btn-sm" href="#"><i class="bi-telephone me-2"></i> (+33) 06 07 80 00 86</a>
+<div class="container content-space-3 content-space-lg-3">
+  <div class="bg-dark rounded-3 p-9 mb-10">
+    <div class="row">
+      <div class="col-md-7 mb-8 mb-lg-0">
+        <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> Formulaire de contact</span>
+        <div class="w-md-75 mb-5">
+          <h2 class="text-white">Comment pouvons-nous vous aider ?</h2>
+          <p class="text-white-70"></p>
         </div>
       </div>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-
-
-    <div class="col mb-6 mb-lg-0">
-      <!-- Card -->
-      <div class="card card-lg text-center h-100">
-        <div class="card-body">
-          <div class="mb-3">
-            <i class="bi-person-circle fs-1 text-dark"></i>
-          </div>
-
-          <div class="mb-5">
-            <h4>Bureau de Guadeloupe</h4>
-          </div>
-
-          <div class="mb-5">
-            <span class="d-block">Du lundi au vendredi</span>
-            <span class="d-block">8h à 18h du lundi au vendredi</span>
-          </div>
-
-          <div class="d-grid mb-3">
-            <a class="btn btn-white" href="mailto:Contact@oling.fr"><i class="bi-envelope-open me-2"></i> Contact@oling.fr</a>
-          </div>
-
-          <a class="btn btn-ghost-dark btn-sm" href="#"><i class="bi-telephone me-2"></i> (+33) 06 90 23 90 80</a>
-        </div>
+      <!-- End Col -->
+      <div class="col-md-6">
       </div>
-      <!-- End Card -->
+      <!-- End Col -->
     </div>
-    <!-- End Col -->
+    <!-- End Row -->
   </div>
-  <!-- End Row -->
-</div>
-<!-- End Card Grid -->
 
-<!-- Contact Form -->
-<div class="overflow-hidden">
-  <div class="container content-space-2">
+
     <div class="row">
       <div class="col-lg-5 mb-10 mb-lg-0">
         <div class="pe-lg-10">
           <div class="mb-5">
-            <h3>Notre bureau</h3>
+            <h3>Nos bureaux</h3>
           </div>
-
-         
-
           <!-- Info -->
           <address>
-            <span class="d-block fs-3 fw-bold text-dark mb-2">Siège</span>
+            <span class="d-block fs-3 fw-bold text-dark mb-2">Agence de Paris</span>
+            4 allée Maximilien Luce<br>
+            92130 ISSY LES MOULINEAUX<br>
+            FRANCE
+          </address>
+          <!-- End Info -->
+          <!-- Info -->
+          <address>
+            <span class="d-block fs-3 fw-bold text-dark mb-2">Agence de Guadeloupe</span>
             51 rue Henri Becquerel<br>
             ZI Jarry<br>
-            97 122 BAIE MAHAULT<br>
+            97122 BAIE MAHAULT<br>
             GUADELOUPE - FRANCE
           </address>
           <!-- End Info -->
@@ -105,15 +59,15 @@
           <div class="card card-lg">
             <!-- Card Body -->
             <div class="card-body">
-              <h4 class="mb-4">Prenons contact</h4>
+              <h4 class="mb-4">Envoyez nous un email</h4>
 
-              <form>
+              <form id="contact-form">
                 <div class="row">
                   <div class="col-sm-6 mb-4 mb-sm-0">
                     <!-- Form -->
                     <div class="mb-4">
                       <label class="form-label" for="contactsFormFirstName">Prénom</label>
-                      <input type="text" class="form-control" name="contactsFormNameFirstName" id="contactsFormFirstName" placeholder="Jacob" aria-label="Jacob">
+                      <input type="text" class="form-control" name="contactsFormNameFirstName" id="contactsFormFirstName" placeholder="Prénom" aria-label="Prénom">
                     </div>
                     <!-- End Form -->
                   </div>
@@ -123,7 +77,7 @@
                     <!-- Form -->
                     <div class="mb-4">
                       <label class="form-label" for="contactsFormLasttName">Nom</label>
-                      <input type="text" class="form-control" name="contactsFormNameLastName" id="contactsFormLasttName" placeholder="Williams" aria-label="Williams">
+                      <input type="text" class="form-control" name="contactsFormNameLastName" id="contactsFormLasttName" placeholder="Nom" aria-label="Nom">
                     </div>
                     <!-- End Form -->
                   </div>
@@ -132,27 +86,14 @@
                 <!-- End Row -->
 
                 <div class="row">
-                  <div class="col-sm-6 mb-4 mb-sm-0">
-                    <!-- Form -->
-                    <div class="mb-4">
-                      <label class="form-label" for="contactsFormCompany">Société</label>
-                      <input type="text" class="form-control" name="contactsFormNameCompany" id="contactsFormCompany" placeholder="Htmlstream" aria-label="Htmlstream">
-                    </div>
-                    <!-- End Form -->
+                  <!-- Form -->
+                  <div class="mb-4">
+                    <label class="form-label" for="contactsFormCompany">Société</label>
+                    <input type="text" class="form-control" name="contactsFormNameCompany" id="contactsFormCompany" placeholder="Société" aria-label="Société">
                   </div>
-                  <!-- End Col -->
-
-                  <div class="col-sm-6">
-                    <!-- Form -->
-                    <div class="mb-4">
-                      <label class="form-label" for="contactsFormCompanyWebsite">Le site de votre société </label>
-                      <input type="text" class="form-control" name="contactsFormNameCompanyWebsite" id="contactsFormCompanyWebsite" placeholder="htmlstream.com" aria-label="htmlstream.com">
-                    </div>
-                    <!-- End Form -->
-                  </div>
-                  <!-- End Col -->
+                  <!-- End Form -->
                 </div>
-                <!-- End Row -->
+                <!-- End Col -->
 
                 <!-- Form -->
                 <div class="mb-4">
@@ -164,37 +105,24 @@
                 <!-- Form -->
                 <div class="mb-4">
                   <label class="form-label" for="contactsFormDetails">Votre message</label>
-                  <textarea class="form-control" name="contactsFormNameDetails" id="contactsFormDetails" placeholder="Tell us about your payment sales" aria-label="Tell us about your payment sales" rows="4"></textarea>
+                  <textarea class="form-control" name="contactsFormNameDetails" id="contactsFormDetails" placeholder="Donnez nous quelques éléments pour étudier votre besoins" aria-label="Donnez nous quelques éléments pour étudier votre besoins" rows="4"></textarea>
                 </div>
                 <!-- End Form -->
 
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+                  <button type="button" class="btn btn-primary btn-lg" id="button-send">Envoyer</button>
                 </div>
               </form>
             </div>
             <!-- End Card Body -->
           </div>
           <!-- End Card -->
-
-          <!-- SVG Shape -->
-          <figure class="position-absolute bottom-0 end-0 zi-n1 d-none d-md-block mb-n10" style="width: 15rem; margin-right: -8rem;">
-            <img class="img-fluid" src="/svg/illustrations/grid-grey.svg" alt="Image Description">
-          </figure>
-          <!-- End SVG Shape -->
-
-          <!-- SVG Shape -->
-          <figure class="position-absolute bottom-0 end-0 d-none d-md-block me-n5 mb-n5" style="width: 10rem;">
-            <img class="img-fluid" src="/svg/illustrations/plane.svg" alt="Image Description">
-          </figure>
-          <!-- End SVG Shape -->
         </div>
       </div>
       <!-- End Col -->
     </div>
     <!-- End Row -->
   </div>
-</div>
 <!-- End Contact Form -->
 
   

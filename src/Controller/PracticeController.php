@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
-use App\Entity\Practice;
-use App\Entity\Services;
-
+use App\Entity\Email;
+use App\Form\EmailType;
 use App\Repository\PracticeRepository;
 use App\Repository\ServicesRepository;
+use App\Repository\EmailRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository; // ajout de l'importation
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 class PracticeController extends AbstractController
 {
@@ -20,11 +22,13 @@ class PracticeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices
+        ServicesRepository $reposervices,
+        Request $request
         ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
+
         return $this->render('index.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -140,4 +144,119 @@ class PracticeController extends AbstractController
             'pract' => '',
         ]);
     }
+
+    #[Route('/team', name: 'team')]
+    public function team(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+    ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('team.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
+
+    #[Route('/client', name: 'client')]
+    public function client(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+    ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('client.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
+
+    #[Route('/rse', name: 'rse')]
+    public function rse(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+    ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('rse.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
+    #[Route('/politiquergpd', name: 'polrgpd')]
+    public function polrgpd(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+    ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('polrgpd.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
+    
+
+    #[Route('/add-email', name: 'add_email')]
+    public function addEmail(Request $request, EntityManagerInterface $entityManager)
+    {
+        // Récupérer les données du formulaire
+        $email = $request->request->get('email');
+
+        // Vérifier si l'email existe déjà en base de données
+        $emailExist = $entityManager->getRepository(Email::class)->findOneBy(['email' => $email]);
+
+        if ($emailExist) {
+            // Si l'email existe déjà, retourner une réponse JSON avec une erreur
+            $response = new JsonResponse();
+            $response->setData([
+                'success' => false,
+                'message' => 'Cet email existe déjà',
+            ]);
+            return $response;
+        }
+
+        // Vérifier que l'email est valide
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // Si l'email n'est pas valide, retourner une réponse JSON avec une erreur
+            $response = new JsonResponse();
+            $response->setData([
+                'success' => false,
+                'message' => 'L\'email n\'est pas valide',
+            ]);
+            return $response;
+        }
+
+        // Créer une nouvelle instance de Email
+        $newEmail = new Email();
+        $newEmail->setEmail($email);
+
+        // Enregistrer l'email dans la base de données
+        $entityManager->persist($newEmail);
+        $entityManager->flush();
+
+        // Retourner une réponse JSON
+        $response = new JsonResponse();
+        $response->setData([
+            'success' => true,
+            'message' => 'Merci pour votre inscription. Vous allez bientôt recevoir nos newsletters',
+        ]);
+
+        return $response;
+    }
+
+
+   
 }

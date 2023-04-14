@@ -14,11 +14,17 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/send-email' => [[['_route' => 'send_mail', '_controller' => 'App\\Controller\\ContactController::sendEmail'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\PracticeController::index'], null, null, null, false, false, null]],
         '/discloser' => [[['_route' => 'discloser', '_controller' => 'App\\Controller\\PracticeController::discloser'], null, null, null, false, false, null]],
         '/a_propos' => [[['_route' => 'apropos', '_controller' => 'App\\Controller\\PracticeController::apropos'], null, null, null, false, false, null]],
         '/contact' => [[['_route' => 'contact', '_controller' => 'App\\Controller\\PracticeController::contact'], null, null, null, false, false, null]],
         '/metiers' => [[['_route' => 'metiers', '_controller' => 'App\\Controller\\PracticeController::metiers'], null, null, null, false, false, null]],
+        '/team' => [[['_route' => 'team', '_controller' => 'App\\Controller\\PracticeController::team'], null, null, null, false, false, null]],
+        '/client' => [[['_route' => 'client', '_controller' => 'App\\Controller\\PracticeController::client'], null, null, null, false, false, null]],
+        '/rse' => [[['_route' => 'rse', '_controller' => 'App\\Controller\\PracticeController::rse'], null, null, null, false, false, null]],
+        '/politiquergpd' => [[['_route' => 'polrgpd', '_controller' => 'App\\Controller\\PracticeController::polrgpd'], null, null, null, false, false, null]],
+        '/add-email' => [[['_route' => 'add_email', '_controller' => 'App\\Controller\\PracticeController::addEmail'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

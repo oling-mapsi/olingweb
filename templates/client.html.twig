@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OLING{% endblock %}
+
+{% block body %}
+<body>
+      <!-- ========== MAIN CONTENT ========== -->
+<main id="content" role="main">
+    <!-- Description -->
+    <div class="container content-space-3">
+
+        <div class="bg-dark rounded-3 p-9 mb-10">
+            <div class="row">
+                <div class="col-md-6 mb-7 mb-lg-0">
+                    <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> Nos références</span>
+                    <div class="w-md-75 mb-5">
+                    <h2 class="text-white">Nos clients sont au cœur de notre démarche</h2>
+                    <p class="text-white-70">Nous travaillons avec une grande variété d'organisations, allant des PME aux grands groupes, dans des secteurs aussi divers que les infrastructures, les applications, les systèmes, la finance, les ressources humaines, le négoce et la normalisation</p>
+                    </div>
+                </div>
+                <!-- End Col -->
+
+                <div class="col-md-6">
+                    <!-- Icon Blocks -->
+                    <div class="d-grid gap-4">
+                        <!-- Media -->
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-file-earmark-text fs-2 text-light"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-5">
+                            <h5 class="text-white">Comprendre les besoins, précisement.</h5>
+                            <p class="text-white-70">En écoutant attentivement les enjeux spécifiques de chaque client, nous adaptons nos solutions pour répondre au mieux à leurs attentes.</p>
+                        </div>
+                        </div>
+                        <!-- End Media -->
+
+                        <!-- Media -->
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-chat-right-dots fs-2 text-light"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-5">
+                            <h5 class="text-white">Personnaliser l'offre pour un accompagnement sur-mesure </h5>
+                            <p class="text-white-70">Notre approche sur-mesure permet de proposer des stratégies et des solutions adaptées à chaque contexte organisationnel et technologique.<</p>
+                        </div>
+                        </div>
+                        <!-- End Media -->
+
+                        <!-- Media -->
+                        <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi-hand-thumbs-up fs-2 text-light"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-5">
+                            <h5 class="text-white">Cultiver des relations durables</h5>
+                            <p class="text-white-70">Nous mettons tout en œuvre pour créer un climat de confiance avec nos clients, en restant à leur écoute et en nous engageant à leurs côtés pour assurer leur réussite.</p>
+                        </div>
+                        </div>
+                        <!-- End Media -->
+                    </div>
+                    <!-- End Icon Blocks -->
+                </div>
+                <!-- End Col -->
+            </div>
+            <!-- End Row -->
+        </div>
+
+
+        <div id="listOfSocialLinks" class="position-relative">
+      
+
+            <div class="row mb-3">
+                <div class="col-10 col-md-7 col-lg-8 offset-1 offset-md-4">
+                <img class="img-fluid" src="/img/spe/clients.png" alt="Image Description">
+            </div>
+
+            {% include '/includes/sticky.html.twig' %}
+
+    
+            <!-- End Sticky End Point -->
+            <div id="stickyBlockEndPointEg1"></div>
+   
+    
+        </div>
+        <!-- End Description -->
+    </div>
+</main>
+<!-- ========== END MAIN CONTENT ========== -->
+</body>
+{% endblock %}

@@ -43,7 +43,7 @@
     --bs-warning-rgb: 243, 149, 104;
     --bs-danger-rgb: 105, 35, 64;
     --bs-light-rgb: 245, 247, 250;
-    --bs-dark-rgb: 45, 55, 75;
+    --bs-dark-rgb: 20, 15, 45;
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 0, 0, 0;
     --bs-body-color-rgb: 81, 89, 108;
@@ -18464,7 +18464,7 @@ input[type="number"] {
     position: absolute;
     left: 0;
     bottom: 0;
-    border: 0 solid rgba(220, 224, 229, 0.6);
+    border: 0 solid rgba(220, 224, 229, 0);
     content: "";
 }
 .list-equal-height-item::before {

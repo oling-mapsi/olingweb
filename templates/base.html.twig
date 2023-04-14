@@ -54,7 +54,7 @@
                             "maxWidth": "40rem"
                             }
                         }'>
-                        <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle {% if practice.slug == pract %}active{% endif %}" aria-current="page" href="#" role="button" aria-expanded="false">{{ practice.DesignationShort }}</a>
+                        <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle {% if practice.slug == pract %}active{% endif %}" aria-current="page" href="#" role="button" aria-expanded="false">{{ practice.designation }}</a>
 
                         <!-- Mega Menu -->
                         <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
@@ -72,7 +72,7 @@
                                     </div>
                                 <div class="mt-auto">
                                 <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
-                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Nos références</a></p>
+                                <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
                                 </div>
                             </div>
                             </div>
@@ -92,6 +92,12 @@
                     <!-- End Landings -->
 
                     {% endfor %}
+
+                    <!-- Landings -->
+                    <li class="nav-item">
+                        <a id="" class=" nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">A propos</a>
+                    </li>
+                    <!-- End Landings -->
 
 
 
@@ -132,8 +138,20 @@
             
                 <div class="col-md-auto">
                     <div class="d-grid d-sm-flex gap-3">
-                        <a class="btn btn-primary btn-pointer" href="#">S'abonner à notre newsletter</a>
-                        <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez nous</a>
+                        <div class="text-center mx-auto" style="max-width: 32rem;">
+                            <form id="newsletter-form">
+                            <!-- Input Card -->
+                            <div class="input-card border mb-5">
+                                <div class="input-card-form">
+                                <label for="titreformemail" class="form-label visually-hidden">Votre email</label>
+                                <input type="email" class="form-control form-control-lg" id="champsemail" placeholder="Votre email" aria-label="Enter email">
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg" id="envoiemail">S'inscrire à la newsletter</button>
+                            </div>
+                            <!-- End Input Card -->
+                            </form>
+                        </div>
+                        <!-- End Subscribe -->
                     </div>
                 </div>
                 <!-- End Col -->
@@ -161,16 +179,42 @@
                     <!-- List -->
                     <ul class="list-unstyled list-py-1 mb-0">
                     <li><a class="link link-light link-light-75" href={{path('apropos') }}>A propos de OLING </a></li>
-                    <li><a class="link link-light link-light-75" href="#">L'Equipe </a> <span class="fs-6 fw-bold text-primary">&mdash; Nous recrutons</span></li>
-                    <li><a class="link link-light link-light-75" href="#">Notre démarche RSE</a></li>
-                    <li><a class="link link-light link-light-75" href="#">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li><a class="link link-light link-light-75" href={{path('team') }}>L'Equipe </a> <span class="fs-6 fw-bold text-primary">&mdash; Nous recrutons</span></li>
+                    <li><a class="link link-light link-light-75" href={{path('rse') }}>Démarche RSE</a></li>
+                    <li><a class="link link-light link-light-75" href="https://web.mapsi.fr/" target="_blank">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
                     </ul>
                     <!-- End List -->
                 </div>
                 <!-- End Col -->
 
-                <div class="col-4 col-sm-4 col-lg mb-7 mb-lg-0">
-                   
+                               <div class="col-4 col-sm-4 col-lg">
+                    <span class="text-cap text-white">Contactez-nous</span>
+                    <!-- List -->
+                    <ul class="list-unstyled list-py-2 mb-0">
+                        <li>
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 text-light">
+                                    <i class="bi-building"></i>
+                                </div>
+
+                                <div class="flex-grow-1 ms-2 text-light">
+                                    <span class="text-light">51 rue Henri Becquerel, 97122 BAIE MAHAULT, Guadeloupe, France</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a class="link link-light link-light-75" href={{path('contact') }}>
+                            <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="bi-envelope"></i>
+                            </div>
+
+                            <div class="flex-grow-1 ms-2">
+                                <span>Envoyer un email</span>
+                            </div>
+                            </div>
+                        </a></li>
+                    </ul>
+                    <!-- End List -->
                 </div>
                 <!-- End Col -->
 
@@ -178,33 +222,31 @@
 
                 <div class="col-4 col-sm-4 col-lg">
                     <span class="text-cap text-white">Suivez-nous</span>
-
                     <!-- List -->
                     <ul class="list-unstyled list-py-2 mb-0">
-                    
-                    <li><a class="link link-light link-light-75" href="#">
-                        <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <i class="bi-linkedin"></i>
-                        </div>
+                        <li><a class="link link-light link-light-75" href="#">
+                            <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="bi-linkedin"></i>
+                            </div>
 
-                        <div class="flex-grow-1 ms-2">
-                            <span>Linkedin</span>
-                        </div>
-                        </div>
-                    </a></li>
-                    
-                    <li><a class="link link-light link-light-75" href="#">
-                        <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <i class="bi-twitter"></i>
-                        </div>
+                            <div class="flex-grow-1 ms-2">
+                                <span>Linkedin</span>
+                            </div>
+                            </div>
+                        </a></li>
+                        
+                        <li><a class="link link-light link-light-75" href="#">
+                            <div class="d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="bi-twitter"></i>
+                            </div>
 
-                        <div class="flex-grow-1 ms-2">
-                            <span>Twitter</span>
-                        </div>
-                        </div>
-                    </a></li>
+                            <div class="flex-grow-1 ms-2">
+                                <span>Twitter</span>
+                            </div>
+                            </div>
+                        </a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -217,7 +259,7 @@
                 <div class="col-md mb-3 mb-md-0">
                 <!-- List -->
                 <ul class="list-inline list-px-2 mb-0">
-                    <li class="list-inline-item"><a class="link link-light link-light-75" href="#">Politique générale de protection des données</a></li>
+                    <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('polrgpd')}}>Politique générale de protection des données</a></li>
                     <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('discloser')}}>Mentions légales</a></li>
                     <li class="list-inline-item">
 

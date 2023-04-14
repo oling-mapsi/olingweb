@@ -6,21 +6,15 @@
 <body>
 
     <!-- Hero -->
-    <div class="bg-gradient-to-bottom-sm-light">
-    <div class="container content-space-t-3 content-space-t-lg-4">
-        <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-lg-10">
-        <span class="text-cap">{{ service.DesignationShort }}</span>
-        <h1>{{ service.designation }}</h1>
-        <p class="lead">{{ service.IntroductionShort }}</p>
+    <div class="container content-space-3 content-space-lg-3">
+        <div class="consultingfiche rounded-3 p-9 mb-10">
+            <div class="w-lg-65 text-center mx-lg-auto">
+                <span class="text-cap text-white">{{ service.DesignationShort | raw }}</span>
+                <h2 class="text-white">{{ service.designation | raw }}</h1>
+                <p class="lead text-white-70">{{ service.IntroductionShort | raw }}</p>
+            </div>
         </div>
 
-    </div>
-    </div>
-    <!-- End Hero -->
-
-
-    <!-- Description -->
-    <div class="container content-space-1">
     <div class="row justify-content-lg-between">
         <div class="col-lg-8 order-lg-2">
         <!-- Breadcrumb -->
@@ -70,7 +64,7 @@
                 "breakpoint": "lg",
                 "startPoint": "#stickyBlockStartPointEg3",
                 "endPoint": "#stickyBlockEndPointEg3",
-                "stickyOffsetTop": 20
+                "stickyOffsetTop": 130
             }'>
             <h5>Nos services {{ service.practice.designation }}</h5>
 

@@ -113,7 +113,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"col-lg-6\">
         <div class=\"position-relative\">
           <div class=\"position-relative\">
-            <img class=\"img-fluid\" src=\"/img/950x950/img1.jpg\" alt=\"Image Description\">
+            <img class=\"img-fluid rounded-2\" src=\"/img/950x950/img1.jpg\" alt=\"Image Description\">
 
             <div class=\"position-absolute bottom-0 end-0\">
               <img class=\"w-100\" src=\"/svg/illustrations/cubics.svg\" alt=\"SVG\" style=\"max-width: 30rem;\">
@@ -131,7 +131,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
 
     <!-- Stats -->
-  <div class=\"container mt-10 mb-10 content-space-1 content-space-lg-1 border border-2 p-5\">
+  <div class=\"container mt-10 mb-10 content-space-1 content-space-lg-1 border border-2 p-5 rounded-2\">
     <div class=\"row justify-content-lg-between align-items-lg-center\">
       <div class=\"col-lg-5\">
         <div class=\"mb-6\">
@@ -244,13 +244,10 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
   <!-- End Step Features -->
 
-  <div class=\"container content-space-1 content-space-lg-1\">
-  </div>
-
   <!-- Features -->
   <div class=\"overflow-hidden\">
-    <div class=\"container content-space-2 content-space-lg-3\">
-      <div class=\"position-relative mb-10\">
+    <div class=\"container content-space-1 content-space-lg-2\">
+      <div class=\"position-relative mb-8\">
         <div class=\"row justify-content-lg-between\">
           <div class=\"col-md-6 col-lg-7 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
@@ -261,9 +258,9 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               </div>
 
               <a class=\"link link-pointer\" href=";
-        // line 156
+        // line 153
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
-        echo ">Découvrez notre approche par secteur d'activité</a>
+        echo ">Découvrez nos expériences par secteur d'activité</a>
           </div>
           <!-- End Col -->
         </div>
@@ -324,7 +321,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  265 => 156,  242 => 135,  225 => 125,  217 => 113,  212 => 111,  208 => 110,  204 => 109,  196 => 103,  192 => 102,  108 => 21,  104 => 20,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  262 => 153,  242 => 135,  225 => 125,  217 => 113,  212 => 111,  208 => 110,  204 => 109,  196 => 103,  192 => 102,  108 => 21,  104 => 20,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -356,7 +353,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       <div class=\"col-lg-6\">
         <div class=\"position-relative\">
           <div class=\"position-relative\">
-            <img class=\"img-fluid\" src=\"/img/950x950/img1.jpg\" alt=\"Image Description\">
+            <img class=\"img-fluid rounded-2\" src=\"/img/950x950/img1.jpg\" alt=\"Image Description\">
 
             <div class=\"position-absolute bottom-0 end-0\">
               <img class=\"w-100\" src=\"/svg/illustrations/cubics.svg\" alt=\"SVG\" style=\"max-width: 30rem;\">
@@ -374,7 +371,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
 
     <!-- Stats -->
-  <div class=\"container mt-10 mb-10 content-space-1 content-space-lg-1 border border-2 p-5\">
+  <div class=\"container mt-10 mb-10 content-space-1 content-space-lg-1 border border-2 p-5 rounded-2\">
     <div class=\"row justify-content-lg-between align-items-lg-center\">
       <div class=\"col-lg-5\">
         <div class=\"mb-6\">
@@ -468,13 +465,10 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
   <!-- End Step Features -->
 
-  <div class=\"container content-space-1 content-space-lg-1\">
-  </div>
-
   <!-- Features -->
   <div class=\"overflow-hidden\">
-    <div class=\"container content-space-2 content-space-lg-3\">
-      <div class=\"position-relative mb-10\">
+    <div class=\"container content-space-1 content-space-lg-2\">
+      <div class=\"position-relative mb-8\">
         <div class=\"row justify-content-lg-between\">
           <div class=\"col-md-6 col-lg-7 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
@@ -484,7 +478,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                 <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
               </div>
 
-              <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez notre approche par secteur d'activité</a>
+              <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
           </div>
           <!-- End Col -->
         </div>

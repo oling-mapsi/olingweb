@@ -50,6 +50,9 @@ class Practice
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $designation_short = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $class1 = null;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -199,6 +202,18 @@ class Practice
     public function setDesignationShort(?string $designation_short): self
     {
         $this->designation_short = $designation_short;
+
+        return $this;
+    }
+
+    public function getClass1(): ?string
+    {
+        return $this->class1;
+    }
+
+    public function setClass1(?string $class1): self
+    {
+        $this->class1 = $class1;
 
         return $this;
     }

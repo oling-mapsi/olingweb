@@ -8,18 +8,17 @@
 
   <!-- Features -->
   <div class="container content-space-2 content-space-lg-3">
-    <div class="consulting rounded-3 p-4 p-sm-8 p-lg-10 mx-md-n7 mx-lg-n10">
+    <div class="{{ practice.class1 }} rounded-3 p-4 p-sm-8 p-lg-10 mx-md-n7 mx-lg-n10">
       <div class="row align-items-lg-center">
-        <div class="col-lg-5 order-lg-2 mb-10 mb-lg-0">
+        <div class="col-lg-4 order-lg-2 mb-10 mb-lg-0">
           <div class="position-relative">
             {# <div class="w-75 ms-auto">
               <img class="img-fluid rounded-3" src="/img/mockups/accenture.webp" alt="Image Description">
             </div> #}
 
-            <img class="img-fluid rounded" src="{{ practice.image1 }}" alt="Image Description">
 
             <!-- SVG Shape -->
-            <figure class="position-absolute top-0 end-0 mt-n7 me-n7" style="width: 10rem;">
+            <figure class="position-absolute top-0 end-0 mt-n10 me-n0" style="width: 10rem;">
               <img class="img-fluid" src="{{ practice.image2 }}" alt="Image Description">
             </figure>
             <!-- End SVG Shape -->
@@ -27,25 +26,21 @@
         </div>
         <!-- End Col -->
 
-        <div class="col-lg-7">
+        <div class="col-lg-8">
           <div class="pe-lg-5">
             <div class="mb-5">
-              <h2>{{ practice.designation }}</h2>
-              <p>{{ practice.IntroductionShort | raw }}</p>
+              <h2 class="text-light">{{ practice.designation }}</h2>
+              <p class="text-white-70">{{ practice.IntroductionShort | raw }}</p>
             </div>
 
-            <div class="row pb-1 mb-1">
-              <!-- List -->
-              <ul class="list-equal-height list-equal-height-2-cols">
+            <div class="row">
                 {% for service in practice.services %}
-                <li class="list-equal-height-item p-1">
-                  <a class="link link-secondary link-pointer" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
-                </li>
+                    <div class="col-md-6">
+                      <a class="link link-secondary link-pointer link-light" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
+                    </div>
                 {% endfor %}
-              </ul>
-              <!-- End List -->
             </div>
-            <!-- End Row -->
+
           </div>
           <!-- End Row -->
         </div>

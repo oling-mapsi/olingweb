@@ -22,11 +22,12 @@ class ContactController extends AbstractController
         parse_str($content, $data);
 
         // Récupérer les données du formulaire
-        $firstName = $data['contactsFormNameFirstName'];
-        $lastName = $data['contactsFormNameLastName'];
-        $company = $data['contactsFormNameCompany'];
-        $workEmail = $data['contactsFormNameWorkEmail'];
-        $details = $data['contactsFormNameDetails'];
+
+        $firstName = $request->request->get('contactsFormFirstName');
+        $lastName = $request->request->get('contactsFormLastName');
+        $company = $request->request->get('contactsFormCompany');
+        $workEmail = $request->request->get('contactsFormWorkEmail');
+        $details = $request->request->get('contactsFormDetails');
 
         // Créer le message
         $email = (new Email())

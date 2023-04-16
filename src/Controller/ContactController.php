@@ -24,7 +24,7 @@ class ContactController extends AbstractController
 
         // Créer le message
         $email = (new Email())
-            ->from('votre-email@exemple.com')
+            ->from('robot@oling-fr.mon.world')
             ->to('florestan.rouet@oling.fr')
             ->subject('Nouveau message de ' . $firstName . ' ' . $lastName)
             ->html('

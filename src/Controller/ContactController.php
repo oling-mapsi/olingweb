@@ -15,12 +15,18 @@ class ContactController extends AbstractController
     #[Route('/send-email', name: 'send_mail')]
     public function sendEmail(Request $request, MailerInterface $mailer)
     {
+        // Récupérer le contenu de la requête sous forme de chaîne de caractères
+        $content = $request->getContent();
+
+        // Convertir la chaîne de requête en tableau associatif
+        parse_str($content, $data);
+
         // Récupérer les données du formulaire
-        $firstName = $request->request->get('contactsFormNameFirstName');
-        $lastName = $request->request->get('contactsFormNameLastName');
-        $company = $request->request->get('contactsFormNameCompany');
-        $workEmail = $request->request->get('contactsFormNameWorkEmail');
-        $details = $request->request->get('contactsFormNameDetails');
+        $firstName = $data['contactsFormNameFirstName'];
+        $lastName = $data['contactsFormNameLastName'];
+        $company = $data['contactsFormNameCompany'];
+        $workEmail = $data['contactsFormNameWorkEmail'];
+        $details = $data['contactsFormNameDetails'];
 
         // Créer le message
         $email = (new Email())

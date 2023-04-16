@@ -24,14 +24,16 @@
                 }'>
             <div class="container">
             <nav class="js-mega-menu navbar-nav-wrap">
+                <div class="navbar-brand-wrapper">
                 <!-- Default Logo -->
                 <a class="navbar-brand" href={{ path('index')}} aria-label="Oling">
                     <img class="navbar-brand-logo" src="{{ asset('./img/logo/logoling.png') }}" alt="Logo">
                 </a>
                 <!-- End Default Logo -->
+                </div>
 
                 <!-- Toggler -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <button type="button" class="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuLeftAligned" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNavMenuLeftAligned">
                 <span class="navbar-toggler-default">
                     <i class="bi-list"></i>
                 </span>
@@ -42,15 +44,17 @@
                 <!-- End Toggler -->
             
                 <!-- Collapse -->
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="navbar-nav-wrap-col collapse navbar-collapse" id="navbarNavMenuLeftAligned">
                 <div class="navbar-absolute-top-scroller">
-                    <ul class="navbar-nav nav-pills">
+                    <ul class="navbar-nav nav-pills justify-content-start">
+                    {% set count = 0 %}
                     {% for practice in practices %}
-            
+                    {% set count = count + 1 %}
                     <!-- Landings -->
                     <li class="hs-has-mega-menu nav-item"
                         data-hs-mega-menu-item-options='{
                             "desktop": {
+                            {% if count > 2 %}"position": "right",{% endif %}
                             "maxWidth": "40rem"
                             }
                         }'>
@@ -66,7 +70,7 @@
                             <div class="col-lg d-none d-lg-block">
                             <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
                                 <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
-                                <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description">
+                                {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
                                     <div>
                                         <p>{{ practice.description  | raw  }}</p>
                                     </div>
@@ -95,7 +99,7 @@
 
                     <!-- Landings -->
                     <li class="nav-item">
-                        <a id="" class=" nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">A propos</a>
+                        <a id="" class=" nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
                     </li>
                     <!-- End Landings -->
 
@@ -103,18 +107,18 @@
 
                    
 
-                    <!-- Log in -->
+                    {# <!-- Log in -->
                     <li class="nav-item ms-lg-auto">
                     
                         
                     </li>
-                    <!-- End Log in -->
+                    <!-- End Log in --> #}
 
-                    <!-- Sign up -->
+                    {# <!-- Sign up -->
                     <li class="nav-item">
                         <a class="btn btn-sm btn-primary d-none d-lg-inline-block" href={{ path('contact')}}>Contactez-nous</a>
                     </li>
-                    <!-- End Sign up -->
+                    <!-- End Sign up --> #}
                     </ul>
                 </div>
                 </div>

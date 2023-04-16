@@ -4065,9 +4065,9 @@ fieldset:disabled .btn {
     --bs-card-title-spacer-y: 0.25rem;
     --bs-card-border-width: 0.0625rem;
     --bs-card-border-color: rgba(220, 224, 229, 0.6);
-    --bs-card-border-radius: 0.8125rem;
+    /* --bs-card-border-radius: 0.8125rem; */
     --bs-card-box-shadow: 0rem 1rem 1.75rem 0rem rgba(45, 55, 75, 0.1);
-    --bs-card-inner-border-radius: 0.75rem;
+    /* --bs-card-inner-border-radius: 0.75rem; */
     --bs-card-cap-padding-y: 1.75rem;
     --bs-card-cap-padding-x: 1.75rem;
     --bs-card-cap-bg: transparent;
@@ -16366,7 +16366,7 @@ input[type="number"] {
 }
 .card-transition-zoom .card-transition-zoom-item {
     overflow: hidden;
-    border-radius: 0.8125rem;
+    /* border-radius: 0.8125rem; */
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0);
@@ -16376,7 +16376,7 @@ input[type="number"] {
     transition: transform 0.4s;
 }
 .card-transition-zoom:hover .card-img {
-    transform: scale(1.03);
+    transform: scale(1.2);
 }
 .card-group .card {
     box-shadow: none;
@@ -18464,7 +18464,7 @@ input[type="number"] {
     position: absolute;
     left: 0;
     bottom: 0;
-    border: 0 solid rgba(220, 224, 229, 0);
+    border: 0 solid rgba(220, 224, 229, 0.6);
     content: "";
 }
 .list-equal-height-item::before {

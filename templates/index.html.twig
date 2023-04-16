@@ -80,11 +80,46 @@
   </div>
   <!-- End Stats -->
 
-  <div class="container content-space-1 content-space-lg-1">
-  </div>
-
-
+  <!-- Card Grid -->
+<div class="container content-space-1">
   <!-- Heading -->
+  <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10">
+      <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
+      <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de l'entreprise : Consulting et AMOA, Expertises et Audit, Business Apps et Microsoft 365. </p>
+  </div>
+  <!-- End Heading -->
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-0 gx-md-0">
+    {% set count = 0 %}
+    {% for practice in practices %}
+    {% set count = count + 1 %}
+    <div class="col mb-2 mb-md-4">
+      <!-- Card -->
+      <a class="card card-borderless card-transition-zoom bg-soft-light h-100"
+      style="{% if count == 2 %}margin-top:30px{% endif %}{% if count == 3 %}margin-top:60px{% endif %}{% if count == 4 %}margin-top:90px{% endif %}" 
+       href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>
+        {#  #}
+        <div class="card-transition-zoom-item">
+          <img class="card-img" src="{{ practice.image1 }}" alt="Image Description">
+        </div>
+        <div class="card-body">
+          <span class="card-subtitle text-body my-3"><span class="fw-bold text-dark">{{ practice.designation }}</span></span>
+          <h4 class="card-title">{{ practice.introduction }}</h4>
+          <p>{{ practice.DescriptionShort }}</p>
+        </div>
+      </a>
+      <!-- End Card -->
+    </div>
+    <!-- End Col -->
+    {% endfor %}
+
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Card Grid -->
+
+
+  {# <!-- Heading -->
   <div class="container content-space-t-2 content-space-t-lg-0 content-space-b-1">
     <div class="w-lg-65 text-center mx-lg-auto">
       <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
@@ -109,19 +144,19 @@
                   <span class="text-cap text-primary">{{ practice.designation }}</span>
                   <h2>{{ practice.introduction }}</h2>
                   <p>{{ practice.DescriptionShort }}</p>
+                   <a class="link link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
                 </div>
-                <a class="link link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
               </div>
             </div>
             <!-- End Col -->
             <div class="col-lg-7">
-              {# <div class="video-bg">
+              <div class="video-bg">
                 <div class="js-video-bg video-bg-content"
                     data-hs-video-bg-options='{
                       "videoId": "/img/video/working-in-office"
                     }'>
                 </div>
-              </div> #}
+              </div> 
               <img class="img-fluid rounded" src="{{ practice.image1 }}" alt="Image Description">
             </div>
             <!-- End Col -->
@@ -135,14 +170,14 @@
     </ul>
     <!-- End List Step -->
   </div>
-  <!-- End Step Features -->
+  <!-- End Step Features --> #}
 
   <!-- Features -->
   <div class="overflow-hidden">
     <div class="container content-space-1 content-space-lg-2">
       <div class="position-relative mb-8">
         <div class="row justify-content-lg-between">
-          <div class="col-md-6 col-lg-7 mb-7 mb-lg-0">
+          <div class="col-md-6 col-lg-6 mb-7 mb-lg-0">
               <div class="mb-5">
                 <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
                 <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
@@ -151,6 +186,11 @@
               </div>
 
               <a class="link link-pointer" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
+          </div>
+          <!-- End Col -->
+          <div class="col-md-6 col-lg-6 pt-10">
+            <img class="img-fluid" src="{{ asset('./img/spe/arrow.png') }}" alt="Image Description">
+              
           </div>
           <!-- End Col -->
         </div>

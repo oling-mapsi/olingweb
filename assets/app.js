@@ -23,6 +23,8 @@ import HSMegaMenu from './vendor/hs-mega-menu/dist/hs-mega-menu.min.js';
 import HSGoTo from './vendor/hs-go-to/dist/hs-go-to.min.js';
 import Swiper from 'swiper/bundle';
 import HSVideoBg from './vendor/hs-video-bg/dist/hs-video-bg.min.js';
+import FsLightbox from './vendor/fslightbox/index.js';
+
 import './js/theme.min.js';
 
 // Assurez-vous que jQuery et Popper.js sont disponibles globalement (nécessaire pour certaines parties du thème Unify)
@@ -120,6 +122,8 @@ $(document).ready(function () {
 
   $('#button-send').on('click', function () {
    
+     // INITIALIZATION OF STICKY BLOCKS
+  // =======================================================
 
     $.ajax({
         url: '/send-email',
@@ -134,5 +138,17 @@ $(document).ready(function () {
         }
     });
 });
+
+
+  const lightbox = new FsLightbox();
+
+  // Initialiser le plugin
+  document.querySelectorAll('.js-fslightbox').forEach((element) => {
+    element.addEventListener('click', (event) => {
+      event.preventDefault();
+      lightbox.open(element.dataset.src.split(','));
+    });
+  });
+
 
 });

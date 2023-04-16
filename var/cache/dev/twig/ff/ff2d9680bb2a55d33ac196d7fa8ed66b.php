@@ -168,88 +168,95 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
   <!-- End Stats -->
 
-  <div class=\"container content-space-1 content-space-lg-1\">
-  </div>
-
-
+  <!-- Card Grid -->
+<div class=\"container content-space-1\">
   <!-- Heading -->
-  <div class=\"container content-space-t-2 content-space-t-lg-0 content-space-b-1\">
-    <div class=\"w-lg-65 text-center mx-lg-auto\">
+  <div class=\"w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10\">
       <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
       <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de l'entreprise : Consulting et AMOA, Expertises et Audit, Business Apps et Microsoft 365. </p>
-    </div>
   </div>
   <!-- End Heading -->
 
-
-
-  <!-- Step Features -->
-  <div class=\"container\">
-    <!-- List Step -->
-    <ul class=\"list-unstyled list-step list-py-3 mb-0\">
-      ";
-        // line 102
+  <div class=\"row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-0 gx-md-0\">
+    ";
+        // line 93
+        $context["count"] = 0;
+        // line 94
+        echo "    ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 102, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 94, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
+            // line 95
+            echo "    ";
+            $context["count"] = ((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 95, $this->source); })()) + 1);
+            // line 96
+            echo "    <div class=\"col mb-2 mb-md-4\">
+      <!-- Card -->
+      <a class=\"card card-borderless card-transition-zoom bg-soft-light h-100\"
+      style=\"";
+            // line 99
+            if (((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 99, $this->source); })()) == 2)) {
+                echo "margin-top:30px";
+            }
+            if (((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 99, $this->source); })()) == 3)) {
+                echo "margin-top:60px";
+            }
+            if (((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 99, $this->source); })()) == 4)) {
+                echo "margin-top:90px";
+            }
+            echo "\" 
+       href=";
+            // line 100
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 100), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 100)]), "html", null, true);
+            echo ">
+        ";
+            // line 102
+            echo "        <div class=\"card-transition-zoom-item\">
+          <img class=\"card-img\" src=\"";
             // line 103
-            echo "      <li class=\"list-step-item\">
-        <div class=\"position-relative rounded-3 py-8 px-4 px-md-10\">
-          <div class=\"row align-items-lg-center\">
-            <div class=\"col-lg-5 mb-7 mb-lg-0\">
-              <div class=\"pe-lg-5\">
-                <div class=\"mb-5\">
-                  <span class=\"text-cap text-primary\">";
-            // line 109
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 109), "html", null, true);
-            echo "</span>
-                  <h2>";
-            // line 110
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "introduction", [], "any", false, false, false, 110), "html", null, true);
-            echo "</h2>
-                  <p>";
-            // line 111
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "DescriptionShort", [], "any", false, false, false, 111), "html", null, true);
-            echo "</p>
-                </div>
-                <a class=\"link link-pointer\" href=";
-            // line 113
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 113), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 113)]), "html", null, true);
-            echo ">En savoir plus</a>
-              </div>
-            </div>
-            <!-- End Col -->
-            <div class=\"col-lg-7\">
-              ";
-            // line 125
-            echo "              <img class=\"img-fluid rounded\" src=\"";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "image1", [], "any", false, false, false, 125), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "image1", [], "any", false, false, false, 103), "html", null, true);
             echo "\" alt=\"Image Description\">
-            </div>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
-          <div class=\"position-absolute top-0 start-0 w-100 w-lg-65 h-65 h-lg-100 bg-light rounded-3 zi-n1 ms-n5\">
-          </div>
         </div>
-      </li>
-      ";
+        <div class=\"card-body\">
+          <span class=\"card-subtitle text-body my-3\"><span class=\"fw-bold text-dark\">";
+            // line 106
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 106), "html", null, true);
+            echo "</span></span>
+          <h4 class=\"card-title\">";
+            // line 107
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "introduction", [], "any", false, false, false, 107), "html", null, true);
+            echo "</h4>
+          <p>";
+            // line 108
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "DescriptionShort", [], "any", false, false, false, 108), "html", null, true);
+            echo "</p>
+        </div>
+      </a>
+      <!-- End Card -->
+    </div>
+    <!-- End Col -->
+    ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 135
-        echo "    </ul>
-    <!-- End List Step -->
+        // line 115
+        echo "
   </div>
-  <!-- End Step Features -->
+  <!-- End Row -->
+</div>
+<!-- End Card Grid -->
 
+
+  ";
+        // line 174
+        echo "
   <!-- Features -->
   <div class=\"overflow-hidden\">
     <div class=\"container content-space-1 content-space-lg-2\">
       <div class=\"position-relative mb-8\">
         <div class=\"row justify-content-lg-between\">
-          <div class=\"col-md-6 col-lg-7 mb-7 mb-lg-0\">
+          <div class=\"col-md-6 col-lg-6 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
                 <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
                 <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
@@ -258,9 +265,17 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               </div>
 
               <a class=\"link link-pointer\" href=";
-        // line 153
+        // line 188
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
         echo ">Découvrez nos expériences par secteur d'activité</a>
+          </div>
+          <!-- End Col -->
+          <div class=\"col-md-6 col-lg-6 pt-10\">
+            <img class=\"img-fluid\" src=\"";
+        // line 192
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("./img/spe/arrow.png"), "html", null, true);
+        echo "\" alt=\"Image Description\">
+              
           </div>
           <!-- End Col -->
         </div>
@@ -321,7 +336,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  262 => 153,  242 => 135,  225 => 125,  217 => 113,  212 => 111,  208 => 110,  204 => 109,  196 => 103,  192 => 102,  108 => 21,  104 => 20,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  276 => 192,  269 => 188,  253 => 174,  244 => 115,  231 => 108,  227 => 107,  223 => 106,  217 => 103,  214 => 102,  210 => 100,  198 => 99,  193 => 96,  190 => 95,  185 => 94,  183 => 93,  108 => 21,  104 => 20,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -408,11 +423,46 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
   </div>
   <!-- End Stats -->
 
-  <div class=\"container content-space-1 content-space-lg-1\">
-  </div>
-
-
+  <!-- Card Grid -->
+<div class=\"container content-space-1\">
   <!-- Heading -->
+  <div class=\"w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10\">
+      <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
+      <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de l'entreprise : Consulting et AMOA, Expertises et Audit, Business Apps et Microsoft 365. </p>
+  </div>
+  <!-- End Heading -->
+
+  <div class=\"row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-0 gx-md-0\">
+    {% set count = 0 %}
+    {% for practice in practices %}
+    {% set count = count + 1 %}
+    <div class=\"col mb-2 mb-md-4\">
+      <!-- Card -->
+      <a class=\"card card-borderless card-transition-zoom bg-soft-light h-100\"
+      style=\"{% if count == 2 %}margin-top:30px{% endif %}{% if count == 3 %}margin-top:60px{% endif %}{% if count == 4 %}margin-top:90px{% endif %}\" 
+       href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>
+        {#  #}
+        <div class=\"card-transition-zoom-item\">
+          <img class=\"card-img\" src=\"{{ practice.image1 }}\" alt=\"Image Description\">
+        </div>
+        <div class=\"card-body\">
+          <span class=\"card-subtitle text-body my-3\"><span class=\"fw-bold text-dark\">{{ practice.designation }}</span></span>
+          <h4 class=\"card-title\">{{ practice.introduction }}</h4>
+          <p>{{ practice.DescriptionShort }}</p>
+        </div>
+      </a>
+      <!-- End Card -->
+    </div>
+    <!-- End Col -->
+    {% endfor %}
+
+  </div>
+  <!-- End Row -->
+</div>
+<!-- End Card Grid -->
+
+
+  {# <!-- Heading -->
   <div class=\"container content-space-t-2 content-space-t-lg-0 content-space-b-1\">
     <div class=\"w-lg-65 text-center mx-lg-auto\">
       <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
@@ -437,19 +487,19 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
                   <span class=\"text-cap text-primary\">{{ practice.designation }}</span>
                   <h2>{{ practice.introduction }}</h2>
                   <p>{{ practice.DescriptionShort }}</p>
+                   <a class=\"link link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
                 </div>
-                <a class=\"link link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>En savoir plus</a>
               </div>
             </div>
             <!-- End Col -->
             <div class=\"col-lg-7\">
-              {# <div class=\"video-bg\">
+              <div class=\"video-bg\">
                 <div class=\"js-video-bg video-bg-content\"
                     data-hs-video-bg-options='{
                       \"videoId\": \"/img/video/working-in-office\"
                     }'>
                 </div>
-              </div> #}
+              </div> 
               <img class=\"img-fluid rounded\" src=\"{{ practice.image1 }}\" alt=\"Image Description\">
             </div>
             <!-- End Col -->
@@ -463,14 +513,14 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     </ul>
     <!-- End List Step -->
   </div>
-  <!-- End Step Features -->
+  <!-- End Step Features --> #}
 
   <!-- Features -->
   <div class=\"overflow-hidden\">
     <div class=\"container content-space-1 content-space-lg-2\">
       <div class=\"position-relative mb-8\">
         <div class=\"row justify-content-lg-between\">
-          <div class=\"col-md-6 col-lg-7 mb-7 mb-lg-0\">
+          <div class=\"col-md-6 col-lg-6 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
                 <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
                 <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
@@ -479,6 +529,11 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
               </div>
 
               <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
+          </div>
+          <!-- End Col -->
+          <div class=\"col-md-6 col-lg-6 pt-10\">
+            <img class=\"img-fluid\" src=\"{{ asset('./img/spe/arrow.png') }}\" alt=\"Image Description\">
+              
           </div>
           <!-- End Col -->
         </div>

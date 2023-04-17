@@ -120,15 +120,15 @@ $(document).ready(function () {
   });
 
 
-  $('#button-send').on('click', function () {
-   
-     // INITIALIZATION OF STICKY BLOCKS
+       // email
   // =======================================================
 
+  $('#button-send').on('click', function () {
+   
     $.ajax({
         url: '/send-email',
         type: 'POST',
-        data: $(this).serialize(),
+        data: $('#contact-form').serialize(),
         success: function (response) {
             alert(response.message);
             $('#contact-form')[0].reset();

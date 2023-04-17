@@ -16,6 +16,6 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerPpMKeEN\App_KernelDevDebugContainer([
     'container.build_hash' => 'PpMKeEN',
-    'container.build_id' => '18934d7a',
-    'container.build_time' => 1681435248,
+    'container.build_id' => '4b8703d9',
+    'container.build_time' => 1681690629,
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerPpMKeEN');

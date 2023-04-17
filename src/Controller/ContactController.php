@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ContactController extends AbstractController
 {
-    #[Route('/send-email', name: 'send_mail')]
+    #[Route('/send-email', name: 'send_mail', methods: ['POST'])]
     public function sendEmail(Request $request, MailerInterface $mailer)
     {
         // Récupérer le contenu de la requête sous forme de chaîne de caractères
@@ -22,12 +22,11 @@ class ContactController extends AbstractController
         parse_str($content, $data);
 
         // Récupérer les données du formulaire
-
-        $firstName = $request->request->get('contactsFormFirstName');
-        $lastName = $request->request->get('contactsFormLastName');
-        $company = $request->request->get('contactsFormCompany');
-        $workEmail = $request->request->get('contactsFormWorkEmail');
-        $details = $request->request->get('contactsFormDetails');
+        $firstName = $data['contactFirstName'] ?? '';
+        $lastName = $data['contactLastName'] ?? '';
+        $company = $data['contactCompany'] ?? '';
+        $workEmail = $data['contactWorkEmail'] ?? '';
+        $details = $data['contactDetails'] ?? '';
 
         // Créer le message
         $email = (new Email())
@@ -49,12 +48,12 @@ class ContactController extends AbstractController
         try {
             $sent = $mailer->send($email);
             if (!$sent) {
-                throw new \Exception('Le message n\'a pas été envoyé.');
+                throw new \Exception($firstName.' Le message n\'a pas été envoyé.');
             }
         } catch (\Exception $e) {
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Une erreur s\'est produite lors de l\'envoi du message.',
+                'message' => $firstName.' Une erreur s\'est produite lors de l\'envoi du message.',
                 'error' => $e->getMessage(),
             ]);
         }

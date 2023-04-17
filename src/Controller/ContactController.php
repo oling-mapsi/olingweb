@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ContactController extends AbstractController
 {
-    #[Route('/send-email', name: 'send_mail', methods: ['POST'])]
+    #[Route('/send-email', name: 'send_mail')]
     public function sendEmail(Request $request, MailerInterface $mailer)
     {
         // Récupérer le contenu de la requête sous forme de chaîne de caractères

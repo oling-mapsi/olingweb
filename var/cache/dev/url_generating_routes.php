@@ -17,6 +17,8 @@ return [
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'send_mail' => [[], ['_controller' => 'App\\Controller\\ContactController::sendEmail'], [], [['text', '/send-email']], [], [], []],
+    'app_error' => [[], ['_controller' => 'App\\Controller\\ErrorController::index'], [], [['text', '/error']], [], [], []],
+    'app_error404' => [[], ['_controller' => 'App\\Controller\\ErrorController::error404'], [], [['text', '/error404']], [], [], []],
     'index' => [[], ['_controller' => 'App\\Controller\\PracticeController::index'], [], [['text', '/']], [], [], []],
     'practice' => [['id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::practices'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true]], [], [], []],
     'service' => [['practice', 'id', 'slug'], ['_controller' => 'App\\Controller\\PracticeController::services'], [], [['variable', '/', '[^/]++', 'slug', true], ['variable', '/', '[^/]++', 'id', true], ['variable', '/', '[^/]++', 'practice', true]], [], [], []],
@@ -29,4 +31,5 @@ return [
     'rse' => [[], ['_controller' => 'App\\Controller\\PracticeController::rse'], [], [['text', '/rse']], [], [], []],
     'polrgpd' => [[], ['_controller' => 'App\\Controller\\PracticeController::polrgpd'], [], [['text', '/politiquergpd']], [], [], []],
     'add_email' => [[], ['_controller' => 'App\\Controller\\PracticeController::addEmail'], [], [['text', '/add-email']], [], [], []],
+    'app_test' => [[], ['_controller' => 'App\\Controller\\TestController::index'], [], [['text', '/test']], [], [], []],
 ];

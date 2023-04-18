@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OLING Page non trouvée{% endblock %}
+
+{% block body %}
+
+<main id="content" role="main">
+    <!-- Hero -->
+    <div class="container content-space-t-3">
+        <div class="row justify-content-lg-between align-items-lg-center">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="mb-5">
+                <h1 class="text-dark"> Oops ! La page que vous recherchez est introuvable. </h1>
+                <p class="fs-3 mb-8">Il s'agit d'une erreur 404.</p>
+                <a class="btn btn-primary" href={{path('index') }}>Accueil</a>
+                <a class="btn btn-ghost-dark btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

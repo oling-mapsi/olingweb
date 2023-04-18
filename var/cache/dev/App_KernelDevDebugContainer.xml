@@ -104,7 +104,7 @@
     <parameter key="kernel.trusted_hosts" type="collection"/>
     <parameter key="kernel.default_locale">en</parameter>
     <parameter key="kernel.enabled_locales" type="collection"/>
-    <parameter key="kernel.error_controller">error_controller</parameter>
+    <parameter key="kernel.error_controller">App\Controller\ErrorController::error404</parameter>
     <parameter key="debug.file_link_format">%env(default::SYMFONY_IDE)%</parameter>
     <parameter key="asset.request_context.base_path">null</parameter>
     <parameter key="asset.request_context.secure">null</parameter>
@@ -348,6 +348,13 @@
         <argument type="service" id=".service_locator.CshazM0.App\Controller\ContactController"/>
       </call>
     </service>
+    <service id="App\Controller\ErrorController" class="App\Controller\ErrorController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.CshazM0.App\Controller\ErrorController"/>
+      </call>
+    </service>
     <service id="App\Controller\PracticeController" class="App\Controller\PracticeController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -402,7 +409,7 @@
     </service>
     <service id="error_controller" class="Symfony\Component\HttpKernel\Controller\ErrorController" public="true">
       <argument type="service" id="http_kernel"/>
-      <argument>error_controller</argument>
+      <argument>App\Controller\ErrorController::error404</argument>
       <argument type="service" id="error_handler.error_renderer.serializer"/>
     </service>
     <service id="exception_listener" class="Symfony\Component\HttpKernel\EventListener\ErrorListener">
@@ -410,7 +417,7 @@
       <tag name="monolog.logger" channel="request"/>
       <tag name="container.hot_path"/>
       <tag name="container.hot_path"/>
-      <argument>error_controller</argument>
+      <argument>App\Controller\ErrorController::error404</argument>
       <argument type="service" id="monolog.logger.request" on-invalid="null"/>
       <argument>true</argument>
       <argument type="collection"/>
@@ -5249,6 +5256,14 @@
         <argument>!Debug</argument>
       </call>
       <call method="addPath">
+        <argument>/Users/florestanrouet/myweb/olingweb/templates/bundles/TwigBundle</argument>
+        <argument>Twig</argument>
+      </call>
+      <call method="addPath">
+        <argument>/Users/florestanrouet/myweb/olingweb/templates/bundles/TwigBundle</argument>
+        <argument>!Twig</argument>
+      </call>
+      <call method="addPath">
         <argument>/Users/florestanrouet/myweb/olingweb/vendor/symfony/web-profiler-bundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
@@ -6523,6 +6538,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ContactController" class="App\Controller\ContactController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ErrorController" class="App\Controller\ErrorController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ErrorController" class="App\Controller\ErrorController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ErrorController" class="App\Controller\ErrorController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\PracticeController" class="App\Controller\PracticeController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -6900,10 +6918,12 @@
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
-    <service id=".service_locator.o_4Ru9v" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.I8JllQx" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\ContactController::sendEmail" type="service_closure" id=".service_locator.uVvF4gL"/>
+        <argument key="App\Controller\ErrorController::error404" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\ErrorController::index" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::addEmail" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\PracticeController::apropos" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController::client" type="service_closure" id=".service_locator.gUI2hNX"/>
@@ -6921,6 +6941,8 @@
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Controller\ContactController:sendEmail" type="service_closure" id=".service_locator.uVvF4gL"/>
+        <argument key="App\Controller\ErrorController:error404" type="service_closure" id=".service_locator.gUI2hNX"/>
+        <argument key="App\Controller\ErrorController:index" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:addEmail" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\PracticeController:apropos" type="service_closure" id=".service_locator.gUI2hNX"/>
         <argument key="App\Controller\PracticeController:client" type="service_closure" id=".service_locator.gUI2hNX"/>
@@ -7480,6 +7502,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.CshazM0" method="withContext"/>
     </service>
+    <service id=".service_locator.CshazM0.App\Controller\ErrorController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ErrorController"/>
+      <argument>App\Controller\ErrorController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.CshazM0" method="withContext"/>
+    </service>
     <service id=".service_locator.CshazM0.App\Controller\PracticeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\PracticeController"/>
       <argument>App\Controller\PracticeController</argument>
@@ -7763,12 +7791,12 @@
     <service id="debug.argument_resolver.request.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver"/>
     <service id="debug.argument_resolver.session.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver"/>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.o_4Ru9v"/>
+      <argument type="service" id=".service_locator.I8JllQx"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.o_4Ru9v"/>
+      <argument type="service" id=".service_locator.I8JllQx"/>
     </service>
     <service id="debug.traced.messenger.bus.default.inner" class="Symfony\Component\Messenger\MessageBus">
       <argument type="iterator">
@@ -8742,7 +8770,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.7nzbL4K" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.o_4Ru9v"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.I8JllQx"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -8764,7 +8792,7 @@
     <service id=".service_locator.h8Jkkd2" alias="messenger.retry_strategy_locator"/>
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~4JdmOdK"/>
     <service id=".service_locator.o.uf2zi" alias=".service_locator.7nzbL4K"/>
-    <service id=".service_locator.xDy4uGg" alias=".service_locator.o_4Ru9v"/>
+    <service id=".service_locator.N.OD5Hg" alias=".service_locator.I8JllQx"/>
     <service id=".service_locator.z7kAUPH" alias=".service_locator.vp1pfih"/>
     <service id=".service_locator.dRCZfFj" alias=".service_locator.Z3tqLyK"/>
     <service id=".service_locator.XW18Svm" alias=".service_locator.TcKhdzh"/>

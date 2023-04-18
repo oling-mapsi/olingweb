@@ -15,6 +15,8 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/send-email' => [[['_route' => 'send_mail', '_controller' => 'App\\Controller\\ContactController::sendEmail'], null, null, null, false, false, null]],
+        '/error' => [[['_route' => 'app_error', '_controller' => 'App\\Controller\\ErrorController::index'], null, null, null, false, false, null]],
+        '/error404' => [[['_route' => 'app_error404', '_controller' => 'App\\Controller\\ErrorController::error404'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\PracticeController::index'], null, null, null, false, false, null]],
         '/discloser' => [[['_route' => 'discloser', '_controller' => 'App\\Controller\\PracticeController::discloser'], null, null, null, false, false, null]],
         '/a_propos' => [[['_route' => 'apropos', '_controller' => 'App\\Controller\\PracticeController::apropos'], null, null, null, false, false, null]],
@@ -25,6 +27,7 @@ return [
         '/rse' => [[['_route' => 'rse', '_controller' => 'App\\Controller\\PracticeController::rse'], null, null, null, false, false, null]],
         '/politiquergpd' => [[['_route' => 'polrgpd', '_controller' => 'App\\Controller\\PracticeController::polrgpd'], null, null, null, false, false, null]],
         '/add-email' => [[['_route' => 'add_email', '_controller' => 'App\\Controller\\PracticeController::addEmail'], null, null, null, false, false, null]],
+        '/test' => [[['_route' => 'app_test', '_controller' => 'App\\Controller\\TestController::index'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

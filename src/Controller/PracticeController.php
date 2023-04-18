@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Email;
+use App\Entity\Team;
 use App\Form\EmailType;
 use App\Repository\PracticeRepository;
 use App\Repository\ServicesRepository;
 use App\Repository\EmailRepository;
+use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository; // ajout de l'importation
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -160,14 +162,17 @@ class PracticeController extends AbstractController
     public function team(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
+        TeamRepository $repoteam,
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
+        $team = $repoteam->findAll();
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'team' => $team,
             'pract' => '',
         ]);
     }

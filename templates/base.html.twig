@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+        <title>{% block title %}OLING Management{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <meta name="description" content="OLING Management est une société basée en France et en Guadeloupe. Créée en 2012 afin d&#039;offrir, des prestations digitales expertes..." />
+	    <link rel="canonical" href="https://oling.fr/" />
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -17,115 +18,131 @@
     </head>
     <body>
         <!-- ========== HEADER ========== -->
-        <header id="header" class="navbar navbar-expand-lg navbar-end navbar-light navbar-absolute-top navbar-show-hide"
+        <header id="header" class="navbar navbar-expand-lg navbar-center navbar-light navbar-absolute-top navbar-show-hide"
                 data-hs-header-options='{
                     "fixMoment": 0,
                     "fixEffect": "slide"
                 }'>
             <div class="container">
-            <nav class="js-mega-menu navbar-nav-wrap">
-                <div class="navbar-brand-wrapper">
-                <!-- Default Logo -->
-                <a class="navbar-brand" href={{ path('index')}} aria-label="Oling">
-                    <img class="navbar-brand-logo" src="{{ asset('./img/logo/logoling.png') }}" alt="Logo">
-                </a>
-                <!-- End Default Logo -->
-                </div>
+                <nav class="js-mega-menu navbar-nav-wrap">
+                    <div class="navbar-brand-wrapper">
+                    <!-- Default Logo -->
+                    <a class="navbar-brand" href={{ path('index')}} aria-label="Oling">
+                        <img class="navbar-brand-logo" src="{{ asset('./img/logo/logoling.png') }}" alt="Logo">
+                    </a>
+                    <!-- End Default Logo -->
+                    </div>
 
-                <!-- Toggler -->
-                <button type="button" class="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuLeftAligned" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNavMenuLeftAligned">
-                <span class="navbar-toggler-default">
-                    <i class="bi-list"></i>
-                </span>
-                <span class="navbar-toggler-toggled">
-                    <i class="bi-x"></i>
-                </span>
-                </button>
-                <!-- End Toggler -->
-            
-                <!-- Collapse -->
-                <div class="navbar-nav-wrap-col collapse navbar-collapse" id="navbarNavMenuLeftAligned">
-                <div class="navbar-absolute-top-scroller">
-                    <ul class="navbar-nav nav-pills justify-content-start">
-                    {% set count = 0 %}
-                    {% for practice in practices %}
-                    {% set count = count + 1 %}
-                    <!-- Landings -->
-                    <li class="hs-has-mega-menu nav-item"
-                        data-hs-mega-menu-item-options='{
-                            "desktop": {
-                            {% if count > 2 %}"position": "right",{% endif %}
-                            "maxWidth": "40rem"
-                            }
-                        }'>
-                        <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle {% if practice.slug == pract %}active{% endif %}" aria-current="page" href="#" role="button" aria-expanded="false">{{ practice.designation }}</a>
+                    <!-- Toggler -->
+                    <button type="button" class="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuLeftAligned" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNavMenuLeftAligned">
+                    <span class="navbar-toggler-default">
+                        <i class="bi-list"></i>
+                    </span>
+                    <span class="navbar-toggler-toggled">
+                        <i class="bi-x"></i>
+                    </span>
+                    </button>
+                    <!-- End Toggler -->
+                
+                    <!-- Collapse -->
+                    <div class="navbar-nav-wrap-col collapse navbar-collapse" id="navbarNavMenuLeftAligned">
+                    <div class="navbar-absolute-top-scroller">
+                        <ul class="navbar-nav nav-pills justify-content-start">
+                        {% set count = 0 %}
+                        {% for practice in practices %}
+                        {% set count = count + 1 %}
+                        <!-- Landings -->
+                        <li class="hs-has-mega-menu nav-item"
+                            data-hs-mega-menu-item-options='{
+                                "desktop": {
+                                {% if count > 2 %}"position": "right",{% endif %}
+                                "maxWidth": "40rem"
+                                }
+                            }'>
+                            <a id="landingsMegaMenu" class="mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" href="#" role="button" aria-expanded="false">{{ practice.designation }}</a>
 
-                        <!-- Mega Menu -->
-                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
-                        
-                        
-                        <!-- Main Content -->
+                            <!-- Mega Menu -->
+                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                            
+                            
+                            <!-- Main Content -->
 
-                        <div class="row">
-                            <div class="col-lg d-none d-lg-block">
-                            <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
-                                <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
-                                {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
-                                    <div>
-                                        <p>{{ practice.description  | raw  }}</p>
+                            <div class="row">
+                                <div class="col-lg d-none d-lg-block">
+                                <div class="d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4">
+                                    <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
+                                    {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
+                                        <div>
+                                            <p>{{ practice.description  | raw  }}</p>
+                                        </div>
+                                    <div class="mt-auto">
+                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
+                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
                                     </div>
-                                <div class="mt-auto">
-                                <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
-                                <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
+                                </div>
+                                </div>
+
+                                <div class="col-sm">
+                                    <div class="navbar-dropdown-menu-inner">
+                                        {% for service in practice.services %}
+                                        <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
+                            <!-- End Main Content -->
                             </div>
+                            <!-- End Mega Menu -->
+                        </li>
+                        <!-- End Landings -->
 
-                            <div class="col-sm">
-                                <div class="navbar-dropdown-menu-inner">
-                                    {% for service in practice.services %}
-                                    <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->
+                        {% endfor %}
 
-                    {% endfor %}
-
-                    <!-- Landings -->
-                    <li class="nav-item">
-                        <a id="" class=" nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
-                    </li>
-                    <!-- End Landings -->
+                        <!-- Landings -->
+                        <li class="nav-item">
+                            <a id="" class="mymenuspe nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
+                        </li>
+                        <!-- End Landings -->
 
 
 
-                   
-
-                    {# <!-- Log in -->
-                    <li class="nav-item ms-lg-auto">
                     
-                        
-                    </li>
-                    <!-- End Log in --> #}
 
-                    {# <!-- Sign up -->
-                    <li class="nav-item">
-                        <a class="btn btn-sm btn-primary d-none d-lg-inline-block" href={{ path('contact')}}>Contactez-nous</a>
-                    </li>
-                    <!-- End Sign up --> #}
-                    </ul>
-                </div>
-                </div>
-                <!-- End Collapse -->
-            </nav>
+                        {# <!-- Log in -->
+                        <li class="nav-item ms-lg-auto">
+                        
+                            
+                        </li>
+                        <!-- End Log in --> #}
+
+                        {# <!-- Sign up -->
+                        <li class="nav-item">
+                            <a class="btn btn-sm btn-primary d-none d-lg-inline-block" href={{ path('contact')}}>Contactez-nous</a>
+                        </li>
+                        <!-- End Sign up --> #}
+                        </ul>
+                    </div>
+                    </div>
+                    <!-- End Collapse -->
+                </nav>
             </div>
+            
         </header>
+        {# <div class="container mt-10">
+            <nav class="">
+                <ul class="nav" id="myNav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#section1" data-scroll="#section1">Section 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#section2" data-scroll="#section2">Section 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#section3" data-scroll="#section3">Section 3</a>
+                    </li>
+                </ul>
+            </nav>
+        </div> #}
 
         <!-- ========== END HEADER ========== -->
         {% block body %}{% endblock %}
@@ -283,6 +300,8 @@
         </footer>
         <!-- ========== END FOOTER ========== -->
 
-
+    <script>
+   
+    </script>
     </body>
 </html>

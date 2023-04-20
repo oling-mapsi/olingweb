@@ -49,195 +49,199 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
     <head>
         <meta charset=\"UTF-8\">
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
+        <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
         <title>";
-        // line 6
+        // line 7
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
         <link rel=\"shortcut icon\" href=\"/favicon.ico\">
-        <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap\" rel=\"stylesheet\">
+        <meta name=\"description\" content=\"OLING Management est une société basée en France et en Guadeloupe. Créée en 2012 afin d&#039;offrir, des prestations digitales expertes...\" />
+\t    <link rel=\"canonical\" href=\"https://oling.fr/\" />
         ";
-        // line 10
-        echo "        ";
+        // line 11
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 13
+        // line 14
         echo "
         ";
-        // line 14
+        // line 15
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 17
+        // line 18
         echo "    </head>
     <body>
         <!-- ========== HEADER ========== -->
-        <header id=\"header\" class=\"navbar navbar-expand-lg navbar-end navbar-light navbar-absolute-top navbar-show-hide\"
+        <header id=\"header\" class=\"navbar navbar-expand-lg navbar-center navbar-light navbar-absolute-top navbar-show-hide\"
                 data-hs-header-options='{
                     \"fixMoment\": 0,
                     \"fixEffect\": \"slide\"
                 }'>
             <div class=\"container\">
-            <nav class=\"js-mega-menu navbar-nav-wrap\">
-                <div class=\"navbar-brand-wrapper\">
-                <!-- Default Logo -->
-                <a class=\"navbar-brand\" href=";
-        // line 29
+                <nav class=\"js-mega-menu navbar-nav-wrap\">
+                    <div class=\"navbar-brand-wrapper\">
+                    <!-- Default Logo -->
+                    <a class=\"navbar-brand\" href=";
+        // line 30
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("index");
         echo " aria-label=\"Oling\">
-                    <img class=\"navbar-brand-logo\" src=\"";
-        // line 30
+                        <img class=\"navbar-brand-logo\" src=\"";
+        // line 31
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("./img/logo/logoling.png"), "html", null, true);
         echo "\" alt=\"Logo\">
-                </a>
-                <!-- End Default Logo -->
-                </div>
+                    </a>
+                    <!-- End Default Logo -->
+                    </div>
 
-                <!-- Toggler -->
-                <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
-                <span class=\"navbar-toggler-default\">
-                    <i class=\"bi-list\"></i>
-                </span>
-                <span class=\"navbar-toggler-toggled\">
-                    <i class=\"bi-x\"></i>
-                </span>
-                </button>
-                <!-- End Toggler -->
-            
-                <!-- Collapse -->
-                <div class=\"navbar-nav-wrap-col collapse navbar-collapse\" id=\"navbarNavMenuLeftAligned\">
-                <div class=\"navbar-absolute-top-scroller\">
-                    <ul class=\"navbar-nav nav-pills justify-content-start\">
-                    ";
-        // line 50
-        $context["count"] = 0;
+                    <!-- Toggler -->
+                    <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
+                    <span class=\"navbar-toggler-default\">
+                        <i class=\"bi-list\"></i>
+                    </span>
+                    <span class=\"navbar-toggler-toggled\">
+                        <i class=\"bi-x\"></i>
+                    </span>
+                    </button>
+                    <!-- End Toggler -->
+                
+                    <!-- Collapse -->
+                    <div class=\"navbar-nav-wrap-col collapse navbar-collapse\" id=\"navbarNavMenuLeftAligned\">
+                    <div class=\"navbar-absolute-top-scroller\">
+                        <ul class=\"navbar-nav nav-pills justify-content-start\">
+                        ";
         // line 51
-        echo "                    ";
+        $context["count"] = 0;
+        // line 52
+        echo "                        ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 51, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 52, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
-            // line 52
-            echo "                    ";
-            $context["count"] = ((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 52, $this->source); })()) + 1);
             // line 53
-            echo "                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                        data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                            ";
-            // line 57
-            if (((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 57, $this->source); })()) > 2)) {
+            echo "                        ";
+            $context["count"] = ((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 53, $this->source); })()) + 1);
+            // line 54
+            echo "                        <!-- Landings -->
+                        <li class=\"hs-has-mega-menu nav-item\"
+                            data-hs-mega-menu-item-options='{
+                                \"desktop\": {
+                                ";
+            // line 58
+            if (((isset($context["count"]) || array_key_exists("count", $context) ? $context["count"] : (function () { throw new RuntimeError('Variable "count" does not exist.', 58, $this->source); })()) > 2)) {
                 echo "\"position\": \"right\",";
             }
-            // line 58
-            echo "                            \"maxWidth\": \"40rem\"
-                            }
-                        }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle ";
-            // line 61
-            if ((twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 61) == (isset($context["pract"]) || array_key_exists("pract", $context) ? $context["pract"] : (function () { throw new RuntimeError('Variable "pract" does not exist.', 61, $this->source); })()))) {
-                echo "active";
+            // line 59
+            echo "                                \"maxWidth\": \"40rem\"
+                                }
+                            }'>
+                            <a id=\"landingsMegaMenu\" class=\"mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker";
+            // line 62
+            if ((twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 62) == (isset($context["pract"]) || array_key_exists("pract", $context) ? $context["pract"] : (function () { throw new RuntimeError('Variable "pract" does not exist.', 62, $this->source); })()))) {
+                echo " active";
             }
-            echo "\" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 61), "html", null, true);
+            echo "\" href=\"#\" role=\"button\" aria-expanded=\"false\">";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 62), "html", null, true);
             echo "</a>
 
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        
-                        
-                        <!-- Main Content -->
+                            <!-- Mega Menu -->
+                            <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
+                            
+                            
+                            <!-- Main Content -->
 
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">";
-            // line 72
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 72), "html", null, true);
+                            <div class=\"row\">
+                                <div class=\"col-lg d-none d-lg-block\">
+                                <div class=\"d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4\">
+                                    <span class=\"fs-3 fw-bold d-block\">";
+            // line 73
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 73), "html", null, true);
             echo "</span>
-                                ";
-            // line 74
-            echo "                                    <div>
-                                        <p>";
+                                    ";
             // line 75
-            echo twig_get_attribute($this->env, $this->source, $context["practice"], "description", [], "any", false, false, false, 75);
+            echo "                                        <div>
+                                            <p>";
+            // line 76
+            echo twig_get_attribute($this->env, $this->source, $context["practice"], "description", [], "any", false, false, false, 76);
             echo "</p>
-                                    </div>
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
-            // line 78
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 78), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 78)]), "html", null, true);
-            echo ">Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
+                                        </div>
+                                    <div class=\"mt-auto\">
+                                    <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
             // line 79
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 79), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 79)]), "html", null, true);
+            echo ">Découvrir</a></p>
+                                    <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href=";
+            // line 80
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("client");
             echo ">Nos références</a></p>
+                                    </div>
                                 </div>
-                            </div>
-                            </div>
+                                </div>
 
-                            <div class=\"col-sm\">
-                                <div class=\"navbar-dropdown-menu-inner\">
-                                    ";
-            // line 86
+                                <div class=\"col-sm\">
+                                    <div class=\"navbar-dropdown-menu-inner\">
+                                        ";
+            // line 87
             $context['_parent'] = $context;
-            $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["practice"], "services", [], "any", false, false, false, 86));
+            $context['_seq'] = twig_ensure_traversable(twig_get_attribute($this->env, $this->source, $context["practice"], "services", [], "any", false, false, false, 87));
             foreach ($context['_seq'] as $context["_key"] => $context["service"]) {
-                // line 87
-                echo "                                    <a class=\"dropdown-item \" href=";
-                echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("service", ["practice" => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["service"], "practice", [], "any", false, false, false, 87), "slug", [], "any", false, false, false, 87), "id" => twig_get_attribute($this->env, $this->source, $context["service"], "id", [], "any", false, false, false, 87), "slug" => twig_get_attribute($this->env, $this->source, $context["service"], "slug", [], "any", false, false, false, 87)]), "html", null, true);
+                // line 88
+                echo "                                        <a class=\"dropdown-item \" href=";
+                echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("service", ["practice" => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["service"], "practice", [], "any", false, false, false, 88), "slug", [], "any", false, false, false, 88), "id" => twig_get_attribute($this->env, $this->source, $context["service"], "id", [], "any", false, false, false, 88), "slug" => twig_get_attribute($this->env, $this->source, $context["service"], "slug", [], "any", false, false, false, 88)]), "html", null, true);
                 echo "> ";
-                echo twig_get_attribute($this->env, $this->source, $context["service"], "designation", [], "any", false, false, false, 87);
+                echo twig_get_attribute($this->env, $this->source, $context["service"], "designation", [], "any", false, false, false, 88);
                 echo "</a>
-                                    ";
+                                        ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['service'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 89
-            echo "                                </div>
+            // line 90
+            echo "                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->
+                            <!-- End Main Content -->
+                            </div>
+                            <!-- End Mega Menu -->
+                        </li>
+                        <!-- End Landings -->
 
-                    ";
+                        ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 99
+        // line 100
         echo "
-                    <!-- Landings -->
-                    <li class=\"nav-item\">
-                        <a id=\"\" class=\" nav-link\" aria-current=\"page\"  href=";
-        // line 102
+                        <!-- Landings -->
+                        <li class=\"nav-item\">
+                            <a id=\"\" class=\"mymenuspe nav-link\" aria-current=\"page\"  href=";
+        // line 103
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("apropos");
         echo " role=\"button\" aria-expanded=\"false\">Découvrez OLING</a>
-                    </li>
-                    <!-- End Landings -->
+                        </li>
+                        <!-- End Landings -->
 
 
 
-                   
+                    
 
-                    ";
-        // line 116
+                        ";
+        // line 117
         echo "
-                    ";
-        // line 122
-        echo "                    </ul>
-                </div>
-                </div>
-                <!-- End Collapse -->
-            </nav>
+                        ";
+        // line 123
+        echo "                        </ul>
+                    </div>
+                    </div>
+                    <!-- End Collapse -->
+                </nav>
             </div>
+            
         </header>
-
+        ";
+        // line 146
+        echo "
         <!-- ========== END HEADER ========== -->
         ";
-        // line 131
+        // line 148
         $this->displayBlock('body', $context, $blocks);
-        // line 132
+        // line 149
         echo "
 
         <!-- ========== FOOTER ========== -->
@@ -279,22 +283,22 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     ";
-        // line 172
+        // line 189
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 172, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["practices"]) || array_key_exists("practices", $context) ? $context["practices"] : (function () { throw new RuntimeError('Variable "practices" does not exist.', 189, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["practice"]) {
-            // line 173
+            // line 190
             echo "                    <li><a class=\"link link-light link-light-75\" href=\"";
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 173), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 173)]), "html", null, true);
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("practice", ["slug" => twig_get_attribute($this->env, $this->source, $context["practice"], "slug", [], "any", false, false, false, 190), "id" => twig_get_attribute($this->env, $this->source, $context["practice"], "id", [], "any", false, false, false, 190)]), "html", null, true);
             echo "\">";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 173), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "designation", [], "any", false, false, false, 190), "html", null, true);
             echo "</a></li>
                     ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['practice'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 175
+        // line 192
         echo "                    </ul>
                     <!-- End List -->
                 </div>
@@ -306,15 +310,15 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- List -->
                     <ul class=\"list-unstyled list-py-1 mb-0\">
                     <li><a class=\"link link-light link-light-75\" href=";
-        // line 185
+        // line 202
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("apropos");
         echo ">A propos de OLING </a></li>
                     <li><a class=\"link link-light link-light-75\" href=";
-        // line 186
+        // line 203
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("team");
         echo ">L'Equipe </a> <span class=\"fs-6 fw-bold text-primary\">&mdash; Nous recrutons</span></li>
                     <li><a class=\"link link-light link-light-75\" href=";
-        // line 187
+        // line 204
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("rse");
         echo ">Démarche RSE</a></li>
                     <li><a class=\"link link-light link-light-75\" href=\"https://web.mapsi.fr/\" target=\"_blank\">MAPSI <i class=\"bi-box-arrow-up-right ms-1\"></i></a></li>
@@ -339,7 +343,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                             </div>
                         </li>
                         <li><a class=\"link link-light link-light-75\" href=";
-        // line 209
+        // line 226
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("contact");
         echo ">
                             <div class=\"d-flex\">
@@ -399,11 +403,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                 <!-- List -->
                 <ul class=\"list-inline list-px-2 mb-0\">
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
-        // line 266
+        // line 283
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("polrgpd");
         echo ">Politique générale de protection des données</a></li>
                     <li class=\"list-inline-item\"><a class=\"link link-light link-light-75\" href=";
-        // line 267
+        // line 284
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("discloser");
         echo ">Mentions légales</a></li>
                     <li class=\"list-inline-item\">
@@ -424,7 +428,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         </footer>
         <!-- ========== END FOOTER ========== -->
 
-
+    <script>
+   
+    </script>
     </body>
 </html>
 ";
@@ -436,7 +442,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 6
+    // line 7
     public function block_title($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -446,7 +452,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        echo "Welcome!";
+        echo "OLING Management";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -455,7 +461,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 10
+    // line 11
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -465,7 +471,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 11
+        // line 12
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackLinkTags("app");
         echo "
@@ -478,7 +484,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 14
+    // line 15
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -488,7 +494,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 15
+        // line 16
         echo "            ";
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackScriptTags("app");
         echo "
@@ -501,7 +507,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     }
 
-    // line 131
+    // line 148
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -531,7 +537,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
 
     public function getDebugInfo()
     {
-        return array (  505 => 131,  492 => 15,  482 => 14,  469 => 11,  459 => 10,  440 => 6,  407 => 267,  403 => 266,  343 => 209,  318 => 187,  314 => 186,  310 => 185,  298 => 175,  287 => 173,  283 => 172,  241 => 132,  239 => 131,  228 => 122,  225 => 116,  214 => 102,  209 => 99,  194 => 89,  183 => 87,  179 => 86,  169 => 79,  165 => 78,  159 => 75,  156 => 74,  152 => 72,  134 => 61,  129 => 58,  125 => 57,  119 => 53,  116 => 52,  111 => 51,  109 => 50,  86 => 30,  82 => 29,  68 => 17,  66 => 14,  63 => 13,  60 => 10,  54 => 6,  47 => 1,);
+        return array (  511 => 148,  498 => 16,  488 => 15,  475 => 12,  465 => 11,  446 => 7,  411 => 284,  407 => 283,  347 => 226,  322 => 204,  318 => 203,  314 => 202,  302 => 192,  291 => 190,  287 => 189,  245 => 149,  243 => 148,  239 => 146,  229 => 123,  226 => 117,  215 => 103,  210 => 100,  195 => 90,  184 => 88,  180 => 87,  170 => 80,  166 => 79,  160 => 76,  157 => 75,  153 => 73,  135 => 62,  130 => 59,  126 => 58,  120 => 54,  117 => 53,  112 => 52,  110 => 51,  87 => 31,  83 => 30,  69 => 18,  67 => 15,  64 => 14,  62 => 11,  55 => 7,  47 => 1,);
     }
 
     public function getSourceContext()
@@ -541,10 +547,11 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
     <head>
         <meta charset=\"UTF-8\">
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+        <title>{% block title %}OLING Management{% endblock %}</title>
         <link rel=\"shortcut icon\" href=\"/favicon.ico\">
-        <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap\" rel=\"stylesheet\">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <meta name=\"description\" content=\"OLING Management est une société basée en France et en Guadeloupe. Créée en 2012 afin d&#039;offrir, des prestations digitales expertes...\" />
+\t    <link rel=\"canonical\" href=\"https://oling.fr/\" />
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -555,115 +562,131 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
     </head>
     <body>
         <!-- ========== HEADER ========== -->
-        <header id=\"header\" class=\"navbar navbar-expand-lg navbar-end navbar-light navbar-absolute-top navbar-show-hide\"
+        <header id=\"header\" class=\"navbar navbar-expand-lg navbar-center navbar-light navbar-absolute-top navbar-show-hide\"
                 data-hs-header-options='{
                     \"fixMoment\": 0,
                     \"fixEffect\": \"slide\"
                 }'>
             <div class=\"container\">
-            <nav class=\"js-mega-menu navbar-nav-wrap\">
-                <div class=\"navbar-brand-wrapper\">
-                <!-- Default Logo -->
-                <a class=\"navbar-brand\" href={{ path('index')}} aria-label=\"Oling\">
-                    <img class=\"navbar-brand-logo\" src=\"{{ asset('./img/logo/logoling.png') }}\" alt=\"Logo\">
-                </a>
-                <!-- End Default Logo -->
-                </div>
+                <nav class=\"js-mega-menu navbar-nav-wrap\">
+                    <div class=\"navbar-brand-wrapper\">
+                    <!-- Default Logo -->
+                    <a class=\"navbar-brand\" href={{ path('index')}} aria-label=\"Oling\">
+                        <img class=\"navbar-brand-logo\" src=\"{{ asset('./img/logo/logoling.png') }}\" alt=\"Logo\">
+                    </a>
+                    <!-- End Default Logo -->
+                    </div>
 
-                <!-- Toggler -->
-                <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
-                <span class=\"navbar-toggler-default\">
-                    <i class=\"bi-list\"></i>
-                </span>
-                <span class=\"navbar-toggler-toggled\">
-                    <i class=\"bi-x\"></i>
-                </span>
-                </button>
-                <!-- End Toggler -->
-            
-                <!-- Collapse -->
-                <div class=\"navbar-nav-wrap-col collapse navbar-collapse\" id=\"navbarNavMenuLeftAligned\">
-                <div class=\"navbar-absolute-top-scroller\">
-                    <ul class=\"navbar-nav nav-pills justify-content-start\">
-                    {% set count = 0 %}
-                    {% for practice in practices %}
-                    {% set count = count + 1 %}
-                    <!-- Landings -->
-                    <li class=\"hs-has-mega-menu nav-item\"
-                        data-hs-mega-menu-item-options='{
-                            \"desktop\": {
-                            {% if count > 2 %}\"position\": \"right\",{% endif %}
-                            \"maxWidth\": \"40rem\"
-                            }
-                        }'>
-                        <a id=\"landingsMegaMenu\" class=\"hs-mega-menu-invoker nav-link dropdown-toggle {% if practice.slug == pract %}active{% endif %}\" aria-current=\"page\" href=\"#\" role=\"button\" aria-expanded=\"false\">{{ practice.designation }}</a>
+                    <!-- Toggler -->
+                    <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
+                    <span class=\"navbar-toggler-default\">
+                        <i class=\"bi-list\"></i>
+                    </span>
+                    <span class=\"navbar-toggler-toggled\">
+                        <i class=\"bi-x\"></i>
+                    </span>
+                    </button>
+                    <!-- End Toggler -->
+                
+                    <!-- Collapse -->
+                    <div class=\"navbar-nav-wrap-col collapse navbar-collapse\" id=\"navbarNavMenuLeftAligned\">
+                    <div class=\"navbar-absolute-top-scroller\">
+                        <ul class=\"navbar-nav nav-pills justify-content-start\">
+                        {% set count = 0 %}
+                        {% for practice in practices %}
+                        {% set count = count + 1 %}
+                        <!-- Landings -->
+                        <li class=\"hs-has-mega-menu nav-item\"
+                            data-hs-mega-menu-item-options='{
+                                \"desktop\": {
+                                {% if count > 2 %}\"position\": \"right\",{% endif %}
+                                \"maxWidth\": \"40rem\"
+                                }
+                            }'>
+                            <a id=\"landingsMegaMenu\" class=\"mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}\" href=\"#\" role=\"button\" aria-expanded=\"false\">{{ practice.designation }}</a>
 
-                        <!-- Mega Menu -->
-                        <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
-                        
-                        
-                        <!-- Main Content -->
+                            <!-- Mega Menu -->
+                            <div class=\"hs-mega-menu dropdown-menu\" aria-labelledby=\"landingsMegaMenu\" style=\"min-width: 25rem;\">
+                            
+                            
+                            <!-- Main Content -->
 
-                        <div class=\"row\">
-                            <div class=\"col-lg d-none d-lg-block\">
-                            <div class=\"d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4\">
-                                <span class=\"fs-3 fw-bold d-block\">{{ practice.designation }}</span>
-                                {# <img class=\"img-fluid rounded-2 mb-2\" src=\"{{ practice.image1 }}\" alt=\"Image Description\"> #}
-                                    <div>
-                                        <p>{{ practice.description  | raw  }}</p>
+                            <div class=\"row\">
+                                <div class=\"col-lg d-none d-lg-block\">
+                                <div class=\"d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4\">
+                                    <span class=\"fs-3 fw-bold d-block\">{{ practice.designation }}</span>
+                                    {# <img class=\"img-fluid rounded-2 mb-2\" src=\"{{ practice.image1 }}\" alt=\"Image Description\"> #}
+                                        <div>
+                                            <p>{{ practice.description  | raw  }}</p>
+                                        </div>
+                                    <div class=\"mt-auto\">
+                                    <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
+                                    <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{path('client') }}>Nos références</a></p>
                                     </div>
-                                <div class=\"mt-auto\">
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
-                                <p class=\"mb-1\"><a class=\"link link-dark link-pointer\" href={{path('client') }}>Nos références</a></p>
+                                </div>
+                                </div>
+
+                                <div class=\"col-sm\">
+                                    <div class=\"navbar-dropdown-menu-inner\">
+                                        {% for service in practice.services %}
+                                        <a class=\"dropdown-item \" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
+                            <!-- End Main Content -->
                             </div>
+                            <!-- End Mega Menu -->
+                        </li>
+                        <!-- End Landings -->
 
-                            <div class=\"col-sm\">
-                                <div class=\"navbar-dropdown-menu-inner\">
-                                    {% for service in practice.services %}
-                                    <a class=\"dropdown-item \" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Main Content -->
-                        </div>
-                        <!-- End Mega Menu -->
-                    </li>
-                    <!-- End Landings -->
+                        {% endfor %}
 
-                    {% endfor %}
-
-                    <!-- Landings -->
-                    <li class=\"nav-item\">
-                        <a id=\"\" class=\" nav-link\" aria-current=\"page\"  href={{ path('apropos')}} role=\"button\" aria-expanded=\"false\">Découvrez OLING</a>
-                    </li>
-                    <!-- End Landings -->
+                        <!-- Landings -->
+                        <li class=\"nav-item\">
+                            <a id=\"\" class=\"mymenuspe nav-link\" aria-current=\"page\"  href={{ path('apropos')}} role=\"button\" aria-expanded=\"false\">Découvrez OLING</a>
+                        </li>
+                        <!-- End Landings -->
 
 
 
-                   
-
-                    {# <!-- Log in -->
-                    <li class=\"nav-item ms-lg-auto\">
                     
-                        
-                    </li>
-                    <!-- End Log in --> #}
 
-                    {# <!-- Sign up -->
-                    <li class=\"nav-item\">
-                        <a class=\"btn btn-sm btn-primary d-none d-lg-inline-block\" href={{ path('contact')}}>Contactez-nous</a>
-                    </li>
-                    <!-- End Sign up --> #}
-                    </ul>
-                </div>
-                </div>
-                <!-- End Collapse -->
-            </nav>
+                        {# <!-- Log in -->
+                        <li class=\"nav-item ms-lg-auto\">
+                        
+                            
+                        </li>
+                        <!-- End Log in --> #}
+
+                        {# <!-- Sign up -->
+                        <li class=\"nav-item\">
+                            <a class=\"btn btn-sm btn-primary d-none d-lg-inline-block\" href={{ path('contact')}}>Contactez-nous</a>
+                        </li>
+                        <!-- End Sign up --> #}
+                        </ul>
+                    </div>
+                    </div>
+                    <!-- End Collapse -->
+                </nav>
             </div>
+            
         </header>
+        {# <div class=\"container mt-10\">
+            <nav class=\"\">
+                <ul class=\"nav\" id=\"myNav\">
+                    <li class=\"nav-item\">
+                        <a class=\"nav-link active\" href=\"#section1\" data-scroll=\"#section1\">Section 1</a>
+                    </li>
+                    <li class=\"nav-item\">
+                        <a class=\"nav-link\" href=\"#section2\" data-scroll=\"#section2\">Section 2</a>
+                    </li>
+                    <li class=\"nav-item\">
+                        <a class=\"nav-link\" href=\"#section3\" data-scroll=\"#section3\">Section 3</a>
+                    </li>
+                </ul>
+            </nav>
+        </div> #}
 
         <!-- ========== END HEADER ========== -->
         {% block body %}{% endblock %}
@@ -821,7 +844,9 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
         </footer>
         <!-- ========== END FOOTER ========== -->
 
-
+    <script>
+   
+    </script>
     </body>
 </html>
 ", "base.html.twig", "/Users/florestanrouet/myweb/olingweb/templates/base.html.twig");

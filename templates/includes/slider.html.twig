@@ -1,0 +1,168 @@
+<div class="position-relative">
+    <!-- Swiper Main Slider -->
+    <div class="js-swiper-blog-modern-hero swiper swiper-equal-height">
+        <div class="swiper-wrapper">
+          
+            <div class="swiper-slide bg-white bg-img-start  content-space-3 " style="background-image: url(/img/spe/slide1.jpg); height: 100vh;">
+                
+                <!-- Container -->
+                <div class="container content-space-b-sm-2 my-auto">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-5">
+                                <h1 class="display-4 text-light mb-5"> <span class="text-primary">Innover</span> et <span class="text-primary">réussir</span> collectivement </h1>
+                                <p class="fs-3 text-light">Une alliance d'experts en projets métier et informatique pour accompagner les organisations publiques et privées dans leur évolution. Notre équipe dédiée travaille en étroite collaboration avec vous pour apporter des solutions concrètes et adaptées à vos enjeux.</p>
+                            </div>
+
+                            <div class="d-grid d-sm-flex gap-3 mb-5">
+                                <a class="btn btn-light" href={{ path('apropos')}}>A propos de OLING</a>
+                                <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
+                            </div>
+                            
+                        </div>
+                        <!-- End Col -->
+                    </div>
+                    <!-- End Row -->
+                </div>
+                <!-- End Container -->
+                <div class="ripple-background">
+                    <div class="circle xxlarge shade1"></div>
+                    <div class="circle xlarge shade2"></div>
+                    <div class="circle large shade3"></div>
+                    <div class="circle medium shade4"></div>
+                    <div class="circle small shade5"></div>
+                </div>
+            </div>
+
+          <div class="swiper-slide app content-space-3 content-space-t-sm-2 content-space-b-sm-2">
+            <!-- Container -->
+            <div class="container content-space-b-sm-2 my-auto">
+              <div class="row">
+                <div class="col-md-6">
+                    
+                  <!-- Media -->
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                      <div class="avatar">
+                        <img class="avatar-img" src="/img/people/antoine-oling.png" alt="Image Description">
+                      </div>
+                    </div>
+
+                    <div class="flex-grow-1 ms-3">
+                      <a class="text-white" href="./blog-article.html">Antoine de Boisfleury</a>
+                    </div>
+                  </div>
+                  <!-- End Media -->
+
+                    <div class="mb-5">
+                        <h1 class="display-4 text-light mb-5"> Expertise <span class="text-primary">ERP</span>, adaptée et <span class="text-primary">ciblée</span> </h1>
+                        <p class="fs-3 text-light">Nos consultants offrent un soutien spécialisé en maîtrise d'ouvrage pour les ERP tels que SAP, X3, Divalto et Dynamics, adaptant notre approche pour répondre aux enjeux uniques de votre entreprise et piloter efficacement chaque étape de la transformation.</p>
+                    </div>
+
+                    <div class="d-grid d-sm-flex gap-3 mb-5">
+                        <a class="btn btn-primary" href={{ path('apropos')}}>A propos de OLING</a>
+                        <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
+                    </div>
+                    <div class="area" >
+                        <ul class="circles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div >
+                </div>
+                <!-- End Col -->
+                <div class="col-md-6 d-none d-sm-block">
+                <br><br>
+                    <img class="img-fluid float-lg-end" style="opacity: 1;" src="/img/spe/erp.png" alt="Image Description">
+                </div>
+                <!-- End Col -->
+              </div>
+              <!-- End Row -->
+            </div>
+            <!-- End Container -->
+          </div>
+
+          <div class="swiper-slide bg-img-right content-space-3 content-space-t-sm-2 content-space-b-sm-2" style="background-image: url(/img/1920x1080/img3.jpg);">
+            <div class="bg"></div>
+            <div class="bg bg2"></div>
+            <div class="bg bg3"></div>
+            <!-- Container -->
+            <div class="container content-space-b-sm-2 my-auto">
+              <div class="row">
+                <div class="col-md-8">
+                    <!-- Media -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                        <div class="avatar">
+                            <img class="avatar-img" src="/img/people/dorothee-oling.jpg" alt="Image Description">
+                        </div>
+                        </div>
+
+                        <div class="flex-grow-1 ms-3">
+                        <a class="text-white" href="./blog-article.html">Dorothée Maitrias</a>
+                        </div>
+                    </div>
+                    <!-- End Media -->
+                
+                    <div class="mb-5">
+                        <h1 class="display-4 text-light mb-5">Conformité sur-mesure et multisectorielle</h1>
+                        <p class="fs-3 text-light">OLING vous accompagne avec succès dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
+                        {% for service in services %} 
+                            {% if service.practice.id == 7 %}
+                                <button type="button" class="btn btn-light m-1">{{ service.designation }}</button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                
+                </div>
+                <!-- End Col -->
+              </div>
+              <!-- End Row -->
+            </div>
+            <!-- End Container -->
+          </div>
+        </div>
+
+        <!-- Swiper Pagination -->
+        <div class="js-swiper-blog-modern-hero-pagination swiper-pagination swiper-pagination-light position-absolute bottom-0 start-0 end-0 mb-3 d-sm-none"></div>
+      </div>
+      <!-- End Swiper Main Slider -->
+
+      <!-- Swiper Thumbs Slider -->
+      <div class="position-sm-absolute bottom-0 start-0 end-0 zi-2 d-none d-sm-block mb-10">
+        <div class="container content-space-t-1">
+          <div class="js-swiper-blog-modern-hero-thumbs swiper swiper-step-pagination swiper-step-pagination-light">
+            <div class="swiper-wrapper">
+              <!-- Slide -->
+              <div class="swiper-slide mb-4">
+                <span class="swiper-step-pagination-title">OLING digitalise les organisations</span>
+              </div>
+              <!-- End Slide -->
+
+              <!-- Slide -->
+              <div class="swiper-slide mb-4">
+                <span class="swiper-step-pagination-title">Des solutions pour changer d'ERP</span>
+              </div>
+              <!-- End Slide -->
+
+              <!-- Slide -->
+              <div class="swiper-slide mb-4">
+                <span class="swiper-step-pagination-title">Conformité métier et réglementaire à 360°</span>
+              </div>
+              <!-- End Slide -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Swiper Thumbs Slider -->
+    </div>
+    <!-- End Hero -->

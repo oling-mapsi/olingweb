@@ -58,34 +58,39 @@ $(document).ready(function () {
   // =======================================================
   new HSGoTo('.js-go-to');
 
-  // INITIALIZATION OF SWIPER
-  // =======================================================
-  var swiper = new Swiper('.js-swiper-card-grid',{
-    navigation: {
-      nextEl: '.js-swiper-card-grid-button-next',
-      prevEl: '.js-swiper-card-grid-button-prev',
-    },
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: 1,
-    breakpoints: {
-      480: {
-        slidesPerView: 2
-      },
-      768: {
-        slidesPerView: 2
-      },
-      1024: {
-        slidesPerView: 3
-      },
-    },
-    on: {
-      'imagesReady': function (swiper) {
-        const preloader = swiper.el.querySelector('.js-swiper-preloader')
-        preloader.parentNode.removeChild(preloader)
-      }
-    }
-  });
+  (function() {
+     // INITIALIZATION OF SWIPER
+      // =======================================================
+      var sliderThumbs = new Swiper('.js-swiper-blog-modern-hero-thumbs', {
+        slidesPerView: 4,
+        breakpoints: {
+          580: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 50,
+          },
+        },
+      });
+
+      // Blog Modern Hero
+      var swiper = new Swiper('.js-swiper-blog-modern-hero',{
+        effect: 'fade',
+        autoplay: {
+          delay: 8000,
+        },
+        loop: true,
+        pagination: {
+          el: '.js-swiper-blog-modern-hero-pagination',
+          clickable: true,
+        },
+        thumbs: {
+          swiper: sliderThumbs
+        }
+      });
+  })()
 
   // INITIALIZATION OF STICKY BLOCKS
   // =======================================================
@@ -137,7 +142,7 @@ $(document).ready(function () {
             alert('Une erreur est survenue lors de l\'envoi du message.');
         }
     });
-});
+  });
 
 
   const lightbox = new FsLightbox();
@@ -151,4 +156,25 @@ $(document).ready(function () {
   });
 
 
+
+
 });
+
+$(document).ready(function() {
+  if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
+      $('.mymenuspe').addClass('text-light');
+  } else {
+      $('.mymenuspe').removeClass('text-light');
+  }
+
+  $(document).scroll(function() {
+    if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
+          $('.mymenuspe').addClass('text-light');
+      } else {
+          $('.mymenuspe').removeClass('text-light');
+      }
+  });
+});
+
+
+

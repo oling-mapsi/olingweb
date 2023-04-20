@@ -53,17 +53,23 @@
                     </div>
                   </div>
                   <!-- End Media -->
-
                     <div class="mb-5">
                         <h1 class="display-4 text-light mb-5"> Expertise <span class="text-primary">ERP</span>, adaptée et <span class="text-primary">ciblée</span> </h1>
                         <p class="fs-3 text-light">Nos consultants offrent un soutien spécialisé en maîtrise d'ouvrage pour les ERP tels que SAP, X3, Divalto et Dynamics, adaptant notre approche pour répondre aux enjeux uniques de votre entreprise et piloter efficacement chaque étape de la transformation.</p>
                     </div>
 
                     <div class="d-grid d-sm-flex gap-3 mb-5">
-                        <a class="btn btn-primary" href={{ path('apropos')}}>A propos de OLING</a>
+                        <a class="btn btn-soft-light" href="/businessapps/15/erp">Découvrir le service</a>
                         <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
                     </div>
-                    <div class="area" >
+                    
+                </div>
+                <!-- End Col -->
+                <div class="col-md-6 d-none d-sm-block">
+                    <br><br>
+                    <img class="img-fluid float-lg-end" style="opacity: 1;" src="/img/spe/erp.png" alt="Image Description">
+                </div>
+                <div class="area" >
                         <ul class="circles">
                             <li></li>
                             <li></li>
@@ -77,12 +83,6 @@
                             <li></li>
                         </ul>
                     </div >
-                </div>
-                <!-- End Col -->
-                <div class="col-md-6 d-none d-sm-block">
-                <br><br>
-                    <img class="img-fluid float-lg-end" style="opacity: 1;" src="/img/spe/erp.png" alt="Image Description">
-                </div>
                 <!-- End Col -->
               </div>
               <!-- End Row -->
@@ -117,7 +117,7 @@
                         <p class="fs-3 text-light">OLING vous accompagne avec succès dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
                         {% for service in services %} 
                             {% if service.practice.id == 7 %}
-                                <button type="button" class="btn btn-light m-1">{{ service.designation }}</button>
+                                <a class="btn btn-light m-1" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
                             {% endif %}
                         {% endfor %}
                     </div>

@@ -71,17 +71,12 @@ class PracticeController extends AbstractController
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
         // Vérifier que la colonne IntroductionShort n'est pas vide
+        
         if (empty($service->getIntroductionShort())) {
-            return $this->render('index.html.twig', [
-                'controller_name' => 'PracticeController',
-                'practices' => $practices,
-                'services' => $services,
-                'pract' => '',
-            ]);
+            return $this->redirectToRoute('index');
         }
         $pract = $practice;
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',
             'service' => $service,

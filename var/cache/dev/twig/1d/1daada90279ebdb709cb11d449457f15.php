@@ -93,7 +93,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- Toggler -->
                     <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
                     <span class=\"navbar-toggler-default\">
-                        <i class=\"bi-list\"></i>
+                        <i class=\"bi-list mymenuspe\"></i>
                     </span>
                     <span class=\"navbar-toggler-toggled\">
                         <i class=\"bi-x\"></i>
@@ -580,7 +580,7 @@ class __TwigTemplate_b1ae54cde74048b6e096a234bf4bc9e9 extends Template
                     <!-- Toggler -->
                     <button type=\"button\" class=\"navbar-toggler ms-auto\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNavMenuLeftAligned\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" aria-controls=\"navbarNavMenuLeftAligned\">
                     <span class=\"navbar-toggler-default\">
-                        <i class=\"bi-list\"></i>
+                        <i class=\"bi-list mymenuspe\"></i>
                     </span>
                     <span class=\"navbar-toggler-toggled\">
                         <i class=\"bi-x\"></i>

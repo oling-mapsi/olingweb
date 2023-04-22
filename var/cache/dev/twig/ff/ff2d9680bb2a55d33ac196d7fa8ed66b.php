@@ -103,7 +103,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     <div class=\"row justify-content-lg-between align-items-lg-center\">
       <div class=\"col-lg-5\">
         <div class=\"mb-6\">
-          <h2>Votre allié pour mener à bien vos initiatives stratégiques</h2>
+          <h2>Votre allié SI et organisation pour mener à bien vos initiatives stratégiques</h2>
             <p>OLING collabore étroitement avec ses clients pour transformer le fonctionnement de leur entreprise en termes de SI et de processus, leur permettant ainsi de se focaliser sur leur cœur de métier. Avec une expertise solide en management et en intégration de systèmes complexes, OLING offre des solutions personnalisées pour soutenir la croissance de ses clients.</p>
         </div>
       </div>
@@ -140,7 +140,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 <div class=\"container content-space-1\">
   <!-- Heading -->
   <div class=\"w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10\">
-      <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
+      <h2>Des services personnalisés pour des exigences spécifiques</h2>
       <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de l'entreprise</p>
   </div>
   <!-- End Heading -->
@@ -179,7 +179,9 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
             echo ">
         ";
             // line 73
-            echo "        <div class=\"card-transition-zoom-item\">
+            echo "        <div class=\"card-transition-zoom-item ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "class1", [], "any", false, false, false, 73), "html", null, true);
+            echo "\">
           <img class=\"card-img\" src=\"";
             // line 74
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["practice"], "image1", [], "any", false, false, false, 74), "html", null, true);
@@ -227,20 +229,19 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <div class=\"col-md-6 col-lg-6 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
                 <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
-                <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
-                vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
+                <p>Notre équipe d'experts internes dispose d'une connaissance approfondie des défis uniques auxquels font face les entreprises dans divers secteurs, tels que les services publics, le transport, le négoce et la distribution, l'apprentissage et la formation, et bien d'autres.</p> 
+                <p>En travaillant avec OLING, vous bénéficiez d'une collaboration étroite avec nos spécialistes qui comprennent les enjeux de votre secteur et les processus spécifiques à votre organisation. Nous vous aidons à mettre en place des solutions sur mesure, robustes et selon les standards de référence pour répondre à vos besoins et soutenir votre croissance.</p>
               </div>
 
               <a class=\"link link-pointer\" href=";
-        // line 159
+        // line 158
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("metiers");
         echo ">Découvrez nos expériences par secteur d'activité</a>
           </div>
           <!-- End Col -->
           <div class=\"col-md-6 col-lg-6 pt-10 d-none d-sm-block\">
             <img class=\"img-fluid\" src=\"";
-        // line 163
+        // line 162
         echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("./img/spe/arrow.png"), "html", null, true);
         echo "\" alt=\"Image Description\">
               
@@ -304,7 +305,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 
     public function getDebugInfo()
     {
-        return array (  244 => 163,  237 => 159,  221 => 145,  212 => 86,  199 => 79,  195 => 78,  191 => 77,  185 => 74,  182 => 73,  178 => 71,  166 => 70,  161 => 67,  158 => 66,  153 => 65,  151 => 64,  97 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  245 => 162,  238 => 158,  223 => 145,  214 => 86,  201 => 79,  197 => 78,  193 => 77,  187 => 74,  182 => 73,  178 => 71,  166 => 70,  161 => 67,  158 => 66,  153 => 65,  151 => 64,  97 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -329,7 +330,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
     <div class=\"row justify-content-lg-between align-items-lg-center\">
       <div class=\"col-lg-5\">
         <div class=\"mb-6\">
-          <h2>Votre allié pour mener à bien vos initiatives stratégiques</h2>
+          <h2>Votre allié SI et organisation pour mener à bien vos initiatives stratégiques</h2>
             <p>OLING collabore étroitement avec ses clients pour transformer le fonctionnement de leur entreprise en termes de SI et de processus, leur permettant ainsi de se focaliser sur leur cœur de métier. Avec une expertise solide en management et en intégration de systèmes complexes, OLING offre des solutions personnalisées pour soutenir la croissance de ses clients.</p>
         </div>
       </div>
@@ -366,7 +367,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
 <div class=\"container content-space-1\">
   <!-- Heading -->
   <div class=\"w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10\">
-      <h2>Des solutions personnalisées pour des exigences spécifiques</h2>
+      <h2>Des services personnalisés pour des exigences spécifiques</h2>
       <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de l'entreprise</p>
   </div>
   <!-- End Heading -->
@@ -381,7 +382,7 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
       style=\"{% if count == 2 %}margin-top:30px{% endif %}{% if count == 3 %}margin-top:60px{% endif %}{% if count == 4 %}margin-top:90px{% endif %}\" 
        href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>
         {#  #}
-        <div class=\"card-transition-zoom-item\">
+        <div class=\"card-transition-zoom-item {{ practice.class1 }}\">
           <img class=\"card-img\" src=\"{{ practice.image1 }}\" alt=\"Image Description\">
         </div>
         <div class=\"card-body\">
@@ -462,9 +463,8 @@ class __TwigTemplate_1c35536ceb22ef15f5a3559fdb986f18 extends Template
           <div class=\"col-md-6 col-lg-6 mb-7 mb-lg-0\">
               <div class=\"mb-5\">
                 <h2>Recherchez-vous un partenaire fournissant une expertise adaptée à votre secteur d'activité ?</h2>
-                <p> OLING, société de conseil spécialisée dans l'accompagnement des entreprises publiques et privées, 
-                vous offre une expertise sur-mesure pour répondre à vos défis métiers et informatiques.</p> 
-                <p>Découvrez nos compétences pour vous aider à innover, à respecter les exigences spécifiques, les réglementations et à optimiser les processus de chaque métier.</p>
+                <p>Notre équipe d'experts internes dispose d'une connaissance approfondie des défis uniques auxquels font face les entreprises dans divers secteurs, tels que les services publics, le transport, le négoce et la distribution, l'apprentissage et la formation, et bien d'autres.</p> 
+                <p>En travaillant avec OLING, vous bénéficiez d'une collaboration étroite avec nos spécialistes qui comprennent les enjeux de votre secteur et les processus spécifiques à votre organisation. Nous vous aidons à mettre en place des solutions sur mesure, robustes et selon les standards de référence pour répondre à vos besoins et soutenir votre croissance.</p>
               </div>
 
               <a class=\"link link-pointer\" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>

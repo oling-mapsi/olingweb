@@ -53,6 +53,9 @@ class Practice
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $class1 = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -214,6 +217,18 @@ class Practice
     public function setClass1(?string $class1): self
     {
         $this->class1 = $class1;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

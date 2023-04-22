@@ -14,7 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
-        '/send-email' => [[['_route' => 'send_mail', '_controller' => 'App\\Controller\\ContactController::sendEmail'], null, null, null, false, false, null]],
+        '/send-email' => [[['_route' => 'send_mail', '_controller' => 'App\\Controller\\ContactController::sendEmail'], null, ['POST' => 0], null, false, false, null]],
         '/error' => [[['_route' => 'app_error', '_controller' => 'App\\Controller\\ErrorController::index'], null, null, null, false, false, null]],
         '/error404' => [[['_route' => 'app_error404', '_controller' => 'App\\Controller\\ErrorController::error404'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'index', '_controller' => 'App\\Controller\\PracticeController::index'], null, null, null, false, false, null]],

@@ -79,7 +79,7 @@ $(document).ready(function () {
       var swiper = new Swiper('.js-swiper-blog-modern-hero',{
         effect: 'fade',
         autoplay: {
-          delay: 8000,
+          delay: 11000,
         },
         loop: true,
         pagination: {
@@ -145,6 +145,7 @@ $(document).ready(function () {
   });
 
 
+
   const lightbox = new FsLightbox();
 
   // Initialiser le plugin
@@ -175,6 +176,19 @@ $(document).ready(function() {
       }
   });
 });
+
+// $(document).ready(function() {
+//   // Vérifier la largeur de l'écran au chargement de la page
+
+//   // Vérifier la largeur de l'écran à chaque changement de taille
+//   $(window).resize(function() {
+//     if ($(window).width() < 768) {
+//       $('.swiper-slide').removeClass('fullheight');
+//     } else {
+//       $('.swiper-slide').addClass('fullheight');
+//     }
+//   });
+// });
 
 
 

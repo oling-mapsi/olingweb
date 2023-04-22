@@ -3,7 +3,7 @@
     <div class="js-swiper-blog-modern-hero swiper swiper-equal-height">
         <div class="swiper-wrapper">
           
-            <div class="swiper-slide bg-white bg-img-start  content-space-3 " style="background-image: url(/img/spe/slide1.jpg); height: 100vh;">
+            <div class="swiper-slide bg-white bg-img-start content-space-3" style="background-image: url(/img/spe/slide1.jpg); height: 100vh;">
                 
                 <!-- Container -->
                 <div class="container content-space-b-sm-2 my-auto">
@@ -11,7 +11,7 @@
                         <div class="col-md-6">
                             <div class="mb-5">
                                 <h1 class="display-4 text-light mb-5"> <span class="text-primary">Innover</span> et <span class="text-primary">réussir</span> collectivement </h1>
-                                <p class="fs-3 text-light">Une alliance d'experts en projets métier et informatique pour accompagner les organisations publiques et privées dans leur évolution. Notre équipe dédiée travaille en étroite collaboration avec vous pour apporter des solutions concrètes et adaptées à vos enjeux.</p>
+                                <p class="fs-3 text-light">Une alliance d'experts en projets métier et informatique pour accompagner les organisations publiques et privées dans leurs évolutions. Notre équipe travaille en étroite collaboration avec vous pour apporter des solutions concrètes et adaptées à vos enjeux.</p>
                             </div>
 
                             <div class="d-grid d-sm-flex gap-3 mb-5">
@@ -54,10 +54,9 @@
                   </div>
                   <!-- End Media -->
                     <div class="mb-5">
-                        <h1 class="display-4 text-light mb-5"> Expertise <span class="text-primary">ERP</span>, adaptée et <span class="text-primary">ciblée</span> </h1>
-                        <p class="fs-3 text-light">Nos consultants offrent un soutien spécialisé en maîtrise d'ouvrage pour les ERP tels que SAP, X3, Divalto et Dynamics, adaptant notre approche pour répondre aux enjeux uniques de votre entreprise et piloter efficacement chaque étape de la transformation.</p>
+                        <h1 class="display-4 text-light mb-5"> Expertise en logiciels <span class="text-primary">ERP</span>, adaptée et ciblée </h1>
+                        <p class="fs-3 text-light">Nos consultants offrent un soutien spécialisé en maîtrise d'ouvrage pour les ERP tels que SAP, X3, Divalto et Dynamics, adaptant notre approche pour répondre aux enjeux uniques de votre entreprise et piloter efficacement chaque étape de l'intégration.</p>
                     </div>
-
                     <div class="d-grid d-sm-flex gap-3 mb-5">
                         <a class="btn btn-soft-light" href="/businessapps/15/erp">Découvrir le service</a>
                         <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
@@ -114,7 +113,7 @@
                 
                     <div class="mb-5">
                         <h1 class="display-4 text-light mb-5">Conformité sur-mesure et multisectorielle</h1>
-                        <p class="fs-3 text-light">OLING vous accompagne avec succès dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
+                        <p class="fs-3 text-light">OLING vous accompagne dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
                         {% for service in services %} 
                             {% if service.practice.id == 7 %}
                                 <a class="btn btn-light m-1" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>

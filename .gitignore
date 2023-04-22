@@ -8,13 +8,19 @@
 /var/
 /.phpunit.result.cache
 /.php_cs.cache
+
+# Ignorer tout le contenu de var/cache, mais garder le dossier avec .gitkeep
 /var/cache/*
 !/var/cache/.gitkeep
+
+# Ignorer tout le contenu de var/log, mais garder le dossier avec .gitkeep
 /var/log/*
 !/var/log/.gitkeep
-var/cache/dev/profiler/index.csv
-var/log/dev.log
-/.htaccess
-/var/cache/dev/profiler/index.csv
-/var/cache/dev/*
-/var/log/dev.log
+
+# Supprimer les entrées inutiles
+# var/cache/dev/profiler/index.csv
+# var/log/dev.log
+# /.htaccess
+# /var/cache/dev/profiler/index.csv
+# /var/cache/dev/*
+# /var/log/dev.log

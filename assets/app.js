@@ -129,20 +129,24 @@ $(document).ready(function () {
   // =======================================================
 
   $('#button-send').on('click', function () {
-   
     $.ajax({
         url: '/send-email',
         type: 'POST',
         data: $('#contact-form').serialize(),
         success: function (response) {
-            alert(response.message);
-            $('#contact-form')[0].reset();
+            if (response.success) {
+                alert(response.message);
+                $('#contact-form')[0].reset();
+            } else {
+                alert(response.message);
+            }
         },
         error: function (response) {
             alert('Une erreur est survenue lors de l\'envoi du message.');
         }
     });
-  });
+});
+
 
 
 

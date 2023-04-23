@@ -60,7 +60,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/{practice}/{id}/{slug}')]
+    #[Route('/{practice}/{id}/{slug}', name: 'service')]
     public function services(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,

@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PracticeController extends AbstractController
 {
     
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', options: ["sitemap" => true])]
     public function index(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -60,7 +60,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/{practice}/{id}/{slug}', name: 'service')]
+    #[Route('/{practice}/{id}/{slug}')]
     public function services(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -103,7 +103,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/a_propos', name: 'apropos')]
+    #[Route('/a_propos', name: 'apropos', options: ["sitemap" => true])]
     public function apropos(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices
@@ -119,7 +119,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'contact')]
+    #[Route('/contact', name: 'contact', options: ["sitemap" => true])]
     public function contact(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -137,7 +137,7 @@ class PracticeController extends AbstractController
 
    
 
-    #[Route('/metiers', name: 'metiers')]
+    #[Route('/metiers', name: 'metiers', options: ["sitemap" => true])]
     public function metiers(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -153,7 +153,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/team', name: 'team')]
+    #[Route('/team', name: 'team', options: ["sitemap" => true])]
     public function team(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -172,7 +172,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/client', name: 'client')]
+    #[Route('/client', name: 'client', options: ["sitemap" => true])]
     public function client(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -188,7 +188,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/rse', name: 'rse')]
+    #[Route('/rse', name: 'rse', options: ["sitemap" => true])]
     public function rse(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,

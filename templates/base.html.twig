@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
-        <title>{% block title %}OLING Management{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
-        <meta name="description" content="OLING Management est une société basée en France et en Guadeloupe. Créée en 2012 afin d&#039;offrir, des prestations digitales expertes..." />
+        
+        <meta name="description" content="{% block meta_description %} {% endblock %}" />
 	    <link rel="canonical" href="https://oling.fr/" />
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}

@@ -104,6 +104,7 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
             'Symfony\\Bridge\\PhpUnit\\' => 23,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
+            'Stof\\DoctrineExtensionsBundle\\' => 30,
             'Sensio\\Bundle\\FrameworkExtraBundle\\' => 35,
         ),
         'P' => 
@@ -113,6 +114,7 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'Presta\\SitemapBundle\\' => 21,
             'PhpParser\\' => 10,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
@@ -120,6 +122,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
         array (
             'Monolog\\' => 8,
             'Masterminds\\' => 12,
+        ),
+        'G' => 
+        array (
+            'Gedmo\\' => 6,
         ),
         'E' => 
         array (
@@ -143,6 +149,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
             'DeepCopy\\' => 9,
+        ),
+        'B' => 
+        array (
+            'Behat\\Transliterator\\' => 21,
         ),
         'A' => 
         array (
@@ -438,6 +448,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
         array (
             0 => __DIR__ . '/..' . '/symfony/doctrine-bridge',
         ),
+        'Stof\\DoctrineExtensionsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stof/doctrine-extensions-bundle/src',
+        ),
         'Sensio\\Bundle\\FrameworkExtraBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/framework-extra-bundle/src',
@@ -462,6 +476,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'Presta\\SitemapBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/presta/sitemap-bundle/src',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -477,6 +495,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'Gedmo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gedmo/doctrine-extensions/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -546,6 +568,10 @@ class ComposerStaticInitcf60209c50cfd4f2adc567c3f701ec19
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Behat\\Transliterator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/behat/transliterator/src/Behat/Transliterator',
         ),
         'App\\Tests\\' => 
         array (

@@ -1,8 +1,3 @@
-# config/routes/presta_sitemap.yaml
 presta_sitemap:
-    default_section: default
-    alternate:
-        enabled: true
-        default_locale: 'fr'
-        locales: ['fr', 'en']
-        i18n: symfony
+    resource: "@PrestaSitemapBundle/Resources/config/routing.xml"
+    prefix: /sitemap

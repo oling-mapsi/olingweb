@@ -5,8 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 # config/services.yaml
 parameters:
-    router.request_context.host:   oling.fr
-    router.request_context.scheme: http
+    router.request_context.host: 'oling.fr'
+    router.request_context.scheme: 'https'
 
 services:
     # default configuration for services in *this* file

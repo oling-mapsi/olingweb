@@ -24,3 +24,10 @@
 # /var/cache/dev/profiler/index.csv
 # /var/cache/dev/*
 # /var/log/dev.log
+
+
+/public/sitemap.xml
+/public/sitemap-*.xml.gz
+
+/public/sitemap.default.xml
+/public/sitemap.default-*.xml.gz

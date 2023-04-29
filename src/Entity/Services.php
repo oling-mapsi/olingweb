@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServicesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +46,14 @@ class Services
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: true)]
     #[Gedmo\Slug(fields: ["designation"])]
     private string $slug;
+
+    #[ORM\ManyToMany(targetEntity: Projet::class, mappedBy: 'services')]
+    private Collection $projets;
+
+    public function __construct()
+    {
+        $this->projets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -159,6 +169,33 @@ class Services
     public function setPractice(?Practice $practice): self
     {
         $this->practice = $practice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Projet>
+     */
+    public function getProjets(): Collection
+    {
+        return $this->projets;
+    }
+
+    public function addProjet(Projet $projet): self
+    {
+        if (!$this->projets->contains($projet)) {
+            $this->projets->add($projet);
+            $projet->addService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            $projet->removeService($this);
+        }
 
         return $this;
     }

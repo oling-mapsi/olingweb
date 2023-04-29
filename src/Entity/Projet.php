@@ -28,9 +28,13 @@ class Projet
     #[ORM\ManyToMany(targetEntity: Services::class, inversedBy: 'projets')]
     private Collection $services;
 
+    #[ORM\ManyToMany(targetEntity: Metier::class, mappedBy: 'projets')]
+    private Collection $metiers;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->metiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +98,33 @@ class Projet
     public function removeService(Services $service): self
     {
         $this->services->removeElement($service);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metier>
+     */
+    public function getMetiers(): Collection
+    {
+        return $this->metiers;
+    }
+
+    public function addMetier(Metier $metier): self
+    {
+        if (!$this->metiers->contains($metier)) {
+            $this->metiers->add($metier);
+            $metier->addProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetier(Metier $metier): self
+    {
+        if ($this->metiers->removeElement($metier)) {
+            $metier->removeProjet($this);
+        }
 
         return $this;
     }

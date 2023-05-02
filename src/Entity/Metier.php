@@ -21,7 +21,7 @@ class Metier
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\ManyToMany(targetEntity: Projet::class, inversedBy: 'metiers')]
+    #[ORM\OneToMany(mappedBy: 'metier', targetEntity: Projet::class)]
     private Collection $projets;
 
     public function __construct()
@@ -70,6 +70,7 @@ class Metier
     {
         if (!$this->projets->contains($projet)) {
             $this->projets->add($projet);
+            $projet->setMetier($this);
         }
 
         return $this;
@@ -77,8 +78,14 @@ class Metier
 
     public function removeProjet(Projet $projet): self
     {
-        $this->projets->removeElement($projet);
+        if ($this->projets->removeElement($projet)) {
+            // set the owning side to null (unless already changed)
+            if ($projet->getMetier() === $this) {
+                $projet->setMetier(null);
+            }
+        }
 
         return $this;
     }
+
 }

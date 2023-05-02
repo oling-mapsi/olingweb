@@ -4,92 +4,242 @@
 
 {% block body %}
 <body>
-
     <!-- Hero -->
     <div class="container content-space-3 content-space-lg-3">
-        <div class="{{ service.practice.class1 }} rounded-3 p-9 mb-10">
-            <div class="w-lg-65 text-center mx-lg-auto">
-                <span class="text-cap text-white">{{ service.DesignationShort | raw }}</span>
-                <h2 class="text-white">{{ service.designation | raw }}</h1>
-                <p class="lead text-white-70">{{ service.IntroductionShort | raw }}</p>
-            </div>
-        </div>
+        <div class="{{ service.practice.class1 }} rounded-3 mb-10">
+            <div class="p-7" style="background-image: url(/svg/components/wave-pattern-light.svg);">
 
-    <div class="row justify-content-lg-between">
-        <div class="col-lg-8 order-lg-2">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-7">
-            <li class="breadcrumb-item">
-                <a href={{ path('index')}}>Accueil</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href={{path('practice',{'slug' : service.practice.slug, 'id' : service.practice.id} ) }}>{{ service.practice.designation }}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
-            </ol>
-        </nav>
-        <!-- End Breadcrumb -->
+                <div class="row align-items-lg-center">
+                    <div class="col-lg-7  text-left mx-lg-auto">
+
+                        <span class="text-cap text-white">{{ service.DesignationShort | raw }}</span>
+                        <h2 class="text-white">{{ service.designation | raw }}</h1>
+                        <p class="lead text-white-70">{{ service.IntroductionShort | raw }}</p>
+                
+                    </div>
+                    <!-- End Col -->
+                    <div class="col-5 col-lg-5 mb-7 mb-lg-0 text-center">
+                        <i class="{{ service.ico }}  display-1 ms-1 text-light"></i>
+                    </div>
 
         
-        {{ service.description  | raw }}
-
-        <div class="bg-soft-primary text-center rounded py-6 px-5 mt-10">
-            <div class="mb-3">
-            <h5>Cet article était il utile ?</h5>
-            </div>
-
-            <div class="d-flex justify-content-center gap-2 mb-2">
-            <button type="button" class="btn btn-primary">
-                <i class="bi-hand-thumbs-up me-1"></i> Oui, plutot
-            </button>
-            <button type="button" class="btn btn-soft-dark">
-                <i class="bi-hand-thumbs-down me-1"></i> Non pas vraiment
-            </button>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
             </div>
         </div>
 
-        <!-- End Sticky End Point -->
-        <div id="stickyBlockEndPointEg3"></div>
-        </div>
-        <!-- End Col -->
+        
 
-        <div class="col-lg-3 d-none d-lg-block">
-        <div id="stickyBlockStartPointEg3">
-            <!-- Card -->
-            <div class="js-sticky-block"
-                data-hs-sticky-block-options='{
-                "parentSelector": "#stickyBlockStartPointEg3",
-                "targetSelector": "#header",
-                "breakpoint": "lg",
-                "startPoint": "#stickyBlockStartPointEg3",
-                "endPoint": "#stickyBlockEndPointEg3",
-                "stickyOffsetTop": 130
-            }'>
-            <h5>Nos services {{ service.practice.designation }}</h5>
 
-            <!-- List -->
-            <ul class="list-pointer list-pointer-secondary">
+        <div class="row justify-content-lg-between">
+            <div class="col-lg-8 order-lg-2">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-7">
+                <li class="breadcrumb-item">
+                    <a href={{ path('index')}}>Accueil</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href={{path('practice',{'slug' : service.practice.slug, 'id' : service.practice.id} ) }}>{{ service.practice.designation }}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
+                </ol>
+            </nav>
+            <!-- End Breadcrumb -->
 
-                {% for serv in services %}
-                    {% if serv.practice == service.practice %}
-                    <li class="list-pointer-item">
-                        <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'id' : serv.id, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
-                    </li>
-                    {% endif %}
-                {% endfor %}
+          
+      
 
-            </ul>
-            <!-- End List -->
+            {{ service.description  | raw }}
+
+            {% if service.image1 is not null and service.image1 is not empty %}
+                <img class="img-fluid" src="{{ service.image1 }}" alt="Image Description">
+            {% endif %}
+            
+
+            <!-- End Sticky End Point -->
+            <div id="stickyBlockEndPointEg3"></div>
             </div>
-            <!-- End Card -->
+            <!-- End Col -->
+
+            <div class="col-lg-3 d-none d-lg-block">
+            <div id="stickyBlockStartPointEg3">
+                <!-- Card -->
+                <div class="js-sticky-block"
+                    data-hs-sticky-block-options='{
+                    "parentSelector": "#stickyBlockStartPointEg3",
+                    "targetSelector": "#header",
+                    "breakpoint": "lg",
+                    "startPoint": "#stickyBlockStartPointEg3",
+                    "endPoint": "#stickyBlockEndPointEg3",
+                    "stickyOffsetTop": 130
+                }'>
+                <h5>Nos services {{ service.practice.designation }}</h5>
+
+                <!-- List -->
+                <ul class="list-pointer list-pointer-secondary">
+
+                    {% for serv in services %}
+                        {% if serv.practice == service.practice %}
+                        <li class="list-pointer-item">
+                            <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'id' : serv.id, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                </ul>
+                <!-- End List -->
+                </div>
+                <!-- End Card -->
+            </div>
+            </div>
+            <!-- End Col -->
         </div>
-        </div>
-        <!-- End Col -->
+        <!-- End Row -->
     </div>
-    <!-- End Row -->
+
+
+    <!-- Card Grid -->
+    {% if service.projets|length > 0 %}
+    <div class="overflow-hidden">
+        <div class="container content-space-2 ">
+            <div class="row justify-content-lg-between">
+            <div class="col-md-4 mb-7 mb-md-0">
+                <div class="mt-md-10 mb-5">
+                <h2>Retours sur experiences et témoignages</h2>
+                </div>
+
+                <!-- Alert -->
+                <div class="alert alert-soft-dark" role="alert">
+                <div class="d-flex">
+                    <div class="flex-shrink-0">
+                    <i class="bi-linkedin"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                    Suivez-nous sur <a class="alert-link" href="#" target="_blank">Linkedin</a> pour découvrir notre actualité
+                    </div>
+                </div>
+                </div>
+                <!-- End Alert -->
+            </div>
+            <!-- End Col -->
+
+            <div class="col-md-7">
+                <!-- Swiper Slider -->
+                <div class="swiper-center-mode-end">
+                    <div class="js-swiper-card-grid swiper swiper-equal-height ps-4">
+                        <div class="swiper-wrapper">
+
+
+
+                        {% set count = 0 %}
+                        {% for projet in service.projets %}
+                            {% if count is divisible by 2 %}
+                            <!-- Slide -->
+                            <div class="swiper-slide pt-4 pb-8">
+                                
+                                <!-- Card -->
+                                <a class="card card-transition" href="#">
+                                <div class="card-pinned">
+                                    <img class="card-img-top" src="{{ projet.image }}" alt="Image Description">
+                                    <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation  | raw  }}</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ projet.designation  | raw  }}</h5>
+                                    <p>{{ projet.metier.designation  | raw  }}</p>
+                                </div>
+                                {# <div class="card-footer pt-0">
+                                    <span class="card-link">En savoir plus</span>
+                                </div> #}
+                                </a>
+                                <!-- End Card -->
+                                
+                            </div>
+                            <!-- End Slide -->
+                            {% else %}
+                                <!-- Slide -->
+                                <div class="swiper-slide pt-4 pb-8">
+                                    <!-- Card -->
+                                    <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                                    <div class="card-body">
+                                        <span class="card-subtitle text-white mb-3">{{ projet.metier.designation  | raw  }}</span>
+                                        <h3 class="card-title text-white lh-base">{{ projet.designation  | raw  }}</h3>
+                                    </div>
+                                    {# <div class="card-footer pt-0">
+                                        <span class="card-link link-light">En savoir plus</span>
+                                    </div> #}
+                                    </a>
+                                    <!-- End Card -->
+                                </div>
+                                <!-- End Slide -->
+                            {% endif %}
+                            {% set count = count + 1 %}
+
+                        {% endfor %}
+
+                        
+                        </div>
+
+                        <!-- Arrows -->
+                        <div class="js-swiper-card-grid-button-prev swiper-button-prev swiper-static-button-prev"></div>
+                        <div class="js-swiper-card-grid-button-next swiper-button-next swiper-static-button-next"></div>
+
+                    
+                    </div>
+                </div>
+                <!-- End Swiper Slider -->
+            </div>
+            <!-- End Col -->
+            </div>
+            <!-- End Row -->
+        </div>
     </div>
-    <!-- End Info -->
+    <!-- End Card Grid -->
+    {% endif %}
+
+    {% if service.teams|length > 0 %}
+
+    <!-- Card Grid -->
+    <div class="container content-space-2">
+        <!-- Heading -->
+        <div class="w-lg-65 text-center mx-lg-auto mb-3 mb-sm-7 mb-lg-10">
+            <h2>Nos experts</h2>
+            
+        </div>
+        <!-- End Heading -->
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-2 gx-md-4 d-flex justify-content-center">
+            {% for team in service.teams %}
+                <!-- Slide -->
+                <div class="swiper-slide pt-4 pb-8">
+                    <!-- Card -->
+                    <a class="card card-transition" href="{{ team.linkedin }}">
+                    <div class="card-pinned">
+                        <img class="card-img-top" src={{ team.photo }} alt="Image Description">
+                        
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ team.noncomplet }}</h5>
+                        <p>{{ team.titre }}</p>
+                    </div>
+                    <div class="card-footer pt-0">
+                        <span class="card-link"><i class="bi-linkedin me-1"></i> Linkedin</span>
+                    </div>
+                    </a>
+                    <!-- End Card -->
+                    
+                </div>
+            <!-- End Slide -->
+            {% endfor %}
+            
+        </div>
+        <!-- End Row -->
+    </div>
+    <!-- End Card Grid -->
+    {% endif %}
+
+    
 
     {# <!-- List -->
     <div class="container content-space-b-1">
@@ -145,11 +295,6 @@
     <!-- End Row -->
     </div>
     <!-- End List --> #}
-  
 
-  
-  <script>
-    
-  </script>
 </body>
 {% endblock %}

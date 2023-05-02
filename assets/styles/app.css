@@ -29,9 +29,9 @@
     background: linear-gradient(244deg, #5098f7, #066ef7, #0655bd);
     background-size: 600% 600%;
 
-    -webkit-animation: AnimationName 21s ease infinite;
-    -moz-animation: AnimationName 21s ease infinite;
-    animation: AnimationName 21s ease infinite;
+    -webkit-animation: AnimationName 210s ease infinite;
+    -moz-animation: AnimationName 210s ease infinite;
+    animation: AnimationName 210s ease infinite;
 }
 
 @-webkit-keyframes AnimationName {

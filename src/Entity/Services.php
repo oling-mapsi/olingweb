@@ -50,9 +50,13 @@ class Services
     #[ORM\ManyToMany(targetEntity: Projet::class, mappedBy: 'services')]
     private Collection $projets;
 
+    #[ORM\ManyToMany(targetEntity: Team::class, inversedBy: 'services')]
+    private Collection $teams;
+
     public function __construct()
     {
         $this->projets = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +200,30 @@ class Services
         if ($this->projets->removeElement($projet)) {
             $projet->removeService($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        $this->teams->removeElement($team);
 
         return $this;
     }

@@ -28,8 +28,14 @@ class Projet
     #[ORM\ManyToMany(targetEntity: Services::class, inversedBy: 'projets')]
     private Collection $services;
 
-    #[ORM\ManyToMany(targetEntity: Metier::class, mappedBy: 'projets')]
-    private Collection $metiers;
+    #[ORM\ManyToOne(inversedBy: 'projets')]
+    private ?Metier $metier = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $class = null;
 
     public function __construct()
     {
@@ -102,30 +108,40 @@ class Projet
         return $this;
     }
 
-    /**
-     * @return Collection<int, Metier>
-     */
-    public function getMetiers(): Collection
+    public function getMetier(): ?Metier
     {
-        return $this->metiers;
+        return $this->metier;
     }
 
-    public function addMetier(Metier $metier): self
+    public function setMetier(?Metier $metier): self
     {
-        if (!$this->metiers->contains($metier)) {
-            $this->metiers->add($metier);
-            $metier->addProjet($this);
-        }
+        $this->metier = $metier;
 
         return $this;
     }
 
-    public function removeMetier(Metier $metier): self
+    public function getImage(): ?string
     {
-        if ($this->metiers->removeElement($metier)) {
-            $metier->removeProjet($this);
-        }
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(?string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
 }

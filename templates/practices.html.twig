@@ -5,14 +5,14 @@
 {% block body %}
 <body>
   
-
-  <!-- Features -->
-  <div class="container content-space-2 content-space-lg-3">
-    <div class="{{ practice.class1 }} rounded-3 p-4 p-sm-8 p-lg-10 mx-md-n7 mx-lg-n10">
+  <!-- Hero -->
+<div class="d-flex bg-img-center {{ practice.class1 }} mt-10" style="background-image: url({{ practice.image2 }}); height: 100vh;">
+  <div class="container content-space-2 content-space-lg-3 ">
       <div class="row align-items-lg-center">
-        <div class="col-lg-6 order-lg-2 mb-10 mb-lg-0">
+        <div class="col-lg-5 order-lg-2 mb-10 mb-lg-0">
           <div class="position-relative">
-            <div class="w-75 ms-auto">
+            {# <img class="img-fluid rounded-3" src="/img/spe/chronometre.png" alt="Image Description"> #}
+            {# <div class="w-75 ms-auto">
               <img class="img-fluid rounded" src="{{ practice.image1 }}" alt="Image Description">
             </div>
 
@@ -21,61 +21,38 @@
             <figure class="position-absolute top-0 end-0 mt-n10 me-n0" style="width: 10rem;">
               <img class="img-fluid" src="{{ practice.image2 }}" alt="Image Description">
             </figure>
-            <!-- End SVG Shape -->
+            <!-- End SVG Shape --> #}
           </div>
         </div>
         <!-- End Col -->
 
-        <div class="col-lg-6">
+        <div class="col-lg-7">
           <div class="pe-lg-5">
             <div class="mb-5">
-              <h2 class="text-light">{{ practice.designation }}</h2>
-              <p class="text-white-70">{{ practice.IntroductionShort | raw }}</p>
+              <h2 class="text-light display-4">{{ practice.designation }}</h2>
+              <p class="fs-3 text-light">{{ practice.IntroductionShort | raw }}</p>
             </div>
 
-            <div class="row">
-                {% for service in practice.services %}
-                    <div class="col-md-6">
-                      <a class="link link-secondary link-pointer link-light" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
-                    </div>
-                {% endfor %}
-            </div>
+            
 
           </div>
-          <!-- End Row -->
+            
         </div>
-      </div>
       <!-- End Col -->
     </div>
     <!-- End Row -->
+    {% for service in practice.services %} 
+              <a class="btn btn-soft-light link-pointer m-1 fs-3 " href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}><i class="{{ service.ico }} ms-1"></i>  {{ service.designation }}</a>
+            {% endfor %}
   </div>
     <!-- End Features -->
+    
+</div>
+<!-- End Hero -->
+
 
   
 
-  <!-- ========== SECONDARY CONTENTS ========== -->
-  <!-- Go To -->
-  <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;"
-     data-hs-go-to-options='{
-       "offsetTop": 700,
-       "position": {
-         "init": {
-           "right": "2rem"
-         },
-         "show": {
-           "bottom": "2rem"
-         },
-         "hide": {
-           "bottom": "-2rem"
-         }
-       }
-     }'>
-    <i class="bi-chevron-up"></i>
-  </a>
 
-  <!-- JS Plugins Init. -->
-  <script>
-    
-  </script>
 </body>
 {% endblock %}

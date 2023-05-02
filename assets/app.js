@@ -90,7 +90,33 @@ $(document).ready(function () {
           swiper: sliderThumbs
         }
       });
+
+      // Projets
+      var swiper = new Swiper('.js-swiper-card-grid',{
+        navigation: {
+          nextEl: '.js-swiper-card-grid-button-next',
+          prevEl: '.js-swiper-card-grid-button-prev',
+        },
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: 2,
+        breakpoints: {
+          480: {
+            slidesPerView: 2
+          },
+          768: {
+            slidesPerView: 2
+          },
+          1024: {
+            slidesPerView: 3
+          },
+        }
+      });
+
+
   })()
+
+
 
   // INITIALIZATION OF STICKY BLOCKS
   // =======================================================

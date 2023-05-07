@@ -67,21 +67,21 @@ class PracticeController extends AbstractController
 
     #[Route('/{practice}/{id}/{slug}', name: 'service')]
     public function services(
-        PracticeRepository $repopractice,
-        ServicesRepository $reposervices,
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository,
         $id,
         $practice
     ): Response {
-        $service = $reposervices->find($id);
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
-        // Vérifier que la colonne IntroductionShort n'est pas vide
-        
+        $service = $servicesRepository->find($id);
+        $practices = $practiceRepository->findAll();
+        $services = $servicesRepository->findAll();
+    
         if (empty($service->getIntroductionShort())) {
             return $this->redirectToRoute('index');
         }
+    
         $pract = $practice;
-
+    
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',
             'service' => $service,
@@ -90,6 +90,7 @@ class PracticeController extends AbstractController
             'services' => $services,
         ]);
     }
+    
 
 
     #[Route('/discloser', name: 'discloser')]

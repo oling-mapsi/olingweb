@@ -12,26 +12,10 @@ use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 
 class SitemapSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var PracticeRepository
-     */
     private $practiceRepository;
-
-    /**
-     * @var ServicesRepository
-     */
     private $servicesRepository;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
     private $urlGenerator;
 
-    /**
-     * @param PracticeRepository $practiceRepository
-     * @param ServicesRepository $servicesRepository
-     * @param UrlGeneratorInterface $urlGenerator
-     */
     public function __construct(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
@@ -42,9 +26,6 @@ class SitemapSubscriber implements EventSubscriberInterface
         $this->urlGenerator = $urlGenerator;
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function getSubscribedEvents()
     {
         return [
@@ -52,19 +33,12 @@ class SitemapSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param SitemapPopulateEvent $event
-     */
     public function populate(SitemapPopulateEvent $event): void
     {
         $this->registerPracticeUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerServicesUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
-    /**
-     * @param UrlContainerInterface $urls
-     * @param UrlGeneratorInterface $router
-     */
     public function registerPracticeUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
         $practices = $this->practiceRepository->findAll();
@@ -73,8 +47,9 @@ class SitemapSubscriber implements EventSubscriberInterface
             $urls->addUrl(
                 new UrlConcrete(
                     $router->generate(
-                        'practice',
+                        'service',
                         [
+                            'practice' => $practice->getId(),
                             'id' => $practice->getId(),
                             'slug' => $practice->getSlug(),
                         ],
@@ -86,26 +61,17 @@ class SitemapSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param UrlContainerInterface $urls
-     * @param UrlGeneratorInterface $router
-     */
     public function registerServicesUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
         $services = $this->servicesRepository->findAll();
 
         foreach ($services as $service) {
-            // Vérifier que la colonne IntroductionShort n'est pas vide
-            if (empty($service->getIntroductionShort())) {
-                continue;
-            }
-
             $urls->addUrl(
                 new UrlConcrete(
                     $router->generate(
                         'service',
                         [
-                            'practice' => $service->getPractice()->getId(),
+                            'practice' => $service->getPractice()->getSlug(),
                             'id' => $service->getId(),
                             'slug' => $service->getSlug(),
                         ],

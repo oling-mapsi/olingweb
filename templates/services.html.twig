@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ service.designation | raw }} - OLING{% endblock %}
+{% block meta_description %}{{ service.IntroductionShort | raw }}{% endblock %}
 
 {% block body %}
 <body>

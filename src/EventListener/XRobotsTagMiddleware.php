@@ -2,19 +2,11 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\KernelResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
-class XRobotsTagListener implements EventSubscriberInterface
+class XRobotsTagListener
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelResponseEvent::class => 'onKernelResponse',
-        ];
-    }
-
-    public function onKernelResponse(KernelResponseEvent $event): void
+    public function onKernelResponse(ResponseEvent $event)
     {
         $response = $event->getResponse();
         $response->headers->set('X-Robots-Tag', 'index');

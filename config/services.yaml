@@ -25,7 +25,7 @@ services:
 
     App\EventListener\XRobotsTagListener:
         tags:
-            - { name: 'kernel.event_subscriber' }
+            - { name: kernel.event_listener, event: kernel.response }
 
 
     App\EventListener\SitemapSubscriber:

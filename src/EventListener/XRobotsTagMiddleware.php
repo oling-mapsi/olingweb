@@ -17,6 +17,6 @@ class XRobotsTagListener implements EventSubscriberInterface
     public function onKernelResponse(KernelResponseEvent $event): void
     {
         $response = $event->getResponse();
-        $response->headers->set('X-Robots-Tag', 'noindex');
+        $response->headers->set('X-Robots-Tag', 'index');
     }
 }

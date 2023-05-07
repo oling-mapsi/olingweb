@@ -159,7 +159,9 @@
           </div>
           <!-- End Col -->
           <div class="col-md-6 col-lg-6 pt-10 d-none d-sm-block d-flex justify-content-center align-items-center text-center">
-            <i class="bi bi-person-workspace display-1 ms-1 text-light align-self-center"></i>
+            <div class="icon-demo d-flex align-items-center justify-content-center p-3 py-6" style="font-size: 15em" role="img" aria-label="Building fill check - large preview">
+              <i class="bi bi-building text-light align-self-center"></i>
+            </div>
           </div>
 
         </div>
@@ -194,9 +196,24 @@
     <i class="bi-chevron-up"></i>
   </a>
 
-  <!-- JS Plugins Init. -->
-  <script>
-    
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+<script>
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#edeff5",
+      "text": "#838391"
+    },
+    "button": {
+      "background": "#4b81e8"
+    }
+  },
+  "content": {
+    "message": "Notre site utilise des cookies techniques nécessaires au bon fonctionnement du site et à la sécurité de votre navigation. Nous ne collectons pas de données de traçabilité personnelles à des fins publicitaires ou de profilage. En continuant à utiliser notre site, vous acceptez l'utilisation de ces co",
+    "dismiss": "Ok !",
+    "link": "/politiquergpd"
+  }
+});
+</script>
 </body>
 {% endblock %}

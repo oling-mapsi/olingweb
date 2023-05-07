@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class PracticeController extends AbstractController
@@ -42,11 +43,15 @@ class PracticeController extends AbstractController
     #[Route('/{id}/{slug}', name: 'practice')]
     public function practices(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices, 
+        ServicesRepository $reposervices,
         $id,
-        $slug
-        ): Response
-    {
+        $slug,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        $practiceUrl = $urlGenerator->generate('practice', [
+            'id' => $id, // Remplacez par la valeur appropriée pour "id"
+            'slug' => $slug, // Remplacez par la valeur appropriée pour "slug"
+        ]);
         $practice = $repopractice->find($id);
         $pract = $slug;
         $practices = $repopractice->findAll();

@@ -22,6 +22,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+    App\EventListener\SitemapSubscriber:
+        arguments:
+            - '@App\Repository\PracticeRepository'
+            - '@App\Repository\ServicesRepository'
+            - '@router'
+        tags:
+            - { name: 'kernel.event_subscriber', priority: 100 }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

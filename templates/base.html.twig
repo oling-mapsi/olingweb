@@ -63,7 +63,7 @@
                             <a id="landingsMegaMenu{{ practice.id }}" class="mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }} role="button" aria-expanded="false">{{ practice.designation }}</a>
 
                             <!-- Mega Menu -->
-                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
+                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
                             
                             
                             <!-- Main Content -->

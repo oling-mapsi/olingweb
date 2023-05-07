@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html{% if app.request.locale %} lang="{{ app.request.locale }}"{% endif %}>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name='robots' content='index, follow' />
-        <meta lang="fr">
+       
         <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
         <meta name="description" content="{% block meta_description %} {% endblock %}" />

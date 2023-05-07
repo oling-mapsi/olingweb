@@ -22,6 +22,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\EventListener\XRobotsTagListener:
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
+
     App\EventListener\SitemapSubscriber:
         arguments:
             - '@App\Repository\PracticeRepository'

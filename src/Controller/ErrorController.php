@@ -7,6 +7,8 @@ use App\Repository\ServicesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Middleware\XRobotsTagMiddleware;
+
 
 class ErrorController extends AbstractController
 {

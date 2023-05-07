@@ -22,6 +22,9 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\Middleware\XRobotsTagMiddleware:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, priority: 1 }
     App\EventListener\SitemapSubscriber:
         arguments:
             - '@App\Repository\PracticeRepository'

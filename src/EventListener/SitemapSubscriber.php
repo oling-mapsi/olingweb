@@ -49,10 +49,8 @@ class SitemapSubscriber implements EventSubscriberInterface
             $urls->addUrl(
                 new UrlConcrete(
                     $router->generate(
-                        'service',
+                        'practice',
                         [
-                            'practice' => $practice->getId(),
-                            'id' => $practice->getId(),
                             'slug' => $practice->getSlug(),
                         ],
                         UrlGeneratorInterface::ABSOLUTE_URL
@@ -74,7 +72,6 @@ class SitemapSubscriber implements EventSubscriberInterface
                         'service',
                         [
                             'practice' => $service->getPractice()->getSlug(),
-                            'id' => $service->getId(),
                             'slug' => $service->getSlug(),
                         ],
                         UrlGeneratorInterface::ABSOLUTE_URL

@@ -84,7 +84,7 @@
                     {% for serv in services %}
                         {% if serv.practice == service.practice %}
                         <li class="list-pointer-item">
-                            <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'id' : serv.id, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
+                            <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
                         </li>
                         {% endif %}
                     {% endfor %}

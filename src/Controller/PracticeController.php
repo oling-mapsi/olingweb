@@ -40,7 +40,7 @@ class PracticeController extends AbstractController
     
 
 
-    #[Route('/discloser', name: 'discloser')]
+    #[Route('/mentions-legales', name: 'discloser')]
     public function discloser(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices

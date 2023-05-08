@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Conseil et services professionnels - OLING{% endblock %}
-{% block meta_description %}Conseil et services professionnels en organisation et système d'information pour être le moteur de votre digitalisation{% endblock %}
+{% block title %}Digitalisation et conformité des entreprises - OLING{% endblock %}
+{% block meta_description %}Conseil et services professionnels en organisation et système d'information pour soutenir vos activités et votre digitalisation{% endblock %}
 
 {% block body %}
 
@@ -70,7 +70,7 @@
       <!-- Card -->
       <a class="card card-borderless card-transition-zoom bg-soft-light h-100"
       style="{% if count == 2 %}margin-top:30px{% endif %}{% if count == 3 %}margin-top:60px{% endif %}{% if count == 4 %}margin-top:90px{% endif %}" 
-       href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>
+       href={{path('practice',{'slug' : practice.slug} ) }}>
         {#  #}
         <div class="card-transition-zoom-item {{ practice.class1 }}">
           <img class="card-img" src="{{ practice.image1 }}" alt="Image Description">

@@ -42,7 +42,7 @@
                     <a href={{ path('index')}}>Accueil</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href={{path('practice',{'slug' : service.practice.slug, 'id' : service.practice.id} ) }}>{{ service.practice.designation }}</a>
+                    <a href={{path('practice',{'slug' : service.practice.slug} ) }}>{{ service.practice.designation }}</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
                 </ol>

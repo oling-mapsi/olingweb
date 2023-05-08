@@ -61,7 +61,7 @@
                                 "maxWidth": "40rem"
                                 }
                             }'>
-                            <a id="landingsMegaMenu{{ practice.id }}" class="mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }} role="button" aria-expanded="false">{{ practice.designation }}</a>
+                            <a id="landingsMegaMenu{{ practice.id }}" class="mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" href={{path('practice',{'slug' : practice.slug} ) }} role="button" aria-expanded="false">{{ practice.designation }}</a>
 
                             <!-- Mega Menu -->
                             <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
@@ -78,7 +78,7 @@
                                             <p>{{ practice.description  | raw  }}</p>
                                         </div>
                                     <div class="mt-auto">
-                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug, 'id' : practice.id} ) }}>Découvrir</a></p>
+                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug} ) }}>Découvrir</a></p>
                                     <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                 <div class="col-sm">
                                     <div class="navbar-dropdown-menu-inner">
                                         {% for service in practice.services %}
-                                        <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
+                                        <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -130,21 +130,7 @@
             </div>
             
         </header>
-        {# <div class="container mt-10">
-            <nav class="">
-                <ul class="nav" id="myNav">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#section1" data-scroll="#section1">Section 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#section2" data-scroll="#section2">Section 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#section3" data-scroll="#section3">Section 3</a>
-                    </li>
-                </ul>
-            </nav>
-        </div> #}
+
 
         <!-- ========== END HEADER ========== -->
 

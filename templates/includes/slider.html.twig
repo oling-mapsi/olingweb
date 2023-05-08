@@ -116,7 +116,7 @@
                         <p class="fs-3 text-light">OLING vous accompagne dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
                         {% for service in services %} 
                             {% if service.practice.id == 7 %}
-                                <a class="btn btn-light m-1" href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
+                                <a class="btn btn-light m-1" href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
                             {% endif %}
                         {% endfor %}
                     </div>

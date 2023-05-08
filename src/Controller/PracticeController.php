@@ -10,7 +10,6 @@ use App\Repository\ServicesRepository;
 use App\Repository\EmailRepository;
 use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository; // ajout de l'importation
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,18 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Middleware\XRobotsTagMiddleware;
 
-
-
 class PracticeController extends AbstractController
 {
-    
     #[Route('/', name: 'index', options: ["sitemap" => true])]
     public function index(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         Request $request
-        ): Response
-    {
+    ): Response {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
 
@@ -41,57 +36,7 @@ class PracticeController extends AbstractController
             'pract' => '',
         ]);
     }
-    
-    #[Route('/{id}/{slug}', name: 'practice')]
-    public function practices(
-        PracticeRepository $repopractice,
-        ServicesRepository $reposervices,
-        $id,
-        $slug,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
-        $practiceUrl = $urlGenerator->generate('practice', [
-            'id' => $id, // Remplacez par la valeur appropriée pour "id"
-            'slug' => $slug, // Remplacez par la valeur appropriée pour "slug"
-        ]);
-        $practice = $repopractice->find($id);
-        $pract = $slug;
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
-        return $this->render('practices.html.twig', [
-            'controller_name' => 'PracticeController',
-            'practice' => $practice,
-            'practices' => $practices,
-            'pract' => $pract,
-            'services' => $services,
-        ]);
-    }
 
-    #[Route('/{practice}/{id}/{slug}', name: 'service')]
-    public function services(
-        PracticeRepository $practiceRepository,
-        ServicesRepository $servicesRepository,
-        $id,
-        $practice
-    ): Response {
-        $service = $servicesRepository->find($id);
-        $practices = $practiceRepository->findAll();
-        $services = $servicesRepository->findAll();
-    
-        if (empty($service->getIntroductionShort())) {
-            return $this->redirectToRoute('index');
-        }
-    
-        $pract = $practice;
-    
-        return $this->render('services.html.twig', [
-            'controller_name' => 'PracticeController',
-            'service' => $service,
-            'pract' => $pract,
-            'practices' => $practices,
-            'services' => $services,
-        ]);
-    }
     
 
 
@@ -111,7 +56,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/a_propos', name: 'apropos', options: ["sitemap" => true])]
+    #[Route('/a-propos', name: 'apropos', options: ["sitemap" => true])]
     public function apropos(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices
@@ -145,7 +90,7 @@ class PracticeController extends AbstractController
 
    
 
-    #[Route('/metiers', name: 'metiers', options: ["sitemap" => true])]
+    #[Route('/a-propos/metiers', name: 'metiers', options: ["sitemap" => true])]
     public function metiers(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -161,7 +106,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/team', name: 'team', options: ["sitemap" => true])]
+    #[Route('/a-propos/team', name: 'team', options: ["sitemap" => true])]
     public function team(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -180,7 +125,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/client', name: 'client', options: ["sitemap" => true])]
+    #[Route('/a-propos/client', name: 'client', options: ["sitemap" => true])]
     public function client(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -196,7 +141,7 @@ class PracticeController extends AbstractController
         ]);
     }
 
-    #[Route('/rse', name: 'rse', options: ["sitemap" => true])]
+    #[Route('/a-propos/rse', name: 'rse', options: ["sitemap" => true])]
     public function rse(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -211,7 +156,7 @@ class PracticeController extends AbstractController
             'pract' => '',
         ]);
     }
-    #[Route('/politiquergpd', name: 'polrgpd')]
+    #[Route('/a-propos/politiquergpd', name: 'polrgpd')]
     public function polrgpd(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
@@ -275,6 +220,68 @@ class PracticeController extends AbstractController
 
         return $response;
     }
+
+
+
+
+    #[Route('{practice}/{slug}', name: 'service')]
+    public function services(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository,
+        $slug,
+        $practice
+    ): Response {
+        $service = $servicesRepository->findOneBy(['slug' => $slug]);
+
+        if (!$service) {
+            throw $this->createNotFoundException('Le service n\'existe pas.');
+        }
+
+        $practices = $practiceRepository->findAll();
+        $services = $servicesRepository->findAll();
+
+        if (empty($service->getIntroductionShort())) {
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render('services.html.twig', [
+            'controller_name' => 'PracticeController',
+            'service' => $service,
+            'pract' => $practice,
+            'practices' => $practices,
+            'services' => $services,
+        ]);
+    }
+
+
+
+    #[Route('{slug}', name: 'practice')]
+    public function practices(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository,
+        $slug
+    ): Response {
+        $practice = $practiceRepository->findOneBy(['slug' => $slug]);
+
+        if (!$practice) {
+            throw $this->createNotFoundException('La pratique n\'existe pas.');
+        }
+
+        $practices = $practiceRepository->findAll();
+        $services = $servicesRepository->findAll();
+     
+
+        return $this->render('practices.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practice' => $practice,
+            'pract' => $practice,
+            'practices' => $practices,
+            'services' => $services,
+        ]);
+    }
+
+
+
 
 
    

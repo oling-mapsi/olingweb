@@ -43,7 +43,7 @@
     </div>
     <!-- End Row -->
     {% for service in practice.services %} 
-              <a class="btn btn-soft-light link-pointer m-1 fs-3 " href={{path('service',{'practice' : service.practice.slug, 'id' : service.id, 'slug' : service.slug} ) }}><i class="{{ service.ico }} ms-1"></i>  {{ service.designation }}</a>
+              <a class="btn btn-soft-light link-pointer m-1 fs-3 " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}><i class="{{ service.ico }} ms-1"></i>  {{ service.designation }}</a>
             {% endfor %}
   </div>
     <!-- End Features -->

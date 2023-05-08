@@ -27,7 +27,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response }
 
-
     App\EventListener\SitemapSubscriber:
         arguments:
             - '@App\Repository\PracticeRepository'

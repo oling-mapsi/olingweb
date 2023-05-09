@@ -182,40 +182,40 @@ $(document).ready(function () {
       lightbox.open(element.dataset.src.split(','));
     });
   });
-
-
-
-
 });
 
-// $(document).ready(function() {
-//   if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-//       $('.mymenuspe').addClass('link-light');
-//   } else {
-//       $('.mymenuspe').removeClass('link-light');
-//   }
+$(document).ready(function() {
+  if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
+      $('.mymenumoov').addClass('navbar-light');
+      $('.mymenumoov').removeClass('navbar-dark');
+  } else {
+      $('.mymenumoov').addClass('navbar-dark');
+      $('.mymenumoov').removeClass('navbar-light');
+  }
 
-//   $(document).scroll(function() {
-//     if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-//           $('.mymenuspe').addClass('link-light');
-//       } else {
-//           $('.mymenuspe').removeClass('link-light');
-//       }
-//   });
-// });
+  $(document).scroll(function() {
+    if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
+      $('.mymenumoov').addClass('navbar-light');
+      $('.mymenumoov').removeClass('navbar-dark');
+  } else {
+      $('.mymenumoov').addClass('navbar-dark');
+      $('.mymenumoov').removeClass('navbar-light');
+  }
+  });
+});
 
-// $(document).ready(function() {
-//   // Vérifier la largeur de l'écran au chargement de la page
+$(document).ready(function() {
+  // Vérifier la largeur de l'écran au chargement de la page
 
-//   // Vérifier la largeur de l'écran à chaque changement de taille
-//   $(window).resize(function() {
-//     if ($(window).width() < 768) {
-//       $('.swiper-slide').removeClass('fullheight');
-//     } else {
-//       $('.swiper-slide').addClass('fullheight');
-//     }
-//   });
-// });
+  // Vérifier la largeur de l'écran à chaque changement de taille
+  $(window).resize(function() {
+    if ($(window).width() < 768) {
+      $('.swiper-slide').removeClass('fullheight');
+    } else {
+      $('.swiper-slide').addClass('fullheight');
+    }
+  });
+});
 
 
 

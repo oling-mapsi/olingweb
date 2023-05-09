@@ -188,21 +188,26 @@ $(document).ready(function() {
   if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
+      $('.mymenulink').removeClass('link-light');
   } else {
       $('.mymenumoov').addClass('navbar-dark');
       $('.mymenumoov').removeClass('navbar-light');
+      $('.mymenulink').addClass('link-light');
   }
 
   $(document).scroll(function() {
     if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
+      $('.mymenulink').removeClass('link-light');
   } else {
       $('.mymenumoov').addClass('navbar-dark');
       $('.mymenumoov').removeClass('navbar-light');
+      $('.mymenulink').addClass('link-light');
   }
   });
 });
+
 
 $(document).ready(function() {
   // Vérifier la largeur de l'écran au chargement de la page

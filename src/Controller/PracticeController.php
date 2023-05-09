@@ -274,7 +274,7 @@ class PracticeController extends AbstractController
         return $this->render('practices.html.twig', [
             'controller_name' => 'PracticeController',
             'practice' => $practice,
-            'pract' => $practice,
+            'pract' => $slug,
             'practices' => $practices,
             'services' => $services,
         ]);

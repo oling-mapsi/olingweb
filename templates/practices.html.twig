@@ -55,114 +55,37 @@
 <div class="container content-space-t-2 content-space-t-lg-3 overflow-hidden">
   <!-- Heading -->
   <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10">
-    <h2>The work we do,<br>and the people we help</h2>
+    <h2>Les missions que nous réalisons<br>De quelques jours à quelques mois, ciblées ou élargies</h2>
   </div>
   <!-- End Heading -->
 
   <div class="row row-cols-1 row-cols-sm-2 gx-7">
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-pinned card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img23.jpg" alt="Image Description">
-          <span class="badge bg-dark text-white card-pinned-top-end">New addition</span>
-        </div>
+  {% for service in practice.services %} 
+      {% for projet in service.projets %} 
+        <div class="col mb-5">
+          <!-- Card -->
+          <a class="card card-ghost card-transition-zoom h-100" href="#">
+            <div class="card-pinned card-transition-zoom-item">
+              <img class="card-img" src="{{ projet.image }}" alt="Image Description">
+              <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation  | raw  }}</span>
+            </div>
 
-        <div class="card-body">
-          <h4>Proof – <span class="fw-medium">Creating a design system for a suite of products</span></h4>
-          <p class="card-text">Branding</p>
+            <div class="card-body">
+              <h4>Projet – <span class="fw-medium">{{ projet.designation }}</span></h4>
+              <p class="card-text">{{ service.designation }}</p>
+            </div>
+          </a>
+          <!-- End Card -->
         </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
+        <!-- End Col -->
 
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img22.jpg" alt="Image Description">
-        </div>
+      
+      {% endfor %}
 
-        <div class="card-body">
-          <h4>Front – <span class="fw-medium">Multipurpose Responsive Template</span></h4>
-          <p class="card-text">Admin &amp; Dashboard</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img21.jpg" alt="Image Description">
-        </div>
-
-        <div class="card-body">
-          <h4>Nova – <span class="fw-medium">Responsive WebApp UI Kit</span></h4>
-          <p class="card-text">Admin &amp; Dashboard</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-pinned card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img20.jpg" alt="Image Description">
-          <span class="badge bg-dark text-white card-pinned-top-end">New addition</span>
-        </div>
-
-        <div class="card-body">
-          <h4>Space – <span class="fw-medium">Multipurpose Template + UI Kit</span></h4>
-          <p class="card-text">Landing &amp; Corporate</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img19.jpg" alt="Image Description">
-        </div>
-
-        <div class="card-body">
-          <h4>Crab – <span class="fw-medium">Web Design &amp; Development</span></h4>
-          <p class="card-text">Landing &amp; Corporate</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-
-    <div class="col mb-5">
-      <!-- Card -->
-      <a class="card card-ghost card-transition-zoom h-100" href="./portfolio-case-study.html">
-        <div class="card-transition-zoom-item">
-          <img class="card-img" src="/img/580x480/img24.jpg" alt="Image Description">
-        </div>
-
-        <div class="card-body">
-          <h4>Garvest – <span class="fw-medium">Reinventing customer care for the home</span></h4>
-          <p class="card-text">Branding</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
+    {% endfor %}
+    
   </div>
-  <!-- End Row -->
 
-  <div class="text-center">
-    <a class="btn btn-white btn-pointer" href="./page-customer-stories.html">View all case studies</a>
-  </div>
 </div>
 <!-- End Card Grid -->
 

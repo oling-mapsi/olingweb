@@ -188,21 +188,21 @@ $(document).ready(function () {
 
 });
 
-$(document).ready(function() {
-  if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-      $('.mymenuspe').addClass('link-light');
-  } else {
-      $('.mymenuspe').removeClass('link-light');
-  }
+// $(document).ready(function() {
+//   if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
+//       $('.mymenuspe').addClass('link-light');
+//   } else {
+//       $('.mymenuspe').removeClass('link-light');
+//   }
 
-  $(document).scroll(function() {
-    if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-          $('.mymenuspe').addClass('link-light');
-      } else {
-          $('.mymenuspe').removeClass('link-light');
-      }
-  });
-});
+//   $(document).scroll(function() {
+//     if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
+//           $('.mymenuspe').addClass('link-light');
+//       } else {
+//           $('.mymenuspe').removeClass('link-light');
+//       }
+//   });
+// });
 
 // $(document).ready(function() {
 //   // Vérifier la largeur de l'écran au chargement de la page

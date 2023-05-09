@@ -111,7 +111,7 @@
 
                         <!-- Landings -->
                         <li class="nav-item">
-                            <a class="mymenulink nav-link mt-2" aria-current="page"  href={{ path('a-propos')}} role="button" aria-expanded="false">Découvrez OLING</a>
+                            <a class="mymenulink nav-link mt-2{% if app.request.pathinfo == '/a-propos' %} active{% endif %}" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
                         </li>
                         <!-- End Landings -->
 

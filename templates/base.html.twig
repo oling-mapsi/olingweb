@@ -70,7 +70,7 @@
                                 "maxWidth": "40rem"
                                 }
                             }'>
-                            <a id="landingsMegaMenu{{ practice.id }}" class="mymenuspe nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" href={{path('practice',{'slug' : practice.slug} ) }} role="button" aria-expanded="false">{{ practice.designation }}</a>
+                            <a id="landingsMegaMenu{{ practice.id }}" class="mymenuspe mt-2 nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" role="button" aria-expanded="false">{{ practice.designation }}</a>
 
                             <!-- Mega Menu -->
                             <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
@@ -111,7 +111,7 @@
 
                         <!-- Landings -->
                         <li class="nav-item">
-                            <a class="mymenuspe nav-link" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
+                            <a class="mymenuspe nav-link mt-2" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
                         </li>
                         <!-- End Landings -->
 

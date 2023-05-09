@@ -48,6 +48,7 @@ $(document).ready(function () {
     // =======================================================
     document.querySelectorAll('.js-video-bg').forEach(item=> {
       new HSVideoBg(item).init()
+      console.log('video')
     })
 
   // INITIALIZATION OF GO TO
@@ -189,16 +190,16 @@ $(document).ready(function () {
 
 $(document).ready(function() {
   if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-      $('.mymenuspe').addClass('text-light');
+      $('.mymenuspe').addClass('link-light');
   } else {
-      $('.mymenuspe').removeClass('text-light');
+      $('.mymenuspe').removeClass('link-light');
   }
 
   $(document).scroll(function() {
     if(window.location.pathname === '/' && $(this).scrollTop() == 0) {
-          $('.mymenuspe').addClass('text-light');
+          $('.mymenuspe').addClass('link-light');
       } else {
-          $('.mymenuspe').removeClass('text-light');
+          $('.mymenuspe').removeClass('link-light');
       }
   });
 });

@@ -33,7 +33,7 @@
         
 
 
-        <div class="row justify-content-lg-between">
+        <div class="row justify-content-lg-between"  style="page-break-before: always;">
             <div class="col-lg-8 order-lg-2">
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
@@ -64,36 +64,36 @@
             </div>
             <!-- End Col -->
 
-            <div class="col-lg-3 d-none d-lg-block">
-            <div id="stickyBlockStartPointEg3">
-                <!-- Card -->
-                <div class="js-sticky-block"
-                    data-hs-sticky-block-options='{
-                    "parentSelector": "#stickyBlockStartPointEg3",
-                    "targetSelector": "#header",
-                    "breakpoint": "lg",
-                    "startPoint": "#stickyBlockStartPointEg3",
-                    "endPoint": "#stickyBlockEndPointEg3",
-                    "stickyOffsetTop": 130
-                }'>
-                <h5>Nos services {{ service.practice.designation }}</h5>
+            <div class="col-lg-3 d-none d-lg-block d-print-none">
+                <div id="stickyBlockStartPointEg3">
+                    <!-- Card -->
+                    <div class="js-sticky-block"
+                        data-hs-sticky-block-options='{
+                        "parentSelector": "#stickyBlockStartPointEg3",
+                        "targetSelector": "#header",
+                        "breakpoint": "lg",
+                        "startPoint": "#stickyBlockStartPointEg3",
+                        "endPoint": "#stickyBlockEndPointEg3",
+                        "stickyOffsetTop": 130
+                    }'>
+                    <h5>Nos services {{ service.practice.designation }}</h5>
 
-                <!-- List -->
-                <ul class="list-pointer list-pointer-secondary">
+                    <!-- List -->
+                    <ul class="list-pointer list-pointer-secondary">
 
-                    {% for serv in services %}
-                        {% if serv.practice == service.practice %}
-                        <li class="list-pointer-item">
-                            <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
+                        {% for serv in services %}
+                            {% if serv.practice == service.practice %}
+                            <li class="list-pointer-item">
+                                <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
 
-                </ul>
-                <!-- End List -->
+                    </ul>
+                    <!-- End List -->
+                    </div>
+                    <!-- End Card -->
                 </div>
-                <!-- End Card -->
-            </div>
             </div>
             <!-- End Col -->
         </div>
@@ -104,7 +104,7 @@
     <!-- Card Grid -->
     {% if service.projets|length > 0 %}
     <div class="overflow-hidden">
-        <div class="container content-space-2 ">
+        <div class="container content-space-2 d-print-none">
             <div class="row justify-content-lg-between">
             <div class="col-md-4 mb-7 mb-md-0">
                 <div class="mt-md-10 mb-5">
@@ -196,7 +196,7 @@
     {% if service.teams|length > 0 %}
 
     <!-- Card Grid -->
-    <div class="container content-space-2">
+    <div class="container content-space-2 d-print-none">
         <!-- Heading -->
         <div class="w-lg-65 text-center mx-lg-auto mb-3 mb-sm-7 mb-lg-10">
             <h2>Nos experts</h2>
@@ -233,63 +233,4 @@
     </div>
     <!-- End Card Grid -->
     {% endif %}
-
-    
-
-    {# <!-- List -->
-    <div class="container content-space-b-1">
-    <div class="row justify-content-lg-end">
-        <div class="col-lg-8">
-        <hr class="my-5">
-
-        <!-- Heading -->
-        <div class="mb-4">
-            <h4>Articles associés</h4>
-        </div>
-        <!-- End Heading -->
-
-        <div class="row">
-            <div class="col-sm-6">
-            <!-- List -->
-            <ul class="list-pointer mb-2">
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">What methods of payments are supported?</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">How do I get a receipt for my purchase?</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">How can I get a refund?</a>
-                </li>
-            </ul>
-            <!-- End List -->
-            </div>
-            <!-- End Col -->
-
-            <div class="col-sm-6">
-            <!-- List -->
-            <ul class="list-pointer mb-2">
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">Which license do I need?</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">How do I get access to a theme I purchased?</a>
-                </li>
-                <li class="list-pointer-item">
-                <a class="link link-secondary" href="../page-help-center-categories.html">Upgrade License Type</a>
-                </li>
-            </ul>
-            <!-- End List -->
-            </div>
-            <!-- End Col -->
-        </div>
-        <!-- End Row -->
-        </div>
-        <!-- End Col -->
-    </div>
-    <!-- End Row -->
-    </div>
-    <!-- End List --> #}
-
-
 {% endblock %}

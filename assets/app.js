@@ -182,7 +182,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
-  if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
+  if(window.location.pathname !== '/' && $(this).scrollTop() <= 40) {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
       $('.mymenulink').removeClass('link-light');
@@ -193,7 +193,7 @@ $(document).ready(function() {
   }
 
   $(document).scroll(function() {
-    if(window.location.pathname !== '/' && $(this).scrollTop() == 0) {
+    if(window.location.pathname !== '/' && $(this).scrollTop() <= 40) {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
       $('.mymenulink').removeClass('link-light');

@@ -170,9 +170,6 @@ $(document).ready(function () {
     });
 });
 
-
-
-
   const lightbox = new FsLightbox();
 
   // Initialiser le plugin
@@ -210,9 +207,7 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-  // Vérifier la largeur de l'écran au chargement de la page
-
-  // Vérifier la largeur de l'écran à chaque changement de taille
+  // Vérifier la largeur de lécran à chaque changement de taille
   $(window).resize(function() {
     if ($(window).width() < 768) {
       $('.swiper-slide').removeClass('fullheight');
@@ -221,6 +216,35 @@ $(document).ready(function() {
     }
   });
 });
+
+$(document).ready(function() {
+  $('.highlight-text').each(function() {
+    var textElement = $(this);
+    var text = textElement.text();
+    var lines = text.split('\n');
+    var highlightedText = '';
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+
+      // Ajoutez un espace au début et à la fin de chaque ligne
+      line = ' ' + line + ' ';
+
+      // Ajoutez la classe "highlighted-line" pour le surlignage
+      line = '<span class="highlight">' + line + '</span>';
+
+      highlightedText += line;
+    }
+
+    textElement.html(highlightedText);
+  });
+});
+
+
+
+
+
+
 
 
 

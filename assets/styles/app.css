@@ -429,7 +429,19 @@
     }
   }
 
+  .highlight {
+    background-color: rgba(0, 147, 226, 0.8); /* Arrière-plan bleu transparent à 50% */
+    padding: 5px;
+    line-height: 1.7; /* Espacement entre les lignes */
+  }
 
+  .card-title {
+    white-space: pre-wrap;
+  }
+
+  .highlight-text {
+    white-space: pre-line;
+  }
 
   .fullheight {
   height: 100vh !important;

@@ -138,34 +138,28 @@
                         {% for projet in service.projets %}
                             {% if count is divisible by 2 %}
                             <!-- Slide -->
-                            <div class="swiper-slide pt-4 pb-8">
-                                
-                                <!-- Card -->
-                                <a class="card card-transition" href="#">
-                                <div class="card-pinned">
-                                    <img class="card-img-top" src="{{ projet.image }}" alt="Image Description">
-                                    <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation  | raw  }}</span>
+                                <div class="swiper-slide pt-4 pb-8">
+                                    <!-- Card -->
+                                    <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                                    <div class="card-body">
+                                        <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation  | raw  }}</span>
+                                        <h3 id="" class="highlight-text card-title text-white lh-base">{{ projet.designation  | raw  }}</h3>
+                                    </div>
+                                    {# <div class="card-footer pt-0">
+                                        <span class="card-link link-light">En savoir plus</span>
+                                    </div> #}
+                                    </a>
+                                    <!-- End Card -->
                                 </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ projet.designation  | raw  }}</h5>
-                                    <p>{{ projet.metier.designation  | raw  }}</p>
-                                </div>
-                                {# <div class="card-footer pt-0">
-                                    <span class="card-link">En savoir plus</span>
-                                </div> #}
-                                </a>
-                                <!-- End Card -->
-                                
-                            </div>
-                            <!-- End Slide -->
+                                <!-- End Slide -->
                             {% else %}
                                 <!-- Slide -->
                                 <div class="swiper-slide pt-4 pb-8">
                                     <!-- Card -->
                                     <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
                                     <div class="card-body">
-                                        <span class="card-subtitle text-white mb-3 bg-primary p-1">{{ projet.metier.designation  | raw  }}</span>
-                                        <h3 class="card-title text-white lh-base bg-info p-2">{{ projet.designation  | raw  }}</h3>
+                                        <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation  | raw  }}</span>
+                                        <h3 id="" class="highlight-text card-title text-white lh-base">{{ projet.designation  | raw  }}</h3>
                                     </div>
                                     {# <div class="card-footer pt-0">
                                         <span class="card-link link-light">En savoir plus</span>

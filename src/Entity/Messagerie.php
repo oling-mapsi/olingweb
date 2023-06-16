@@ -6,7 +6,9 @@ use App\Repository\MessagerieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: MessagerieRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Messagerie
 {
     #[ORM\Id]
@@ -103,9 +105,4 @@ class Messagerie
 
         return $this;
     }
-
-
-
-
-
 }

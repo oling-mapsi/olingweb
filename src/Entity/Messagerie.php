@@ -97,15 +97,15 @@ class Messagerie
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->CreatedAt;
-    }
-
     public function setCreatedAt(?\DateTimeImmutable $CreatedAt): self
     {
         $this->CreatedAt = $CreatedAt;
 
         return $this;
     }
+
+
+
+
+
 }

@@ -29,6 +29,9 @@ class Messagerie
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Details = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $CreatedAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Messagerie
     public function setDetails(string $Details): self
     {
         $this->Details = $Details;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->CreatedAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $CreatedAt): self
+    {
+        $this->CreatedAt = $CreatedAt;
 
         return $this;
     }

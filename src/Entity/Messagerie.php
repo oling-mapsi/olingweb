@@ -99,10 +99,9 @@ class Messagerie
         return $this;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $CreatedAt): self
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
-        $this->CreatedAt = $CreatedAt;
-
-        return $this;
+        $this->CreatedAt = new \DateTimeImmutable();
     }
 }

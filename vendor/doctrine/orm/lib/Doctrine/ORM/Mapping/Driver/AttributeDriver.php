@@ -23,13 +23,13 @@ use function class_exists;
 use function constant;
 use function defined;
 use function get_class;
-use function sprintf;
 
 use const PHP_VERSION_ID;
 
 class AttributeDriver extends CompatibilityAnnotationDriver
 {
     use ColocatedMappingDriver;
+    use ReflectionBasedDriver;
 
     private const ENTITY_ATTRIBUTE_CLASSES = [
         Mapping\Entity::class => 1,
@@ -53,13 +53,13 @@ class AttributeDriver extends CompatibilityAnnotationDriver
     protected $reader;
 
     /** @param array<string> $paths */
-    public function __construct(array $paths)
+    public function __construct(array $paths, bool $reportFieldsWhereDeclared = false)
     {
         if (PHP_VERSION_ID < 80000) {
-            throw new LogicException(sprintf(
+            throw new LogicException(
                 'The attribute metadata driver cannot be enabled on PHP 7. Please upgrade to PHP 8 or choose a different'
                 . ' metadata driver.'
-            ));
+            );
         }
 
         $this->reader = new AttributeReader();
@@ -73,6 +73,17 @@ class AttributeDriver extends CompatibilityAnnotationDriver
                 self::class
             );
         }
+
+        if (! $reportFieldsWhereDeclared) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/pull/10455',
+                'In ORM 3.0, the AttributeDriver will report fields for the classes where they are declared. This may uncover invalid mapping configurations. To opt into the new mode today, set the "reportFieldsWhereDeclared" constructor parameter to true.',
+                self::class
+            );
+        }
+
+        $this->reportFieldsWhereDeclared = $reportFieldsWhereDeclared;
     }
 
     /**
@@ -265,15 +276,19 @@ class AttributeDriver extends CompatibilityAnnotationDriver
                 if (isset($classAttributes[Mapping\DiscriminatorColumn::class])) {
                     $discrColumnAttribute = $classAttributes[Mapping\DiscriminatorColumn::class];
 
-                    $metadata->setDiscriminatorColumn(
-                        [
-                            'name'             => isset($discrColumnAttribute->name) ? (string) $discrColumnAttribute->name : null,
-                            'type'             => isset($discrColumnAttribute->type) ? (string) $discrColumnAttribute->type : 'string',
-                            'length'           => isset($discrColumnAttribute->length) ? (int) $discrColumnAttribute->length : 255,
-                            'columnDefinition' => isset($discrColumnAttribute->columnDefinition) ? (string) $discrColumnAttribute->columnDefinition : null,
-                            'enumType'         => isset($discrColumnAttribute->enumType) ? (string) $discrColumnAttribute->enumType : null,
-                        ]
-                    );
+                    $columnDef = [
+                        'name' => isset($discrColumnAttribute->name) ? (string) $discrColumnAttribute->name : null,
+                        'type' => isset($discrColumnAttribute->type) ? (string) $discrColumnAttribute->type : 'string',
+                        'length' => isset($discrColumnAttribute->length) ? (int) $discrColumnAttribute->length : 255,
+                        'columnDefinition' => isset($discrColumnAttribute->columnDefinition) ? (string) $discrColumnAttribute->columnDefinition : null,
+                        'enumType' => isset($discrColumnAttribute->enumType) ? (string) $discrColumnAttribute->enumType : null,
+                    ];
+
+                    if ($discrColumnAttribute->options) {
+                        $columnDef['options'] = (array) $discrColumnAttribute->options;
+                    }
+
+                    $metadata->setDiscriminatorColumn($columnDef);
                 } else {
                     $metadata->setDiscriminatorColumn(['name' => 'dtype', 'type' => 'string', 'length' => 255]);
                 }
@@ -294,20 +309,13 @@ class AttributeDriver extends CompatibilityAnnotationDriver
 
         foreach ($reflectionClass->getProperties() as $property) {
             assert($property instanceof ReflectionProperty);
-            if (
-                $metadata->isMappedSuperclass && ! $property->isPrivate()
-                ||
-                $metadata->isInheritedField($property->name)
-                ||
-                $metadata->isInheritedAssociation($property->name)
-                ||
-                $metadata->isInheritedEmbeddedClass($property->name)
-            ) {
+
+            if ($this->isRepeatedPropertyDeclaration($property, $metadata)) {
                 continue;
             }
 
             $mapping              = [];
-            $mapping['fieldName'] = $property->getName();
+            $mapping['fieldName'] = $property->name;
 
             // Evaluate #[Cache] attribute
             $cacheAttribute = $this->reader->getPropertyAttribute($property, Mapping\Cache::class);
@@ -342,7 +350,7 @@ class AttributeDriver extends CompatibilityAnnotationDriver
             $embeddedAttribute   = $this->reader->getPropertyAttribute($property, Mapping\Embedded::class);
 
             if ($columnAttribute !== null) {
-                $mapping = $this->columnToArray($property->getName(), $columnAttribute);
+                $mapping = $this->columnToArray($property->name, $columnAttribute);
 
                 if ($this->reader->getPropertyAttribute($property, Mapping\Id::class)) {
                     $mapping['id'] = true;
@@ -432,6 +440,14 @@ class AttributeDriver extends CompatibilityAnnotationDriver
 
                     if ($joinTableAttribute->options) {
                         $joinTable['options'] = $joinTableAttribute->options;
+                    }
+
+                    foreach ($joinTableAttribute->joinColumns as $joinColumn) {
+                        $joinTable['joinColumns'][] = $this->joinColumnToArray($joinColumn);
+                    }
+
+                    foreach ($joinTableAttribute->inverseJoinColumns as $joinColumn) {
+                        $joinTable['inverseJoinColumns'][] = $this->joinColumnToArray($joinColumn);
                     }
                 }
 

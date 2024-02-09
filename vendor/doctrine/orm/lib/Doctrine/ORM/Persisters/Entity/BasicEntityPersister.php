@@ -87,6 +87,8 @@ use function trim;
  *
  * Subclasses can be created to provide custom persisting and querying strategies,
  * i.e. spanning multiple tables.
+ *
+ * @psalm-import-type AssociationMapping from ClassMetadata
  */
 class BasicEntityPersister implements EntityPersister
 {
@@ -181,7 +183,7 @@ class BasicEntityPersister implements EntityPersister
      *
      * @var IdentifierFlattener
      */
-    private $identifierFlattener;
+    protected $identifierFlattener;
 
     /** @var CachedPersisterContext */
     protected $currentPersisterContext;
@@ -217,7 +219,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getClassMetadata()
     {
@@ -225,7 +227,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getResultSetMapping()
     {
@@ -233,7 +235,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addInsert($entity)
     {
@@ -241,7 +243,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getInserts()
     {
@@ -249,22 +251,22 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function executeInserts()
     {
         if (! $this->queuedInserts) {
-            return [];
+            return;
         }
 
-        $postInsertIds  = [];
+        $uow            = $this->em->getUnitOfWork();
         $idGenerator    = $this->class->idGenerator;
         $isPostInsertId = $idGenerator->isPostInsertGenerator();
 
         $stmt      = $this->conn->prepare($this->getInsertSQL());
         $tableName = $this->class->getTableName();
 
-        foreach ($this->queuedInserts as $entity) {
+        foreach ($this->queuedInserts as $key => $entity) {
             $insertData = $this->prepareInsertData($entity);
 
             if (isset($insertData[$tableName])) {
@@ -278,12 +280,10 @@ class BasicEntityPersister implements EntityPersister
             $stmt->executeStatement();
 
             if ($isPostInsertId) {
-                $generatedId     = $idGenerator->generateId($this->em, $entity);
-                $id              = [$this->class->identifier[0] => $generatedId];
-                $postInsertIds[] = [
-                    'generatedId' => $generatedId,
-                    'entity' => $entity,
-                ];
+                $generatedId = $idGenerator->generateId($this->em, $entity);
+                $id          = [$this->class->identifier[0] => $generatedId];
+
+                $uow->assignPostInsertId($entity, $generatedId);
             } else {
                 $id = $this->class->getIdentifierValues($entity);
             }
@@ -291,11 +291,16 @@ class BasicEntityPersister implements EntityPersister
             if ($this->class->requiresFetchAfterChange) {
                 $this->assignDefaultVersionAndUpsertableValues($entity, $id);
             }
+
+            // Unset this queued insert, so that the prepareUpdateData() method knows right away
+            // (for the next entity already) that the current entity has been written to the database
+            // and no extra updates need to be scheduled to refer to it.
+            //
+            // In \Doctrine\ORM\UnitOfWork::executeInserts(), the UoW already removed entities
+            // from its own list (\Doctrine\ORM\UnitOfWork::$entityInsertions) right after they
+            // were given to our addInsert() method.
+            unset($this->queuedInserts[$key]);
         }
-
-        $this->queuedInserts = [];
-
-        return $postInsertIds;
     }
 
     /**
@@ -374,7 +379,7 @@ class BasicEntityPersister implements EntityPersister
      * @return int[]|null[]|string[]
      * @psalm-return list<int|string|null>
      */
-    private function extractIdentifierTypes(array $id, ClassMetadata $versionedClass): array
+    final protected function extractIdentifierTypes(array $id, ClassMetadata $versionedClass): array
     {
         $types = [];
 
@@ -386,7 +391,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function update($entity)
     {
@@ -536,7 +541,7 @@ class BasicEntityPersister implements EntityPersister
     protected function deleteJoinTableRecords(array $identifier, array $types): void
     {
         foreach ($this->class->associationMappings as $mapping) {
-            if ($mapping['type'] !== ClassMetadata::MANY_TO_MANY) {
+            if ($mapping['type'] !== ClassMetadata::MANY_TO_MANY || isset($mapping['isOnDeleteCascade'])) {
                 continue;
             }
 
@@ -572,10 +577,6 @@ class BasicEntityPersister implements EntityPersister
                 $otherKeys[] = $this->quoteStrategy->getJoinColumnName($joinColumn, $class, $this->platform);
             }
 
-            if (isset($mapping['isOnDeleteCascade'])) {
-                continue;
-            }
-
             $joinTableName = $this->quoteStrategy->getJoinTableName($association, $this->class, $this->platform);
 
             $this->conn->delete($joinTableName, array_combine($keys, $identifier), $types);
@@ -587,7 +588,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function delete($entity)
     {
@@ -677,10 +678,30 @@ class BasicEntityPersister implements EntityPersister
             if ($newVal !== null) {
                 $oid = spl_object_id($newVal);
 
-                if (isset($this->queuedInserts[$oid]) || $uow->isScheduledForInsert($newVal)) {
-                    // The associated entity $newVal is not yet persisted, so we must
-                    // set $newVal = null, in order to insert a null value and schedule an
-                    // extra update on the UnitOfWork.
+                // If the associated entity $newVal is not yet persisted and/or does not yet have
+                // an ID assigned, we must set $newVal = null. This will insert a null value and
+                // schedule an extra update on the UnitOfWork.
+                //
+                // This gives us extra time to a) possibly obtain a database-generated identifier
+                // value for $newVal, and b) insert $newVal into the database before the foreign
+                // key reference is being made.
+                //
+                // When looking at $this->queuedInserts and $uow->isScheduledForInsert, be aware
+                // of the implementation details that our own executeInserts() method will remove
+                // entities from the former as soon as the insert statement has been executed and
+                // a post-insert ID has been assigned (if necessary), and that the UnitOfWork has
+                // already removed entities from its own list at the time they were passed to our
+                // addInsert() method.
+                //
+                // Then, there is one extra exception we can make: An entity that references back to itself
+                // _and_ uses an application-provided ID (the "NONE" generator strategy) also does not
+                // need the extra update, although it is still in the list of insertions itself.
+                // This looks like a minor optimization at first, but is the capstone for being able to
+                // use non-NULLable, self-referencing associations in applications that provide IDs (like UUIDs).
+                if (
+                    (isset($this->queuedInserts[$oid]) || $uow->isScheduledForInsert($newVal))
+                    && ! ($newVal === $entity && $this->class->isIdentifierNatural())
+                ) {
                     $uow->scheduleExtraUpdate($entity, [$field => [null, $newVal]]);
 
                     $newVal = null;
@@ -731,7 +752,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOwningTable($fieldName)
     {
@@ -739,7 +760,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function load(array $criteria, $entity = null, $assoc = null, array $hints = [], $lockMode = null, $limit = null, ?array $orderBy = null)
     {
@@ -761,7 +782,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadById(array $identifier, $entity = null)
     {
@@ -769,7 +790,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadOneToOneEntity(array $assoc, $sourceEntity, array $identifier = [])
     {
@@ -829,7 +850,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function refresh(array $id, $entity, $lockMode = null)
     {
@@ -856,7 +877,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadCriteria(Criteria $criteria)
     {
@@ -874,7 +895,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function expandCriteriaParameters(Criteria $criteria)
     {
@@ -907,7 +928,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadAll(array $criteria = [], ?array $orderBy = null, $limit = null, $offset = null)
     {
@@ -923,7 +944,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getManyToManyCollection(array $assoc, $sourceEntity, $offset = null, $limit = null)
     {
@@ -981,7 +1002,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadManyToManyCollection(array $assoc, $sourceEntity, PersistentCollection $collection)
     {
@@ -1067,7 +1088,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSelectSQL($criteria, $assoc = null, $lockMode = null, $limit = null, $offset = null, ?array $orderBy = null)
     {
@@ -1334,9 +1355,9 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Gets the SQL join fragment used when selecting entities from an association.
      *
-     * @param string  $field
-     * @param mixed[] $assoc
-     * @param string  $alias
+     * @param string             $field
+     * @param AssociationMapping $assoc
+     * @param string             $alias
      *
      * @return string
      */
@@ -1368,7 +1389,7 @@ class BasicEntityPersister implements EntityPersister
      * Gets the SQL join fragment used when selecting entities from a
      * many-to-many association.
      *
-     * @psalm-param array<string, mixed> $manyToMany
+     * @psalm-param AssociationMapping $manyToMany
      *
      * @return string
      */
@@ -1398,7 +1419,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getInsertSQL()
     {
@@ -1548,7 +1569,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function lock(array $criteria, $lockMode)
     {
@@ -1625,7 +1646,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSelectConditionStatementSQL($field, $value, $assoc = null, $comparison = null)
     {
@@ -1696,7 +1717,7 @@ class BasicEntityPersister implements EntityPersister
     /**
      * Builds the left-hand-side of a where condition statement.
      *
-     * @psalm-param array<string, mixed>|null $assoc
+     * @psalm-param AssociationMapping|null $assoc
      *
      * @return string[]
      * @psalm-return list<string>
@@ -1769,7 +1790,7 @@ class BasicEntityPersister implements EntityPersister
      * Subclasses are supposed to override this method if they intend to change
      * or alter the criteria by which entities are selected.
      *
-     * @param mixed[]|null $assoc
+     * @param AssociationMapping|null $assoc
      * @psalm-param array<string, mixed> $criteria
      * @psalm-param array<string, mixed>|null $assoc
      *
@@ -1787,7 +1808,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOneToManyCollection(array $assoc, $sourceEntity, $offset = null, $limit = null)
     {
@@ -1799,7 +1820,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadOneToManyCollection(array $assoc, $sourceEntity, PersistentCollection $collection)
     {
@@ -1812,7 +1833,7 @@ class BasicEntityPersister implements EntityPersister
      * Builds criteria and execute SQL statement to fetch the one to many entities from.
      *
      * @param object $sourceEntity
-     * @psalm-param array<string, mixed> $assoc
+     * @psalm-param AssociationMapping $assoc
      */
     private function getOneToManyStatement(
         array $assoc,
@@ -1866,7 +1887,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function expandParameters($criteria)
     {
@@ -2029,7 +2050,7 @@ class BasicEntityPersister implements EntityPersister
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function exists($entity, ?Criteria $extraConditions = null)
     {

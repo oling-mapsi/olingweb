@@ -17,10 +17,10 @@ use Doctrine\ORM\Proxy\Proxy as LegacyProxy;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Utility\IdentifierFlattener;
 use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Proxy;
 use ReflectionProperty;
 use Symfony\Component\VarExporter\ProxyHelper;
 use Symfony\Component\VarExporter\VarExporter;
+use Throwable;
 
 use function array_flip;
 use function str_replace;
@@ -30,8 +30,6 @@ use function uksort;
 
 /**
  * This factory is used to create proxy objects for entities at runtime.
- *
- * @psalm-type AutogenerateMode = ProxyFactory::AUTOGENERATE_NEVER|ProxyFactory::AUTOGENERATE_ALWAYS|ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS|ProxyFactory::AUTOGENERATE_EVAL|ProxyFactory::AUTOGENERATE_FILE_NOT_EXISTS_OR_CHANGED
  */
 class ProxyFactory extends AbstractProxyFactory
 {
@@ -47,30 +45,18 @@ class <proxyShortClassName> extends \<className> implements \<baseProxyInterface
 {
     <useLazyGhostTrait>
 
-    /**
-     * @internal
-     */
-    public bool $__isCloning = false;
-
-    public function __construct(?\Closure $initializer = null)
+    public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {
+        if ($cloner !== null) {
+            return;
+        }
+
         self::createLazyGhost($initializer, <skippedProperties>, $this);
     }
 
     public function __isInitialized(): bool
     {
         return isset($this->lazyObjectState) && $this->isLazyObjectInitialized();
-    }
-
-    public function __clone()
-    {
-        $this->__isCloning = true;
-
-        try {
-            $this->__doClone();
-        } finally {
-            $this->__isCloning = false;
-        }
     }
 
     public function __serialize(): array
@@ -97,23 +83,24 @@ EOPHP;
      */
     private $identifierFlattener;
 
+    /** @var ProxyDefinition[] */
+    private $definitions = [];
+
     /**
      * Initializes a new instance of the <tt>ProxyFactory</tt> class that is
      * connected to the given <tt>EntityManager</tt>.
      *
-     * @param EntityManagerInterface $em           The EntityManager the new factory works for.
-     * @param string                 $proxyDir     The directory to use for the proxy classes. It must exist.
-     * @param string                 $proxyNs      The namespace to use for the proxy classes.
-     * @param bool|int               $autoGenerate The strategy for automatically generating proxy classes. Possible
-     *                                             values are constants of {@see ProxyFactory::AUTOGENERATE_*}.
-     * @psalm-param bool|AutogenerateMode $autoGenerate
+     * @param EntityManagerInterface    $em           The EntityManager the new factory works for.
+     * @param string                    $proxyDir     The directory to use for the proxy classes. It must exist.
+     * @param string                    $proxyNs      The namespace to use for the proxy classes.
+     * @param bool|self::AUTOGENERATE_* $autoGenerate The strategy for automatically generating proxy classes.
      */
     public function __construct(EntityManagerInterface $em, $proxyDir, $proxyNs, $autoGenerate = self::AUTOGENERATE_NEVER)
     {
         $proxyGenerator = new ProxyGenerator($proxyDir, $proxyNs);
 
         if ($em->getConfiguration()->isLazyGhostObjectEnabled()) {
-            $proxyGenerator->setPlaceholder('baseProxyInterface', Proxy::class);
+            $proxyGenerator->setPlaceholder('baseProxyInterface', InternalProxy::class);
             $proxyGenerator->setPlaceholder('useLazyGhostTrait', Closure::fromCallable([$this, 'generateUseLazyGhostTrait']));
             $proxyGenerator->setPlaceholder('skippedProperties', Closure::fromCallable([$this, 'generateSkippedProperties']));
             $proxyGenerator->setPlaceholder('serializeImpl', Closure::fromCallable([$this, 'generateSerializeImpl']));
@@ -128,6 +115,26 @@ EOPHP;
         $this->uow                 = $em->getUnitOfWork();
         $this->proxyNs             = $proxyNs;
         $this->identifierFlattener = new IdentifierFlattener($this->uow, $em->getMetadataFactory());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProxy($className, array $identifier)
+    {
+        $proxy = parent::getProxy($className, $identifier);
+
+        if (! $this->em->getConfiguration()->isLazyGhostObjectEnabled()) {
+            return $proxy;
+        }
+
+        $initializer = $this->definitions[$className]->initializer;
+
+        $proxy->__construct(static function (InternalProxy $object) use ($initializer, $proxy): void {
+            $initializer($object, $proxy);
+        });
+
+        return $proxy;
     }
 
     /**
@@ -157,7 +164,7 @@ EOPHP;
             $cloner      = $this->createCloner($classMetadata, $entityPersister);
         }
 
-        return new ProxyDefinition(
+        return $this->definitions[$className] = new ProxyDefinition(
             ClassUtils::generateProxyClassName($className, $this->proxyNs),
             $classMetadata->getIdentifierFieldNames(),
             $classMetadata->getReflectionProperties(),
@@ -204,7 +211,17 @@ EOPHP;
 
             $identifier = $classMetadata->getIdentifierValues($proxy);
 
-            if ($entityPersister->loadById($identifier, $proxy) === null) {
+            try {
+                $entity = $entityPersister->loadById($identifier, $proxy);
+            } catch (Throwable $exception) {
+                $proxy->__setInitializer($initializer);
+                $proxy->__setCloner($cloner);
+                $proxy->__setInitialized(false);
+
+                throw $exception;
+            }
+
+            if ($entity === null) {
                 $proxy->__setInitializer($initializer);
                 $proxy->__setCloner($cloner);
                 $proxy->__setInitialized(false);
@@ -220,15 +237,15 @@ EOPHP;
     /**
      * Creates a closure capable of initializing a proxy
      *
-     * @return Closure(Proxy):void
+     * @return Closure(InternalProxy, InternalProxy):void
      *
      * @throws EntityNotFoundException
      */
     private function createLazyInitializer(ClassMetadata $classMetadata, EntityPersister $entityPersister): Closure
     {
-        return function (Proxy $proxy) use ($entityPersister, $classMetadata): void {
-            $identifier = $classMetadata->getIdentifierValues($proxy);
-            $entity     = $entityPersister->loadById($identifier, $proxy->__isCloning ? null : $proxy);
+        return function (InternalProxy $proxy, InternalProxy $original) use ($entityPersister, $classMetadata): void {
+            $identifier = $classMetadata->getIdentifierValues($original);
+            $entity     = $entityPersister->loadById($identifier, $original);
 
             if ($entity === null) {
                 throw EntityNotFoundException::fromClassNameAndIdentifier(
@@ -237,7 +254,7 @@ EOPHP;
                 );
             }
 
-            if (! $proxy->__isCloning) {
+            if ($proxy === $original) {
                 return;
             }
 
@@ -304,7 +321,6 @@ EOPHP;
             isLazyObjectInitialized as private;
             createLazyGhost as private;
             resetLazyObject as private;
-            __clone as private __doClone;
         }'), $code);
 
         return $code;
@@ -312,20 +328,20 @@ EOPHP;
 
     private function generateSkippedProperties(ClassMetadata $class): string
     {
-        $skippedProperties = ['__isCloning' => true];
+        $skippedProperties = [];
         $identifiers       = array_flip($class->getIdentifierFieldNames());
         $filter            = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE;
         $reflector         = $class->getReflectionClass();
 
         while ($reflector) {
             foreach ($reflector->getProperties($filter) as $property) {
-                $name = $property->getName();
+                $name = $property->name;
 
                 if ($property->isStatic() || (($class->hasField($name) || $class->hasAssociation($name)) && ! isset($identifiers[$name]))) {
                     continue;
                 }
 
-                $prefix = $property->isPrivate() ? "\0" . $property->getDeclaringClass()->getName() . "\0" : ($property->isProtected() ? "\0*\0" : '');
+                $prefix = $property->isPrivate() ? "\0" . $property->class . "\0" : ($property->isProtected() ? "\0*\0" : '');
 
                 $skippedProperties[$prefix . $name] = true;
             }
@@ -360,7 +376,7 @@ EOPHP;
         return $code . '$data = [];
 
         foreach (parent::__sleep() as $name) {
-            $value = $properties[$k = $name] ?? $properties[$k = "\0*\0$name"] ?? $properties[$k = "\0' . $reflector->getName() . '\0$name"] ?? $k = null;
+            $value = $properties[$k = $name] ?? $properties[$k = "\0*\0$name"] ?? $properties[$k = "\0' . $reflector->name . '\0$name"] ?? $k = null;
 
             if (null === $k) {
                 trigger_error(sprintf(\'serialize(): "%s" returned as member variable from __sleep() but does not exist\', $name), \E_USER_NOTICE);

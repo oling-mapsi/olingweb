@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsMiddleware;
 use Doctrine\Bundle\DoctrineBundle\CacheWarmer\DoctrineMetadataCacheWarmer;
+use Doctrine\Bundle\DoctrineBundle\ConnectionFactory;
 use Doctrine\Bundle\DoctrineBundle\Dbal\ManagerRegistryAwareConnectionProvider;
 use Doctrine\Bundle\DoctrineBundle\Dbal\RegexSchemaAssetFilter;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\IdGeneratorPass;
@@ -20,7 +21,9 @@ use Doctrine\DBAL\Schema\LegacySchemaManagerFactory;
 use Doctrine\ORM\Configuration as OrmConfiguration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Id\AbstractIdGenerator;
+use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\Proxy\Autoloader;
 use Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand;
 use Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand;
@@ -45,6 +48,7 @@ use Symfony\Bridge\Doctrine\SchemaListener\RememberMeTokenProviderDoctrineSchema
 use Symfony\Bridge\Doctrine\Validator\DoctrineLoader;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -62,6 +66,7 @@ use Symfony\Component\VarExporter\LazyGhostTrait;
 
 use function array_intersect_key;
 use function array_keys;
+use function array_merge;
 use function class_exists;
 use function interface_exists;
 use function is_dir;
@@ -88,7 +93,7 @@ class DoctrineExtension extends AbstractDoctrineExtension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = $this->getConfiguration($configs, $container);
-        $config        = $this->processConfiguration($configuration, $configs);
+        $config        = $this->processConfigurationPrependingDefaults($configuration, $configs);
 
         if (! empty($config['dbal'])) {
             $this->dbalLoad($config['dbal'], $container);
@@ -105,6 +110,40 @@ class DoctrineExtension extends AbstractDoctrineExtension
         }
 
         $this->ormLoad($config['orm'], $container);
+    }
+
+    /**
+     * Process user configuration and adds a default DBAL connection and/or a
+     * default EM if required, then process again the configuration to get
+     * default values for each.
+     *
+     * @param array<array<mixed>> $configs
+     *
+     * @return array<mixed>
+     */
+    private function processConfigurationPrependingDefaults(ConfigurationInterface $configuration, array $configs): array
+    {
+        $config      = $this->processConfiguration($configuration, $configs);
+        $configToAdd = [];
+
+        // if no DB connection defined, prepend an empty one for the default
+        // connection name in order to make Symfony Config resolve the default
+        // values
+        if (isset($config['dbal']) && empty($config['dbal']['connections'])) {
+            $configToAdd['dbal'] = ['connections' => [($config['dbal']['default_connection'] ?? 'default') => []]];
+        }
+
+        // if no EM defined, prepend an empty one for the default EM name in
+        // order to make Symfony Config resolve the default values
+        if (isset($config['orm']) && empty($config['orm']['entity_managers'])) {
+            $configToAdd['orm'] = ['entity_managers' => [($config['orm']['default_entity_manager'] ?? 'default') => []]];
+        }
+
+        if (! $configToAdd) {
+            return $config;
+        }
+
+        return $this->processConfiguration($configuration, array_merge([$configToAdd], $configs));
     }
 
     /**
@@ -134,6 +173,8 @@ class DoctrineExtension extends AbstractDoctrineExtension
         $container->setAlias('doctrine.dbal.event_manager', new Alias(sprintf('doctrine.dbal.%s_connection.event_manager', $this->defaultConnection), false));
 
         $container->setParameter('doctrine.dbal.connection_factory.types', $config['types']);
+
+        $container->getDefinition('doctrine.dbal.connection_factory.dsn_parser')->setArgument(0, array_merge(ConnectionFactory::DEFAULT_SCHEME_MAP, $config['driver_schemes']));
 
         $connections = [];
 
@@ -554,7 +595,9 @@ class DoctrineExtension extends AbstractDoctrineExtension
                 ]);
             }
 
-            $def->addTag('doctrine.event_subscriber');
+            $def
+                ->addTag('doctrine.event_listener', ['event' => Events::loadClassMetadata])
+                ->addTag('doctrine.event_listener', ['event' => Events::onClassMetadataNotFound]);
         }
 
         $container->registerForAutoconfiguration(ServiceEntityRepositoryInterface::class)
@@ -706,6 +749,7 @@ class DoctrineExtension extends AbstractDoctrineExtension
             ->setArguments([
                 new Reference(sprintf('doctrine.dbal.%s_connection', $entityManager['connection'])),
                 new Reference(sprintf('doctrine.orm.%s_configuration', $entityManager['name'])),
+                new Reference(sprintf('doctrine.dbal.%s_connection.event_manager', $entityManager['connection'])),
             ])
             ->setConfigurator([new Reference($managerConfiguratorName), 'configure']);
 
@@ -783,6 +827,25 @@ class DoctrineExtension extends AbstractDoctrineExtension
 
         $this->loadMappingInformation($entityManager, $container);
         $this->registerMappingDrivers($entityManager, $container);
+
+        $container->getDefinition($this->getObjectManagerElementName($entityManager['name'] . '_metadata_driver'));
+        foreach (array_keys($this->drivers) as $driverType) {
+            $mappingService   = $this->getObjectManagerElementName($entityManager['name'] . '_' . $driverType . '_metadata_driver');
+            $mappingDriverDef = $container->getDefinition($mappingService);
+            $args             = $mappingDriverDef->getArguments();
+            if ($driverType === 'annotation') {
+                $args[2] = $entityManager['report_fields_where_declared'];
+            } elseif ($driverType === 'attribute') {
+                $args[1] = $entityManager['report_fields_where_declared'];
+            } elseif ($driverType === 'xml') {
+                $args[1] ??= SimplifiedXmlDriver::DEFAULT_FILE_EXTENSION;
+                $args[2]   = $entityManager['validate_xml_mapping'];
+            } else {
+                continue;
+            }
+
+            $mappingDriverDef->setArguments($args);
+        }
 
         $ormConfigDef->addMethodCall('setEntityNamespaces', [$this->aliasMap]);
     }

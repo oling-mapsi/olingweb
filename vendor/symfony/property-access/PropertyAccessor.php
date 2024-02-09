@@ -301,7 +301,7 @@ class PropertyAccessor implements PropertyAccessorInterface
                 if (($zval[self::VALUE] instanceof \ArrayAccess && !$zval[self::VALUE]->offsetExists($property)) ||
                     (\is_array($zval[self::VALUE]) && !isset($zval[self::VALUE][$property]) && !\array_key_exists($property, $zval[self::VALUE]))
                 ) {
-                    if (!$ignoreInvalidIndices) {
+                    if (!$ignoreInvalidIndices && !$isNullSafe) {
                         if (!\is_array($zval[self::VALUE])) {
                             if (!$zval[self::VALUE] instanceof \Traversable) {
                                 throw new NoSuchIndexException(sprintf('Cannot read index "%s" while trying to traverse path "%s".', $property, (string) $propertyPath));
@@ -410,7 +410,7 @@ class PropertyAccessor implements PropertyAccessorInterface
                         [$trace] = $e->getTrace();
 
                         // handle uninitialized properties in PHP >= 7
-                        if (__FILE__ === $trace['file']
+                        if (__FILE__ === ($trace['file'] ?? null)
                             && $name === $trace['function']
                             && $object instanceof $trace['class']
                             && preg_match('/Return value (?:of .*::\w+\(\) )?must be of (?:the )?type (\w+), null returned$/', $e->getMessage(), $matches)

@@ -1,3 +1,87 @@
+# Upgrade to 2.16
+
+## Deprecated accepting duplicate IDs in the identity map
+
+For any given entity class and ID value, there should be only one object instance
+representing the entity. 
+
+In https://github.com/doctrine/orm/pull/10785, a check was added that will guard this
+in the identity map. The most probable cause for violations of this rule are collisions
+of application-provided IDs.
+
+In ORM 2.16.0, the check was added by throwing an exception. In ORM 2.16.1, this will be
+changed to a deprecation notice. ORM 3.0 will make it an exception again. Use
+`\Doctrine\ORM\Configuration::setRejectIdCollisionInIdentityMap()` if you want to opt-in
+to the new mode.
+
+## Potential changes to the order in which `INSERT`s are executed
+
+In https://github.com/doctrine/orm/pull/10547, the commit order computation was improved
+to fix a series of bugs where a correct (working) commit order was previously not found.
+Also, the new computation may get away with fewer queries being executed: By inserting
+referred-to entities first and using their ID values for foreign key fields in subsequent
+`INSERT` statements, additional `UPDATE` statements that were previously necessary can be
+avoided.
+
+When using database-provided, auto-incrementing IDs, this may lead to IDs being assigned
+to entities in a different order than it was previously the case.
+
+## Deprecated `\Doctrine\ORM\Internal\CommitOrderCalculator` and related classes
+
+With changes made to the commit order computation, the internal classes
+`\Doctrine\ORM\Internal\CommitOrderCalculator`, `\Doctrine\ORM\Internal\CommitOrder\Edge`,
+`\Doctrine\ORM\Internal\CommitOrder\Vertex` and `\Doctrine\ORM\Internal\CommitOrder\VertexState`
+have been deprecated and will be removed in ORM 3.0.
+
+## Deprecated returning post insert IDs from `EntityPersister::executeInserts()`
+
+Persisters implementing `\Doctrine\ORM\Persisters\Entity\EntityPersister` should no longer
+return an array of post insert IDs from their `::executeInserts()` method. Make the
+persister call `Doctrine\ORM\UnitOfWork::assignPostInsertId()` instead.
+
+## Changing the way how reflection-based mapping drivers report fields, deprecated the "old" mode
+
+In ORM 3.0, a change will be made regarding how the `AttributeDriver` reports field mappings.
+This change is necessary to be able to detect (and reject) some invalid mapping configurations.
+
+To avoid surprises during 2.x upgrades, the new mode is opt-in. It can be activated on the 
+`AttributeDriver` and `AnnotationDriver` by setting the `$reportFieldsWhereDeclared`
+constructor parameter to `true`. It will cause `MappingException`s to be thrown when invalid
+configurations are detected.
+
+Not enabling the new mode will cause a deprecation notice to be raised. In ORM 3.0, 
+only the new mode will be available.
+
+# Upgrade to 2.15
+
+## Deprecated configuring `JoinColumn` on the inverse side of one-to-one associations
+
+For one-to-one associations, the side using the `mappedBy` attribute is the inverse side.
+The owning side is the entity with the table containing the foreign key. Using `JoinColumn`
+configuration on the _inverse_ side now triggers a deprecation notice and will be an error
+in 3.0.
+
+## Deprecated overriding fields or associations not declared in mapped superclasses
+
+As stated in the documentation, fields and associations may only be overridden when being inherited
+from mapped superclasses. Overriding them for parent entity classes now triggers a deprecation notice
+and will be an error in 3.0.
+
+## Deprecated undeclared entity inheritance
+
+As soon as an entity class inherits from another entity class, inheritance has to 
+be declared by adding the appropriate configuration for the root entity.
+
+## Deprecated stubs for "concrete table inheritance"
+
+This third way of mapping class inheritance was never implemented. Code stubs are
+now deprecated and will be removed in 3.0.
+
+* `\Doctrine\ORM\Mapping\ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS` constant
+* `\Doctrine\ORM\Mapping\ClassMetadataInfo::isInheritanceTypeTablePerClass()` method
+* Using `TABLE_PER_CLASS` as the value for the `InheritanceType` attribute or annotation
+  or in XML configuration files.
+
 # Upgrade to 2.14
 
 ## Deprecated `Doctrine\ORM\Persisters\Exception\UnrecognizedField::byName($field)` method.

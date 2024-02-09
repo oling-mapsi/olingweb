@@ -12,6 +12,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Visitor\RemoveNamespacedAssets;
 use Doctrine\Deprecations\Deprecation;
@@ -46,6 +47,11 @@ use function strtolower;
  * <tt>ClassMetadata</tt> class descriptors.
  *
  * @link    www.doctrine-project.org
+ *
+ * @psalm-import-type AssociationMapping from ClassMetadata
+ * @psalm-import-type DiscriminatorColumnMapping from ClassMetadata
+ * @psalm-import-type FieldMapping from ClassMetadata
+ * @psalm-import-type JoinColumnData from ClassMetadata
  */
 class SchemaTool
 {
@@ -401,8 +407,14 @@ class SchemaTool
             }
         }
 
-        if (! $this->platform->supportsSchemas() && ! $this->platform->canEmulateSchemas()) {
-            $schema->visit(new RemoveNamespacedAssets());
+        if (! $this->platform->supportsSchemas()) {
+            $filter = /** @param Sequence|Table $asset */ static function ($asset) use ($schema): bool {
+                return ! $asset->isInDefaultNamespace($schema->getName());
+            };
+
+            if (array_filter($schema->getSequences() + $schema->getTables(), $filter) && ! $this->platform->canEmulateSchemas()) {
+                $schema->visit(new RemoveNamespacedAssets());
+            }
         }
 
         if ($eventManager->hasListeners(ToolEvents::postGenerateSchema)) {
@@ -440,6 +452,7 @@ class SchemaTool
             $options['columnDefinition'] = $discrColumn['columnDefinition'];
         }
 
+        $options = $this->gatherColumnOptions($discrColumn) + $options;
         $table->addColumn($discrColumn['name'], $discrColumn['type'], $options);
     }
 
@@ -468,7 +481,7 @@ class SchemaTool
      * Creates a column definition as required by the DBAL from an ORM field mapping definition.
      *
      * @param ClassMetadata $class The class that owns the field mapping.
-     * @psalm-param array<string, mixed> $mapping The field mapping.
+     * @psalm-param FieldMapping $mapping The field mapping.
      */
     private function gatherColumn(
         ClassMetadata $class,
@@ -657,8 +670,8 @@ class SchemaTool
     /**
      * Gathers columns and fk constraints that are required for one part of relationship.
      *
-     * @psalm-param array<string, mixed>             $joinColumns
-     * @psalm-param array<string, mixed>             $mapping
+     * @psalm-param array<string, JoinColumnData>    $joinColumns
+     * @psalm-param AssociationMapping               $mapping
      * @psalm-param list<string>                     $primaryKeyColumns
      * @psalm-param array<string, array{
      *                  foreignTableName: string,
@@ -788,7 +801,7 @@ class SchemaTool
     }
 
     /**
-     * @param mixed[] $mapping
+     * @psalm-param JoinColumnData|FieldMapping|DiscriminatorColumnMapping $mapping
      *
      * @return mixed[]
      */
@@ -808,8 +821,8 @@ class SchemaTool
             return [];
         }
 
-        $options                        = array_intersect_key($mappingOptions, array_flip(self::KNOWN_COLUMN_OPTIONS));
-        $options['customSchemaOptions'] = array_diff_key($mappingOptions, $options);
+        $options                    = array_intersect_key($mappingOptions, array_flip(self::KNOWN_COLUMN_OPTIONS));
+        $options['platformOptions'] = array_diff_key($mappingOptions, $options);
 
         return $options;
     }

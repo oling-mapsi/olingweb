@@ -360,7 +360,7 @@ class DeprecationErrorHandler
         }
     }
 
-    private static function getPhpUnitErrorHandler()
+    private static function getPhpUnitErrorHandler(): callable
     {
         if (!$eh = self::$errorHandler) {
             if (class_exists(Handler::class)) {

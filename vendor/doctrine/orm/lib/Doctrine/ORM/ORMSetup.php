@@ -24,7 +24,6 @@ use function apcu_enabled;
 use function class_exists;
 use function extension_loaded;
 use function md5;
-use function sprintf;
 use function sys_get_temp_dir;
 
 final class ORMSetup
@@ -63,7 +62,8 @@ final class ORMSetup
      */
     public static function createDefaultAnnotationDriver(
         array $paths = [],
-        ?CacheItemPoolInterface $cache = null
+        ?CacheItemPoolInterface $cache = null,
+        bool $reportFieldsWhereDeclared = false
     ): AnnotationDriver {
         Deprecation::trigger(
             'doctrine/orm',
@@ -72,11 +72,11 @@ final class ORMSetup
             __METHOD__
         );
         if (! class_exists(AnnotationReader::class)) {
-            throw new LogicException(sprintf(
+            throw new LogicException(
                 'The annotation metadata driver cannot be enabled because the "doctrine/annotations" library'
                 . ' is not installed. Please run "composer require doctrine/annotations" or choose a different'
                 . ' metadata driver.'
-            ));
+            );
         }
 
         $reader = new AnnotationReader();
@@ -89,7 +89,7 @@ final class ORMSetup
             $reader = new PsrCachedReader($reader, $cache);
         }
 
-        return new AnnotationDriver($reader, $paths);
+        return new AnnotationDriver($reader, $paths, $reportFieldsWhereDeclared);
     }
 
     /**
@@ -101,10 +101,11 @@ final class ORMSetup
         array $paths,
         bool $isDevMode = false,
         ?string $proxyDir = null,
-        ?CacheItemPoolInterface $cache = null
+        ?CacheItemPoolInterface $cache = null,
+        bool $reportFieldsWhereDeclared = false
     ): Configuration {
         $config = self::createConfiguration($isDevMode, $proxyDir, $cache);
-        $config->setMetadataDriverImpl(new AttributeDriver($paths));
+        $config->setMetadataDriverImpl(new AttributeDriver($paths, $reportFieldsWhereDeclared));
 
         return $config;
     }

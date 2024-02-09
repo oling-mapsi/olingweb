@@ -61,7 +61,7 @@ class DatabaseDriver implements MappingDriver
     private const JSON_ARRAY = 'json_array';
 
     /** @var AbstractSchemaManager */
-    private $_sm;
+    private $sm;
 
     /** @var array<string,Table>|null */
     private $tables = null;
@@ -90,7 +90,7 @@ class DatabaseDriver implements MappingDriver
 
     public function __construct(AbstractSchemaManager $schemaManager)
     {
-        $this->_sm       = $schemaManager;
+        $this->sm        = $schemaManager;
         $this->inflector = InflectorFactory::create()->build();
     }
 
@@ -196,7 +196,7 @@ class DatabaseDriver implements MappingDriver
             Deprecation::trigger(
                 'doctrine/orm',
                 'https://github.com/doctrine/orm/pull/249',
-                'Passing an instance of %s to %s is deprecated, please pass a ClassMetadata instance instead.',
+                'Passing an instance of %s to %s is deprecated, please pass a %s instance instead.',
                 get_class($metadata),
                 __METHOD__,
                 ClassMetadata::class
@@ -294,7 +294,7 @@ class DatabaseDriver implements MappingDriver
 
         $this->tables = $this->manyToManyTables = $this->classToTableNames = [];
 
-        foreach ($this->_sm->listTables() as $table) {
+        foreach ($this->sm->listTables() as $table) {
             $tableName   = $table->getName();
             $foreignKeys = $table->getForeignKeys();
 

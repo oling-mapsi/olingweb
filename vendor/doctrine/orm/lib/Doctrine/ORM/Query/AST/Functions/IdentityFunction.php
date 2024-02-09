@@ -28,7 +28,7 @@ class IdentityFunction extends FunctionNode
     public $fieldMapping;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSql(SqlWalker $sqlWalker)
     {
@@ -73,7 +73,7 @@ class IdentityFunction extends FunctionNode
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function parse(Parser $parser)
     {
@@ -88,7 +88,7 @@ class IdentityFunction extends FunctionNode
 
             $token = $parser->getLexer()->token;
             assert($token !== null);
-            $this->fieldMapping = $token['value'];
+            $this->fieldMapping = $token->value;
         }
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);

@@ -1,0 +1,8 @@
+/*
+* HSCore
+* @version: 2.0.0 (27 April, 2021)
+* @author: HtmlStream
+* @event-namespace: .HSCore
+* @license: Htmlstream Libraries (https://htmlstream.com/licenses)
+* Copyright 2021 Htmlstream
+*/

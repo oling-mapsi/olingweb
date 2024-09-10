@@ -24,6 +24,7 @@ class ContactController extends AbstractController
         $company = $request->request->get('contactCompany', '');
         $workEmail = $request->request->get('contactWorkEmail', '');
         $details = $request->request->get('contactDetails', '');
+        $consent = $request->request->get('consent', '');
 
         // Vérifier si les champs sont remplis
         if (!empty($firstName) && !empty($lastName) && !empty($workEmail) && !empty($details)) {
@@ -32,7 +33,7 @@ class ContactController extends AbstractController
             if (filter_var($workEmail, FILTER_VALIDATE_EMAIL)) {
 
                 // Vérifier si le champ details fait entre 30 et 200 caractères
-                if (strlen($details) >= 30 && strlen($details) <= 200) {
+                if (strlen($details) >= 30 && strlen($details) <= 200 && $consent) {
                     // Créer l'entité Messagerie
                     $message = new Messagerie();
                     $message->setFirstName($firstName);
@@ -40,6 +41,8 @@ class ContactController extends AbstractController
                     $message->setCompany($company);
                     $message->setWorkEmail($workEmail);
                     $message->setDetails($details);
+                    $message->setConsentAt(new \DateTimeImmutable());
+
 
                     // Vérifier si l'entité Messagerie est valide
                     $errors = $validator->validate($message);
@@ -62,7 +65,7 @@ class ContactController extends AbstractController
         // Si une des conditions n'est pas remplie, renvoyer une réponse JSON d'échec
         return new JsonResponse([
             'success' => false,
-            'message' => 'Veuillez remplir tous les champs et vérifier que les données sont valides.',
+            'message' => 'Veuillez remplir tous les champs (le message doit comporter au moins 30 caractères) et vérifier votre consentement.',
         ]);
     }
 }

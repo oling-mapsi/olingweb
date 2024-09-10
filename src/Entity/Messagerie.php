@@ -34,6 +34,9 @@ class Messagerie
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $CreatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $consentAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,5 +106,17 @@ class Messagerie
     public function setCreatedAtValue(): void
     {
         $this->CreatedAt = new \DateTimeImmutable();
+    }
+
+    public function getConsentAt(): ?\DateTimeImmutable
+    {
+        return $this->consentAt;
+    }
+
+    public function setConsentAt(?\DateTimeImmutable $consentAt): static
+    {
+        $this->consentAt = $consentAt;
+
+        return $this;
     }
 }

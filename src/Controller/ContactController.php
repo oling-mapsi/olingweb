@@ -65,7 +65,7 @@ class ContactController extends AbstractController
         // Si une des conditions n'est pas remplie, renvoyer une réponse JSON d'échec
         return new JsonResponse([
             'success' => false,
-            'message' => 'Veuillez remplir tous les champs (le message doit comporter au moins 30 caractères) et vérifier votre consentement.',
+            'message' => 'Veuillez remplir tous les champs pour que nous puissions traiter votre demande (le message doit comporter au moins 30 caractères). Votre consentement est nécessaire.',
         ]);
     }
 }

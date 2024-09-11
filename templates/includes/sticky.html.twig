@@ -65,6 +65,13 @@
             </div>
         </div>
     </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('contact')}}>{% if app.request.pathinfo == '/contact' %}<strong> {% endif %}Contacter-nous{% if app.request.pathinfo == '/a-propos' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
     
     </ul>
     <!-- End Socials -->

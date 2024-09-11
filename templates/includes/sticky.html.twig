@@ -40,6 +40,13 @@
     <li class="list-pointer-item">
         <div class="d-flex">
             <div class="flex-grow-1">
+                <span><a class="link link-secondary" href={{ path('polsecurite')}}>{% if app.request.pathinfo == '/a-propos/polsecu' %}<strong> {% endif %}Politique de sécurité de l'information{% if app.request.pathinfo == '/a-propos/rse' %}</strong> {% endif %}</a></span>
+            </div>
+        </div>
+    </li>
+    <li class="list-pointer-item">
+        <div class="d-flex">
+            <div class="flex-grow-1">
                 <span><a class="link link-secondary" href={{ path('rse')}}>{% if app.request.pathinfo == '/a-propos/rse' %}<strong> {% endif %}Charte RSE{% if app.request.pathinfo == '/a-propos/rse' %}</strong> {% endif %}</a></span>
             </div>
         </div>

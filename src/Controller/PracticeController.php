@@ -171,6 +171,22 @@ class PracticeController extends AbstractController
             'pract' => '',
         ]);
     }
+
+    #[Route('/a-propos/politiquesecurite', name: 'polsecurite')]
+    public function polsecurite(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+    ): Response
+    {
+        $practices = $repopractice->findAll();
+        $services = $reposervices->findAll();
+        return $this->render('polsecu.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practices,
+            'services' => $services,
+            'pract' => '',
+        ]);
+    }
     
 
     #[Route('/add-email', name: 'add_email')]

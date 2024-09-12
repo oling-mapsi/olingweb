@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use App\Middleware\XRobotsTagMiddleware;
-
 
 class ContactController extends AbstractController
 {
@@ -26,46 +24,59 @@ class ContactController extends AbstractController
         $details = $request->request->get('contactDetails', '');
         $consent = $request->request->get('consent', '');
 
-        // Vérifier si les champs sont remplis
-        if (!empty($firstName) && !empty($lastName) && !empty($workEmail) && !empty($details)) {
+        // Initialisation des messages d'erreur
+        $errors = [];
 
-            // Vérifier si le champ workEmail est un email valide
-            if (filter_var($workEmail, FILTER_VALIDATE_EMAIL)) {
-
-                // Vérifier si le champ details fait entre 30 et 200 caractères
-                if (strlen($details) >= 30 && strlen($details) <= 200 && $consent) {
-                    // Créer l'entité Messagerie
-                    $message = new Messagerie();
-                    $message->setFirstName($firstName);
-                    $message->setLastName($lastName);
-                    $message->setCompany($company);
-                    $message->setWorkEmail($workEmail);
-                    $message->setDetails($details);
-                    $message->setConsentAt(new \DateTimeImmutable());
-
-
-                    // Vérifier si l'entité Messagerie est valide
-                    $errors = $validator->validate($message);
-                    if (count($errors) === 0) {
-
-                        // Enregistrer le message dans la base de données
-                        $entityManager->persist($message);
-                        $entityManager->flush();
-
-                        // Retourner une réponse JSON de succès
-                        return new JsonResponse([
-                            'success' => true,
-                            'message' => 'Votre message a été envoyé avec succès.',
-                        ]);
-                    }
-                }
-            }
+        // Vérification du consentement
+        if (empty($consent)) {
+            $errors[] = 'Votre consentement est nécessaire.';
         }
 
-        // Si une des conditions n'est pas remplie, renvoyer une réponse JSON d'échec
-        return new JsonResponse([
-            'success' => false,
-            'message' => 'Veuillez remplir tous les champs pour que nous puissions traiter votre demande (le message doit comporter au moins 30 caractères). Votre consentement est nécessaire.',
-        ]);
+        // Vérification des champs
+        if (empty($firstName) || empty($lastName) || empty($workEmail) || empty($details)) {
+            $errors[] = 'Veuillez remplir tous les champs pour que nous puissions traiter votre demande.';
+        } elseif (!filter_var($workEmail, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'L\'email n\'est pas valide.';
+        } elseif (strlen($details) < 30 || strlen($details) > 200) {
+            $errors[] = 'Le message doit comporter entre 30 et 200 caractères.';
+        }
+
+        // Si des erreurs existent, les retourner en réponse JSON
+        if (count($errors) > 0) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => implode(' ', $errors),  // On combine tous les messages d'erreur
+            ]);
+        }
+
+        // Créer l'entité Messagerie si tout est correct
+        $message = new Messagerie();
+        $message->setFirstName($firstName);
+        $message->setLastName($lastName);
+        $message->setCompany($company);
+        $message->setWorkEmail($workEmail);
+        $message->setDetails($details);
+        $message->setConsentAt(new \DateTimeImmutable());
+
+        // Vérifier si l'entité Messagerie est valide
+        $validationErrors = $validator->validate($message);
+        if (count($validationErrors) === 0) {
+            // Enregistrer le message dans la base de données
+            $entityManager->persist($message);
+            $entityManager->flush();
+
+            // Retourner une réponse JSON de succès
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'Votre message a été envoyé avec succès.',
+            ]);
+        } else {
+            // Retourner une réponse JSON avec les erreurs de validation
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Une erreur s\'est produite lors de la validation du message.',
+            ]);
+        }
     }
 }
+

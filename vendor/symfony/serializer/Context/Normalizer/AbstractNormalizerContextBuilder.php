@@ -104,17 +104,25 @@ abstract class AbstractNormalizerContextBuilder implements ContextBuilderInterfa
     }
 
     /**
-     * Configures an hashmap of classes containing hashmaps of constructor argument => default value.
+     * Configures a hashmap of classes containing hashmaps of constructor argument => default value.
      *
      * The names need to match the parameter names in the constructor arguments.
      *
      * Eg: [Foo::class => ['foo' => true, 'bar' => 0]]
      *
-     * @param array<class-string, array<string, mixed>>|null $defaultContructorArguments
+     * @param array<class-string, array<string, mixed>>|null $defaultConstructorArguments
+     */
+    public function withDefaultConstructorArguments(?array $defaultConstructorArguments): static
+    {
+        return $this->with(AbstractNormalizer::DEFAULT_CONSTRUCTOR_ARGUMENTS, $defaultConstructorArguments);
+    }
+
+    /**
+     * Deprecated in Symfony 7.1, use withDefaultConstructorArguments() instead.
      */
     public function withDefaultContructorArguments(?array $defaultContructorArguments): static
     {
-        return $this->with(AbstractNormalizer::DEFAULT_CONSTRUCTOR_ARGUMENTS, $defaultContructorArguments);
+        return self::withDefaultConstructorArguments($defaultContructorArguments);
     }
 
     /**
@@ -163,5 +171,14 @@ abstract class AbstractNormalizerContextBuilder implements ContextBuilderInterfa
     public function withIgnoredAttributes(?array $ignoredAttributes): static
     {
         return $this->with(AbstractNormalizer::IGNORED_ATTRIBUTES, $ignoredAttributes);
+    }
+
+    /**
+     * Configures requiring all properties to be listed in the input instead
+     * of falling back to null for nullable ones.
+     */
+    public function withRequireAllProperties(?bool $requireAllProperties = true): static
+    {
+        return $this->with(AbstractNormalizer::REQUIRE_ALL_PROPERTIES, $requireAllProperties);
     }
 }

@@ -32,7 +32,7 @@ class ResizeFormListener implements EventSubscriberInterface
 
     private \Closure|bool $deleteEmpty;
 
-    public function __construct(string $type, array $options = [], bool $allowAdd = false, bool $allowDelete = false, bool|callable $deleteEmpty = false, array $prototypeOptions = null)
+    public function __construct(string $type, array $options = [], bool $allowAdd = false, bool $allowDelete = false, bool|callable $deleteEmpty = false, ?array $prototypeOptions = null)
     {
         $this->type = $type;
         $this->allowAdd = $allowAdd;
@@ -52,6 +52,9 @@ class ResizeFormListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @return void
+     */
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
@@ -74,6 +77,9 @@ class ResizeFormListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();
@@ -104,6 +110,9 @@ class ResizeFormListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @return void
+     */
     public function onSubmit(FormEvent $event)
     {
         $form = $event->getForm();

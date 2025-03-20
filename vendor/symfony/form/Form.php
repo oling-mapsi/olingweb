@@ -218,7 +218,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         return true;
     }
 
-    public function setParent(FormInterface $parent = null): static
+    public function setParent(?FormInterface $parent = null): static
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/form', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -636,17 +636,17 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
             return $isEmptyCallback($this->modelData);
         }
 
-        return FormUtil::isEmpty($this->modelData) ||
+        return FormUtil::isEmpty($this->modelData)
             // arrays, countables
-            (is_countable($this->modelData) && 0 === \count($this->modelData)) ||
+            || (is_countable($this->modelData) && 0 === \count($this->modelData))
             // traversables that are not countable
-            ($this->modelData instanceof \Traversable && 0 === iterator_count($this->modelData));
+            || ($this->modelData instanceof \Traversable && 0 === iterator_count($this->modelData));
     }
 
     public function isValid(): bool
     {
         if (!$this->submitted) {
-            throw new LogicException('Cannot check if an unsubmitted form is valid. Call Form::isSubmitted() before Form::isValid().');
+            throw new LogicException('Cannot check if an unsubmitted form is valid. Call Form::isSubmitted() and ensure that it\'s true before calling Form::isValid().');
         }
 
         if ($this->isDisabled()) {
@@ -720,7 +720,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         return iterator_to_array($this->children);
     }
 
-    public function add(FormInterface|string $child, string $type = null, array $options = []): static
+    public function add(FormInterface|string $child, ?string $type = null, array $options = []): static
     {
         if ($this->submitted) {
             throw new AlreadySubmittedException('You cannot add children to a submitted form.');
@@ -883,7 +883,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
         return \count($this->children);
     }
 
-    public function createView(FormView $parent = null): FormView
+    public function createView(?FormView $parent = null): FormView
     {
         if (null === $parent && $this->parent) {
             $parent = $this->parent->createView();
@@ -930,9 +930,7 @@ class Form implements \IteratorAggregate, FormInterface, ClearableErrorsInterfac
             return;
         }
 
-        uksort($children, static function ($a, $b) use ($c): int {
-            return [$c[$b]['p'], $c[$a]['i']] <=> [$c[$a]['p'], $c[$b]['i']];
-        });
+        uksort($children, static fn ($a, $b): int => [$c[$b]['p'], $c[$a]['i']] <=> [$c[$a]['p'], $c[$b]['i']]);
     }
 
     /**

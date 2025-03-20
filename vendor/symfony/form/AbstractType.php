@@ -20,29 +20,47 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class AbstractType implements FormTypeInterface
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @return string|null
+     */
+    public function getParent()
     {
+        return FormType::class;
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-    }
-
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-    }
-
+    /**
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
     }
 
+    /**
+     * @return void
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+    }
+
+    /**
+     * @return void
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+    }
+
+    /**
+     * @return void
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+    }
+
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
         return StringUtil::fqcnToBlockPrefix(static::class) ?: '';
-    }
-
-    public function getParent()
-    {
-        return FormType::class;
     }
 }

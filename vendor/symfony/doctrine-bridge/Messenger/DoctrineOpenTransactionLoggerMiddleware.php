@@ -14,7 +14,6 @@ namespace Symfony\Bridge\Doctrine\Messenger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
@@ -25,25 +24,34 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
  */
 class DoctrineOpenTransactionLoggerMiddleware extends AbstractDoctrineMiddleware
 {
-    private $logger;
+    private bool $isHandling = false;
 
-    public function __construct(ManagerRegistry $managerRegistry, string $entityManagerName = null, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        ?string $entityManagerName = null,
+        private readonly ?LoggerInterface $logger = null,
+    ) {
         parent::__construct($managerRegistry, $entityManagerName);
-
-        $this->logger = $logger ?? new NullLogger();
     }
 
     protected function handleForManager(EntityManagerInterface $entityManager, Envelope $envelope, StackInterface $stack): Envelope
     {
+        if ($this->isHandling) {
+            return $stack->next()->handle($envelope, $stack);
+        }
+
+        $this->isHandling = true;
+        $initialTransactionLevel = $entityManager->getConnection()->getTransactionNestingLevel();
+
         try {
             return $stack->next()->handle($envelope, $stack);
         } finally {
-            if ($entityManager->getConnection()->isTransactionActive()) {
-                $this->logger->error('A handler opened a transaction but did not close it.', [
+            if ($entityManager->getConnection()->getTransactionNestingLevel() > $initialTransactionLevel) {
+                $this->logger?->error('A handler opened a transaction but did not close it.', [
                     'message' => $envelope->getMessage(),
                 ]);
             }
+            $this->isHandling = false;
         }
     }
 }

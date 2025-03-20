@@ -50,6 +50,9 @@ return [
 EOF;
     }
 
+    /**
+     * @return void
+     */
     public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
     {
         $this->expressionLanguageProviders[] = $provider;
@@ -346,7 +349,7 @@ EOF;
             $state->markTail = 0;
 
             // if the regex is too large, throw a signaling exception to recompute with smaller chunk size
-            set_error_handler(function ($type, $message) { throw str_contains($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message); });
+            set_error_handler(fn ($type, $message) => throw str_contains($message, $this->signalingException->getMessage()) ? $this->signalingException : new \ErrorException($message));
             try {
                 preg_match($state->regex, '');
             } finally {
@@ -444,7 +447,7 @@ EOF;
     {
         if (!isset($this->expressionLanguage)) {
             if (!class_exists(ExpressionLanguage::class)) {
-                throw new \LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
+                throw new \LogicException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed. Try running "composer require symfony/expression-language".');
             }
             $this->expressionLanguage = new ExpressionLanguage(null, $this->expressionLanguageProviders);
         }

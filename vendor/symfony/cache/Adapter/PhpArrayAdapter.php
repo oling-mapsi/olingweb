@@ -78,7 +78,7 @@ class PhpArrayAdapter implements AdapterInterface, CacheInterface, PruneableInte
         return new static($file, $fallbackPool);
     }
 
-    public function get(string $key, callable $callback, float $beta = null, array &$metadata = null): mixed
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
     {
         if (!isset($this->values)) {
             $this->initialize();
@@ -309,7 +309,7 @@ EOF;
                 $value = str_replace("\n", "\n    ", $value);
                 $value = "static function () {\n    return {$value};\n}";
             }
-            $hash = hash('md5', $value);
+            $hash = hash('xxh128', $value);
 
             if (null === $id = $dumpedMap[$hash] ?? null) {
                 $id = $dumpedMap[$hash] = \count($dumpedMap);
@@ -338,7 +338,7 @@ EOF;
     /**
      * Load the cache file.
      */
-    private function initialize()
+    private function initialize(): void
     {
         if (isset(self::$valuesCache[$this->file])) {
             $values = self::$valuesCache[$this->file];

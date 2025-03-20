@@ -70,7 +70,7 @@ class ExpressionFunction
      * @throws \InvalidArgumentException if given PHP function name is in namespace
      *                                   and expression function name is not defined
      */
-    public static function fromPhp(string $phpFunctionName, string $expressionFunctionName = null): self
+    public static function fromPhp(string $phpFunctionName, ?string $expressionFunctionName = null): self
     {
         $phpFunctionName = ltrim($phpFunctionName, '\\');
         if (!\function_exists($phpFunctionName)) {
@@ -82,13 +82,9 @@ class ExpressionFunction
             throw new \InvalidArgumentException(sprintf('An expression function name must be defined when PHP function "%s" is namespaced.', $phpFunctionName));
         }
 
-        $compiler = function (...$args) use ($phpFunctionName) {
-            return sprintf('\%s(%s)', $phpFunctionName, implode(', ', $args));
-        };
+        $compiler = fn (...$args) => sprintf('\%s(%s)', $phpFunctionName, implode(', ', $args));
 
-        $evaluator = function ($p, ...$args) use ($phpFunctionName) {
-            return $phpFunctionName(...$args);
-        };
+        $evaluator = fn ($p, ...$args) => $phpFunctionName(...$args);
 
         return new self($expressionFunctionName ?: end($parts), $compiler, $evaluator);
     }

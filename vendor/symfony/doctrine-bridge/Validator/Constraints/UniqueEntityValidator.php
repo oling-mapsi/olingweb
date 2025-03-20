@@ -27,15 +27,15 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class UniqueEntityValidator extends ConstraintValidator
 {
-    private ManagerRegistry $registry;
-
-    public function __construct(ManagerRegistry $registry)
-    {
-        $this->registry = $registry;
+    public function __construct(
+        private readonly ManagerRegistry $registry,
+    ) {
     }
 
     /**
      * @param object $entity
+     *
+     * @return void
      *
      * @throws UnexpectedTypeException
      * @throws ConstraintDefinitionException
@@ -69,10 +69,10 @@ class UniqueEntityValidator extends ConstraintValidator
         }
 
         if ($constraint->em) {
-            $em = $this->registry->getManager($constraint->em);
-
-            if (!$em) {
-                throw new ConstraintDefinitionException(sprintf('Object manager "%s" does not exist.', $constraint->em));
+            try {
+                $em = $this->registry->getManager($constraint->em);
+            } catch (\InvalidArgumentException $e) {
+                throw new ConstraintDefinitionException(sprintf('Object manager "%s" does not exist.', $constraint->em), 0, $e);
             }
         } else {
             $em = $this->registry->getManagerForClass($entity::class);
@@ -85,7 +85,7 @@ class UniqueEntityValidator extends ConstraintValidator
         $class = $em->getClassMetadata($entity::class);
 
         $criteria = [];
-        $hasNullValue = false;
+        $hasIgnorableNullValue = false;
 
         foreach ($fields as $fieldName) {
             if (!$class->hasField($fieldName) && !$class->hasAssociation($fieldName)) {
@@ -94,17 +94,15 @@ class UniqueEntityValidator extends ConstraintValidator
 
             $fieldValue = $class->reflFields[$fieldName]->getValue($entity);
 
-            if (null === $fieldValue) {
-                $hasNullValue = true;
-            }
+            if (null === $fieldValue && $this->ignoreNullForField($constraint, $fieldName)) {
+                $hasIgnorableNullValue = true;
 
-            if ($constraint->ignoreNull && null === $fieldValue) {
                 continue;
             }
 
             $criteria[$fieldName] = $fieldValue;
 
-            if (null !== $criteria[$fieldName] && $class->hasAssociation($fieldName)) {
+            if (\is_object($criteria[$fieldName]) && $class->hasAssociation($fieldName)) {
                 /* Ensure the Proxy is initialized before using reflection to
                  * read its identifiers. This is necessary because the wrapped
                  * getter methods in the Proxy are being bypassed.
@@ -114,7 +112,7 @@ class UniqueEntityValidator extends ConstraintValidator
         }
 
         // validation doesn't fail if one of the fields is null and if null values should be ignored
-        if ($hasNullValue && $constraint->ignoreNull) {
+        if ($hasIgnorableNullValue) {
             return;
         }
 
@@ -193,7 +191,16 @@ class UniqueEntityValidator extends ConstraintValidator
             ->addViolation();
     }
 
-    private function formatWithIdentifiers(ObjectManager $em, ClassMetadata $class, mixed $value)
+    private function ignoreNullForField(UniqueEntity $constraint, string $fieldName): bool
+    {
+        if (\is_bool($constraint->ignoreNull)) {
+            return $constraint->ignoreNull;
+        }
+
+        return \in_array($fieldName, (array) $constraint->ignoreNull, true);
+    }
+
+    private function formatWithIdentifiers(ObjectManager $em, ClassMetadata $class, mixed $value): string
     {
         if (!\is_object($value) || $value instanceof \DateTimeInterface) {
             return $this->formatValue($value, self::PRETTY_DATE);

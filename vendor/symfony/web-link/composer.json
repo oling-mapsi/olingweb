@@ -22,11 +22,8 @@
         "php": ">=8.1",
         "psr/link": "^1.1|^2.0"
     },
-    "suggest": {
-        "symfony/http-kernel": ""
-    },
     "require-dev": {
-        "symfony/http-kernel": "^5.4|^6.0"
+        "symfony/http-kernel": "^5.4|^6.0|^7.0"
     },
     "conflict": {
         "symfony/http-kernel": "<5.4"

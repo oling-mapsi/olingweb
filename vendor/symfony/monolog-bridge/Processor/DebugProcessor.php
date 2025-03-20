@@ -26,7 +26,7 @@ class DebugProcessor implements DebugLoggerInterface, ResetInterface
     private array $errorCount = [];
     private ?RequestStack $requestStack;
 
-    public function __construct(RequestStack $requestStack = null)
+    public function __construct(?RequestStack $requestStack = null)
     {
         $this->requestStack = $requestStack;
     }
@@ -35,7 +35,7 @@ class DebugProcessor implements DebugLoggerInterface, ResetInterface
     {
         $key = $this->requestStack && ($request = $this->requestStack->getCurrentRequest()) ? spl_object_id($request) : '';
 
-        $timestamp = $timestampRfc3339 = false;
+        $timestampRfc3339 = false;
         if ($record['datetime'] instanceof \DateTimeInterface) {
             $timestamp = $record['datetime']->getTimestamp();
             $timestampRfc3339 = $record['datetime']->format(\DateTimeInterface::RFC3339_EXTENDED);
@@ -68,7 +68,7 @@ class DebugProcessor implements DebugLoggerInterface, ResetInterface
         return $record;
     }
 
-    public function getLogs(Request $request = null): array
+    public function getLogs(?Request $request = null): array
     {
         if (null !== $request) {
             return $this->records[spl_object_id($request)] ?? [];
@@ -81,7 +81,7 @@ class DebugProcessor implements DebugLoggerInterface, ResetInterface
         return array_merge(...array_values($this->records));
     }
 
-    public function countErrors(Request $request = null): int
+    public function countErrors(?Request $request = null): int
     {
         if (null !== $request) {
             return $this->errorCount[spl_object_id($request)] ?? 0;
@@ -90,12 +90,15 @@ class DebugProcessor implements DebugLoggerInterface, ResetInterface
         return array_sum($this->errorCount);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->records = [];
         $this->errorCount = [];
     }
 
+    /**
+     * @return void
+     */
     public function reset()
     {
         $this->clear();

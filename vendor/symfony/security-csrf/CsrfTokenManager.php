@@ -37,14 +37,12 @@ class CsrfTokenManager implements CsrfTokenManagerInterface
      *                   * RequestStack: generates a namespace using the current main request
      *                   * callable: uses the result of this callable (must return a string)
      */
-    public function __construct(TokenGeneratorInterface $generator = null, TokenStorageInterface $storage = null, string|RequestStack|callable $namespace = null)
+    public function __construct(?TokenGeneratorInterface $generator = null, ?TokenStorageInterface $storage = null, string|RequestStack|callable|null $namespace = null)
     {
         $this->generator = $generator ?? new UriSafeTokenGenerator();
         $this->storage = $storage ?? new NativeSessionTokenStorage();
 
-        $superGlobalNamespaceGenerator = function () {
-            return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? 'https-' : '';
-        };
+        $superGlobalNamespaceGenerator = fn () => !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? 'https-' : '';
 
         if (null === $namespace) {
             $this->namespace = $superGlobalNamespaceGenerator;
@@ -114,7 +112,7 @@ class CsrfTokenManager implements CsrfTokenManagerInterface
         $key = random_bytes(32);
         $value = $this->xor($value, $key);
 
-        return sprintf('%s.%s.%s', substr(md5($key), 0, 1 + (\ord($key[0]) % 32)), rtrim(strtr(base64_encode($key), '+/', '-_'), '='), rtrim(strtr(base64_encode($value), '+/', '-_'), '='));
+        return sprintf('%s.%s.%s', substr(hash('xxh128', $key), 0, 1 + (\ord($key[0]) % 32)), rtrim(strtr(base64_encode($key), '+/', '-_'), '='), rtrim(strtr(base64_encode($value), '+/', '-_'), '='));
     }
 
     private function derandomize(string $value): string

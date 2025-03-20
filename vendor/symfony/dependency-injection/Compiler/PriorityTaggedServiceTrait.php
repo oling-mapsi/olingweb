@@ -37,9 +37,8 @@ trait PriorityTaggedServiceTrait
      *
      * @return Reference[]
      */
-    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container): array
+    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container, array $exclude = []): array
     {
-        $exclude = [];
         $indexAttribute = $defaultIndexMethod = $needsIndexes = $defaultPriorityMethod = null;
 
         if ($tagName instanceof TaggedIteratorArgument) {
@@ -47,7 +46,7 @@ trait PriorityTaggedServiceTrait
             $defaultIndexMethod = $tagName->getDefaultIndexMethod();
             $needsIndexes = $tagName->needsIndexes();
             $defaultPriorityMethod = $tagName->getDefaultPriorityMethod() ?? 'getDefaultPriority';
-            $exclude = $tagName->getExclude();
+            $exclude = array_merge($exclude, $tagName->getExclude());
             $tagName = $tagName->getTag();
         }
 
@@ -86,13 +85,14 @@ trait PriorityTaggedServiceTrait
                 } elseif (null === $defaultIndex && $defaultPriorityMethod && $class) {
                     $defaultIndex = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultIndexMethod ?? 'getDefaultName', $tagName, $indexAttribute, $checkTaggedItem);
                 }
-                $index ??= $defaultIndex ??= $serviceId;
+                $decorated = $definition->getTag('container.decorator')[0]['id'] ?? null;
+                $index = $index ?? $defaultIndex ?? $defaultIndex = $decorated ?? $serviceId;
 
                 $services[] = [$priority, ++$i, $index, $serviceId, $class];
             }
         }
 
-        uasort($services, static function ($a, $b) { return $b[0] <=> $a[0] ?: $a[1] <=> $b[1]; });
+        uasort($services, static fn ($a, $b) => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
 
         $refs = [];
         foreach ($services as [, , $index, $serviceId, $class]) {
@@ -131,6 +131,10 @@ class PriorityTaggedServiceUtil
                 return 'priority' === $indexAttribute ? $attribute->newInstance()->priority : $attribute->newInstance()->index;
             }
 
+            return null;
+        }
+
+        if ($r->isInterface()) {
             return null;
         }
 

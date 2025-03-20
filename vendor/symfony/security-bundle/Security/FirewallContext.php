@@ -30,7 +30,7 @@ class FirewallContext
     /**
      * @param iterable<mixed, callable> $listeners
      */
-    public function __construct(iterable $listeners, ExceptionListener $exceptionListener = null, LogoutListener $logoutListener = null, FirewallConfig $config = null)
+    public function __construct(iterable $listeners, ?ExceptionListener $exceptionListener = null, ?LogoutListener $logoutListener = null, ?FirewallConfig $config = null)
     {
         $this->listeners = $listeners;
         $this->exceptionListener = $exceptionListener;
@@ -38,6 +38,9 @@ class FirewallContext
         $this->config = $config;
     }
 
+    /**
+     * @return FirewallConfig|null
+     */
     public function getConfig()
     {
         return $this->config;
@@ -51,11 +54,17 @@ class FirewallContext
         return $this->listeners;
     }
 
+    /**
+     * @return ExceptionListener|null
+     */
     public function getExceptionListener()
     {
         return $this->exceptionListener;
     }
 
+    /**
+     * @return LogoutListener|null
+     */
     public function getLogoutListener()
     {
         return $this->logoutListener;

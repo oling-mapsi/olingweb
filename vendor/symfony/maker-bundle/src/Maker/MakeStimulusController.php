@@ -37,21 +37,22 @@ final class MakeStimulusController extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new Stimulus controller';
+        return 'Create a new Stimulus controller';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the Stimulus controller (e.g. <fg=yellow>hello</>)')
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeStimulusController.txt'));
+            ->setHelp($this->getHelpFileContents('MakeStimulusController.txt'))
+        ;
     }
 
     public function interact(InputInterface $input, ConsoleStyle $io, Command $command): void
     {
         $command->addArgument('extension', InputArgument::OPTIONAL);
-        $command->addArgument('targets', InputArgument::OPTIONAL, '', []);
-        $command->addArgument('values', InputArgument::OPTIONAL, '', []);
+        $command->addArgument('targets', InputArgument::OPTIONAL);
+        $command->addArgument('values', InputArgument::OPTIONAL);
 
         $chosenExtension = $io->choice(
             'Language (<fg=yellow>JavaScript</> or <fg=yellow>TypeScript</>)',
@@ -106,10 +107,10 @@ final class MakeStimulusController extends AbstractMaker
         $targets = $input->getArgument('targets');
         $values = $input->getArgument('values');
 
-        $targets = empty($targets) ? $targets : sprintf("['%s']", implode("', '", $targets));
+        $targets = empty($targets) ? $targets : \sprintf("['%s']", implode("', '", $targets));
 
-        $fileName = sprintf('%s_controller.%s', $controllerName, $chosenExtension);
-        $filePath = sprintf('assets/controllers/%s', $fileName);
+        $fileName = \sprintf('%s_controller.%s', $controllerName, $chosenExtension);
+        $filePath = \sprintf('assets/controllers/%s', $fileName);
 
         $generator->generateFile(
             $filePath,
@@ -126,11 +127,12 @@ final class MakeStimulusController extends AbstractMaker
 
         $io->text([
             'Next:',
-            sprintf('- Open <info>%s</info> and add the code you need', $filePath),
+            \sprintf('- Open <info>%s</info> and add the code you need', $filePath),
             'Find the documentation at <fg=yellow>https://github.com/symfony/stimulus-bridge</>',
         ]);
     }
 
+    /** @param string[] $targets */
     private function askForNextTarget(ConsoleStyle $io, array $targets, bool $isFirstTarget): ?string
     {
         $questionText = 'New target name (press <return> to stop adding targets)';
@@ -139,9 +141,9 @@ final class MakeStimulusController extends AbstractMaker
             $questionText = 'Add another target? Enter the target name (or press <return> to stop adding targets)';
         }
 
-        $targetName = $io->ask($questionText, null, function (?string $name) use ($targets) {
+        $targetName = $io->ask($questionText, validator: function (?string $name) use ($targets) {
             if (\in_array($name, $targets)) {
-                throw new \InvalidArgumentException(sprintf('The "%s" target already exists.', $name));
+                throw new \InvalidArgumentException(\sprintf('The "%s" target already exists.', $name));
             }
 
             return $name;
@@ -150,6 +152,11 @@ final class MakeStimulusController extends AbstractMaker
         return !$targetName ? null : $targetName;
     }
 
+    /**
+     * @param array<string, array<string, string>> $values
+     *
+     * @return array<string, string>|null
+     */
     private function askForNextValue(ConsoleStyle $io, array $values, bool $isFirstValue): ?array
     {
         $questionText = 'New value name (press <return> to stop adding values)';
@@ -160,7 +167,7 @@ final class MakeStimulusController extends AbstractMaker
 
         $valueName = $io->ask($questionText, null, function ($name) use ($values) {
             if (\array_key_exists($name, $values)) {
-                throw new \InvalidArgumentException(sprintf('The "%s" value already exists.', $name));
+                throw new \InvalidArgumentException(\sprintf('The "%s" value already exists.', $name));
             }
 
             return $name;
@@ -175,7 +182,7 @@ final class MakeStimulusController extends AbstractMaker
         // convert to snake case for simplicity
         $snakeCasedField = Str::asSnakeCase($valueName);
 
-        if ('_id' === $suffix = substr($snakeCasedField, -3)) {
+        if (str_ends_with($snakeCasedField, '_id')) {
             $defaultType = 'Number';
         } elseif (str_starts_with($snakeCasedField, 'is_')) {
             $defaultType = 'Boolean';
@@ -198,7 +205,7 @@ final class MakeStimulusController extends AbstractMaker
                 $type = null;
             } elseif (!\in_array($type, $types)) {
                 $this->printAvailableTypes($io);
-                $io->error(sprintf('Invalid type "%s".', $type));
+                $io->error(\sprintf('Invalid type "%s".', $type));
                 $io->writeln('');
 
                 $type = null;
@@ -211,10 +218,11 @@ final class MakeStimulusController extends AbstractMaker
     private function printAvailableTypes(ConsoleStyle $io): void
     {
         foreach ($this->getValuesTypes() as $type) {
-            $io->writeln(sprintf('<info>%s</info>', $type));
+            $io->writeln(\sprintf('<info>%s</info>', $type));
         }
     }
 
+    /** @return string[] */
     private function getValuesTypes(): array
     {
         return [

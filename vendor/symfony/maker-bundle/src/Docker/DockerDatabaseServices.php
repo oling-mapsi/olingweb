@@ -28,7 +28,7 @@ final class DockerDatabaseServices
         switch ($name) {
             case 'mariadb':
                 return [
-                    'image' => sprintf('mariadb:%s', $version),
+                    'image' => \sprintf('mariadb:%s', $version),
                     'environment' => [
                         'MYSQL_ROOT_PASSWORD' => 'password',
                         'MYSQL_DATABASE' => 'main',
@@ -36,7 +36,7 @@ final class DockerDatabaseServices
                 ];
             case 'mysql':
                 return [
-                    'image' => sprintf('mysql:%s', $version),
+                    'image' => \sprintf('mysql:%s', $version),
                     'environment' => [
                         'MYSQL_ROOT_PASSWORD' => 'password',
                         'MYSQL_DATABASE' => 'main',
@@ -44,7 +44,7 @@ final class DockerDatabaseServices
                 ];
             case 'postgres':
                 return [
-                    'image' => sprintf('postgres:%s', $version),
+                    'image' => \sprintf('postgres:%s', $version),
                     'environment' => [
                         'POSTGRES_PASSWORD' => 'main',
                         'POSTGRES_USER' => 'main',
@@ -99,8 +99,8 @@ final class DockerDatabaseServices
     /**
      * @throws RuntimeCommandException
      */
-    private static function throwInvalidDatabase(string $name): void
+    private static function throwInvalidDatabase(string $name): never
     {
-        throw new RuntimeCommandException(sprintf('%s is not a valid / supported docker database type.', $name));
+        throw new RuntimeCommandException(\sprintf('%s is not a valid / supported docker database type.', $name));
     }
 }

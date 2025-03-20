@@ -26,7 +26,11 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+trigger_deprecation('symfony/maker-bundle', '1.51', 'The "%s" class is deprecated, use "%s" instead.', MakeSubscriber::class, MakeListener::class);
+
 /**
+ * @deprecated since MakerBundle 1.51, use Symfony\Bundle\MakerBundle\Maker\MakeListener instead.
+ *
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  * @author Ryan Weaver <weaverryan@gmail.com>
  */
@@ -43,7 +47,7 @@ final class MakeSubscriber extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new event subscriber class';
+        return 'Create a new event subscriber class';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
@@ -51,7 +55,7 @@ final class MakeSubscriber extends AbstractMaker
         $command
             ->addArgument('name', InputArgument::OPTIONAL, 'Choose a class name for your event subscriber (e.g. <fg=yellow>ExceptionSubscriber</>)')
             ->addArgument('event', InputArgument::OPTIONAL, 'What event do you want to subscribe to?')
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeSubscriber.txt'))
+            ->setHelp($this->getHelpFileContents('MakeSubscriber.txt'))
         ;
 
         $inputConfig->setArgumentAsNonInteractive('event');
@@ -64,9 +68,9 @@ final class MakeSubscriber extends AbstractMaker
 
             $io->writeln(' <fg=green>Suggested Events:</>');
             $io->listing($this->eventRegistry->listActiveEvents($events));
-            $question = new Question(sprintf(' <fg=green>%s</>', $command->getDefinition()->getArgument('event')->getDescription()));
+            $question = new Question(\sprintf(' <fg=green>%s</>', $command->getDefinition()->getArgument('event')->getDescription()));
             $question->setAutocompleterValues($events);
-            $question->setValidator([Validator::class, 'notBlank']);
+            $question->setValidator(Validator::notBlank(...));
             $event = $io->askQuestion($question);
             $input->setArgument('event', $event);
         }
@@ -93,7 +97,7 @@ final class MakeSubscriber extends AbstractMaker
             $useStatements->addUseStatement(KernelEvents::class);
             $eventName = $eventConstant;
         } else {
-            $eventName = class_exists($event) ? sprintf('%s::class', $eventClassName) : sprintf('\'%s\'', $event);
+            $eventName = class_exists($event) ? \sprintf('%s::class', $eventClassName) : \sprintf('\'%s\'', $event);
         }
 
         if (null !== $eventFullClassName) {
@@ -106,7 +110,7 @@ final class MakeSubscriber extends AbstractMaker
             [
                 'use_statements' => $useStatements,
                 'event' => $eventName,
-                'event_arg' => $eventClassName ? sprintf('%s $event', $eventClassName) : '$event',
+                'event_arg' => $eventClassName ? \sprintf('%s $event', $eventClassName) : '$event',
                 'method_name' => class_exists($event) ? Str::asEventMethod($eventClassName) : Str::asEventMethod($event),
             ]
         );
@@ -130,7 +134,7 @@ final class MakeSubscriber extends AbstractMaker
         $constants = (new \ReflectionClass(KernelEvents::class))->getConstants();
 
         if (false !== ($name = array_search($event, $constants, true))) {
-            return sprintf('KernelEvents::%s', $name);
+            return \sprintf('KernelEvents::%s', $name);
         }
 
         return null;

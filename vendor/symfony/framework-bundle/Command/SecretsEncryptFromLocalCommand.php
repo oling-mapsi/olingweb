@@ -30,7 +30,7 @@ final class SecretsEncryptFromLocalCommand extends Command
     private AbstractVault $vault;
     private ?AbstractVault $localVault;
 
-    public function __construct(AbstractVault $vault, AbstractVault $localVault = null)
+    public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
         $this->vault = $vault;
         $this->localVault = $localVault;
@@ -38,7 +38,7 @@ final class SecretsEncryptFromLocalCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setHelp(<<<'EOF'

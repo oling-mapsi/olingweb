@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 final class SecurityConfigUpdater
 {
-    private ?YamlSourceManipulator $manipulator;
+    private ?YamlSourceManipulator $manipulator = null;
 
     public function __construct(
         private ?Logger $ysmLogger = null,
@@ -60,7 +60,7 @@ final class SecurityConfigUpdater
         $this->updateProviders($userConfig, $userClass);
 
         if ($userConfig->hasPassword()) {
-            $this->updatePasswordHashers($userConfig, $userClass);
+            $this->updatePasswordHashers($userClass);
         }
 
         $contents = $this->manipulator->getContents();
@@ -243,7 +243,7 @@ final class SecurityConfigUpdater
         $this->manipulator->setData($newData);
     }
 
-    private function updatePasswordHashers(UserClassConfiguration $userConfig, string $userClass): void
+    private function updatePasswordHashers(string $userClass): void
     {
         $newData = $this->manipulator->getData();
 

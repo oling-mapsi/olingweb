@@ -43,7 +43,7 @@ class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandle
         'failure_path_parameter' => '_failure_path',
     ];
 
-    public function __construct(HttpKernelInterface $httpKernel, HttpUtils $httpUtils, array $options = [], LoggerInterface $logger = null)
+    public function __construct(HttpKernelInterface $httpKernel, HttpUtils $httpUtils, array $options = [], ?LoggerInterface $logger = null)
     {
         $this->httpKernel = $httpKernel;
         $this->httpUtils = $httpUtils;
@@ -59,6 +59,9 @@ class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandle
         return $this->options;
     }
 
+    /**
+     * @return void
+     */
     public function setOptions(array $options)
     {
         $this->options = array_merge($this->defaultOptions, $options);
@@ -88,7 +91,9 @@ class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandle
 
         $this->logger?->debug('Authentication failure, redirect triggered.', ['failure_path' => $options['failure_path']]);
 
-        $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
+        if (!$request->attributes->getBoolean('_stateless')) {
+            $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
+        }
 
         return $this->httpUtils->createRedirectResponse($request, $options['failure_path']);
     }

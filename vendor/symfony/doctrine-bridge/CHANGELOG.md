@@ -1,6 +1,28 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * [BC BREAK] Add argument `$buildDir` to `ProxyCacheWarmer::warmUp()` 
+ * [BC BREAK] Add return type-hints to `EntityFactory`
+ * Deprecate `DbalLogger`, use a middleware instead
+ * Deprecate not constructing `DoctrineDataCollector` with an instance of `DebugDataHolder`
+ * Deprecate `DoctrineDataCollector::addLogger()`, use a `DebugDataHolder` instead
+ * Deprecate `ContainerAwareLoader`, use dependency injection in your fixtures instead
+ * Always pass the `Request` object to `EntityValueResolver`'s expression
+ * [BC BREAK] Change argument `$lastUsed` of `DoctrineTokenProvider::updateToken()` to accept `DateTimeInterface`
+
+6.3
+---
+
+ * Deprecate passing Doctrine subscribers to `ContainerAwareEventManager` class, use listeners instead
+ * Add `AbstractSchemaListener`, `LockStoreSchemaListener` and `PdoSessionHandlerSchemaListener`
+ * Deprecate `DoctrineDbalCacheAdapterSchemaSubscriber` in favor of `DoctrineDbalCacheAdapterSchemaListener`
+ * Deprecate `MessengerTransportDoctrineSchemaSubscriber` in favor of `MessengerTransportDoctrineSchemaListener`
+ * Deprecate `RememberMeTokenProviderDoctrineSchemaSubscriber` in favor of `RememberMeTokenProviderDoctrineSchemaListener`
+ * Add optional parameter `$isSameDatabase` to `DoctrineTokenProvider::configureSchema()`
+
 6.2
 ---
 

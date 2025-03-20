@@ -34,7 +34,7 @@ final class WrappedListener
     private ?int $priority = null;
     private static bool $hasClassStub;
 
-    public function __construct(callable|array $listener, ?string $name, Stopwatch $stopwatch, EventDispatcherInterface $dispatcher = null, int $priority = null)
+    public function __construct(callable|array $listener, ?string $name, Stopwatch $stopwatch, ?EventDispatcherInterface $dispatcher = null, ?int $priority = null)
     {
         $this->listener = $listener;
         $this->optimizedListener = $listener instanceof \Closure ? $listener : (\is_callable($listener) ? $listener(...) : null);
@@ -48,7 +48,7 @@ final class WrappedListener
             $this->callableRef .= '::'.$listener[1];
         } elseif ($listener instanceof \Closure) {
             $r = new \ReflectionFunction($listener);
-            if (str_contains($r->name, '{closure}')) {
+            if (str_contains($r->name, '{closure')) {
                 $this->pretty = $this->name = 'closure';
             } elseif ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
                 $this->name = $class->name;
@@ -136,7 +136,7 @@ final class WrappedListener
         }
 
         if (\is_object($listener[0])) {
-            return [get_debug_type($listener[0]), \get_class($listener[0])];
+            return [get_debug_type($listener[0]), $listener[0]::class];
         }
 
         return [$listener[0], $listener[0]];

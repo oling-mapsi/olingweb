@@ -30,21 +30,21 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ *
+ * @template TUser of UserInterface
+ *
+ * @template-implements UserProviderInterface<TUser>
  */
 class EntityUserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
-    private ManagerRegistry $registry;
-    private ?string $managerName;
-    private string $classOrAlias;
     private string $class;
-    private ?string $property;
 
-    public function __construct(ManagerRegistry $registry, string $classOrAlias, string $property = null, string $managerName = null)
-    {
-        $this->registry = $registry;
-        $this->managerName = $managerName;
-        $this->classOrAlias = $classOrAlias;
-        $this->property = $property;
+    public function __construct(
+        private readonly ManagerRegistry $registry,
+        private readonly string $classOrAlias,
+        private readonly ?string $property = null,
+        private readonly ?string $managerName = null,
+    ) {
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
@@ -121,7 +121,7 @@ class EntityUserProvider implements UserProviderInterface, PasswordUpgraderInter
         }
 
         $repository = $this->getRepository();
-        if ($repository instanceof PasswordUpgraderInterface) {
+        if ($user instanceof PasswordAuthenticatedUserInterface && $repository instanceof PasswordUpgraderInterface) {
             $repository->upgradePassword($user, $newHashedPassword);
         }
     }

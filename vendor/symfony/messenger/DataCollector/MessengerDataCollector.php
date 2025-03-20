@@ -27,17 +27,17 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
 {
     private array $traceableBuses = [];
 
-    public function registerBus(string $name, TraceableMessageBus $bus)
+    public function registerBus(string $name, TraceableMessageBus $bus): void
     {
         $this->traceableBuses[$name] = $bus;
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         // Noop. Everything is collected live by the traceable buses & cloned as late as possible.
     }
 
-    public function lateCollect()
+    public function lateCollect(): void
     {
         $this->data = ['messages' => [], 'buses' => array_keys($this->traceableBuses)];
 
@@ -50,7 +50,7 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
         }
 
         // Order by call time
-        usort($messages, function ($a, $b) { return $a[1] <=> $b[1]; });
+        usort($messages, fn ($a, $b) => $a[1] <=> $b[1]);
 
         // Keep the messages clones only
         $this->data['messages'] = array_column($messages, 0);
@@ -61,7 +61,7 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
         return 'messenger';
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
         foreach ($this->traceableBuses as $traceableBus) {
@@ -79,7 +79,7 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
         return $casters;
     }
 
-    private function collectMessage(string $busName, array $tracedMessage)
+    private function collectMessage(string $busName, array $tracedMessage): array
     {
         $message = $tracedMessage['message'];
 
@@ -106,7 +106,7 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
         return $debugRepresentation;
     }
 
-    public function getExceptionsCount(string $bus = null): int
+    public function getExceptionsCount(?string $bus = null): int
     {
         $count = 0;
         foreach ($this->getMessages($bus) as $message) {
@@ -116,15 +116,13 @@ class MessengerDataCollector extends DataCollector implements LateDataCollectorI
         return $count;
     }
 
-    public function getMessages(string $bus = null): array
+    public function getMessages(?string $bus = null): array
     {
         if (null === $bus) {
             return $this->data['messages'];
         }
 
-        return array_filter($this->data['messages'], function ($message) use ($bus) {
-            return $bus === $message['bus'];
-        });
+        return array_filter($this->data['messages'], fn ($message) => $bus === $message['bus']);
     }
 
     public function getBuses(): array

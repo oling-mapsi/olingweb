@@ -55,7 +55,7 @@ class ContextListener extends AbstractListener
     /**
      * @param iterable<mixed, UserProviderInterface> $userProviders
      */
-    public function __construct(TokenStorageInterface $tokenStorage, iterable $userProviders, string $contextKey, LoggerInterface $logger = null, EventDispatcherInterface $dispatcher = null, AuthenticationTrustResolverInterface $trustResolver = null, callable $sessionTrackerEnabler = null)
+    public function __construct(TokenStorageInterface $tokenStorage, iterable $userProviders, string $contextKey, ?LoggerInterface $logger = null, ?EventDispatcherInterface $dispatcher = null, ?AuthenticationTrustResolverInterface $trustResolver = null, ?callable $sessionTrackerEnabler = null)
     {
         if (empty($contextKey)) {
             throw new \InvalidArgumentException('$contextKey must not be empty.');
@@ -79,7 +79,7 @@ class ContextListener extends AbstractListener
     /**
      * Reads the Security Token from the session.
      */
-    public function authenticate(RequestEvent $event)
+    public function authenticate(RequestEvent $event): void
     {
         if (!$this->registered && null !== $this->dispatcher && $event->isMainRequest()) {
             $this->dispatcher->addListener(KernelEvents::RESPONSE, $this->onKernelResponse(...));
@@ -123,6 +123,10 @@ class ContextListener extends AbstractListener
         ]);
 
         if ($token instanceof TokenInterface) {
+            if (!$token->getUser()) {
+                throw new \UnexpectedValueException(\sprintf('Cannot authenticate a "%s" token because it doesn\'t store a user.', $token::class));
+            }
+
             $originalToken = $token;
             $token = $this->refreshUser($token);
 
@@ -147,7 +151,7 @@ class ContextListener extends AbstractListener
     /**
      * Writes the security token into the session.
      */
-    public function onKernelResponse(ResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if (!$event->isMainRequest()) {
             return;
@@ -164,6 +168,7 @@ class ContextListener extends AbstractListener
         $session = $request->getSession();
         $sessionId = $session->getId();
         $usageIndexValue = $session instanceof Session ? $usageIndexReference = &$session->getUsageIndex() : null;
+        $usageIndexReference = \PHP_INT_MIN;
         $token = $this->tokenStorage->getToken();
 
         if (!$this->trustResolver->isAuthenticated($token)) {
@@ -178,6 +183,8 @@ class ContextListener extends AbstractListener
 
         if ($this->sessionTrackerEnabler && $session->getId() === $sessionId) {
             $usageIndexReference = $usageIndexValue;
+        } else {
+            $usageIndexReference = $usageIndexReference - \PHP_INT_MIN + $usageIndexValue;
         }
     }
 
@@ -251,12 +258,12 @@ class ContextListener extends AbstractListener
         throw new \RuntimeException(sprintf('There is no user provider for user "%s". Shouldn\'t the "supportsClass()" method of your user provider return true for this classname?', $userClass));
     }
 
-    private function safelyUnserialize(string $serializedToken)
+    private function safelyUnserialize(string $serializedToken): mixed
     {
         $token = null;
         $prevUnserializeHandler = ini_set('unserialize_callback_func', __CLASS__.'::handleUnserializeCallback');
         $prevErrorHandler = set_error_handler(function ($type, $msg, $file, $line, $context = []) use (&$prevErrorHandler) {
-            if (__FILE__ === $file) {
+            if (__FILE__ === $file && !\in_array($type, [\E_DEPRECATED, \E_USER_DEPRECATED], true)) {
                 throw new \ErrorException($msg, 0x37313BC, $type, $file, $line);
             }
 
@@ -307,8 +314,8 @@ class ContextListener extends AbstractListener
         }
 
         if (
-            \count($userRoles) !== \count($refreshedToken->getRoleNames()) ||
-            \count($userRoles) !== \count(array_intersect($userRoles, $refreshedToken->getRoleNames()))
+            \count($userRoles) !== \count($refreshedToken->getRoleNames())
+            || \count($userRoles) !== \count(array_intersect($userRoles, $refreshedToken->getRoleNames()))
         ) {
             return true;
         }
@@ -323,7 +330,7 @@ class ContextListener extends AbstractListener
     /**
      * @internal
      */
-    public static function handleUnserializeCallback(string $class)
+    public static function handleUnserializeCallback(string $class): never
     {
         throw new \ErrorException('Class not found: '.$class, 0x37313BC);
     }

@@ -13,8 +13,9 @@ namespace Symfony\Component\Form\Console\Descriptor;
 
 use Symfony\Component\Console\Helper\Dumper;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
 use Symfony\Component\Form\ResolvedFormTypeInterface;
-use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
+use Symfony\Component\HttpKernel\Debug\FileLinkFormatter as LegacyFileLinkFormatter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -24,20 +25,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TextDescriptor extends Descriptor
 {
-    private ?FileLinkFormatter $fileLinkFormatter;
+    private FileLinkFormatter|LegacyFileLinkFormatter|null $fileLinkFormatter;
 
-    public function __construct(FileLinkFormatter $fileLinkFormatter = null)
+    public function __construct(FileLinkFormatter|LegacyFileLinkFormatter|null $fileLinkFormatter = null)
     {
         $this->fileLinkFormatter = $fileLinkFormatter;
     }
 
-    protected function describeDefaults(array $options)
+    protected function describeDefaults(array $options): void
     {
         if ($options['core_types']) {
             $this->output->section('Built-in form types (Symfony\Component\Form\Extension\Core\Type)');
-            $shortClassNames = array_map(function ($fqcn) {
-                return $this->formatClassLink($fqcn, \array_slice(explode('\\', $fqcn), -1)[0]);
-            }, $options['core_types']);
+            $shortClassNames = array_map(fn ($fqcn) => $this->formatClassLink($fqcn, \array_slice(explode('\\', $fqcn), -1)[0]), $options['core_types']);
             for ($i = 0, $loopsMax = \count($shortClassNames); $i * 5 < $loopsMax; ++$i) {
                 $this->output->writeln(' '.implode(', ', \array_slice($shortClassNames, $i * 5, 5)));
             }
@@ -61,7 +60,7 @@ class TextDescriptor extends Descriptor
         }
     }
 
-    protected function describeResolvedFormType(ResolvedFormTypeInterface $resolvedFormType, array $options = [])
+    protected function describeResolvedFormType(ResolvedFormTypeInterface $resolvedFormType, array $options = []): void
     {
         $this->collectOptions($resolvedFormType);
 
@@ -84,7 +83,7 @@ class TextDescriptor extends Descriptor
             'extension' => 'Extension options',
         ], $formOptions);
 
-        $this->output->title(sprintf('%s (Block prefix: "%s")', \get_class($resolvedFormType->getInnerType()), $resolvedFormType->getInnerType()->getBlockPrefix()));
+        $this->output->title(sprintf('%s (Block prefix: "%s")', $resolvedFormType->getInnerType()::class, $resolvedFormType->getInnerType()->getBlockPrefix()));
 
         if ($formOptions) {
             $this->output->table($tableHeaders, $this->buildTableRows($tableHeaders, $formOptions));
@@ -101,7 +100,7 @@ class TextDescriptor extends Descriptor
         }
     }
 
-    protected function describeOption(OptionsResolver $optionsResolver, array $options)
+    protected function describeOption(OptionsResolver $optionsResolver, array $options): void
     {
         $definition = $this->getOptionDefinition($optionsResolver, $options['option']);
 
@@ -135,7 +134,7 @@ class TextDescriptor extends Descriptor
         }
         array_pop($rows);
 
-        $this->output->title(sprintf('%s (%s)', \get_class($options['type']), $options['option']));
+        $this->output->title(sprintf('%s (%s)', $options['type']::class, $options['option']));
         $this->output->table([], $rows);
     }
 
@@ -192,7 +191,7 @@ class TextDescriptor extends Descriptor
         return $options;
     }
 
-    private function formatClassLink(string $class, string $text = null): string
+    private function formatClassLink(string $class, ?string $text = null): string
     {
         $text ??= $class;
 

@@ -19,11 +19,11 @@ use Symfony\Component\Notifier\Event\NotificationEvents;
  */
 final class NotificationCount extends Constraint
 {
-    private $expectedValue;
-    private $transport;
-    private $queued;
+    private int $expectedValue;
+    private ?string $transport;
+    private bool $queued;
 
-    public function __construct(int $expectedValue, string $transport = null, bool $queued = false)
+    public function __construct(int $expectedValue, ?string $transport = null, bool $queued = false)
     {
         $this->expectedValue = $expectedValue;
         $this->transport = $transport;
@@ -57,8 +57,7 @@ final class NotificationCount extends Constraint
         foreach ($events->getEvents($this->transport) as $event) {
             if (
                 ($this->queued && $event->isQueued())
-                ||
-                (!$this->queued && !$event->isQueued())
+                || (!$this->queued && !$event->isQueued())
             ) {
                 ++$count;
             }

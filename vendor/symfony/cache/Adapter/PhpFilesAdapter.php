@@ -43,7 +43,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
      *
      * @throws CacheException if OPcache is not enabled
      */
-    public function __construct(string $namespace = '', int $defaultLifetime = 0, string $directory = null, bool $appendOnly = false)
+    public function __construct(string $namespace = '', int $defaultLifetime = 0, ?string $directory = null, bool $appendOnly = false)
     {
         $this->appendOnly = $appendOnly;
         self::$startTime ??= $_SERVER['REQUEST_TIME'] ?? time();
@@ -54,11 +54,14 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
         };
     }
 
+    /**
+     * @return bool
+     */
     public static function isSupported()
     {
         self::$startTime ??= $_SERVER['REQUEST_TIME'] ?? time();
 
-        return \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL));
+        return \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL));
     }
 
     public function prune(): bool
@@ -233,7 +236,7 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
             if ($isStaticValue) {
                 $value = "return [{$expiry}, {$value}];";
             } elseif ($this->appendOnly) {
-                $value = "return [{$expiry}, static function () { return {$value}; }];";
+                $value = "return [{$expiry}, static fn () => {$value}];";
             } else {
                 // We cannot use a closure here because of https://bugs.php.net/76982
                 $value = str_replace('\Symfony\Component\VarExporter\Internal\\', '', $value);
@@ -274,6 +277,9 @@ class PhpFilesAdapter extends AbstractAdapter implements PruneableInterface
         return $this->doCommonDelete($ids);
     }
 
+    /**
+     * @return bool
+     */
     protected function doUnlink(string $file)
     {
         unset(self::$valuesCache[$file]);

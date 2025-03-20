@@ -39,7 +39,7 @@ class Serializer implements SerializerInterface
     private string $format;
     private array $context;
 
-    public function __construct(SymfonySerializerInterface $serializer = null, string $format = 'json', array $context = [])
+    public function __construct(?SymfonySerializerInterface $serializer = null, string $format = 'json', array $context = [])
     {
         $this->serializer = $serializer ?? self::create()->serializer;
         $this->format = $format;
@@ -101,7 +101,7 @@ class Serializer implements SerializerInterface
 
         $envelope = $envelope->withoutStampsOfType(NonSendableStampInterface::class);
 
-        $headers = ['type' => \get_class($envelope->getMessage())] + $this->encodeStamps($envelope) + $this->getContentTypeHeader();
+        $headers = ['type' => $envelope->getMessage()::class] + $this->encodeStamps($envelope) + $this->getContentTypeHeader();
 
         return [
             'body' => $serializedMessageStamp

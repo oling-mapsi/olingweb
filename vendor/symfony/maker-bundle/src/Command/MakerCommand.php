@@ -72,7 +72,7 @@ final class MakerCommand extends Command
     {
         if (!$this->fileManager->isNamespaceConfiguredToAutoload($this->generator->getRootNamespace())) {
             $this->io->note([
-                sprintf('It looks like your app may be using a namespace other than "%s".', $this->generator->getRootNamespace()),
+                \sprintf('It looks like your app may be using a namespace other than "%s".', $this->generator->getRootNamespace()),
                 'To configure this and make your life easier, see: https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html#configuration',
             ]);
         }
@@ -86,7 +86,7 @@ final class MakerCommand extends Command
                 continue;
             }
 
-            $value = $this->io->ask($argument->getDescription(), $argument->getDefault(), [Validator::class, 'notBlank']);
+            $value = $this->io->ask($argument->getDescription(), $argument->getDefault(), Validator::notBlank(...));
             $input->setArgument($argument->getName(), $value);
         }
 
@@ -111,7 +111,7 @@ final class MakerCommand extends Command
         return 0;
     }
 
-    public function setApplication(Application $application = null): void
+    public function setApplication(?Application $application = null): void
     {
         parent::setApplication($application);
 

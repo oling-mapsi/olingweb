@@ -57,7 +57,7 @@ class ExceptionListener
     private HttpUtils $httpUtils;
     private bool $stateless;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationTrustResolverInterface $trustResolver, HttpUtils $httpUtils, string $firewallName, AuthenticationEntryPointInterface $authenticationEntryPoint = null, string $errorPage = null, AccessDeniedHandlerInterface $accessDeniedHandler = null, LoggerInterface $logger = null, bool $stateless = false)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationTrustResolverInterface $trustResolver, HttpUtils $httpUtils, string $firewallName, ?AuthenticationEntryPointInterface $authenticationEntryPoint = null, ?string $errorPage = null, ?AccessDeniedHandlerInterface $accessDeniedHandler = null, ?LoggerInterface $logger = null, bool $stateless = false)
     {
         $this->tokenStorage = $tokenStorage;
         $this->accessDeniedHandler = $accessDeniedHandler;
@@ -73,7 +73,7 @@ class ExceptionListener
     /**
      * Registers a onKernelException listener to take care of security exceptions.
      */
-    public function register(EventDispatcherInterface $dispatcher)
+    public function register(EventDispatcherInterface $dispatcher): void
     {
         $dispatcher->addListener(KernelEvents::EXCEPTION, $this->onKernelException(...), 1);
     }
@@ -81,7 +81,7 @@ class ExceptionListener
     /**
      * Unregisters the dispatcher.
      */
-    public function unregister(EventDispatcherInterface $dispatcher)
+    public function unregister(EventDispatcherInterface $dispatcher): void
     {
         $dispatcher->removeListener(KernelEvents::EXCEPTION, $this->onKernelException(...));
     }
@@ -89,7 +89,7 @@ class ExceptionListener
     /**
      * Handles security related exceptions.
      */
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         do {
@@ -131,7 +131,7 @@ class ExceptionListener
         }
     }
 
-    private function handleAccessDeniedException(ExceptionEvent $event, AccessDeniedException $exception)
+    private function handleAccessDeniedException(ExceptionEvent $event, AccessDeniedException $exception): void
     {
         $event->setThrowable(new AccessDeniedHttpException($exception->getMessage(), $exception));
 
@@ -217,7 +217,7 @@ class ExceptionListener
         return $response;
     }
 
-    protected function setTargetPath(Request $request)
+    protected function setTargetPath(Request $request): void
     {
         // session isn't required when using HTTP basic authentication mechanism for example
         if ($request->hasSession() && $request->isMethodSafe() && !$request->isXmlHttpRequest()) {
@@ -225,7 +225,7 @@ class ExceptionListener
         }
     }
 
-    private function throwUnauthorizedException(AuthenticationException $authException)
+    private function throwUnauthorizedException(AuthenticationException $authException): never
     {
         $this->logger?->notice(sprintf('No Authentication entry point configured, returning a %s HTTP response. Configure "entry_point" on the firewall "%s" if you want to modify the response.', Response::HTTP_UNAUTHORIZED, $this->firewallName));
 

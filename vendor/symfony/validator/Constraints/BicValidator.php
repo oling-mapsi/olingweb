@@ -13,6 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\Exception\UninitializedPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\Constraint;
@@ -58,11 +59,14 @@ class BicValidator extends ConstraintValidator
 
     private ?PropertyAccessor $propertyAccessor;
 
-    public function __construct(PropertyAccessor $propertyAccessor = null)
+    public function __construct(?PropertyAccessor $propertyAccessor = null)
     {
         $this->propertyAccessor = $propertyAccessor;
     }
 
+    /**
+     * @return void
+     */
     public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Bic) {
@@ -99,16 +103,6 @@ class BicValidator extends ConstraintValidator
             return;
         }
 
-        // first 4 letters must be alphabetic (bank code)
-        if (!ctype_alpha(substr($canonicalize, 0, 4))) {
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $this->formatValue($value))
-                ->setCode(Bic::INVALID_BANK_CODE_ERROR)
-                ->addViolation();
-
-            return;
-        }
-
         $bicCountryCode = substr($canonicalize, 4, 2);
         if (!isset(self::BIC_COUNTRY_TO_IBAN_COUNTRY_MAP[$bicCountryCode]) && !Countries::exists($bicCountryCode)) {
             $this->context->buildViolation($constraint->message)
@@ -137,6 +131,8 @@ class BicValidator extends ConstraintValidator
                 $iban = $this->getPropertyAccessor()->getValue($object, $path);
             } catch (NoSuchPropertyException $e) {
                 throw new ConstraintDefinitionException(sprintf('Invalid property path "%s" provided to "%s" constraint: ', $path, get_debug_type($constraint)).$e->getMessage(), 0, $e);
+            } catch (UninitializedPropertyException) {
+                $iban = null;
             }
         }
         if (!$iban) {
@@ -156,7 +152,7 @@ class BicValidator extends ConstraintValidator
     {
         if (null === $this->propertyAccessor) {
             if (!class_exists(PropertyAccess::class)) {
-                throw new LogicException('Unable to use property path as the Symfony PropertyAccess component is not installed.');
+                throw new LogicException('Unable to use property path as the Symfony PropertyAccess component is not installed. Try running "composer require symfony/property-access".');
             }
             $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
         }

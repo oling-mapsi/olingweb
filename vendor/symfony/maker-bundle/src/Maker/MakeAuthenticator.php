@@ -28,7 +28,6 @@ use Symfony\Bundle\MakerBundle\Util\UseStatementGenerator;
 use Symfony\Bundle\MakerBundle\Util\YamlManipulationFailedException;
 use Symfony\Bundle\MakerBundle\Util\YamlSourceManipulator;
 use Symfony\Bundle\MakerBundle\Validator;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Console\Command\Command;
@@ -39,12 +38,10 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security as LegacySecurity;
-use Symfony\Component\Security\Guard\AuthenticatorInterface as GuardAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -53,10 +50,13 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * @deprecated since MakerBundle v1.59.0, use any of the Security/Make* instead.
+ *
  * @author Ryan Weaver   <ryan@symfonycasts.com>
  * @author Jesse Rushlow <jr@rushlow.dev>
  *
@@ -86,27 +86,27 @@ final class MakeAuthenticator extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a Guard authenticator of different flavors';
+        return 'Create a Guard authenticator of different flavors';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeAuth.txt'));
+            ->setHelp($this->getHelpFileContents('MakeAuth.txt'))
+        ;
     }
 
     public function interact(InputInterface $input, ConsoleStyle $io, Command $command): void
     {
+        trigger_deprecation('symfony/maker-bundle', 'v1.59.0', 'The "%s" class is deprecated, use any of the Security\Make* commands instead.', self::class);
+
+        $io->caution('"make:auth" is deprecated, use any of the "make:security" commands instead.');
+
         if (!$this->fileManager->fileExists($path = 'config/packages/security.yaml')) {
             throw new RuntimeCommandException('The file "config/packages/security.yaml" does not exist. PHP & XML configuration formats are currently not supported.');
         }
         $manipulator = new YamlSourceManipulator($this->fileManager->getFileContents($path));
         $securityData = $manipulator->getData();
-
-        // @legacy - Can be removed when Symfony 5.4 support is dropped
-        if (interface_exists(GuardAuthenticatorInterface::class) && !($securityData['security']['enable_authenticator_manager'] ?? false)) {
-            throw new RuntimeCommandException('MakerBundle only supports the new authenticator based security system. See https://symfony.com/doc/current/security.html');
-        }
 
         // authenticator type
         $authenticatorTypeValues = [
@@ -153,7 +153,7 @@ final class MakeAuthenticator extends AbstractMaker
 
         $interactiveSecurityHelper = new InteractiveSecurityHelper();
         $command->addOption('firewall-name', null, InputOption::VALUE_OPTIONAL);
-        $input->setOption('firewall-name', $firewallName = $interactiveSecurityHelper->guessFirewallName($io, $securityData));
+        $input->setOption('firewall-name', $interactiveSecurityHelper->guessFirewallName($io, $securityData));
 
         $command->addOption('entry-point', null, InputOption::VALUE_OPTIONAL);
 
@@ -164,7 +164,7 @@ final class MakeAuthenticator extends AbstractMaker
                 $io->ask(
                     'Choose a name for the controller class (e.g. <fg=yellow>SecurityController</>)',
                     'SecurityController',
-                    [Validator::class, 'validateClassName']
+                    Validator::validateClassName(...)
                 )
             );
 
@@ -225,7 +225,7 @@ final class MakeAuthenticator extends AbstractMaker
         $securityData = $manipulator->getData();
 
         $supportRememberMe = $input->hasArgument('support-remember-me') ? $input->getArgument('support-remember-me') : false;
-        $alwaysRememberMe = $input->hasArgument('always-remember-me') ? $input->getArgument('always-remember-me') : false;
+        $alwaysRememberMe = $input->hasArgument('always-remember-me') && self::REMEMBER_ME_TYPE_ALWAYS === $input->getArgument('always-remember-me');
 
         $this->generateAuthenticatorClass(
             $securityData,
@@ -279,7 +279,6 @@ final class MakeAuthenticator extends AbstractMaker
                 $securityYamlUpdated,
                 $input->getArgument('authenticator-type'),
                 $input->getArgument('authenticator-class'),
-                $securityData,
                 $input->hasArgument('user-class') ? $input->getArgument('user-class') : null,
                 $input->hasArgument('logout-setup') ? $input->getArgument('logout-setup') : false,
                 $supportRememberMe,
@@ -288,7 +287,8 @@ final class MakeAuthenticator extends AbstractMaker
         );
     }
 
-    private function generateAuthenticatorClass(array $securityData, string $authenticatorType, string $authenticatorClass, $userClass, $userNameField, bool $supportRememberMe): void
+    /** @param array<mixed> $securityData */
+    private function generateAuthenticatorClass(array $securityData, string $authenticatorType, string $authenticatorClass, ?string $userClass, ?string $userNameField, bool $supportRememberMe): void
     {
         $useStatements = new UseStatementGenerator([
             Request::class,
@@ -321,14 +321,8 @@ final class MakeAuthenticator extends AbstractMaker
             UserBadge::class,
             PasswordCredentials::class,
             TargetPathTrait::class,
+            SecurityRequestAttributes::class,
         ]);
-
-        // @legacy - Can be removed when Symfony 5.4 support is dropped
-        if (class_exists(Security::class)) {
-            $useStatements->addUseStatement(Security::class);
-        } else {
-            $useStatements->addUseStatement(LegacySecurity::class);
-        }
 
         if ($supportRememberMe) {
             $useStatements->addUseStatement(RememberMeBadge::class);
@@ -384,7 +378,7 @@ final class MakeAuthenticator extends AbstractMaker
         }
 
         if (method_exists($controllerClassNameDetails->getFullName(), 'login')) {
-            throw new RuntimeCommandException(sprintf('Method "login" already exists on class %s', $controllerClassNameDetails->getFullName()));
+            throw new RuntimeCommandException(\sprintf('Method "login" already exists on class %s', $controllerClassNameDetails->getFullName()));
         }
 
         $manipulator = new ClassSourceManipulator(
@@ -415,7 +409,8 @@ final class MakeAuthenticator extends AbstractMaker
         );
     }
 
-    private function generateNextMessage(bool $securityYamlUpdated, string $authenticatorType, string $authenticatorClass, array $securityData, $userClass, bool $logoutSetup, bool $supportRememberMe, bool $alwaysRememberMe): array
+    /** @return string[] */
+    private function generateNextMessage(bool $securityYamlUpdated, string $authenticatorType, string $authenticatorClass, ?string $userClass, bool $logoutSetup, bool $supportRememberMe, bool $alwaysRememberMe): array
     {
         $nextTexts = ['Next:'];
         $nextTexts[] = '- Customize your new authenticator.';
@@ -434,10 +429,10 @@ final class MakeAuthenticator extends AbstractMaker
         }
 
         if (self::AUTH_TYPE_FORM_LOGIN === $authenticatorType) {
-            $nextTexts[] = sprintf('- Finish the redirect "TODO" in the <info>%s::onAuthenticationSuccess()</info> method.', $authenticatorClass);
+            $nextTexts[] = \sprintf('- Finish the redirect "TODO" in the <info>%s::onAuthenticationSuccess()</info> method.', $authenticatorClass);
 
             if (!$this->doctrineHelper->isClassAMappedEntity($userClass)) {
-                $nextTexts[] = sprintf('- Review <info>%s::getUser()</info> to make sure it matches your needs.', $authenticatorClass);
+                $nextTexts[] = \sprintf('- Review <info>%s::getUser()</info> to make sure it matches your needs.', $authenticatorClass);
             }
 
             $nextTexts[] = '- Review & adapt the login template: <info>'.$this->fileManager->getPathForTemplate('security/login.html.twig').'</info>.';
@@ -446,10 +441,11 @@ final class MakeAuthenticator extends AbstractMaker
         return $nextTexts;
     }
 
+    /** @param array<mixed> $securityData */
     private function userClassHasEncoder(array $securityData, string $userClass): bool
     {
         $userNeedsEncoder = false;
-        $hashersData = $securityData['security']['encoders'] ?? $securityData['security']['encoders'] ?? [];
+        $hashersData = $securityData['security']['encoders'] ?? [];
 
         foreach ($hashersData as $userClassWithEncoder => $encoder) {
             if ($userClass === $userClassWithEncoder || is_subclass_of($userClass, $userClassWithEncoder) || class_implements($userClass, $userClassWithEncoder)) {
@@ -460,7 +456,7 @@ final class MakeAuthenticator extends AbstractMaker
         return $userNeedsEncoder;
     }
 
-    public function configureDependencies(DependencyBuilder $dependencies, InputInterface $input = null): void
+    public function configureDependencies(DependencyBuilder $dependencies, ?InputInterface $input = null): void
     {
         $dependencies->addClassDependency(
             SecurityBundle::class,

@@ -44,7 +44,7 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
     /**
      * @param ArrayNodeDefinition $builder
      */
-    public function addConfiguration(NodeDefinition $builder)
+    public function addConfiguration(NodeDefinition $builder): void
     {
         $builder
             ->children()
@@ -76,6 +76,7 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
             $container->register($config['limiter'] = 'security.login_throttling.'.$firewallName.'.limiter', DefaultLoginRateLimiter::class)
                 ->addArgument(new Reference('limiter.'.$globalId))
                 ->addArgument(new Reference('limiter.'.$localId))
+                ->addArgument('%kernel.secret%')
             ;
         }
 
@@ -87,7 +88,7 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
         return [];
     }
 
-    private function registerRateLimiter(ContainerBuilder $container, string $name, array $limiterConfig)
+    private function registerRateLimiter(ContainerBuilder $container, string $name, array $limiterConfig): void
     {
         // default configuration (when used by other DI extensions)
         $limiterConfig += ['lock_factory' => 'lock.factory', 'cache_pool' => 'cache.rate_limiter'];
@@ -97,9 +98,6 @@ class LoginThrottlingFactory implements AuthenticatorFactoryInterface
         if (null !== $limiterConfig['lock_factory']) {
             if (!interface_exists(LockInterface::class)) {
                 throw new LogicException(sprintf('Rate limiter "%s" requires the Lock component to be installed. Try running "composer require symfony/lock".', $name));
-            }
-            if (!$container->hasDefinition('lock.factory.abstract')) {
-                throw new LogicException(sprintf('Rate limiter "%s" requires the Lock component to be configured.', $name));
             }
 
             $limiter->replaceArgument(2, new Reference($limiterConfig['lock_factory']));

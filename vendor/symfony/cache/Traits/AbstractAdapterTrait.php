@@ -51,8 +51,6 @@ trait AbstractAdapterTrait
      * Fetches several cache items.
      *
      * @param array $ids The cache identifiers to fetch
-     *
-     * @return array|\Traversable
      */
     abstract protected function doFetch(array $ids): iterable;
 
@@ -269,7 +267,7 @@ trait AbstractAdapterTrait
         return $wasEnabled;
     }
 
-    public function reset()
+    public function reset(): void
     {
         if ($this->deferred) {
             $this->commit();
@@ -283,6 +281,9 @@ trait AbstractAdapterTrait
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -320,7 +321,7 @@ trait AbstractAdapterTrait
     /**
      * @internal
      */
-    protected function getId(mixed $key)
+    protected function getId(mixed $key): string
     {
         if ($this->versioningIsEnabled && '' === $this->namespaceVersion) {
             $this->ids = [];
@@ -356,8 +357,8 @@ trait AbstractAdapterTrait
             return $this->namespace.$this->namespaceVersion.$key;
         }
         if (\strlen($id = $this->namespace.$this->namespaceVersion.$key) > $this->maxIdLength) {
-            // Use MD5 to favor speed over security, which is not an issue here
-            $this->ids[$key] = $id = substr_replace(base64_encode(hash('md5', $key, true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
+            // Use xxh128 to favor speed over security, which is not an issue here
+            $this->ids[$key] = $id = substr_replace(base64_encode(hash('xxh128', $key, true)), static::NS_SEPARATOR, -(\strlen($this->namespaceVersion) + 2));
             $id = $this->namespace.$this->namespaceVersion.$id;
         }
 
@@ -367,7 +368,7 @@ trait AbstractAdapterTrait
     /**
      * @internal
      */
-    public static function handleUnserializeCallback(string $class)
+    public static function handleUnserializeCallback(string $class): never
     {
         throw new \DomainException('Class not found: '.$class);
     }

@@ -39,7 +39,7 @@ class SendFailedMessageForRetryListener implements EventSubscriberInterface
     private ?EventDispatcherInterface $eventDispatcher;
     private int $historySize;
 
-    public function __construct(ContainerInterface $sendersLocator, ContainerInterface $retryStrategyLocator, LoggerInterface $logger = null, EventDispatcherInterface $eventDispatcher = null, int $historySize = 10)
+    public function __construct(ContainerInterface $sendersLocator, ContainerInterface $retryStrategyLocator, ?LoggerInterface $logger = null, ?EventDispatcherInterface $eventDispatcher = null, int $historySize = 10)
     {
         $this->sendersLocator = $sendersLocator;
         $this->retryStrategyLocator = $retryStrategyLocator;
@@ -48,6 +48,9 @@ class SendFailedMessageForRetryListener implements EventSubscriberInterface
         $this->historySize = $historySize;
     }
 
+    /**
+     * @return void
+     */
     public function onMessageFailed(WorkerMessageFailedEvent $event)
     {
         $retryStrategy = $this->getRetryStrategyForTransport($event->getReceiverName());
@@ -75,7 +78,7 @@ class SendFailedMessageForRetryListener implements EventSubscriberInterface
             $retryEnvelope = $this->withLimitedHistory($envelope, new DelayStamp($delay), new RedeliveryStamp($retryCount));
 
             // re-send the message for retry
-            $this->getSenderForTransport($event->getReceiverName())->send($retryEnvelope);
+            $retryEnvelope = $this->getSenderForTransport($event->getReceiverName())->send($retryEnvelope);
 
             $this->eventDispatcher?->dispatch(new WorkerMessageRetriedEvent($retryEnvelope, $event->getReceiverName()));
         } else {
@@ -125,7 +128,7 @@ class SendFailedMessageForRetryListener implements EventSubscriberInterface
         // if ALL nested Exceptions are an instance of UnrecoverableExceptionInterface we should not retry
         if ($e instanceof HandlerFailedException) {
             $shouldNotRetry = true;
-            foreach ($e->getNestedExceptions() as $nestedException) {
+            foreach ($e->getWrappedExceptions() as $nestedException) {
                 if ($nestedException instanceof RecoverableExceptionInterface) {
                     return true;
                 }

@@ -24,7 +24,7 @@ abstract class AbstractTransportFactory implements TransportFactoryInterface
     protected $dispatcher;
     protected $client;
 
-    public function __construct(EventDispatcherInterface $dispatcher = null, HttpClientInterface $client = null)
+    public function __construct(?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null)
     {
         $this->dispatcher = $dispatcher;
         $this->client = $client;
@@ -42,21 +42,11 @@ abstract class AbstractTransportFactory implements TransportFactoryInterface
 
     protected function getUser(Dsn $dsn): string
     {
-        $user = $dsn->getUser();
-        if (null === $user) {
-            throw new IncompleteDsnException('User is not set.', $dsn->getOriginalDsn());
-        }
-
-        return $user;
+        return $dsn->getUser() ?? throw new IncompleteDsnException('User is not set.', $dsn->getScheme().'://'.$dsn->getHost());
     }
 
     protected function getPassword(Dsn $dsn): string
     {
-        $password = $dsn->getPassword();
-        if (null === $password) {
-            throw new IncompleteDsnException('Password is not set.', $dsn->getOriginalDsn());
-        }
-
-        return $password;
+        return $dsn->getPassword() ?? throw new IncompleteDsnException('Password is not set.', $dsn->getOriginalDsn());
     }
 }

@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Make `PersistentToken` immutable
+ * Deprecate accepting only `DateTime` for `TokenProviderInterface::updateToken()`, use `DateTimeInterface` instead
+
+6.3
+---
+
+ * Add `AttributesBasedUserProviderInterface` to allow `$attributes` optional argument on `loadUserByIdentifier`
+ * Add `OidcUser` with OIDC support for `OidcUserInfoTokenHandler`
+
 6.2
 ---
 

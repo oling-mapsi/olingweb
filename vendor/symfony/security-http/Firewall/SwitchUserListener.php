@@ -55,7 +55,7 @@ class SwitchUserListener extends AbstractListener
     private ?UrlGeneratorInterface $urlGenerator;
     private ?string $targetRoute;
 
-    public function __construct(TokenStorageInterface $tokenStorage, UserProviderInterface $provider, UserCheckerInterface $userChecker, string $firewallName, AccessDecisionManagerInterface $accessDecisionManager, LoggerInterface $logger = null, string $usernameParameter = '_switch_user', string $role = 'ROLE_ALLOWED_TO_SWITCH', EventDispatcherInterface $dispatcher = null, bool $stateless = false, UrlGeneratorInterface $urlGenerator = null, string $targetRoute = null)
+    public function __construct(TokenStorageInterface $tokenStorage, UserProviderInterface $provider, UserCheckerInterface $userChecker, string $firewallName, AccessDecisionManagerInterface $accessDecisionManager, ?LoggerInterface $logger = null, string $usernameParameter = '_switch_user', string $role = 'ROLE_ALLOWED_TO_SWITCH', ?EventDispatcherInterface $dispatcher = null, bool $stateless = false, ?UrlGeneratorInterface $urlGenerator = null, ?string $targetRoute = null)
     {
         if ('' === $firewallName) {
             throw new \InvalidArgumentException('$firewallName must not be empty.');
@@ -99,7 +99,7 @@ class SwitchUserListener extends AbstractListener
      *
      * @throws \LogicException if switching to a user failed
      */
-    public function authenticate(RequestEvent $event)
+    public function authenticate(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -111,7 +111,7 @@ class SwitchUserListener extends AbstractListener
         }
 
         if (self::EXIT_VALUE === $username) {
-            $this->tokenStorage->setToken($this->attemptExitUser($request));
+            $this->attemptExitUser($request);
         } else {
             try {
                 $this->tokenStorage->setToken($this->attemptSwitchUser($request, $username));
@@ -151,7 +151,7 @@ class SwitchUserListener extends AbstractListener
         }
 
         $currentUsername = $token->getUserIdentifier();
-        $nonExistentUsername = '_'.md5(random_bytes(8).$username);
+        $nonExistentUsername = '_'.hash('xxh128', random_bytes(8).$username);
 
         // To protect against user enumeration via timing measurements
         // we always load both successfully and unsuccessfully
@@ -212,6 +212,8 @@ class SwitchUserListener extends AbstractListener
             $this->dispatcher->dispatch($switchEvent, SecurityEvents::SWITCH_USER);
             $original = $switchEvent->getToken();
         }
+
+        $this->tokenStorage->setToken($original);
 
         return $original;
     }

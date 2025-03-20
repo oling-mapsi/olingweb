@@ -31,25 +31,29 @@ class FormTypeValidatorExtension extends BaseValidatorExtension
     private ViolationMapper $violationMapper;
     private bool $legacyErrorMessages;
 
-    public function __construct(ValidatorInterface $validator, bool $legacyErrorMessages = true, FormRendererInterface $formRenderer = null, TranslatorInterface $translator = null)
+    public function __construct(ValidatorInterface $validator, bool $legacyErrorMessages = true, ?FormRendererInterface $formRenderer = null, ?TranslatorInterface $translator = null)
     {
         $this->validator = $validator;
         $this->violationMapper = new ViolationMapper($formRenderer, $translator);
     }
 
+    /**
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber(new ValidationListener($this->validator, $this->violationMapper));
     }
 
+    /**
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
 
         // Constraint should always be converted to an array
-        $constraintsNormalizer = function (Options $options, $constraints) {
-            return \is_object($constraints) ? [$constraints] : (array) $constraints;
-        };
+        $constraintsNormalizer = static fn (Options $options, $constraints) => \is_object($constraints) ? [$constraints] : (array) $constraints;
 
         $resolver->setDefaults([
             'error_mapping' => [],

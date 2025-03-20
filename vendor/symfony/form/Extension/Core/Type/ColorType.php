@@ -28,18 +28,22 @@ class ColorType extends AbstractType
 
     private ?TranslatorInterface $translator;
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(?TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
 
+    /**
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['html5']) {
             return;
         }
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+        $translator = $this->translator;
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, static function (FormEvent $event) use ($translator): void {
             $value = $event->getData();
             if (null === $value || '' === $value) {
                 return;
@@ -53,12 +57,15 @@ class ColorType extends AbstractType
             $messageParameters = [
                 '{{ value }}' => \is_scalar($value) ? (string) $value : \gettype($value),
             ];
-            $message = $this->translator ? $this->translator->trans($messageTemplate, $messageParameters, 'validators') : $messageTemplate;
+            $message = $translator?->trans($messageTemplate, $messageParameters, 'validators') ?? $messageTemplate;
 
             $event->getForm()->addError(new FormError($message, $messageTemplate, $messageParameters));
         });
     }
 
+    /**
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

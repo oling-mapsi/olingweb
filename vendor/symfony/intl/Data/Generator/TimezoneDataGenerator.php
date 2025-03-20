@@ -46,7 +46,7 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         return $scanner->scanLocales($sourceDir.'/zone');
     }
 
-    protected function compileTemporaryBundles(BundleCompilerInterface $compiler, string $sourceDir, string $tempDir)
+    protected function compileTemporaryBundles(BundleCompilerInterface $compiler, string $sourceDir, string $tempDir): void
     {
         $filesystem = new Filesystem();
         $filesystem->mkdir($tempDir.'/region');
@@ -57,7 +57,7 @@ class TimezoneDataGenerator extends AbstractDataGenerator
         $compiler->compile($sourceDir.'/misc/windowsZones.txt', $tempDir);
     }
 
-    protected function preGenerate()
+    protected function preGenerate(): void
     {
         $this->zoneIds = [];
         $this->zoneToCountryMapping = [];
@@ -159,7 +159,7 @@ class TimezoneDataGenerator extends AbstractDataGenerator
 
         $regionFormat = $reader->readEntry($tempDir, $locale, ['zoneStrings', 'regionFormat']);
         $fallbackFormat = $reader->readEntry($tempDir, $locale, ['zoneStrings', 'fallbackFormat']);
-        $resolveName = function (string $id, string $city = null) use ($reader, $tempDir, $locale, $regionFormat, $fallbackFormat): ?string {
+        $resolveName = function (string $id, ?string $city = null) use ($reader, $tempDir, $locale, $regionFormat, $fallbackFormat): ?string {
             // Resolve default name as described per http://cldr.unicode.org/translation/timezones
             if (isset($this->zoneToCountryMapping[$id])) {
                 try {

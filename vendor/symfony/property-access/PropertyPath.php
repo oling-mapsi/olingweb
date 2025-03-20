@@ -34,14 +34,12 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
      *
      * @var list<string>
      */
-    private $elements = [];
+    private array $elements = [];
 
     /**
      * The number of elements in the property path.
-     *
-     * @var int
      */
-    private $length;
+    private int $length;
 
     /**
      * Contains a Boolean for each property in $elements denoting whether this
@@ -49,7 +47,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
      *
      * @var array<bool>
      */
-    private $isIndex = [];
+    private array $isIndex = [];
 
     /**
      * Contains a Boolean for each property in $elements denoting whether this
@@ -57,14 +55,12 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
      *
      * @var array<bool>
      */
-    private $isNullSafe = [];
+    private array $isNullSafe = [];
 
     /**
      * String representation of the path.
-     *
-     * @var string
      */
-    private $pathAsString;
+    private string $pathAsString;
 
     /**
      * Constructs a property path from a string.
@@ -95,7 +91,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
         $remaining = $propertyPath;
 
         // first element is evaluated differently - no leading dot for properties
-        $pattern = '/^(([^\.\[]++)|\[([^\]]++)\])(.*)/';
+        $pattern = '/^(((?:[^\\\\.\[]|\\\\.)++)|\[([^\]]++)\])(.*)/';
 
         while (preg_match($pattern, $remaining, $matches)) {
             if ('' !== $matches[2]) {
@@ -114,11 +110,15 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
                 $this->isNullSafe[] = false;
             }
 
+            $element = preg_replace('/\\\([.[])/', '$1', $element);
+            if (str_ends_with($element, '\\\\')) {
+                $element = substr($element, 0, -1);
+            }
             $this->elements[] = $element;
 
             $position += \strlen($matches[1]);
             $remaining = $matches[4];
-            $pattern = '/^(\.([^\.|\[]++)|\[([^\]]++)\])(.*)/';
+            $pattern = '/^(\.((?:[^\\\\.\[]|\\\\.)++)|\[([^\]]++)\])(.*)/';
         }
 
         if ('' !== $remaining) {

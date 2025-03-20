@@ -130,6 +130,9 @@ class Parser
         return $node;
     }
 
+    /**
+     * @return Node\Node
+     */
     public function parseExpression(int $precedence = 0)
     {
         $expr = $this->getPrimary();
@@ -151,6 +154,9 @@ class Parser
         return $expr;
     }
 
+    /**
+     * @return Node\Node
+     */
     protected function getPrimary()
     {
         $token = $this->stream->current;
@@ -174,6 +180,9 @@ class Parser
         return $this->parsePrimaryExpression();
     }
 
+    /**
+     * @return Node\Node
+     */
     protected function parseConditionalExpression(Node\Node $expr)
     {
         while ($this->stream->current->test(Token::PUNCTUATION_TYPE, '??')) {
@@ -205,6 +214,9 @@ class Parser
         return $expr;
     }
 
+    /**
+     * @return Node\Node
+     */
     public function parsePrimaryExpression()
     {
         $token = $this->stream->current;
@@ -270,6 +282,9 @@ class Parser
         return $this->parsePostfixExpression($node);
     }
 
+    /**
+     * @return Node\ArrayNode
+     */
     public function parseArrayExpression()
     {
         $this->stream->expect(Token::PUNCTUATION_TYPE, '[', 'An array element was expected');
@@ -294,6 +309,9 @@ class Parser
         return $node;
     }
 
+    /**
+     * @return Node\ArrayNode
+     */
     public function parseHashExpression()
     {
         $this->stream->expect(Token::PUNCTUATION_TYPE, '{', 'A hash element was expected');
@@ -338,6 +356,9 @@ class Parser
         return $node;
     }
 
+    /**
+     * @return Node\GetAttrNode|Node\Node
+     */
     public function parsePostfixExpression(Node\Node $node)
     {
         $token = $this->stream->current;
@@ -350,7 +371,6 @@ class Parser
 
                 if (
                     Token::NAME_TYPE !== $token->type
-                    &&
                     // Operators like "not" and "matches" are valid method or property names,
                     //
                     // In other words, besides NAME_TYPE, OPERATOR_TYPE could also be parsed as a property or method.
@@ -362,7 +382,7 @@ class Parser
                     // Other types, such as STRING_TYPE and NUMBER_TYPE, can't be parsed as property nor method names.
                     //
                     // As a result, if $token is NOT an operator OR $token->value is NOT a valid property or method name, an exception shall be thrown.
-                    (Token::OPERATOR_TYPE !== $token->type || !preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/A', $token->value))
+                    && (Token::OPERATOR_TYPE !== $token->type || !preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/A', $token->value))
                 ) {
                     throw new SyntaxError('Expected name.', $token->cursor, $this->stream->getExpression());
                 }
@@ -398,6 +418,8 @@ class Parser
 
     /**
      * Parses arguments.
+     *
+     * @return Node\Node
      */
     public function parseArguments()
     {

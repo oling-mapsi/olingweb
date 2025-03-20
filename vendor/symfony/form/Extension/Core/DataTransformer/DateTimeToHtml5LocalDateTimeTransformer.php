@@ -23,6 +23,12 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class DateTimeToHtml5LocalDateTimeTransformer extends BaseDateTimeTransformer
 {
     public const HTML5_FORMAT = 'Y-m-d\\TH:i:s';
+    public const HTML5_FORMAT_NO_SECONDS = 'Y-m-d\\TH:i';
+
+    public function __construct(?string $inputTimezone = null, ?string $outputTimezone = null, private bool $withSeconds = false)
+    {
+        parent::__construct($inputTimezone, $outputTimezone);
+    }
 
     /**
      * Transforms a \DateTime into a local date and time string.
@@ -47,14 +53,11 @@ class DateTimeToHtml5LocalDateTimeTransformer extends BaseDateTimeTransformer
         }
 
         if ($this->inputTimezone !== $this->outputTimezone) {
-            if (!$dateTime instanceof \DateTimeImmutable) {
-                $dateTime = clone $dateTime;
-            }
-
+            $dateTime = \DateTimeImmutable::createFromInterface($dateTime);
             $dateTime = $dateTime->setTimezone(new \DateTimeZone($this->outputTimezone));
         }
 
-        return $dateTime->format(self::HTML5_FORMAT);
+        return $dateTime->format($this->withSeconds ? self::HTML5_FORMAT : self::HTML5_FORMAT_NO_SECONDS);
     }
 
     /**

@@ -49,7 +49,7 @@ class UserPasswordHashCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('password', InputArgument::OPTIONAL, 'The plain password to hash.')
@@ -65,7 +65,7 @@ in the database while developing the application.
 Suppose that you have the following security configuration in your application:
 
 <comment>
-# app/config/security.yml
+# config/packages/security.yml
 security:
     password_hashers:
         Symfony\Component\Security\Core\User\InMemoryUser: plaintext

@@ -50,6 +50,12 @@ class SendersLocator implements SendersLocatorInterface
         $seen = [];
 
         foreach (HandlersLocator::listTypes($envelope) as $type) {
+            if (str_ends_with($type, '*') && $seen) {
+                // the '*' acts as a fallback, if other senders already matched
+                // with previous types, skip the senders bound to the fallback
+                continue;
+            }
+
             foreach ($this->sendersMap[$type] ?? [] as $senderAlias) {
                 if (!\in_array($senderAlias, $seen, true)) {
                     $seen[] = $senderAlias;

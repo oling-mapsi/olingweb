@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
  * This class is used for testing purposes, and is not really suited for production.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ *
+ * @final since Symfony 6.4
  */
 class InMemoryTokenProvider implements TokenProviderInterface
 {
@@ -31,6 +33,11 @@ class InMemoryTokenProvider implements TokenProviderInterface
         return $this->tokens[$series];
     }
 
+    /**
+     * @param \DateTimeInterface $lastUsed Accepting only DateTime is deprecated since Symfony 6.4
+     *
+     * @return void
+     */
     public function updateToken(string $series, #[\SensitiveParameter] string $tokenValue, \DateTime $lastUsed)
     {
         if (!isset($this->tokens[$series])) {
@@ -39,7 +46,7 @@ class InMemoryTokenProvider implements TokenProviderInterface
 
         $token = new PersistentToken(
             $this->tokens[$series]->getClass(),
-            method_exists($this->tokens[$series], 'getUserIdentifier') ? $this->tokens[$series]->getUserIdentifier() : $this->tokens[$series]->getUsername(),
+            $this->tokens[$series]->getUserIdentifier(),
             $series,
             $tokenValue,
             $lastUsed
@@ -47,11 +54,17 @@ class InMemoryTokenProvider implements TokenProviderInterface
         $this->tokens[$series] = $token;
     }
 
+    /**
+     * @return void
+     */
     public function deleteTokenBySeries(string $series)
     {
         unset($this->tokens[$series]);
     }
 
+    /**
+     * @return void
+     */
     public function createNewToken(PersistentTokenInterface $token)
     {
         $this->tokens[$token->getSeries()] = $token;

@@ -1,6 +1,27 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Deprecate `Security::ACCESS_DENIED_ERROR`, `AUTHENTICATION_ERROR` and `LAST_USERNAME` constants, use the ones on `SecurityRequestAttributes` instead
+ * Allow an array of `pattern` in firewall configuration
+ * Add `$badges` argument to `Security::login`
+ * Deprecate the `require_previous_session` config option. Setting it has no effect anymore
+ * Add `LogoutRouteLoader`
+
+6.3
+---
+
+ * Deprecate enabling bundle and not configuring it
+ * Add `_stateless` attribute to the request when firewall is stateless and the attribute is not already set
+ * Add `StatelessAuthenticatorFactoryInterface` for authenticators targeting `stateless` firewalls only and that don't require a user provider
+ * Modify "icon.svg" to improve accessibility for blind/low vision users
+ * Make `Security::login()` return the authenticator response
+ * Deprecate the `security.firewalls.logout.csrf_token_generator` config option, use `security.firewalls.logout.csrf_token_manager` instead
+ * Make firewalls event dispatcher traceable on debug mode
+ * Add `TokenHandlerFactoryInterface`, `OidcUserInfoTokenHandlerFactory`, `OidcTokenHandlerFactory` and `ServiceTokenHandlerFactory` for `AccessTokenFactory`
+
 6.2
 ---
 

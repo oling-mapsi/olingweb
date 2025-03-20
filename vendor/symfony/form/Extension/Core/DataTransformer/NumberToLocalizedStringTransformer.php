@@ -32,7 +32,7 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
     private ?int $scale;
     private ?string $locale;
 
-    public function __construct(int $scale = null, ?bool $grouping = false, ?int $roundingMode = \NumberFormatter::ROUND_HALFUP, string $locale = null)
+    public function __construct(?int $scale = null, ?bool $grouping = false, ?int $roundingMode = \NumberFormatter::ROUND_HALFUP, ?string $locale = null)
     {
         $this->scale = $scale;
         $this->grouping = $grouping ?? false;
@@ -106,7 +106,8 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
             $value = str_replace(',', $decSep, $value);
         }
 
-        if (str_contains($value, $decSep)) {
+        // If the value is in exponential notation with a negative exponent, we end up with a float value too
+        if (str_contains($value, $decSep) || false !== stripos($value, 'e-')) {
             $type = \NumberFormatter::TYPE_DOUBLE;
         } else {
             $type = \PHP_INT_SIZE === 8
@@ -114,10 +115,14 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
                 : \NumberFormatter::TYPE_INT32;
         }
 
-        $result = $formatter->parse($value, $type, $position);
+        try {
+            $result = @$formatter->parse($value, $type, $position);
+        } catch (\IntlException $e) {
+            throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if (intl_is_failure($formatter->getErrorCode())) {
-            throw new TransformationFailedException($formatter->getErrorMessage());
+            throw new TransformationFailedException($formatter->getErrorMessage(), $formatter->getErrorCode());
         }
 
         if ($result >= \PHP_INT_MAX || $result <= -\PHP_INT_MAX) {

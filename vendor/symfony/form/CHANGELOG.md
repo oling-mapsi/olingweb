@@ -1,6 +1,23 @@
 CHANGELOG
 =========
 
+6.4
+---
+
+ * Deprecate using `DateTime` or `DateTimeImmutable` model data with a different timezone than configured with the
+   `model_timezone` option in `DateType`, `DateTimeType`, and `TimeType`
+ * Deprecate `PostSetDataEvent::setData()`, use `PreSetDataEvent::setData()` instead
+ * Deprecate `PostSubmitEvent::setData()`, use `PreSubmitDataEvent::setData()` or `SubmitDataEvent::setData()` instead
+ * Add `duplicate_preferred_choices` option in `ChoiceType`
+ * Add `$duplicatePreferredChoices` parameter to `ChoiceListFactoryInterface::createView()`
+
+6.3
+---
+
+ * Don't render seconds for HTML5 date pickers unless "with_seconds" is explicitly set
+ * Add a `placeholder_attr` option to `ChoiceType`
+ * Deprecate not configuring the "widget" option of date/time form types, it will default to "single_text" in v7
+
 6.2
 ---
 

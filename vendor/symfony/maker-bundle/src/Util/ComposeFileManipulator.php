@@ -84,10 +84,10 @@ class ComposeFileManipulator
     public function exposePorts(string $service, array $ports): void
     {
         $portData = [];
-        $portData[] = sprintf('%s To allow the host machine to access the ports below, modify the lines below.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
-        $portData[] = sprintf('%s For example, to allow the host to connect to port 3306 on the container, you would change', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
-        $portData[] = sprintf('%s "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
-        $portData[] = sprintf('%s See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
+        $portData[] = \sprintf('%s To allow the host machine to access the ports below, modify the lines below.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
+        $portData[] = \sprintf('%s For example, to allow the host to connect to port 3306 on the container, you would change', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
+        $portData[] = \sprintf('%s "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
+        $portData[] = \sprintf('%s See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.', YamlSourceManipulator::COMMENT_PLACEHOLDER_VALUE);
 
         foreach ($ports as $port) {
             $portData[] = $port;
@@ -104,7 +104,7 @@ class ComposeFileManipulator
     {
         $data = $this->manipulator->getData();
 
-        $data['services'][$service]['volumes'][] = sprintf('%s:%s', $hostPath, $containerPath);
+        $data['services'][$service]['volumes'][] = \sprintf('%s:%s', $hostPath, $containerPath);
 
         $this->manipulator->setData($data);
     }
@@ -122,11 +122,11 @@ class ComposeFileManipulator
         $data = $this->manipulator->getData();
 
         if (empty($data['version'])) {
-            throw new RuntimeCommandException('docker-compose.yaml file version is not set.');
+            throw new RuntimeCommandException('compose.yaml file version is not set.');
         }
 
         if (2.0 > (float) $data['version']) {
-            throw new RuntimeCommandException(sprintf('docker-compose.yaml version %s is not supported. Please update your docker-compose.yaml file to the latest version.', $data['version']));
+            throw new RuntimeCommandException(\sprintf('compose.yaml version %s is not supported. Please update your compose.yaml file to the latest version.', $data['version']));
         }
     }
 }

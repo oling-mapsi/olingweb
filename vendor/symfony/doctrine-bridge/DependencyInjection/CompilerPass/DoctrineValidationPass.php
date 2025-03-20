@@ -21,13 +21,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class DoctrineValidationPass implements CompilerPassInterface
 {
-    private string $managerType;
-
-    public function __construct(string $managerType)
-    {
-        $this->managerType = $managerType;
+    public function __construct(
+        private readonly string $managerType,
+    ) {
     }
 
+    /**
+     * @return void
+     */
     public function process(ContainerBuilder $container)
     {
         $this->updateValidatorMappingFiles($container, 'xml', 'xml');
@@ -38,7 +39,7 @@ class DoctrineValidationPass implements CompilerPassInterface
      * Gets the validation mapping files for the format and extends them with
      * files matching a doctrine search pattern (Resources/config/validation.orm.xml).
      */
-    private function updateValidatorMappingFiles(ContainerBuilder $container, string $mapping, string $extension)
+    private function updateValidatorMappingFiles(ContainerBuilder $container, string $mapping, string $extension): void
     {
         if (!$container->hasParameter('validator.mapping.loader.'.$mapping.'_files_loader.mapping_files')) {
             return;

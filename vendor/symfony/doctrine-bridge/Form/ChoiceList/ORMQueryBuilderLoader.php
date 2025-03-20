@@ -26,17 +26,9 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  */
 class ORMQueryBuilderLoader implements EntityLoaderInterface
 {
-    /**
-     * Contains the query builder that builds the query for fetching the
-     * entities.
-     *
-     * This property should only be accessed through queryBuilder.
-     */
-    private QueryBuilder $queryBuilder;
-
-    public function __construct(QueryBuilder $queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
+    public function __construct(
+        private readonly QueryBuilder $queryBuilder,
+    ) {
     }
 
     public function getEntities(): array
@@ -75,16 +67,12 @@ class ORMQueryBuilderLoader implements EntityLoaderInterface
 
             // Filter out non-integer values (e.g. ""). If we don't, some
             // databases such as PostgreSQL fail.
-            $values = array_values(array_filter($values, function ($v) {
-                return (string) $v === (string) (int) $v || ctype_digit($v);
-            }));
+            $values = array_values(array_filter($values, fn ($v) => (string) $v === (string) (int) $v || ctype_digit($v)));
         } elseif (\in_array($type, ['ulid', 'uuid', 'guid'])) {
             $parameterType = class_exists(ArrayParameterType::class) ? ArrayParameterType::STRING : Connection::PARAM_STR_ARRAY;
 
             // Like above, but we just filter out empty strings.
-            $values = array_values(array_filter($values, function ($v) {
-                return '' !== (string) $v;
-            }));
+            $values = array_values(array_filter($values, fn ($v) => '' !== (string) $v));
 
             // Convert values into right type
             if (Type::hasType($type)) {

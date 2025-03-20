@@ -21,6 +21,7 @@ use Symfony\Bundle\MakerBundle\Exception\RuntimeCommandException;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
 use Symfony\Bundle\MakerBundle\InputConfiguration;
+use Symfony\Bundle\MakerBundle\Maker\Common\UidTrait;
 use Symfony\Bundle\MakerBundle\Security\SecurityConfigUpdater;
 use Symfony\Bundle\MakerBundle\Security\UserClassBuilder;
 use Symfony\Bundle\MakerBundle\Security\UserClassConfiguration;
@@ -48,6 +49,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class MakeUser extends AbstractMaker
 {
+    use UidTrait;
+
     public function __construct(
         private FileManager $fileManager,
         private UserClassBuilder $userClassBuilder,
@@ -64,7 +67,7 @@ final class MakeUser extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new security user class';
+        return 'Create a new security user class';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
@@ -74,13 +77,18 @@ final class MakeUser extends AbstractMaker
             ->addOption('is-entity', null, InputOption::VALUE_NONE, 'Do you want to store user data in the database (via Doctrine)?')
             ->addOption('identity-property-name', null, InputOption::VALUE_REQUIRED, 'Enter a property name that will be the unique "display" name for the user (e.g. <comment>email, username, uuid</comment>)')
             ->addOption('with-password', null, InputOption::VALUE_NONE, 'Will this app be responsible for checking the password? Choose <comment>No</comment> if the password is actually checked by some other system (e.g. a single sign-on server)')
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeUser.txt'));
+            ->setHelp($this->getHelpFileContents('MakeUser.txt'))
+        ;
+
+        $this->addWithUuidOption($command);
 
         $inputConfig->setArgumentAsNonInteractive('name');
     }
 
     public function interact(InputInterface $input, ConsoleStyle $io, Command $command): void
     {
+        $this->checkIsUsingUid($input);
+
         if (null === $input->getArgument('name')) {
             $name = $io->ask(
                 $command->getDefinition()->getArgument('name')->getDescription(),
@@ -104,7 +112,7 @@ final class MakeUser extends AbstractMaker
         }
         $input->setOption('is-entity', $userIsEntity);
 
-        $identityFieldName = $io->ask('Enter a property name that will be the unique "display" name for the user (e.g. <comment>email, username, uuid</comment>)', 'email', [Validator::class, 'validatePropertyName']);
+        $identityFieldName = $io->ask('Enter a property name that will be the unique "display" name for the user (e.g. <comment>email, username, uuid</comment>)', 'email', Validator::validatePropertyName(...));
         $input->setOption('identity-property-name', $identityFieldName);
 
         $io->text('Will this app need to hash/check user passwords? Choose <comment>No</comment> if passwords are not needed or will be checked/hashed by some other system (e.g. a single sign-on server).');
@@ -128,9 +136,10 @@ final class MakeUser extends AbstractMaker
         // A) Generate the User class
         if ($userClassConfiguration->isEntity()) {
             $classPath = $this->entityClassGenerator->generateEntityClass(
-                $userClassNameDetails,
-                false, // api resource
-                $userClassConfiguration->hasPassword() // security user
+                entityClassDetails: $userClassNameDetails,
+                apiResource: false, // api resource
+                withPasswordUpgrade: $userClassConfiguration->hasPassword(), // security user
+                useUuidIdentifier: $this->getIdType()
             );
         } else {
             $classPath = $generator->generateClass($userClassNameDetails->getFullName(), 'Class.tpl.php');
@@ -202,16 +211,17 @@ final class MakeUser extends AbstractMaker
 
         $io->text('Next Steps:');
         $nextSteps = [
-            sprintf('Review your new <info>%s</info> class.', $userClassNameDetails->getFullName()),
+            \sprintf('Review your new <info>%s</info> class.', $userClassNameDetails->getFullName()),
         ];
         if ($userClassConfiguration->isEntity()) {
-            $nextSteps[] = sprintf(
+            $nextSteps[] = \sprintf(
                 'Use <comment>make:entity</comment> to add more fields to your <info>%s</info> entity and then run <comment>make:migration</comment>.',
                 $userClassNameDetails->getShortName()
             );
         } else {
-            $nextSteps[] = sprintf(
+            $nextSteps[] = \sprintf(
                 'Open <info>%s</info> to finish implementing your user provider.',
+                /* @phpstan-ignore-next-line - $customProviderPath is defined in this else statement */
                 $this->fileManager->relativizePath($customProviderPath)
             );
         }
@@ -227,11 +237,11 @@ final class MakeUser extends AbstractMaker
 
         $nextSteps[] = 'Create a way to authenticate! See https://symfony.com/doc/current/security.html';
 
-        $nextSteps = array_map(static fn ($step) => sprintf('  - %s', $step), $nextSteps);
+        $nextSteps = array_map(static fn ($step) => \sprintf('  - %s', $step), $nextSteps);
         $io->text($nextSteps);
     }
 
-    public function configureDependencies(DependencyBuilder $dependencies, InputInterface $input = null): void
+    public function configureDependencies(DependencyBuilder $dependencies, ?InputInterface $input = null): void
     {
         // checking for SecurityBundle guarantees security.yaml is present
         $dependencies->addClassDependency(

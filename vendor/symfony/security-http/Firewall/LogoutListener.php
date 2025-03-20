@@ -41,7 +41,7 @@ class LogoutListener extends AbstractListener
     /**
      * @param array $options An array of options to process a logout attempt
      */
-    public function __construct(TokenStorageInterface $tokenStorage, HttpUtils $httpUtils, EventDispatcherInterface $eventDispatcher, array $options = [], CsrfTokenManagerInterface $csrfTokenManager = null)
+    public function __construct(TokenStorageInterface $tokenStorage, HttpUtils $httpUtils, EventDispatcherInterface $eventDispatcher, array $options = [], ?CsrfTokenManagerInterface $csrfTokenManager = null)
     {
         $this->tokenStorage = $tokenStorage;
         $this->httpUtils = $httpUtils;
@@ -66,9 +66,9 @@ class LogoutListener extends AbstractListener
      * validate the request.
      *
      * @throws LogoutException   if the CSRF token is invalid
-     * @throws \RuntimeException if the LogoutSuccessHandlerInterface instance does not return a response
+     * @throws \RuntimeException if the LogoutEvent listener does not set a response
      */
-    public function authenticate(RequestEvent $event)
+    public function authenticate(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

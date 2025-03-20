@@ -11,9 +11,7 @@
 
 namespace Symfony\Bundle\MakerBundle\Maker;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase as LegacyApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
@@ -58,6 +56,8 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
 
     /**
      * @deprecated remove this method when removing make:unit-test and make:functional-test
+     *
+     * @return string[]
      */
     public static function getCommandAliases(): iterable
     {
@@ -67,7 +67,7 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new test class';
+        return 'Create a new test class';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
@@ -75,14 +75,15 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
         $typesDesc = [];
         $typesHelp = [];
         foreach (self::DESCRIPTIONS as $type => $desc) {
-            $typesDesc[] = sprintf('<fg=yellow>%s</> (%s)', $type, $desc);
-            $typesHelp[] = sprintf('* <info>%s</info>: %s', $type, $desc);
+            $typesDesc[] = \sprintf('<fg=yellow>%s</> (%s)', $type, $desc);
+            $typesHelp[] = \sprintf('* <info>%s</info>: %s', $type, $desc);
         }
 
         $command
             ->addArgument('type', InputArgument::OPTIONAL, 'The type of test: '.implode(', ', $typesDesc))
             ->addArgument('name', InputArgument::OPTIONAL, 'The name of the test class (e.g. <fg=yellow>BlogPostTest</>)')
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeTest.txt').implode("\n", $typesHelp));
+            ->setHelp($this->getHelpFileContents('MakeTest.txt').implode("\n", $typesHelp))
+        ;
 
         $inputConfig->setArgumentAsNonInteractive('name');
         $inputConfig->setArgumentAsNonInteractive('type');
@@ -95,7 +96,7 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
 
         if (null !== $type = $input->getArgument('type')) {
             if (!isset(self::DESCRIPTIONS[$type])) {
-                throw new RuntimeCommandException(sprintf('The test type must be one of "%s", "%s" given.', implode('", "', array_keys(self::DESCRIPTIONS)), $type));
+                throw new RuntimeCommandException(\sprintf('The test type must be one of "%s", "%s" given.', implode('", "', array_keys(self::DESCRIPTIONS)), $type));
             }
         } else {
             $input->setArgument(
@@ -104,7 +105,7 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
             );
         }
 
-        if ('ApiTestCase' === $input->getArgument('type') && !class_exists(ApiTestCase::class) && !class_exists(LegacyApiTestCase::class)) {
+        if ('ApiTestCase' === $input->getArgument('type') && !class_exists(ApiTestCase::class)) {
             $io->warning([
                 'API Platform is required for this test type. Install it with',
                 'composer require api',
@@ -128,7 +129,7 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
             ]);
 
             $nameArgument = $command->getDefinition()->getArgument('name');
-            $value = $io->ask($nameArgument->getDescription(), $nameArgument->getDefault(), [Validator::class, 'notBlank']);
+            $value = $io->ask($nameArgument->getDescription(), $nameArgument->getDefault(), Validator::notBlank(...));
             $input->setArgument($nameArgument->getName(), $value);
         }
     }
@@ -148,7 +149,6 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
             "test/$type.tpl.php",
             [
                 'web_assertions_are_available' => trait_exists(WebTestAssertionsTrait::class),
-                'use_legacy_container_property' => $this->useLegacyContainerProperty(),
                 'api_test_case_fqcn' => !class_exists(ApiTestCase::class) ? LegacyApiTestCase::class : ApiTestCase::class,
             ]
         );
@@ -159,11 +159,11 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
 
         $io->text([
             'Next: Open your new test class and start customizing it.',
-            sprintf('Find the documentation at <fg=yellow>%s</>', self::DOCS[$type]),
+            \sprintf('Find the documentation at <fg=yellow>%s</>', self::DOCS[$type]),
         ]);
     }
 
-    public function configureDependencies(DependencyBuilder $dependencies, InputInterface $input = null): void
+    public function configureDependencies(DependencyBuilder $dependencies, ?InputInterface $input = null): void
     {
         if (null === $input) {
             return;
@@ -225,11 +225,5 @@ final class MakeTest extends AbstractMaker implements InputAwareMakerInterface
                 $io->warning('The "make:functional-test" command is deprecated, use "make:test" instead.');
                 break;
         }
-    }
-
-    private function useLegacyContainerProperty(): bool
-    {
-        // for 5.2 and lower
-        return !method_exists(KernelTestCase::class, 'getContainer');
     }
 }

@@ -11,8 +11,10 @@
 
 namespace Symfony\Component\Serializer\Encoder;
 
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Exception\RuntimeException;
 use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 
@@ -42,18 +44,18 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
     public const YAML_INDENT = 'yaml_indent';
     public const YAML_FLAGS = 'yaml_flags';
 
-    private $dumper;
-    private $parser;
-    private $defaultContext = [
+    private readonly Dumper $dumper;
+    private readonly Parser $parser;
+    private array $defaultContext = [
         self::YAML_INLINE => 0,
         self::YAML_INDENT => 0,
         self::YAML_FLAGS => 0,
     ];
 
-    public function __construct(Dumper $dumper = null, Parser $parser = null, array $defaultContext = [])
+    public function __construct(?Dumper $dumper = null, ?Parser $parser = null, array $defaultContext = [])
     {
         if (!class_exists(Dumper::class)) {
-            throw new RuntimeException('The YamlEncoder class requires the "Yaml" component. Install "symfony/yaml" to use it.');
+            throw new RuntimeException('The YamlEncoder class requires the "Yaml" component. Try running "composer require symfony/yaml".');
         }
 
         if (!$dumper) {
@@ -85,7 +87,11 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
     {
         $context = array_merge($this->defaultContext, $context);
 
-        return $this->parser->parse($data, $context[self::YAML_FLAGS]);
+        try {
+            return $this->parser->parse($data, $context[self::YAML_FLAGS]);
+        } catch (ParseException $e) {
+            throw new NotEncodableValueException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function supportsDecoding(string $format): bool

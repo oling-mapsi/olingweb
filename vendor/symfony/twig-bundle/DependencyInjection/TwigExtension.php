@@ -11,6 +11,7 @@
 
 namespace Symfony\Bundle\TwigBundle\DependencyInjection;
 
+use Symfony\Component\AssetMapper\AssetMapper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileExistenceResource;
 use Symfony\Component\Console\Application;
@@ -21,8 +22,10 @@ use Symfony\Component\Form\AbstractRendererEngine;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Service\ResetInterface;
+use Twig\Environment;
 use Twig\Extension\ExtensionInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 use Twig\Loader\LoaderInterface;
@@ -35,10 +38,17 @@ use Twig\Loader\LoaderInterface;
  */
 class TwigExtension extends Extension
 {
+    /**
+     * @return void
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('twig.php');
+
+        if (method_exists(Environment::class, 'resetGlobals')) {
+            $container->getDefinition('twig')->addTag('kernel.reset', ['method' => 'resetGlobals']);
+        }
 
         if ($container::willBeAvailable('symfony/form', Form::class, ['symfony/twig-bundle'])) {
             $loader->load('form.php');
@@ -81,6 +91,14 @@ class TwigExtension extends Extension
             if ($htmlToTextConverter = $config['mailer']['html_to_text_converter'] ?? null) {
                 $container->getDefinition('twig.mime_body_renderer')->setArgument('$converter', new Reference($htmlToTextConverter));
             }
+
+            if (ContainerBuilder::willBeAvailable('symfony/translation', LocaleSwitcher::class, ['symfony/framework-bundle'])) {
+                $container->getDefinition('twig.mime_body_renderer')->setArgument('$localeSwitcher', new Reference('translation.locale_switcher', ContainerBuilder::IGNORE_ON_INVALID_REFERENCE));
+            }
+        }
+
+        if ($container::willBeAvailable('symfony/asset-mapper', AssetMapper::class, ['symfony/twig-bundle'])) {
+            $loader->load('importmap.php');
         }
 
         $container->setParameter('twig.form.resources', $config['form_themes']);
@@ -143,8 +161,8 @@ class TwigExtension extends Extension
             }
         }
 
-        if (isset($config['autoescape_service']) && isset($config['autoescape_service_method'])) {
-            $config['autoescape'] = [new Reference($config['autoescape_service']), $config['autoescape_service_method']];
+        if (isset($config['autoescape_service'])) {
+            $config['autoescape'] = [new Reference($config['autoescape_service']), $config['autoescape_service_method'] ?? '__invoke'];
         }
 
         $container->getDefinition('twig')->replaceArgument(1, array_intersect_key($config, [

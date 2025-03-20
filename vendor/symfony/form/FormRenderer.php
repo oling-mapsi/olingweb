@@ -31,7 +31,7 @@ class FormRenderer implements FormRendererInterface
     private array $hierarchyLevelMap = [];
     private array $variableStack = [];
 
-    public function __construct(FormRendererEngineInterface $engine, CsrfTokenManagerInterface $csrfTokenManager = null)
+    public function __construct(FormRendererEngineInterface $engine, ?CsrfTokenManagerInterface $csrfTokenManager = null)
     {
         $this->engine = $engine;
         $this->csrfTokenManager = $csrfTokenManager;
@@ -42,6 +42,9 @@ class FormRenderer implements FormRendererInterface
         return $this->engine;
     }
 
+    /**
+     * @return void
+     */
     public function setTheme(FormView $view, mixed $themes, bool $useDefaultThemes = true)
     {
         $this->engine->setTheme($view, $themes, $useDefaultThemes);

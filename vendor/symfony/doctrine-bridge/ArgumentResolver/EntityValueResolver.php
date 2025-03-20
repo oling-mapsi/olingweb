@@ -104,6 +104,9 @@ final class EntityValueResolver implements ValueResolverInterface
         if (false === $id || null === $id) {
             return $id;
         }
+        if (\is_array($id) && \in_array(null, $id, true)) {
+            return null;
+        }
 
         if ($options->evictCache && $manager instanceof EntityManagerInterface) {
             $cacheProvider = $manager->getCache();
@@ -199,7 +202,10 @@ final class EntityValueResolver implements ValueResolverInterface
         }
 
         $repository = $manager->getRepository($options->class);
-        $variables = array_merge($request->attributes->all(), ['repository' => $repository]);
+        $variables = array_merge($request->attributes->all(), [
+            'repository' => $repository,
+            'request' => $request,
+        ]);
 
         try {
             return $this->expressionLanguage->evaluate($options->expr, $variables);

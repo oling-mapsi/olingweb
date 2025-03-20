@@ -38,7 +38,7 @@ class CheckRememberMeConditionsListener implements EventSubscriberInterface
     private array $options;
     private ?LoggerInterface $logger;
 
-    public function __construct(array $options = [], LoggerInterface $logger = null)
+    public function __construct(array $options = [], ?LoggerInterface $logger = null)
     {
         $this->options = $options + ['always_remember_me' => false, 'remember_me_parameter' => '_remember_me'];
         $this->logger = $logger;
@@ -54,8 +54,8 @@ class CheckRememberMeConditionsListener implements EventSubscriberInterface
         /** @var RememberMeBadge $badge */
         $badge = $passport->getBadge(RememberMeBadge::class);
         if (!$this->options['always_remember_me']) {
-            $parameter = ParameterBagUtils::getRequestParameterValue($event->getRequest(), $this->options['remember_me_parameter']);
-            if (!('true' === $parameter || 'on' === $parameter || '1' === $parameter || 'yes' === $parameter || true === $parameter)) {
+            $parameter = ParameterBagUtils::getRequestParameterValue($event->getRequest(), $this->options['remember_me_parameter'], $badge->parameters);
+            if (!filter_var($parameter, \FILTER_VALIDATE_BOOL)) {
                 $this->logger?->debug('Remember me disabled; request does not contain remember me parameter ("{parameter}").', ['parameter' => $this->options['remember_me_parameter']]);
 
                 return;

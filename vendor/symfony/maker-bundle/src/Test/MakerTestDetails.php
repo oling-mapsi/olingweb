@@ -24,7 +24,17 @@ final class MakerTestDetails
     private array $requiredPackageVersions = [];
     private int $blockedPhpVersionUpper = 0;
     private int $blockedPhpVersionLower = 0;
-    private bool $skipOnWindows = false;
+    private bool $skipOnSymfony7 = false;
+
+    /**
+     * @internal
+     */
+    private bool $skipTest = false;
+
+    /**
+     * @internal
+     */
+    private string $skipTestMessage = '';
 
     public function __construct(
         private MakerInterface $maker,
@@ -62,7 +72,7 @@ final class MakerTestDetails
 
     public function addExtraDependencies(string ...$packages): self
     {
-        $this->extraDependencies += $packages;
+        $this->extraDependencies = [...$this->extraDependencies, ...$packages];
 
         return $this;
     }
@@ -115,11 +125,11 @@ final class MakerTestDetails
     {
         $depBuilder = $this->getDependencyBuilder();
 
-        return array_merge(
-            $depBuilder->getAllRequiredDependencies(),
-            $depBuilder->getAllRequiredDevDependencies(),
-            $this->extraDependencies
-        );
+        return [
+            ...$depBuilder->getAllRequiredDependencies(),
+            ...$depBuilder->getAllRequiredDevDependencies(),
+            ...$this->extraDependencies,
+        ];
     }
 
     public function getExtraDependencies(): array
@@ -177,10 +187,64 @@ final class MakerTestDetails
         return $this->preRunCallbacks;
     }
 
-    public function skipOnWindows(): self
+    public function skipOnSymfony7(): self
     {
-        $this->skipOnWindows = true;
+        @trigger_deprecation(
+            'symfony/maker-bundle',
+            'v1.53.0',
+            \sprintf('%s() will be removed in a future version, use MakerTestDetails::skipTest() instead.', __METHOD__)
+        );
+
+        $this->skipOnSymfony7 = true;
 
         return $this;
+    }
+
+    public function getSkipOnSymfony7(): bool
+    {
+        @trigger_deprecation(
+            'symfony/maker-bundle',
+            'v1.53.0',
+            \sprintf('%s() will be removed in a future version, use MakerTestDetails::isTestSkipped() instead.', __METHOD__)
+        );
+
+        return $this->skipOnSymfony7;
+    }
+
+    /**
+     * Skip an application test by calling this method and providing an optional
+     * message.
+     *
+     * This method should not be removed even if it is not being used, it may be
+     * needed in the future.
+     *
+     * @internal
+     */
+    public function skipTest(string $message = '', bool $skipped = true): self
+    {
+        $this->skipTestMessage = $message;
+        $this->skipTest = $skipped;
+
+        return $this;
+    }
+
+    /**
+     * MakerTestCase uses this to determine if a test should be skipped.
+     *
+     * @internal
+     */
+    public function isTestSkipped(): bool
+    {
+        return $this->skipTest;
+    }
+
+    /**
+     * MakerTestCase uses this to get the skipped test message.
+     *
+     * @internal
+     */
+    public function getSkippedTestMessage(): string
+    {
+        return $this->skipTestMessage;
     }
 }

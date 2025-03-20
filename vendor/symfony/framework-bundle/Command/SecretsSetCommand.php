@@ -36,7 +36,7 @@ final class SecretsSetCommand extends Command
     private AbstractVault $vault;
     private ?AbstractVault $localVault;
 
-    public function __construct(AbstractVault $vault, AbstractVault $localVault = null)
+    public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
         $this->vault = $vault;
         $this->localVault = $localVault;
@@ -44,7 +44,7 @@ final class SecretsSetCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the secret')

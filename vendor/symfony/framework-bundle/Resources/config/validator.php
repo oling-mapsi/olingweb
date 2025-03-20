@@ -15,7 +15,9 @@ use Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\Constraints\EmailValidator;
+use Symfony\Component\Validator\Constraints\ExpressionLanguageProvider;
 use Symfony\Component\Validator\Constraints\ExpressionValidator;
+use Symfony\Component\Validator\Constraints\NoSuspiciousCharactersValidator;
 use Symfony\Component\Validator\Constraints\NotCompromisedPasswordValidator;
 use Symfony\Component\Validator\Constraints\WhenValidator;
 use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
@@ -39,6 +41,9 @@ return static function (ContainerConfigurator $container) {
             ->factory([Validation::class, 'createValidatorBuilder'])
             ->call('setConstraintValidatorFactory', [
                 service('validator.validator_factory'),
+            ])
+            ->call('setGroupProviderLocator', [
+                tagged_locator('validator.group_provider'),
             ])
             ->call('setTranslator', [
                 service('translator')->ignoreOnInvalid(),
@@ -81,10 +86,15 @@ return static function (ContainerConfigurator $container) {
 
         ->set('validator.expression_language', ExpressionLanguage::class)
             ->args([service('cache.validator_expression_language')->nullOnInvalid()])
+            ->call('registerProvider', [
+                service('validator.expression_language_provider')->ignoreOnInvalid(),
+            ])
 
         ->set('cache.validator_expression_language')
             ->parent('cache.system')
             ->tag('cache.pool')
+
+        ->set('validator.expression_language_provider', ExpressionLanguageProvider::class)
 
         ->set('validator.email', EmailValidator::class)
             ->args([
@@ -103,6 +113,12 @@ return static function (ContainerConfigurator $container) {
         ->set('validator.when', WhenValidator::class)
             ->args([service('validator.expression_language')->nullOnInvalid()])
             ->tag('validator.constraint_validator')
+
+        ->set('validator.no_suspicious_characters', NoSuspiciousCharactersValidator::class)
+            ->args([param('kernel.enabled_locales')])
+            ->tag('validator.constraint_validator', [
+                'alias' => NoSuspiciousCharactersValidator::class,
+            ])
 
         ->set('validator.property_info_loader', PropertyInfoLoader::class)
             ->args([

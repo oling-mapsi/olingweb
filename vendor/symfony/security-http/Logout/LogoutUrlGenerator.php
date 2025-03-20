@@ -31,7 +31,7 @@ class LogoutUrlGenerator
     private ?string $currentFirewallName = null;
     private ?string $currentFirewallContext = null;
 
-    public function __construct(RequestStack $requestStack = null, UrlGeneratorInterface $router = null, TokenStorageInterface $tokenStorage = null)
+    public function __construct(?RequestStack $requestStack = null, ?UrlGeneratorInterface $router = null, ?TokenStorageInterface $tokenStorage = null)
     {
         $this->requestStack = $requestStack;
         $this->router = $router;
@@ -46,8 +46,10 @@ class LogoutUrlGenerator
      * @param string|null $csrfTokenId   The ID of the CSRF token
      * @param string|null $csrfParameter The CSRF token parameter name
      * @param string|null $context       The listener context
+     *
+     * @return void
      */
-    public function registerListener(string $key, string $logoutPath, ?string $csrfTokenId, ?string $csrfParameter, CsrfTokenManagerInterface $csrfTokenManager = null, string $context = null)
+    public function registerListener(string $key, string $logoutPath, ?string $csrfTokenId, ?string $csrfParameter, ?CsrfTokenManagerInterface $csrfTokenManager = null, ?string $context = null)
     {
         $this->listeners[$key] = [$logoutPath, $csrfTokenId, $csrfParameter, $csrfTokenManager, $context];
     }
@@ -55,7 +57,7 @@ class LogoutUrlGenerator
     /**
      * Generates the absolute logout path for the firewall.
      */
-    public function getLogoutPath(string $key = null): string
+    public function getLogoutPath(?string $key = null): string
     {
         return $this->generateLogoutUrl($key, UrlGeneratorInterface::ABSOLUTE_PATH);
     }
@@ -63,12 +65,15 @@ class LogoutUrlGenerator
     /**
      * Generates the absolute logout URL for the firewall.
      */
-    public function getLogoutUrl(string $key = null): string
+    public function getLogoutUrl(?string $key = null): string
     {
         return $this->generateLogoutUrl($key, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
-    public function setCurrentFirewall(?string $key, string $context = null)
+    /**
+     * @return void
+     */
+    public function setCurrentFirewall(?string $key, ?string $context = null)
     {
         $this->currentFirewallName = $key;
         $this->currentFirewallContext = $context;

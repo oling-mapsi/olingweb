@@ -39,7 +39,7 @@ use Symfony\Component\Translation\Writer\TranslationWriterInterface;
  *
  * @final
  */
-#[AsCommand(name: 'translation:extract', description: 'Extract missing translations keys from code to translation files.')]
+#[AsCommand(name: 'translation:extract', description: 'Extract missing translations keys from code to translation files')]
 class TranslationUpdateCommand extends Command
 {
     private const ASC = 'asc';
@@ -60,9 +60,13 @@ class TranslationUpdateCommand extends Command
     private array $codePaths;
     private array $enabledLocales;
 
-    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, string $defaultTransPath = null, string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
+    public function __construct(TranslationWriterInterface $writer, TranslationReaderInterface $reader, ExtractorInterface $extractor, string $defaultLocale, ?string $defaultTransPath = null, ?string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
     {
         parent::__construct();
+
+        if (!method_exists($writer, 'getFormats')) {
+            throw new \InvalidArgumentException(sprintf('The writer class "%s" does not implement the "getFormats()" method.', $writer::class));
+        }
 
         $this->writer = $writer;
         $this->reader = $reader;
@@ -75,7 +79,7 @@ class TranslationUpdateCommand extends Command
         $this->enabledLocales = $enabledLocales;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDefinition([
@@ -125,13 +129,6 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $errorIo = $output instanceof ConsoleOutputInterface ? new SymfonyStyle($input, $output->getErrorOutput()) : $io;
-
-        if ('translation:update' === $input->getFirstArgument()) {
-            $errorIo->caution('Command "translation:update" is deprecated since version 5.4 and will be removed in Symfony 6.0. Use "translation:extract" instead.');
-        }
-
-        $io = new SymfonyStyle($input, $output);
         $errorIo = $io->getErrorStyle();
 
         // check presence of force or dump-message
@@ -144,7 +141,7 @@ EOF
         $format = $input->getOption('format');
         $xliffVersion = '1.2';
 
-        if (\in_array($format, array_keys(self::FORMATS), true)) {
+        if (\array_key_exists($format, self::FORMATS)) {
             [$format, $xliffVersion] = self::FORMATS[$format];
         }
 
@@ -232,12 +229,8 @@ EOF
 
                 $list = array_merge(
                     array_diff($allKeys, $newKeys),
-                    array_map(function ($id) {
-                        return sprintf('<fg=green>%s</>', $id);
-                    }, $newKeys),
-                    array_map(function ($id) {
-                        return sprintf('<fg=red>%s</>', $id);
-                    }, array_keys($operation->getObsoleteMessages($domain)))
+                    array_map(fn ($id) => sprintf('<fg=green>%s</>', $id), $newKeys),
+                    array_map(fn ($id) => sprintf('<fg=red>%s</>', $id), array_keys($operation->getObsoleteMessages($domain)))
                 );
 
                 $domainMessagesCount = \count($list);

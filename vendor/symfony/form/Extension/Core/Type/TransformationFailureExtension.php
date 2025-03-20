@@ -23,11 +23,14 @@ class TransformationFailureExtension extends AbstractTypeExtension
 {
     private ?TranslatorInterface $translator;
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(?TranslatorInterface $translator = null)
     {
         $this->translator = $translator;
     }
 
+    /**
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!isset($options['constraints'])) {

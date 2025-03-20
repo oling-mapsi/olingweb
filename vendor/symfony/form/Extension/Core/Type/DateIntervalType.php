@@ -43,6 +43,9 @@ class DateIntervalType extends AbstractType
         'choice' => ChoiceType::class,
     ];
 
+    /**
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['with_years'] && !$options['with_months'] && !$options['with_weeks'] && !$options['with_days'] && !$options['with_hours'] && !$options['with_minutes'] && !$options['with_seconds']) {
@@ -145,6 +148,9 @@ class DateIntervalType extends AbstractType
         }
     }
 
+    /**
+     * @return void
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $vars = [
@@ -157,20 +163,17 @@ class DateIntervalType extends AbstractType
         $view->vars = array_replace($view->vars, $vars);
     }
 
+    /**
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $compound = function (Options $options) {
-            return 'single_text' !== $options['widget'];
-        };
-        $emptyData = function (Options $options) {
-            return 'single_text' === $options['widget'] ? '' : [];
-        };
+        $compound = static fn (Options $options) => 'single_text' !== $options['widget'];
+        $emptyData = static fn (Options $options) => 'single_text' === $options['widget'] ? '' : [];
 
-        $placeholderDefault = function (Options $options) {
-            return $options['required'] ? null : '';
-        };
+        $placeholderDefault = static fn (Options $options) => $options['required'] ? null : '';
 
-        $placeholderNormalizer = function (Options $options, $placeholder) use ($placeholderDefault) {
+        $placeholderNormalizer = static function (Options $options, $placeholder) use ($placeholderDefault) {
             if (\is_array($placeholder)) {
                 $default = $placeholderDefault($options);
 
@@ -180,20 +183,16 @@ class DateIntervalType extends AbstractType
             return array_fill_keys(self::TIME_PARTS, $placeholder);
         };
 
-        $labelsNormalizer = function (Options $options, array $labels) {
-            return array_replace([
-                'years' => null,
-                'months' => null,
-                'days' => null,
-                'weeks' => null,
-                'hours' => null,
-                'minutes' => null,
-                'seconds' => null,
-                'invert' => 'Negative interval',
-            ], array_filter($labels, function ($label) {
-                return null !== $label;
-            }));
-        };
+        $labelsNormalizer = static fn (Options $options, array $labels) => array_replace([
+            'years' => null,
+            'months' => null,
+            'days' => null,
+            'weeks' => null,
+            'hours' => null,
+            'minutes' => null,
+            'seconds' => null,
+            'invert' => 'Negative interval',
+        ], array_filter($labels, static fn ($label) => null !== $label));
 
         $resolver->setDefaults([
             'with_years' => true,

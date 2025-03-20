@@ -62,7 +62,7 @@ class AccessListener extends AbstractListener
      *
      * @throws AccessDeniedException
      */
-    public function authenticate(RequestEvent $event)
+    public function authenticate(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -82,7 +82,7 @@ class AccessListener extends AbstractListener
         }
     }
 
-    private function createAccessDeniedException(Request $request, array $attributes)
+    private function createAccessDeniedException(Request $request, array $attributes): AccessDeniedException
     {
         $exception = new AccessDeniedException();
         $exception->setAttributes($attributes);

@@ -35,7 +35,16 @@ class MakerTestRunner
     {
         $this->executedMakerProcess = $this->environment->runMaker($inputs, $argumentsString, $allowedToFail, $envVars);
 
-        return $this->executedMakerProcess->getOutput();
+        $output = $this->executedMakerProcess->getOutput();
+
+        // Allows for debugging the actual CLI output from within a test process. E.g. Manually viewing the output of the
+        // `make:voter` command that was run within the MakeVoterTest from your local command line.
+        // You should never use this in CI unless you know what you're doing - resource intensive.
+        if ('true' === getenv('MAKER_TEST_DUMP_OUTPUT')) {
+            dump(['Maker Process Output' => $output, 'Maker Process Error Output' => $this->executedMakerProcess->getErrorOutput()]);
+        }
+
+        return $output;
     }
 
     /**
@@ -46,7 +55,7 @@ class MakerTestRunner
         $path = __DIR__.'/../../tests/fixtures/'.$source;
 
         if (!file_exists($path)) {
-            throw new \Exception(sprintf('Cannot find file "%s"', $path));
+            throw new \Exception(\sprintf('Cannot find file "%s"', $path));
         }
 
         if (is_file($path)) {
@@ -157,7 +166,7 @@ class MakerTestRunner
     {
         $this->replaceInFile(
             '.env',
-            'postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=15&charset=utf8',
+            'postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8',
             getenv('TEST_DATABASE_DSN')
         );
 
@@ -171,23 +180,20 @@ class MakerTestRunner
             return $config;
         });
 
-        // @legacy DoctrineBundle 2.4 recipe uses when@test instead of a test/doctrine.yaml config
-        if ($this->filesystem->exists('config/packages/test/doctrine.yaml')) {
-            $this->removeFromFile(
-                'config/packages/test/doctrine.yaml',
-                "dbname_suffix: '_test%env(default::TEST_TOKEN)%'"
-            );
-        }
-
         // this looks silly, but it's the only way to drop the database *for sure*,
         // as doctrine:database:drop will error if there is no database
-        // also, skip for SQLITE, as it does not support --if-not-exists
-        if (!str_starts_with(getenv('TEST_DATABASE_DSN'), 'sqlite://')) {
+        if (!$usingSqlite = str_starts_with(getenv('TEST_DATABASE_DSN'), 'sqlite')) {
+            // --if-not-exists not supported on SQLite
             $this->runConsole('doctrine:database:create', [], '--env=test --if-not-exists');
         }
+
         $this->runConsole('doctrine:database:drop', [], '--env=test --force');
 
-        $this->runConsole('doctrine:database:create', [], '--env=test');
+        if (!$usingSqlite) {
+            // d:d:create not supported on SQLite
+            $this->runConsole('doctrine:database:create', [], '--env=test');
+        }
+
         if ($createSchema) {
             $this->runConsole('doctrine:schema:create', [], '--env=test');
         }
@@ -201,7 +207,7 @@ class MakerTestRunner
     public function runTests(): void
     {
         $internalTestProcess = MakerTestProcess::create(
-            sprintf('php %s', $this->getPath('/bin/phpunit')),
+            \sprintf('php %s', $this->getPath('bin/phpunit')),
             $this->environment->getPath())
             ->run(true)
         ;
@@ -210,7 +216,7 @@ class MakerTestRunner
             return;
         }
 
-        throw new ExpectationFailedException(sprintf("Error while running the PHPUnit tests *in* the project: \n\n %s \n\n Command Output: %s", $internalTestProcess->getErrorOutput()."\n".$internalTestProcess->getOutput(), $this->getExecutedMakerProcess()->getErrorOutput()."\n".$this->getExecutedMakerProcess()->getOutput()));
+        throw new ExpectationFailedException(\sprintf("Error while running the PHPUnit tests *in* the project: \n\n %s \n\n Command Output: %s", $internalTestProcess->getErrorOutput()."\n".$internalTestProcess->getOutput(), $this->getExecutedMakerProcess()->getErrorOutput()."\n".$this->getExecutedMakerProcess()->getOutput()));
     }
 
     public function writeFile(string $filename, string $contents): void

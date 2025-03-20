@@ -61,7 +61,7 @@ class ElasticsearchLogstashHandler extends AbstractHandler
      */
     private \SplObjectStorage $responses;
 
-    public function __construct(string $endpoint = 'http://127.0.0.1:9200', string $index = 'monolog', HttpClientInterface $client = null, string|int|Level $level = Logger::DEBUG, bool $bubble = true, string $elasticsearchVersion = '1.0.0')
+    public function __construct(string $endpoint = 'http://127.0.0.1:9200', string $index = 'monolog', ?HttpClientInterface $client = null, string|int|Level $level = Logger::DEBUG, bool $bubble = true, string $elasticsearchVersion = '1.0.0')
     {
         if (!interface_exists(HttpClientInterface::class)) {
             throw new \LogicException(sprintf('The "%s" handler needs an HTTP client. Try running "composer require symfony/http-client".', __CLASS__));
@@ -106,7 +106,7 @@ class ElasticsearchLogstashHandler extends AbstractHandler
         return new LogstashFormatter('application');
     }
 
-    private function sendToElasticsearch(array $records)
+    private function sendToElasticsearch(array $records): void
     {
         $formatter = $this->getFormatter();
 
@@ -154,6 +154,9 @@ class ElasticsearchLogstashHandler extends AbstractHandler
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -164,7 +167,7 @@ class ElasticsearchLogstashHandler extends AbstractHandler
         $this->wait(true);
     }
 
-    private function wait(bool $blocking)
+    private function wait(bool $blocking): void
     {
         foreach ($this->client->stream($this->responses, $blocking ? null : 0.0) as $response => $chunk) {
             try {

@@ -26,6 +26,9 @@ class Ssi extends AbstractSurrogate
         return 'ssi';
     }
 
+    /**
+     * @return void
+     */
     public function addSurrogateControl(Response $response)
     {
         if (str_contains($response->getContent(), '<!--#include')) {
@@ -33,7 +36,7 @@ class Ssi extends AbstractSurrogate
         }
     }
 
-    public function renderIncludeTag(string $uri, string $alt = null, bool $ignoreErrors = true, string $comment = ''): string
+    public function renderIncludeTag(string $uri, ?string $alt = null, bool $ignoreErrors = true, string $comment = ''): string
     {
         return sprintf('<!--#include virtual="%s" -->', $uri);
     }

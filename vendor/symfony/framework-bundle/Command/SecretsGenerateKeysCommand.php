@@ -33,7 +33,7 @@ final class SecretsGenerateKeysCommand extends Command
     private AbstractVault $vault;
     private ?AbstractVault $localVault;
 
-    public function __construct(AbstractVault $vault, AbstractVault $localVault = null)
+    public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
         $this->vault = $vault;
         $this->localVault = $localVault;
@@ -41,7 +41,7 @@ final class SecretsGenerateKeysCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('local', 'l', InputOption::VALUE_NONE, 'Update the local vault.')

@@ -40,8 +40,8 @@ class GithubApi
             return null;
         }
 
-        $recipePath = sprintf('%s/%s', $package, $version);
-        $commitsData = $this->requestGitHubApi(sprintf(
+        $recipePath = \sprintf('%s/%s', $package, $version);
+        $commitsData = $this->requestGitHubApi(\sprintf(
             'https://api.github.com/repos/%s/commits?path=%s&sha=%s',
             $repositoryName,
             $recipePath,
@@ -85,7 +85,7 @@ class GithubApi
             return null;
         }
 
-        $url = sprintf(
+        $url = \sprintf(
             'https://api.github.com/repos/%s/contents/%s?ref=%s',
             $repositoryName,
             $recipePath,
@@ -111,7 +111,7 @@ class GithubApi
             return [];
         }
 
-        $commitsData = $this->requestGitHubApi(sprintf(
+        $commitsData = $this->requestGitHubApi(\sprintf(
             'https://api.github.com/repos/%s/commits?path=%s&sha=%s',
             $repositoryName,
             $path,
@@ -128,7 +128,7 @@ class GithubApi
 
     public function getPullRequestForCommit(string $commit, string $repo): ?array
     {
-        $data = $this->requestGitHubApi('https://api.github.com/search/issues?q='.$commit);
+        $data = $this->requestGitHubApi('https://api.github.com/search/issues?q='.$commit.'+is:pull-request');
 
         if (0 === \count($data['items'])) {
             return null;
@@ -142,7 +142,7 @@ class GithubApi
         $bestItem = null;
         foreach ($data['items'] as $item) {
             // make sure the PR referenced isn't from a different repository
-            if (false === strpos($item['html_url'], sprintf('%s/pull', $repositoryName))) {
+            if (false === strpos($item['html_url'], \sprintf('%s/pull', $repositoryName))) {
                 continue;
             }
 

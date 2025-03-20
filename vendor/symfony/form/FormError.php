@@ -45,7 +45,7 @@ class FormError
      *
      * @see \Symfony\Component\Translation\Translator
      */
-    public function __construct(string $message, string $messageTemplate = null, array $messageParameters = [], int $messagePluralization = null, mixed $cause = null)
+    public function __construct(string $message, ?string $messageTemplate = null, array $messageParameters = [], ?int $messagePluralization = null, mixed $cause = null)
     {
         $this->message = $message;
         $this->messageTemplate = $messageTemplate ?: $message;
@@ -98,6 +98,8 @@ class FormError
      * Sets the form that caused this error.
      *
      * This method must only be called once.
+     *
+     * @return void
      *
      * @throws BadMethodCallException If the method is called more than once
      */

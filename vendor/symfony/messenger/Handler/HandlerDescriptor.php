@@ -32,7 +32,7 @@ final class HandlerDescriptor
 
         $r = new \ReflectionFunction($handler);
 
-        if (str_contains($r->name, '{closure}')) {
+        if (str_contains($r->name, '{closure')) {
             $this->name = 'Closure';
         } elseif (!$handler = $r->getClosureThis()) {
             $class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass();
@@ -69,8 +69,13 @@ final class HandlerDescriptor
         return $this->batchHandler;
     }
 
-    public function getOption(string $option)
+    public function getOption(string $option): mixed
     {
         return $this->options[$option] ?? null;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

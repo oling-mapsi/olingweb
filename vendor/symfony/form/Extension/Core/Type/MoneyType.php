@@ -24,6 +24,9 @@ class MoneyType extends AbstractType
 {
     protected static $patterns = [];
 
+    /**
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Values used in HTML5 number inputs should be formatted as in "1234.5", ie. 'en' format without grouping,
@@ -39,6 +42,9 @@ class MoneyType extends AbstractType
         ;
     }
 
+    /**
+     * @return void
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['money_pattern'] = self::getPattern($options['currency']);
@@ -48,6 +54,9 @@ class MoneyType extends AbstractType
         }
     }
 
+    /**
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -75,7 +84,7 @@ class MoneyType extends AbstractType
 
         $resolver->setAllowedTypes('html5', 'bool');
 
-        $resolver->setNormalizer('grouping', function (Options $options, $value) {
+        $resolver->setNormalizer('grouping', static function (Options $options, $value) {
             if ($value && $options['html5']) {
                 throw new LogicException('Cannot use the "grouping" option when the "html5" option is enabled.');
             }
@@ -94,6 +103,8 @@ class MoneyType extends AbstractType
      *
      * The pattern contains the placeholder "{{ widget }}" where the HTML tag should
      * be inserted
+     *
+     * @return string
      */
     protected static function getPattern(?string $currency)
     {

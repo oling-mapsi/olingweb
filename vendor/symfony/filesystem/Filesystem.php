@@ -22,7 +22,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
  */
 class Filesystem
 {
-    private static $lastError;
+    private static ?string $lastError = null;
 
     /**
      * Copies a file.
@@ -30,6 +30,8 @@ class Filesystem
      * If the target file is older than the origin file, it's always overwritten.
      * If the target file is newer, it is overwritten only when the
      * $overwriteNewerFiles option is set to true.
+     *
+     * @return void
      *
      * @throws FileNotFoundException When originFile doesn't exist
      * @throws IOException           When copy fails
@@ -44,7 +46,7 @@ class Filesystem
         $this->mkdir(\dirname($targetFile));
 
         $doCopy = true;
-        if (!$overwriteNewerFiles && null === parse_url($originFile, \PHP_URL_HOST) && is_file($targetFile)) {
+        if (!$overwriteNewerFiles && !parse_url($originFile, \PHP_URL_HOST) && is_file($targetFile)) {
             $doCopy = filemtime($originFile) > filemtime($targetFile);
         }
 
@@ -72,6 +74,9 @@ class Filesystem
                 // Like `cp`, preserve executable permission bits
                 self::box('chmod', $targetFile, fileperms($targetFile) | (fileperms($originFile) & 0111));
 
+                // Like `cp`, preserve the file modification time
+                self::box('touch', $targetFile, filemtime($originFile));
+
                 if ($bytesCopied !== $bytesOrigin = filesize($originFile)) {
                     throw new IOException(sprintf('Failed to copy the whole content of "%s" to "%s" (%g of %g bytes copied).', $originFile, $targetFile, $bytesCopied, $bytesOrigin), 0, null, $originFile);
                 }
@@ -81,6 +86,8 @@ class Filesystem
 
     /**
      * Creates a directory recursively.
+     *
+     * @return void
      *
      * @throws IOException On any directory creation failure
      */
@@ -123,9 +130,11 @@ class Filesystem
      * @param int|null $time  The touch time as a Unix timestamp, if not supplied the current system time is used
      * @param int|null $atime The access time as a Unix timestamp, if not supplied the current system time is used
      *
+     * @return void
+     *
      * @throws IOException When touch fails
      */
-    public function touch(string|iterable $files, int $time = null, int $atime = null)
+    public function touch(string|iterable $files, ?int $time = null, ?int $atime = null)
     {
         foreach ($this->toIterable($files) as $file) {
             if (!($time ? self::box('touch', $file, $time, $atime) : self::box('touch', $file))) {
@@ -136,6 +145,8 @@ class Filesystem
 
     /**
      * Removes files or directories.
+     *
+     * @return void
      *
      * @throws IOException When removal fails
      */
@@ -161,7 +172,7 @@ class Filesystem
                 }
             } elseif (is_dir($file)) {
                 if (!$isRecursive) {
-                    $tmpName = \dirname(realpath($file)).'/.'.strrev(strtr(base64_encode(random_bytes(2)), '/=', '-_'));
+                    $tmpName = \dirname(realpath($file)).'/.!'.strrev(strtr(base64_encode(random_bytes(2)), '/=', '-!'));
 
                     if (file_exists($tmpName)) {
                         try {
@@ -190,7 +201,7 @@ class Filesystem
 
                     throw new IOException(sprintf('Failed to remove directory "%s": ', $file).$lastError);
                 }
-            } elseif (!self::box('unlink', $file) && (str_contains(self::$lastError, 'Permission denied') || file_exists($file))) {
+            } elseif (!self::box('unlink', $file) && ((self::$lastError && str_contains(self::$lastError, 'Permission denied')) || file_exists($file))) {
                 throw new IOException(sprintf('Failed to remove file "%s": ', $file).self::$lastError);
             }
         }
@@ -203,12 +214,14 @@ class Filesystem
      * @param int  $umask     The mode mask (octal)
      * @param bool $recursive Whether change the mod recursively or not
      *
+     * @return void
+     *
      * @throws IOException When the change fails
      */
     public function chmod(string|iterable $files, int $mode, int $umask = 0000, bool $recursive = false)
     {
         foreach ($this->toIterable($files) as $file) {
-            if (\is_int($mode) && !self::box('chmod', $file, $mode & ~$umask)) {
+            if (!self::box('chmod', $file, $mode & ~$umask)) {
                 throw new IOException(sprintf('Failed to chmod file "%s": ', $file).self::$lastError, 0, null, $file);
             }
             if ($recursive && is_dir($file) && !is_link($file)) {
@@ -220,8 +233,14 @@ class Filesystem
     /**
      * Change the owner of an array of files or directories.
      *
+     * This method always throws on Windows, as the underlying PHP function is not supported.
+     *
+     * @see https://www.php.net/chown
+     *
      * @param string|int $user      A user name or number
      * @param bool       $recursive Whether change the owner recursively or not
+     *
+     * @return void
      *
      * @throws IOException When the change fails
      */
@@ -246,8 +265,14 @@ class Filesystem
     /**
      * Change the group of an array of files or directories.
      *
+     * This method always throws on Windows, as the underlying PHP function is not supported.
+     *
+     * @see https://www.php.net/chgrp
+     *
      * @param string|int $group     A group name or number
      * @param bool       $recursive Whether change the group recursively or not
+     *
+     * @return void
      *
      * @throws IOException When the change fails
      */
@@ -271,6 +296,8 @@ class Filesystem
 
     /**
      * Renames a file or a directory.
+     *
+     * @return void
      *
      * @throws IOException When target file or directory already exists
      * @throws IOException When origin cannot be renamed
@@ -313,6 +340,8 @@ class Filesystem
     /**
      * Creates a symbolic link or copy a directory.
      *
+     * @return void
+     *
      * @throws IOException When symlink fails
      */
     public function symlink(string $originDir, string $targetDir, bool $copyOnWindows = false)
@@ -349,6 +378,8 @@ class Filesystem
      *
      * @param string|string[] $targetFiles The target file(s)
      *
+     * @return void
+     *
      * @throws FileNotFoundException When original file is missing or not a file
      * @throws IOException           When link fails, including if link already exists
      */
@@ -381,7 +412,7 @@ class Filesystem
     /**
      * @param string $linkType Name of the link type, typically 'symbolic' or 'hard'
      */
-    private function linkException(string $origin, string $target, string $linkType)
+    private function linkException(string $origin, string $target, string $linkType): never
     {
         if (self::$lastError) {
             if ('\\' === \DIRECTORY_SEPARATOR && str_contains(self::$lastError, 'error code(1314)')) {
@@ -438,11 +469,9 @@ class Filesystem
             $startPath = str_replace('\\', '/', $startPath);
         }
 
-        $splitDriveLetter = function ($path) {
-            return (\strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && ctype_alpha($path[0]))
-                ? [substr($path, 2), strtoupper($path[0])]
-                : [$path, null];
-        };
+        $splitDriveLetter = fn ($path) => (\strlen($path) > 2 && ':' === $path[1] && '/' === $path[2] && ctype_alpha($path[0]))
+            ? [substr($path, 2), strtoupper($path[0])]
+            : [$path, null];
 
         $splitPath = function ($path) {
             $result = [];
@@ -508,9 +537,11 @@ class Filesystem
      *                                    - $options['copy_on_windows'] Whether to copy files instead of links on Windows (see symlink(), defaults to false)
      *                                    - $options['delete'] Whether to delete files that are not in the source directory (defaults to false)
      *
+     * @return void
+     *
      * @throws IOException When file type is unknown
      */
-    public function mirror(string $originDir, string $targetDir, \Traversable $iterator = null, array $options = [])
+    public function mirror(string $originDir, string $targetDir, ?\Traversable $iterator = null, array $options = [])
     {
         $targetDir = rtrim($targetDir, '/\\');
         $originDir = rtrim($originDir, '/\\');
@@ -632,6 +663,8 @@ class Filesystem
      *
      * @param string|resource $content The data to write into the file
      *
+     * @return void
+     *
      * @throws IOException if the file cannot be written to
      */
     public function dumpFile(string $filename, $content)
@@ -661,11 +694,15 @@ class Filesystem
                 throw new IOException(sprintf('Failed to write file "%s": ', $filename).self::$lastError, 0, null, $filename);
             }
 
-            self::box('chmod', $tmpFile, file_exists($filename) ? fileperms($filename) : 0666 & ~umask());
+            self::box('chmod', $tmpFile, self::box('fileperms', $filename) ?: 0666 & ~umask());
 
             $this->rename($tmpFile, $filename, true);
         } finally {
             if (file_exists($tmpFile)) {
+                if ('\\' === \DIRECTORY_SEPARATOR && !is_writable($tmpFile)) {
+                    self::box('chmod', $tmpFile, self::box('fileperms', $tmpFile) | 0200);
+                }
+
                 self::box('unlink', $tmpFile);
             }
         }
@@ -676,6 +713,8 @@ class Filesystem
      *
      * @param string|resource $content The content to append
      * @param bool            $lock    Whether the file should be locked when writing to it
+     *
+     * @return void
      *
      * @throws IOException If the file is not writable
      */
@@ -725,7 +764,7 @@ class Filesystem
         self::assertFunctionExists($func);
 
         self::$lastError = null;
-        set_error_handler(__CLASS__.'::handleError');
+        set_error_handler(self::handleError(...));
         try {
             return $func(...$args);
         } finally {
@@ -736,7 +775,7 @@ class Filesystem
     /**
      * @internal
      */
-    public static function handleError(int $type, string $msg)
+    public static function handleError(int $type, string $msg): void
     {
         self::$lastError = $msg;
     }

@@ -11,50 +11,6 @@
 
 namespace Symfony\Component\Notifier;
 
-use Symfony\Component\Notifier\Bridge\AllMySms\AllMySmsTransportFactory;
-use Symfony\Component\Notifier\Bridge\AmazonSns\AmazonSnsTransportFactory;
-use Symfony\Component\Notifier\Bridge\Chatwork\ChatworkTransportFactory;
-use Symfony\Component\Notifier\Bridge\Clickatell\ClickatellTransportFactory;
-use Symfony\Component\Notifier\Bridge\ContactEveryone\ContactEveryoneTransportFactory;
-use Symfony\Component\Notifier\Bridge\Discord\DiscordTransportFactory;
-use Symfony\Component\Notifier\Bridge\Engagespot\EngagespotTransportFactory;
-use Symfony\Component\Notifier\Bridge\Esendex\EsendexTransportFactory;
-use Symfony\Component\Notifier\Bridge\Expo\ExpoTransportFactory;
-use Symfony\Component\Notifier\Bridge\Firebase\FirebaseTransportFactory;
-use Symfony\Component\Notifier\Bridge\FortySixElks\FortySixElksTransportFactory;
-use Symfony\Component\Notifier\Bridge\FreeMobile\FreeMobileTransportFactory;
-use Symfony\Component\Notifier\Bridge\GatewayApi\GatewayApiTransportFactory;
-use Symfony\Component\Notifier\Bridge\Gitter\GitterTransportFactory;
-use Symfony\Component\Notifier\Bridge\Infobip\InfobipTransportFactory;
-use Symfony\Component\Notifier\Bridge\Iqsms\IqsmsTransportFactory;
-use Symfony\Component\Notifier\Bridge\LightSms\LightSmsTransportFactory;
-use Symfony\Component\Notifier\Bridge\Mailjet\MailjetTransportFactory;
-use Symfony\Component\Notifier\Bridge\Mattermost\MattermostTransportFactory;
-use Symfony\Component\Notifier\Bridge\MessageBird\MessageBirdTransportFactory;
-use Symfony\Component\Notifier\Bridge\MessageMedia\MessageMediaTransportFactory;
-use Symfony\Component\Notifier\Bridge\MicrosoftTeams\MicrosoftTeamsTransportFactory;
-use Symfony\Component\Notifier\Bridge\Mobyt\MobytTransportFactory;
-use Symfony\Component\Notifier\Bridge\Octopush\OctopushTransportFactory;
-use Symfony\Component\Notifier\Bridge\OrangeSms\OrangeSmsTransportFactory;
-use Symfony\Component\Notifier\Bridge\OvhCloud\OvhCloudTransportFactory;
-use Symfony\Component\Notifier\Bridge\RocketChat\RocketChatTransportFactory;
-use Symfony\Component\Notifier\Bridge\Sendberry\SendberryTransportFactory;
-use Symfony\Component\Notifier\Bridge\Sendinblue\SendinblueTransportFactory;
-use Symfony\Component\Notifier\Bridge\Sinch\SinchTransportFactory;
-use Symfony\Component\Notifier\Bridge\Slack\SlackTransportFactory;
-use Symfony\Component\Notifier\Bridge\Sms77\Sms77TransportFactory;
-use Symfony\Component\Notifier\Bridge\Smsapi\SmsapiTransportFactory;
-use Symfony\Component\Notifier\Bridge\SmsBiuras\SmsBiurasTransportFactory;
-use Symfony\Component\Notifier\Bridge\Smsc\SmscTransportFactory;
-use Symfony\Component\Notifier\Bridge\SmsFactor\SmsFactorTransportFactory;
-use Symfony\Component\Notifier\Bridge\Telegram\TelegramTransportFactory;
-use Symfony\Component\Notifier\Bridge\Telnyx\TelnyxTransportFactory;
-use Symfony\Component\Notifier\Bridge\TurboSms\TurboSmsTransportFactory;
-use Symfony\Component\Notifier\Bridge\Twilio\TwilioTransportFactory;
-use Symfony\Component\Notifier\Bridge\Vonage\VonageTransportFactory;
-use Symfony\Component\Notifier\Bridge\Yunpian\YunpianTransportFactory;
-use Symfony\Component\Notifier\Bridge\Zendesk\ZendeskTransportFactory;
-use Symfony\Component\Notifier\Bridge\Zulip\ZulipTransportFactory;
 use Symfony\Component\Notifier\Exception\UnsupportedSchemeException;
 use Symfony\Component\Notifier\Transport\Dsn;
 use Symfony\Component\Notifier\Transport\FailoverTransport;
@@ -72,62 +28,88 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 final class Transport
 {
     private const FACTORY_CLASSES = [
-        AllMySmsTransportFactory::class,
-        AmazonSnsTransportFactory::class,
-        ChatworkTransportFactory::class,
-        ClickatellTransportFactory::class,
-        ContactEveryoneTransportFactory::class,
-        DiscordTransportFactory::class,
-        EngagespotTransportFactory::class,
-        EsendexTransportFactory::class,
-        ExpoTransportFactory::class,
-        FirebaseTransportFactory::class,
-        FortySixElksTransportFactory::class,
-        FreeMobileTransportFactory::class,
-        GatewayApiTransportFactory::class,
-        GitterTransportFactory::class,
-        InfobipTransportFactory::class,
-        IqsmsTransportFactory::class,
-        LightSmsTransportFactory::class,
-        MailjetTransportFactory::class,
-        MattermostTransportFactory::class,
-        MessageBirdTransportFactory::class,
-        MessageMediaTransportFactory::class,
-        MicrosoftTeamsTransportFactory::class,
-        MobytTransportFactory::class,
-        OctopushTransportFactory::class,
-        OrangeSmsTransportFactory::class,
-        OvhCloudTransportFactory::class,
-        RocketChatTransportFactory::class,
-        SendberryTransportFactory::class,
-        SendinblueTransportFactory::class,
-        SinchTransportFactory::class,
-        SlackTransportFactory::class,
-        Sms77TransportFactory::class,
-        SmsapiTransportFactory::class,
-        SmsBiurasTransportFactory::class,
-        SmscTransportFactory::class,
-        SmsFactorTransportFactory::class,
-        TelegramTransportFactory::class,
-        TelnyxTransportFactory::class,
-        TurboSmsTransportFactory::class,
-        TwilioTransportFactory::class,
-        VonageTransportFactory::class,
-        YunpianTransportFactory::class,
-        ZendeskTransportFactory::class,
-        ZulipTransportFactory::class,
+        Bridge\AllMySms\AllMySmsTransportFactory::class,
+        Bridge\AmazonSns\AmazonSnsTransportFactory::class,
+        Bridge\Bandwidth\BandwidthTransportFactory::class,
+        Bridge\Brevo\BrevoTransportFactory::class,
+        Bridge\Chatwork\ChatworkTransportFactory::class,
+        Bridge\Clickatell\ClickatellTransportFactory::class,
+        Bridge\ClickSend\ClickSendTransportFactory::class,
+        Bridge\ContactEveryone\ContactEveryoneTransportFactory::class,
+        Bridge\Discord\DiscordTransportFactory::class,
+        Bridge\Engagespot\EngagespotTransportFactory::class,
+        Bridge\Esendex\EsendexTransportFactory::class,
+        Bridge\Expo\ExpoTransportFactory::class,
+        Bridge\FakeChat\FakeChatTransportFactory::class,
+        Bridge\FakeSms\FakeSmsTransportFactory::class,
+        Bridge\Firebase\FirebaseTransportFactory::class,
+        Bridge\FortySixElks\FortySixElksTransportFactory::class,
+        Bridge\FreeMobile\FreeMobileTransportFactory::class,
+        Bridge\GatewayApi\GatewayApiTransportFactory::class,
+        Bridge\Gitter\GitterTransportFactory::class,
+        Bridge\GoIp\GoIpTransportFactory::class,
+        Bridge\GoogleChat\GoogleChatTransportFactory::class,
+        Bridge\Infobip\InfobipTransportFactory::class,
+        Bridge\Iqsms\IqsmsTransportFactory::class,
+        Bridge\Isendpro\IsendproTransportFactory::class,
+        Bridge\KazInfoTeh\KazInfoTehTransportFactory::class,
+        Bridge\LightSms\LightSmsTransportFactory::class,
+        Bridge\LineNotify\LineNotifyTransportFactory::class,
+        Bridge\LinkedIn\LinkedInTransportFactory::class,
+        Bridge\Mailjet\MailjetTransportFactory::class,
+        Bridge\Mastodon\MastodonTransportFactory::class,
+        Bridge\Mattermost\MattermostTransportFactory::class,
+        Bridge\Mercure\MercureTransportFactory::class,
+        Bridge\MessageBird\MessageBirdTransportFactory::class,
+        Bridge\MessageMedia\MessageMediaTransportFactory::class,
+        Bridge\MicrosoftTeams\MicrosoftTeamsTransportFactory::class,
+        Bridge\Mobyt\MobytTransportFactory::class,
+        Bridge\Novu\NovuTransportFactory::class,
+        Bridge\Ntfy\NtfyTransportFactory::class,
+        Bridge\Octopush\OctopushTransportFactory::class,
+        Bridge\OneSignal\OneSignalTransportFactory::class,
+        Bridge\OrangeSms\OrangeSmsTransportFactory::class,
+        Bridge\OvhCloud\OvhCloudTransportFactory::class,
+        Bridge\PagerDuty\PagerDutyTransportFactory::class,
+        Bridge\Plivo\PlivoTransportFactory::class,
+        Bridge\Pushover\PushoverTransportFactory::class,
+        Bridge\Redlink\RedlinkTransportFactory::class,
+        Bridge\RingCentral\RingCentralTransportFactory::class,
+        Bridge\RocketChat\RocketChatTransportFactory::class,
+        Bridge\Sendberry\SendberryTransportFactory::class,
+        Bridge\Sendinblue\SendinblueTransportFactory::class,
+        Bridge\SimpleTextin\SimpleTextinTransportFactory::class,
+        Bridge\Sinch\SinchTransportFactory::class,
+        Bridge\Slack\SlackTransportFactory::class,
+        Bridge\Sms77\Sms77TransportFactory::class,
+        Bridge\Smsapi\SmsapiTransportFactory::class,
+        Bridge\SmsBiuras\SmsBiurasTransportFactory::class,
+        Bridge\Smsc\SmscTransportFactory::class,
+        Bridge\SmsFactor\SmsFactorTransportFactory::class,
+        Bridge\Smsmode\SmsmodeTransportFactory::class,
+        Bridge\SpotHit\SpotHitTransportFactory::class,
+        Bridge\Telegram\TelegramTransportFactory::class,
+        Bridge\Telnyx\TelnyxTransportFactory::class,
+        Bridge\Termii\TermiiTransportFactory::class,
+        Bridge\TurboSms\TurboSmsTransportFactory::class,
+        Bridge\Twilio\TwilioTransportFactory::class,
+        Bridge\Twitter\TwitterTransportFactory::class,
+        Bridge\Vonage\VonageTransportFactory::class,
+        Bridge\Yunpian\YunpianTransportFactory::class,
+        Bridge\Zendesk\ZendeskTransportFactory::class,
+        Bridge\Zulip\ZulipTransportFactory::class,
     ];
 
     private iterable $factories;
 
-    public static function fromDsn(string $dsn, EventDispatcherInterface $dispatcher = null, HttpClientInterface $client = null): TransportInterface
+    public static function fromDsn(#[\SensitiveParameter] string $dsn, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null): TransportInterface
     {
         $factory = new self(self::getDefaultFactories($dispatcher, $client));
 
         return $factory->fromString($dsn);
     }
 
-    public static function fromDsns(array $dsns, EventDispatcherInterface $dispatcher = null, HttpClientInterface $client = null): TransportInterface
+    public static function fromDsns(#[\SensitiveParameter] array $dsns, ?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null): TransportInterface
     {
         $factory = new self(iterator_to_array(self::getDefaultFactories($dispatcher, $client)));
 
@@ -142,7 +124,7 @@ final class Transport
         $this->factories = $factories;
     }
 
-    public function fromStrings(array $dsns): Transports
+    public function fromStrings(#[\SensitiveParameter] array $dsns): Transports
     {
         $transports = [];
         foreach ($dsns as $name => $dsn) {
@@ -152,7 +134,7 @@ final class Transport
         return new Transports($transports);
     }
 
-    public function fromString(string $dsn): TransportInterface
+    public function fromString(#[\SensitiveParameter] string $dsn): TransportInterface
     {
         $dsns = preg_split('/\s++\|\|\s++/', $dsn);
         if (\count($dsns) > 1) {
@@ -181,7 +163,7 @@ final class Transport
     /**
      * @return TransportInterface[]
      */
-    private function createFromDsns(array $dsns): array
+    private function createFromDsns(#[\SensitiveParameter] array $dsns): array
     {
         $transports = [];
         foreach ($dsns as $dsn) {
@@ -194,7 +176,7 @@ final class Transport
     /**
      * @return TransportFactoryInterface[]
      */
-    private static function getDefaultFactories(EventDispatcherInterface $dispatcher = null, HttpClientInterface $client = null): iterable
+    private static function getDefaultFactories(?EventDispatcherInterface $dispatcher = null, ?HttpClientInterface $client = null): iterable
     {
         foreach (self::FACTORY_CLASSES as $factoryClass) {
             if (class_exists($factoryClass)) {

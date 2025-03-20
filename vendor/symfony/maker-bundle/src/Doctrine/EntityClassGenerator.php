@@ -14,7 +14,10 @@ namespace Symfony\Bundle\MakerBundle\Doctrine;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Types\UlidType;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bundle\MakerBundle\Generator;
+use Symfony\Bundle\MakerBundle\Maker\Common\EntityIdTypeEnum;
 use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Bundle\MakerBundle\Util\ClassNameDetails;
 use Symfony\Bundle\MakerBundle\Util\UseStatementGenerator;
@@ -22,6 +25,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Uuid;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
 /**
@@ -35,7 +40,7 @@ final class EntityClassGenerator
     ) {
     }
 
-    public function generateEntityClass(ClassNameDetails $entityClassDetails, bool $apiResource, bool $withPasswordUpgrade = false, bool $generateRepositoryClass = true, bool $broadcast = false): string
+    public function generateEntityClass(ClassNameDetails $entityClassDetails, bool $apiResource, bool $withPasswordUpgrade = false, bool $generateRepositoryClass = true, bool $broadcast = false, EntityIdTypeEnum $useUuidIdentifier = EntityIdTypeEnum::INT): string
     {
         $repoClassDetails = $this->generator->createClassNameDetails(
             $entityClassDetails->getRelativeName(),
@@ -55,8 +60,21 @@ final class EntityClassGenerator
         }
 
         if ($apiResource) {
-            // @legacy Drop annotation class when annotations are no longer supported.
-            $useStatements->addUseStatement(class_exists(ApiResource::class) ? ApiResource::class : \ApiPlatform\Core\Annotation\ApiResource::class);
+            $useStatements->addUseStatement(ApiResource::class);
+        }
+
+        if (EntityIdTypeEnum::UUID === $useUuidIdentifier) {
+            $useStatements->addUseStatement([
+                Uuid::class,
+                UuidType::class,
+            ]);
+        }
+
+        if (EntityIdTypeEnum::ULID === $useUuidIdentifier) {
+            $useStatements->addUseStatement([
+                Ulid::class,
+                UlidType::class,
+            ]);
         }
 
         $entityPath = $this->generator->generateClass(
@@ -69,6 +87,7 @@ final class EntityClassGenerator
                 'broadcast' => $broadcast,
                 'should_escape_table_name' => $this->doctrineHelper->isKeyword($tableName),
                 'table_name' => $tableName,
+                'id_type' => $useUuidIdentifier,
             ]
         );
 

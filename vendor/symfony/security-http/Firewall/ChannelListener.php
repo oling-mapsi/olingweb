@@ -32,7 +32,7 @@ class ChannelListener extends AbstractListener
     private int $httpPort;
     private int $httpsPort;
 
-    public function __construct(AccessMapInterface $map, LoggerInterface $logger = null, int $httpPort = 80, int $httpsPort = 443)
+    public function __construct(AccessMapInterface $map, ?LoggerInterface $logger = null, int $httpPort = 80, int $httpsPort = 443)
     {
         $this->map = $map;
         $this->logger = $logger;
@@ -70,7 +70,7 @@ class ChannelListener extends AbstractListener
         return false;
     }
 
-    public function authenticate(RequestEvent $event)
+    public function authenticate(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

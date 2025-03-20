@@ -35,7 +35,7 @@ class MakeCommandRegistrationPass implements CompilerPassInterface
 
             $class = $container->getParameterBag()->resolveValue($def->getClass());
             if (!is_subclass_of($class, MakerInterface::class)) {
-                throw new InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $id, MakerInterface::class));
+                throw new InvalidArgumentException(\sprintf('Service "%s" must implement interface "%s".', $id, MakerInterface::class));
             }
 
             $commandDefinition = new ChildDefinition('maker.auto_command.abstract');
@@ -63,7 +63,15 @@ class MakeCommandRegistrationPass implements CompilerPassInterface
                 }
             }
 
-            $container->setDefinition(sprintf('maker.auto_command.%s', Str::asTwigVariable($class::getCommandName())), $commandDefinition);
+            /*
+             * @deprecated remove this block when removing make:subscriber
+             */
+            if (method_exists($class, 'getCommandAlias')) {
+                $alias = $class::getCommandAlias();
+                $commandDefinition->addTag('console.command', ['command' => $alias, 'description' => 'Deprecated alias of "make:listener"']);
+            }
+
+            $container->setDefinition(\sprintf('maker.auto_command.%s', Str::asTwigVariable($class::getCommandName())), $commandDefinition);
         }
     }
 }

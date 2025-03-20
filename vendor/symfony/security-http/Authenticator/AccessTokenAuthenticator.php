@@ -59,7 +59,7 @@ class AccessTokenAuthenticator implements AuthenticatorInterface
         }
 
         $userBadge = $this->accessTokenHandler->getUserBadgeFrom($accessToken);
-        if (null === $userBadge->getUserLoader() && $this->userProvider) {
+        if ($this->userProvider && (null === $userBadge->getUserLoader() || $userBadge->getUserLoader() instanceof FallbackUserLoader)) {
             $userBadge->setUserLoader($this->userProvider->loadUserByIdentifier(...));
         }
 
@@ -95,6 +95,9 @@ class AccessTokenAuthenticator implements AuthenticatorInterface
         );
     }
 
+    /**
+     * @return void
+     */
     public function setTranslator(?TranslatorInterface $translator)
     {
         $this->translator = $translator;
@@ -103,7 +106,7 @@ class AccessTokenAuthenticator implements AuthenticatorInterface
     /**
      * @see https://datatracker.ietf.org/doc/html/rfc6750#section-3
      */
-    private function getAuthenticateHeader(string $errorDescription = null): string
+    private function getAuthenticateHeader(?string $errorDescription = null): string
     {
         $data = [
             'realm' => $this->realm,

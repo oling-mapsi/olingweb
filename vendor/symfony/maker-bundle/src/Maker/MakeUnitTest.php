@@ -38,14 +38,14 @@ final class MakeUnitTest extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new unit test class';
+        return 'Create a new unit test class';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void
     {
         $command
             ->addArgument('name', InputArgument::OPTIONAL, 'The name of the unit test class (e.g. <fg=yellow>UtilTest</>)')
-            ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeUnitTest.txt'))
+            ->setHelp($this->getHelpFileContents('MakeUnitTest.txt'))
         ;
     }
 

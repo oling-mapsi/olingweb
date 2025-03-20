@@ -45,6 +45,10 @@ class ChoiceFormField extends FormField
      */
     public function isDisabled(): bool
     {
+        if ('checkbox' === $this->type) {
+            return parent::isDisabled();
+        }
+
         if (parent::isDisabled() && 'select' === $this->type) {
             return true;
         }
@@ -60,6 +64,8 @@ class ChoiceFormField extends FormField
 
     /**
      * Sets the value of the field.
+     *
+     * @return void
      */
     public function select(string|array|bool $value)
     {
@@ -68,6 +74,8 @@ class ChoiceFormField extends FormField
 
     /**
      * Ticks a checkbox.
+     *
+     * @return void
      *
      * @throws \LogicException When the type provided is not correct
      */
@@ -83,6 +91,8 @@ class ChoiceFormField extends FormField
     /**
      * Unticks a checkbox.
      *
+     * @return void
+     *
      * @throws \LogicException When the type provided is not correct
      */
     public function untick()
@@ -96,6 +106,8 @@ class ChoiceFormField extends FormField
 
     /**
      * Sets the value of the field.
+     *
+     * @return void
      *
      * @throws \InvalidArgumentException When value type provided is not correct
      */
@@ -141,7 +153,7 @@ class ChoiceFormField extends FormField
      *
      * @internal
      */
-    public function addChoice(\DOMElement $node)
+    public function addChoice(\DOMElement $node): void
     {
         if (!$this->multiple && 'radio' !== $this->type) {
             throw new \LogicException(sprintf('Unable to add a choice for "%s" as it is not multiple or is not a radio button.', $this->name));
@@ -173,6 +185,8 @@ class ChoiceFormField extends FormField
 
     /**
      * Initializes the form field.
+     *
+     * @return void
      *
      * @throws \LogicException When node type is incorrect
      */

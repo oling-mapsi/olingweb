@@ -186,10 +186,14 @@ $(document).ready(function() {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
       $('.mymenulink').removeClass('link-light');
+      $('.logo-dark-mode').hide();
+      $('.logo-light-mode').show();
   } else {
       $('.mymenumoov').addClass('navbar-dark');
       $('.mymenumoov').removeClass('navbar-light');
       $('.mymenulink').addClass('link-light');
+      $('.logo-dark-mode').show();
+      $('.logo-light-mode').hide();
   }
 
   $(document).scroll(function() {
@@ -197,13 +201,18 @@ $(document).ready(function() {
       $('.mymenumoov').addClass('navbar-light');
       $('.mymenumoov').removeClass('navbar-dark');
       $('.mymenulink').removeClass('link-light');
+      $('.logo-dark-mode').hide();
+      $('.logo-light-mode').show();
   } else {
       $('.mymenumoov').addClass('navbar-dark');
       $('.mymenumoov').removeClass('navbar-light');
       $('.mymenulink').addClass('link-light');
+      $('.logo-dark-mode').show();
+      $('.logo-light-mode').hide();
   }
   });
 });
+
 
 
 $(document).ready(function() {

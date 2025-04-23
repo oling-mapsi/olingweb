@@ -58,81 +58,81 @@
                 
                     <!-- Collapse -->
                     <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
-                    <div class="navbar-absolute-top-scroller">
-                        <ul class="navbar-nav nav-pills justify-content-start">
-                        {% set count = 0 %}
-                        {% for practice in practices %}
-                        {% set count = count + 1 %}
-                        <!-- Landings -->
-                        <li class="hs-has-mega-menu nav-item"
-                            data-hs-mega-menu-item-options='{
-                                "desktop": {
-                                {% if count > 2 %}"position": "right",{% endif %}
-                                "maxWidth": "40rem"
-                                }
-                            }'>
-                            <a id="landingsMegaMenu{{ practice.id }}" class="mymenulink mt-2 nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" role="button" aria-expanded="false">{{ practice.designation }}</a>
+                        <div class="navbar-absolute-top-scroller">
+                            <ul class="navbar-nav nav-pills justify-content-start">
+                            {% set count = 0 %}
+                            {% for practice in practices %}
+                            {% set count = count + 1 %}
+                            <!-- Landings -->
+                            <li class="hs-has-mega-menu nav-item"
+                                data-hs-mega-menu-item-options='{
+                                    "desktop": {
+                                    {% if count > 2 %}"position": "right",{% endif %}
+                                    "maxWidth": "40rem"
+                                    }
+                                }'>
+                                <a id="landingsMegaMenu{{ practice.id }}" 
+                                    class="mymenulink mt-2 nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" 
+                                    role="button" 
+                                    aria-expanded="false">
+                                    {% if practice.id == 14 %}
+                                        <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo Mapsi" style="height: 1.5rem; transform: translateY(-5px);">
+                                        <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo mapsi blanc" style="height: 1.5rem; transform: translateY(-5px);">
+                                    {% else %}
+                                        {{ practice.designation }}
+                                    {% endif %}
+                                </a>
 
-                            <!-- Mega Menu -->
-                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
-                           
-                            <!-- Main Content -->
-
-                            <div class="row">
-                                <div class="col-lg d-none d-lg-block">
-                                <div class="d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4">
-                                    <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
-                                    {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
-                                        <div>
-                                            <p>{{ practice.description  | raw  }}</p>
-                                        </div>
-                                    <div class="mt-auto">
-                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug} ) }}>Découvrir</a></p>
-                                    <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
-                                    </div>
-                                </div>
-                                </div>
-
-                                <div class="col-sm">
-                                    <div class="navbar-dropdown-menu-inner">
-                                        {% for service in practice.services %}
-                                        <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Main Content -->
-                            </div>
-                            <!-- End Mega Menu -->
-                        </li>
-                        <!-- End Landings -->
-
-                        {% endfor %}
-
-                        <!-- Landings -->
-                        <li class="nav-item">
-                            <a class="mymenulink nav-link mt-2{% if app.request.pathinfo == '/a-propos' %} active{% endif %}" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
-                        </li>
-                        <!-- End Landings -->
-
-
-
-                    
-
-                        {# <!-- Log in -->
-                        <li class="nav-item ms-lg-auto">
-                        
+                                <!-- Mega Menu -->
+                                <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
                             
-                        </li>
-                        <!-- End Log in --> #}
+                                <!-- Main Content -->
 
-                        {# <!-- Sign up -->
-                        <li class="nav-item">
-                            <a class="btn btn-sm btn-primary d-none d-lg-inline-block" href={{ path('contact')}}>Contactez-nous</a>
-                        </li>
-                        <!-- End Sign up --> #}
-                        </ul>
-                    </div>
+                                <div class="row">
+                                    <div class="col-lg d-none d-lg-block">
+                                    <div class="d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4">
+                                        <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
+                                        {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
+                                            <div>
+                                                <p>{{ practice.description  | raw  }}</p>
+                                            </div>
+                                        <div class="mt-auto">
+                                        <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug} ) }}>Découvrir</a></p>
+                                        <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-sm">
+                                        <div class="navbar-dropdown-menu-inner">
+                                            {% for service in practice.services %}
+                                            <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Main Content -->
+                                </div>
+                                <!-- End Mega Menu -->
+                            </li>
+                            <!-- End Landings -->
+
+                            {% endfor %}
+
+                            <!-- Landings -->
+                            <li class="nav-item">
+                                <a class="mymenulink nav-link mt-2{% if app.request.pathinfo == '/a-propos' %} active{% endif %}" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
+                            </li>
+                            <!-- End Landings -->
+
+                            <!-- contact -->
+                            <li class="nav-item ms-lg-auto">
+                                <a class="btn btn-light d-none d-lg-inline-block" style="transform: translateY(4px);" href={{ path('contact')}}>Contactez-nous</a>
+                            </li>
+                           <!-- End contact -->
+
+                            </ul>
+                        </div>
                     </div>
                     <!-- End Collapse -->
                 </nav>
@@ -231,7 +231,7 @@
                                 </div>
 
                                 <div class="flex-grow-1 ms-2 text-light">
-                                    <span class="text-light">4, allée Maximilien Luce, 92130 ISSY LES MOULINEAUX</span>
+                                    <span class="text-light">40 rue Alexandre DUMAS, 75011 PARIS</span>
                                 </div>
                             </div>
                         </li>
@@ -304,7 +304,7 @@
                 <!-- End Col -->
 
                 <div class="col-md-auto">
-                <p class="fs-5 text-white-70 mb-0">© OLING Management et Technologie 2012 - 2024</p>
+                <p class="fs-5 text-white-70 mb-0">© OLING Management et Technologie - 2025</p>
                 </div>
                 <!-- End Col -->
             </div>

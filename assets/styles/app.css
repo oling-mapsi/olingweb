@@ -100,13 +100,7 @@
 }
 
 
-
-
-
-
-
-
-.office {
+.saas {
     background: linear-gradient(244deg, #e04325, #ea715a, #c32b0e);
     background-size: 600% 600%;
 
@@ -179,11 +173,6 @@
   .zoom-effect:hover img {
     transform: scale(1.2);
   }
-
-
-
-
-
 
 
 .area{

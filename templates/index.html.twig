@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Digitalisation et conformité des entreprises - OLING{% endblock %}
-{% block meta_description %}Conseil et services professionnels en organisation et système d'information pour soutenir vos activités et votre digitalisation{% endblock %}
+{% block title %}Conseil et assistance : AMOA, ERP, RGPD, DORA, Cybersécurité, ISO27001, MAPSI, Qualité{% endblock %}
+{% block meta_description %}Conseil et services professionnels en organisation et système d'information pour vous accompagner dans vos projets de transformation{% endblock %}
 
 {% block body %}
 
@@ -15,8 +15,11 @@
   
 
     <!-- Stats -->
-  <div class="container mt-3 mt-sm-0 mb-10 content-space-1 content-space-lg-3 p-5 rounded-2">
+  <div class="container mt-3 mt-sm-0 mb-0 content-space-1 content-space-lg-3 p-5 rounded-2">
     <div class="row justify-content-lg-between align-items-lg-center">
+
+
+    
       <div class="col-lg-5">
         <div class="mb-6">
           <h2>Votre allié SI, organisation et conformité pour mener à bien vos initiatives stratégiques</h2>
@@ -53,75 +56,116 @@
   <!-- End Stats -->
 </div>
 
-  <!-- Card Grid -->
-<div class="container content-space-1">
-  <!-- Heading -->
-  <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10">
-      <h2>Des services personnalisés pour des exigences spécifiques</h2>
-      <p>OLING s'organise autour de quatre practices, chacune dédiée à un aspect spécifique de la transformation digitale</p>
-  </div>
-  <!-- End Heading -->
+<section class="py-7 bg-light text-dark">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-5">
 
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-0 gx-md-0">
-    {% set count = 0 %}
-    {% for practice in practices %}
-    {% set count = count + 1 %}
-    <div class="col mb-2 mb-md-4">
-      <!-- Card -->
-      <a class="card card-borderless card-transition-zoom bg-soft-light h-100"
-      style="{% if count == 2 %}margin-top:30px{% endif %}{% if count == 3 %}margin-top:60px{% endif %}{% if count == 4 %}margin-top:90px{% endif %}" 
-       href={{path('practice',{'slug' : practice.slug} ) }}>
-        {#  #}
-        <div class="card-transition-zoom-item {{ practice.class1 }}">
-          <img class="card-img" src="{{ practice.image1 }}" alt="Image Description">
-        </div>
-        <div class="card-body">
-          <span class="card-subtitle text-body my-3"><span class="fw-bold text-dark">{{ practice.designation }}</span></span>
-          <h4 class="card-title">{{ practice.introduction }}</h4>
-          <p>{{ practice.DescriptionShort }}</p>
-        </div>
-      </a>
-      <!-- End Card -->
-    </div>
-    <!-- End Col -->
-    {% endfor %}
+      <!-- Practice Card 1 -->
+      <div class="col">
+        <a href="{{ path('practice', {'slug': 'conformite-gouvernance-donnees'}) }}" class="text-decoration-none">
+          <div class="card h-100 border-0 rounded-5 overflow-hidden position-relative shadow-lg">
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(145deg, #ff88a6 0%, #b56dff 100%), url('img/spe/practice1.png') center/cover no-repeat; opacity: 0.9;"></div>
+            <div class="position-relative p-5 d-flex flex-column justify-content-between h-100">
+              <div class="mb-4">
+                <h2 class="text-white text-uppercase fw-bold mb-3 display-6">#1 Conformité & Gouvernance</h2>
+                <p class="text-white fst-italic mb-3 fs-10">"Faire de la conformité un levier de confiance et de performance."</p>
+                <p class="text-white fw-light fs-8">
+                OLING est expert de la gestion conforme des données selon les règlementations en vigueur. 
+                Notre équipe certifiée ISO 27001 (Veritas) et DPO (APAVE) a mené 1000+ projets en conformité des organisations.<br>
+Notre plateforme MAPSI digitalise la conformité (registre, audits, risques, plans d’action).<br>
+Nos experts interviennent à distance ou sur site, en mode ponctuel ou externalisé.
 
-  </div>
-  <!-- End Row -->
-</div>
-<!-- End Card Grid -->
-
-  <!-- Features -->
-  <div class="overflow-hidden">
-    <div class="container content-space-1 content-space-lg-2">
-      <div class="position-relative mb-8">
-        <div class="row justify-content-lg-between">
-          <div class="col-md-6 col-lg-6 mb-7 mb-lg-0">
-              <div class="mb-5">
-                <h2>Recherchez-vous un partenaire fournissant une expertise en système d'information, en organisation et en conformité adaptée à votre secteur d'activité ?</h2>
-                <p>Notre équipe d'experts internes dispose d'une connaissance approfondie des défis uniques auxquels font face les entreprises dans divers secteurs, tels que les services publics, le transport, le négoce et la distribution, l'apprentissage et la formation, et bien d'autres.</p> 
-                <p>En travaillant avec OLING, vous bénéficiez d'une collaboration étroite avec nos spécialistes qui comprennent les enjeux de votre secteur et les processus spécifiques à votre organisation. Nous vous aidons à mettre en place des solutions sur mesure, robustes et selon les standards de référence pour répondre à vos besoins et soutenir votre croissance.</p>
+                </p>
               </div>
-
-              <a class="link link-pointer" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
-          </div>
-          <!-- End Col -->
-          <div class="col-md-6 col-lg-6 pt-10 d-none d-sm-block d-flex justify-content-center align-items-center text-center">
-            {# <img class="card-img" src="img/spe/equipe.png" alt="Image Description"> #}
-            <div class="icon-demo d-flex align-items-center justify-content-center p-3 py-6" style="font-size: 15em" role="img" aria-label="Building fill check - large preview">
-              <i class="bi bi-building text-light align-self-center"></i>
+              <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🔐 RGPD</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📊 DORA</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🛡 NIS2</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">✔️ ISO 27001</span>
+              </div>
+              <div>
+                <span class="btn btn-outline-light rounded-pill px-5 py-2 fs-6 fw-bold">Découvrir la practice →</span>
+              </div>
             </div>
           </div>
-
-        </div>
-        <!-- End Row -->
+        </a>
       </div>
+
+      <!-- Practice Card 2 -->
+      <div class="col">
+        <a href="{{ path('practice', {'slug': 'transformation-performance-si'}) }}" class="text-decoration-none">
+          <div class="card h-100 border-0 rounded-5 overflow-hidden position-relative shadow-lg">
+            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(145deg, #0099f7 0%, #00c3ff 50%), url('img/spe/practice1f.jpg') center/cover no-repeat; opacity: 0.9;"></div>
+            <div class="position-relative p-5 d-flex flex-column justify-content-between h-100">
+              <div class="mb-4">
+                <h2 class="text-white text-uppercase fw-bold mb-3 display-6">#2 Transformation & Performance</h2>
+                <p class="text-white-50 fst-italic mb-3 fs-10">"Des SI alignés sur vos ambitions métiers."</p>
+                <p class="text-white fw-light fs-8">
+                OLING conçoit votre schéma directeur SI & numérique pour aligner IT et stratégie métier. Nous pilotons ensuite vos projets en AMOA et MOE, sur l'organisation et les solutions logicielles ou techniques.
+                <br>
+Processus métiers : finance, RH, achats, clients, Production<br>
+Solutions : ERP (SAP, X3, IFS…), CRM, GMAO, MES, BI<br>
+Infrastructures : cloud, virtualisation, sécurité, réseaux<br>
+Notre approche permet une exécution agile, sécurisée et pilotée, au service de votre organisation.
+
+                </p>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">⚙️ ERP</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">💼 CRM</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🏭 GMAO</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📈 MES</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📊 BI</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">☁️ Cloud</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🔐 Sécurité</span>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🌐 Réseaux</span>
+              </div>
+              <div>
+                <span class="btn btn-outline-light rounded-pill px-5 py-2 fs-6 fw-bold">Explorer cette practice →</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
-  <!-- End Features -->
+</section>
 
-  </main>
-  <!-- ========== END MAIN CONTENT ========== -->
+
+
+
+<!-- Features -->
+<div class="overflow-hidden">
+  <div class="container content-space-1 content-space-lg-2">
+    <div class="position-relative mb-8">
+      <div class="row justify-content-lg-between">
+        <div class="col-md-6 col-lg-6 mb-7 mb-lg-0">
+            <div class="mb-5">
+              <h2>Recherchez-vous un partenaire fournissant une expertise en système d'information, en organisation et en conformité adaptée à votre secteur d'activité ?</h2>
+              <p>Notre équipe d'experts internes dispose d'une connaissance approfondie des défis uniques auxquels font face les entreprises dans divers secteurs, tels que les services publics, le transport, le négoce et la distribution, l'apprentissage et la formation, et bien d'autres.</p> 
+              <p>En travaillant avec OLING, vous bénéficiez d'une collaboration étroite avec nos spécialistes qui comprennent les enjeux de votre secteur et les processus spécifiques à votre organisation. Nous vous aidons à mettre en place des solutions sur mesure, robustes et selon les standards de référence pour répondre à vos besoins et soutenir votre croissance.</p>
+            </div>
+
+            <a class="link link-pointer" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
+        </div>
+        <!-- End Col -->
+        <div class="col-md-6 col-lg-6 pt-10 d-none d-sm-block d-flex justify-content-center align-items-center text-center">
+          {# <img class="card-img" src="img/spe/equipe.png" alt="Image Description"> #}
+          <div class="icon-demo d-flex align-items-center justify-content-center p-3 py-6" style="font-size: 15em" role="img" aria-label="Building fill check - large preview">
+            <i class="bi bi-building text-light align-self-center"></i>
+          </div>
+        </div>
+
+      </div>
+      <!-- End Row -->
+    </div>
+  </div>
+</div>
+<!-- End Features -->
+
+</main>
+<!-- ========== END MAIN CONTENT ========== -->
 
   
 

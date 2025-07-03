@@ -251,6 +251,17 @@ $(document).ready(function() {
 
 
 
+document.querySelectorAll('#left-links-horizontal a').forEach(link => {
+  link.addEventListener('mouseover', () => {
+    link.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    link.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.1)';
+  });
+  link.addEventListener('mouseout', () => {
+    link.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+    link.style.boxShadow = 'none';
+  });
+});
+
 
 
 

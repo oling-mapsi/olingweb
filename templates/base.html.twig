@@ -144,32 +144,127 @@
         <!-- ========== END HEADER ========== -->
 
 
-        <!-- Vignettes latérales gauche, fond semi-transparent, collées au bord -->
-        <div style="position: fixed; top: 20%; left: 0; z-index: 1050; display: none;" class="d-lg-block" id="left-links-horizontal">
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <a href="{{ path('apropos') }}" 
-            style="display: inline-block; background-color: rgba(0, 147, 226, 0.6); color: #ffffff;
-                    padding: 0.6rem 0.8rem; font-size: 0.85rem; font-weight: 600;
-                    text-decoration: none; border-radius: 0 0rem 0.0rem 0;
-                    border-left: 4px solid #0093dc; max-width: 190px; transition: all 0.2s ease;">
-            Découvrez<br>OLING
+        <!-- Vignettes latérales responsive OLING -->
+    <div id="left-links-horizontal">
+        <div class="oling-sidebar-container">
+            <a href="{{ path('apropos') }}" class="oling-sidebar-link" title="Découvrir OLING">
+            <i class="bi bi-info-circle"></i>
+            <span class="oling-sidebar-text">Découvrez<br>OLING</span>
             </a>
-            <a href="{{ path('contact') }}" 
-            style="display: inline-block; background-color: rgba(0, 147, 226, 0.6); color: #ffffff;
-                    padding: 0.6rem 0.8rem; font-size: 0.85rem; font-weight: 600;
-                    text-decoration: none; border-radius: 0 0.0rem 0rem 0;
-                    border-left: 4px solid #0093dc; max-width: 190px; transition: all 0.2s ease;">
-            Contactez-nous
+            <a href="{{ path('contact') }}" class="oling-sidebar-link" title="Contactez-nous">
+            <i class="bi bi-envelope"></i>
+            <span class="oling-sidebar-text">Contact</span>
             </a>
         </div>
-        </div>
+    </div>
 
-        <script>
-        // Affiche uniquement sur grand écran
-        if (window.innerWidth >= 992) {
-        document.getElementById('left-links-horizontal').style.display = 'block';
-        }
-        </script>
+    <style>
+    /* Conteneur principal */
+    #left-links-horizontal {
+    position: fixed;
+    top: 20%;
+    left: 0;
+    z-index: 1050;
+    }
+
+    .oling-sidebar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    }
+
+    /* Lien stylisé */
+    .oling-sidebar-link {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 147, 226, 0.7);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.6rem 0.6rem;
+    max-width: 190px;
+    border-left: 4px solid #0093dc;
+    border-radius: 0 0.5rem 0.5rem 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    }
+
+    .oling-sidebar-link:hover {
+    background-color: rgba(0, 147, 226, 0.9);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    }
+
+    .oling-sidebar-link i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    }
+
+    /* Responsive : masquer le texte sous 1390px */
+    @media (max-width: 1390.98px) {
+    .oling-sidebar-text {
+        display: none;
+    }
+    .oling-sidebar-link {
+        justify-content: center;
+        max-width: 50px;
+        padding: 0.7rem;
+    }
+    }
+
+    /* Au survol, réafficher le texte dans une bulle */
+    @media (max-width: 1390.98px) {
+    .oling-sidebar-link:hover::after {
+        content: attr(title);
+        position: absolute;
+        left: 110%;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 147, 226, 0.95);
+        color: white;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.3rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 9999;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    }
+
+    /* Mobile <800px : icônes en haut centrées sans fond global */
+    @media (max-width: 800px) {
+    #left-links-horizontal {
+        top: 0rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .oling-sidebar-container {
+        flex-direction: row;
+        justify-content: center;
+        background-color: transparent;
+        gap: 0.4rem;
+    }
+    .oling-sidebar-link {
+        padding-top: 0.35rem;
+        padding-right: 0.35rem;
+        padding-bottom: 0.35rem;
+        padding-left: 0.85rem;
+        border-left: none;
+        border-top: 3px solid #0093dc;
+        border-radius: 0rem;
+        background-color: rgba(0, 147, 226, 0.7);
+    }
+    .oling-sidebar-link:hover::after {
+        top: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    }
+    </style>
+
+
+ 
         {% block body %}{% endblock %}
 
 

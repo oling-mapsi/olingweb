@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Modifier practice{% endblock %}
+{% block meta_description %}Modification de practice Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3">Modifier la practice</h1>
+            <p class="text-muted mb-0">Mettez à jour les informations et médias.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% include 'admin/practices/_form.html.twig' with {
+            form: form,
+            practice: practice,
+            button_label: 'Mettre à jour',
+            form_action: path('admin_practices_edit', {id: practice.id})
+        } %}
+
+        <div class="mt-4">
+            <form method="post" action="{{ path('admin_practices_delete', {id: practice.id}) }}" onsubmit="return confirm('Supprimer cette practice ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ practice.id) }}">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="confirm-delete-practice-{{ practice.id }}" required>
+                    <label class="form-check-label" for="confirm-delete-practice-{{ practice.id }}">
+                        Je confirme la suppression.
+                    </label>
+                </div>
+                <button class="btn btn-outline-danger">Supprimer</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

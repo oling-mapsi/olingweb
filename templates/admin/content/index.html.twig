@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Contenus{% endblock %}
+{% block meta_description %}Gestion des contenus Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Contenus</h1>
+                <p class="text-muted mb-0">Gérez vos textes, images et icônes.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_content_new') }}">Nouveau contenu</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if contents is empty %}
+            <div class="alert alert-info">Aucun contenu pour l'instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Icône</th>
+                            <th>Image</th>
+                            <th>Texte</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for content in contents %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_content_edit', {id: content.id}) }}">{{ content.title }}</a>
+                                </td>
+                                <td>
+                                    {% if content.iconPath %}
+                                        <img src="{{ asset(content.iconPath) }}" alt="Icône" style="width: 40px; height: 40px; object-fit: contain;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if content.imagePath %}
+                                        <img src="{{ asset(content.imagePath) }}" alt="Image" style="width: 80px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if content.body %}
+                                        {{ content.body|striptags|slice(0, 90) }}{% if content.body|length > 90 %}…{% endif %}
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

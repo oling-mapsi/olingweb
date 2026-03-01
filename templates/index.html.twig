@@ -6,163 +6,302 @@
 {% block body %}
 
 <!-- ========== MAIN CONTENT ========== -->
-<main id="content">
+<main id="content" class="acc-home">
+<div class="acc-home-bg" aria-hidden="true"></div>
+<div class="acc-home-grain" aria-hidden="true"></div>
+{% set practiceAmoa = null %}
+{% for practice in practices %}
+  {% if practice.slug == 'consulting' %}
+    {% set practiceAmoa = practice %}
+  {% endif %}
+{% endfor %}
 
-{% include '/includes/slider.html.twig' %}
+{% if homeHeroSection %}
+<section class="acc-hero acc-hero--home">
+  {% if flashInfo %}
+  <a class="acc-hero-flash" href="{{ path('polsecurite') }}">
+    <div class="acc-hero-flash__body">
+      {% if flashInfo.imageHero or flashInfo.imagePath %}
+        <img class="acc-hero-flash__image" src="{{ asset(flashInfo.imageHero ?: flashInfo.imagePath) }}" alt="{{ flashInfo.title }}">
+      {% endif %}
+      <div class="acc-hero-flash__text">{{ flashInfo.title }}</div>
+    </div>
+  </a>
+  {% endif %}
+  <div class="container acc-hero-shell">
+    <div class="acc-hero-copy">
+      {% if homeHeroSection.title %}
+        <h1 class="acc-hero-title">{{ homeHeroSection.title }}</h1>
+      {% endif %}
+      {% if homeHeroSection.intro %}
+        <p class="acc-hero-subtitle">{{ homeHeroSection.intro | raw }}</p>
+      {% endif %}
+      <div class="acc-hero-cta">
+        {% if homeHeroSection.ctaLabel and homeHeroSection.ctaUrl %}
+          <a class="btn btn-primary" href="{{ homeHeroSection.ctaUrl }}">{{ homeHeroSection.ctaLabel }}</a>
+        {% endif %}
+        {% if homeHeroSection.ctaLabelSecondary and homeHeroSection.ctaUrlSecondary %}
+          <a class="btn btn-outline-dark" href="{{ homeHeroSection.ctaUrlSecondary }}">{{ homeHeroSection.ctaLabelSecondary }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
-<div class="container content-space-t-1">
+  {% if homeCards is defined and homeCards|length > 0 %}
+  <div class="container acc-hero-insights">
+    {% set cards = [] %}
+    {% for homeCard in homeCards %}
+      {% if homeCard.service %}
+        {% set service = homeCard.service %}
+        {% set cards = cards|merge([{
+          'tag': 'Service',
+          'title': service.designation,
+          'text': service.introductionShort ?: service.descriptionShort ?: (service.description ? service.description|striptags|slice(0, 140) ~ '…' : ''),
+          'image': service.imageHero ?: service.image1 ?: asset('img/1920x1080/img3.jpg'),
+          'url': path('service', {'practice' : service.practice.slug, 'slug' : service.slug})
+        }]) %}
+      {% elseif homeCard.projet %}
+        {% set projet = homeCard.projet %}
+        {% set projetService = projet.services|length ? projet.services|first : null %}
+        {% set cards = cards|merge([{
+          'tag': 'Projet',
+          'title': projet.designation,
+          'text': projet.description ? projet.description|striptags|slice(0, 140) ~ '…' : 'Projet stratégique piloté par OLING.',
+          'image': projet.imageHero ?: projet.image ?: asset('img/1920x1080/img7.jpg'),
+          'url': projetService ? path('service', {'practice' : projetService.practice.slug, 'slug' : projetService.slug}) : path('contact')
+        }]) %}
+      {% elseif homeCard.metier %}
+        {% set metier = homeCard.metier %}
+        {% set cards = cards|merge([{
+          'tag': 'Métier',
+          'title': metier.designation,
+          'text': 'Projets ciblés et accompagnement sur-mesure pour les directions métiers.',
+          'image': metier.imageHero ?: metier.image ?: asset('img/1920x1080/img12.jpg'),
+          'url': path('metiers')
+        }]) %}
+      {% endif %}
+    {% endfor %}
 
- 
+    <div class="acc-insights-grid">
+      {% for card in cards %}
+      <a class="acc-insight-card" href="{{ card.url }}" style="--card-bg: url('{{ card.image }}');" data-bg="{{ card.image }}">
+        <div class="acc-insight-overlay">
+          <span class="acc-tag">{{ card.tag }}</span>
+          <h3><span class="acc-insight-title-text">{{ card.title | raw }}</span></h3>
+        </div>
+        <div class="acc-insight-body">
+          <p>{{ card.text | raw }}</p>
+          <span class="acc-link">Découvrir</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
 
-    <!-- Stats -->
-  <div class="container mt-3 mt-sm-0 mb-0 content-space-1 content-space-lg-3 p-5 rounded-2">
-    <div class="row justify-content-lg-between align-items-lg-center">
+{% if homePractices is defined and homePractices|length > 0 %}
+<section class="acc-practices">
+  <div class="container">
+    {% set practicePalette = ['#7d5ba6','#0093dc','#8aea92','#f4743b'] %}
+    {% set practiceGrad2Palette = ['#3d2672','#0b4cc2','#1f7a5a','#a8461e'] %}
+    {% set practiceColorMap = {'#7d5ba6':0,'#0093dc':1,'#8aea92':2,'#f4743b':3} %}
+    <div class="acc-practices-head acc-practices-head--center">
+      <h2 class="acc-section-title">{{ homePracticesSection and homePracticesSection.title ? homePracticesSection.title : 'Des pôles d’expertise pilotés, outillés et orientés résultats.' }}</h2>
+    </div>
+    <div class="acc-practice-grid accenture-grid acc-practice-process">
+      {% for practice in homePractices %}
+        {% set practiceColor = practice.color ? (practice.color starts with('#') ? practice.color|lower : '#' ~ practice.color|lower) : '' %}
+        {% set variant = practiceColorMap[practiceColor] is defined ? practiceColorMap[practiceColor] : (practice.id ? (practice.id % 4) : (loop.index % 4)) %}
+        {% set practiceAccent = practiceColor ? practiceColor : practicePalette[variant] %}
+        {% set practiceGrad2 = practiceGrad2Palette[variant] %}
+        <a class="acc-practice-step" data-step="{{ '%02d'|format(loop.index) }}"
+           data-variant="{{ variant }}"
+           href="{{ path('practice_home', {'slug': practice.slug}) }}"
+           style="--practice-bg: url('{{ practice.image1 ?: asset('img/1920x1080/img9.jpg') }}'); --practice-accent: {{ practiceAccent }}; --card-grad-1: {{ practiceAccent }}; --card-grad-2: {{ practiceGrad2 }};">
+          <div class="acc-practice-step-media" aria-hidden="true"></div>
+          <div class="acc-practice-step-content">
+            <h3>{{ practice.designationShort ?: practice.designation }}</h3>
+            <p>{{ practice.introductionShort ? practice.introductionShort|striptags|slice(0, 120) ~ '…' : (practice.descriptionShort ? practice.descriptionShort|striptags|slice(0, 120) ~ '…' : (practice.description ? practice.description|striptags|slice(0, 120) ~ '…' : '')) }}</p>
+            <div class="acc-practice-step-footer">
+              {% if practice.tags is defined and practice.tags|length > 0 %}
+              <div class="acc-practice-tags">
+                {% for tag in practice.tags|slice(0, 5) %}
+                  <span class="acc-practice-tag">{{ tag starts with('#') ? tag : '#' ~ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+              <span class="btn btn-icon-only" aria-hidden="true"></span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
 
+    {% if homePracticesSection and homePracticesSection.intro %}
+    <div class="acc-practices-foot acc-practices-head--center">
+      <div class="acc-practices-subtitle-wrap">
+        <p class="acc-practices-subtitle">{{ homePracticesSection.intro | raw }}</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
 
-    
-      <div class="col-lg-5">
-        <div class="mb-6">
-          <h2>Votre allié SI, organisation et conformité pour mener à bien vos initiatives stratégiques</h2>
-            <p>Depuis 2012, OLING collabore étroitement avec ses clients pour transformer le fonctionnement de leur entreprise avec les ERP, les projets informatiques, la conformité RGPD, QSE, etc, le collaboratif, leur permettant ainsi de se focaliser sur leur cœur de métier. <br>Avec une expertise solide en management et en intégration de logiciels et de processus complexes, OLING offre des solutions personnalisées pour soutenir la croissance du digital de ses clients.</p>
+<section class="acc-value">
+  <div class="container">
+    <div class="acc-value-head">
+      <div class="acc-value-head-copy">
+        <h2 class="acc-section-title">Chaque jour, nous nous emparons du changement et générons des résultats concrets.</h2>
+        <p class="acc-lede">Votre allié tactique et organisationnel pour mener à bien vos initiatives stratégiques.</p>
+      </div>
+    </div>
+    <div class="acc-value-kpis-row">
+      <div class="acc-value-kpis acc-value-kpis--stacked">
+        <div class="acc-value-kpi">
+          <span class="acc-value-kpi-indicator">+200</span>
+          <span class="acc-value-kpi-title">Projets pilotés</span>
+          <span class="acc-value-kpi-desc">AMOA, transformation SI et conformité menés de bout en bout.</span>
+        </div>
+        <div class="acc-value-kpi">
+          <span class="acc-value-kpi-indicator">95%</span>
+          <span class="acc-value-kpi-title">Taux de succès</span>
+          <span class="acc-value-kpi-desc">Projets sécurisés et cadrés par notre méthodologie ISO 27001.</span>
+        </div>
+        <div class="acc-value-kpi">
+          <span class="acc-value-kpi-indicator">12</span>
+          <span class="acc-value-kpi-title">Secteurs couverts</span>
+          <span class="acc-value-kpi-desc">Public, finance, industrie, santé et services essentiels.</span>
+        </div>
+        <div class="acc-value-kpi">
+          <span class="acc-value-kpi-indicator">+5&nbsp;000</span>
+          <span class="acc-value-kpi-title">Collaborateurs couverts</span>
+          <span class="acc-value-kpi-desc">Agents et salariés protégés par nos dispositifs DPO.</span>
         </div>
       </div>
-      <!-- End Col -->
-      <div class="col-lg-6">
-        <!-- List -->
-        <ul class="list-equal-height list-equal-height-2-cols">
-          <li class="list-equal-height-item">
-            <h4 class="display-5 text-center">50 %</h4>
-            <p class="mb-0 text-center">Digitalisation du secteur public</p>
-          </li>
-          <li class="list-equal-height-item">
-            <h4 class="display-5 text-center">50 %</h4>
-            <p class="mb-0 text-center">Digitalisation du secteur privé</p>
-          </li>
-          <li class="list-equal-height-item">
-            <h4 class="display-5 text-center">150+</h4>
-            <p class="mb-0 text-center">Projets de transformation conduits dans les outremers et l'hexagone</p>
-          </li>
-          <li class="list-equal-height-item">
-            <h4 class="display-5 text-center"><sub><i class="bi-arrow-up-short text-primary ms-n2"></i></sub>10</h4>
-            <p class="mb-0 text-center">consultants experts</p>
-          </li>
-        </ul>
-        <!-- End List -->
-      </div>
-      <!-- End Col -->
     </div>
-    <!-- End Row -->
-  </div>
-  <!-- End Stats -->
-</div>
 
-<section class="py-7 bg-light text-dark">
-  <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 g-5">
+    <div class="acc-carousel swiper js-swiper-acc-value">
+      <div class="swiper-wrapper">
+        {% if projets|length > 0 %}
+          {% for projet in projets %}
+          {% set projetService = projet.services|length ? projet.services|first : null %}
+          <div class="swiper-slide">
+            <a class="acc-value-card acc-value-card--thumb" href="{{ projetService ? path('service', {'practice' : projetService.practice.slug, 'slug' : projetService.slug}) : path('contact') }}">
+              <div class="acc-value-card-head">
+                <div class="acc-value-thumb" style="background-image: url('{{ projet.image ?: asset('img/1920x1080/img5.jpg') }}');"></div>
+                <div class="acc-value-meta">
+                  <span class="acc-tag">{{ projet.metier ? projet.metier.designation : 'Projet' }}</span>
+                  <h3>{{ projet.designation | raw }}</h3>
+                </div>
+              </div>
+              <div class="acc-value-body">
+                <p>{{ projet.description ? projet.description|striptags|slice(0, 120) ~ '…' : 'Pilotage, transformation et conformité sur des projets SI structurants.' }}</p>
+                <span class="acc-link">Voir le projet</span>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+        {% else %}
+          {% for practice in practices %}
+          {% if practice.slug != 'mapsi' %}
+          <div class="swiper-slide">
+            <a class="acc-value-card acc-value-card--thumb" href="{{ path('practice_home', {'slug': practice.slug}) }}">
+              <div class="acc-value-card-head">
+                <div class="acc-value-thumb" style="background-image: url('{{ practice.image1 ?: asset('img/1920x1080/img5.jpg') }}');"></div>
+                <div class="acc-value-meta">
+                  <span class="acc-tag">Practice</span>
+                  <h3>{{ practice.designation }}</h3>
+                </div>
+              </div>
+              <div class="acc-value-body">
+                <p>{{ practice.introductionShort | raw }}</p>
+                <span class="acc-link">En savoir plus</span>
+              </div>
+            </a>
+          </div>
+          {% endif %}
+          {% endfor %}
+        {% endif %}
 
-      <!-- Practice Card 1 -->
-      <div class="col">
-        <a href="{{ path('practice', {'slug': 'conformite-gouvernance-donnees'}) }}" class="text-decoration-none">
-          <div class="card h-100 border-0 rounded-5 overflow-hidden position-relative shadow-lg">
-            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(145deg, #ff88a6 0%, #b56dff 100%), url('img/spe/practice1.png') center/cover no-repeat; opacity: 0.9;"></div>
-            <div class="position-relative p-5 d-flex flex-column justify-content-between h-100">
-              <div class="mb-4">
-                <h2 class="text-white text-uppercase fw-bold mb-3 display-6">#1 Conformité & Gouvernance</h2>
-                <p class="text-white fst-italic mb-3 fs-10">"Faire de la conformité un levier de confiance et de performance."</p>
-                <p class="text-white fw-light fs-8">
-                OLING est expert de la gestion conforme des données selon les règlementations en vigueur. 
-                Notre équipe certifiée ISO 27001 (Veritas) et DPO (APAVE) a mené 1000+ projets en conformité des organisations.<br>
-Notre plateforme MAPSI digitalise la conformité (registre, audits, risques, plans d’action).<br>
-Nos experts interviennent à distance ou sur site, en mode ponctuel ou externalisé.
-
-                </p>
-              </div>
-              <div class="d-flex flex-wrap gap-2 mb-4">
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🔐 RGPD</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📊 DORA</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🛡 NIS2</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">✔️ ISO 27001</span>
-              </div>
-              <div>
-                <span class="btn btn-outline-light rounded-pill px-5 py-2 fs-6 fw-bold">Découvrir la practice →</span>
-              </div>
+        <div class="swiper-slide">
+          <div class="acc-value-card acc-value-card--stats">
+            <div class="acc-value-body">
+              <span class="acc-tag">Chiffres clés</span>
+              <h3>OLING en action</h3>
+              <ul class="acc-stats">
+                <li><strong>+100</strong> Projets SI et conformité</li>
+                <li><strong>10+</strong> Consultants experts</li>
+                <li><strong>2012</strong> Année de création</li>
+                <li><strong>4</strong> Territoires couverts</li>
+              </ul>
             </div>
           </div>
-        </a>
+        </div>
       </div>
-
-      <!-- Practice Card 2 -->
-      <div class="col">
-        <a href="{{ path('practice', {'slug': 'transformation-performance-si'}) }}" class="text-decoration-none">
-          <div class="card h-100 border-0 rounded-5 overflow-hidden position-relative shadow-lg">
-            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(145deg, #0099f7 0%, #00c3ff 50%), url('img/spe/practice1f.jpg') center/cover no-repeat; opacity: 0.9;"></div>
-            <div class="position-relative p-5 d-flex flex-column justify-content-between h-100">
-              <div class="mb-4">
-                <h2 class="text-white text-uppercase fw-bold mb-3 display-6">#2 Transformation & Performance</h2>
-                <p class="text-white-50 fst-italic mb-3 fs-10">"Des SI alignés sur vos ambitions métiers."</p>
-                <p class="text-white fw-light fs-8">
-                OLING conçoit votre schéma directeur SI & numérique pour aligner IT et stratégie métier. Nous pilotons ensuite vos projets en AMOA et MOE, sur l'organisation et les solutions logicielles ou techniques.
-                <br>
-Processus métiers : finance, RH, achats, clients, Production<br>
-Solutions : ERP (SAP, X3, IFS…), CRM, GMAO, MES, BI<br>
-Infrastructures : cloud, virtualisation, sécurité, réseaux<br>
-Notre approche permet une exécution agile, sécurisée et pilotée, au service de votre organisation.
-
-                </p>
-              </div>
-              <div class="d-flex flex-wrap gap-2 mb-4">
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">⚙️ ERP</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">💼 CRM</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🏭 GMAO</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📈 MES</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">📊 BI</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">☁️ Cloud</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🔐 Sécurité</span>
-                <span class="badge bg-white text-dark rounded-pill px-3 py-2 fs-6">🌐 Réseaux</span>
-              </div>
-              <div>
-                <span class="btn btn-outline-light rounded-pill px-5 py-2 fs-6 fw-bold">Explorer cette practice →</span>
-              </div>
-            </div>
-          </div>
-        </a>
+    </div>
+    <div class="acc-carousel-toolbar acc-carousel-toolbar--below">
+      <div class="acc-carousel-nav">
+        <button class="acc-carousel-prev js-acc-value-prev" type="button" aria-label="Précédent">‹</button>
+        <button class="acc-carousel-next js-acc-value-next" type="button" aria-label="Suivant">›</button>
       </div>
-
+      <div class="acc-carousel-meta">
+        <span class="acc-carousel-count"><span class="js-acc-value-current">1</span>/<span class="js-acc-value-total">1</span></span>
+        <button class="acc-carousel-toggle js-acc-value-toggle" type="button" aria-pressed="false" data-state="playing">Pause</button>
+      </div>
     </div>
   </div>
 </section>
 
-
-
-
-<!-- Features -->
-<div class="overflow-hidden">
-  <div class="container content-space-1 content-space-lg-2">
-    <div class="position-relative mb-8">
-      <div class="row justify-content-lg-between">
-        <div class="col-md-6 col-lg-6 mb-7 mb-lg-0">
-            <div class="mb-5">
-              <h2>Recherchez-vous un partenaire fournissant une expertise en système d'information, en organisation et en conformité adaptée à votre secteur d'activité ?</h2>
-              <p>Notre équipe d'experts internes dispose d'une connaissance approfondie des défis uniques auxquels font face les entreprises dans divers secteurs, tels que les services publics, le transport, le négoce et la distribution, l'apprentissage et la formation, et bien d'autres.</p> 
-              <p>En travaillant avec OLING, vous bénéficiez d'une collaboration étroite avec nos spécialistes qui comprennent les enjeux de votre secteur et les processus spécifiques à votre organisation. Nous vous aidons à mettre en place des solutions sur mesure, robustes et selon les standards de référence pour répondre à vos besoins et soutenir votre croissance.</p>
-            </div>
-
-            <a class="link link-pointer" href={{ path('metiers')}}>Découvrez nos expériences par secteur d'activité</a>
-        </div>
-        <!-- End Col -->
-        <div class="col-md-6 col-lg-6 pt-10 d-none d-sm-block d-flex justify-content-center align-items-center text-center">
-          {# <img class="card-img" src="img/spe/equipe.png" alt="Image Description"> #}
-          <div class="icon-demo d-flex align-items-center justify-content-center p-3 py-6" style="font-size: 15em" role="img" aria-label="Building fill check - large preview">
-            <i class="bi bi-building text-light align-self-center"></i>
-          </div>
-        </div>
-
-      </div>
-      <!-- End Row -->
+<section class="acc-awards">
+  <div class="container">
+    <div class="acc-section-head">
+      <span class="acc-eyebrow acc-eyebrow--dark">Prix et reconnaissance internationale</span>
+      <h2 class="acc-section-title">La confiance se construit sur des preuves concrètes.</h2>
+    </div>
+    <div class="acc-awards-list">
+      <details class="acc-award" open>
+        <summary>
+          <span class="acc-award-title">Une gouvernance d'entreprise éthique</span>
+          <span class="acc-award-sub">Cadre ISO 27001, pilotage responsable et traçabilité renforcée.</span>
+        </summary>
+        <p>OLING structure les programmes de conformité et de sécurité avec des méthodes de pilotage exigeantes, centrées sur la valeur et la conformité.</p>
+      </details>
+      <details class="acc-award">
+        <summary>
+          <span class="acc-award-title">Un cabinet de confiance</span>
+          <span class="acc-award-sub">DPO certifié, audits réguliers, gouvernance RGPD.</span>
+        </summary>
+        <p>Nos experts accompagnent des organisations publiques et privées avec un niveau de preuve continu : documentation, audits, indicateurs et plans d’action.</p>
+      </details>
+      <details class="acc-award">
+        <summary>
+          <span class="acc-award-title">Un pilotage outillé</span>
+          <span class="acc-award-sub">MAPSI industrialise les audits et la conformité.</span>
+        </summary>
+        <p>MAPSI centralise les plans d’action, incidents, registres et reportings pour une traçabilité complète et partagée.</p>
+      </details>
     </div>
   </div>
-</div>
-<!-- End Features -->
+</section>
+
+<section class="acc-careers acc-contact">
+  <div class="acc-careers-media" style="background-image: url('{{ asset('img/1920x1080/img11.jpg') }}');"></div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="acc-eyebrow">Contact</span>
+        <h2 class="acc-section-title acc-section-title--light">Planifiez un échange de cadrage de 30 minutes</h2>
+        <p class="acc-lede acc-lede--light">Parlons de vos enjeux AMOA, SI et conformité. Nous clarifions le périmètre, les priorités et le plan d’action.</p>
+      </div>
+      <div class="col-lg-5 text-lg-end">
+        <a class="btn btn-outline-light" href="{{ path('contact') }}">Réserver un échange</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
@@ -188,25 +327,5 @@ Notre approche permet une exécution agile, sécurisée et pilotée, au service 
      }'>
     <i class="bi-chevron-up"></i>
   </a>
-
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-<script>
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#edeff5",
-      "text": "#838391"
-    },
-    "button": {
-      "background": "#4b81e8"
-    }
-  },
-  "content": {
-    "message": "Notre site utilise des cookies techniques nécessaires à son fonctionnement et à la sécurité de votre navigation. Nous ne collectons pas de données de données personnelles à des fins publicitaires ou de profilage. En continuant à utiliser notre site, vous acceptez l'utilisation de ces cookies techniques",
-    "dismiss": "Ok !",
-    "link": "https://oling.fr/politiquergpd"
-  }
-});
-</script>
 
 {% endblock %}

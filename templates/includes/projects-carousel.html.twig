@@ -1,0 +1,48 @@
+{% if projects is defined and projects|length > 0 %}
+  <section class="oling-section oling-section--projects">
+    <div class="container d-print-none">
+      <div class="row justify-content-lg-between">
+        <div class="col-md-4 mb-7 mb-md-0 oling-projects-aside">
+          <div class="mt-md-10 mb-5">
+            <h2>Retours d’expériences</h2>
+          </div>
+
+          <div class="alert alert-soft-dark oling-linkedin-alert" role="alert">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <i class="bi-linkedin"></i>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                Suivez-nous sur <a class="alert-link" href="https://www.linkedin.com/company/oling-management-&-technologie/" target="_blank">LinkedIn</a> pour découvrir notre actualité
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-7 oling-projects-carousel">
+          <div class="swiper-center-mode-end">
+            <div class="js-swiper-card-grid swiper swiper-equal-height ps-4">
+              <div class="swiper-wrapper">
+                {% for projet in projects %}
+                  <div class="swiper-slide pt-4 pb-8">
+                    <a class="card card-transition oling-project-card {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                      <div class="card-body">
+                        {% if projet.metier %}
+                          <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation | raw }}</span>
+                        {% endif %}
+                        <h3 class="highlight-text card-title text-white lh-base">{{ projet.designation | raw }}</h3>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+
+              <div class="js-swiper-card-grid-button-prev swiper-button-prev swiper-static-button-prev"></div>
+              <div class="js-swiper-card-grid-button-next swiper-button-next swiper-static-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}

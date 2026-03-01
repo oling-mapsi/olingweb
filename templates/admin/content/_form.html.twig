@@ -1,0 +1,117 @@
+{{ form_start(form) }}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="mb-3">
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.body) }}
+                {{ form_widget(form.body, {'attr': {'class': 'form-control js-wysiwyg'}}) }}
+                {{ form_errors(form.body) }}
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="admin-media-card">
+                <div class="admin-media-header">
+                    <div>
+                        <h5>Image principale</h5>
+                        <p>Image utilisée dans les listings et les actualités.</p>
+                    </div>
+                </div>
+                <div class="admin-media-body">
+                    <div class="admin-media-preview">
+                        <img class="admin-media-preview__img" src="{{ asset(contentItem.imagePath ?: 'img/1920x1080/img3.jpg') }}" alt="Image actuelle">
+                    </div>
+                    <div class="admin-media-fields">
+                        {{ form_label(form.imageFile) }}
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.imageFile) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-media-card">
+                <div class="admin-media-header">
+                    <div>
+                        <h5>Image recadrée (Flash info)</h5>
+                        <p>Recadre précisément l’image affichée dans l’encart Flash info.</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm js-cropper-use-existing">Recadrer l’existante</button>
+                </div>
+                <div class="admin-media-body">
+                    <div class="admin-media-preview">
+                        <img class="admin-media-preview__img" src="{{ asset(contentItem.imageHero ?: contentItem.imagePath ?: 'img/1920x1080/img3.jpg') }}" alt="Aperçu recadrage">
+                    </div>
+                    <div class="admin-media-fields">
+                        {{ form_label(form.imageHeroFile) }}
+                        {{ form_widget(form.imageHeroFile, {'attr': {'class': 'form-control js-cropper-input', 'data-crop-aspect': '1'}}) }}
+                        {{ form_errors(form.imageHeroFile) }}
+                        <div class="mt-2">
+                            <label class="form-label">Proportion de recadrage</label>
+                            <select class="form-select js-cropper-ratio js-no-select2" data-crop-input="{{ form.imageHeroFile.vars.id }}">
+                                <option value="1" selected>1:1 (carré)</option>
+                                <option value="1.3333">4:3</option>
+                                <option value="0.75">3:4</option>
+                                <option value="1.7778">16:9</option>
+                                <option value="0.5625">9:16</option>
+                                <option value="0.8">4:5</option>
+                                <option value="0.6667">2:3</option>
+                                <option value="1.5">3:2</option>
+                                <option value="free">Libre</option>
+                            </select>
+                        </div>
+                        <details>
+                            <summary>Utiliser une URL</summary>
+                            <div class="mt-2">
+                                {{ form_label(form.imageHero) }}
+                                {{ form_widget(form.imageHero, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.imageHero) }}
+                            </div>
+                        </details>
+                        <div class="admin-cropper" data-input="{{ form.imageHeroFile.vars.id }}">
+                            <div class="admin-cropper__header">
+                                <div class="admin-cropper__label">Zone de recadrage</div>
+                            </div>
+                            <div class="admin-cropper__stage">
+                                <img class="admin-cropper__image" src="{{ asset(contentItem.imageHero ?: contentItem.imagePath ?: 'img/1920x1080/img3.jpg') }}" alt="Aperçu recadrage">
+                            </div>
+                            <div class="admin-cropper__hint">Glisse et redimensionne la zone puis enregistre.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-media-card">
+                <div class="admin-media-header">
+                    <div>
+                        <h5>Icône</h5>
+                        <p>Optionnel. Affichage compact dans les listes.</p>
+                    </div>
+                </div>
+                <div class="admin-media-body">
+                    <div class="admin-media-preview">
+                        {% if contentItem.iconPath %}
+                            <img class="admin-media-preview__img" src="{{ asset(contentItem.iconPath) }}" alt="Icône actuelle">
+                        {% else %}
+                            <span class="text-muted small">Aucune icône</span>
+                        {% endif %}
+                    </div>
+                    <div class="admin-media-fields">
+                        {{ form_label(form.iconFile) }}
+                        {{ form_widget(form.iconFile, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.iconFile) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-outline-secondary" href="{{ path('admin_content_index') }}">Retour</a>
+    </div>
+{{ form_end(form) }}

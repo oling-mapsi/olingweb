@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact - OLING{% endblock %}
-{% block meta_description %}Formulaire de contact OLING{% endblock %}
+{% block title %}Contact | Cabinet de conseil AMOA SI - OLING{% endblock %}
+{% block meta_description %}Contactez OLING, cabinet de conseil AMOA SI, transformation digitale et conformité. Réponse rapide, France & Outre-mer.{% endblock %}
 
 {% block body %}
   
 
   <!-- Card Grid -->
 <div class="container content-space-3 content-space-lg-3">
-  <div class="linear rounded-3 p-9 mb-10">
+  <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
     <div class="row">
       <div class="col-md-7 mb-8 mb-lg-0">
         <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> Formulaire de contact</span>
         <div class="w-md-75 mb-5">
-          <h2 class="text-white">Comment pouvons-nous vous aider ?</h2>
-          <p class="text-white-70"></p>
+          <h1 class="text-white">Comment pouvons-nous vous aider ?</h1>
+          <p class="text-white-70">Décrivez votre besoin AMOA, SI ou conformité. Nous revenons vers vous avec une proposition claire et réaliste.</p>
         </div>
       </div>
       <!-- End Col -->
@@ -56,10 +56,22 @@
       <div class="col-lg-7">
         <div class="position-relative">
           <!-- Card -->
-          <div class="card card-lg">
+          <div class="card card-lg oling-surface">
             <!-- Card Body -->
             <div class="card-body">
-              <h4 class="mb-4">Envoyez nous un email</h4>
+              <h4 class="mb-4">Envoyez-nous un message</h4>
+
+              <div id="contact-loading" class="d-none align-items-center gap-2 mb-3">
+                <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+                <span>Envoi en cours…</span>
+              </div>
+
+              <div id="contact-error" class="alert alert-danger d-none mb-3"></div>
+
+              <div id="contact-success" class="d-none">
+                <h5 class="mb-2">Merci, votre message est bien envoyé.</h5>
+                <p class="mb-0">Nous revenons vers vous rapidement pour un échange de cadrage de 30 minutes.</p>
+              </div>
 
               <form id="contact-form">
                 <div class="row">
@@ -121,7 +133,7 @@
 
                 <small class="text-muted small">
                     Conformément au Règlement Général sur la Protection des Données (RGPD), les informations recueillies via ce formulaire sont nécessaires pour traiter votre demande. Vous disposez d'un droit d'accès, de rectification, et de suppression des données vous concernant.
-                    <br>Pour les demandes RGPD : dpo@oling.fr
+                    <br>Pour les demandes RGPD : <a class="link link-light link-light-75" href="https://v6.mapsi.fr/public-form/rgpdaccess/eyJ2IjoxLCJjIjo4LCJlIjoicmdwZGFjY2VzcyJ9.e041dfbf740ee072196f1117efc9b6cbcd69f074510a3e31216784d64f5f6965" target="_blank" rel="noopener">Accéder au formulaire RGPD</a>
                 </small>
                 <div class="mb-4">
     

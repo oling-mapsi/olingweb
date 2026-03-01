@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MetierRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +20,14 @@ class Metier
     private ?string $designation = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['designation'])]
     private ?string $slug = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageHero = null;
 
     #[ORM\OneToMany(mappedBy: 'metier', targetEntity: Projet::class)]
     private Collection $projets;
@@ -54,6 +62,30 @@ class Metier
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImageHero(): ?string
+    {
+        return $this->imageHero;
+    }
+
+    public function setImageHero(?string $imageHero): self
+    {
+        $this->imageHero = $imageHero;
 
         return $this;
     }

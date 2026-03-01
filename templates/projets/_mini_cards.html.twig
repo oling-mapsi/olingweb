@@ -1,0 +1,14 @@
+{% for projet in miniProjects %}
+  {% set projetService = projet.services|length ? projet.services|first : null %}
+  <a class="card card-ghost card-transition-zoom oling-project-mini-card" href="{{ projetService ? path('service', {'practice' : projetService.practice.slug, 'slug' : projetService.slug}) : path('contact') }}">
+    <div class="card-pinned card-transition-zoom-item">
+      <img class="card-img" src="{{ projet.image ?: asset('img/1920x1080/img5.jpg') }}" alt="{{ projet.designation }}">
+    </div>
+    <div class="card-body">
+      <h4 class="mb-1">{{ projet.designation }}</h4>
+      {% if projet.metier %}
+        <span class="badge bg-dark text-white">{{ projet.metier.designation | raw }}</span>
+      {% endif %}
+    </div>
+  </a>
+{% endfor %}

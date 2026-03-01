@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Nouveau métier{% endblock %}
+{% block meta_description %}Création de métier Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3">Nouveau métier</h1>
+            <p class="text-muted mb-0">Ajoutez un métier.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% include 'admin/metiers/_form.html.twig' with {
+            form: form,
+            metier: metier,
+            button_label: 'Créer'
+        } %}
+    </div>
+</main>
+{% endblock %}

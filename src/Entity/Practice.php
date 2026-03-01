@@ -51,10 +51,22 @@ class Practice
     private ?string $designation_short = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $h1_title = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $class1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $featuredHome = false;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $featuredHomeRank = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $tags = [];
 
     public function __construct()
     {
@@ -209,6 +221,18 @@ class Practice
         return $this;
     }
 
+    public function getH1Title(): ?string
+    {
+        return $this->h1_title;
+    }
+
+    public function setH1Title(?string $h1_title): self
+    {
+        $this->h1_title = $h1_title;
+
+        return $this;
+    }
+
     public function getClass1(): ?string
     {
         return $this->class1;
@@ -229,6 +253,56 @@ class Practice
     public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function isFeaturedHome(): bool
+    {
+        return $this->featuredHome;
+    }
+
+    public function setFeaturedHome(bool $featuredHome): self
+    {
+        $this->featuredHome = $featuredHome;
+
+        return $this;
+    }
+
+    public function getFeaturedHomeRank(): ?int
+    {
+        return $this->featuredHomeRank;
+    }
+
+    public function setFeaturedHomeRank(?int $featuredHomeRank): self
+    {
+        $this->featuredHomeRank = $featuredHomeRank;
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags ?? [];
+    }
+
+    public function setTags(?array $tags): self
+    {
+        $clean = [];
+        if ($tags) {
+            foreach ($tags as $tag) {
+                if (!is_string($tag)) {
+                    continue;
+                }
+                $tag = trim($tag);
+                if ($tag === '') {
+                    continue;
+                }
+                $clean[] = $tag;
+            }
+        }
+
+        $this->tags = array_values(array_unique($clean));
 
         return $this;
     }

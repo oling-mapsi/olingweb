@@ -7,13 +7,21 @@
        
         <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
-        <meta name="description" content="{% block meta_description %} {% endblock %}" />
-	    <link rel="canonical" href="https://oling.fr/" />
-        <meta property="og:title" content="OLING — AMOA SI, ERP & Conformité">
-        <meta property="og:description" content="Conduite de projets SI, ERP, RGPD, ISO 27001. France & Outre-mer.">
-        <meta property="og:url" content="https://oling.fr/">
+        {% set meta_description %}{% block meta_description %}{% endblock %}{% endset %}
+        <meta name="description" content="{{ meta_description|striptags|trim }}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	    <link rel="canonical" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+        <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+        <meta property="og:description" content="{{ meta_description|striptags|trim }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
         <meta property="og:image" content="https://oling.fr/img/og/oling-home.jpg">
         <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+        <meta name="twitter:description" content="{{ meta_description|striptags|trim }}">
+        <meta name="theme-color" content="#0093DC">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
             
@@ -22,20 +30,43 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1EN73LS1B3"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-1EN73LS1B3');
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          "name": "OLING Management et Technologie",
+          "url": "https://oling.fr",
+          "logo": "https://oling.fr/img/logo/logoling.png",
+          "description": "Cabinet de conseil AMOA SI, transformation digitale et conformité réglementaire (RGPD, ISO 27001).",
+          "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+          "email": "contact@oling.fr",
+          "address": [
+            {
+              "@type": "PostalAddress",
+              "streetAddress": "40 rue Alexandre DUMAS",
+              "postalCode": "75011",
+              "addressLocality": "Paris",
+              "addressCountry": "FR"
+            },
+            {
+              "@type": "PostalAddress",
+              "streetAddress": "Imm. Sud Jarry, rue René RABAT",
+              "postalCode": "97122",
+              "addressLocality": "Baie-Mahault",
+              "addressCountry": "FR"
+            }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/company/oling-management-&-technologie/",
+            "https://twitter.com/oling971"
+          ]
+        }
         </script>
     </head>
-    <body>
+    {% set currentRoute = app.request.attributes.get('_route') %}
+    <body class="oling-body oling-refresh{% if app.request.pathinfo == '/' %} oling-home{% endif %}{% if currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
         <!-- ========== HEADER ========== -->
-        <header id="header" class="mymenumoov navbar navbar-expand-lg navbar-center navbar-absolute-top navbar-show-hide"
+        <header id="header" class="oling-header mymenumoov navbar navbar-expand-lg navbar-center navbar-absolute-top navbar-show-hide"
                 data-hs-header-options='{
                     "fixMoment": 0,
                     "fixEffect": "slide"
@@ -65,64 +96,62 @@
                     <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
                         <div class="navbar-absolute-top-scroller">
                             <ul class="navbar-nav nav-pills justify-content-start">
-                            {% set count = 0 %}
-                            {% for practice in practices %}
-                            {% set count = count + 1 %}
-                            <!-- Landings -->
                             <li class="hs-has-mega-menu nav-item"
                                 data-hs-mega-menu-item-options='{
                                     "desktop": {
-                                    {% if count > 2 %}"position": "right",{% endif %}
-                                    "maxWidth": "40rem"
+                                    "position": "left",
+                                    "maxWidth": "80rem"
                                     }
                                 }'>
-                                <a id="landingsMegaMenu{{ practice.id }}" 
-                                    class="mymenulink mt-2 nav-link dropdown-toggle hs-mega-menu-invoker{% if practice.slug == pract %} active{% endif %}" 
-                                    role="button" 
+                                <a id="needsMegaMenu"
+                                    class="mymenulink mt-2 nav-link dropdown-toggle hs-mega-menu-invoker"
+                                    href="javascript:;"
+                                    role="button"
                                     aria-expanded="false">
-                                    {% if practice.id == 14 %}
-                                        <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo Mapsi" style="height: 1.5rem; transform: translateY(-5px);">
-                                        <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo mapsi blanc" style="height: 1.5rem; transform: translateY(-5px);">
-                                    {% else %}
-                                        {{ practice.designation }}
-                                    {% endif %}
+                                    Vos besoins
                                 </a>
 
-                                <!-- Mega Menu -->
-                                <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu{{ practice.id }}" style="min-width: 25rem;">
-                            
-                                <!-- Main Content -->
-
-                                <div class="row">
-                                    <div class="col-lg d-none d-lg-block">
-                                    <div class="d-flex align-items-start flex-column bg-light rounded-1 h-100 p-4">
-                                        <span class="fs-3 fw-bold d-block">{{ practice.designation }}</span>
-                                        {# <img class="img-fluid rounded-2 mb-2" src="{{ practice.image1 }}" alt="Image Description"> #}
-                                            <div>
-                                                <p>{{ practice.description  | raw  }}</p>
-                                            </div>
-                                        <div class="mt-auto">
-                                        <p class="mb-1"><a class="link link-dark link-pointer" href={{path('practice',{'slug' : practice.slug} ) }}>Découvrir</a></p>
-                                        <p class="mb-1"><a class="link link-dark link-pointer" href={{path('client') }}>Nos références</a></p>
-                                        </div>
+                                <div class="hs-mega-menu dropdown-menu oling-mega-menu oling-mega-menu--needs" aria-labelledby="needsMegaMenu">
+                                    <div class="oling-mega-head">
+                                        <h3>Nos expertises</h3>
+                                        <a class="oling-mega-head-link" href="{{ path('projets') }}">Nos réalisations →</a>
                                     </div>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <div class="navbar-dropdown-menu-inner">
-                                            {% for service in practice.services %}
-                                            <a class="dropdown-item " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}> {{ service.designation  | raw  }}</a>
-                                            {% endfor %}
-                                        </div>
+                                    <div class="oling-mega-grid">
+                                        {% for practice in practices %}
+                                            {% if practice.slug != 'mapsi' %}
+                                                <div class="oling-mega-col">
+                                                    <a class="oling-mega-col-title" href="{{ path('practice_home', {'slug': practice.slug}) }}">
+                                                        {{ practice.designationShort ?: practice.designation }}
+                                                    </a>
+                                                    {% if practice.introductionShort %}
+                                                        <p class="oling-mega-col-intro">{{ practice.introductionShort|striptags|slice(0, 120) ~ '…' }}</p>
+                                                    {% endif %}
+                                                    <ul class="oling-mega-links">
+                                                        {% for service in practice.services %}
+                                                            <li><a href="{{ path('service', {'practice' : service.practice.slug, 'slug' : service.slug}) }}">{{ service.designation | raw }}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </div>
-                                <!-- End Main Content -->
-                                </div>
-                                <!-- End Mega Menu -->
                             </li>
-                            <!-- End Landings -->
-
-                            {% endfor %}
+                            <li class="nav-item">
+                                <a class="mymenulink mt-2 nav-link" href="{{ path('projets') }}">Nos projets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="mymenulink mt-2 nav-link" href="{{ path('apropos') }}">Nos atouts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="mymenulink mt-2 nav-link" href="{{ path('contact') }}">Contactez-nous</a>
+                            </li>
+                            <li class="nav-item ms-lg-2">
+                                <a class="nav-link mapsi-link mt-2 gap-2" href="https://mapsi.fr" target="_blank" rel="noopener" aria-label="Accéder à MAPSI">
+                                    <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo Mapsi">
+                                    <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo mapsi blanc">
+                                </a>
+                            </li>
 {# 
                             <!-- Landings -->
                             <li class="nav-item">
@@ -149,133 +178,65 @@
         <!-- ========== END HEADER ========== -->
 
 
-        <!-- Vignettes latérales responsive OLING -->
-    <div id="left-links-horizontal">
-        <div class="oling-sidebar-container">
-            <a href="{{ path('apropos') }}" class="oling-sidebar-link" title="Découvrir OLING">
-            <i class="bi bi-info-circle"></i>
-            <span class="oling-sidebar-text">Découvrez<br>OLING</span>
-            </a>
-            <a href="{{ path('contact') }}" class="oling-sidebar-link" title="Contactez-nous">
-            <i class="bi bi-envelope"></i>
-            <span class="oling-sidebar-text">Contact</span>
-            </a>
-        </div>
-    </div>
-
-    <style>
-    /* Conteneur principal */
-    #left-links-horizontal {
-    position: fixed;
-    top: 20%;
-    left: 0;
-    z-index: 1050;
-    }
-
-    .oling-sidebar-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    }
-
-    /* Lien stylisé */
-    .oling-sidebar-link {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0, 147, 226, 0.7);
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.6rem 0.6rem;
-    max-width: 190px;
-    border-left: 4px solid #0093dc;
-    border-radius: 0 0.5rem 0.5rem 0;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    position: relative;
-    }
-
-    .oling-sidebar-link:hover {
-    background-color: rgba(0, 147, 226, 0.9);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    color: #fff;
-    }
-
-    .oling-sidebar-link i {
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-    }
-
-    /* Responsive : masquer le texte sous 1390px */
-    @media (max-width: 1390.98px) {
-    .oling-sidebar-text {
-        display: none;
-    }
-    .oling-sidebar-link {
-        justify-content: center;
-        max-width: 50px;
-        padding: 0.7rem;
-    }
-    }
-
-    /* Au survol, réafficher le texte dans une bulle */
-    @media (max-width: 1390.98px) {
-    .oling-sidebar-link:hover::after {
-        content: attr(title);
-        position: absolute;
-        left: 110%;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 147, 226, 0.95);
-        color: white;
-        padding: 0.4rem 0.6rem;
-        border-radius: 0.3rem;
-        font-size: 0.75rem;
-        white-space: nowrap;
-        z-index: 9999;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-    }
-
-    /* Mobile <800px : icônes en haut centrées sans fond global */
-    @media (max-width: 800px) {
-    #left-links-horizontal {
-        top: 0rem;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .oling-sidebar-container {
-        flex-direction: row;
-        justify-content: center;
-        background-color: transparent;
-        gap: 0.4rem;
-    }
-    .oling-sidebar-link {
-        padding-top: 0.35rem;
-        padding-right: 0.35rem;
-        padding-bottom: 0.35rem;
-        padding-left: 0.85rem;
-        border-left: none;
-        border-top: 3px solid #0093dc;
-        border-radius: 0rem;
-        background-color: rgba(0, 147, 226, 0.7);
-    }
-    .oling-sidebar-link:hover::after {
-        top: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    }
-    </style>
+        {# Vignettes latérales supprimées #}
 
 
  
         {% block body %}{% endblock %}
 
+        <div id="cookie-banner" class="oling-cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
+            <div class="oling-cookie-banner__content">
+                <div class="oling-cookie-banner__text">
+                    <strong>Gestion des cookies</strong>
+                    <p>Nous utilisons des cookies essentiels au fonctionnement du site. Vous pouvez accepter l’ensemble des cookies ou refuser tout sauf le minimum nécessaire.</p>
+                </div>
+                <div class="oling-cookie-banner__actions">
+                    <button type="button" class="btn btn-outline-light js-cookie-details">Voir les cookies</button>
+                    <button type="button" class="btn btn-primary js-cookie-accept">Accepter tout</button>
+                    <button type="button" class="btn btn-outline-light js-cookie-refuse">Refuser tout (minimum)</button>
+                </div>
+            </div>
+            <div class="oling-cookie-banner__details">
+                <div class="oling-cookie-details">
+                    <div class="oling-cookie-details__block">
+                        <h4>Cookies essentiels (obligatoires)</h4>
+                        <div class="oling-cookie-choice">
+                            <label class="oling-cookie-choice__label">
+                                <input type="checkbox" checked disabled>
+                                Essentiels (toujours actifs)
+                            </label>
+                        </div>
+                        <ul>
+                            <li><strong>oling_cookie_consent</strong> — mémorise votre choix de consentement.</li>
+                            <li><strong>PHPSESSID</strong> — cookie de session (connexion, formulaires).</li>
+                        </ul>
+                    </div>
+                    <div class="oling-cookie-details__block">
+                        <h4>Cookies de mesure d’audience</h4>
+                        <div class="oling-cookie-choice">
+                            <label class="oling-cookie-choice__label">
+                                <input type="checkbox" class="js-cookie-analytics">
+                                Mesure d’audience (Google Analytics)
+                            </label>
+                        </div>
+                        <ul>
+                            <li><strong>_ga</strong> — identifiant Google Analytics.</li>
+                            <li><strong>_ga_*</strong> — cookie GA4 lié à la propriété.</li>
+                            <li><strong>_gid</strong> — mesure d’audience (Google Analytics).</li>
+                        </ul>
+                        <p class="oling-cookie-details__note">Les cookies de mesure d’audience ne sont déposés qu’après consentement.</p>
+                    </div>
+                    <div class="oling-cookie-details__actions">
+                        <button type="button" class="btn btn-primary js-cookie-save">Enregistrer mes choix</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
         <!-- ========== FOOTER ========== -->
-        <footer class="bg-dark d-print-none">
+        <footer class="oling-footer bg-dark d-print-none">
             <div class="container">
             <div class="row align-items-center pt-8 pb-4">
                 <div class="col-md mb-5 mb-md-0">
@@ -313,7 +274,7 @@
                     <!-- List -->
                     <ul class="list-unstyled list-py-1 mb-0">
                     {% for practice in practices %}
-                    <li><a class="link link-light link-light-75" href="{{path('practice',{'slug' : practice.slug} ) }}">{{ practice.designation }}</a></li>
+                    <li><a class="link link-light link-light-75" href="{{path('practice_home',{'slug' : practice.slug} ) }}">{{ practice.designation }}</a></li>
                     {% endfor %}
                     </ul>
                     <!-- End List -->
@@ -394,17 +355,6 @@
                             </div>
                         </a></li>
                         
-                        <li><a class="link link-light link-light-75" href="https://twitter.com/oling971">
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-twitter"></i>
-                            </div>
-
-                            <div class="flex-grow-1 ms-2">
-                                <span>Twitter</span>
-                            </div>
-                            </div>
-                        </a></li>
                     </ul>
                     <!-- End List -->
                 </div>
@@ -420,20 +370,19 @@
                     <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('polrgpd')}}>Politique générale de protection des données</a></li>
                     <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('polsecurite')}}>Politique de sécurité de l'information</a></li>
                     <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('discloser')}}>Mentions légales</a></li>
-                    <li class="list-inline-item">
-
-                    </li>
+                    <li class="list-inline-item"><a href="javascript:;" class="link link-light link-light-75 js-cookie-manage">Gérer mes cookies</a></li>
                 </ul>
                 <!-- End List -->
                 </div>
                 <!-- End Col -->
 
                 <div class="col-md-auto">
-                <p class="fs-5 text-white-70 mb-0">© OLING Management et Technologie - 2025</p>
+                <p class="fs-5 text-white-70 mb-0">© OLING Management et Technologie - 2026</p>
                 </div>
                 <!-- End Col -->
             </div>
             <!-- End Row -->
+
             </div>
         </footer>
         <!-- ========== END FOOTER ========== -->

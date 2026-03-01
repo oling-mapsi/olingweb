@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mentions légales - OLING{% endblock %}
+{% block title %}Mentions légales | OLING{% endblock %}
+{% block meta_description %}Mentions légales du site oling.fr : éditeur, contact, propriété intellectuelle et responsabilité.{% endblock %}
 
 {% block body %}
   
@@ -11,16 +12,23 @@
     <div class="container content-space-2 content-space-lg-3">
       <div class="w-lg-75 mx-lg-auto">
         <!-- Card -->
-        <div class="card card-lg card-shadow">
+        <div class="card card-lg card-shadow oling-legal-card">
           <!-- Header -->
           <div class="card-header bg-dark">
-            <h1 class="card-title h2 text-white">Mentions légales et conditions générales du site oling.fr</h1>
-            <p class="card-text text-white">Dernière mise à jour : Jeudi 3 juillet 2025</p>
+            <h1 class="card-title h2 text-white">{{ legalPage and legalPage.title ? legalPage.title : 'Mentions légales et conditions générales du site oling.fr' }}</h1>
+            {% if legalPage and legalPage.updatedAt %}
+              <p class="card-text text-white">Dernière mise à jour : {{ legalPage.updatedAt|date('d/m/Y') }}</p>
+            {% else %}
+              <p class="card-text text-white">Dernière mise à jour : Jeudi 3 juillet 2025</p>
+            {% endif %}
           </div>
           <!-- End Header -->
 
           <!-- Card Body -->
           <div class="card-body">
+            {% if legalPage and legalPage.body %}
+              {{ legalPage.body|raw }}
+            {% else %}
             <div class="mb-7">
               <h4>Éditeur du site</h4>
 
@@ -63,6 +71,7 @@
               <p>Dernière mise à jour le jeudi 13 avril 2023</p>
               <p>Note : Ces mentions légales sont données à titre d'exemple et peuvent nécessiter des modifications pour s'adapter à la situation spécifique d'OLING. Il est recommandé de consulter un conseiller juridique pour adapter ces mentions légales à la réalité de l'entreprise.</p>
             </div>
+            {% endif %}
 
           </div>
           <!-- End Card Body -->

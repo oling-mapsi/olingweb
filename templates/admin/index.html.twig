@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice{% endblock %}
+{% block meta_description %}Gestion des contenus et entités Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Backoffice</h1>
+            <p class="text-muted mb-0">Accédez aux contenus et entités du site.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Contenus</h2>
+                        <p class="text-muted">Textes, images et icônes personnalisés.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_content_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Services</h2>
+                        <p class="text-muted">Prestations et contenus associés.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_services_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Practices</h2>
+                        <p class="text-muted">Pôles et pages principales.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_practices_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Projets</h2>
+                        <p class="text-muted">Références et images.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_projets_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Métiers</h2>
+                        <p class="text-muted">Catégories métiers.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_metiers_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Équipe</h2>
+                        <p class="text-muted">Membres et photos.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_teams_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Home highlights</h2>
+                        <p class="text-muted">Sélection des cards sous le hero.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_home_cards_index') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Home practices</h2>
+                        <p class="text-muted">Titre + intro de la section practices.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_home_practices') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Home hero</h2>
+                        <p class="text-muted">H1, sous-titre et boutons du hero.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_home_hero') }}">Gérer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Modifier contenu{% endblock %}
+{% block meta_description %}Modification de contenu Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3">Modifier le contenu</h1>
+            <p class="text-muted mb-0">Mettez à jour le texte, l'image ou l'icône.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% include 'admin/content/_form.html.twig' with {
+            form: form,
+            contentItem: contentItem,
+            button_label: 'Mettre à jour'
+        } %}
+
+        <div class="mt-4">
+            <form method="post" action="{{ path('admin_content_delete', {id: contentItem.id}) }}" onsubmit="return confirm('Supprimer ce contenu ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contentItem.id) }}">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="confirm-delete-content-{{ contentItem.id }}" required>
+                    <label class="form-check-label" for="confirm-delete-content-{{ contentItem.id }}">
+                        Je confirme la suppression.
+                    </label>
+                </div>
+                <button class="btn btn-outline-danger">Supprimer</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

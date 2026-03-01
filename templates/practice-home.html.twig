@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ practice.designation }} | AMOA SI & Transformation - OLING{% endblock %}
+{% block meta_description %}{{ practice.IntroductionShort|striptags }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% set practicePalette = ['#7d5ba6','#0093dc','#8aea92','#f4743b'] %}
+  {% set practiceGrad2Palette = ['#3d2672','#0b4cc2','#1f7a5a','#a8461e'] %}
+  {% set practiceColorMap = {'#7d5ba6':0,'#0093dc':1,'#8aea92':2,'#f4743b':3} %}
+  {% set practiceColor = practice.color ? (practice.color starts with '#' ? practice.color|lower : '#' ~ practice.color|lower) : '' %}
+  {% set practiceVariant = practiceColorMap[practiceColor] is defined ? practiceColorMap[practiceColor] : (practice.id ? (practice.id % 4) : 1) %}
+  {% set practiceAccent = practiceColor ? practiceColor : practicePalette[practiceVariant] %}
+  {% set practiceGrad2 = practiceGrad2Palette[practiceVariant] %}
+  <div class="container content-space-2 content-space-lg-3 oling-practice-hero-wrap">
+    <section class="oling-practice-hero" data-variant="{{ practiceVariant }}" style="--practice-bg: url('{{ practice.image1 ?: practice.image2 ?: asset('img/1920x1080/img13.png') }}'); --practice-accent: {{ practiceAccent }}; --card-grad-1: {{ practiceAccent }}; --card-grad-2: {{ practiceGrad2 }}; --hero-color-1: {{ practiceAccent }}; --hero-color-2: {{ practiceGrad2 }};">
+      <div class="practice-hero-color" aria-hidden="true"></div>
+      <div class="acc-practice-step-media" aria-hidden="true"></div>
+      <div class="p-7 p-lg-9 oling-hero-content">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href={{ path('index') }}>Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ practice.designation }}</li>
+          </ol>
+        </nav>
+        <span class="oling-kicker text-white">{{ practice.designationShort ?: 'Practice' }}</span>
+        <h1 class="display-4 text-white mb-4">{{ practice.h1Title ?: practice.designation }}</h1>
+        <p class="oling-lede text-white-70 mb-4">
+          {% if practice.IntroductionShort is not empty %}
+            {{ practice.IntroductionShort | raw }}
+          {% elseif practice.introduction is not empty %}
+            {{ practice.introduction | raw }}
+          {% else %}
+            Conseil AMOA, SI et conformité pour accélérer vos transformations.
+          {% endif %}
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant</a>
+          <a class="btn btn-outline-light" href="#services">Voir nos services</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="oling-section" id="offre">
+    <div class="container">
+      <div class="row g-5 align-items-start">
+        <div class="col-lg-12">
+          <span class="oling-kicker">Notre valeur</span>
+          <h2>{{ practice.designationShort ?: practice.designation }}</h2>
+          {% if practice.description is not empty %}
+            {{ practice.description | raw }}
+          {% elseif practice.introduction is not empty %}
+            {{ practice.introduction | raw }}
+          {% else %}
+            <p>{{ practice.IntroductionShort | raw }}</p>
+          {% endif %}
+
+          <div class="oling-surface p-4 mt-4" id="services">
+            <h3 class="mb-3">Services clés</h3>
+            <ul class="list-unstyled row g-2 g-lg-3 mb-0">
+              {% for service in practice.services %}
+                <li class="col-12 col-md-6 col-lg-4">
+                  <a class="link" href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}>
+                    <i class="{{ service.ico ?: 'bi-diagram-3' }} me-2"></i>{{ service.designation | raw }}
+                  </a>
+                </li>
+              {% endfor %}
+              {% if practice.services is empty %}
+                <li class="text-white-70">Services en cours de publication.</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if teams is defined and teams|length > 0 %}
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="mb-5">
+        <span class="oling-kicker">Équipe dédiée</span>
+        <h2>Des experts mobilisés sur vos enjeux opérationnels.</h2>
+        <p class="text-white-70 mb-0">Une équipe terrain impliquée dans le pilotage, la conduite du changement et la conformité.</p>
+      </div>
+      <div class="oling-team-mini-list">
+        {% for team in teams %}
+          <div class="oling-team-mini">
+            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/400x400/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
+            <div class="oling-team-mini__meta">
+              <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
+              {% if team.titre %}
+                <div class="oling-team-mini__title">{{ team.titre }}</div>
+              {% endif %}
+              {% if team.linkedin %}
+                <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">
+                  <i class="bi-linkedin"></i> LinkedIn
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% include 'includes/projects-carousel.html.twig' with { projects: projects } %}
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="oling-surface p-5 text-center">
+        <h2>Parlons de votre projet</h2>
+        <p class="oling-lede">Expliquez vos enjeux, nous vous proposerons une trajectoire claire et sécurisée.</p>
+        <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "{{ practice.designation|striptags|e('js') }}",
+  "serviceType": "AMOA SI, transformation digitale et conformité",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "description": "{{ practice.IntroductionShort|striptags|e('js') }}"
+}
+</script>
+{% endblock %}

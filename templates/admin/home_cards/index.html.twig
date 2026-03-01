@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home highlights{% endblock %}
+{% block meta_description %}Sélection des cards Home highlights sous le hero{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4 d-flex flex-wrap justify-content-between align-items-start gap-3">
+            <div>
+                <h1 class="h3 mb-1">Home highlights</h1>
+                <p class="text-muted mb-0">Sélectionnez les 8 cards Home highlights visibles sous le hero. Les 8 dernières créées s’affichent.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_home_cards_new') }}">Ajouter un Home highlight</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Entité</th>
+                        <th>Créée le</th>
+                        <th>Visible</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for homeCard in homeCards %}
+                    {% set entity = homeCard.service ?? homeCard.projet ?? homeCard.practice ?? homeCard.metier %}
+                    {% if homeCard.service %}
+                        {% set type = 'Service' %}
+                    {% elseif homeCard.projet %}
+                        {% set type = 'Projet' %}
+                    {% elseif homeCard.practice %}
+                        {% set type = 'Practice' %}
+                    {% elseif homeCard.metier %}
+                        {% set type = 'Métier' %}
+                    {% else %}
+                        {% set type = '—' %}
+                    {% endif %}
+                    <tr>
+                        <td>{{ type }}</td>
+                        <td>{{ entity ? entity.designation : '—' }}</td>
+                        <td>{{ homeCard.createdAt ? homeCard.createdAt|date('d/m/Y H:i') : '—' }}</td>
+                        <td>{{ loop.index <= 8 ? 'Oui' : 'Non' }}</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_home_cards_edit', {id: homeCard.id}) }}">Modifier</a>
+                            <form method="post" action="{{ path('admin_home_cards_delete', {id: homeCard.id}) }}" class="d-inline" onsubmit="return confirm('Supprimer ce Home highlight ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ homeCard.id) }}">
+                                <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-muted">Aucun Home highlight pour l’instant.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+{% endblock %}

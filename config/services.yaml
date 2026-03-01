@@ -7,6 +7,7 @@
 parameters:
     router.request_context.host: 'oling.fr'
     router.request_context.scheme: 'https'
+    uploads_dir: '%kernel.project_dir%/public/uploads'
 
 services:
     # default configuration for services in *this* file
@@ -34,5 +35,9 @@ services:
             - '@router'
         tags:
             - { name: 'kernel.event_subscriber', priority: 100 }
+
+    App\Service\UploadManager:
+        arguments:
+            $uploadsDir: '%uploads_dir%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

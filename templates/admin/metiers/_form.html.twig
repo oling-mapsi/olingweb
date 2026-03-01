@@ -1,0 +1,80 @@
+{{ form_start(form) }}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="mb-3">
+                {{ form_label(form.designation) }}
+                {{ form_widget(form.designation, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.designation) }}
+            </div>
+
+            <div class="admin-media-card">
+                <div class="admin-media-header">
+                    <div>
+                        <h5>Image principale</h5>
+                        <p>Image standard affichée sur les pages métiers.</p>
+                    </div>
+                </div>
+                <div class="admin-media-body">
+                    <div class="admin-media-preview">
+                        <img class="admin-media-preview__img" src="{{ asset(metier.image ?: 'img/1920x1080/img12.jpg') }}" alt="Image principale">
+                    </div>
+                    <div class="admin-media-fields">
+                        {{ form_label(form.imageFile) }}
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.imageFile) }}
+                        <details>
+                            <summary>Utiliser une URL</summary>
+                            <div class="mt-2">
+                                {{ form_label(form.image) }}
+                                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.image) }}
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-media-card">
+                <div class="admin-media-header">
+                    <div>
+                        <h5>Image recadrée (cards hero)</h5>
+                        <p>Recadre la zone qui apparaîtra dans les cartes hero de la home.</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm js-cropper-use-existing">Recadrer l’existante</button>
+                </div>
+                <div class="admin-media-body">
+                    <div class="admin-media-preview">
+                        <img class="admin-media-preview__img" src="{{ asset(metier.imageHero ?: metier.image ?: 'img/1920x1080/img12.jpg') }}" alt="Aperçu recadrage">
+                    </div>
+                    <div class="admin-media-fields">
+                        {{ form_label(form.imageHeroFile) }}
+                        {{ form_widget(form.imageHeroFile, {'attr': {'class': 'form-control js-cropper-input', 'data-crop-aspect': '0.8'}}) }}
+                        {{ form_errors(form.imageHeroFile) }}
+                        <details>
+                            <summary>Utiliser une URL</summary>
+                            <div class="mt-2">
+                                {{ form_label(form.imageHero) }}
+                                {{ form_widget(form.imageHero, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.imageHero) }}
+                            </div>
+                        </details>
+                        <div class="admin-cropper" data-input="{{ form.imageHeroFile.vars.id }}">
+                            <div class="admin-cropper__header">
+                                <div class="admin-cropper__label">Zone de recadrage</div>
+                            </div>
+                            <div class="admin-cropper__stage">
+                                <img class="admin-cropper__image" src="{{ asset(metier.imageHero ?: metier.image ?: 'img/1920x1080/img12.jpg') }}" alt="Aperçu recadrage">
+                            </div>
+                            <div class="admin-cropper__hint">Glisse et redimensionne la zone puis enregistre.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-outline-secondary" href="{{ path('admin_metiers_index') }}">Retour</a>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - Hero{% endblock %}
+{% block meta_description %}Paramètres du hero de la home{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <h1 class="h3 mb-1">Home · Hero</h1>
+        <p class="text-muted mb-0">Titre H1, sous-titre et boutons du hero.</p>
+      </div>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="card">
+      <div class="card-body">
+        {{ form_start(form) }}
+          {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+          {{ form_row(form.intro) }}
+          <div class="row g-3">
+            <div class="col-lg-6">
+              {{ form_row(form.ctaLabel, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-lg-6">
+              {{ form_row(form.ctaUrl, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-lg-6">
+              {{ form_row(form.ctaLabelSecondary, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-lg-6">
+              {{ form_row(form.ctaUrlSecondary, {'attr': {'class': 'form-control'}}) }}
+            </div>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-primary">Enregistrer</button>
+          </div>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

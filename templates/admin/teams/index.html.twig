@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Équipe{% endblock %}
+{% block meta_description %}Gestion de l'équipe Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Équipe</h1>
+                <p class="text-muted mb-0">Gérez les membres et leurs photos.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_teams_new') }}">Nouveau membre</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if teams is empty %}
+            <div class="alert alert-info">Aucun membre pour l'instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Titre</th>
+                            <th>Photo</th>
+                            <th>LinkedIn</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in teams %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_teams_edit', {id: team.id}) }}">{{ team.noncomplet }}</a>
+                                </td>
+                                <td>{{ team.titre ?: '-' }}</td>
+                                <td>
+                                    {% if team.photo %}
+                                        <img src="{{ asset(team.photo) }}" alt="Photo" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if team.linkedin %}
+                                        <a href="{{ team.linkedin }}" target="_blank" rel="noopener">Lien</a>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

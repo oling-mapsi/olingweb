@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Métiers{% endblock %}
+{% block meta_description %}Gestion des métiers Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Métiers</h1>
+                <p class="text-muted mb-0">Gérez les catégories métiers.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_metiers_new') }}">Nouveau métier</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if metiers is empty %}
+            <div class="alert alert-info">Aucun métier pour l'instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Image</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for metier in metiers %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_metiers_edit', {id: metier.id}) }}">{{ metier.designation }}</a>
+                                </td>
+                                <td>
+                                    {% if metier.image %}
+                                        <img src="{{ asset(metier.image) }}" alt="Image" style="width: 70px; height: 46px; object-fit: cover;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

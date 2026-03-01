@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+{% block meta_description %}Connexion au backoffice Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h1 class="h4 mb-3">Connexion</h1>
+
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <form method="post" action="{{ path('login') }}">
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Identifiant</label>
+                                <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" autocomplete="username" required autofocus>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Mot de passe</label>
+                                <input type="password" id="password" name="_password" class="form-control" autocomplete="current-password" required>
+                            </div>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            <button class="btn btn-primary w-100">Se connecter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

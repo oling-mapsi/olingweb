@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AMOA SI | Cabinet de conseil en assistance à maîtrise d’ouvrage - OLING{% endblock %}
+{% block meta_description %}Cabinet AMOA SI : cadrage, gouvernance, pilotage de projets, ERP et conformité. OLING accompagne la transformation digitale des organisations en France et Outre-mer.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <div class="container content-space-2 content-space-lg-3">
+    <section class="oling-practice-hero" data-variant="1" style="background: linear-gradient(135deg, #0093dc, #0b4cc2 70%); --practice-bg: url('{{ asset('img/1920x1080/img13.png') }}'); --practice-accent: #0093dc; --card-grad-1: #0093dc; --card-grad-2: #0b4cc2;">
+      <div class="acc-practice-step-media" aria-hidden="true"></div>
+      <div class="p-7 p-lg-9 oling-hero-content">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href={{ path('index') }}>Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">AMOA SI</li>
+          </ol>
+        </nav>
+        <span class="oling-kicker text-white">Cabinet AMOA SI</span>
+        <h1 class="display-4 text-white mb-4">AMOA SI : sécuriser vos projets, aligner SI et stratégie métier</h1>
+        <p class="oling-lede text-white-70 mb-4">OLING accompagne les directions métiers et SI sur le cadrage, la gouvernance et le pilotage de projets de transformation : ERP, digital workplace, data, conformité et cybersécurité.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant AMOA</a>
+          <a class="btn btn-outline-light" href="#offre">Voir notre offre AMOA</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="oling-section" id="offre">
+    <div class="container">
+      <div class="row g-5 align-items-start">
+        <div class="col-lg-7">
+          <span class="oling-kicker">Notre valeur</span>
+          <h2>Une AMOA qui sécurise les décisions et accélère l’exécution</h2>
+          <p>Notre rôle : transformer vos besoins métiers en trajectoires SI exécutables. Nous structurons les exigences, objectivons les choix, pilotons les acteurs et garantissons la conformité tout au long du projet.</p>
+          <div class="oling-surface p-4 mt-4">
+            <h3 class="mb-3">Ce que nous livrons</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">Cadrage, expression des besoins, cartographie des processus et des risques.</li>
+              <li class="mb-2">Schéma directeur SI, business case et feuille de route priorisée.</li>
+              <li>Gouvernance, pilotage, recette, conduite du changement et mesure des résultats.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="oling-surface p-4">
+            <h3 class="mb-3">Domaines d’intervention</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">AMOA ERP / CRM / GMAO / SIRH</li>
+              <li class="mb-2">Data, BI & gouvernance des données</li>
+              <li class="mb-2">Conformité RGPD, ISO 27001, NIS2, DORA</li>
+              <li class="mb-2">Digital workplace & collaboration</li>
+              <li>Cyber & sécurité des SI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="oling-method">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-4">
+            <span class="oling-kicker">Méthode</span>
+            <h2>Notre méthode AMOA en 3 étapes</h2>
+            <p class="oling-lede">Structurer, sécuriser, transformer : un cadre clair pour des projets SI fiables.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="oling-method-step">
+                  <span>01</span>
+                  <h4>Diagnostic & cadrage</h4>
+                  <p>Audit SI, cartographie, objectifs métier et exigences. Nous posons la base du succès.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="oling-method-step">
+                  <span>02</span>
+                  <h4>Gouvernance & pilotage</h4>
+                  <p>AMOA opérationnelle, PMO, budgets, risques et conformité intégrée.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="oling-method-step">
+                  <span>03</span>
+                  <h4>Conduite du changement</h4>
+                  <p>Adoption, formation, transfert de compétences et mesure de performance.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <a class="btn btn-primary" href={{ path('contact') }}>Planifier un échange</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="oling-surface p-4">
+            <h3>Pourquoi choisir OLING ?</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">10+ ans d’accompagnement AMOA SI et conformité.</li>
+              <li class="mb-2">Approche pragmatique : livrables opérationnels et décisions objectivées.</li>
+              <li>Couverture France & Outre-mer, secteurs public et privé.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="oling-surface p-4">
+            <h3>Exemples d’interventions AMOA</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">Schéma directeur SI et modernisation ERP.</li>
+              <li class="mb-2">Gouvernance des données et conformité RGPD.</li>
+              <li>Refonte processus métiers et amélioration de la performance.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="oling-surface p-5 text-center">
+        <h2>Vous avez un projet AMOA SI ?</h2>
+        <p class="oling-lede">Expliquez vos enjeux, nous vous proposerons une trajectoire claire et sécurisée.</p>
+        <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AMOA SI",
+  "serviceType": "Assistance à maîtrise d’ouvrage SI",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "description": "Cabinet AMOA SI : cadrage, gouvernance, pilotage de projets, ERP et conformité."
+}
+</script>
+{% endblock %}

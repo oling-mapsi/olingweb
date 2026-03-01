@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Services{% endblock %}
+{% block meta_description %}Gestion des services Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Services</h1>
+                <p class="text-muted mb-0">Gérez les services et leurs médias.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_services_new') }}">Nouveau service</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if services is empty %}
+            <div class="alert alert-info">Aucun service pour l'instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Practice</th>
+                            <th>Icône</th>
+                            <th>Image</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in services %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_services_edit', {id: service.id}) }}">{{ service.designation }}</a>
+                                </td>
+                                <td>{{ service.practice ? service.practice.designation : '-' }}</td>
+                                <td>
+                                    {% if service.ico %}
+                                        {% if service.ico starts with '/' or service.ico starts with 'http' %}
+                                            <img src="{{ asset(service.ico) }}" alt="Icône" style="width: 36px; height: 36px; object-fit: contain;">
+                                        {% else %}
+                                            <i class="{{ service.ico }}"></i>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if service.image1 %}
+                                        <img src="{{ asset(service.image1) }}" alt="Image" style="width: 80px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

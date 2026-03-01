@@ -1,0 +1,23 @@
+{% set route = app.request.attributes.get('_route') %}
+<div class="mb-4">
+    <div class="nav nav-pills flex-wrap gap-2">
+        <a class="nav-link {{ route starts with 'admin_index' ? 'active' : '' }}" href="{{ path('admin_index') }}">Tableau de bord</a>
+        <a class="nav-link {{ route starts with 'admin_content' ? 'active' : '' }}" href="{{ path('admin_content_index') }}">Contenus</a>
+        <a class="nav-link {{ route starts with 'admin_services' ? 'active' : '' }}" href="{{ path('admin_services_index') }}">Services</a>
+        <a class="nav-link {{ route starts with 'admin_practices' ? 'active' : '' }}" href="{{ path('admin_practices_index') }}">Practices</a>
+        <a class="nav-link {{ route starts with 'admin_projets' ? 'active' : '' }}" href="{{ path('admin_projets_index') }}">Projets</a>
+        <a class="nav-link {{ route starts with 'admin_metiers' ? 'active' : '' }}" href="{{ path('admin_metiers_index') }}">Métiers</a>
+        <a class="nav-link {{ route starts with 'admin_teams' ? 'active' : '' }}" href="{{ path('admin_teams_index') }}">Équipe</a>
+        <a class="nav-link {{ route starts with 'admin_home_cards' ? 'active' : '' }}" href="{{ path('admin_home_cards_index') }}">Home highlights</a>
+        <a class="nav-link {{ route starts with 'admin_home_practices' ? 'active' : '' }}" href="{{ path('admin_home_practices') }}">Home practices</a>
+        <a class="nav-link {{ route starts with 'admin_home_hero' ? 'active' : '' }}" href="{{ path('admin_home_hero') }}">Home hero</a>
+        <div class="admin-nav-dropdown">
+            <a class="nav-link {{ route starts with 'admin_legal_pages' ? 'active' : '' }}" href="{{ path('admin_legal_pages') }}">Pages légales</a>
+            <div class="admin-nav-dropdown-menu">
+                <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'polrgpd' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'polrgpd'}) }}">Politique RGPD</a>
+                <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'polsecurite' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'polsecurite'}) }}">Politique sécurité</a>
+                <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'mentions-legales' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'mentions-legales'}) }}">Mentions légales</a>
+            </div>
+        </div>
+    </div>
+</div>

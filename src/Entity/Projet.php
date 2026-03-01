@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProjetRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -20,6 +21,7 @@ class Projet
     private ?string $designation = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['designation'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -35,7 +37,16 @@ class Projet
     private ?string $image = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageHero = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $class = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $featuredProjects = false;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $featuredProjectsRank = null;
 
     public function __construct()
     {
@@ -132,6 +143,18 @@ class Projet
         return $this;
     }
 
+    public function getImageHero(): ?string
+    {
+        return $this->imageHero;
+    }
+
+    public function setImageHero(?string $imageHero): self
+    {
+        $this->imageHero = $imageHero;
+
+        return $this;
+    }
+
     public function getClass(): ?string
     {
         return $this->class;
@@ -140,6 +163,30 @@ class Projet
     public function setClass(?string $class): self
     {
         $this->class = $class;
+
+        return $this;
+    }
+
+    public function isFeaturedProjects(): bool
+    {
+        return $this->featuredProjects;
+    }
+
+    public function setFeaturedProjects(bool $featuredProjects): self
+    {
+        $this->featuredProjects = $featuredProjects;
+
+        return $this;
+    }
+
+    public function getFeaturedProjectsRank(): ?int
+    {
+        return $this->featuredProjectsRank;
+    }
+
+    public function setFeaturedProjectsRank(?int $featuredProjectsRank): self
+    {
+        $this->featuredProjectsRank = $featuredProjectsRank;
 
         return $this;
     }

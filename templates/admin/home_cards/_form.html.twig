@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="row g-3">
+        <div class="col-lg-6">
+            {{ form_row(form.service) }}
+        </div>
+        <div class="col-lg-6">
+            {{ form_row(form.projet) }}
+        </div>
+        <div class="col-lg-6">
+            {{ form_row(form.metier) }}
+        </div>
+    </div>
+    <p class="text-muted mt-3 mb-4">Sélectionnez exactement une entité. Les 8 dernières mises en avant s’affichent sous le hero.</p>
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-outline-secondary" href="{{ path('admin_home_cards_index') }}">Retour</a>
+    </div>
+{{ form_end(form) }}

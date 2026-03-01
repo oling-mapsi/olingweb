@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sécurité des données - OLING{% endblock %}
-{% block meta_description %}Politique générale de protection des données personnelles{% endblock %}
+{% block title %}Politique de sécurité | OLING{% endblock %}
+{% block meta_description %}Politique de sécurité de l’information d’OLING Management & Technologie et engagement ISO 27001:2022.{% endblock %}
 
 {% block body %}
   
@@ -11,15 +11,18 @@
   <div class="container content-space-2 content-space-lg-3">
   <div class="w-lg-75 mx-lg-auto">
     <!-- Card -->
-    <div class="card card-lg card-shadow">
+    <div class="card card-lg card-shadow oling-legal-card">
       <!-- Header -->
       <div class="card-header bg-dark">
-        <h1 class="card-title h2 text-white">Politique de Sécurité de l'Information</h1>
+        <h1 class="card-title h2 text-white">{{ legalPage and legalPage.title ? legalPage.title : "Politique de Sécurité de l'Information" }}</h1>
       </div>
       <!-- End Header -->
 
       <!-- Card Body -->
       <div class="card-body">
+        {% if legalPage and legalPage.body %}
+          {{ legalPage.body|raw }}
+        {% else %}
         <div class="mb-7">
           <p>Depuis plus de 10 ans, nous nous engageons à fournir des services de qualité tout en établissant un climat de confiance. Cette politique dédiée à la sécurité de l’information vise à définir les principes, règles et engagements de sécurité de l'information au sein de <strong>OLING Management et Technologie</strong>.</p>
         </div>
@@ -63,6 +66,7 @@
           <p><em>Fait le 15 septembre 2025 à Baie Mahault</em></p>
           <p><strong>Florestan Rouet</strong></p>
         </div>
+        {% endif %}
       </div>
       <!-- End Card Body -->
     </div>

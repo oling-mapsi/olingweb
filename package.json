@@ -23,7 +23,9 @@
     "dependencies": {
         "@popperjs/core": "^2.11.7",
         "bootstrap": "^5.2.3",
+        "cropperjs": "^1.6.2",
         "popper.js": "^1.16.1",
+        "select2": "^4.1.0-rc.0",
         "swiper": "^9.2.0"
     }
 }

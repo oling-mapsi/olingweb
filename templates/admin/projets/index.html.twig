@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Projets{% endblock %}
+{% block meta_description %}Gestion des projets Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Projets</h1>
+                <p class="text-muted mb-0">Gérez les références et images.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_projets_new') }}">Nouveau projet</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if projets is empty %}
+            <div class="alert alert-info">Aucun projet pour l'instant.</div>
+        {% else %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="h5 mb-2">Projets mis en avant (6 max)</h2>
+                    <p class="text-muted mb-3">Glisse‑dépose pour définir l’ordre d’affichage.</p>
+                    {% if featuredItems is empty %}
+                        <div class="text-muted">Aucun projet mis en avant pour l'instant.</div>
+                    {% else %}
+                        <ul class="home-order-list js-home-order" data-token="{{ csrf_token('projets_featured_order') }}" data-endpoint="{{ path('admin_projets_featured_order') }}">
+                            {% for projet in featuredItems %}
+                                <li class="home-order-item" data-id="{{ projet.id }}" draggable="true">
+                                    <span class="home-order-handle">⋮⋮</span>
+                                    <span class="home-order-title">{{ projet.designation }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Désignation</th>
+                            <th>Home highlights</th>
+                            <th>Métier</th>
+                            <th>Image</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for projet in projets %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_projets_edit', {id: projet.id}) }}">{{ projet.designation }}</a>
+                                </td>
+                                <td>
+                                    {% if projet.featuredProjects %}
+                                        <span class="badge bg-success">Oui</span>
+                                    {% else %}
+                                        <span class="text-muted">Non</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ projet.metier ? projet.metier.designation : '-' }}</td>
+                                <td>
+                                    {% if projet.image %}
+                                        <img src="{{ asset(projet.image) }}" alt="Image" style="width: 80px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

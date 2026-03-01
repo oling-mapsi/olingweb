@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos projets | OLING{% endblock %}
+{% block meta_description %}Nos projets de transformation SI, AMOA et conformité réalisés par OLING.{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="acc-hero acc-hero--home acc-hero--projects">
+    <div class="container acc-hero-shell">
+      <div class="acc-hero-copy">
+        <span class="acc-eyebrow">Nos projets</span>
+        <h1 class="acc-hero-title">Des projets concrets, des résultats mesurables</h1>
+        <p class="acc-hero-subtitle">ERP, gouvernance data, conformité et transformation SI : une sélection de missions menées par nos équipes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+
+      {% set featuredProjects = featuredProjects is defined ? featuredProjects : projets|slice(0, 6) %}
+      {% set miniProjects = miniProjects is defined ? miniProjects : projets|slice(6) %}
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        {% for projet in featuredProjects %}
+          {% set projetService = projet.services|length ? projet.services|first : null %}
+          <div class="col">
+            <a class="card card-ghost card-transition-zoom h-100" href="{{ projetService ? path('service', {'practice' : projetService.practice.slug, 'slug' : projetService.slug}) : path('contact') }}">
+              <div class="card-pinned card-transition-zoom-item">
+                <img class="card-img" src="{{ projet.image ?: asset('img/1920x1080/img5.jpg') }}" alt="{{ projet.designation }}">
+                {% if projet.metier %}
+                  <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation | raw }}</span>
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <h4 class="mb-2">{{ projet.designation }}</h4>
+                {% if projet.description %}
+                  <p class="card-text">{{ projet.description|striptags|slice(0, 140) ~ '…' }}</p>
+                {% else %}
+                  <p class="card-text">Pilotage, transformation et conformité sur des projets SI structurants.</p>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        {% else %}
+          <div class="col">
+            <div class="alert alert-info">Aucun projet n’est publié pour le moment.</div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if miniProjects is not empty %}
+      <div class="oling-projects-mini-grid mt-5 js-projets-mini-grid"
+           data-endpoint="{{ path('projets_more') }}"
+           data-next-page="{{ miniNextPage ?? 2 }}"
+           data-has-more="{{ miniHasMore is defined and miniHasMore ? '1' : '0' }}">
+        {% include 'projets/_mini_cards.html.twig' with { miniProjects: miniProjects } %}
+      </div>
+      {% if miniHasMore is defined and miniHasMore %}
+        <div class="oling-projects-mini-loader js-projets-loader" hidden>Chargement…</div>
+        <div class="oling-projects-mini-sentinel js-projets-sentinel" aria-hidden="true"></div>
+      {% endif %}
+      {% endif %}
+
+      <div class="oling-geo-map oling-geo-map--full" role="img" aria-label="Carte de la France métropolitaine et des territoires d'outre-mer">
+        <div class="oling-geo-map__header">
+          <span class="acc-eyebrow">Présence terrain</span>
+          <h2>Des projets conduits sur l’ensemble des territoires clés.</h2>
+          <p>France & Outre‑mer : nous déployons, sécurisons et accompagnons vos programmes là où vous opérez.</p>
+        </div>
+        <div
+          id="oling-geo-map"
+          class="oling-geo-map__canvas"
+          data-world="{{ asset('geo/world.geojson') }}"
+        ></div>
+        <div class="oling-geo-map__label">France métropolitaine & DROM</div>
+      </div>
+      <script type="application/json" id="oling-geojson-data">
+        {{ include('geo/france-overseas.json.twig')|raw }}
+      </script>
+    </div>
+  </section>
+</main>
+{% endblock %}

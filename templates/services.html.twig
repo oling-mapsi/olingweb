@@ -1,236 +1,135 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ service.designation | raw }} - OLING{% endblock %}
-{% block meta_description %}{{ service.IntroductionShort | raw }}{% endblock %}
+{% block title %}{{ service.designation | raw }} | AMOA SI & Conformité - OLING{% endblock %}
+{% block meta_description %}{{ service.IntroductionShort|striptags }}{% endblock %}
 
 {% block body %}
+<main id="content" role="main">
+  <div class="container content-space-2 content-space-lg-3 oling-service-hero-wrap">
+    <section class="oling-service-hero" style="background-image: url({{ service.image2 ?: service.image1 }});">
+      <div class="p-7 p-lg-9 oling-hero-content">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href={{ path('index')}}>Accueil</a></li>
+            <li class="breadcrumb-item"><a href={{path('practice_home',{'slug' : service.practice.slug} ) }}>{{ service.practice.designation }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
+          </ol>
+        </nav>
+        <span class="oling-kicker text-white">{{ service.designationShort ?: 'Service' }}</span>
+        <h1 class="display-5 text-white mb-4">{{ service.designation | raw }}</h1>
+        <p class="oling-lede text-white-70 mb-4">{{ service.IntroductionShort | raw }}</p>
+        <div class="oling-service-hero-icon">
+          <i class="{{ service.ico ?: 'bi-diagram-3' }}"></i>
+        </div>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={{ path('contact')}}>Parler de votre projet</a>
+          <a class="btn btn-outline-light" href={{path('practice_home',{'slug' : service.practice.slug} ) }}>Voir la practice</a>
+        </div>
+      </div>
+    </section>
+  </div>
 
-    <!-- Hero -->
-    <div class="container content-space-3 content-space-lg-3">
-        <div class="{{ service.practice.class1 }} rounded-3 mb-10">
-            <div class="p-7" style="background-image: url(/svg/components/wave-pattern-light.svg);">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="row justify-content-lg-between g-5" style="page-break-before: always;">
+        <div class="col-lg-8 order-lg-2">
+          <span class="oling-kicker">Contexte & besoins</span>
+          <h2>Ce que couvre ce service</h2>
 
-                <div class="row align-items-lg-center">
-                    <div class="col-lg-7  text-left mx-lg-auto">
+          {{ service.description | raw }}
 
-                        <span class="text-cap text-white">{{ service.DesignationShort | raw }}</span>
-                        <h2 class="text-white">{{ service.designation | raw }}</h2>
-                        <p class="lead text-white-70">{{ service.IntroductionShort | raw }}</p>
-                
-                    </div>
-                    <!-- End Col -->
-                    <div class="col-5 col-lg-5 mb-7 mb-lg-0 text-center">
-                        <i class="{{ service.ico }}  display-1 ms-1 text-light"></i>
-                    </div>
+          {% if service.image1 is not null and service.image1 is not empty %}
+            <img class="img-fluid mt-4" src="{{ service.image1 }}" alt="{{ service.designation }}">
+          {% endif %}
 
-        
-                    <!-- End Col -->
-                </div>
-                <!-- End Row -->
-            </div>
+          <div class="oling-surface p-4 mt-4">
+            <h3 class="mb-3">Livrables & résultats attendus</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">Diagnostic structuré et cartographie des enjeux SI.</li>
+              <li class="mb-2">Plan d’actions priorisé avec indicateurs de réussite.</li>
+              <li>Gouvernance, conformité et transfert de compétences.</li>
+            </ul>
+          </div>
+
+          <div id="stickyBlockEndPointEg3"></div>
         </div>
 
-        
-
-
-        <div class="row justify-content-lg-between"  style="page-break-before: always;">
-            <div class="col-lg-8 order-lg-2">
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-7">
-                <li class="breadcrumb-item">
-                    <a href={{ path('index')}}>Accueil</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href={{path('practice',{'slug' : service.practice.slug} ) }}>{{ service.practice.designation }}</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
-                </ol>
-            </nav>
-            <!-- End Breadcrumb -->
-
-          
-      
-
-            {{ service.description  | raw }}
-
-            {% if service.image1 is not null and service.image1 is not empty %}
-                <img class="img-fluid" src="{{ service.image1 }}" alt="Image Description">
-            {% endif %}
-            
-
-            <!-- End Sticky End Point -->
-            <div id="stickyBlockEndPointEg3"></div>
+        <div class="col-lg-3 d-none d-lg-block d-print-none">
+          <div id="stickyBlockStartPointEg3">
+            <div class="js-sticky-block"
+              data-hs-sticky-block-options='{
+                "parentSelector": "#stickyBlockStartPointEg3",
+                "targetSelector": "#header",
+                "breakpoint": "lg",
+                "startPoint": "#stickyBlockStartPointEg3",
+                "endPoint": "#stickyBlockEndPointEg3",
+                "stickyOffsetTop": 130
+              }'>
+              <div class="oling-surface p-4">
+                <h5 class="mb-3">Services {{ service.practice.designation }}</h5>
+                <ul class="list-pointer list-pointer-secondary mb-0">
+                  {% for serv in services %}
+                    {% if serv.practice == service.practice %}
+                      <li class="list-pointer-item">
+                        <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation | raw }}{% if serv.id == service.id %}</strong> {% endif %}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
-            <!-- End Col -->
-
-            <div class="col-lg-3 d-none d-lg-block d-print-none">
-                <div id="stickyBlockStartPointEg3">
-                    <!-- Card -->
-                    <div class="js-sticky-block"
-                        data-hs-sticky-block-options='{
-                        "parentSelector": "#stickyBlockStartPointEg3",
-                        "targetSelector": "#header",
-                        "breakpoint": "lg",
-                        "startPoint": "#stickyBlockStartPointEg3",
-                        "endPoint": "#stickyBlockEndPointEg3",
-                        "stickyOffsetTop": 130
-                    }'>
-                    <h5>Nos services {{ service.practice.designation }}</h5>
-
-                    <!-- List -->
-                    <ul class="list-pointer list-pointer-secondary">
-
-                        {% for serv in services %}
-                            {% if serv.practice == service.practice %}
-                            <li class="list-pointer-item">
-                                <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation  | raw  }}{% if serv.id == service.id %}</strong> {% endif %}</a>
-                            </li>
-                            {% endif %}
-                        {% endfor %}
-
-                    </ul>
-                    <!-- End List -->
-                    </div>
-                    <!-- End Card -->
-                </div>
-            </div>
-            <!-- End Col -->
+          </div>
         </div>
-        <!-- End Row -->
+      </div>
     </div>
+  </section>
 
+  {% include 'includes/projects-carousel.html.twig' with { projects: service.projets } %}
 
-    <!-- Card Grid -->
-    {% if service.projets|length > 0 %}
-    <div class="overflow-hidden">
-        <div class="container content-space-2 d-print-none">
-            <div class="row justify-content-lg-between">
-            <div class="col-md-4 mb-7 mb-md-0">
-                <div class="mt-md-10 mb-5">
-                <h2>Retours sur experiences et témoignages</h2>
-                </div>
+  {% if service.teams|length > 0 %}
+  <section class="oling-section">
+    <div class="container d-print-none">
+      <div class="w-lg-65 text-center mx-lg-auto mb-3 mb-sm-7 mb-lg-10">
+        <h2>Nos experts</h2>
+      </div>
 
-                <!-- Alert -->
-                <div class="alert alert-soft-dark" role="alert">
-                <div class="d-flex">
-                    <div class="flex-shrink-0">
-                    <i class="bi-linkedin"></i>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                    Suivez-nous sur <a class="alert-link" href="#" target="_blank">Linkedin</a> pour découvrir notre actualité
-                    </div>
-                </div>
-                </div>
-                <!-- End Alert -->
+      <div class="oling-team-mini-list oling-team-mini-list--center">
+        {% for team in service.teams %}
+          <div class="oling-team-mini">
+            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/400x400/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
+            <div class="oling-team-mini__meta">
+              <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
+              {% if team.titre %}
+                <div class="oling-team-mini__title">{{ team.titre }}</div>
+              {% endif %}
+              {% if team.linkedin %}
+                <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">
+                  <i class="bi-linkedin"></i> LinkedIn
+                </a>
+              {% endif %}
             </div>
-            <!-- End Col -->
-
-            <div class="col-md-7">
-                <!-- Swiper Slider -->
-                <div class="swiper-center-mode-end">
-                    <div class="js-swiper-card-grid swiper swiper-equal-height ps-4">
-                        <div class="swiper-wrapper">
-
-
-
-                        {% set count = 0 %}
-                        {% for projet in service.projets %}
-                            {% if count is divisible by 2 %}
-                            <!-- Slide -->
-                                <div class="swiper-slide pt-4 pb-8">
-                                    <!-- Card -->
-                                    <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
-                                    <div class="card-body">
-                                        <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation  | raw  }}</span>
-                                        <h3 id="" class="highlight-text card-title text-white lh-base">{{ projet.designation  | raw  }}</h3>
-                                    </div>
-                                    {# <div class="card-footer pt-0">
-                                        <span class="card-link link-light">En savoir plus</span>
-                                    </div> #}
-                                    </a>
-                                    <!-- End Card -->
-                                </div>
-                                <!-- End Slide -->
-                            {% else %}
-                                <!-- Slide -->
-                                <div class="swiper-slide pt-4 pb-8">
-                                    <!-- Card -->
-                                    <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
-                                    <div class="card-body">
-                                        <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation  | raw  }}</span>
-                                        <h3 id="" class="highlight-text card-title text-white lh-base">{{ projet.designation  | raw  }}</h3>
-                                    </div>
-                                    {# <div class="card-footer pt-0">
-                                        <span class="card-link link-light">En savoir plus</span>
-                                    </div> #}
-                                    </a>
-                                    <!-- End Card -->
-                                </div>
-                                <!-- End Slide -->
-                            {% endif %}
-                            {% set count = count + 1 %}
-
-                        {% endfor %}
-
-                        
-                        </div>
-
-                        <!-- Arrows -->
-                        <div class="js-swiper-card-grid-button-prev swiper-button-prev swiper-static-button-prev"></div>
-                        <div class="js-swiper-card-grid-button-next swiper-button-next swiper-static-button-next"></div>
-
-                    
-                    </div>
-                </div>
-                <!-- End Swiper Slider -->
-            </div>
-            <!-- End Col -->
-            </div>
-            <!-- End Row -->
-        </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
-    <!-- End Card Grid -->
-    {% endif %}
+  </section>
+  {% endif %}
+</main>
 
-    {% if service.teams|length > 0 %}
-
-    <!-- Card Grid -->
-    <div class="container content-space-2 d-print-none">
-        <!-- Heading -->
-        <div class="w-lg-65 text-center mx-lg-auto mb-3 mb-sm-7 mb-lg-10">
-            <h2>Nos experts</h2>
-            
-        </div>
-        <!-- End Heading -->
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 gx-2 gx-md-4 d-flex justify-content-center">
-            {% for team in service.teams %}
-                <!-- Slide -->
-                <div class="swiper-slide pt-4 pb-8">
-                    <!-- Card -->
-                    <a class="card card-transition" href="{{ team.linkedin }}">
-                    <div class="card-pinned">
-                        <img class="card-img-top" src={{ team.photo }} alt="Image Description">
-                        
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ team.noncomplet }}</h5>
-                        <p>{{ team.titre }}</p>
-                    </div>
-                    <div class="card-footer pt-0">
-                        <span class="card-link"><i class="bi-linkedin me-1"></i> Linkedin</span>
-                    </div>
-                    </a>
-                    <!-- End Card -->
-                    
-                </div>
-            <!-- End Slide -->
-            {% endfor %}
-            
-        </div>
-        <!-- End Row -->
-    </div>
-    <!-- End Card Grid -->
-    {% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "{{ service.designation|striptags|e('js') }}",
+  "serviceType": "{{ service.practice.designation|striptags|e('js') }}",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "description": "{{ service.IntroductionShort|striptags|e('js') }}"
+}
+</script>
 {% endblock %}

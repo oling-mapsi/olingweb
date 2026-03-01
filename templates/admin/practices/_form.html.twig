@@ -1,0 +1,130 @@
+{{ form_start(form, form_action is defined ? {'action': form_action} : {}) }}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="mb-3">
+                {{ form_label(form.designation) }}
+                {{ form_widget(form.designation, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.designation) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.designationShort) }}
+                {{ form_widget(form.designationShort, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.designationShort) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.introduction) }}
+                {{ form_widget(form.introduction, {'attr': {'class': 'form-control js-wysiwyg'}}) }}
+                {{ form_errors(form.introduction) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.introductionShort) }}
+                {{ form_widget(form.introductionShort, {'attr': {'class': 'form-control js-wysiwyg'}}) }}
+                {{ form_errors(form.introductionShort) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control js-wysiwyg'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.descriptionShort) }}
+                {{ form_widget(form.descriptionShort, {'attr': {'class': 'form-control js-wysiwyg'}}) }}
+                {{ form_errors(form.descriptionShort) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.tags) }}
+                {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.tags) }}
+                {% if form.tags.vars.help %}
+                    <div class="form-text">{{ form.tags.vars.help }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.featuredHome) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.class1) }}
+                {{ form_widget(form.class1, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.class1) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.color) }}
+                {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.color) }}
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="mb-3">
+                {{ form_label(form.image1) }}
+                {{ form_widget(form.image1, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.image1) }}
+                <div class="mt-2">
+                    {{ form_label(form.image1File) }}
+                    {{ form_widget(form.image1File, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.image1File) }}
+                </div>
+                {% if practice.image1 %}
+                    <div class="mt-2">
+                        <div class="small text-muted mb-1">Image 1</div>
+                        <img src="{{ asset(practice.image1) }}" alt="Image 1" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px;">
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.image2) }}
+                {{ form_widget(form.image2, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.image2) }}
+                <div class="mt-2">
+                    {{ form_label(form.image2File) }}
+                    {{ form_widget(form.image2File, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.image2File) }}
+                </div>
+                {% if practice.image2 %}
+                    <div class="mt-2">
+                        <div class="small text-muted mb-1">Image 2</div>
+                        <img src="{{ asset(practice.image2) }}" alt="Image 2" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px;">
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(form.ico) }}
+                <div class="admin-icon-picker js-icon-picker">
+                    <div class="admin-icon-picker__input">
+                        {{ form_widget(form.ico, {'attr': {'class': 'form-control js-icon-picker-input'}}) }}
+                        <button type="button" class="btn btn-outline-secondary btn-sm js-icon-picker-toggle">Choisir une icône</button>
+                    </div>
+                    <div class="admin-icon-picker__current">
+                        <span class="text-muted">Icône actuelle :</span>
+                        <span class="admin-icon-picker__preview js-icon-picker-preview"></span>
+                        <span class="admin-icon-picker__label js-icon-picker-label"></span>
+                    </div>
+                    <div class="admin-icon-picker__panel js-icon-picker-panel">
+                        <div class="admin-icon-picker__search">
+                            <input type="search" class="form-control js-icon-picker-search" placeholder="Rechercher une icône...">
+                            <div class="admin-icon-picker__hint js-icon-picker-hint"></div>
+                        </div>
+                        <div class="admin-icon-picker__grid js-icon-picker-grid"></div>
+                    </div>
+                </div>
+                {{ form_errors(form.ico) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+        <a class="btn btn-outline-secondary" href="{{ path('admin_practices_index') }}">Retour</a>
+    </div>
+{{ form_end(form) }}

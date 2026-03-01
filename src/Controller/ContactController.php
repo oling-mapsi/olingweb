@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ContactController extends AbstractController
 {
     #[Route('/send-email', name: 'send_mail', methods: ['POST'])]
-    public function sendEmail(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
+    public function sendEmail(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, MailerInterface $mailer)
     {
         // Récupérer les données du formulaire
         $firstName = $request->request->get('contactFirstName', '');
@@ -65,7 +68,29 @@ class ContactController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            // Retourner une réponse JSON de succès
+            // Envoyer un email via Office 365
+            try {
+                $email = (new Email())
+                    ->from('florestan.rouet@oling.fr')
+                    ->to('florestan.rouet@oling.fr')
+                    ->replyTo($workEmail)
+                    ->subject('Nouveau message — Formulaire contact OLING')
+                    ->text(
+                        "Prénom: {$firstName}\n" .
+                        "Nom: {$lastName}\n" .
+                        "Société: {$company}\n" .
+                        "Email: {$workEmail}\n\n" .
+                        "Message:\n{$details}\n"
+                    );
+
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                return new JsonResponse([
+                    'success' => false,
+                    'message' => 'Le message a bien été enregistré, mais l’envoi email a échoué. Merci de réessayer.',
+                ]);
+            }
+
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Votre message a été envoyé avec succès.',
@@ -79,4 +104,3 @@ class ContactController extends AbstractController
         }
     }
 }
-

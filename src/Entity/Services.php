@@ -40,6 +40,9 @@ class Services
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image2 = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageHero = null;
+
     #[ORM\ManyToOne(inversedBy: 'services')]
     private ?Practice $practice = null;
 
@@ -146,7 +149,7 @@ class Services
         return $this->image1;
     }
 
-    public function setImage1(string $image1): self
+    public function setImage1(?string $image1): self
     {
         $this->image1 = $image1;
 
@@ -161,6 +164,18 @@ class Services
     public function setImage2(?string $image2): self
     {
         $this->image2 = $image2;
+
+        return $this;
+    }
+
+    public function getImageHero(): ?string
+    {
+        return $this->imageHero;
+    }
+
+    public function setImageHero(?string $imageHero): self
+    {
+        $this->imageHero = $imageHero;
 
         return $this;
     }

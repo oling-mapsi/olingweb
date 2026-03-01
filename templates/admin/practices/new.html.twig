@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Nouvelle practice{% endblock %}
+{% block meta_description %}Création de practice Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3">Nouvelle practice</h1>
+            <p class="text-muted mb-0">Ajoutez une practice et ses médias.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% include 'admin/practices/_form.html.twig' with {
+            form: form,
+            practice: practice,
+            button_label: 'Créer',
+            form_action: path('admin_practices_new')
+        } %}
+    </div>
+</main>
+{% endblock %}

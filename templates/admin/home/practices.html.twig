@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - Practices{% endblock %}
+{% block meta_description %}Paramètres de la section practices sur la home{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <h1 class="h3 mb-1">Home · Practices</h1>
+        <p class="text-muted mb-0">Titre et intro de la section “Nos practices” sous le hero.</p>
+      </div>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="card">
+      <div class="card-body">
+        {{ form_start(form) }}
+          {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+          {{ form_row(form.intro) }}
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-primary">Enregistrer</button>
+          </div>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

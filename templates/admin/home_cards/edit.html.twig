@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Home highlight{% endblock %}
+{% block meta_description %}Modification d'un Home highlight{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Modifier le Home highlight</h1>
+            <p class="text-muted mb-0">Ajustez l’entité Home highlight sous le hero.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        <div class="card">
+            <div class="card-body">
+                {% include 'admin/home_cards/_form.html.twig' with {
+                    form: form,
+                    button_label: 'Mettre à jour'
+                } %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

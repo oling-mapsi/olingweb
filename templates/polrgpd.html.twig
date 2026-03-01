@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}RGPD - OLING{% endblock %}
-{% block meta_description %}Politique générale de protection des données personnelles{% endblock %}
+{% block title %}Politique RGPD | OLING{% endblock %}
+{% block meta_description %}Politique générale de protection des données personnelles et conformité RGPD d’OLING Management & Technologie.{% endblock %}
 
 {% block body %}
   
@@ -11,15 +11,18 @@
   <div class="container content-space-2 content-space-lg-3">
     <div class="w-lg-75 mx-lg-auto">
       <!-- Card -->
-      <div class="card card-lg card-shadow">
+      <div class="card card-lg card-shadow oling-legal-card">
         <!-- Header -->
         <div class="card-header bg-dark">
-          <h1 class="card-title h2 text-white">Charte de Protection des Données à Caractère Personnel</h1>
+          <h1 class="card-title h2 text-white">{{ legalPage and legalPage.title ? legalPage.title : 'Charte de Protection des Données à Caractère Personnel' }}</h1>
         </div>
         <!-- End Header -->
 
         <!-- Card Body -->
         <div class="card-body">
+          {% if legalPage and legalPage.body %}
+            {{ legalPage.body|raw }}
+          {% else %}
           <div class="mb-7">
             <p>La société OLING MANAGEMENT & TECHNOLOGIE est consciente des enjeux de la protection des données personnelles sur son site internet. À ce titre, elle s’engage à assurer un niveau de protection des données personnelles en conformité avec le Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l’égard du traitement des données à caractère personnel et à la libre circulation de ces données (RGPD) applicable depuis le 25 mai 2018 ainsi que la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés modifiée par la loi n°2018-493 du 20 juin 2018 promulguée le 21 juin 2018.</p>
 
@@ -106,6 +109,7 @@
             <h4>Mise à jour de la charte</h4>
             <p>Nous nous réservons le droit de modifier cette charte à tout moment. Toute modification sera publiée sur notre site web et prendra effet immédiatement.</p>
           </div>
+          {% endif %}
         </div>
         <!-- End Card Body -->
       </div>

@@ -1,95 +1,188 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ practice.designation }} - OLING{% endblock %}
-{% block meta_description %}{{ practice.IntroductionShort | raw }}{% endblock %}
+{% block title %}{{ practice.designation }} | AMOA SI & Transformation - OLING{% endblock %}
+{% block meta_description %}{{ practice.IntroductionShort|striptags }}{% endblock %}
 
 {% block body %}
-
-  
-  <!-- Hero -->
-<div class="position-relative bg-img-center {{ practice.class1 }}" style="margin-top:80px;background-image: url({{ practice.image2 }}); height: 100vh;">
-  <div class="container content-space-2 content-space-lg-3 ">
-      <div class="row align-items-lg-center">
-        <div class="col-lg-5 order-lg-2 mb-10 mb-lg-0">
-          <div class="position-relative">
-            {# <img class="img-fluid rounded-3" src="/img/spe/chronometre.png" alt="Image Description"> #}
-            {# <div class="w-75 ms-auto">
-              <img class="img-fluid rounded" src="{{ practice.image1 }}" alt="Image Description">
-            </div>
-
-
-            <!-- SVG Shape -->
-            <figure class="position-absolute top-0 end-0 mt-n10 me-n0" style="width: 10rem;">
-              <img class="img-fluid" src="{{ practice.image2 }}" alt="Image Description">
-            </figure>
-            <!-- End SVG Shape --> #}
-          </div>
+<main id="content" role="main">
+  {% set practicePalette = ['#7d5ba6','#0093dc','#8aea92','#f4743b'] %}
+  {% set practiceGrad2Palette = ['#3d2672','#0b4cc2','#1f7a5a','#a8461e'] %}
+  {% set practiceColorMap = {'#7d5ba6':0,'#0093dc':1,'#8aea92':2,'#f4743b':3} %}
+  {% set practiceColor = practice.color ? (practice.color starts with '#' ? practice.color|lower : '#' ~ practice.color|lower) : '' %}
+  {% set practiceVariant = practiceColorMap[practiceColor] is defined ? practiceColorMap[practiceColor] : (practice.id ? (practice.id % 4) : 1) %}
+  {% set practiceAccent = practiceColor ? practiceColor : practicePalette[practiceVariant] %}
+  {% set practiceGrad2 = practiceGrad2Palette[practiceVariant] %}
+  <div class="container content-space-2 content-space-lg-3">
+    <section class="oling-practice-hero" data-variant="{{ practiceVariant }}" style="background: linear-gradient(135deg, {{ practiceAccent }}, {{ practiceGrad2 }} 70%); --practice-bg: url('{{ practice.image1 ?: practice.image2 ?: asset('img/1920x1080/img13.png') }}'); --practice-accent: {{ practiceAccent }}; --card-grad-1: {{ practiceAccent }}; --card-grad-2: {{ practiceGrad2 }};">
+      <div class="acc-practice-step-media" aria-hidden="true"></div>
+      <div class="p-7 p-lg-9 oling-hero-content">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href={{ path('index') }}>Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ practice.designation }}</li>
+          </ol>
+        </nav>
+        <span class="oling-kicker text-white">{{ practice.designation_short ?: 'Practice' }}</span>
+        <h1 class="display-4 text-white mb-4">{{ practice.designation }}</h1>
+        <p class="oling-lede text-white-70 mb-4">{{ practice.IntroductionShort | raw }}</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant</a>
+          <a class="btn btn-outline-light" href="#services">Voir nos services</a>
         </div>
-        <!-- End Col -->
+      </div>
+    </section>
+  </div>
 
+  <section class="oling-section">
+    <div class="container">
+      <div class="row g-5 align-items-start">
         <div class="col-lg-7">
-          <div class="pe-lg-5">
-            <div class="mb-5">
-              <h1 class="text-light display-4">{{ practice.designation }}</h1>
-              <p class="fs-3 text-light">{{ practice.IntroductionShort | raw }}</p>
-            </div>
+          <span class="oling-kicker">Expertise</span>
+          <h2>AMOA SI et transformation alignées sur vos enjeux métiers</h2>
+          {% if practice.description is not empty %}
+            {{ practice.description | raw }}
+          {% elseif practice.introduction is not empty %}
+            {{ practice.introduction | raw }}
+          {% else %}
+            <p>{{ practice.IntroductionShort | raw }}</p>
+          {% endif %}
 
-            
-
+          <div class="oling-surface p-4 mt-4">
+            <h3 class="mb-3">Notre approche de conseil</h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2">Cadrage stratégique et diagnostic SI pour prioriser les leviers de valeur.</li>
+              <li class="mb-2">Gouvernance projet, AMOA et conduite du changement orientées résultats.</li>
+              <li>Mesure de performance, risques et conformité tout au long du cycle projet.</li>
+            </ul>
           </div>
-            
         </div>
-      <!-- End Col -->
+        <div class="col-lg-5">
+          <div class="oling-surface p-4" id="services">
+            <h3 class="mb-3">Services clés</h3>
+            <ul class="list-unstyled mb-0">
+              {% for service in practice.services %}
+                <li class="mb-2">
+                  <a class="link" href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}>
+                    <i class="{{ service.ico ?: 'bi-diagram-3' }} me-2"></i>{{ service.designation | raw }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- End Row -->
-    {% for service in practice.services %} 
-              <a class="btn btn-soft-light link-pointer m-1 fs-3 " href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}><i class="{{ service.ico }} ms-1"></i>  {{ service.designation }}</a>
-            {% endfor %}
-  </div>
-    <!-- End Features -->
-    
-</div>
-<!-- End Hero -->
+  </section>
 
-<!-- Card Grid -->
-<div class="container content-space-t-2 content-space-t-lg-3 overflow-hidden">
-  <!-- Heading -->
-  <div class="w-lg-65 text-center mx-lg-auto mb-5 mb-sm-7 mb-lg-10">
-    <h2>Les missions que nous réalisons<br>De quelques jours à quelques mois, ciblées ou élargies</h2>
-  </div>
-  <!-- End Heading -->
-
-  <div class="row row-cols-1 row-cols-sm-2 gx-7">
-  {% for service in practice.services %} 
-      {% for projet in service.projets %} 
-        <div class="col mb-5">
-          <!-- Card -->
-          <a class="card card-ghost card-transition-zoom h-100" href="#">
-            <div class="card-pinned card-transition-zoom-item">
-              <img class="card-img" src="{{ projet.image }}" alt="Image Description">
-              <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation  | raw  }}</span>
+  {% if teams is defined and teams|length > 0 %}
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="mb-5">
+        <span class="oling-kicker">Équipe dédiée</span>
+        <h2>Des experts mobilisés sur vos enjeux opérationnels.</h2>
+        <p class="text-white-70 mb-0">Une équipe terrain impliquée dans le pilotage, la conduite du changement et la conformité.</p>
+      </div>
+      <div class="oling-team-mini-list">
+        {% for team in teams %}
+          <div class="oling-team-mini">
+            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/400x400/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
+            <div class="oling-team-mini__meta">
+              <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
+              {% if team.titre %}
+                <div class="oling-team-mini__title">{{ team.titre }}</div>
+              {% endif %}
+              {% if team.linkedin %}
+                <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">
+                  <i class="bi-linkedin"></i> LinkedIn
+                </a>
+              {% endif %}
             </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
 
-            <div class="card-body">
-              <h4>Projet – <span class="fw-medium">{{ projet.designation }}</span></h4>
-              <p class="card-text">{{ service.designation }}</p>
-            </div>
-          </a>
-          <!-- End Card -->
-        </div>
-        <!-- End Col -->
-
-      
-      {% endfor %}
-
+  {% set projetsShown = [] %}
+  {% set hasProjects = false %}
+  {% for service in practice.services %}
+    {% for projet in service.projets %}
+      {% if projet.id not in projetsShown %}
+        {% set projetsShown = projetsShown|merge([projet.id]) %}
+        {% set hasProjects = true %}
+      {% endif %}
     {% endfor %}
-    
-  </div>
+  {% endfor %}
 
-</div>
-<!-- End Card Grid -->
+  {% if hasProjects %}
+  <section class="oling-section">
+    <div class="container d-print-none">
+      <div class="row justify-content-lg-between">
+        <div class="col-md-4 mb-7 mb-md-0">
+          <div class="mt-md-10 mb-5">
+            <h2>Retours d’expériences</h2>
+          </div>
 
+          <div class="alert alert-soft-dark" role="alert">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <i class="bi-linkedin"></i>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                Suivez-nous sur <a class="alert-link" href="https://www.linkedin.com/company/oling-management-&-technologie/" target="_blank">LinkedIn</a> pour découvrir notre actualité
+              </div>
+            </div>
+          </div>
+        </div>
 
-  
+        <div class="col-md-7">
+          <div class="swiper-center-mode-end">
+            <div class="js-swiper-card-grid swiper swiper-equal-height ps-4">
+              <div class="swiper-wrapper">
+                {% set projetsShown = [] %}
+                {% for service in practice.services %}
+                  {% for projet in service.projets %}
+                    {% if projet.id not in projetsShown %}
+                      {% set projetsShown = projetsShown|merge([projet.id]) %}
+                      <div class="swiper-slide pt-4 pb-8">
+                        <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                          <div class="card-body">
+                            <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation | raw }}</span>
+                            <h3 class="highlight-text card-title text-white lh-base">{{ projet.designation | raw }}</h3>
+                          </div>
+                        </a>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
 
+              <div class="js-swiper-card-grid-button-prev swiper-button-prev swiper-static-button-prev"></div>
+              <div class="js-swiper-card-grid-button-next swiper-button-next swiper-static-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "{{ practice.designation|striptags|e('js') }}",
+  "serviceType": "AMOA SI, transformation digitale et conformité",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "description": "{{ practice.IntroductionShort|striptags|e('js') }}"
+}
+</script>
 {% endblock %}

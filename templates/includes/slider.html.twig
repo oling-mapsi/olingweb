@@ -1,181 +1,186 @@
-<div class="position-relative">
-
-<div class="swiper-slide">
+<div class="position-relative oling-hero">
   <!-- Swiper Main Slider -->
-  <div class="js-swiper-blog-modern-hero swiper swiper-equal-height">
+  <div class="js-swiper-blog-modern-hero swiper">
     <div class="swiper-wrapper video-bg">
       
-      <div class="swiper-slide content-space-3 js-video-bg" data-hs-video-bg-options='{
+      <div class="swiper-slide js-video-bg oling-hero-slide oling-hero-slide--video oling-hero-slide--home" data-hs-video-bg-options='{
         "videoId": "/img/video/slide22-1"
-      }' style="height: 100vh;">
-        <div class="container content-space-b-sm-2 my-auto" style="position: relative; z-index: 2;">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mb-5">
-    <h1 class="display-6 text-light mb-5">
-      Conseil en transformation numérique et conformité
-    </h1>
-    <p class="fs-3 text-light">
-      OLING accompagne les organisations publiques et privées en <span class="text-primary">France</span>, <span class="text-primary">Guadeloupe</span>, <span class="text-primary">Martinique</span> et <span class="text-primary">Guyane</span>. Nos experts interviennent en gestion de projet SI, AMOA ERP, RGPD, ISO 27001 et cybersécurité.
-    </p>
-
+      }'>
+        <div class="oling-hero-atmos"></div>
+        <div class="oling-hero-pattern"></div>
+        <div class="container oling-hero-shell">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="oling-hero-badges">
+                <span class="oling-hero-pill"><i class="bi bi-diagram-3"></i> AMOA & pilotage SI</span>
+                <span class="oling-hero-pill"><i class="bi bi-shield-check"></i> Conformité & sécurité</span>
+                <span class="oling-hero-pill"><i class="bi bi-graph-up"></i> Transformation mesurable</span>
               </div>
-
-              <div class="d-grid d-sm-flex gap-3 mb-5">
-                <a class="btn btn-light" href={{ path('apropos')}}>A propos de OLING</a>
-                <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
+              <h1 class="oling-hero-title">Transformation SI & conformité, pilotées de bout en bout.</h1>
+              <p class="oling-hero-lead">
+                AMOA SI, pilotage ERP/CRM/BI, schéma directeur, et gouvernance data & conformité (RGPD, ISO 27001, DORA/NIS2) outillée avec MAPSI.
+              </p>
+              <div class="oling-hero-cta">
+                <a class="btn btn-primary btn-lg" href={{ path('contact')}}>Parler à un consultant</a>
+                <a class="btn btn-ghost-light btn-lg btn-pointer" href="{{ path('index') }}#practices">Découvrir nos practices</a>
               </div>
             </div>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
-        </div>
-        
-      
-      </div>
-
-
-      <div class="swiper-slide bg-img-right content-space-3 content-space-t-sm-2 content-space-b-sm-2" style="background-image: url(/img/1920x1080/security.png);">
-        
-        <!-- Container -->
-        <div class="container content-space-b-sm-2 my-auto">
-          <div class="row">
-            <div class="col-md-8">
-                <!-- Media -->
-                <div class="d-flex align-items-center mb-3">
-                    <div class="flex-shrink-0">
-                    <div class="avatar">
-                        <img class="avatar-img" src="/img/people/florestan-oling.png" alt="Image Description">
-                    </div>
-                    </div>
-
-                    <div class="flex-grow-1 ms-3">
-                    <a class="text-white" href="#">Florestan ROUET</a>
-                    </div>
+            <div class="col-lg-5">
+              <div class="oling-hero-card oling-hero-card--home">
+                <div class="oling-hero-card-header">
+                  <span class="oling-hero-chip">Méthodologie AMOA</span>
+                  <span class="oling-hero-chip oling-hero-chip--accent">Secure by design</span>
                 </div>
-                <!-- End Media -->
-            
-                <div class="mb-5">
-                    <h2 class="display-4 text-light mb-5">OLING est certifiée<br>ISO 27001:2022</h2>
-                    <p class="fs-3 text-light">
-                      Sécuriser vos projets, c'est créer de la confiance durable.  
-                      <br>Grâce au cadre exigeant de la certification ISO 27001, nous intégrons la sécurité by design dans chaque projet de transformation. 
-                      <br>Clients, équipes OLING et partenaires peuvent ainsi se concentrer pleinement sur l'essentiel : vos besoins métiers.
-                    </p>
-                   
-                    <div class="d-grid d-sm-flex gap-3 mb-5">
-                      <a class="btn btn-light" href={{path('service',{'practice' : 'expertises-audit', 'slug' : 'ssi'} ) }}>Notre pratique de l'ISO 27001:2022</a>
-                      <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
+                <h3 class="oling-hero-card-title">Cadre d’exécution OLING (AMOA)</h3>
+                <div class="oling-hero-steps">
+                  <div class="oling-hero-step">
+                    <span class="step-index">01</span>
+                    <div>
+                      <span class="step-kicker">Principe 01</span>
+                      <span class="step-title">Diagnostiquer avec preuves</span>
+                      <span class="step-desc">enjeux métiers, data, risques</span>
                     </div>
-                   
-                </div>
-
-            
-            </div>
-            <!-- End Col -->
-          </div>
-          <!-- End Row -->
-        </div>
-        <!-- End Container -->
-      </div>
-
-
-
-
-      <div class="swiper-slide app content-space-3 content-space-t-sm-2 content-space-b-sm-2">
-        <!-- Container -->
-        <div class="container content-space-b-sm-2 my-auto">
-          <div class="row">
-            <div class="col-md-6">
-                
-              <!-- Media -->
-              <div class="d-flex align-items-center mb-3">
-                <div class="flex-shrink-0">
-                  <div class="avatar">
-                    <img class="avatar-img" src="/img/people/hanna-oling.jpg" alt="Image Description">
+                  </div>
+                  <div class="oling-hero-step">
+                    <span class="step-index">02</span>
+                    <div>
+                      <span class="step-kicker">Baseline</span>
+                      <span class="step-title">Aligner cible SI & trajectoire</span>
+                      <span class="step-desc">feuille de route, budget, trajectoire</span>
+                    </div>
+                  </div>
+                  <div class="oling-hero-step">
+                    <span class="step-index">03</span>
+                    <div>
+                      <span class="step-kicker">Exécution</span>
+                      <span class="step-title">Piloter & sécuriser</span>
+                      <span class="step-desc">exécution, qualité, conformité</span>
+                    </div>
                   </div>
                 </div>
-
-                <div class="flex-grow-1 ms-3">
-                  <a class="text-white" href="#">Hanna Badan</a>
+                <div class="oling-hero-tags">
+                  <span>ERP</span>
+                  <span>RGPD</span>
+                  <span>ISO 27001</span>
+                  <span>SI & Data</span>
                 </div>
               </div>
-              <!-- End Media -->
-                <div class="mb-5">
-                    <h2 class="display-4 text-light mb-5"> Expertise et AMOA en logiciels <span class="text-primary">ERP</span>, adaptée et ciblée </h2>
-                    <p class="fs-3 text-light">Nos consultants offrent un soutien spécialisé en maîtrise d'ouvrage pour les ERP et progiciels tels que SAP S/4HANA, SAGE X3, Divalto Infinity et MS Dynamics, adaptant notre approche pour répondre aux enjeux uniques de votre entreprise et piloter efficacement chaque étape de l'intégration.</p>
-                </div>
-                <div class="d-grid d-sm-flex gap-3 mb-5">
-                    <a class="btn btn-soft-light" href="/business-apps/erp">Découvrir le service</a>
-                    <a class="btn btn-ghost-light btn-pointer" href={{ path('contact')}}>Contactez-nous</a>
-                </div>
-                
             </div>
-            <!-- End Col -->
-            <div class="col-md-6 d-none d-sm-block">
-                <br><br>
-                <img class="img-fluid float-lg-end" style="opacity: 1;" src="/img/spe/erp.png" alt="Image Description">
-            </div>
-            <div class="area" >
-                    <ul class="circles">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div >
-            <!-- End Col -->
           </div>
-          <!-- End Row -->
         </div>
-        <!-- End Container -->
       </div>
 
-      <div class="swiper-slide bg-img-right content-space-3 content-space-t-sm-2 content-space-b-sm-2" style="background-image: url(/img/1920x1080/img3.jpg);">
-        <div class="bg"></div>
-        <div class="bg bg2"></div>
-        <div class="bg bg3"></div>
-        <!-- Container -->
-        <div class="container content-space-b-sm-2 my-auto">
-          <div class="row">
-            <div class="col-md-8">
-                <!-- Media -->
-                <div class="d-flex align-items-center mb-3">
-                    <div class="flex-shrink-0">
-                    <div class="avatar">
-                        <img class="avatar-img" src="/img/people/dorothee-oling.png" alt="Image Description">
-                    </div>
-                    </div>
-
-                    <div class="flex-grow-1 ms-3">
-                    <a class="text-white" href="#">Dorothée Maitrias</a>
-                    </div>
-                </div>
-                <!-- End Media -->
-            
-                <div class="mb-5">
-                    <h2 class="display-4 text-light mb-5">Conformité sur-mesure et multisectorielle</h2>
-                    <p class="fs-3 text-light">OLING vous accompagne dans l'atteinte de vos objectifs de conformité, qu'il s'agisse de normalisation, de réglementaire, ou de financier. Bénéficiez de notre expertise adaptée à votre contexte pour une conformité sereine et efficace.</p>
-                    {% for service in services %} 
-                        {% if service.practice.id == 7 %}
-                            <a class="btn btn-light m-1" href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-            
+      <div class="swiper-slide oling-hero-slide oling-hero-slide--image" style="background-image: url('{{ asset('img/1920x1080/img13.png') }}');">
+        <div class="oling-hero-atmos"></div>
+        <div class="container oling-hero-shell">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="oling-hero-badges">
+                <span class="oling-hero-pill"><i class="bi bi-shield-lock"></i> Sécurité SI</span>
+                <span class="oling-hero-pill"><i class="bi bi-clipboard-check"></i> Audit & conformité</span>
+                <span class="oling-hero-pill"><i class="bi bi-file-lock2"></i> ISO 27001:2022</span>
+              </div>
+              <h2 class="oling-hero-title">OLING est certifiée ISO 27001:2022</h2>
+              <p class="oling-hero-lead">
+                Sécuriser vos projets, c’est créer de la confiance durable. Nous intégrons la sécurité by design dans chaque projet de transformation pour garantir la continuité, la conformité et la maîtrise des risques.
+              </p>
+              <div class="oling-hero-cta">
+                <a class="btn btn-primary btn-lg" href={{path('service',{'practice' : 'expertises-audit', 'slug' : 'ssi'} ) }}>Voir l’expertise ISO 27001</a>
+                <a class="btn btn-ghost-light btn-lg btn-pointer" href={{ path('contact')}}>Échanger avec un expert</a>
+              </div>
             </div>
-            <!-- End Col -->
+            <div class="col-lg-5">
+              <div class="oling-hero-card">
+                <div class="oling-hero-card-header">
+                  <span class="oling-hero-chip">Sécurité & conformité</span>
+                  <span class="oling-hero-chip oling-hero-chip--accent">Preuves auditables</span>
+                </div>
+                <h3 class="oling-hero-card-title">Notre cadre d’excellence</h3>
+                <ul class="oling-hero-list">
+                  <li><strong>Gouvernance SSI</strong> & politiques de sécurité</li>
+                  <li><strong>Gestion des risques</strong> & plan de traitement</li>
+                  <li><strong>Conformité</strong> RGPD, ISO & réglementaire</li>
+                </ul>
+                <div class="oling-hero-tags">
+                  <span>RGPD</span>
+                  <span>SSI</span>
+                  <span>BCP</span>
+                  <span>PRA/PCA</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- End Row -->
         </div>
-        <!-- End Container -->
+      </div>
+
+      <div class="swiper-slide oling-hero-slide oling-hero-slide--gradient">
+        <div class="oling-hero-atmos"></div>
+        <div class="container oling-hero-shell">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="oling-hero-badges">
+                <span class="oling-hero-pill"><i class="bi bi-box-seam"></i> ERP & progiciels</span>
+                <span class="oling-hero-pill"><i class="bi bi-kanban"></i> Pilotage projet</span>
+                <span class="oling-hero-pill"><i class="bi bi-diagram-2"></i> Transformation SI</span>
+              </div>
+              <h2 class="oling-hero-title">AMOA ERP ciblée, orientée résultats</h2>
+              <p class="oling-hero-lead">
+                Nous accompagnons vos programmes SAP S/4HANA, SAGE X3, Divalto Infinity ou Dynamics 365 avec une AMOA structurée, une conduite du changement maîtrisée et une trajectoire métier claire.
+              </p>
+              <div class="oling-hero-cta">
+                <a class="btn btn-primary btn-lg" href="/business-apps/erp">Découvrir l’expertise ERP</a>
+                <a class="btn btn-ghost-light btn-lg btn-pointer" href={{ path('contact')}}>Planifier un cadrage</a>
+              </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+              <div class="oling-hero-card oling-hero-card--visual">
+                <img class="img-fluid" src="/img/spe/erp.png" alt="Illustration ERP">
+                <div class="oling-hero-card-footer">
+                  <span>Processus, data & adoption</span>
+                  <span class="oling-hero-chip oling-hero-chip--accent">Time-to-value</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide oling-hero-slide oling-hero-slide--image" style="background-image: url(/img/1920x1080/img3.jpg);">
+        <div class="oling-hero-atmos"></div>
+        <div class="container oling-hero-shell">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="oling-hero-badges">
+                <span class="oling-hero-pill"><i class="bi bi-shield-check"></i> Conformité 360</span>
+                <span class="oling-hero-pill"><i class="bi bi-cpu"></i> SI & data</span>
+                <span class="oling-hero-pill"><i class="bi bi-journal-check"></i> Réglementaire</span>
+              </div>
+              <h2 class="oling-hero-title">Conformité sur‑mesure, multisectorielle</h2>
+              <p class="oling-hero-lead">
+                OLING sécurise vos obligations réglementaires et normatives : RGPD, ISO, continuité, audit, contrôle interne et conformité financière.
+              </p>
+              <div class="oling-hero-cta">
+                <a class="btn btn-primary btn-lg" href={{path('practice_home',{'slug' : 'expertises-audit'} ) }}>Voir nos expertises</a>
+                <a class="btn btn-ghost-light btn-lg btn-pointer" href={{ path('contact')}}>Activer un audit</a>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="oling-hero-card">
+                <div class="oling-hero-card-header">
+                  <span class="oling-hero-chip">Domaines clés</span>
+                  <span class="oling-hero-chip oling-hero-chip--accent">Audit-ready</span>
+                </div>
+                <div class="oling-hero-tags">
+                  {% for service in services %} 
+                    {% if service.practice.id == 7 %}
+                      <a class="oling-hero-tag" href={{path('service',{'practice' : service.practice.slug, 'slug' : service.slug} ) }}>{{ service.designation }}</a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -185,31 +190,31 @@
   <!-- End Swiper Main Slider -->
 
   <!-- Swiper Thumbs Slider -->
-  <div class="position-sm-absolute bottom-0 start-0 end-0 zi-2 d-none d-sm-block mb-10">
-    <div class="container content-space-t-1">
+  <div class="oling-hero-thumbs d-none d-sm-block">
+    <div class="container">
       <div class="js-swiper-blog-modern-hero-thumbs swiper swiper-step-pagination swiper-step-pagination-light">
         <div class="swiper-wrapper">
           
           <!-- Slide -->
-          <div class="swiper-slide mb-4">
+          <div class="swiper-slide">
             <span class="swiper-step-pagination-title">OLING fiabilise vos projets métier et SI</span>
           </div>
           <!-- End Slide -->
 
           <!-- Slide -->
-          <div class="swiper-slide mb-4">
+          <div class="swiper-slide">
             <span class="swiper-step-pagination-title">OLING certifiée ISO 27001:2022</span>
           </div>
           <!-- End Slide -->
 
           <!-- Slide -->
-          <div class="swiper-slide mb-4">
+          <div class="swiper-slide">
             <span class="swiper-step-pagination-title">Piloter vos transitions de progiciels</span>
           </div>
           <!-- End Slide -->
 
           <!-- Slide -->
-          <div class="swiper-slide mb-4">
+          <div class="swiper-slide">
             <span class="swiper-step-pagination-title">Conformité métier et réglementaire à 360°</span>
           </div>
           <!-- End Slide -->

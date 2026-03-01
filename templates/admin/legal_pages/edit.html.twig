@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Pages légales{% endblock %}
+{% block meta_description %}Gestion des pages légales Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Pages légales</h1>
+            <p class="text-muted mb-0">Éditez le contenu de la page sélectionnée.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="admin-media-card">
+            <div class="admin-media-header">
+                <div>
+                    {% if slug == 'polrgpd' %}
+                        <h5>Politique générale de protection des données</h5>
+                        <p>Page RGPD (formulaire public).</p>
+                    {% elseif slug == 'polsecurite' %}
+                        <h5>Politique de sécurité de l'information</h5>
+                        <p>Page sécurité et engagements ISO.</p>
+                    {% else %}
+                        <h5>Mentions légales</h5>
+                        <p>Page officielle des mentions légales.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.body) }}
+                </div>
+                <button class="btn btn-primary">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</main>
+{% endblock %}

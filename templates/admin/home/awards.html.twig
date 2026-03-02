@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - Prix et reconnaissance{% endblock %}
+{% block meta_description %}Paramètres de la section prix et reconnaissance{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <h1 class="h3 mb-1">Home · Prix et reconnaissance</h1>
+        <p class="text-muted mb-0">Libellé et titre de la section.</p>
+      </div>
+      <a class="btn btn-primary" href="{{ path('admin_home_awards_items_new') }}">Nouvel item</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <div class="card mb-4">
+      <div class="card-body">
+        {{ form_start(form) }}
+          <div class="row g-3">
+            <div class="col-md-4">
+              {{ form_row(form.eyebrow) }}
+            </div>
+            <div class="col-md-8">
+              {{ form_row(form.title) }}
+            </div>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-primary">Enregistrer</button>
+          </div>
+        {{ form_end(form) }}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Items</h2>
+        {% if awards is empty %}
+          <div class="text-muted">Aucun item pour l’instant.</div>
+        {% else %}
+          <div class="table-responsive">
+            <table class="table table-hover align-middle js-admin-table">
+              <thead>
+                <tr>
+                  <th>Titre</th>
+                  <th>Sous-titre</th>
+                  <th>Ordre</th>
+                  <th>Ouvert</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for award in awards %}
+                  <tr>
+                    <td class="fw-semibold">
+                      <a href="{{ path('admin_home_awards_items_edit', {id: award.id}) }}">{{ award.title }}</a>
+                    </td>
+                    <td>{{ award.subtitle ?: '-' }}</td>
+                    <td>{{ award.position ?: '-' }}</td>
+                    <td>
+                      {% if award.isOpen %}
+                        <span class="badge bg-success">Oui</span>
+                      {% else %}
+                        <span class="text-muted">Non</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

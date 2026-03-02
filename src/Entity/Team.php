@@ -34,9 +34,13 @@ class Team
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titre = null;
 
+    #[ORM\ManyToMany(targetEntity: Projet::class, mappedBy: 'teams')]
+    private Collection $projets;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
+        $this->projets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +131,33 @@ class Team
     public function setTitre(?string $titre): self
     {
         $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Projet>
+     */
+    public function getProjets(): Collection
+    {
+        return $this->projets;
+    }
+
+    public function addProjet(Projet $projet): self
+    {
+        if (!$this->projets->contains($projet)) {
+            $this->projets->add($projet);
+            $projet->addTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            $projet->removeTeam($this);
+        }
 
         return $this;
     }

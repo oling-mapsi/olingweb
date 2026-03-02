@@ -2,6 +2,8 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         App\Entity\User: 'auto'
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
@@ -20,6 +22,8 @@ security:
                 login_path: login
                 check_path: login
                 enable_csrf: true
+                default_target_path: /admin
+                always_use_default_target_path: true
 
             logout:
                 path: logout

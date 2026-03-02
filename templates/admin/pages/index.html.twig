@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages | Admin{% endblock %}
+{% block meta_description %}Gestion des pages À propos{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Pages À propos</h1>
+                <p class="text-muted mb-0">Gérez les contenus “À propos”, “Secteurs d’activité”, “Références” et “Notre équipe”.</p>
+            </div>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% if pages is empty %}
+            <div class="alert alert-info">Aucune page pour l’instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Slug</th>
+                            <th>Titre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for page in pages %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_pages_edit', {id: page.id}) }}">{{ page.slug }}</a>
+                                </td>
+                                <td>{{ page.title }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Modifier page{% endblock %}
+{% block meta_description %}Modification d'une page À propos{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Modifier la page</h1>
+                <p class="text-muted mb-0">Slug : {{ page.slug }}</p>
+            </div>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ form_start(form) }}
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.metaDescription) }}
+                        {{ form_widget(form.metaDescription) }}
+                        {{ form_errors(form.metaDescription) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroTitle) }}
+                        {{ form_widget(form.heroTitle) }}
+                        {{ form_errors(form.heroTitle) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroIntro) }}
+                        {{ form_widget(form.heroIntro) }}
+                        {{ form_errors(form.heroIntro) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.bodyHtml) }}
+                        {{ form_widget(form.bodyHtml) }}
+                        {{ form_errors(form.bodyHtml) }}
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="mb-3">
+                        {{ form_label(form.slug) }}
+                        {{ form_widget(form.slug) }}
+                        {{ form_errors(form.slug) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroBadge) }}
+                        {{ form_widget(form.heroBadge) }}
+                        {{ form_errors(form.heroBadge) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroSideHtml) }}
+                        {{ form_widget(form.heroSideHtml) }}
+                        {{ form_errors(form.heroSideHtml) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroImage) }}
+                        {{ form_widget(form.heroImage) }}
+                        {{ form_errors(form.heroImage) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">Enregistrer</button>
+                <a class="btn btn-outline-secondary" href="{{ path('admin_pages_index') }}">Retour</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

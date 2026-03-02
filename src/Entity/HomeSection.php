@@ -20,6 +20,9 @@ class HomeSection
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $eyebrow = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $intro = null;
 
@@ -68,6 +71,18 @@ class HomeSection
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getEyebrow(): ?string
+    {
+        return $this->eyebrow;
+    }
+
+    public function setEyebrow(?string $eyebrow): self
+    {
+        $this->eyebrow = $eyebrow;
 
         return $this;
     }

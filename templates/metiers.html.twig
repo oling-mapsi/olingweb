@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Secteurs d’activité | Conseil AMOA SI - OLING{% endblock %}
-{% block meta_description %}Expertise multisectorielle en AMOA SI, transformation digitale et conformité pour acteurs publics et privés.{% endblock %}
+{% block title %}{{ page and page.title ? page.title : 'Secteurs d’activité | Conseil AMOA SI - OLING' }}{% endblock %}
+{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Expertise multisectorielle en AMOA SI, transformation digitale et conformité pour acteurs publics et privés.' }}{% endblock %}
 
 {% block body %}
       <!-- ========== MAIN CONTENT ========== -->
@@ -11,10 +11,10 @@
         <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
             <div class="row">
                 <div class="col-md-6 mb-7 mb-lg-0">
-                    <span class="badge bg-soft-light  text-wrap mb-3"><i class="bi-stars me-1"></i> Expertises métier</span>
+                    <span class="badge bg-soft-light text-wrap mb-3"><i class="bi-stars me-1"></i> {{ page and page.heroBadge ? page.heroBadge : 'Expertises métier' }}</span>
                     <div class="w-md-75 mb-5">
-                    <h1 class="text-white">Un partenaire expert pour une transformation adaptée à votre métier</h1>
-                    <p class="text-white-70"></p>
+                    <h1 class="text-white">{{ page and page.heroTitle ? page.heroTitle : 'Un partenaire expert pour une transformation adaptée à votre métier' }}</h1>
+                    <p class="text-white-70">{{ page and page.heroIntro ? page.heroIntro|raw : '' }}</p>
                     </div>
                 </div>
                 <!-- End Col -->
@@ -32,134 +32,133 @@
 
 
         <div id="listOfSocialLinks" class="position-relative">
-            <div class="row mb-3">
-                <div class="col-10 col-md-7 col-lg-7 offset-1 offset-md-4">
-                <h3>Expertise adaptée à divers secteurs d'activité</h3>       
-                <p>Notre approche multisectorielle nous permet d'appliquer des principes robustes et standardisés tout en prenant en compte les particularités et les besoins spécifiques de chaque secteur. Cela nous permet d'offrir à nos clients des solutions sur mesure et adaptées à leurs défis et à leurs objectifs.</p>
+            {% if page and page.bodyHtml %}
+                {{ page.bodyHtml|raw }}
+            {% else %}
+                <div class="row mb-3">
+                    <div class="col-10 col-md-7 col-lg-7 offset-1 offset-md-4">
+                    <h3>Expertise adaptée à divers secteurs d'activité</h3>       
+                    <p>Notre approche multisectorielle nous permet d'appliquer des principes robustes et standardisés tout en prenant en compte les particularités et les besoins spécifiques de chaque secteur. Cela nous permet d'offrir à nos clients des solutions sur mesure et adaptées à leurs défis et à leurs objectifs.</p>
 
- 
-                <!-- List Timeline -->
-                <ul class="list-unstyled list-timeline list-py-3">
-                <li class="list-timeline-item">
-                    <!-- Card -->
-                    <div class="card card-shadow">
-                    <div class="card-body">
-                        <!-- Media -->
-                        <div class="d-sm-flex">
+                    <!-- List Timeline -->
+                    <ul class="list-unstyled list-timeline list-py-3">
+                    <li class="list-timeline-item">
+                        <!-- Card -->
+                        <div class="card card-shadow">
+                        <div class="card-body">
+                            <!-- Media -->
+                            <div class="d-sm-flex">
+                            
+
+                            <div class="flex-grow-1 ms-sm-4">
+                                <h4>Secteur public, Grands Ports et Aéroports</h4> 
+                                <!-- Blockquote -->
+                                <figure class="blockquote-sm">
+                                <blockquote class="blockquote"><em>Dans le secteur des transports et collectivités, nous avons contribué à la création d'un catalogue de services pour une collectivité de 2000 agents, optimisant ainsi leur organisation. Nous avons mis en œuvre des ERP pour améliorer la performance opérationnelle et financières dans des grands ports et au sein d'aéroports. Nos actions ont aussi porté sur l'élaboration de schémas d'orientations SI et digitalisation, la mise en conformité aux normes ISO et RGPD, ainsi que l'évaluation des systèmes d'information en termes de continuité.</em></blockquote>
+                                </figure>
+                                <!-- End Blockquote -->
+                            </div>
+                            </div>
+                            <!-- End Media -->
+                        </div>
+                        </div>
+                        <!-- End Card -->
+                    </li>
+
+                    <li class="list-timeline-item ms-auto">
                         
+                        <!-- Card -->
+                        <div class="card card-shadow">
+                        <div class="card-body">
+                            <!-- Media -->
+                            <div class="d-sm-flex">
+                            <div class="flex-grow-1 ms-sm-4">
+                                <h4>Négoce et distribution</h4>
+                                <!-- Blockquote -->
+                                <figure class="blockquote-sm">
+                                <blockquote class="blockquote"><em>Pour les acteurs du négoce et de la distribution, nous mettons en avant notre expertise en matière d'ERP (tels que X3, Divalto, SAP, etc.), CRM, BI, comptabilité analytique, processus d'achats et stock, de gestion commerciale et de finance. Grâce à cette expertise, nous accompagnons nos clients tout au long du processus d'intégration des solutions applicatives et les aidons à tirer le meilleur parti des outils de collaboration Office 365. Notre objectif est de permettre aux entreprises de moderniser leur fonctionnement opérationnelle et d'optimiser leur organisation.</em></blockquote>
+                                </figure>
+                                <!-- End Blockquote -->
+                            </div>
+                            </div>
+                            <!-- End Media -->
+                        </div>
+                        </div>
+                        <!-- End Card -->
+                    </li>
 
-                        <div class="flex-grow-1 ms-sm-4">
-                            <h4>Secteur public, Grands Ports et Aéroports</h4> 
-                            <!-- Blockquote -->
-                            <figure class="blockquote-sm">
-                            <blockquote class="blockquote"><em>Dans le secteur des transports et collectivités, nous avons contribué à la création d'un catalogue de services pour une collectivité de 2000 agents, optimisant ainsi leur organisation. Nous avons mis en œuvre des ERP pour améliorer la performance opérationnelle et financières dans des grands ports et au sein d'aéroports. Nos actions ont aussi porté sur l'élaboration de schémas d'orientations SI et digitalisation, la mise en conformité aux normes ISO et RGPD, ainsi que l'évaluation des systèmes d'information en termes de continuité.</em></blockquote>
-                            </figure>
-                            <!-- End Blockquote -->
-                        </div>
-                        </div>
-                        <!-- End Media -->
-                    </div>
-                    </div>
-                    <!-- End Card -->
-                </li>
+                    <li class="list-timeline-item ms-auto">
+                        <!-- Card -->
+                        <div class="card card-shadow">
+                        <div class="card-body">
+                            <!-- Media -->
+                            <div class="d-sm-flex">
 
-                <li class="list-timeline-item ms-auto">
-                    
-                    <!-- Card -->
-                    <div class="card card-shadow">
-                    <div class="card-body">
-                        <!-- Media -->
-                        <div class="d-sm-flex">
-                        <div class="flex-grow-1 ms-sm-4">
-                            <h4>Négoce et distribution</h4>
-                            <!-- Blockquote -->
-                            <figure class="blockquote-sm">
-                            <blockquote class="blockquote"><em>Pour les acteurs du négoce et de la distribution, nous mettons en avant notre expertise en matière d'ERP (tels que X3, Divalto, SAP, etc.), CRM, BI, comptabilité analytique, processus d'achats et stock, de gestion commerciale et de finance. Grâce à cette expertise, nous accompagnons nos clients tout au long du processus d'intégration des solutions applicatives et les aidons à tirer le meilleur parti des outils de collaboration Office 365. Notre objectif est de permettre aux entreprises de moderniser leur fonctionnement opérationnelle et d'optimiser leur organisation.</em></blockquote>
-                            </figure>
-                            <!-- End Blockquote -->
-                        </div>
-                        </div>
-                        <!-- End Media -->
-                    </div>
-                    </div>
-                    <!-- End Card -->
-                </li>
+                            <div class="flex-grow-1 ms-sm-4">
+                                <h4>Sociétés des eaux</h4>
+                                <!-- Blockquote -->
+                                <figure class="blockquote-sm">
+                                <blockquote class="blockquote"><em>Pour les sociétés des eaux, nous avons travaillé sur la modernisation des infrastructures de traitement et de distribution, l'optimisation des processus de gestion de l'eau et la mise en œuvre de solutions numériques pour une meilleure surveillance et un meilleur contrôle des réseaux d'eau. Nous avons également aidé ces entreprises à s'adapter aux défis environnementaux et réglementaires.</em></blockquote>
 
-                <li class="list-timeline-item ms-auto">
-                    <!-- Card -->
-                    <div class="card card-shadow">
-                    <div class="card-body">
-                        <!-- Media -->
-                        <div class="d-sm-flex">
+                                </figure>
+                                <!-- End Blockquote -->
+                            </div>
+                            </div>
+                            <!-- End Media -->
+                        </div>
+                        </div>
+                        <!-- End Card -->
+                    </li>
+                    <li class="list-timeline-item">
+                        <!-- Card -->
+                        <div class="card card-shadow">
+                        <div class="card-body">
+                            <!-- Media -->
+                            <div class="d-sm-flex">
+                            <div class="flex-grow-1 ms-sm-4">
+                                <h4>Bailleurs sociaux et aménageurs</h4>
+                                <!-- Blockquote -->
+                                <figure class="blockquote-sm">
+                                <blockquote class="blockquote"><em>Dans le domaine des bailleurs sociaux et des aménageurs, nous avons accompagné nos clients dans la transformation de leurs processus métier et la mise en place de systèmes d'information adaptés aux besoins spécifiques du secteur. Nous avons également contribué à la mise en œuvre de solutions numériques pour la gestion des logements sociaux, la maintenance des bâtiments et l'amélioration de la qualité de vie des résidents.</em></blockquote>
 
-                        <div class="flex-grow-1 ms-sm-4">
-                            <h4>Sociétés des eaux</h4>
-                            <!-- Blockquote -->
-                            <figure class="blockquote-sm">
-                            <blockquote class="blockquote"><em>Pour les sociétés des eaux, nous avons travaillé sur la modernisation des infrastructures de traitement et de distribution, l'optimisation des processus de gestion de l'eau et la mise en œuvre de solutions numériques pour une meilleure surveillance et un meilleur contrôle des réseaux d'eau. Nous avons également aidé ces entreprises à s'adapter aux défis environnementaux et réglementaires.</em></blockquote>
+                                </figure>
+                                <!-- End Blockquote -->
+                            </div>
+                            </div>
+                            <!-- End Media -->
+                        </div>
+                        </div>
+                        <!-- End Card -->
+                    </li>
+                    <li class="list-timeline-item ms-auto">
+                        <!-- Card -->
+                        <div class="card card-shadow">
+                        <div class="card-body">
+                            <!-- Media -->
+                            <div class="d-sm-flex">
+                            <div class="flex-grow-1 ms-sm-4">
+                                <h4>Formation professionnelle</h4>
+                                <!-- Blockquote -->
+                                <figure class="blockquote-sm">
+                                <blockquote class="blockquote"><em>Enfin, pour les organisations d'apprentissage et de formation, nous avons assuré la conformité QSE, Qualiopi et RGPD. Nous avons mis en place des solutions de formation en ligne, des outils de gestion des compétences et des plateformes de collaboration pour faciliter l'échange de connaissances et le développement des compétences. Nous avons également accompagné ces organisations dans la mise en conformité avec les normes de qualité et les réglementations applicables.</em></blockquote>
 
-                            </figure>
-                            <!-- End Blockquote -->
+                                </figure>
+                                <!-- End Blockquote -->
+                            </div>
+                            </div>
+                            <!-- End Media -->
                         </div>
                         </div>
-                        <!-- End Media -->
-                    </div>
-                    </div>
-                    <!-- End Card -->
-                </li>
-                <li class="list-timeline-item">
-                    <!-- Card -->
-                    <div class="card card-shadow">
-                    <div class="card-body">
-                        <!-- Media -->
-                        <div class="d-sm-flex">
-                        <div class="flex-grow-1 ms-sm-4">
-                            <h4>Bailleurs sociaux et aménageurs</h4>
-                            <!-- Blockquote -->
-                            <figure class="blockquote-sm">
-                            <blockquote class="blockquote"><em>Dans le domaine des bailleurs sociaux et des aménageurs, nous avons accompagné nos clients dans la transformation de leurs processus métier et la mise en place de systèmes d'information adaptés aux besoins spécifiques du secteur. Nous avons également contribué à la mise en œuvre de solutions numériques pour la gestion des logements sociaux, la maintenance des bâtiments et l'amélioration de la qualité de vie des résidents.</em></blockquote>
-
-                            </figure>
-                            <!-- End Blockquote -->
-                        </div>
-                        </div>
-                        <!-- End Media -->
-                    </div>
-                    </div>
-                    <!-- End Card -->
-                </li>
-                <li class="list-timeline-item ms-auto">
-                    <!-- Card -->
-                    <div class="card card-shadow">
-                    <div class="card-body">
-                        <!-- Media -->
-                        <div class="d-sm-flex">
-                        <div class="flex-grow-1 ms-sm-4">
-                            <h4>Formation professionnelle</h4>
-                            <!-- Blockquote -->
-                            <figure class="blockquote-sm">
-                            <blockquote class="blockquote"><em>Enfin, pour les organisations d'apprentissage et de formation, nous avons assuré la conformité QSE, Qualiopi et RGPD. Nous avons mis en place des solutions de formation en ligne, des outils de gestion des compétences et des plateformes de collaboration pour faciliter l'échange de connaissances et le développement des compétences. Nous avons également accompagné ces organisations dans la mise en conformité avec les normes de qualité et les réglementations applicables.</em></blockquote>
-
-                            </figure>
-                            <!-- End Blockquote -->
-                        </div>
-                        </div>
-                        <!-- End Media -->
-                    </div>
-                    </div>
-                    <!-- End Card -->
-                </li>
-                </ul>
-                <!-- End List Timeline -->        
-            </div>
-            <!-- End Description -->
+                        <!-- End Card -->
+                    </li>
+                    </ul>
+                    <!-- End List Timeline -->        
+                </div>
+                <!-- End Description -->
+            {% endif %}
+            {% include '/includes/sticky.html.twig' %}
         </div>
         <!-- End Row -->
-
-
-        {% include '/includes/sticky.html.twig' %}
-
-        
 
     </div>
 

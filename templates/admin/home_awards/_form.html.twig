@@ -1,0 +1,31 @@
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.subtitle) }}
+            {{ form_widget(form.subtitle) }}
+            {{ form_errors(form.subtitle) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.position) }}
+            {{ form_widget(form.position) }}
+            {{ form_errors(form.position) }}
+        </div>
+        <div class="form-check">
+            {{ form_widget(form.isOpen, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.isOpen, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(form.isOpen) }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mb-3">
+            {{ form_label(form.body) }}
+            {{ form_widget(form.body) }}
+            {{ form_errors(form.body) }}
+        </div>
+    </div>
+</div>

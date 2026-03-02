@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Metier;
 use App\Entity\Projet;
 use App\Entity\Services;
+use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -43,6 +44,14 @@ class ProjetType extends AbstractType
                 'label' => 'Services associés',
                 'class' => Services::class,
                 'choice_label' => 'designation',
+                'multiple' => true,
+                'required' => false,
+                'by_reference' => false,
+            ])
+            ->add('teams', EntityType::class, [
+                'label' => 'Collaborateurs associés',
+                'class' => Team::class,
+                'choice_label' => 'noncomplet',
                 'multiple' => true,
                 'required' => false,
                 'by_reference' => false,

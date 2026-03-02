@@ -244,7 +244,13 @@ $(document).ready(function () {
       }
 
       markerGroup.addTo(map);
-      map.fitWorld({ padding: [10, 10] });
+      const mapSize = map.getSize();
+      const offsetX = Math.round((mapSize?.x ?? 0) * 0.1);
+      const offsetY = Math.round((mapSize?.y ?? 0) * 0.1);
+      map.fitWorld({
+        paddingTopLeft: [offsetX, offsetY],
+        paddingBottomRight: [10, 10],
+      });
       const targetZoom = 2.35;
       map.setZoom(targetZoom);
     };

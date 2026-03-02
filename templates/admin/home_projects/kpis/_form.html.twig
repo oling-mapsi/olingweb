@@ -1,0 +1,35 @@
+<div class="row g-4">
+    <div class="col-12 col-lg-8">
+        <div class="mb-3">
+            {{ form_label(form.indicator) }}
+            {{ form_widget(form.indicator, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.indicator) }}
+            {{ form_help(form.indicator) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.position) }}
+            {{ form_widget(form.position, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.position) }}
+            {{ form_help(form.position) }}
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form_widget(form.isActive, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.isActive, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            {{ form_errors(form.isActive) }}
+        </div>
+    </div>
+</div>

@@ -154,32 +154,42 @@
   <div class="container">
     <div class="acc-value-head">
       <div class="acc-value-head-copy">
-        <h2 class="acc-section-title">Chaque jour, nous nous emparons du changement et générons des résultats concrets.</h2>
-        <p class="acc-lede">Votre allié tactique et organisationnel pour mener à bien vos initiatives stratégiques.</p>
+        <h2 class="acc-section-title">{{ homeProjectsSection and homeProjectsSection.title ? homeProjectsSection.title : 'Chaque jour, nous nous emparons du changement et générons des résultats concrets.' }}</h2>
+        <p class="acc-lede">{{ homeProjectsSection and homeProjectsSection.intro ? homeProjectsSection.intro|raw : 'Votre allié tactique et organisationnel pour mener à bien vos initiatives stratégiques.' }}</p>
       </div>
     </div>
     <div class="acc-value-kpis-row">
       <div class="acc-value-kpis acc-value-kpis--stacked">
-        <div class="acc-value-kpi">
-          <span class="acc-value-kpi-indicator">+200</span>
-          <span class="acc-value-kpi-title">Projets pilotés</span>
-          <span class="acc-value-kpi-desc">AMOA, transformation SI et conformité menés de bout en bout.</span>
-        </div>
-        <div class="acc-value-kpi">
-          <span class="acc-value-kpi-indicator">95%</span>
-          <span class="acc-value-kpi-title">Taux de succès</span>
-          <span class="acc-value-kpi-desc">Projets sécurisés et cadrés par notre méthodologie ISO 27001.</span>
-        </div>
-        <div class="acc-value-kpi">
-          <span class="acc-value-kpi-indicator">12</span>
-          <span class="acc-value-kpi-title">Secteurs couverts</span>
-          <span class="acc-value-kpi-desc">Public, finance, industrie, santé et services essentiels.</span>
-        </div>
-        <div class="acc-value-kpi">
-          <span class="acc-value-kpi-indicator">+5&nbsp;000</span>
-          <span class="acc-value-kpi-title">Collaborateurs couverts</span>
-          <span class="acc-value-kpi-desc">Agents et salariés protégés par nos dispositifs DPO.</span>
-        </div>
+        {% if homeProjectKpis is defined and homeProjectKpis|length > 0 %}
+          {% for kpi in homeProjectKpis|slice(0, 4) %}
+            <div class="acc-value-kpi">
+              <span class="acc-value-kpi-indicator">{{ kpi.indicator }}</span>
+              <span class="acc-value-kpi-title">{{ kpi.title }}</span>
+              <span class="acc-value-kpi-desc">{{ kpi.description }}</span>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="acc-value-kpi">
+            <span class="acc-value-kpi-indicator">+200</span>
+            <span class="acc-value-kpi-title">Projets pilotés</span>
+            <span class="acc-value-kpi-desc">AMOA, transformation SI et conformité menés de bout en bout.</span>
+          </div>
+          <div class="acc-value-kpi">
+            <span class="acc-value-kpi-indicator">95%</span>
+            <span class="acc-value-kpi-title">Taux de succès</span>
+            <span class="acc-value-kpi-desc">Projets sécurisés et cadrés par notre méthodologie ISO 27001.</span>
+          </div>
+          <div class="acc-value-kpi">
+            <span class="acc-value-kpi-indicator">12</span>
+            <span class="acc-value-kpi-title">Secteurs couverts</span>
+            <span class="acc-value-kpi-desc">Public, finance, industrie, santé et services essentiels.</span>
+          </div>
+          <div class="acc-value-kpi">
+            <span class="acc-value-kpi-indicator">+5&nbsp;000</span>
+            <span class="acc-value-kpi-title">Collaborateurs couverts</span>
+            <span class="acc-value-kpi-desc">Agents et salariés protégés par nos dispositifs DPO.</span>
+          </div>
+        {% endif %}
       </div>
     </div>
 
@@ -258,31 +268,43 @@
 <section class="acc-awards">
   <div class="container">
     <div class="acc-section-head">
-      <span class="acc-eyebrow acc-eyebrow--dark">Prix et reconnaissance internationale</span>
-      <h2 class="acc-section-title">La confiance se construit sur des preuves concrètes.</h2>
+      <span class="acc-eyebrow acc-eyebrow--dark">{{ homeAwardsSection and homeAwardsSection.eyebrow ? homeAwardsSection.eyebrow : 'Prix et reconnaissance internationale' }}</span>
+      <h2 class="acc-section-title">{{ homeAwardsSection and homeAwardsSection.title ? homeAwardsSection.title : 'La confiance se construit sur des preuves concrètes.' }}</h2>
     </div>
     <div class="acc-awards-list">
-      <details class="acc-award" open>
-        <summary>
-          <span class="acc-award-title">Une gouvernance d'entreprise éthique</span>
-          <span class="acc-award-sub">Cadre ISO 27001, pilotage responsable et traçabilité renforcée.</span>
-        </summary>
-        <p>OLING structure les programmes de conformité et de sécurité avec des méthodes de pilotage exigeantes, centrées sur la valeur et la conformité.</p>
-      </details>
-      <details class="acc-award">
-        <summary>
-          <span class="acc-award-title">Un cabinet de confiance</span>
-          <span class="acc-award-sub">DPO certifié, audits réguliers, gouvernance RGPD.</span>
-        </summary>
-        <p>Nos experts accompagnent des organisations publiques et privées avec un niveau de preuve continu : documentation, audits, indicateurs et plans d’action.</p>
-      </details>
-      <details class="acc-award">
-        <summary>
-          <span class="acc-award-title">Un pilotage outillé</span>
-          <span class="acc-award-sub">MAPSI industrialise les audits et la conformité.</span>
-        </summary>
-        <p>MAPSI centralise les plans d’action, incidents, registres et reportings pour une traçabilité complète et partagée.</p>
-      </details>
+      {% if homeAwards is defined and homeAwards|length > 0 %}
+        {% for award in homeAwards %}
+          <details class="acc-award" {% if award.isOpen %}open{% endif %}>
+            <summary>
+              <span class="acc-award-title">{{ award.title }}</span>
+              <span class="acc-award-sub">{{ award.subtitle }}</span>
+            </summary>
+            <p>{{ award.body|raw }}</p>
+          </details>
+        {% endfor %}
+      {% else %}
+        <details class="acc-award" open>
+          <summary>
+            <span class="acc-award-title">Une gouvernance d'entreprise éthique</span>
+            <span class="acc-award-sub">Cadre ISO 27001, pilotage responsable et traçabilité renforcée.</span>
+          </summary>
+          <p>OLING structure les programmes de conformité et de sécurité avec des méthodes de pilotage exigeantes, centrées sur la valeur et la conformité.</p>
+        </details>
+        <details class="acc-award">
+          <summary>
+            <span class="acc-award-title">Un cabinet de confiance</span>
+            <span class="acc-award-sub">DPO certifié, audits réguliers, gouvernance RGPD.</span>
+          </summary>
+          <p>Nos experts accompagnent des organisations publiques et privées avec un niveau de preuve continu : documentation, audits, indicateurs et plans d’action.</p>
+        </details>
+        <details class="acc-award">
+          <summary>
+            <span class="acc-award-title">Un pilotage outillé</span>
+            <span class="acc-award-sub">MAPSI industrialise les audits et la conformité.</span>
+          </summary>
+          <p>MAPSI centralise les plans d’action, incidents, registres et reportings pour une traçabilité complète et partagée.</p>
+        </details>
+      {% endif %}
     </div>
   </div>
 </section>

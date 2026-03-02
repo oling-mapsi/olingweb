@@ -8,9 +8,19 @@
         <a class="nav-link {{ route starts with 'admin_projets' ? 'active' : '' }}" href="{{ path('admin_projets_index') }}">Projets</a>
         <a class="nav-link {{ route starts with 'admin_metiers' ? 'active' : '' }}" href="{{ path('admin_metiers_index') }}">Métiers</a>
         <a class="nav-link {{ route starts with 'admin_teams' ? 'active' : '' }}" href="{{ path('admin_teams_index') }}">Équipe</a>
-        <a class="nav-link {{ route starts with 'admin_home_cards' ? 'active' : '' }}" href="{{ path('admin_home_cards_index') }}">Home highlights</a>
-        <a class="nav-link {{ route starts with 'admin_home_practices' ? 'active' : '' }}" href="{{ path('admin_home_practices') }}">Home practices</a>
-        <a class="nav-link {{ route starts with 'admin_home_hero' ? 'active' : '' }}" href="{{ path('admin_home_hero') }}">Home hero</a>
+        <a class="nav-link {{ route starts with 'admin_users' ? 'active' : '' }}" href="{{ path('admin_users_index') }}">Utilisateurs</a>
+        <a class="nav-link {{ route starts with 'admin_pages' ? 'active' : '' }}" href="{{ path('admin_pages_index') }}">Pages À propos</a>
+        <a class="nav-link {{ route starts with 'admin_agencies' ? 'active' : '' }}" href="{{ path('admin_agencies_index') }}">Agences</a>
+        <div class="admin-nav-dropdown">
+            <a class="nav-link {{ route starts with 'admin_home_' ? 'active' : '' }}" href="{{ path('admin_home_hero') }}">Home</a>
+            <div class="admin-nav-dropdown-menu">
+                <a class="nav-link {{ route starts with 'admin_home_hero' ? 'active' : '' }}" href="{{ path('admin_home_hero') }}">Home hero</a>
+                <a class="nav-link {{ route starts with 'admin_home_cards' ? 'active' : '' }}" href="{{ path('admin_home_cards_index') }}">Home highlights</a>
+                <a class="nav-link {{ route starts with 'admin_home_practices' ? 'active' : '' }}" href="{{ path('admin_home_practices') }}">Home practices</a>
+                <a class="nav-link {{ route starts with 'admin_home_projects' ? 'active' : '' }}" href="{{ path('admin_home_projects') }}">Home projects</a>
+                <a class="nav-link {{ route starts with 'admin_home_awards' ? 'active' : '' }}" href="{{ path('admin_home_awards') }}">Home awards</a>
+            </div>
+        </div>
         <div class="admin-nav-dropdown">
             <a class="nav-link {{ route starts with 'admin_legal_pages' ? 'active' : '' }}" href="{{ path('admin_legal_pages') }}">Pages légales</a>
             <div class="admin-nav-dropdown-menu">

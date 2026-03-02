@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel item - Prix et reconnaissance{% endblock %}
+{% block meta_description %}Création d'un item de la section prix et reconnaissance{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Nouvel item</h1>
+            <p class="text-muted mb-0">Ajoutez un item pour la section.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ form_start(form) }}
+            {% include 'admin/home_awards/_form.html.twig' with { form: form } %}
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">Enregistrer</button>
+                <a class="btn btn-outline-secondary" href="{{ path('admin_home_awards') }}">Retour</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

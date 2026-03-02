@@ -41,20 +41,15 @@
           "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
           "email": "contact@oling.fr",
           "address": [
+            {% for agency in agencies %}
             {
               "@type": "PostalAddress",
-              "streetAddress": "40 rue Alexandre DUMAS",
-              "postalCode": "75011",
-              "addressLocality": "Paris",
-              "addressCountry": "FR"
-            },
-            {
-              "@type": "PostalAddress",
-              "streetAddress": "Imm. Sud Jarry, rue René RABAT",
-              "postalCode": "97122",
-              "addressLocality": "Baie-Mahault",
-              "addressCountry": "FR"
-            }
+              "streetAddress": "{{ agency.streetAddress|e('js') }}",
+              "postalCode": "{{ agency.postalCode|e('js') }}",
+              "addressLocality": "{{ agency.city|e('js') }}",
+              "addressCountry": "{{ (agency.countryCode ?: agency.country)|e('js') }}"
+            }{{ not loop.last ? ',' }}
+            {% endfor %}
           ],
           "sameAs": [
             "https://www.linkedin.com/company/oling-management-&-technologie/",
@@ -147,7 +142,7 @@
                                 <a class="mymenulink mt-2 nav-link" href="{{ path('contact') }}">Contactez-nous</a>
                             </li>
                             <li class="nav-item ms-lg-2">
-                                <a class="nav-link mapsi-link mt-2 gap-2" href="https://mapsi.fr" target="_blank" rel="noopener" aria-label="Accéder à MAPSI">
+                                <a class="nav-link mapsi-link mt-2 gap-2" href="{{ path('practice_home', {'slug': 'mapsi'}) }}" aria-label="Accéder à MAPSI">
                                     <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo Mapsi">
                                     <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo mapsi blanc">
                                 </a>
@@ -295,32 +290,29 @@
                 </div>
                 <!-- End Col -->
 
-                               <div class="col-4 col-sm-4 col-lg">
+                <div class="col-4 col-sm-4 col-lg">
                     <span class="text-cap text-white">Contactez-nous</span>
                     <!-- List -->
                     <ul class="list-unstyled list-py-2 mb-0">
-                        <li>
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 text-light">
-                                    <i class="bi-building"></i>
-                                </div>
+                        {% if agencies is empty %}
+                            <li class="text-light">Adresse à venir.</li>
+                        {% else %}
+                            {% for agency in agencies %}
+                                <li>
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 text-light">
+                                            <i class="bi-building"></i>
+                                        </div>
 
-                                <div class="flex-grow-1 ms-2 text-light">
-                                    <span class="text-light">Imm. Sud Jarry, rue René RABAT, 97122 BAIE MAHAULT</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 text-light">
-                                    <i class="bi-building"></i>
-                                </div>
-
-                                <div class="flex-grow-1 ms-2 text-light">
-                                    <span class="text-light">40 rue Alexandre DUMAS, 75011 PARIS</span>
-                                </div>
-                            </div>
-                        </li>
+                                        <div class="flex-grow-1 ms-2 text-light">
+                                            <span class="text-light">
+                                                {{ agency.streetLine1 }}{% if agency.streetLine2 %}, {{ agency.streetLine2 }}{% endif %}, {{ agency.postalCode }} {{ agency.city }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                         <li><a class="link link-light link-light-75" href={{path('contact') }}>
                             <div class="d-flex">
                             <div class="flex-shrink-0">

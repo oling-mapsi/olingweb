@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}KPI - Home projets{% endblock %}
+{% block meta_description %}Gestion des KPI de la section projets{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">KPI · Home projets</h1>
+                <p class="text-muted mb-0">Chiffres clés affichés dans la section projets.</p>
+            </div>
+            <a class="btn btn-primary" href="{{ path('admin_home_projects_kpis_new') }}">Nouveau KPI</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% if items is empty %}
+            <div class="alert alert-info">Aucun KPI pour l’instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Chiffre</th>
+                            <th>Titre</th>
+                            <th>Description</th>
+                            <th>Position</th>
+                            <th>Actif</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_home_projects_kpis_edit', {id: item.id}) }}">{{ item.indicator }}</a>
+                                </td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.description ? item.description|striptags|slice(0, 80) ~ '…' : '-' }}</td>
+                                <td>{{ item.position ?? '-' }}</td>
+                                <td>{{ item.isActive ? 'Oui' : 'Non' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

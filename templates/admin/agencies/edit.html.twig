@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - Agence{% endblock %}
+{% block meta_description %}Modification d’une agence Oling{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Modifier l’agence</h1>
+            <p class="text-muted mb-0">{{ agency.name }}</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ include('admin/agencies/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+</main>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}L'équipe | Experts AMOA SI - OLING{% endblock %}
-{% block meta_description %}Une équipe d'experts AMOA SI, transformation digitale, conformité et cybersécurité pour accompagner vos projets stratégiques.{% endblock %}
+{% block title %}{{ page and page.title ? page.title : "L'équipe | Experts AMOA SI - OLING" }}{% endblock %}
+{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : "Une équipe d'experts AMOA SI, transformation digitale, conformité et cybersécurité pour accompagner vos projets stratégiques." }}{% endblock %}
 
 
 {% block body %}
@@ -17,10 +17,10 @@
         <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
             <div class="row">
                 <div class="col-md-6 mb-7 mb-lg-0">
-                    <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> Expertises métier</span>
+                    <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> {{ page and page.heroBadge ? page.heroBadge : 'Expertises métier' }}</span>
                     <div class="w-md-75 mb-5">
-                    <h1 class="text-white">Une équipe d'experts pluridisciplinaires</h1>
-                    <p class="text-white-70"></p>
+                    <h1 class="text-white">{{ page and page.heroTitle ? page.heroTitle : "Une équipe d'experts pluridisciplinaires" }}</h1>
+                    <p class="text-white-70">{{ page and page.heroIntro ? page.heroIntro|raw : '' }}</p>
                     </div>
                 </div>
                 <!-- End Col -->
@@ -38,10 +38,14 @@
         <div id="listOfSocialLinks" class="position-relative">
             <div class="row mb-3">
                 <div class="col-10 col-md-7 col-lg-7 offset-1 offset-md-4">
-                    <h4>Expertise et passion au service de vos projets !</h4>
-                    <p>Au sein d'OLING, notre équipe dynamique et passionnée est prête à relever tous les défis. Composée d'experts chevronnés et de talents prometteurs, nous sommes animés par la soif de réussite et le désir d'accompagner nos clients vers l'excellence. 
-                    <br />Nous mettons notre expertise, notre savoir-faire et notre dévouement au service de chaque projet, transformant les ambitions de nos clients en réalités concrètes. Ensemble, nous cultivons la réussite et savourons chaque victoire. <p>
-                    <blockquote class="blockquote m-6">Rejoignez-nous et laissez-vous porter par notre élan d'enthousiasme et de professionnalisme ! </blockquote>
+                    {% if page and page.bodyHtml %}
+                        {{ page.bodyHtml|raw }}
+                    {% else %}
+                        <h4>Expertise et passion au service de vos projets !</h4>
+                        <p>Au sein d'OLING, notre équipe dynamique et passionnée est prête à relever tous les défis. Composée d'experts chevronnés et de talents prometteurs, nous sommes animés par la soif de réussite et le désir d'accompagner nos clients vers l'excellence. 
+                        <br />Nous mettons notre expertise, notre savoir-faire et notre dévouement au service de chaque projet, transformant les ambitions de nos clients en réalités concrètes. Ensemble, nous cultivons la réussite et savourons chaque victoire. </p>
+                        <blockquote class="blockquote m-6">Rejoignez-nous et laissez-vous porter par notre élan d'enthousiasme et de professionnalisme ! </blockquote>
+                    {% endif %}
                     
 
 

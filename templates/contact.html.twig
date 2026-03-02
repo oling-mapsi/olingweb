@@ -32,23 +32,21 @@
           <div class="mb-5">
             <h3>Nos bureaux</h3>
           </div>
-          <!-- Info -->
-          <address>
-            <span class="d-block fs-3 fw-bold text-dark mb-2">Agence de Paris</span>
-            40 rue Alexandre DUMAS<br>
-            75011 PARIS<br>
-            FRANCE
-          </address>
-          <!-- End Info -->
-          <!-- Info -->
-          <address>
-            <span class="d-block fs-3 fw-bold text-dark mb-2">Agence de Guadeloupe</span>
-            51 rue Henri Becquerel<br>
-            ZI Jarry<br>
-            97122 BAIE MAHAULT<br>
-            GUADELOUPE - FRANCE
-          </address>
-          <!-- End Info -->
+          {% if agencies is empty %}
+            <div class="alert alert-info">Aucune agence n'est renseignée pour le moment.</div>
+          {% else %}
+            {% for agency in agencies %}
+              <!-- Info -->
+              <address>
+                <span class="d-block fs-3 fw-bold text-dark mb-2">{{ agency.name }}</span>
+                {{ agency.streetLine1 }}<br>
+                {% if agency.streetLine2 %}{{ agency.streetLine2 }}<br>{% endif %}
+                {{ agency.postalCode }} {{ agency.city }}<br>
+                {{ agency.country }}
+              </address>
+              <!-- End Info -->
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
       <!-- End Col -->

@@ -31,6 +31,12 @@
                 {{ form_errors(form.services) }}
             </div>
 
+            <div class="mb-3">
+                {{ form_label(form.teams) }}
+                {{ form_widget(form.teams, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.teams) }}
+            </div>
+
             <div class="form-check mb-3">
                 {{ form_widget(form.featuredProjects, {'attr': {'class': 'form-check-input'}}) }}
                 {{ form_label(form.featuredProjects, null, {'label_attr': {'class': 'form-check-label'}}) }}

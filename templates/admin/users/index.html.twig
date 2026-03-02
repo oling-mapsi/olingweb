@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs | Admin{% endblock %}
+{% block meta_description %}Gestion des utilisateurs admin{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Utilisateurs admin</h1>
+                <p class="text-muted mb-0">Gérez les accès à l’interface d’administration.</p>
+            </div>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a class="btn btn-primary" href="{{ path('admin_users_new') }}">Nouvel utilisateur</a>
+            {% endif %}
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% if users is empty %}
+            <div class="alert alert-info">Aucun utilisateur pour l’instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle js-admin-table">
+                    <thead>
+                        <tr>
+                            <th>Identifiant</th>
+                            <th>Email</th>
+                            <th>Rôles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    <a href="{{ path('admin_users_edit', {id: user.id}) }}">{{ user.username }}</a>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                                        Super admin
+                                    {% elseif 'ROLE_ADMIN' in user.roles %}
+                                        Admin
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

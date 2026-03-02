@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier utilisateur | Admin{% endblock %}
+{% block meta_description %}Modification d'un utilisateur admin{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Modifier l’utilisateur</h1>
+            <p class="text-muted mb-0">{{ user.username }}</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ form_start(form) }}
+            {% include 'admin/users/_form.html.twig' with { form: form } %}
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">Enregistrer</button>
+                <a class="btn btn-outline-secondary" href="{{ path('admin_users_index') }}">Retour</a>
+            </div>
+        {{ form_end(form) }}
+
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <form method="post" action="{{ path('admin_users_reset_password', {id: user.id}) }}" onsubmit="return confirm('Générer un nouveau mot de passe et l’envoyer par email ?');" class="mt-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('reset-password' ~ user.id) }}">
+                <button class="btn btn-outline-primary">Générer un nouveau mot de passe</button>
+            </form>
+        {% endif %}
+
+        {% if is_granted('ROLE_SUPER_ADMIN') and not is_self %}
+            <form method="post" action="{{ path('admin_users_delete', {id: user.id}) }}" onsubmit="return confirm('Supprimer cet utilisateur ?');" class="mt-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                <button class="btn btn-outline-danger">Supprimer</button>
+            </form>
+        {% elseif is_self %}
+            <div class="alert alert-info mt-4">La suppression du compte connecté est désactivée.</div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

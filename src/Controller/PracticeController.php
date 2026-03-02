@@ -33,6 +33,8 @@ class PracticeController extends AbstractController
         MetierRepository $repometier,
         \App\Repository\HomeCardRepository $homeCardRepository,
         HomeSectionRepository $homeSectionRepository,
+        \App\Repository\HomeAwardItemRepository $homeAwardRepository,
+        \App\Repository\HomeProjectKpiRepository $homeProjectKpiRepository,
         ContentItemRepository $contentItemRepository,
         Request $request
     ): Response {
@@ -54,6 +56,10 @@ class PracticeController extends AbstractController
 
         $homePracticesSection = $homeSectionRepository->findOneBy(['slug' => 'practices']);
         $homeHeroSection = $homeSectionRepository->findOneBy(['slug' => 'hero']);
+        $homeProjectsSection = $homeSectionRepository->findOneBy(['slug' => 'projects']);
+        $homeAwardsSection = $homeSectionRepository->findOneBy(['slug' => 'awards']);
+        $homeAwards = $homeAwardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']);
+        $homeProjectKpis = $homeProjectKpiRepository->findBy(['isActive' => true], ['position' => 'ASC', 'id' => 'ASC']);
         $flashInfo = $contentItemRepository->findOneBy([], ['id' => 'DESC']);
 
         return $this->render('index.html.twig', [
@@ -66,6 +72,10 @@ class PracticeController extends AbstractController
             'homePractices' => $homePractices,
             'homePracticesSection' => $homePracticesSection,
             'homeHeroSection' => $homeHeroSection,
+            'homeProjectsSection' => $homeProjectsSection,
+            'homeAwardsSection' => $homeAwardsSection,
+            'homeAwards' => $homeAwards,
+            'homeProjectKpis' => $homeProjectKpis,
             'flashInfo' => $flashInfo,
             'pract' => '',
         ]);
@@ -96,15 +106,18 @@ class PracticeController extends AbstractController
     #[Route('/a-propos', name: 'apropos', options: ["sitemap" => true])]
     public function apropos(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices
+        ServicesRepository $reposervices,
+        \App\Repository\SitePageRepository $sitePageRepository
         ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
+        $page = $sitePageRepository->findOneBy(['slug' => 'apropos']);
         return $this->render('about.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'page' => $page,
             'pract' => '',
         ]);
     }
@@ -258,14 +271,17 @@ class PracticeController extends AbstractController
     public function metiers(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
+        \App\Repository\SitePageRepository $sitePageRepository
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
+        $page = $sitePageRepository->findOneBy(['slug' => 'metiers']);
         return $this->render('metiers.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'page' => $page,
             'pract' => '',
         ]);
     }
@@ -275,16 +291,19 @@ class PracticeController extends AbstractController
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         TeamRepository $repoteam,
+        \App\Repository\SitePageRepository $sitePageRepository
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
         $team = $repoteam->findAll();
+        $page = $sitePageRepository->findOneBy(['slug' => 'team']);
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
             'team' => $team,
+            'page' => $page,
             'pract' => '',
         ]);
     }
@@ -293,14 +312,17 @@ class PracticeController extends AbstractController
     public function client(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
+        \App\Repository\SitePageRepository $sitePageRepository
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
+        $page = $sitePageRepository->findOneBy(['slug' => 'client']);
         return $this->render('client.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'page' => $page,
             'pract' => '',
         ]);
     }

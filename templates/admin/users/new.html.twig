@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un utilisateur | Admin{% endblock %}
+{% block meta_description %}Création d'un utilisateur admin{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Nouvel utilisateur</h1>
+            <p class="text-muted mb-0">Un mot de passe complexe sera généré et envoyé par email.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ form_start(form) }}
+            {% include 'admin/users/_form.html.twig' with { form: form } %}
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">Créer</button>
+                <a class="btn btn-outline-secondary" href="{{ path('admin_users_index') }}">Retour</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

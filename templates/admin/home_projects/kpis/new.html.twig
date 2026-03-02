@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau KPI - Home projets{% endblock %}
+{% block meta_description %}Création d'un KPI pour la section projets{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="mb-4">
+            <h1 class="h3 mb-1">Nouveau KPI</h1>
+            <p class="text-muted mb-0">Chiffres clés affichés dans la section projets.</p>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {{ form_start(form) }}
+            {% include 'admin/home_projects/kpis/_form.html.twig' with { form: form } %}
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary">Enregistrer</button>
+                <a class="btn btn-outline-secondary" href="{{ path('admin_home_projects') }}">Retour</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

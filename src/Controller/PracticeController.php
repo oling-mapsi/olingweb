@@ -255,14 +255,12 @@ class PracticeController extends AbstractController
         ServicesRepository $reposervices,
     ): Response
     {
-        $practice = $repopractice->findOneBy(['slug' => 'consulting'])
-            ?? $repopractice->findOneBy(['slug' => 'amoa-si']);
-
-        if (!$practice) {
-            return $this->redirectToRoute('index');
-        }
-
-        return $this->renderPracticeHome($practice, $repopractice, $reposervices);
+        return $this->render('amoa-si.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $repopractice->findAll(),
+            'services' => $reposervices->findAll(),
+            'pract' => '',
+        ]);
     }
 
    
@@ -469,6 +467,10 @@ class PracticeController extends AbstractController
         ServicesRepository $servicesRepository,
         $slug
     ): Response {
+        if ($this->isAmoaAlias($slug)) {
+            return $this->redirectToRoute('amoa_si', [], 301);
+        }
+
         $practice = $practiceRepository->findOneBy(['slug' => $slug]);
 
         if (!$practice) {
@@ -484,6 +486,10 @@ class PracticeController extends AbstractController
         ServicesRepository $servicesRepository,
         $slug
     ): Response {
+        if ($this->isAmoaAlias($slug)) {
+            return $this->redirectToRoute('amoa_si', [], 301);
+        }
+
         $practice = $practiceRepository->findOneBy(['slug' => $slug]);
 
         if (!$practice) {
@@ -525,6 +531,11 @@ class PracticeController extends AbstractController
             'teams' => $teams,
             'projects' => $projects,
         ]);
+    }
+
+    private function isAmoaAlias(string $slug): bool
+    {
+        return in_array($slug, ['consulting', 'amoa-si'], true);
     }
 
 

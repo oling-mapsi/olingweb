@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil qualité | Organisation, processus et amélioration continue - OLING{% endblock %}
+{% block meta_description %}Conseil qualité pour structures publiques, PME et ETI : gouvernance des processus, performance SI, conformité et amélioration continue.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Conseil qualite</li>
+        </ol>
+      </nav>
+      <span class="oling-kicker">Conseil qualite</span>
+      <h1>Conseil qualité : performance, fiabilité et conformité des processus</h1>
+      <p class="oling-lede">OLING aligne vos objectifs métier, vos processus et vos outils SI pour installer une qualite mesurable et durable.</p>
+      <div class="d-flex flex-wrap gap-3 mt-3">
+        <a class="btn btn-primary" href="{{ path('contact') }}">Lancer un diagnostic qualite</a>
+        <a class="btn btn-outline-primary" href="{{ path('projets') }}">Voir des projets realises</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Axes de mission</h2>
+            <ul class="mb-0">
+              <li>Cartographie et standardisation des processus critiques.</li>
+              <li>Pilotage d'indicateurs qualite, risques et conformite.</li>
+              <li>Accompagnement au changement et appropriation equipes.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Livrables</h2>
+            <ul class="mb-0">
+              <li>Plan d'amelioration continue priorise.</li>
+              <li>Dispositif de controle et gouvernance de la qualite.</li>
+              <li>Feuille de route AMOA SI et trajectoire de transformation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Guides associes</h2>
+        <ul class="mb-0">
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'indicateurs-qualite-si'}) }}">Indicateurs qualite SI : KPI qui pilotent vraiment</a></li>
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'cadrage-projet-amoa-si'}) }}">Cadrage projet AMOA SI : erreurs a eviter</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Conseil qualite",
+  "serviceType": "Amelioration continue et performance des processus",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"]
+}
+</script>
+{% endblock %}

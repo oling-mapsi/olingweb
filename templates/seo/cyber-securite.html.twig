@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil cyber sécurité | Stratégie SSI, risques et conformité - OLING{% endblock %}
+{% block meta_description %}Conseil cyber sécurité pour secteur public, PME et ETI : gouvernance SSI, réduction des risques, conformité ISO 27001, NIS2 et DORA.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Conseil cyber sécurité</li>
+        </ol>
+      </nav>
+      <span class="oling-kicker">Cyber sécurité</span>
+      <h1>Conseil cyber sécurité pour sécuriser vos SI critiques</h1>
+      <p class="oling-lede">Nous structurons votre gouvernance SSI, vos plans de traitement des risques et la mise en conformite avec les cadres normatifs et reglementaires.</p>
+      <div class="d-flex flex-wrap gap-3 mt-3">
+        <a class="btn btn-primary" href="{{ path('contact') }}">Demander un diagnostic cyber</a>
+        <a class="btn btn-outline-primary" href="{{ path('polsecurite') }}">Politique de securite OLING</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Domaines d'intervention</h2>
+            <ul class="mb-0">
+              <li>Gouvernance SSI, PSSI, comites risques.</li>
+              <li>Analyse de risques, plans de remediations et continuite.</li>
+              <li>Conformite ISO 27001, NIS2, DORA et exigences clients.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Approche conseil</h2>
+            <ul class="mb-0">
+              <li>AMOA SI pour prioriser les chantiers cyber.</li>
+              <li>Feuille de route par niveau de maturite et budget.</li>
+              <li>Pilotage des actions avec indicateurs et preuves.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Guides associes</h2>
+        <ul class="mb-0">
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'feuille-route-cyber-pme-eti'}) }}">Feuille de route cyber securite PME/ETI (12 mois)</a></li>
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'nis2-dora-par-ou-commencer'}) }}">NIS2 et DORA : plan de demarrage pragmatique</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Conseil cyber securite",
+  "serviceType": "Cybersécurité et gouvernance SSI",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"]
+}
+</script>
+{% endblock %}

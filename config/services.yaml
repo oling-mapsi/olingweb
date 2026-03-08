@@ -32,7 +32,6 @@ services:
         arguments:
             - '@App\Repository\PracticeRepository'
             - '@App\Repository\ServicesRepository'
-            - '@router'
         tags:
             - { name: 'kernel.event_subscriber', priority: 100 }
 

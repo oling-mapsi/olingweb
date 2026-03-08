@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
+    {% set currentRoute = app.request.attributes.get('_route') %}
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name='robots' content='index' />
+        <meta name="robots" content="{% if currentRoute starts with 'admin_' or currentRoute in ['login', 'logout'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' %}noindex,nofollow{% else %}index,follow,max-image-preview:large{% endif %}" />
        
         <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
@@ -12,7 +13,9 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-	    <link rel="canonical" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+        <link rel="canonical" href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}{% endblock %}" />
+        <link rel="alternate" hreflang="fr-FR" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+        <link rel="alternate" hreflang="x-default" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
         <meta property="og:title" content="{{ block('title')|striptags|trim }}">
         <meta property="og:description" content="{{ meta_description|striptags|trim }}">
         <meta property="og:type" content="website">
@@ -58,7 +61,6 @@
         }
         </script>
     </head>
-    {% set currentRoute = app.request.attributes.get('_route') %}
     <body class="oling-body oling-refresh{% if app.request.pathinfo == '/' %} oling-home{% endif %}{% if currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
         <!-- ========== HEADER ========== -->
         <header id="header" class="oling-header mymenumoov navbar navbar-expand-lg navbar-center navbar-absolute-top navbar-show-hide"
@@ -284,6 +286,7 @@
                     <li><a class="link link-light link-light-75" href={{path('apropos') }}>A propos de OLING </a></li>
                     <li><a class="link link-light link-light-75" href={{path('team') }}>L'Equipe </a> <span class="fs-6 fw-bold text-primary">&mdash; Nous recrutons</span></li>
                     <li><a class="link link-light link-light-75" href={{path('rse') }}>Démarche RSE</a></li>
+                    <li><a class="link link-light link-light-75" href={{path('seo_resources_index') }}>Ressources & guides</a></li>
                     <li><a class="link link-light link-light-75" href="https://web.mapsi.fr/" target="_blank">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
                     </ul>
                     <!-- End List -->
@@ -330,6 +333,18 @@
                 <!-- End Col -->
 
                 
+
+                <div class="col-4 col-sm-4 col-lg">
+                    <span class="text-cap text-white">Expertises clés</span>
+                    <ul class="list-unstyled list-py-2 mb-0">
+                        <li><a class="link link-light link-light-75" href="{{ path('amoa_si') }}">AMOA SI</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_rgpd') }}">Conseil RGPD</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_cyber_securite') }}">Cyber sécurité</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_conseil_qualite') }}">Conseil qualité</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_public_pme_eti') }}">Public, PME & ETI</a></li>
+                    </ul>
+                </div>
+                <!-- End Col -->
 
                 <div class="col-4 col-sm-4 col-lg">
                     <span class="text-cap text-white">Suivez-nous</span>

@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil secteur public, PME et ETI | AMOA SI & transformation - OLING{% endblock %}
+{% block meta_description %}Cabinet de conseil pour secteur public, PME et ETI : AMOA SI, qualité, cybersécurité, RGPD et transformation digitale pilotée par la valeur.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Public, PME, ETI</li>
+        </ol>
+      </nav>
+      <span class="oling-kicker">Secteurs</span>
+      <h1>Conseil AMOA SI pour secteur public, PME et ETI</h1>
+      <p class="oling-lede">Nous adaptons notre accompagnement au niveau de maturite, aux contraintes de gouvernance et aux objectifs de resultat de chaque type d'organisation.</p>
+      <div class="d-flex flex-wrap gap-3 mt-3">
+        <a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre contexte</a>
+        <a class="btn btn-outline-primary" href="{{ path('metiers') }}">Voir nos secteurs d'activite</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="oling-surface p-4 h-100">
+            <h2>Secteur public</h2>
+            <p>Programmes SI, conformite reglementaire, pilotage multi-acteurs, continuité de service et trajectoires de modernisation.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="oling-surface p-4 h-100">
+            <h2>PME</h2>
+            <p>Priorisation rapide, gains visibles, trajectoires ERP/CRM pragmatiques et gouvernance legere orientee ROI.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="oling-surface p-4 h-100">
+            <h2>ETI</h2>
+            <p>Urbanisation SI, pilotage portefeuille projets, qualite de donnees, cyber securite et mise a l'echelle des operations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Guides associes</h2>
+        <ul class="mb-0">
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'transformation-si-secteur-public'}) }}">Transformation SI secteur public : plan d'action</a></li>
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'choisir-cabinet-conseil-amoa-pme-eti'}) }}">Choisir un cabinet AMOA SI pour PME/ETI</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Conseil secteur public PME ETI",
+  "serviceType": "Conseil AMOA SI pour organisations publiques et entreprises",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"]
+}
+</script>
+{% endblock %}

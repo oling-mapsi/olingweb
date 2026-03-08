@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ressources SEO | RGPD, AMOA SI, qualite, cyber securite - OLING{% endblock %}
+{% block meta_description %}Ressources OLING sur le conseil RGPD, AMOA SI, qualite, cyber securite et transformation pour secteur public, PME et ETI.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Ressources</li>
+        </ol>
+      </nav>
+      <span class="oling-kicker">Ressources</span>
+      <h1>Guides pratiques RGPD, AMOA SI, cyber securite et qualite</h1>
+      <p class="oling-lede">Des contenus de fond pour aider les decideurs publics, PME et ETI a cadrer, prioriser et executer leurs transformations SI.</p>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="row g-4">
+        {% for article in articles %}
+          <div class="col-md-6 col-xl-4">
+            <article class="oling-surface p-4 h-100">
+              <h2 class="h4 mb-3"><a class="link" href="{{ path('seo_resource', {slug: article.slug}) }}">{{ article.h1 }}</a></h2>
+              <p class="mb-3">{{ article.intro }}</p>
+              <a class="btn btn-outline-primary btn-sm" href="{{ path('seo_resource', {slug: article.slug}) }}">Lire l'article</a>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

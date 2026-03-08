@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil RGPD | AMOA SI & conformité des données - OLING{% endblock %}
+{% block meta_description %}Conseil RGPD pour acteurs publics, PME et ETI : audit, gouvernance des données, plan de mise en conformité et pilotage AMOA SI avec OLING.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Conseil RGPD</li>
+        </ol>
+      </nav>
+      <span class="oling-kicker">Conformité</span>
+      <h1>Conseil RGPD : conformité opérationnelle et gouvernance des données</h1>
+      <p class="oling-lede">OLING accompagne les organisations publiques, PME et ETI sur l'ensemble de la feuille de route RGPD : diagnostic, plan d'actions, pilotage, sensibilisation et amélioration continue.</p>
+      <div class="d-flex flex-wrap gap-3 mt-3">
+        <a class="btn btn-primary" href="{{ path('contact') }}">Parler à un consultant RGPD</a>
+        <a class="btn btn-outline-primary" href="{{ path('amoa_si') }}">Voir notre approche AMOA SI</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Ce que nous mettons en place</h2>
+            <ul class="mb-0">
+              <li>Cartographie des traitements et analyse de risques.</li>
+              <li>Registre RGPD, politiques et clauses contractuelles.</li>
+              <li>Pilotage DPO, demandes d'exercice des droits et preuve de conformité.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="oling-surface p-4 h-100">
+            <h2>Résultats recherchés</h2>
+            <ul class="mb-0">
+              <li>Conformité documentée et défendable en audit.</li>
+              <li>Réduction des risques juridiques, réputationnels et opérationnels.</li>
+              <li>Gouvernance des données alignée avec la stratégie SI.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Guides associes</h2>
+        <ul class="mb-0">
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'registre-traitements-rgpd'}) }}">Registre des traitements RGPD : methode operationnelle</a></li>
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'aipd-rgpd-methode'}) }}">AIPD RGPD : quand la lancer et comment la conduire</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Conseil RGPD",
+  "serviceType": "Conformite RGPD et gouvernance des donnees",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "OLING Management et Technologie",
+    "url": "https://oling.fr"
+  },
+  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
+  "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"]
+}
+</script>
+{% endblock %}

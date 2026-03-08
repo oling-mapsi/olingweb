@@ -48,9 +48,9 @@
             <ul class="list-unstyled mb-0">
               <li class="mb-2">AMOA ERP / CRM / GMAO / SIRH</li>
               <li class="mb-2">Data, BI & gouvernance des données</li>
-              <li class="mb-2">Conformité RGPD, ISO 27001, NIS2, DORA</li>
+              <li class="mb-2">Conformité <a class="link" href="{{ path('seo_rgpd') }}">RGPD</a>, ISO 27001, NIS2, DORA</li>
               <li class="mb-2">Digital workplace & collaboration</li>
-              <li>Cyber & sécurité des SI</li>
+              <li><a class="link" href="{{ path('seo_cyber_securite') }}">Cyber & sécurité des SI</a></li>
             </ul>
           </div>
         </div>
@@ -109,7 +109,7 @@
             <ul class="list-unstyled mb-0">
               <li class="mb-2">10+ ans d’accompagnement AMOA SI et conformité.</li>
               <li class="mb-2">Approche pragmatique : livrables opérationnels et décisions objectivées.</li>
-              <li>Couverture France & Outre-mer, secteurs public et privé.</li>
+              <li>Couverture France & Outre-mer, <a class="link" href="{{ path('seo_public_pme_eti') }}">secteurs public, PME et ETI</a>.</li>
             </ul>
           </div>
         </div>
@@ -133,6 +133,19 @@
         <h2>Vous avez un projet AMOA SI ?</h2>
         <p class="oling-lede">Expliquez vos enjeux, nous vous proposerons une trajectoire claire et sécurisée.</p>
         <a class="btn btn-primary" href={{ path('contact') }}>Parler à un consultant</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Guides AMOA associes</h2>
+        <ul class="mb-0">
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'cadrage-projet-amoa-si'}) }}">Cadrage projet AMOA SI : 10 erreurs a eviter</a></li>
+          <li><a class="link" href="{{ path('seo_resource', {slug: 'choisir-cabinet-conseil-amoa-pme-eti'}) }}">Choisir un cabinet conseil AMOA SI pour PME/ETI</a></li>
+          <li><a class="link" href="{{ path('seo_resources_index') }}">Voir toutes les ressources</a></li>
+        </ul>
       </div>
     </div>
   </section>

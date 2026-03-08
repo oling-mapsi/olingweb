@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+{% block meta_description %}{{ article.meta }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ path('seo_resource', {slug: article.slug}) }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+          <li class="breadcrumb-item"><a href="{{ path('seo_resources_index') }}">Ressources</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Article</li>
+        </ol>
+      </nav>
+
+      <span class="oling-kicker">Ressource experte</span>
+      <h1>{{ article.h1 }}</h1>
+      <p class="oling-lede">{{ article.intro }}</p>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <article class="oling-surface p-5 oling-markdown-content">
+        {{ content_html|raw }}
+      </article>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <h2 class="h4">Articles connexes</h2>
+        <div class="row g-3 mt-1">
+          {% for item in related|slice(0, 4) %}
+            <div class="col-md-6">
+              <a class="link" href="{{ path('seo_resource', {slug: item.slug}) }}">{{ item.h1 }}</a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-5 text-center">
+        <h2>Besoin d'un accompagnement conseil ?</h2>
+        <p class="oling-lede">Expliquez votre contexte. Nous vous proposons un plan d'action concret et realiste.</p>
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+          <a class="btn btn-primary" href="{{ path('contact') }}">Parler a un consultant</a>
+          <a class="btn btn-outline-primary" href="{{ path('amoa_si') }}">Voir l'offre AMOA SI</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

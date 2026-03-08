@@ -11,43 +11,45 @@ class SitemapFallbackController extends AbstractController
     #[Route('/sitemap.xml', name: 'sitemap_fallback_index', priority: 1000)]
     public function sitemapIndex(): Response
     {
-        return $this->serveXmlFile('sitemap.xml');
+        return $this->serveXmlFileOrForward('sitemap.xml');
     }
 
     #[Route('/sitemap.default.xml', name: 'sitemap_fallback_default', priority: 1000)]
     public function sitemapDefault(): Response
     {
-        return $this->serveXmlFile('sitemap.default.xml');
+        return $this->serveXmlFileOrForward('sitemap.default.xml', 'default');
     }
 
     #[Route('/sitemap.practice.xml', name: 'sitemap_fallback_practice', priority: 1000)]
     public function sitemapPractice(): Response
     {
-        return $this->serveXmlFile('sitemap.practice.xml');
+        return $this->serveXmlFileOrForward('sitemap.practice.xml', 'practice');
     }
 
     #[Route('/sitemap.services.xml', name: 'sitemap_fallback_services', priority: 1000)]
     public function sitemapServices(): Response
     {
-        return $this->serveXmlFile('sitemap.services.xml');
+        return $this->serveXmlFileOrForward('sitemap.services.xml', 'services');
     }
 
-    private function serveXmlFile(string $filename): Response
+    private function serveXmlFileOrForward(string $filename, ?string $section = null): Response
     {
         $path = $this->getParameter('kernel.project_dir') . '/public/' . $filename;
 
-        if (!is_file($path)) {
+        if (is_file($path)) {
             return new Response(
-                '<?xml version="1.0" encoding="UTF-8"?><error>not_found</error>',
-                Response::HTTP_NOT_FOUND,
+                (string) file_get_contents($path),
+                Response::HTTP_OK,
                 ['Content-Type' => 'application/xml; charset=UTF-8']
             );
         }
 
-        return new Response(
-            (string) file_get_contents($path),
-            Response::HTTP_OK,
-            ['Content-Type' => 'application/xml; charset=UTF-8']
-        );
+        if ($section === null) {
+            return $this->forward('Presta\\SitemapBundle\\Controller\\SitemapController::indexAction');
+        }
+
+        return $this->forward('Presta\\SitemapBundle\\Controller\\SitemapController::sectionAction', [
+            'name' => $section,
+        ]);
     }
 }

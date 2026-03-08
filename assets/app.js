@@ -266,41 +266,77 @@ $(document).ready(function () {
   const consentKey = 'oling_cookie_consent';
   const consentAll = 'all';
   const consentMinimal = 'minimal';
+  const defaultConsent = {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+  };
 
   const setConsentCookie = (value) => {
     const maxAge = 60 * 60 * 24 * 180;
-    document.cookie = `${consentKey}=${value}; path=/; max-age=${maxAge}; samesite=lax`;
+    const secure = window.location.protocol === 'https:' ? '; secure' : '';
+    document.cookie = `${consentKey}=${value}; path=/; max-age=${maxAge}; samesite=lax${secure}`;
   };
 
-  const loadAnalytics = () => {
-    if (window.__olingGtagLoaded) return;
+  const initConsentMode = () => {
+    if (window.__olingConsentModeReady) return;
     const gaId = document.body?.dataset?.gaId;
     if (!gaId) return;
-    window.__olingGtagLoaded = true;
+
+    window.__olingConsentModeReady = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+
+    // Consent Mode v2 defaults to denied until user action.
+    window.gtag('consent', 'default', {
+      ...defaultConsent,
+      wait_for_update: 500,
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', gaId, {
+      anonymize_ip: true,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+    });
 
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
     document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date());
-    window.gtag('config', gaId);
   };
 
-  const applyConsent = (value) => {
+  const updateConsentMode = (value) => {
+    if (typeof window.gtag !== 'function') return;
+
+    if (value === consentAll) {
+      window.gtag('consent', 'update', {
+        ...defaultConsent,
+        analytics_storage: 'granted',
+      });
+      return;
+    }
+
+    window.gtag('consent', 'update', {
+      ...defaultConsent,
+      analytics_storage: 'denied',
+    });
+  };
+
+  const applyConsent = (value, persist = true) => {
     document.body.dataset.cookieConsent = value;
-    localStorage.setItem(consentKey, value);
-    setConsentCookie(value);
+    if (persist) {
+      localStorage.setItem(consentKey, value);
+      setConsentCookie(value);
+    }
     const banner = document.getElementById('cookie-banner');
     if (banner) {
       banner.classList.remove('is-visible');
       banner.classList.remove('is-details-open');
     }
-    if (value === consentAll) {
-      loadAnalytics();
-    }
+    updateConsentMode(value);
   };
 
   const setAnalyticsCheckbox = (value) => {
@@ -345,10 +381,12 @@ $(document).ready(function () {
 
   bindCookieActions();
 
+  initConsentMode();
+
   const existingConsent = localStorage.getItem(consentKey);
   if (existingConsent === consentAll || existingConsent === consentMinimal) {
     setAnalyticsCheckbox(existingConsent === consentAll);
-    applyConsent(existingConsent);
+    applyConsent(existingConsent, false);
   } else if (banner) {
     setAnalyticsCheckbox(false);
     banner.classList.add('is-visible');

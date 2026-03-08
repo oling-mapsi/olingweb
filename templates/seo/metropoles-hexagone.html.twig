@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cabinet de conseil dans les métropoles de l'Hexagone | OLING{% endblock %}
+{% block meta_description %}Présence OLING dans les métropoles de l'Hexagone: Paris, Lyon, Marseille, Nantes, Toulouse, Montpellier, Lille, Bordeaux, Strasbourg, Rennes.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight"><div class="container"><nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">Métropoles Hexagone</li></ol></nav><span class="oling-kicker">Hexagone</span><h1>Cabinet de conseil présent dans les métropoles de l'Hexagone</h1><p class="oling-lede">OLING intervient sur tout l'Hexagone, avec un ancrage à Paris et des missions régulières dans les grandes métropoles: Lyon, Marseille, Nantes, Toulouse, Montpellier, Lille, Bordeaux, Strasbourg et Rennes.</p><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre métropole</a><a class="btn btn-outline-primary" href="{{ path('seo_hexagone_drom') }}">Hexagone & DROM</a></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="oling-surface p-4"><h2>Missions couvertes</h2><ul class="mb-0"><li>AMOA SI, ERP, CRM, GMAO et progiciels métiers.</li><li>Gestion des risques, audit, contrôle interne.</li><li>Direction qualité déléguée, conformité externalisée, DSI externalisée.</li></ul></div></div></section>
+</main>
+{% endblock %}

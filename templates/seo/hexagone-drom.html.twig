@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil SI Paris, Hexagone, DROM DOM TOM | OLING{% endblock %}
+{% block meta_description %}OLING accompagne vos projets SI en Hexagone et DROM DOM TOM: Paris, Guadeloupe, Martinique, Guyane, Réunion, Saint-Pierre-et-Miquelon.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight"><div class="container"><nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">Implantations</li></ol></nav><span class="oling-kicker">Hexagone & DROM</span><h1>Cabinet de conseil présent en Hexagone et en Guadeloupe</h1><p class="oling-lede">OLING opère avec une présence Hexagone (Paris et métropoles) et Guadeloupe, et intervient également en Martinique, Guyane, Réunion et Saint-Pierre-et-Miquelon.</p><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre territoire</a><a class="btn btn-outline-primary" href="{{ path('seo_conseil_paris') }}">Cabinet à Paris</a></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="oling-surface p-4"><h2>Zones couvertes</h2><ul class="mb-0"><li>Hexagone: Paris, Lyon, Marseille, Nantes, Toulouse, Montpellier, Lille, Bordeaux, Strasbourg, Rennes.</li><li>DROM: Guadeloupe, Martinique, Guyane, Réunion.</li><li>Autres territoires: Saint-Pierre-et-Miquelon et DOM TOM.</li></ul></div></div></section>
+</main>
+{% endblock %}

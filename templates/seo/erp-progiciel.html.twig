@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil ERP et progiciel | AMOA SI, cadrage et déploiement - OLING{% endblock %}
+{% block meta_description %}Conseil ERP et progiciel: cadrage AMOA SI, choix de solution, gouvernance, recette, conduite du changement pour secteur public, PME et ETI.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">ERP & progiciel</li></ol></nav>
+      <span class="oling-kicker">ERP & progiciel</span>
+      <h1>Conseil ERP et progiciel: sécuriser vos choix et votre déploiement</h1>
+      <p class="oling-lede">Nous accompagnons vos programmes ERP/progiciel avec une AMOA SI pragmatique: expression des besoins, appel d'offres, gouvernance, recette et adoption métier.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Parler à un consultant ERP</a><a class="btn btn-outline-primary" href="{{ path('amoa_si') }}">Voir l'approche AMOA</a></div>
+    </div>
+  </section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="row g-4"><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Ce que nous pilotons</h2><ul class="mb-0"><li>Cadrage fonctionnel ERP et urbanisation processus.</li><li>Choix de progiciel et évaluation éditeurs/intégrateurs.</li><li>Roadmap de déploiement, risques, budget et qualité.</li></ul></div></div><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Résultats attendus</h2><ul class="mb-0"><li>Décisions outillées et périmètre maîtrisé.</li><li>Réduction du rework et des retards en recette.</li><li>Adoption métier et performance opérationnelle durable.</li></ul></div></div></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="oling-surface p-4"><h2 class="h4">Liens utiles</h2><ul class="mb-0"><li><a class="link" href="{{ path('seo_crm') }}">Conseil CRM</a></li><li><a class="link" href="{{ path('seo_gmao') }}">Conseil GMAO</a></li><li><a class="link" href="{{ path('seo_mapsi_progiciel') }}">MAPSI progiciel</a></li></ul></div></div></section>
+</main>
+{% endblock %}

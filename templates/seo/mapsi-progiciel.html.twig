@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MAPSI progiciel | Pilotage SI, conformité et performance - OLING{% endblock %}
+{% block meta_description %}MAPSI progiciel d'aide au pilotage SI: gouvernance, conformité, qualité, indicateurs et exécution opérationnelle pour organisations multi-sites.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight"><div class="container"><nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">MAPSI progiciel</li></ol></nav><span class="oling-kicker">MAPSI</span><h1>MAPSI progiciel: piloter SI, conformité, audit et qualité en continu</h1><p class="oling-lede">MAPSI structure vos plans d'actions et votre suivi de performance: risques, audits, conformité, processus et reporting direction.</p><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Demander une démo</a><a class="btn btn-outline-primary" href="{{ path('practice_home', {'slug': 'mapsi'}) }}">Accéder à MAPSI</a></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="row g-4"><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Cas d'usage</h2><ul class="mb-0"><li>Direction qualité déléguée.</li><li>Direction conformité externalisée.</li><li>DSI externalisée et pilotage multi-sites.</li></ul></div></div><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Gains</h2><ul class="mb-0"><li>Vue unifiée des risques, audits et actions.</li><li>Traçabilité des décisions et responsabilités.</li><li>Tableaux de bord direction en temps réel.</li></ul></div></div></div></div></section>
+</main>
+{% endblock %}

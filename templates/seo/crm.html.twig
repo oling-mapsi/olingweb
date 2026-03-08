@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil CRM | Parcours client, données et AMOA SI - OLING{% endblock %}
+{% block meta_description %}Conseil CRM: stratégie, cadrage AMOA SI, modèle de données, gouvernance commerciale et conduite du changement pour public, PME et ETI.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight"><div class="container"><nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">CRM</li></ol></nav><span class="oling-kicker">CRM</span><h1>Conseil CRM: structurer la relation client et la performance commerciale</h1><p class="oling-lede">Nous alignons stratégie CRM, processus métier et SI: segmentation, pipeline, reporting, qualité de données et gouvernance.</p><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre projet CRM</a><a class="btn btn-outline-primary" href="{{ path('amoa_si') }}">Approche AMOA SI</a></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="oling-surface p-4"><h2>Livrables</h2><ul class="mb-0"><li>Vision cible et roadmap CRM priorisée.</li><li>Backlog fonctionnel et critères de recette.</li><li>Plan d'adoption et pilotage qualité/conformité.</li></ul></div></div></section>
+</main>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conseil GMAO | Pilotage maintenance et AMOA SI - OLING{% endblock %}
+{% block meta_description %}Conseil GMAO: cadrage, choix de solution, maintenance préventive/corrective, gouvernance des données et conduite du changement.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  <section class="oling-section oling-section--tight"><div class="container"><nav aria-label="breadcrumb"><ol class="breadcrumb mb-4"><li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li><li class="breadcrumb-item active" aria-current="page">GMAO</li></ol></nav><span class="oling-kicker">GMAO</span><h1>Conseil GMAO: optimiser maintenance, fiabilité et pilotage des actifs</h1><p class="oling-lede">Nous structurons vos projets GMAO de la phase de cadrage à la mise en production: processus, données, indicateurs et adoption terrain.</p><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-primary" href="{{ path('contact') }}">Lancer un cadrage GMAO</a><a class="btn btn-outline-primary" href="{{ path('seo_erp_progiciel') }}">Voir ERP & progiciel</a></div></div></section>
+  <section class="oling-section oling-section--tight"><div class="container"><div class="row g-4"><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Axes d'intervention</h2><ul class="mb-0"><li>Standardisation maintenance préventive/corrective.</li><li>Intégration GMAO avec ERP, achats et stocks.</li><li>KPI disponibilité, MTTR, coûts et qualité de service.</li></ul></div></div><div class="col-lg-6"><div class="oling-surface p-4 h-100"><h2>Secteurs cibles</h2><ul class="mb-0"><li>Secteur public et infrastructures critiques.</li><li>PME et ETI industrielles multi-sites.</li><li>Organisations en Hexagone et DROM DOM TOM.</li></ul></div></div></div></div></section>
+</main>
+{% endblock %}

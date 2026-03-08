@@ -40,8 +40,29 @@
           "name": "OLING Management et Technologie",
           "url": "https://oling.fr",
           "logo": "https://oling.fr/img/logo/logoling.png",
-          "description": "Cabinet de conseil AMOA SI, transformation digitale et conformité réglementaire (RGPD, ISO 27001).",
-          "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
+          "description": "Cabinet de conseil AMOA SI, ERP, CRM, GMAO, conformité et cybersécurité, présent à Paris, dans les métropoles de l'Hexagone et dans les DROM.",
+          "areaServed": [
+            "Paris",
+            "Hexagone",
+            "Guadeloupe",
+            "Martinique",
+            "Guyane",
+            "Reunion",
+            "Saint-Pierre-et-Miquelon"
+          ],
+          "knowsAbout": [
+            "AMOA SI",
+            "ERP",
+            "CRM",
+            "GMAO",
+            "progiciel",
+            "gestion des risques",
+            "audit",
+            "controle interne",
+            "direction qualite deleguee",
+            "direction conformite externalisee",
+            "DSI externalisee"
+          ],
           "email": "contact@oling.fr",
           "address": [
             {% for agency in agencies %}
@@ -297,6 +318,7 @@
                     <span class="text-cap text-white">Contactez-nous</span>
                     <!-- List -->
                     <ul class="list-unstyled list-py-2 mb-0">
+                        <li class="text-light">Présence: Paris, métropoles Hexagone, Guadeloupe, Martinique, Guyane, Réunion, Saint-Pierre-et-Miquelon.</li>
                         {% if agencies is empty %}
                             <li class="text-light">Adresse à venir.</li>
                         {% else %}
@@ -338,6 +360,17 @@
                     <span class="text-cap text-white">Expertises clés</span>
                     <ul class="list-unstyled list-py-2 mb-0">
                         <li><a class="link link-light link-light-75" href="{{ path('amoa_si') }}">AMOA SI</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_erp_progiciel') }}">ERP & progiciel</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_gmao') }}">GMAO</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_crm') }}">CRM</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_mapsi_progiciel') }}">MAPSI progiciel</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_risques_audit') }}">Risques, audit, contrôle interne</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_direction_qualite_deleguee') }}">Direction qualité déléguée</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_direction_conformite_externalisee') }}">Direction conformité externalisée</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_dsi_externalisee') }}">DSI externalisée</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_conseil_paris') }}">Cabinet de conseil à Paris</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_metropoles_hexagone') }}">Métropoles Hexagone</a></li>
+                        <li><a class="link link-light link-light-75" href="{{ path('seo_hexagone_drom') }}">Paris, Hexagone & DROM</a></li>
                         <li><a class="link link-light link-light-75" href="{{ path('seo_rgpd') }}">Conseil RGPD</a></li>
                         <li><a class="link link-light link-light-75" href="{{ path('seo_cyber_securite') }}">Cyber sécurité</a></li>
                         <li><a class="link link-light link-light-75" href="{{ path('seo_conseil_qualite') }}">Conseil qualité</a></li>

@@ -16,6 +16,17 @@
         {% include 'admin/_nav.html.twig' %}
 
         {{ form_start(form) }}
+            {% if isSeoPage %}
+                <div class="alert alert-info">
+                    <p class="mb-2"><strong>Mode SEO:</strong> cette page pilote le hero, le contenu principal et la FAQ.</p>
+                    <p class="mb-2">Renseignez <code>Contenu principal (HTML)</code> pour tous les blocs de la page (sections, CTA, maillage).</p>
+                    <p class="mb-2">Renseignez <code>FAQ (JSON)</code> avec ce format :</p>
+                    <pre class="mb-0">[
+  {"question":"Question 1","answer":"Reponse 1"},
+  {"question":"Question 2","answer":"Reponse 2"}
+]</pre>
+                </div>
+            {% endif %}
             <div class="row g-4">
                 <div class="col-lg-7">
                     <div class="mb-3">

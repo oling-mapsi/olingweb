@@ -16,8 +16,65 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SitePageRepository extends ServiceEntityRepository
 {
+    private const RESOURCE_INDEX_SLUG = 'ressources';
+    private const RESOURCE_ARTICLE_PREFIX = 'ressource-';
+    private const PUBLISHED_STATUS = 'published';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SitePage::class);
+    }
+
+    public function findResourceIndexPage(): ?SitePage
+    {
+        return $this->findOneBy(['slug' => self::RESOURCE_INDEX_SLUG]);
+    }
+
+    /**
+     * @return SitePage[]
+     */
+    public function findResourceArticles(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.slug LIKE :prefix')
+            ->andWhere('p.publicationStatus = :status')
+            ->setParameter('prefix', self::RESOURCE_ARTICLE_PREFIX . '%')
+            ->setParameter('status', self::PUBLISHED_STATUS)
+            ->orderBy('p.publicationDate', 'DESC')
+            ->addOrderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findResourceArticleByPublicSlug(string $publicSlug): ?SitePage
+    {
+        return $this->findOneBy([
+            'slug' => self::RESOURCE_ARTICLE_PREFIX . $publicSlug,
+            'publicationStatus' => self::PUBLISHED_STATUS,
+        ]);
+    }
+
+    public function findOneByExternalId(string $externalId): ?SitePage
+    {
+        return $this->findOneBy(['externalId' => $externalId]);
+    }
+
+    /**
+     * @return SitePage[]
+     */
+    public function findRelatedResourceArticles(string $excludedStoredSlug, int $limit = 4): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.slug LIKE :prefix')
+            ->andWhere('p.slug != :excluded')
+            ->andWhere('p.publicationStatus = :status')
+            ->setParameter('prefix', self::RESOURCE_ARTICLE_PREFIX . '%')
+            ->setParameter('excluded', $excludedStoredSlug)
+            ->setParameter('status', self::PUBLISHED_STATUS)
+            ->orderBy('p.publicationDate', 'DESC')
+            ->addOrderBy('p.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

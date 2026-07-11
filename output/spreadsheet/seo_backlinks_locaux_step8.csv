@@ -1,0 +1,49 @@
+priority,wave,zone,target_url,secondary_url,anchor_type,anchor_text,prospect_type,prospect_name,prospect_url,prospect_query,status,owner,next_action_date,notes
+P1,W1,National,/amoa-si,/conformite-reglementaire,brand,OLING,citation,Google Business Profile,https://www.google.com/business/,,todo,seo-owner,2026-06-05,Create or update main profile with consistent NAP
+P1,W1,National,/amoa-si,/si-finance,brand,OLING Management et Technologie,citation,Bing Places,https://www.bingplaces.com/,,todo,seo-owner,2026-06-05,Replicate NAP and website URL
+P1,W1,National,/amoa-si,/facturation-electronique-amoa,brand,oling.fr,citation,Apple Business Connect,https://businessconnect.apple.com/,,todo,seo-owner,2026-06-06,Validate branch information
+P1,W1,National,/amoa-si,/infrastructure-si-amoa,brand,OLING,citation,LinkedIn Company,https://www.linkedin.com/company/oling-management-&-technologie/,,todo,seo-owner,2026-06-06,Add website deep links in about and featured
+P1,W1,National,/cabinet-conseil-paris,/amoa-si,semi,cabinet conseil AMOA SI,citation,PagesJaunes,https://www.pagesjaunes.fr/,,todo,seo-owner,2026-06-07,Company listing with zone page link if allowed
+P2,W1,National,/cabinet-conseil-lyon,/amoa-si,semi,conseil SI finance et conformite,citation,Yelp France,https://www.yelp.fr/,,todo,seo-owner,2026-06-07,Secondary citation signal
+P2,W1,National,/cabinet-conseil-bordeaux,/amoa-si,brand,OLING,citation,Crunchbase,https://www.crunchbase.com/,,todo,seo-owner,2026-06-08,Company profile with category and website
+P2,W1,National,/amoa-si,/si-finance,semi,AMOA SI et SI finance,citation,Sortlist,https://www.sortlist.fr/,,todo,seo-owner,2026-06-08,Agency profile
+P2,W1,National,/amoa-si,/conformite-reglementaire,semi,conformite IA Act RGPD ISO,citation,Clutch,https://clutch.co/,,todo,seo-owner,2026-06-09,Agency listing and services
+P2,W1,National,/amoa-si,/facturation-electronique-amoa,brand,OLING,citation,Foursquare,https://foursquare.com/,,todo,seo-owner,2026-06-09,Directory consistency
+P1,W2,Paris,/cabinet-conseil-paris,/amoa-si,semi,cabinet conseil AMOA SI a Paris,ecosystem,,,"site:.fr \"CCI Paris\" \"annuaire\" \"numerique\"",todo,seo-owner,2026-06-10,Find annuaire or member page
+P1,W2,Paris,/cabinet-conseil-paris,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Paris\" \"membres\"",todo,seo-owner,2026-06-11,Target ecosystem member profile
+P2,W2,Paris,/cabinet-conseil-paris,/si-finance,semi,conseil SI finance a Paris,media,,,"site:.fr \"media\" \"Paris\" \"numerique\" \"tribune\"",todo,seo-owner,2026-06-12,Pitch local expert contribution
+P1,W2,Lyon,/cabinet-conseil-lyon,/amoa-si,semi,cabinet conseil AMOA SI a Lyon,ecosystem,,,"site:.fr \"CCI Lyon\" \"annuaire\" \"digital\"",todo,seo-owner,2026-06-10,Find listing page
+P1,W2,Lyon,/cabinet-conseil-lyon,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Lyon\" \"membres\"",todo,seo-owner,2026-06-11,Member profile backlink
+P2,W2,Lyon,/cabinet-conseil-lyon,/facturation-electronique-amoa,semi,facturation electronique AMOA Lyon,partner,,,"\"Lyon\" \"cabinet conseil\" \"partenaire\"",todo,seo-owner,2026-06-13,Partner page opportunity
+P1,W2,Toulouse,/cabinet-conseil-toulouse,/amoa-si,semi,cabinet conseil AMOA SI a Toulouse,ecosystem,,,"site:.fr \"CCI Toulouse\" \"annuaire\" \"numerique\"",todo,seo-owner,2026-06-10,Find listing page
+P1,W2,Toulouse,/cabinet-conseil-toulouse,/si-finance,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Toulouse\" \"membres\"",todo,seo-owner,2026-06-11,Member page
+P2,W2,Toulouse,/cabinet-conseil-toulouse,/conformite-reglementaire,semi,conformite IA Act RGPD ISO Toulouse,media,,,"site:.fr \"Toulouse\" \"tribune\" \"transformation numerique\"",todo,seo-owner,2026-06-13,Thought leadership pitch
+P1,W3,Montpellier,/cabinet-conseil-montpellier,/amoa-si,semi,cabinet conseil AMOA SI a Montpellier,ecosystem,,,"site:.fr \"CCI Montpellier\" \"annuaire\" \"entreprises\"",todo,seo-owner,2026-06-14,Find listing
+P1,W3,Montpellier,/cabinet-conseil-montpellier,/si-finance,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Montpellier\" \"membres\"",todo,seo-owner,2026-06-15,Member page
+P2,W3,Montpellier,/cabinet-conseil-montpellier,/facturation-electronique-amoa,semi,AMOA facturation electronique Montpellier,partner,,,"\"Montpellier\" \"ecosysteme\" \"partenaire\" \"SI\"",todo,seo-owner,2026-06-17,Partner backlink
+P1,W3,Nantes,/cabinet-conseil-nantes,/amoa-si,semi,cabinet conseil AMOA SI a Nantes,ecosystem,,,"site:.fr \"CCI Nantes\" \"annuaire\" \"numerique\"",todo,seo-owner,2026-06-14,Find listing
+P1,W3,Nantes,/cabinet-conseil-nantes,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Nantes\" \"membres\"",todo,seo-owner,2026-06-15,Member page
+P2,W3,Nantes,/cabinet-conseil-nantes,/infrastructure-si-amoa,semi,AMOA infrastructure SI Nantes,media,,,"site:.fr \"Nantes\" \"media\" \"IT\" \"interview\"",todo,seo-owner,2026-06-17,Press mention
+P1,W3,Bordeaux,/cabinet-conseil-bordeaux,/amoa-si,semi,cabinet conseil AMOA SI a Bordeaux,ecosystem,,,"site:.fr \"CCI Bordeaux\" \"annuaire\" \"numerique\"",todo,seo-owner,2026-06-14,Find listing
+P1,W3,Bordeaux,/cabinet-conseil-bordeaux,/si-finance,brand,OLING,ecosystem,,,"site:.fr \"French Tech\" \"Bordeaux\" \"membres\"",todo,seo-owner,2026-06-15,Member page
+P2,W3,Bordeaux,/cabinet-conseil-bordeaux,/facturation-electronique-amoa,semi,facturation electronique AMOA Bordeaux,partner,,,"\"Bordeaux\" \"partenaires\" \"transformation SI\"",todo,seo-owner,2026-06-17,Partner page
+P1,W4,Guadeloupe,/cabinet-conseil-guadeloupe,/amoa-si,semi,cabinet conseil AMOA SI en Guadeloupe,ecosystem,,,"site:.fr \"CCI Guadeloupe\" \"annuaire\" \"entreprises\"",todo,seo-owner,2026-06-18,Find listing
+P1,W4,Guadeloupe,/cabinet-conseil-guadeloupe,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"Guadeloupe\" \"French Tech\" \"membres\"",todo,seo-owner,2026-06-19,Member page
+P2,W4,Guadeloupe,/cabinet-conseil-guadeloupe,/si-finance,semi,conseil SI finance Guadeloupe,media,,,"site:.fr \"Guadeloupe\" \"media\" \"numerique\" \"tribune\"",todo,seo-owner,2026-06-21,Media mention
+P1,W4,Martinique,/cabinet-conseil-martinique,/amoa-si,semi,cabinet conseil AMOA SI en Martinique,ecosystem,,,"site:.fr \"CCI Martinique\" \"annuaire\" \"entreprises\"",todo,seo-owner,2026-06-18,Find listing
+P1,W4,Martinique,/cabinet-conseil-martinique,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"Martinique\" \"French Tech\" \"membres\"",todo,seo-owner,2026-06-19,Member page
+P2,W4,Martinique,/cabinet-conseil-martinique,/facturation-electronique-amoa,semi,AMOA facturation electronique Martinique,partner,,,"\"Martinique\" \"partenaires\" \"SI\" \"conseil\"",todo,seo-owner,2026-06-21,Partner link
+P1,W4,La Reunion,/cabinet-conseil-reunion,/amoa-si,semi,cabinet conseil AMOA SI a La Reunion,ecosystem,,,"site:.fr \"CCI Reunion\" \"annuaire\" \"entreprises\"",todo,seo-owner,2026-06-18,Find listing
+P1,W4,La Reunion,/cabinet-conseil-reunion,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"Reunion\" \"French Tech\" \"membres\"",todo,seo-owner,2026-06-19,Member page
+P2,W4,La Reunion,/cabinet-conseil-reunion,/infrastructure-si-amoa,semi,AMOA infrastructure SI La Reunion,media,,,"site:.fr \"Reunion\" \"media\" \"transformation numerique\"",todo,seo-owner,2026-06-21,Media link
+P1,W5,Guyane,/cabinet-conseil-guyane,/amoa-si,semi,cabinet conseil AMOA SI en Guyane,ecosystem,,,"site:.fr \"CCI Guyane\" \"annuaire\" \"entreprises\"",todo,seo-owner,2026-06-22,Find listing
+P1,W5,Guyane,/cabinet-conseil-guyane,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"Guyane\" \"numerique\" \"association\" \"membres\"",todo,seo-owner,2026-06-23,Member page
+P2,W5,Guyane,/cabinet-conseil-guyane,/si-finance,semi,conseil SI finance Guyane,partner,,,"\"Guyane\" \"partenaires\" \"transformation SI\"",todo,seo-owner,2026-06-25,Partner backlink
+P1,W5,Saint-Pierre-et-Miquelon,/cabinet-conseil-saint-pierre-et-miquelon,/amoa-si,semi,cabinet conseil AMOA SI a Saint-Pierre-et-Miquelon,ecosystem,,,"site:.fr \"Saint-Pierre-et-Miquelon\" \"annuaire entreprises\" \"numerique\"",todo,seo-owner,2026-06-22,Find listing
+P1,W5,Saint-Pierre-et-Miquelon,/cabinet-conseil-saint-pierre-et-miquelon,/conformite-reglementaire,brand,OLING,ecosystem,,,"site:.fr \"Saint-Pierre-et-Miquelon\" \"chambre\" \"entreprises\"",todo,seo-owner,2026-06-23,Institutional listing
+P2,W5,Saint-Pierre-et-Miquelon,/cabinet-conseil-saint-pierre-et-miquelon,/facturation-electronique-amoa,semi,AMOA facturation electronique Saint-Pierre-et-Miquelon,media,,,"site:.fr \"Saint-Pierre-et-Miquelon\" \"actualites\" \"numerique\"",todo,seo-owner,2026-06-25,Local publication
+P1,W6,National,/si-finance,/facturation-electronique-amoa,semi,SI finance et facturation electronique,content_partner,,,"\"tribune\" \"facturation electronique\" \"SI finance\" \"partenaire\"",todo,seo-owner,2026-06-26,Guest article with contextual link
+P1,W6,National,/conformite-reglementaire,/rgpd,semi,conformite IA Act RGPD ISO,content_partner,,,"\"IA Act\" \"RGPD\" \"ISO\" \"tribune\"",todo,seo-owner,2026-06-27,Expert article
+P2,W6,National,/amoa-si,/infrastructure-si-amoa,brand,OLING,webinar,,,"\"webinar\" \"AMOA SI\" \"partenaire\"",todo,seo-owner,2026-06-27,Event recap link
+P2,W6,National,/amoa-si,/si-finance,semi,AMOA SI et SI finance,association,,,"\"association\" \"numerique\" \"membres\" \"conseil SI\"",todo,seo-owner,2026-06-28,Membership profile
+P2,W6,National,/conformite-reglementaire,/cyber-securite,semi,conformite et cybersecurite,association,,,"\"club\" \"cyber\" \"entreprises\" \"membres\"",todo,seo-owner,2026-06-28,Profile with link

@@ -8,6 +8,11 @@ parameters:
     router.request_context.host: 'oling.fr'
     router.request_context.scheme: 'https'
     uploads_dir: '%kernel.project_dir%/public/uploads'
+    oling_schema_same_as:
+        - 'https://www.linkedin.com/company/oling-management-&-technologie/'
+        - 'https://twitter.com/oling971'
+        - 'https://mapsi.fr/'
+        - 'https://web.mapsi.fr/'
 
 services:
     # default configuration for services in *this* file

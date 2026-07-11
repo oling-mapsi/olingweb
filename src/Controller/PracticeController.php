@@ -14,6 +14,9 @@ use App\Repository\TeamRepository;
 use App\Repository\HomeSectionRepository;
 use App\Repository\ContentItemRepository;
 use App\Repository\LegalPageRepository;
+use App\Repository\SitePageRepository;
+use App\Service\SeoGeoInternalLinkService;
+use App\Service\SitePageFaqParser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -253,12 +256,22 @@ class PracticeController extends AbstractController
     public function amoaSi(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
+        SitePageRepository $sitePageRepository,
+        SitePageFaqParser $sitePageFaqParser,
+        SeoGeoInternalLinkService $seoGeoInternalLinkService
     ): Response
     {
+        $page = $sitePageRepository->findOneBy(['slug' => 'amoa-si']);
+        $pageFaqItems = $sitePageFaqParser->parse($page?->getBodyHtml());
+
         return $this->render('amoa-si.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $repopractice->findAll(),
             'services' => $reposervices->findAll(),
+            'page' => $page,
+            'pageFaqItems' => $pageFaqItems,
+            'zoneMaillage' => $seoGeoInternalLinkService->build($page?->getSlug()),
+            'zoneExpertises' => $seoGeoInternalLinkService->buildExpertiseLinksForZone($page?->getSlug(), 10),
             'pract' => '',
         ]);
     }

@@ -2,8 +2,8 @@
 
 namespace App\EventListener;
 
-use App\Controller\SeoResourceController;
 use App\Repository\PracticeRepository;
+use App\Repository\SitePageRepository;
 use App\Repository\ServicesRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -15,13 +15,16 @@ class SitemapSubscriber implements EventSubscriberInterface
 {
     private PracticeRepository $practiceRepository;
     private ServicesRepository $servicesRepository;
+    private SitePageRepository $sitePageRepository;
 
     public function __construct(
         PracticeRepository $practiceRepository,
-        ServicesRepository $servicesRepository
+        ServicesRepository $servicesRepository,
+        SitePageRepository $sitePageRepository
     ) {
         $this->practiceRepository = $practiceRepository;
         $this->servicesRepository = $servicesRepository;
+        $this->sitePageRepository = $sitePageRepository;
     }
 
     public static function getSubscribedEvents()
@@ -91,12 +94,22 @@ class SitemapSubscriber implements EventSubscriberInterface
 
     public function registerSeoResourceUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
-        foreach (SeoResourceController::articles() as $article) {
+        foreach ($this->sitePageRepository->findResourceArticles() as $article) {
+            $storedSlug = (string) $article->getSlug();
+            if (!str_starts_with($storedSlug, 'ressource-')) {
+                continue;
+            }
+
+            $publicSlug = substr($storedSlug, strlen('ressource-'));
+            if ($publicSlug === false || $publicSlug === '') {
+                continue;
+            }
+
             $urls->addUrl(
                 new UrlConcrete(
                     $router->generate(
                         'seo_resource',
-                        ['slug' => $article['slug']],
+                        ['slug' => $publicSlug],
                         UrlGeneratorInterface::ABSOLUTE_URL
                     )
                 ),

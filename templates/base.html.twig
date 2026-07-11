@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="robots" content="{% if currentRoute starts with 'admin_' or currentRoute in ['login', 'logout'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' %}noindex,nofollow{% else %}index,follow,max-image-preview:large{% endif %}" />
+        <meta name="robots" content="{% if currentRoute starts with 'admin_' or currentRoute in ['login', 'logout', 'growth_preview_article'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' or app.request.pathinfo starts with '/preview/' %}noindex,nofollow{% else %}index,follow,max-image-preview:large{% endif %}" />
        
         <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" href="/favicon.ico">
@@ -37,8 +37,10 @@
         {
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
+          "@id": "https://oling.fr/#professional-service",
           "name": "OLING Management et Technologie",
           "url": "https://oling.fr",
+          "mainEntityOfPage": "https://oling.fr/",
           "logo": "https://oling.fr/img/logo/logoling.png",
           "description": "Cabinet de conseil AMOA SI, ERP, CRM, GMAO, conformité et cybersécurité, présent à Paris, dans les métropoles de l'Hexagone et dans les DROM.",
           "areaServed": [
@@ -49,6 +51,15 @@
             "Guyane",
             "Reunion",
             "Saint-Pierre-et-Miquelon"
+          ],
+          "serviceArea": [
+            {"@type": "AdministrativeArea", "name": "Paris"},
+            {"@type": "AdministrativeArea", "name": "Hexagone"},
+            {"@type": "AdministrativeArea", "name": "Guadeloupe"},
+            {"@type": "AdministrativeArea", "name": "Martinique"},
+            {"@type": "AdministrativeArea", "name": "Guyane"},
+            {"@type": "AdministrativeArea", "name": "Reunion"},
+            {"@type": "AdministrativeArea", "name": "Saint-Pierre-et-Miquelon"}
           ],
           "knowsAbout": [
             "AMOA SI",
@@ -64,6 +75,13 @@
             "DSI externalisee"
           ],
           "email": "contact@oling.fr",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "contact@oling.fr",
+            "url": "https://oling.fr/contact",
+            "availableLanguage": ["fr-FR"]
+          },
           "address": [
             {% for agency in agencies %}
             {
@@ -76,8 +94,9 @@
             {% endfor %}
           ],
           "sameAs": [
-            "https://www.linkedin.com/company/oling-management-&-technologie/",
-            "https://twitter.com/oling971"
+            {% for sameAsUrl in oling_schema_same_as %}
+            "{{ sameAsUrl|e('js') }}"{{ not loop.last ? ',' }}
+            {% endfor %}
           ]
         }
         </script>
@@ -286,7 +305,7 @@
 
             <div class="border-bottom border-white-10">
                 <div class="row py-9">
-                <div class="col-4 col-sm-4 col-lg mb-7 mb-lg-0">
+                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
                     <span class="text-cap text-white">Practices</span>
 
                     <!-- List -->
@@ -299,7 +318,7 @@
                 </div>
                 <!-- End Col -->
 
-                <div class="col-4 col-sm-4 col-lg mb-7 mb-lg-0">
+                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
                     <span class="text-cap text-white">La société</span>
 
                     <!-- List -->
@@ -308,29 +327,30 @@
                     <li><a class="link link-light link-light-75" href={{path('team') }}>L'Equipe </a> <span class="fs-6 fw-bold text-primary">&mdash; Nous recrutons</span></li>
                     <li><a class="link link-light link-light-75" href={{path('rse') }}>Démarche RSE</a></li>
                     <li><a class="link link-light link-light-75" href={{path('seo_resources_index') }}>Ressources & guides</a></li>
-                    <li><a class="link link-light link-light-75" href="https://web.mapsi.fr/" target="_blank">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li><a class="link link-light link-light-75" href="https://mapsi.fr/" target="_blank" rel="noopener">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                    <li><a class="link link-light link-light-75" href="https://www.linkedin.com/company/oling-management-&-technologie/" target="_blank" rel="noopener">LinkedIn <i class="bi-box-arrow-up-right ms-1"></i></a></li>
                     </ul>
                     <!-- End List -->
                 </div>
                 <!-- End Col -->
 
-                <div class="col-4 col-sm-4 col-lg">
+                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
                     <span class="text-cap text-white">Contactez-nous</span>
                     <!-- List -->
                     <ul class="list-unstyled list-py-2 mb-0">
-                        <li class="text-light">Présence: Paris, métropoles Hexagone, Guadeloupe, Martinique, Guyane, Réunion, Saint-Pierre-et-Miquelon.</li>
+                        <li class="link link-light link-light-75 fs-6">Présence: Paris, métropoles Hexagone, Guadeloupe, Martinique, Guyane, Réunion, Saint-Pierre-et-Miquelon.</li>
                         {% if agencies is empty %}
-                            <li class="text-light">Adresse à venir.</li>
+                            <li class="link link-light link-light-75 fs-6">Adresse à venir.</li>
                         {% else %}
                             {% for agency in agencies %}
                                 <li>
                                     <div class="d-flex">
-                                        <div class="flex-shrink-0 text-light">
+                                        <div class="flex-shrink-0 link-light-75 fs-6">
                                             <i class="bi-building"></i>
                                         </div>
 
-                                        <div class="flex-grow-1 ms-2 text-light">
-                                            <span class="text-light">
+                                        <div class="flex-grow-1 ms-2">
+                                            <span class="link link-light link-light-75 fs-6">
                                                 {{ agency.streetLine1 }}{% if agency.streetLine2 %}, {{ agency.streetLine2 }}{% endif %}, {{ agency.postalCode }} {{ agency.city }}
                                             </span>
                                         </div>
@@ -356,47 +376,27 @@
 
                 
 
-                <div class="col-4 col-sm-4 col-lg">
+                <div class="col-12 col-md-6 col-lg-3">
                     <span class="text-cap text-white">Expertises clés</span>
+                    {% set footerExpertiseItems = [] %}
+                    {% for practice in practices %}
+                        {% if practice.slug != 'mapsi' %}
+                            {% for service in practice.services %}
+                                {% if footerExpertiseItems|length < 6 and service.slug and service.practice and service.introductionShort %}
+                                    {% set footerExpertiseItems = footerExpertiseItems|merge([{
+                                        label: service.designationShort ?: service.designation,
+                                        url: path('service', {'practice': service.practice.slug, 'slug': service.slug})
+                                    }]) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                     <ul class="list-unstyled list-py-2 mb-0">
-                        <li><a class="link link-light link-light-75" href="{{ path('amoa_si') }}">AMOA SI</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_erp_progiciel') }}">ERP & progiciel</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_gmao') }}">GMAO</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_crm') }}">CRM</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_mapsi_progiciel') }}">MAPSI progiciel</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_risques_audit') }}">Risques, audit, contrôle interne</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_direction_qualite_deleguee') }}">Direction qualité déléguée</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_direction_conformite_externalisee') }}">Direction conformité externalisée</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_dsi_externalisee') }}">DSI externalisée</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_conseil_paris') }}">Cabinet de conseil à Paris</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_metropoles_hexagone') }}">Métropoles Hexagone</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_hexagone_drom') }}">Paris, Hexagone & DROM</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_rgpd') }}">Conseil RGPD</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_cyber_securite') }}">Cyber sécurité</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_conseil_qualite') }}">Conseil qualité</a></li>
-                        <li><a class="link link-light link-light-75" href="{{ path('seo_public_pme_eti') }}">Public, PME & ETI</a></li>
+                        {% for item in footerExpertiseItems %}
+                            <li><a class="link link-light link-light-75" href="{{ item.url }}">{{ item.label }}</a></li>
+                        {% endfor %}
                     </ul>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-4 col-sm-4 col-lg">
-                    <span class="text-cap text-white">Suivez-nous</span>
-                    <!-- List -->
-                    <ul class="list-unstyled list-py-2 mb-0">
-                        <li><a class="link link-light link-light-75" href="https://www.linkedin.com/company/oling-management-&-technologie/">
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-linkedin"></i>
-                            </div>
-
-                            <div class="flex-grow-1 ms-2">
-                                <span>Linkedin</span>
-                            </div>
-                            </div>
-                        </a></li>
-                        
-                    </ul>
-                    <!-- End List -->
+                    <a class="link link-light link-light-75 d-inline-block mt-2" href="{{ path('amoa_si') }}">Voir toutes les expertises</a>
                 </div>
                 <!-- End Col -->
                 </div>

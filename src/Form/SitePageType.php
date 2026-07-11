@@ -13,6 +13,12 @@ class SitePageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isSeoPage = (bool) ($options['is_seo_page'] ?? false);
+        $bodyLabel = $isSeoPage ? 'FAQ (JSON)' : 'Contenu principal (HTML)';
+        $bodyClass = $isSeoPage ? 'form-control' : 'form-control js-wysiwyg';
+        $heroSideLabel = $isSeoPage ? 'Contenu principal (HTML)' : 'Bloc hero droit (HTML)';
+        $heroSideClass = $isSeoPage ? 'form-control js-wysiwyg' : 'form-control js-wysiwyg';
+
         $builder
             ->add('slug', TextType::class, [
                 'label' => 'Slug',
@@ -44,14 +50,14 @@ class SitePageType extends AbstractType
                 'attr' => ['rows' => 3, 'class' => 'form-control js-wysiwyg'],
             ])
             ->add('heroSideHtml', TextareaType::class, [
-                'label' => 'Bloc hero droit (HTML)',
+                'label' => $heroSideLabel,
                 'required' => false,
-                'attr' => ['rows' => 8, 'class' => 'form-control js-wysiwyg'],
+                'attr' => ['rows' => 12, 'class' => $heroSideClass],
             ])
             ->add('bodyHtml', TextareaType::class, [
-                'label' => 'Contenu principal (HTML)',
+                'label' => $bodyLabel,
                 'required' => false,
-                'attr' => ['rows' => 12, 'class' => 'form-control js-wysiwyg'],
+                'attr' => ['rows' => 12, 'class' => $bodyClass],
             ])
             ->add('heroImage', TextType::class, [
                 'label' => 'Image hero (chemin ou URL)',
@@ -65,6 +71,7 @@ class SitePageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SitePage::class,
+            'is_seo_page' => false,
         ]);
     }
 }

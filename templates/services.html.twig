@@ -51,6 +51,56 @@
             </ul>
           </div>
 
+          {% set seoLinks = [] %}
+          {% if service.practice.slug == 'business-apps' and service.slug == 'erp' %}
+            {% set seoLinks = [
+              {'label': 'AMOA ERP & progiciel', 'route': 'seo_erp_progiciel'},
+              {'label': 'AMOA CRM', 'route': 'seo_crm'},
+              {'label': 'AMOA GMAO', 'route': 'seo_gmao'},
+              {'label': 'SI finance', 'route': 'seo_si_finance'},
+              {'label': 'Facturation électronique AMOA', 'route': 'seo_facturation_electronique_amoa'}
+            ] %}
+          {% elseif service.practice.slug == 'consulting' and service.slug == 'tech-refresh' %}
+            {% set seoLinks = [
+              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'},
+              {'label': 'Cyber sécurité', 'route': 'seo_cyber_securite'},
+              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
+            ] %}
+          {% elseif service.practice.slug == 'consulting' and service.slug == 'reforme-facturation-electronique-amoa' %}
+            {% set seoLinks = [
+              {'label': 'Facturation électronique AMOA', 'route': 'seo_facturation_electronique_amoa'},
+              {'label': 'SI finance', 'route': 'seo_si_finance'},
+              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'}
+            ] %}
+          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'rgpd' %}
+            {% set seoLinks = [
+              {'label': 'Conseil RGPD', 'route': 'seo_rgpd'},
+              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
+            ] %}
+          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'si' %}
+            {% set seoLinks = [
+              {'label': 'Cyber sécurité', 'route': 'seo_cyber_securite'},
+              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'},
+              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'}
+            ] %}
+          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'qse' %}
+            {% set seoLinks = [
+              {'label': 'Conseil qualité', 'route': 'seo_conseil_qualite'},
+              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
+            ] %}
+          {% endif %}
+
+          {% if seoLinks is not empty %}
+            <div class="oling-surface p-4 mt-4">
+              <h3 class="mb-3">Pages expertises associées</h3>
+              <ul class="mb-0">
+                {% for item in seoLinks %}
+                  <li><a class="link" href="{{ path(item.route) }}">{{ item.label }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
           <div id="stickyBlockEndPointEg3"></div>
         </div>
 

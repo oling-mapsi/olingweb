@@ -1,0 +1,298 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page and page.title ? page.title : 'OLING' }}{% endblock %}
+{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Cabinet de conseil AMOA SI et conformite.' }}{% endblock %}
+
+{% block body %}
+{% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
+{% set hasHeroImage = page and page.heroImage %}
+{% if hasHeroImage %}
+  {% set heroImageRaw = page.heroImage|trim %}
+  {% set heroImageSrc = heroImageRaw starts with 'http://' or heroImageRaw starts with 'https://' ? heroImageRaw : asset(heroImageRaw starts with '/' ? heroImageRaw|slice(1) : heroImageRaw) %}
+{% endif %}
+<main id="content" role="main" class="oling-seo-cabinet">
+  <section class="oling-section oling-section--tight oling-seo-cabinet__hero">
+    <div class="container">
+      <div class="oling-seo-cabinet__hero-shell{% if hasHeroImage %} is-with-media{% endif %}">
+        <div class="oling-seo-cabinet__hero-copy">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'Page') }}</li>
+            </ol>
+          </nav>
+          {% if page and page.heroBadge %}
+            <span class="oling-kicker">{{ page.heroBadge }}</span>
+          {% endif %}
+          {% if page and page.heroTitle %}
+            <h1>{{ page.heroTitle }}</h1>
+          {% elseif page and page.title %}
+            <h1>{{ page.title }}</h1>
+          {% endif %}
+          {% if page and page.heroIntro %}
+            <p class="oling-lede">{{ page.heroIntro|raw }}</p>
+          {% endif %}
+        </div>
+        {% if hasHeroImage %}
+          <aside class="oling-seo-cabinet__hero-media" aria-hidden="true">
+            <img src="{{ heroImageSrc }}" alt="">
+          </aside>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if page and page.heroSideHtml %}
+    <div class="oling-seo-cabinet__content">
+      {{ page.heroSideHtml|raw }}
+    </div>
+  {% endif %}
+
+  {% if zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4">
+          <h2 class="h4">Nos zones d'intervention pour cette expertise</h2>
+          <div class="row g-4 mt-1">
+            {% if zoneMaillage.hexagone is not empty %}
+              <div class="col-lg-6">
+                <h3 class="h6 text-uppercase mb-3">Hexagone</h3>
+                <ul class="mb-0">
+                  {% for link in zoneMaillage.hexagone %}
+                    <li><a class="link" href="{{ link.url }}">{{ link.label }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            {% if zoneMaillage.outreMer is not empty %}
+              <div class="col-lg-6">
+                <h3 class="h6 text-uppercase mb-3">Outre-mer</h3>
+                <ul class="mb-0">
+                  {% for link in zoneMaillage.outreMer %}
+                    <li><a class="link" href="{{ link.url }}">{{ link.label }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+          {% if zoneMaillage.hubs is defined and zoneMaillage.hubs is not empty %}
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              {% for link in zoneMaillage.hubs %}
+                <a class="btn btn-outline-primary btn-sm" href="{{ link.url }}">{{ link.label }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if faqItems is not empty %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4">
+          <h2 class="h4">FAQ</h2>
+          <ul class="mb-0">
+            {% for item in faqItems %}
+              <li><strong>{{ item.question }}</strong> {{ item.answer }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+</main>
+
+{% set currentUrl = app.request.schemeAndHttpHost ~ app.request.pathInfo %}
+{% set contactUrl = app.request.schemeAndHttpHost ~ path('contact') %}
+{% set globalProfessionalServiceId = 'https://oling.fr/#professional-service' %}
+{% set pageSlug = page and page.slug ? page.slug : '' %}
+{% set isZonePage = pageSlug starts with 'cabinet-conseil-' %}
+{% set zoneName = page and page.heroBadge ? page.heroBadge|striptags|trim : '' %}
+{% set schemaSameAs = oling_schema_same_as is defined ? oling_schema_same_as : [] %}
+{% set schemaAddresses = [] %}
+{% for agency in agencies %}
+  {% set schemaAddresses = schemaAddresses|merge([{
+    '@type': 'PostalAddress',
+    'streetAddress': agency.streetAddress,
+    'postalCode': agency.postalCode,
+    'addressLocality': agency.city,
+    'addressCountry': agency.countryCode ?: agency.country
+  }]) %}
+{% endfor %}
+{% set schemaAreaServedNames = [] %}
+{% if isZonePage and zoneName is not empty %}
+  {% if zoneName not in schemaAreaServedNames %}
+    {% set schemaAreaServedNames = schemaAreaServedNames|merge([zoneName]) %}
+  {% endif %}
+  {% if 'France' not in schemaAreaServedNames %}
+    {% set schemaAreaServedNames = schemaAreaServedNames|merge(['France']) %}
+  {% endif %}
+{% elseif zoneMaillage is defined %}
+  {% if zoneMaillage.hexagone is defined %}
+    {% for link in zoneMaillage.hexagone %}
+      {% if link.label is defined and link.label and link.label not in schemaAreaServedNames %}
+        {% set schemaAreaServedNames = schemaAreaServedNames|merge([link.label]) %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if zoneMaillage.outreMer is defined %}
+    {% for link in zoneMaillage.outreMer %}
+      {% if link.label is defined and link.label and link.label not in schemaAreaServedNames %}
+        {% set schemaAreaServedNames = schemaAreaServedNames|merge([link.label]) %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+{% if schemaAreaServedNames is empty %}
+  {% set schemaAreaServedNames = ['France'] %}
+{% endif %}
+{% set schemaAreaServedObjects = [] %}
+{% for areaName in schemaAreaServedNames %}
+  {% set schemaAreaServedObjects = schemaAreaServedObjects|merge([{
+    '@type': 'AdministrativeArea',
+    'name': areaName
+  }]) %}
+{% endfor %}
+{% set schemaContactPoint = {
+  '@type': 'ContactPoint',
+  'contactType': 'customer support',
+  'email': 'contact@oling.fr',
+  'url': contactUrl,
+  'availableLanguage': ['fr-FR']
+} %}
+{% set schemaOfferItems = [] %}
+{% if zoneExpertises is defined and zoneExpertises is not empty %}
+  {% for link in zoneExpertises %}
+    {% if link.label is defined and link.label and link.url is defined and link.url %}
+      {% set schemaOfferItems = schemaOfferItems|merge([{
+        '@type': 'Offer',
+        'itemOffered': {
+          '@type': 'Service',
+          'name': link.label,
+          'url': app.request.schemeAndHttpHost ~ link.url
+        }
+      }]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% set schemaOfferCatalog = null %}
+{% if schemaOfferItems is not empty %}
+  {% set schemaOfferCatalog = {
+    '@type': 'OfferCatalog',
+    'name': 'Expertises OLING',
+    'itemListElement': schemaOfferItems
+  } %}
+{% endif %}
+{% set serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  'name': page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'OLING'),
+  'serviceType': page and page.heroBadge ? page.heroBadge|striptags : 'Conseil AMOA SI',
+  'provider': {'@id': globalProfessionalServiceId},
+  'url': currentUrl,
+  'mainEntityOfPage': currentUrl,
+  'description': page and page.metaDescription ? page.metaDescription : 'Conseil AMOA SI, transformation et conformite.',
+  'areaServed': schemaAreaServedNames,
+  'serviceArea': schemaAreaServedObjects,
+  'contactPoint': schemaContactPoint,
+  'potentialAction': {
+    '@type': 'ContactAction',
+    'target': {
+      '@type': 'EntryPoint',
+      'urlTemplate': contactUrl
+    }
+  },
+  'sameAs': schemaSameAs
+} %}
+{% if schemaOfferCatalog %}
+  {% set serviceSchema = serviceSchema|merge({'offers': schemaOfferCatalog}) %}
+{% endif %}
+<script type="application/ld+json">
+{{ serviceSchema|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}
+</script>
+{% if isZonePage and zoneName is not empty %}
+  {% set zoneArea = [{ '@type': 'AdministrativeArea', 'name': zoneName }] %}
+  {% set localBusinessSchema = {
+    '@type': 'LocalBusiness',
+    '@id': currentUrl ~ '#localbusiness',
+    'name': 'OLING Management et Technologie',
+    'url': currentUrl,
+    'mainEntityOfPage': currentUrl,
+    'branchOf': {'@id': globalProfessionalServiceId},
+    'description': page and page.metaDescription ? page.metaDescription : '',
+    'serviceArea': zoneArea,
+    'areaServed': zoneArea,
+    'contactPoint': schemaContactPoint,
+    'sameAs': schemaSameAs,
+    'address': schemaAddresses
+  } %}
+  {% if schemaOfferCatalog %}
+    {% set localBusinessSchema = localBusinessSchema|merge({'hasOfferCatalog': schemaOfferCatalog}) %}
+  {% endif %}
+  {% set professionalServiceSchema = {
+    '@type': 'ProfessionalService',
+    '@id': currentUrl ~ '#professionalservice',
+    'name': 'OLING Management et Technologie',
+    'url': currentUrl,
+    'mainEntityOfPage': currentUrl,
+    'description': page and page.metaDescription ? page.metaDescription : '',
+    'serviceType': page and page.heroBadge ? page.heroBadge|striptags : 'Conseil',
+    'serviceArea': zoneArea,
+    'areaServed': zoneArea,
+    'provider': {'@id': currentUrl ~ '#localbusiness'},
+    'contactPoint': schemaContactPoint,
+    'sameAs': schemaSameAs
+  } %}
+  {% if schemaOfferCatalog %}
+    {% set professionalServiceSchema = professionalServiceSchema|merge({'hasOfferCatalog': schemaOfferCatalog}) %}
+  {% endif %}
+  {% set localSeoGraph = {
+    '@context': 'https://schema.org',
+    '@graph': [localBusinessSchema, professionalServiceSchema]
+  } %}
+  <script type="application/ld+json">
+  {{ localSeoGraph|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}
+  </script>
+{% endif %}
+{% if faqItems is not empty %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for item in faqItems %}
+    {
+      "@type": "Question",
+      "name": "{{ item.question|e('js') }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ item.answer|e('js') }}"
+      }
+    }{{ not loop.last ? ',' }}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var root = document.querySelector('.oling-seo-cabinet');
+  if (!root) {
+    return;
+  }
+
+  var blocks = root.querySelectorAll('.oling-section, .oling-surface, .oling-method');
+  blocks.forEach(function (block) {
+    var ctas = Array.prototype.slice.call(block.querySelectorAll('a.btn'));
+    if (ctas.length <= 1) {
+      return;
+    }
+
+    for (var i = 1; i < ctas.length; i++) {
+      ctas[i].classList.add('oling-cta-secondary');
+    }
+  });
+});
+</script>
+{% endblock %}

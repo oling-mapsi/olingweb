@@ -1,0 +1,37 @@
+priority,wave,zone,target_url,secondary_url,prospect_type,prospect_name,contact_name,contact_email,channel,template_id,follow_up_1_date,follow_up_2_date,follow_up_3_date,status,link_url,published_date,qa_status,qa_score,owner,notes
+P1,W1,National,/amoa-si,/conformite-reglementaire,citation,Google Business Profile,,,,T1,2026-06-09,2026-06-15,2026-06-26,todo,,,,,seo-owner,NAP check then update website field
+P1,W1,National,/amoa-si,/si-finance,citation,Bing Places,,,,T1,2026-06-09,2026-06-15,2026-06-26,todo,,,,,seo-owner,Mirror primary citation
+P1,W1,National,/amoa-si,/facturation-electronique-amoa,citation,Apple Business Connect,,,,T1,2026-06-10,2026-06-16,2026-06-27,todo,,,,,seo-owner,Branch and category verification
+P1,W1,National,/cabinet-conseil-paris,/amoa-si,citation,PagesJaunes,,,,T1,2026-06-10,2026-06-16,2026-06-27,todo,,,,,seo-owner,Prefer direct zone URL
+P1,W1,Paris,/cabinet-conseil-paris,/amoa-si,ecosystem,CCI Paris Ile-de-France,,,,T2,2026-06-11,2026-06-17,2026-06-30,todo,,,,,seo-owner,Member or partner directory
+P1,W1,Paris,/cabinet-conseil-paris,/conformite-reglementaire,ecosystem,French Tech Grand Paris,,,,T2,2026-06-11,2026-06-17,2026-06-30,todo,,,,,seo-owner,Member profile with service link
+P2,W1,Paris,/cabinet-conseil-paris,/si-finance,media,Media B2B Paris Tech,,,,T3,2026-06-12,2026-06-18,2026-07-01,todo,,,,,seo-owner,Pitch SI finance + IA Act angle
+P1,W2,Lyon,/cabinet-conseil-lyon,/amoa-si,ecosystem,CCI Lyon Metropole,,,,T2,2026-06-12,2026-06-18,2026-07-01,todo,,,,,seo-owner,Directory or partner profile
+P1,W2,Lyon,/cabinet-conseil-lyon,/conformite-reglementaire,ecosystem,French Tech One Lyon,,,,T2,2026-06-12,2026-06-18,2026-07-01,todo,,,,,seo-owner,Local ecosystem page
+P2,W2,Lyon,/cabinet-conseil-lyon,/facturation-electronique-amoa,partner,Partenaire integrateur Lyon,,,,T2,2026-06-13,2026-06-19,2026-07-02,todo,,,,,seo-owner,Exchange mention agreement
+P1,W2,Toulouse,/cabinet-conseil-toulouse,/amoa-si,ecosystem,CCI Toulouse Haute-Garonne,,,,T2,2026-06-12,2026-06-18,2026-07-01,todo,,,,,seo-owner,Annuaire numerique local
+P1,W2,Toulouse,/cabinet-conseil-toulouse,/si-finance,ecosystem,French Tech Toulouse,,,,T2,2026-06-12,2026-06-18,2026-07-01,todo,,,,,seo-owner,Member listing
+P2,W2,Toulouse,/cabinet-conseil-toulouse,/conformite-reglementaire,media,Media eco numerique Toulouse,,,,T3,2026-06-13,2026-06-19,2026-07-02,todo,,,,,seo-owner,Guest article proposal
+P1,W3,Montpellier,/cabinet-conseil-montpellier,/amoa-si,ecosystem,CCI Herault Montpellier,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Local business profile
+P1,W3,Montpellier,/cabinet-conseil-montpellier,/si-finance,ecosystem,French Tech Mediterranee,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Member page backlink
+P2,W3,Montpellier,/cabinet-conseil-montpellier,/facturation-electronique-amoa,partner,Partenaire SI Montpellier,,,,T2,2026-06-17,2026-06-23,2026-07-04,todo,,,,,seo-owner,Contextual expertise mention
+P1,W3,Nantes,/cabinet-conseil-nantes,/amoa-si,ecosystem,CCI Nantes St-Nazaire,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Directory opportunity
+P1,W3,Nantes,/cabinet-conseil-nantes,/conformite-reglementaire,ecosystem,French Tech Nantes,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Member profile link
+P2,W3,Nantes,/cabinet-conseil-nantes,/infrastructure-si-amoa,media,Media Tech Ouest,,,,T3,2026-06-17,2026-06-23,2026-07-04,todo,,,,,seo-owner,Interview format
+P1,W3,Bordeaux,/cabinet-conseil-bordeaux,/amoa-si,ecosystem,CCI Bordeaux Gironde,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Local listing
+P1,W3,Bordeaux,/cabinet-conseil-bordeaux,/si-finance,ecosystem,French Tech Bordeaux,,,,T2,2026-06-16,2026-06-22,2026-07-03,todo,,,,,seo-owner,Member page
+P2,W3,Bordeaux,/cabinet-conseil-bordeaux,/facturation-electronique-amoa,partner,Partenaire conseil Bordeaux,,,,T2,2026-06-17,2026-06-23,2026-07-04,todo,,,,,seo-owner,Co-branded case note
+P1,W4,Guadeloupe,/cabinet-conseil-guadeloupe,/amoa-si,ecosystem,CCI Guadeloupe,,,,T2,2026-06-19,2026-06-25,2026-07-06,todo,,,,,seo-owner,Directory update
+P1,W4,Guadeloupe,/cabinet-conseil-guadeloupe,/conformite-reglementaire,ecosystem,Caribbean digital network,,,,T2,2026-06-19,2026-06-25,2026-07-06,todo,,,,,seo-owner,Ecosystem profile
+P2,W4,Martinique,/cabinet-conseil-martinique,/amoa-si,ecosystem,CCI Martinique,,,,T2,2026-06-19,2026-06-25,2026-07-06,todo,,,,,seo-owner,Annuaire local
+P2,W4,Martinique,/cabinet-conseil-martinique,/facturation-electronique-amoa,partner,Partenaire SI Martinique,,,,T2,2026-06-20,2026-06-26,2026-07-07,todo,,,,,seo-owner,Partner page link request
+P1,W4,La Reunion,/cabinet-conseil-reunion,/amoa-si,ecosystem,CCI La Reunion,,,,T2,2026-06-19,2026-06-25,2026-07-06,todo,,,,,seo-owner,Local listing
+P2,W4,La Reunion,/cabinet-conseil-reunion,/infrastructure-si-amoa,media,Media eco Reunion,,,,T3,2026-06-20,2026-06-26,2026-07-07,todo,,,,,seo-owner,Tribune proposition
+P1,W5,Guyane,/cabinet-conseil-guyane,/amoa-si,ecosystem,CCI Guyane,,,,T2,2026-06-23,2026-06-29,2026-07-10,todo,,,,,seo-owner,Local annuaire
+P2,W5,Guyane,/cabinet-conseil-guyane,/si-finance,partner,Partenaire transformation Guyane,,,,T2,2026-06-24,2026-06-30,2026-07-11,todo,,,,,seo-owner,Short partner mention
+P1,W5,Saint-Pierre-et-Miquelon,/cabinet-conseil-saint-pierre-et-miquelon,/amoa-si,ecosystem,Collectivite / annuaire pro SPM,,,,T2,2026-06-23,2026-06-29,2026-07-10,todo,,,,,seo-owner,Institutional listing
+P2,W5,Saint-Pierre-et-Miquelon,/cabinet-conseil-saint-pierre-et-miquelon,/facturation-electronique-amoa,media,Media local SPM,,,,T3,2026-06-24,2026-06-30,2026-07-11,todo,,,,,seo-owner,Short expert piece
+P1,W6,National,/si-finance,/facturation-electronique-amoa,content_partner,Media finance B2B France,,,,T3,2026-06-27,2026-07-03,2026-07-14,todo,,,,,seo-owner,Transactional intent article
+P1,W6,National,/conformite-reglementaire,/amoa-si,content_partner,Media reglementaire France,,,,T3,2026-06-27,2026-07-03,2026-07-14,todo,,,,,seo-owner,IA Act + ISO + cyber angle
+P2,W6,National,/amoa-si,/infrastructure-si-amoa,webinar,Organisateur webinar SI,,,,T4,2026-06-28,2026-07-04,2026-07-15,todo,,,,,seo-owner,Recap page backlink
+P2,W6,National,/amoa-si,/si-finance,association,Association numerique pro,,,,T4,2026-06-28,2026-07-04,2026-07-15,todo,,,,,seo-owner,Member profile and resource link

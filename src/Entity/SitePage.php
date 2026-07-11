@@ -42,6 +42,36 @@ class SitePage
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $heroImage = null;
 
+    #[ORM\Column(length: 190, nullable: true, unique: true)]
+    private ?string $externalId = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $publicationStatus = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $canonicalUrl = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $categories = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $tags = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $publicationDate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $authorDisplayName = null;
+
+    #[ORM\Column(length: 190, nullable: true)]
+    private ?string $sourceCampaignId = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $publishedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $unpublishedAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +181,126 @@ class SitePage
     public function setHeroImage(?string $heroImage): self
     {
         $this->heroImage = $heroImage;
+
+        return $this;
+    }
+
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(?string $externalId): self
+    {
+        $this->externalId = $externalId;
+
+        return $this;
+    }
+
+    public function getPublicationStatus(): ?string
+    {
+        return $this->publicationStatus;
+    }
+
+    public function setPublicationStatus(?string $publicationStatus): self
+    {
+        $this->publicationStatus = $publicationStatus;
+
+        return $this;
+    }
+
+    public function getCanonicalUrl(): ?string
+    {
+        return $this->canonicalUrl;
+    }
+
+    public function setCanonicalUrl(?string $canonicalUrl): self
+    {
+        $this->canonicalUrl = $canonicalUrl;
+
+        return $this;
+    }
+
+    public function getCategories(): array
+    {
+        return $this->categories ?? [];
+    }
+
+    public function setCategories(?array $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags ?? [];
+    }
+
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTimeImmutable
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(?\DateTimeImmutable $publicationDate): self
+    {
+        $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    public function getAuthorDisplayName(): ?string
+    {
+        return $this->authorDisplayName;
+    }
+
+    public function setAuthorDisplayName(?string $authorDisplayName): self
+    {
+        $this->authorDisplayName = $authorDisplayName;
+
+        return $this;
+    }
+
+    public function getSourceCampaignId(): ?string
+    {
+        return $this->sourceCampaignId;
+    }
+
+    public function setSourceCampaignId(?string $sourceCampaignId): self
+    {
+        $this->sourceCampaignId = $sourceCampaignId;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeImmutable
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTimeImmutable $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getUnpublishedAt(): ?\DateTimeImmutable
+    {
+        return $this->unpublishedAt;
+    }
+
+    public function setUnpublishedAt(?\DateTimeImmutable $unpublishedAt): self
+    {
+        $this->unpublishedAt = $unpublishedAt;
 
         return $this;
     }

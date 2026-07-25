@@ -19,6 +19,10 @@ class SitePageRevisionRepository extends ServiceEntityRepository
 
     public function nextRevisionNumber(SitePage $sitePage): int
     {
+        if ($sitePage->getId() === null) {
+            return 1;
+        }
+
         $max = $this->createQueryBuilder('r')
             ->select('MAX(r.revisionNumber)')
             ->andWhere('r.sitePage = :sitePage')

@@ -54,6 +54,7 @@ AMBER. La baseline GSC réelle des 3 derniers mois corrige plusieurs hypothèses
 - P0: vérifier en production que `https://www.oling.fr/*` ne sert plus `200` après déploiement.
 - P0: traiter `https://oling.fr/ressources/pilot-oling-e2e-article`, déjà visible dans GSC.
 - P1: arbitrer `/mapsi/integration-progiciel`.
+- P1: dérive de déploiement `robots.txt` entre dépôt et production; crawl utile observé, donc pas de P0 à ce stade.
 - P1: documenter ou réviser la politique `GPTBot`.
 - P1: produire la mesure GSC avant/après réelle en `page x query`.
 
@@ -66,5 +67,6 @@ AMBER. La baseline GSC réelle des 3 derniers mois corrige plusieurs hypothèses
 ## 10. Confidence level
 
 - `CONFIRMED`: matrice HTTP `www`, présence des URLs legacy dans les sitemaps, incohérence `/mapsi/integration-progiciel`, baseline GSC réelle, requêtes `027001` / `is027001`, présence GSC de `pilot-oling-e2e-article`.
+- `CONFIRMED`: `pilot-oling-e2e-article` relève d'une chronologie `before_and_after` au sens audit migration, pas d'un contenu purement post-refonte.
 - `LIKELY`: refonte portée par les migrations des 2026-08-08 et 2026-08-09 plus que par un commit Git proprement identifiable.
 - `NOT ENOUGH DATA`: pertes de clics/impressions par URL avant/après, switches query → URL, cannibalisation mesurée au niveau requête.

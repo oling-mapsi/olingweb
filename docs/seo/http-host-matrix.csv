@@ -47,6 +47,10 @@ checked_at,request_url,status_code,redirect_url,classification
 2026-08-17,http://www.oling.fr/ressources,301,https://www.oling.fr/ressources,p0_wrong_www_chain
 2026-08-17,https://www.oling.fr/ressources,200,,p0_www_served
 2026-08-17,https://oling.fr/ressources,200,,ok_canonical
+2026-08-17,http://oling.fr/ressources/pilot-oling-e2e-article,301,https://oling.fr/ressources/pilot-oling-e2e-article,ok_http_to_https
+2026-08-17,http://www.oling.fr/ressources/pilot-oling-e2e-article,301,https://www.oling.fr/ressources/pilot-oling-e2e-article,p0_wrong_www_chain
+2026-08-17,https://www.oling.fr/ressources/pilot-oling-e2e-article,200,,p0_www_served
+2026-08-17,https://oling.fr/ressources/pilot-oling-e2e-article,200,,p0_public_test_content
 2026-08-17,http://oling.fr/contact,301,https://oling.fr/contact,ok_http_to_https
 2026-08-17,http://www.oling.fr/contact,301,https://www.oling.fr/contact,p0_wrong_www_chain
 2026-08-17,https://www.oling.fr/contact,200,,p0_www_served

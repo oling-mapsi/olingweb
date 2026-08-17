@@ -6,15 +6,16 @@ Date de référence: 2026-08-17
 
 NOT READY
 
-## P0
+## TECHNICAL READINESS
 
 - `BLOCKED` `www -> non-www` n'est pas corrigé en production. `https://www.oling.fr/*` répond encore `200`.
 - `PARTIAL` le correctif existe localement dans `CanonicalHostRedirectSubscriber.php` et désormais aussi dans `public/.htaccess`, mais il n'est pas validé en live.
 - `BLOCKED` la page test `https://oling.fr/ressources/pilot-oling-e2e-article` a touché GSC; le correctif local existe mais la suppression live n'est pas prouvée.
 - `PARTIAL` canonical applicatif fixé sur `https://oling.fr`.
 - `PARTIAL` `robots.txt` local explicite `OAI-SearchBot`, mais la production observée le `2026-08-17` ne reflète pas encore ce fichier.
+- `CONFIRMED` dérive `robots.txt` classée `P1` tant que le crawl utile reste autorisé.
 
-## Migration
+## STRATEGIC READINESS
 
 - `PARTIAL` architecture AMOA gelée mais non close:
   - `/amoa-si` candidate money page
@@ -47,6 +48,6 @@ NOT READY
 
 - production non-`www` validée en HTTP live;
 - aucun contenu test critique encore indexable;
-- `robots.txt` production aligné sur la politique voulue;
+- `robots.txt` production aligné sur la politique voulue, ou dérive explicitement assumée sans blocage utile;
 - décisions AMOA/ERP soit démontrées, soit explicitement gelées sans danger;
 - query mapping critique suffisamment documenté pour éviter une 301 destructive.

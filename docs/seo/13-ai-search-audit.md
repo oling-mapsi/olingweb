@@ -4,19 +4,33 @@ Date: 2026-08-17
 
 ## Vérifié
 
-- Le dépôt courant configure explicitement:
-  - `User-agent: OAI-SearchBot`
-  - `Allow: /`
-  - `User-agent: GPTBot`
-  - `Allow: /`
-- La production observée le 2026-08-17 sert encore un `robots.txt` différent:
+- Dépôt courant:
+  - `OAI-SearchBot = ALLOW`
+  - `GPTBot = ALLOW`
+- Production observée le 2026-08-17:
   - `User-agent: *`
   - `Disallow:`
   - `Disallow: /cgi-bin/`
-  - aucune section explicite `OAI-SearchBot`
-  - aucune section explicite `GPTBot`
+  - `Sitemap: https://oling.fr/sitemap.xml`
+- Sémantiquement, la production laisse donc crawler `OAI-SearchBot`, `Googlebot`, `Bingbot` et `GPTBot`.
 - Les pages publiques comportent un `X-Robots-Tag: index, follow, max-image-preview:large` côté listener applicatif.
 - Les pages publiques auditées contiennent des blocs structurés, listes et sections exploitables par les moteurs génératifs.
+
+## Tableau crawlers
+
+| Crawler | Production live | Dépôt | Statut audit | Impact SEO |
+| --- | --- | --- | --- | --- |
+| `OAI-SearchBot` | `ALLOW` par héritage `User-agent: *` | `ALLOW` explicite | `CONFIRMED` | pas de blocage utile observé |
+| `Googlebot` | `ALLOW` par héritage `User-agent: *` | `ALLOW` implicite | `CONFIRMED` | pas de blocage utile observé |
+| `Bingbot` | `ALLOW` par héritage `User-agent: *` | `ALLOW` implicite | `CONFIRMED` | pas de blocage utile observé |
+| `GPTBot` | `ALLOW` par héritage `User-agent: *` | `ALLOW` explicite | `CONFIRMED` | gouvernance, pas prérequis ChatGPT Search |
+
+## Décision robots
+
+- `CONFIRMED`: la dérive `robots.txt` live vs dépôt est une dérive de déploiement.
+- `CONFIRMED`: au 2026-08-17, elle relève de `P1`, pas `P0`, car aucun blocage de crawl utile n'est observé.
+- `CONFIRMED`: `OAI-SearchBot` doit rester `ALLOW`.
+- `CONFIRMED`: `GPTBot` reste une décision de gouvernance séparée, sans incidence obligatoire sur le référencement ChatGPT.
 
 ## Risques ouverts
 

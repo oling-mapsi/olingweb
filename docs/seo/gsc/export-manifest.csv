@@ -1,0 +1,8 @@
+filename,date_start,date_end,number_of_days,comparison_type,contains_pages,contains_queries,contains_daily_graph,usable_for_migration,notes
+Appareils.csv,,,,SINGLE_EXPORT,no,no,no,secondary,segment_summary_only
+Apparence dans les résultats de recherche.csv,,,,SINGLE_EXPORT,no,no,no,secondary,empty_or_non_actionable
+Filtres.csv,,,,SINGLE_EXPORT,no,no,no,metadata,Les_3_derniers_mois
+Graphique.csv,2026-05-16,2026-08-15,92,SINGLE_EXPORT,no,no,yes,baseline,3_last_months_aggregate_signal_only|MISSING_EXACT_COMPARISON_2026-08-03_to_2026-08-09_vs_2026-08-10_to_2026-08-16
+Pages.csv,,,,SINGLE_EXPORT,yes,no,no,baseline,top_rows_only_no_page_query_matrix|MISSING_EXACT_COMPARISON_2026-08-03_to_2026-08-09_vs_2026-08-10_to_2026-08-16
+Pays.csv,,,,SINGLE_EXPORT,no,no,no,secondary,segment_summary_only
+Requêtes.csv,,,,SINGLE_EXPORT,no,yes,no,baseline,top_rows_only_no_page_query_matrix|MISSING_EXACT_COMPARISON_2026-08-03_to_2026-08-09_vs_2026-08-10_to_2026-08-16

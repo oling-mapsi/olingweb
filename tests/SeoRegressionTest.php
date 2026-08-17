@@ -49,6 +49,31 @@ class SeoRegressionTest extends TestCase
         self::assertStringContainsString('IS027001', $migration);
     }
 
+    public function testApacheHtaccessRedirectsToHttpsNonWww(): void
+    {
+        $htaccess = file_get_contents(__DIR__ . '/../public/.htaccess');
+        self::assertIsString($htaccess);
+        self::assertStringContainsString('RewriteCond %{HTTPS} !=on [OR]', $htaccess);
+        self::assertStringContainsString('RewriteCond %{HTTP_HOST} ^www\\.oling\\.fr$ [NC]', $htaccess);
+        self::assertStringContainsString('RewriteRule ^ https://oling.fr%{REQUEST_URI} [R=301,L]', $htaccess);
+    }
+
+    public function testPilotE2eArticleSlugIsBlockedFromGrowthPublishing(): void
+    {
+        $service = file_get_contents(__DIR__ . '/../src/Service/GrowthPublishingService.php');
+        self::assertIsString($service);
+        self::assertStringContainsString("'pilot-oling-e2e-article'", $service);
+        self::assertStringContainsString('This slug is blocked and cannot be published.', $service);
+    }
+
+    public function testPilotE2eDatabaseMigrationExists(): void
+    {
+        $migration = file_get_contents(__DIR__ . '/../migrations/Version20260817113000.php');
+        self::assertIsString($migration);
+        self::assertStringContainsString('ressource-pilot-oling-e2e-article', $migration);
+        self::assertStringContainsString("publication_status = 'unpublished'", $migration);
+    }
+
     public function testLegacyPublicTestRouteIsNotDeclared(): void
     {
         $routes = file_get_contents(__DIR__ . '/../config/routes.yaml');

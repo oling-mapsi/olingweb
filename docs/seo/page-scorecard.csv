@@ -1,5 +1,11 @@
 URL,intent,business_priority,technical_score,content_score,authority_score,internal_linking_score,AI_extractability_score,current_GSC_clicks,current_GSC_impressions,historical_value,risk,action,priority
-https://oling.fr/amoa-si,AMOA SI hub,P1,72,68,55,70,74,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Expand and de-duplicate with legacy cluster,P1
-https://oling.fr/consulting/assistance-a-maitrise-douvrage,AMOA ERP legacy,P0,66,74,62,76,71,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Preserve pending GSC and redirect audit,P0
-https://oling.fr/business-apps/erp,ERP / progiciel legacy,P0,66,73,60,72,69,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Preserve pending GSC and redirect audit,P0
-https://oling.fr/mapsi/integration-progiciel,Legacy slug mismatch,P1,40,58,45,48,43,NON_VERIFIE,NON_VERIFIE,Inconnu,RED,Investigate slug-content mismatch,P1
+https://oling.fr/amoa-si,AMOA SI hub,P0,72,68,55,70,74,0,271,Elevé,AMBER,Do not redirect; compare against consulting legacy with page-query export,P0
+https://oling.fr/consulting/assistance-a-maitrise-douvrage,AMOA ERP legacy,P0,66,74,62,76,71,0,183,Elevé,AMBER,Do not redirect; legacy AMOA still visible and better positioned than /amoa-si,P0
+https://oling.fr/practice/consulting,AMOA practice legacy,P1,60,60,50,65,62,0,0,Inconnu,AMBER,Keep under investigation; absent from current top pages export,P1
+https://oling.fr/business-apps/erp,ERP / progiciel legacy,P0,66,73,60,72,69,0,66,Moyen,AMBER,Baseline currently stronger than /erp-progiciel; no 301 decision yet,P0
+https://www.oling.fr/erp-progiciel,ERP landing fragmented on www,P0,35,62,25,44,55,0,1,Faible,RED,Not a valid ERP master candidate from this baseline; fix host convergence first,P0
+https://oling.fr/gmao,GMAO landing,P1,64,66,45,58,61,1,9,Faible,AMBER,Preserve and consolidate on canonical host,P1
+https://www.oling.fr/gmao,GMAO fragmented www variant,P1,20,20,10,15,20,0,26,Faible,RED,Eliminate host fragmentation before content decisions,P1
+https://oling.fr/crm,CRM landing,P1,64,66,45,58,61,0,9,Faible,AMBER,Preserve and consolidate on canonical host,P1
+https://oling.fr/si-finance,SI Finance landing,P1,64,66,45,58,61,0,2,Faible,AMBER,Low-volume signal only; keep indexed and improve relevance,P1
+https://oling.fr/mapsi/integration-progiciel,Legacy slug mismatch with live impressions,P0,40,58,45,48,43,0,14,Moyen,RED,Do not redirect before intent/history/page-query analysis,P0

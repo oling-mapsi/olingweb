@@ -18,6 +18,9 @@ class GrowthPublishingService
     private const STATUS_PUBLISHED = 'published';
     private const STATUS_UNPUBLISHED = 'unpublished';
     private const RESOURCE_PREFIX = 'ressource-';
+    private const BLOCKED_PUBLIC_SLUGS = [
+        'pilot-oling-e2e-article',
+    ];
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -161,6 +164,10 @@ class GrowthPublishingService
 
     private function assertSlugAvailable(string $publicSlug, SitePage $currentPage): void
     {
+        if (in_array($publicSlug, self::BLOCKED_PUBLIC_SLUGS, true)) {
+            throw new ConflictHttpException('This slug is blocked and cannot be published.');
+        }
+
         $existing = $this->sitePageRepository->findOneBy(['slug' => self::RESOURCE_PREFIX.$publicSlug]);
         if ($existing !== null && $existing->getId() !== $currentPage->getId()) {
             throw new ConflictHttpException('This slug is already used by another article.');

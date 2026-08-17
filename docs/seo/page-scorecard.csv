@@ -1,0 +1,5 @@
+URL,intent,business_priority,technical_score,content_score,authority_score,internal_linking_score,AI_extractability_score,current_GSC_clicks,current_GSC_impressions,historical_value,risk,action,priority
+https://oling.fr/amoa-si,AMOA SI hub,P1,72,68,55,70,74,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Expand and de-duplicate with legacy cluster,P1
+https://oling.fr/consulting/assistance-a-maitrise-douvrage,AMOA ERP legacy,P0,66,74,62,76,71,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Preserve pending GSC and redirect audit,P0
+https://oling.fr/business-apps/erp,ERP / progiciel legacy,P0,66,73,60,72,69,NON_VERIFIE,NON_VERIFIE,Potentiellement eleve,AMBER,Preserve pending GSC and redirect audit,P0
+https://oling.fr/mapsi/integration-progiciel,Legacy slug mismatch,P1,40,58,45,48,43,NON_VERIFIE,NON_VERIFIE,Inconnu,RED,Investigate slug-content mismatch,P1

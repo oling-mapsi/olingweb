@@ -7,7 +7,13 @@
 parameters:
     router.request_context.host: 'oling.fr'
     router.request_context.scheme: 'https'
+    site_base_url: 'https://oling.fr'
     uploads_dir: '%kernel.project_dir%/public/uploads'
+    chat_lead_recipient: 'florestan.rouet@oling.fr'
+    chat_ai_provider: '%env(string:CHAT_AI_PROVIDER)%'
+    chat_ai_openai_api_key: '%env(string:OPENAI_API_KEY)%'
+    chat_ai_openai_base_url: '%env(string:CHAT_AI_OPENAI_BASE_URL)%'
+    chat_ai_openai_model: '%env(string:CHAT_AI_OPENAI_MODEL)%'
     oling_schema_same_as:
         - 'https://www.linkedin.com/company/oling-management-&-technologie/'
         - 'https://twitter.com/oling971'
@@ -37,11 +43,42 @@ services:
         arguments:
             - '@App\Repository\PracticeRepository'
             - '@App\Repository\ServicesRepository'
+            - '@App\Repository\SitePageRepository'
+            - '@App\Service\PublicSitePageResolver'
         tags:
             - { name: 'kernel.event_subscriber', priority: 100 }
+
+    App\EventListener\CanonicalHostRedirectSubscriber:
+        arguments:
+            $siteBaseUrl: '%site_base_url%'
+
+    App\Twig\AgencyExtension:
+        arguments:
+            $siteBaseUrl: '%site_base_url%'
 
     App\Service\UploadManager:
         arguments:
             $uploadsDir: '%uploads_dir%'
+
+    App\Service\Chat\ChatLeadMailer:
+        arguments:
+            $recipient: '%chat_lead_recipient%'
+
+    App\Service\Chat\ChatResponder:
+        arguments:
+            $providers: !tagged_iterator app.chat_ai_provider
+
+    App\Service\Chat\Ai\HeuristicAiProvider:
+        tags:
+            - { name: app.chat_ai_provider, priority: 10 }
+
+    App\Service\Chat\Ai\OpenAiResponsesProvider:
+        arguments:
+            $mode: '%chat_ai_provider%'
+            $apiKey: '%chat_ai_openai_api_key%'
+            $baseUrl: '%chat_ai_openai_base_url%'
+            $model: '%chat_ai_openai_model%'
+        tags:
+            - { name: app.chat_ai_provider, priority: 100 }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

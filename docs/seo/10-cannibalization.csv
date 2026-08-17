@@ -1,0 +1,7 @@
+cluster,primary_url,secondary_url,status,evidence,decision
+amoa-si,https://oling.fr/amoa-si,https://oling.fr/practice/consulting,POSSIBLE,Historical planning docs and parallel public availability on 2026-08-17,hold_pending_gsc
+amoa-si,https://oling.fr/amoa-si,https://oling.fr/consulting/assistance-a-maitrise-douvrage,POSSIBLE,Legacy sitemap plus historical taxonomy docs,hold_pending_gsc
+erp,https://oling.fr/erp-progiciel,https://oling.fr/business-apps/erp,POSSIBLE,Legacy sitemap plus same intent family,hold_pending_gsc
+crm,https://oling.fr/crm,https://oling.fr/business-apps/erp,POSSIBLE,Historical strategy docs mention ERP page as umbrella legacy URL,hold_pending_gsc
+gmao,https://oling.fr/gmao,https://oling.fr/business-apps/erp,POSSIBLE,Historical strategy docs mention ERP page as umbrella legacy URL,hold_pending_gsc
+iso-security,https://oling.fr/expertises-audit/si,https://oling.fr/expertises-audit/qse,POSSIBLE,Shared ISO/compliance vocabulary without GSC split,hold_pending_gsc

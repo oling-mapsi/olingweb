@@ -58,11 +58,14 @@ class SeoRegressionTest extends TestCase
         self::assertStringContainsString('RewriteRule ^ https://oling.fr%{REQUEST_URI} [R=301,L]', $htaccess);
     }
 
-    public function testPilotE2eArticleSlugIsBlockedFromGrowthPublishing(): void
+    public function testTechnicalResourceSlugPrefixesAreBlockedFromGrowthPublishing(): void
     {
         $service = file_get_contents(__DIR__ . '/../src/Service/GrowthPublishingService.php');
         self::assertIsString($service);
-        self::assertStringContainsString("'pilot-oling-e2e-article'", $service);
+        self::assertStringContainsString("'pilot-'", $service);
+        self::assertStringContainsString("'test-'", $service);
+        self::assertStringContainsString("'demo-'", $service);
+        self::assertStringContainsString("'e2e-'", $service);
         self::assertStringContainsString('This slug is blocked and cannot be published.', $service);
     }
 
@@ -97,5 +100,14 @@ class SeoRegressionTest extends TestCase
         self::assertStringContainsString("'expertises_show'", $subscriber);
         self::assertStringContainsString("'sectors_show'", $subscriber);
         self::assertStringContainsString("['slug' => \$slug]", $subscriber);
+    }
+
+    public function testBlockedTechnicalResourcePrefixesAreExcludedFromPublishedRepositoryQueries(): void
+    {
+        $repository = file_get_contents(__DIR__ . '/../src/Repository/SitePageRepository.php');
+        self::assertIsString($repository);
+        self::assertStringContainsString('BLOCKED_RESOURCE_PUBLIC_SLUG_PREFIXES', $repository);
+        self::assertStringContainsString('isBlockedResourcePublicSlug', $repository);
+        self::assertStringContainsString('findResourceArticleByPublicSlug', $repository);
     }
 }

@@ -18,8 +18,11 @@ class GrowthPublishingService
     private const STATUS_PUBLISHED = 'published';
     private const STATUS_UNPUBLISHED = 'unpublished';
     private const RESOURCE_PREFIX = 'ressource-';
-    private const BLOCKED_PUBLIC_SLUGS = [
-        'pilot-oling-e2e-article',
+    private const BLOCKED_PUBLIC_SLUG_PREFIXES = [
+        'pilot-',
+        'test-',
+        'demo-',
+        'e2e-',
     ];
 
     public function __construct(
@@ -164,8 +167,10 @@ class GrowthPublishingService
 
     private function assertSlugAvailable(string $publicSlug, SitePage $currentPage): void
     {
-        if (in_array($publicSlug, self::BLOCKED_PUBLIC_SLUGS, true)) {
-            throw new ConflictHttpException('This slug is blocked and cannot be published.');
+        foreach (self::BLOCKED_PUBLIC_SLUG_PREFIXES as $prefix) {
+            if (str_starts_with($publicSlug, $prefix)) {
+                throw new ConflictHttpException('This slug is blocked and cannot be published.');
+            }
         }
 
         $existing = $this->sitePageRepository->findOneBy(['slug' => self::RESOURCE_PREFIX.$publicSlug]);

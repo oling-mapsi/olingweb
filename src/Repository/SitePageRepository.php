@@ -19,6 +19,12 @@ class SitePageRepository extends ServiceEntityRepository
     private const RESOURCE_INDEX_SLUG = 'ressources';
     private const RESOURCE_ARTICLE_PREFIX = 'ressource-';
     private const PUBLISHED_STATUS = 'published';
+    private const BLOCKED_RESOURCE_PUBLIC_SLUG_PREFIXES = [
+        'pilot-',
+        'test-',
+        'demo-',
+        'e2e-',
+    ];
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -35,7 +41,7 @@ class SitePageRepository extends ServiceEntityRepository
      */
     public function findResourceArticles(): array
     {
-        return $this->createQueryBuilder('p')
+        $pages = $this->createQueryBuilder('p')
             ->andWhere('p.slug LIKE :prefix')
             ->andWhere('p.publicationStatus = :status')
             ->setParameter('prefix', self::RESOURCE_ARTICLE_PREFIX . '%')
@@ -44,10 +50,16 @@ class SitePageRepository extends ServiceEntityRepository
             ->addOrderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return array_values(array_filter($pages, fn (SitePage $page): bool => !$this->isBlockedResourceArticle($page)));
     }
 
     public function findResourceArticleByPublicSlug(string $publicSlug): ?SitePage
     {
+        if ($this->isBlockedResourcePublicSlug($publicSlug)) {
+            return null;
+        }
+
         return $this->findOneBy([
             'slug' => self::RESOURCE_ARTICLE_PREFIX . $publicSlug,
             'publicationStatus' => self::PUBLISHED_STATUS,
@@ -64,7 +76,7 @@ class SitePageRepository extends ServiceEntityRepository
      */
     public function findRelatedResourceArticles(string $excludedStoredSlug, int $limit = 4): array
     {
-        return $this->createQueryBuilder('p')
+        $pages = $this->createQueryBuilder('p')
             ->andWhere('p.slug LIKE :prefix')
             ->andWhere('p.slug != :excluded')
             ->andWhere('p.publicationStatus = :status')
@@ -73,8 +85,34 @@ class SitePageRepository extends ServiceEntityRepository
             ->setParameter('status', self::PUBLISHED_STATUS)
             ->orderBy('p.publicationDate', 'DESC')
             ->addOrderBy('p.id', 'DESC')
-            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+
+        $pages = array_values(array_filter($pages, fn (SitePage $page): bool => !$this->isBlockedResourceArticle($page)));
+
+        return array_slice($pages, 0, $limit);
+    }
+
+    private function isBlockedResourceArticle(SitePage $page): bool
+    {
+        $slug = (string) $page->getSlug();
+        if (!str_starts_with($slug, self::RESOURCE_ARTICLE_PREFIX)) {
+            return false;
+        }
+
+        $publicSlug = substr($slug, strlen(self::RESOURCE_ARTICLE_PREFIX));
+
+        return $publicSlug === false || $this->isBlockedResourcePublicSlug($publicSlug);
+    }
+
+    private function isBlockedResourcePublicSlug(string $publicSlug): bool
+    {
+        foreach (self::BLOCKED_RESOURCE_PUBLIC_SLUG_PREFIXES as $prefix) {
+            if (str_starts_with($publicSlug, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

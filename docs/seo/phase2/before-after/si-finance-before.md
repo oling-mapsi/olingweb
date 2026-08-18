@@ -1,0 +1,64 @@
+# /si-finance — before
+
+Date de capture: 2026-08-18
+Source: page live `https://oling.fr/si-finance`
+
+- URL: `https://oling.fr/si-finance`
+- title: `AMOA SI finance | Flux P2P O2C R2R et controle interne | OLING`
+- meta description: `AMOA SI finance pour DAF et DSI : urbanisation des flux P2P O2C R2R, cloture, controle interne, reporting, facturation electronique et performance.`
+- canonical: `https://oling.fr/si-finance`
+- H1: `AMOA SI finance : fiabiliser les flux et accelerer la decision`
+- major H2:
+  - `Ce que nous structurons`
+  - `Resultats operationnels`
+  - `Parcours recommande`
+  - `Besoin d'une feuille de route SI finance sur 12 mois ?`
+  - `Cas clients et realisations`
+  - `Outillage MAPSI associe`
+  - `Cette page oriente vers le bon niveau de réponse`
+  - `Nos zones d'intervention pour cette expertise`
+  - `FAQ`
+- word count: `~2300`
+- principal blocks:
+  - hero court SI finance
+  - blocs P2P/O2C/R2R et resultats operationnels
+  - parcours recommande vers facturation electronique / audit / infra / conformite
+  - bloc cas clients generique
+  - bloc MAPSI
+  - FAQ
+- liens internes entrants pertinents observés dans le repo:
+  - `src/Service/PublicSiteConfig.php` depuis `/business-apps/erp`
+  - `src/Controller/SeoLandingController.php` depuis `/crm`
+  - `src/Controller/SeoLandingController.php` depuis `/gmao`
+  - `src/Service/PublicSiteConfig.php` maillages sectoriels et pages publiques
+- liens internes sortants pertinents observés en live:
+  - `/facturation-electronique-amoa`
+  - `/gestion-risques-audit-controle-interne`
+  - `/infrastructure-si-amoa`
+  - `/conformite-reglementaire`
+  - `/erp-progiciel`
+  - `/projets`
+  - `/ressources`
+- structured data:
+  - `Service` present
+  - `serviceType` = `AMOA SI finance`
+  - `FAQPage` present
+- requêtes GSC connues:
+  - page `https://oling.fr/si-finance` = `2 impressions`, `0 clic`, `0% CTR`, position `6.00`
+  - query `amoa si finance` = `3 impressions`, `0 clic`, position `29.67`
+  - query `amoa epm` = `8 impressions`, `0 clic`, position `30.25`
+  - query `refonte erp finance` = `4 impressions`, `0 clic`, position `67.00`
+- overlap éventuel:
+  - `https://oling.fr/business-apps/erp`
+  - `https://oling.fr/expertises-audit/finance`
+  - `https://oling.fr/facturation-electronique-amoa`
+  - `https://oling.fr/consulting/reforme-facturation-electronique-amoa`
+- qualité des preuves disponibles:
+  - `CONFIRMED`: faible signal GSC réel sur la page et sur `amoa si finance`
+  - `CONFIRMED`: la page possède deja une structure Finance explicite et une bonne position ponctuelle malgre un faible volume
+  - `POSSIBLE`: maillage actuel renvoie trop vers `/erp-progiciel` et reste insuffisant vers `/amoa-si` et `/business-apps/erp`
+- problèmes actuels:
+  - `CONFIRMED`: le title et le H1 poussent peu l'intention `AMOA SI Finance`.
+  - `CONFIRMED`: la distinction entre projet ERP global et transformation SI Finance n'est pas assez claire.
+  - `CONFIRMED`: le maillage vers `/business-apps/erp` devrait remplacer le lien historique vers `/erp-progiciel`.
+  - `POSSIBLE`: overlap éditorial avec Finance, controle de gestion et facturation electronique a clarifier sans nouvelle 301.

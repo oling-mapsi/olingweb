@@ -14,22 +14,22 @@ Période baseline GSC disponible: `2026-05-16` → `2026-08-15`
 
 ### Positions 11-20
 
-| query | cluster | impressions | position | status |
-| --- | --- | ---: | ---: | --- |
-| `cadrage stratégique amoa` | `AMOA_SI` | 41 | 13.54 | `CONFIRMED` quick win prioritaire |
-| `conseil gmao` | `GMAO` | 19 | 19.05 | `CONFIRMED` quick win prioritaire |
-| `pilotage amoa` | `AMOA_SI` | 1 | 16.00 | `POSSIBLE` faible volume |
+| query | current_position | current_url | business_value | next_measurement_date | status |
+| --- | ---: | --- | --- | --- | --- |
+| `cadrage stratégique amoa` | 13.54 | `https://oling.fr/amoa-si` | `HIGH` | `2026-08-25` | `CONFIRMED` quick win prioritaire |
+| `conseil gmao` | 19.05 | `https://oling.fr/gmao` | `HIGH` | `2026-08-25` | `CONFIRMED` quick win prioritaire |
+| `pilotage amoa` | 16.00 | `https://oling.fr/amoa-si` | `MEDIUM` | `2026-08-25` | `POSSIBLE` faible volume |
 
 ### Positions 21-40
 
-| query | cluster | impressions | position | status |
-| --- | --- | ---: | ---: | --- |
-| `amoa erp` | `ERP` | 69 | 21.46 | `CONFIRMED` volume le plus fort du lot |
-| `amoa si` | `AMOA_SI` | 44 | 25.55 | `CONFIRMED` cluster central |
-| `cabinet de conseil amoa` | `AMOA_SI` | 21 | 30.52 | `CONFIRMED` requête business utile |
-| `cabinet amoa` | `AMOA_SI` | 17 | 26.24 | `CONFIRMED` requête business utile |
-| `amoa epm` | `SI_FINANCE` | 8 | 30.25 | `LIKELY` adjacent SI Finance |
-| `amoa si finance` | `SI_FINANCE` | 3 | 29.67 | `CONFIRMED` signal faible mais réel |
+| query | current_position | current_url | business_value | next_measurement_date | status |
+| --- | ---: | --- | --- | --- | --- |
+| `amoa erp` | 21.46 | `https://oling.fr/business-apps/erp` | `HIGH` | `2026-08-25` | `CONFIRMED` volume le plus fort du lot |
+| `amoa si` | 25.55 | `https://oling.fr/amoa-si` | `HIGH` | `2026-08-25` | `CONFIRMED` cluster central |
+| `cabinet de conseil amoa` | 30.52 | `https://oling.fr/amoa-si` | `HIGH` | `2026-08-25` | `CONFIRMED` requête business utile |
+| `cabinet amoa` | 26.24 | `https://oling.fr/amoa-si` | `HIGH` | `2026-08-25` | `CONFIRMED` requête business utile |
+| `amoa epm` | 30.25 | `https://oling.fr/si-finance` | `MEDIUM` | `2026-08-25` | `LIKELY` adjacent SI Finance |
+| `amoa si finance` | 29.67 | `https://oling.fr/si-finance` | `MEDIUM` | `2026-08-25` | `CONFIRMED` signal faible mais réel |
 
 ## AMOA SI
 

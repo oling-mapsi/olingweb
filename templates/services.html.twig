@@ -1,169 +1,228 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ service.designation | raw }} | AMOA SI & Conformité - OLING{% endblock %}
-{% block meta_description %}{{ service.IntroductionShort|striptags }}{% endblock %}
+{% block title %}{{ serviceNarrative.metaTitle ?? (service.designation ~ ' | OLING') }}{% endblock %}
+{% block meta_description %}{{ serviceNarrative.metaDescription ?? serviceNarrative.intro|striptags }}{% endblock %}
+{% block body_class %} service-detail-page{% endblock %}
 
 {% block body %}
 <main id="content" role="main">
-  <div class="container content-space-2 content-space-lg-3 oling-service-hero-wrap">
-    <section class="oling-service-hero" style="background-image: url({{ service.image2 ?: service.image1 }});">
-      <div class="p-7 p-lg-9 oling-hero-content">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href={{ path('index')}}>Accueil</a></li>
-            <li class="breadcrumb-item"><a href={{path('practice_home',{'slug' : service.practice.slug} ) }}>{{ service.practice.designation }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ service.designation }}</li>
-          </ol>
-        </nav>
-        <span class="oling-kicker text-white">{{ service.designationShort ?: 'Service' }}</span>
-        <h1 class="display-5 text-white mb-4">{{ service.designation | raw }}</h1>
-        <p class="oling-lede text-white-70 mb-4">{{ service.IntroductionShort | raw }}</p>
-        <div class="oling-service-hero-icon">
-          <i class="{{ service.ico ?: 'bi-diagram-3' }}"></i>
-        </div>
-        <div class="d-flex flex-wrap gap-3">
-          <a class="btn btn-primary" href={{ path('contact')}}>Parler de votre projet</a>
-          <a class="btn btn-outline-light" href={{path('practice_home',{'slug' : service.practice.slug} ) }}>Voir la practice</a>
-        </div>
-      </div>
-    </section>
-  </div>
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: serviceNarrative.eyebrow,
+    title: serviceNarrative.headline,
+    intro: serviceNarrative.intro,
+    primaryCta: {route: 'contact', label: 'Parler de votre projet'},
+    secondaryCta: {route: 'practice_home', routeParams: {slug: service.practice.slug}, label: 'Voir la practice'},
+    highlights: serviceNarrative.outcomes|slice(0, 3)
+  } %}
 
-  <section class="oling-section oling-section--tight">
+  <section class="oling-shell-section">
     <div class="container">
-      <div class="row justify-content-lg-between g-5" style="page-break-before: always;">
-        <div class="col-lg-8 order-lg-2">
-          <span class="oling-kicker">Contexte & besoins</span>
-          <h2>Ce que couvre ce service</h2>
-
-          {{ service.description | raw }}
-
-          {% if service.image1 is not null and service.image1 is not empty %}
-            <img class="img-fluid mt-4" src="{{ service.image1 }}" alt="{{ service.designation }}">
-          {% endif %}
-
-          <div class="oling-surface p-4 mt-4">
-            <h3 class="mb-3">Livrables & résultats attendus</h3>
-            <ul class="list-unstyled mb-0">
-              <li class="mb-2">Diagnostic structuré et cartographie des enjeux SI.</li>
-              <li class="mb-2">Plan d’actions priorisé avec indicateurs de réussite.</li>
-              <li>Gouvernance, conformité et transfert de compétences.</li>
-            </ul>
-          </div>
-
-          {% set seoLinks = [] %}
-          {% if service.practice.slug == 'business-apps' and service.slug == 'erp' %}
-            {% set seoLinks = [
-              {'label': 'AMOA ERP & progiciel', 'route': 'seo_erp_progiciel'},
-              {'label': 'AMOA CRM', 'route': 'seo_crm'},
-              {'label': 'AMOA GMAO', 'route': 'seo_gmao'},
-              {'label': 'SI finance', 'route': 'seo_si_finance'},
-              {'label': 'Facturation électronique AMOA', 'route': 'seo_facturation_electronique_amoa'}
-            ] %}
-          {% elseif service.practice.slug == 'consulting' and service.slug == 'tech-refresh' %}
-            {% set seoLinks = [
-              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'},
-              {'label': 'Cyber sécurité', 'route': 'seo_cyber_securite'},
-              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
-            ] %}
-          {% elseif service.practice.slug == 'consulting' and service.slug == 'reforme-facturation-electronique-amoa' %}
-            {% set seoLinks = [
-              {'label': 'Facturation électronique AMOA', 'route': 'seo_facturation_electronique_amoa'},
-              {'label': 'SI finance', 'route': 'seo_si_finance'},
-              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'}
-            ] %}
-          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'rgpd' %}
-            {% set seoLinks = [
-              {'label': 'Conseil RGPD', 'route': 'seo_rgpd'},
-              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
-            ] %}
-          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'si' %}
-            {% set seoLinks = [
-              {'label': 'Cyber sécurité', 'route': 'seo_cyber_securite'},
-              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'},
-              {'label': 'Infrastructure SI AMOA', 'route': 'seo_infrastructure_si_amoa'}
-            ] %}
-          {% elseif service.practice.slug == 'expertises-audit' and service.slug == 'qse' %}
-            {% set seoLinks = [
-              {'label': 'Conseil qualité', 'route': 'seo_conseil_qualite'},
-              {'label': 'Conformité réglementaire', 'route': 'seo_conformite_reglementaire'}
-            ] %}
-          {% endif %}
-
-          {% if seoLinks is not empty %}
-            <div class="oling-surface p-4 mt-4">
-              <h3 class="mb-3">Pages expertises associées</h3>
-              <ul class="mb-0">
-                {% for item in seoLinks %}
-                  <li><a class="link" href="{{ path(item.route) }}">{{ item.label }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-
-          <div id="stickyBlockEndPointEg3"></div>
-        </div>
-
-        <div class="col-lg-3 d-none d-lg-block d-print-none">
-          <div id="stickyBlockStartPointEg3">
-            <div class="js-sticky-block"
-              data-hs-sticky-block-options='{
-                "parentSelector": "#stickyBlockStartPointEg3",
-                "targetSelector": "#header",
-                "breakpoint": "lg",
-                "startPoint": "#stickyBlockStartPointEg3",
-                "endPoint": "#stickyBlockEndPointEg3",
-                "stickyOffsetTop": 130
-              }'>
-              <div class="oling-surface p-4">
-                <h5 class="mb-3">Services {{ service.practice.designation }}</h5>
-                <ul class="list-pointer list-pointer-secondary mb-0">
-                  {% for serv in services %}
-                    {% if serv.practice == service.practice %}
-                      <li class="list-pointer-item">
-                        <a class="link link-secondary" href={{path('service',{'practice' : serv.practice.slug, 'slug' : serv.slug} ) }}>{% if serv.id == service.id %}<strong> {% endif %} {{ serv.designation | raw }}{% if serv.id == service.id %}</strong> {% endif %}</a>
-                      </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="oling-two-col">
+        <article class="oling-surface oling-surface--light">
+          <span class="oling-kicker">Ce que couvre l'offre</span>
+          <h2>{{ service.designation }}</h2>
+          <div class="oling-richtext">{{ service.description|raw }}</div>
+        </article>
+        <article class="oling-surface oling-surface--light">
+          <span class="oling-kicker">Résultats attendus</span>
+          <h2>Ce que cette intervention doit rendre possible</h2>
+          <ul class="oling-check-list">
+            {% for item in serviceNarrative.outcomes %}
+              <li>{{ item }}</li>
+            {% endfor %}
+            <li>Des livrables utilisables pour arbitrer, piloter et faire adopter.</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  {% include 'includes/projects-carousel.html.twig' with { projects: service.projets } %}
-
-  {% if service.teams|length > 0 %}
-  <section class="oling-section">
-    <div class="container d-print-none">
-      <div class="w-lg-65 text-center mx-lg-auto mb-3 mb-sm-7 mb-lg-10">
-        <h2>Nos experts</h2>
+  {% if serviceNarrative.promise is defined or serviceNarrative.focus is defined %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-two-col">
+          {% if serviceNarrative.promise is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Positionnement</span>
+              <h2>Pourquoi OLING intervient sur un projet ERP</h2>
+              <p>{{ serviceNarrative.promise }}</p>
+            </article>
+          {% endif %}
+          {% if serviceNarrative.focus is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Périmètre</span>
+              <h2>Ce que couvre une mission AMOA ERP</h2>
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.focus %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endif %}
+        </div>
       </div>
+    </section>
+  {% endif %}
 
-      <div class="oling-team-mini-list oling-team-mini-list--center">
-        {% for team in service.teams %}
-          <div class="oling-team-mini">
-            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/400x400/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
-            <div class="oling-team-mini__meta">
-              <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
-              {% if team.titre %}
-                <div class="oling-team-mini__title">{{ team.titre }}</div>
-              {% endif %}
-              {% if team.linkedin %}
-                <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">
-                  <i class="bi-linkedin"></i> LinkedIn
-                </a>
-              {% endif %}
-            </div>
-          </div>
+  {% if serviceNarrative.missionPhases is defined or serviceNarrative.deliverables is defined %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-two-col">
+          {% if serviceNarrative.missionPhases is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Phases projet</span>
+              <h2>Quand lancer une mission ERP avec OLING</h2>
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.missionPhases %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endif %}
+          {% if serviceNarrative.deliverables is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Livrables</span>
+              <h2>Livrables utiles pour cadrer, choisir et piloter</h2>
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.deliverables %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if serviceNarrative.projectContexts is defined or serviceNarrative.clientTypes is defined %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-two-col">
+          {% if serviceNarrative.projectContexts is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Contextes</span>
+              <h2>Situations ou OLING apporte le plus de valeur</h2>
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.projectContexts %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endif %}
+          {% if serviceNarrative.clientTypes is defined %}
+            <article class="oling-surface oling-surface--light">
+              <span class="oling-kicker">Interlocuteurs</span>
+              <h2>Equipes et organisations concernées</h2>
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.clientTypes %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="oling-shell-section oling-shell-section--tint">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Practice</span>
+        <h2>Autres offres de {{ service.practice.designation }}</h2>
+        <p>La logique de practice permet de relier cadrage, outillage, conformité et exécution dans un même ensemble de services.</p>
+      </div>
+      <div class="oling-service-link-grid">
+        {% for serv in services %}
+          {% if serv.practice == service.practice %}
+            <a class="oling-service-link-card" href="{{ path('service', {practice: serv.practice.slug, slug: serv.slug}) }}">
+              <span class="oling-kicker">{{ serv.designationShort ?: 'Offre OLING' }}</span>
+              <h3>{{ serv.designation }}</h3>
+              <p>{{ serv.introductionShort ?: serv.descriptionShort ?: 'Voir le détail de cette offre.' }}</p>
+              <span class="oling-service-link-card__more">{% if serv.id == service.id %}Offre actuelle{% else %}Voir l'offre{% endif %}</span>
+            </a>
+          {% endif %}
         {% endfor %}
       </div>
     </div>
   </section>
+
+  {% if serviceNarrative.supportLinks is defined %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Maillage</span>
+          <h2>Explorer les sujets liés à un projet ERP</h2>
+          <p>Ces pages aident à relier cadrage ERP, transformations SI, applications connexes et preuves projet sans forcer de redirection métier.</p>
+        </div>
+        <div class="oling-service-link-grid">
+          {% for link in serviceNarrative.supportLinks %}
+            <a class="oling-service-link-card" href="{{ link.href }}">
+              <span class="oling-kicker">Ressource liée</span>
+              <h3>{{ link.label }}</h3>
+              <p>{{ link.description }}</p>
+              <span class="oling-service-link-card__more">Voir la page</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
   {% endif %}
+
+  {% if service.projets|length > 0 %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Cas liés</span>
+          <h2>Exemples de contextes d'intervention</h2>
+        </div>
+        <div class="oling-project-proof-grid">
+          {% for project in service.projets|slice(0, 3) %}
+            <article class="oling-proof-card">
+              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'Projet' }}</span>
+              <h3>{{ project.designation }}</h3>
+              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'Intervention structurée pour mieux piloter un projet et ses risques.' }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if service.teams|length > 0 %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Experts</span>
+          <h2>Intervenants associés</h2>
+        </div>
+        <div class="oling-team-mini-list">
+          {% for team in service.teams %}
+            <div class="oling-team-mini">
+              <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
+              <div class="oling-team-mini__meta">
+                <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
+                {% if team.titre %}
+                  <div class="oling-team-mini__title">{{ team.titre }}</div>
+                {% endif %}
+                {% if team.linkedin %}
+                  <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% include 'public/_cta_band.html.twig' with {
+    eyebrow: 'Passage à l\'action',
+    title: 'Vérifier rapidement si cette offre est le bon niveau d\'intervention',
+    text: 'OLING peut qualifier votre contexte, confirmer le bon angle d\'attaque et engager un cadrage utile sans surdimensionner le dispositif.',
+    primaryCta: {route: 'contact', label: 'Parler de votre sujet'}
+  } %}
 </main>
 
 <script type="application/ld+json">
@@ -171,15 +230,15 @@
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "{{ service.designation|striptags|e('js') }}",
-  "serviceType": "{{ service.practice.designation|striptags|e('js') }}",
+  "serviceType": "{{ (serviceNarrative.schemaServiceType ?? service.practice.designation)|striptags|e('js') }}",
   "provider": {
     "@type": "ProfessionalService",
     "name": "OLING Management et Technologie",
     "url": "https://oling.fr"
   },
   "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane"],
-  "url": "{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}",
-  "description": "{{ service.IntroductionShort|striptags|e('js') }}"
+  "url": "{{ site_base_url ~ app.request.pathInfo }}",
+  "description": "{{ (serviceNarrative.metaDescription ?? serviceNarrative.intro)|striptags|e('js') }}"
 }
 </script>
 {% endblock %}

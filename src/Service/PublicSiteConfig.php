@@ -815,14 +815,57 @@ class PublicSiteConfig
 
         return match ($key) {
             'business-apps/erp' => [
-                'eyebrow' => 'AMOA ERP et applications metiers',
-                'headline' => 'Cadrer et piloter un projet ERP, CRM ou GMAO utile et tenable',
-                'intro' => 'OLING aide les directions a securiser les choix, les arbitrages et l\'execution des projets applicatifs structurants.',
+                'metaTitle' => 'AMOA ERP : cadrage, choix et pilotage de projet ERP | OLING',
+                'metaDescription' => 'Cabinet AMOA ERP indépendant : cadrage, choix de solution, pilotage intégrateur, reprise de données, recette, migration et conduite du changement.',
+                'eyebrow' => 'Cabinet AMOA ERP independant',
+                'headline' => 'AMOA ERP : cadrage, choix et pilotage de votre projet ERP',
+                'intro' => 'OLING accompagne les directions metier, DSI et sponsors de projet pour cadrer, choisir et piloter un projet ERP, depuis l\'expression des besoins jusqu\'a la recette, la migration et le deploiement.',
+                'promise' => 'OLING n\'est ni editeur, ni revendeur, ni integrateur ERP. Le cabinet intervient en AMOA pour structurer les decisions, tenir la gouvernance projet, objectiver les choix et securiser l\'execution.',
                 'outcomes' => [
-                    'Expression de besoin solide',
-                    'Arbitrage outille entre solutions et integrateurs',
-                    'Recette et adoption mieux maitrisees',
+                    'Cadrage ERP plus clair et decisions mieux arbitrees',
+                    'Choix de solution et pilotage integrateur objectivés',
+                    'Recette, migration et adoption mieux maitrisées',
                 ],
+                'focus' => [
+                    'Cadrage strategique et diagnostic de l\'existant',
+                    'Expression des besoins, processus et cahier des charges',
+                    'Aide au choix ERP, consultation et comparaison des solutions',
+                    'Pilotage integrateur, recette, reprise de donnees et conduite du changement',
+                ],
+                'missionPhases' => [
+                    'Cadrage du projet ERP, objectifs, perimetre, priorites et gouvernance',
+                    'Cartographie des processus, ateliers metier et expression des besoins',
+                    'Aide au choix, evaluation des solutions et alignement des parties prenantes',
+                    'Pilotage de l\'integrateur, suivi des risques, recette, migration et deploiement',
+                ],
+                'deliverables' => [
+                    'Note de cadrage, macro-planning et gouvernance projet',
+                    'Cartographie des processus, expression des besoins et cahier des charges',
+                    'Grille d\'evaluation, matrice de choix et dossier de consultation',
+                    'Strategie de recette, strategie de reprise, plan de conduite du changement et suivi des risques',
+                ],
+                'projectContexts' => [
+                    'Refonte ou remplacement d\'un ERP devenu limitant pour les operations',
+                    'Projet ERP multi-metiers avec enjeux finance, achats, supply chain, production ou maintenance',
+                    'Pilotage d\'un integrateur dans un contexte PME, ETI, industrie, services ou secteur public',
+                    'Projet en derive, migration sensible ou besoin de remettre la trajectoire sous controle',
+                ],
+                'clientTypes' => [
+                    'Directions generales, directions metier et DSI',
+                    'PME, ETI et organisations multi-sites',
+                    'Equipes finance, achats, supply chain, production et maintenance',
+                    'Sponsors de projet ayant besoin d\'un tiers independant pour arbitrer et tenir l\'execution',
+                ],
+                'supportLinks' => [
+                    ['href' => '/amoa-si', 'label' => 'AMOA des systemes d\'information', 'description' => 'Pour le cadrage transverse, la gouvernance SI et le pilotage des transformations.'],
+                    ['href' => '/crm', 'label' => 'Projet CRM', 'description' => 'Pour les enjeux relation client, processus commerciaux, donnees et adoption.'],
+                    ['href' => '/gmao', 'label' => 'Projet GMAO', 'description' => 'Pour la maintenance, les actifs, les interventions terrain et la performance operationnelle.'],
+                    ['href' => '/si-finance', 'label' => 'SI Finance', 'description' => 'Pour les interfaces finance, le reporting, le controle de gestion et la cloture.'],
+                    ['href' => '/projets', 'label' => 'Nos projets', 'description' => 'Pour voir des contextes publies de transformation SI, ERP et AMOA.'],
+                    ['href' => '/a-propos/team', 'label' => 'Nos consultants', 'description' => 'Pour identifier les profils OLING mobilisables sur un projet ERP.'],
+                    ['href' => '/ressources', 'label' => 'Ressources AMOA et ERP', 'description' => 'Pour approfondir le cadrage, les risques et les points de vigilance de transformation.'],
+                ],
+                'schemaServiceType' => 'AMOA ERP',
             ],
             'expertises-audit/rgpd' => [
                 'eyebrow' => 'Protection des donnees et gouvernance',

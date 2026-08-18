@@ -81,4 +81,21 @@ class SeoRegressionTest extends TestCase
         self::assertStringNotContainsString('/test', $routes);
         self::assertStringNotContainsString('App\\Controller\\TestController::index', $routes);
     }
+
+    public function testParameterizedPublicSiteRoutesAreNotAutoIncludedInSitemap(): void
+    {
+        $controller = file_get_contents(__DIR__ . '/../src/Controller/PublicSiteController.php');
+        self::assertIsString($controller);
+        self::assertStringContainsString("#[Route('/expertises/{slug}', name: 'expertises_show')]", $controller);
+        self::assertStringContainsString("#[Route('/secteurs/{slug}', name: 'sectors_show')]", $controller);
+        self::assertStringNotContainsString("name: 'expertises_show', options: ['sitemap' => true]", $controller);
+        self::assertStringNotContainsString("name: 'sectors_show', options: ['sitemap' => true]", $controller);
+
+        $subscriber = file_get_contents(__DIR__ . '/../src/EventListener/SitemapSubscriber.php');
+        self::assertIsString($subscriber);
+        self::assertStringContainsString('registerPublicSiteUrls', $subscriber);
+        self::assertStringContainsString("'expertises_show'", $subscriber);
+        self::assertStringContainsString("'sectors_show'", $subscriber);
+        self::assertStringContainsString("['slug' => \$slug]", $subscriber);
+    }
 }

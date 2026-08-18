@@ -8,7 +8,10 @@ use Twig\Extension\GlobalsInterface;
 
 class AgencyExtension extends AbstractExtension implements GlobalsInterface
 {
-    public function __construct(private AgencyRepository $agencyRepository)
+    public function __construct(
+        private AgencyRepository $agencyRepository,
+        private string $siteBaseUrl = 'https://oling.fr',
+    )
     {
     }
 
@@ -16,6 +19,7 @@ class AgencyExtension extends AbstractExtension implements GlobalsInterface
     {
         return [
             'agencies' => $this->agencyRepository->findAllOrdered(),
+            'site_base_url' => rtrim($this->siteBaseUrl, '/'),
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Repository\PracticeRepository;
 use App\Repository\SitePageRepository;
 use App\Repository\ServicesRepository;
+use App\Service\PublicSitePageResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
@@ -16,15 +17,18 @@ class SitemapSubscriber implements EventSubscriberInterface
     private PracticeRepository $practiceRepository;
     private ServicesRepository $servicesRepository;
     private SitePageRepository $sitePageRepository;
+    private PublicSitePageResolver $publicSitePageResolver;
 
     public function __construct(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
-        SitePageRepository $sitePageRepository
+        SitePageRepository $sitePageRepository,
+        PublicSitePageResolver $publicSitePageResolver
     ) {
         $this->practiceRepository = $practiceRepository;
         $this->servicesRepository = $servicesRepository;
         $this->sitePageRepository = $sitePageRepository;
+        $this->publicSitePageResolver = $publicSitePageResolver;
     }
 
     public static function getSubscribedEvents()
@@ -38,6 +42,7 @@ class SitemapSubscriber implements EventSubscriberInterface
     {
         $this->registerPracticeUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerServicesUrls($event->getUrlContainer(), $event->getUrlGenerator());
+        $this->registerPublicSiteUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerSeoResourceUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
@@ -47,7 +52,7 @@ class SitemapSubscriber implements EventSubscriberInterface
 
         foreach ($practices as $practice) {
             $slug = $practice->getSlug();
-            if (!$slug || in_array($slug, ['consulting', 'amoa-si'], true)) {
+            if (!$slug || $slug === 'amoa-si') {
                 continue;
             }
 
@@ -110,6 +115,35 @@ class SitemapSubscriber implements EventSubscriberInterface
                     $router->generate(
                         'seo_resource',
                         ['slug' => $publicSlug],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    )
+                ),
+                'default'
+            );
+        }
+    }
+
+    public function registerPublicSiteUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    {
+        foreach (array_keys($this->publicSitePageResolver->getExpertisePages()) as $slug) {
+            $urls->addUrl(
+                new UrlConcrete(
+                    $router->generate(
+                        'expertises_show',
+                        ['slug' => $slug],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    )
+                ),
+                'default'
+            );
+        }
+
+        foreach (array_keys($this->publicSitePageResolver->getSectorPages()) as $slug) {
+            $urls->addUrl(
+                new UrlConcrete(
+                    $router->generate(
+                        'sectors_show',
+                        ['slug' => $slug],
                         UrlGeneratorInterface::ABSOLUTE_URL
                     )
                 ),

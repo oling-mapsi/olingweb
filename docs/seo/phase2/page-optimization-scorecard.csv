@@ -1,0 +1,10 @@
+priority,url,cluster,current_impressions,current_clicks,current_position,primary_intent,target_queries,content_quality,proof_quality,internal_linking,schema,expert_signal,case_studies,geo_readiness,seo_opportunity,business_value,planned_action,status
+1,https://oling.fr/amoa-si,AMOA_SI,271,0,39.96,transactional,"amoa si|amoa erp|cadrage stratégique amoa|cabinet amoa|amoa système d'information",MEDIUM,MEDIUM,MEDIUM,BASIC,MEDIUM,MEDIUM,MEDIUM,HIGH,HIGH,KEEP_AND_OPTIMIZE,UPDATED_PHASE_2A
+2,https://oling.fr/business-apps/erp,ERP,66,0,35.27,transactional,"amoa erp|refonte erp|choix erp|migration erp|erp pme eti",MEDIUM,MEDIUM,MEDIUM,BASIC,MEDIUM,MEDIUM,MEDIUM,HIGH,HIGH,NEXT_CLUSTER,pending
+3,https://oling.fr/crm,CRM,9,0,18.56,transactional,"amoa crm|choix crm|refonte crm|déploiement crm|migration crm",LOW,LOW,LOW,BASIC,LOW,LOW,MEDIUM,MEDIUM,HIGH,NEXT_CLUSTER,pending
+4,https://oling.fr/gmao,GMAO,9,1,19.22,transactional,"conseil gmao|amoa gmao|choix gmao|projet gmao|migration gmao",LOW,LOW,LOW,BASIC,LOW,LOW,MEDIUM,MEDIUM,HIGH,NEXT_CLUSTER,pending
+5,https://oling.fr/si-finance,SI_FINANCE,2,0,6.00,transactional,"amoa si finance|si finance|epm|reporting|contrôle de gestion",LOW,LOW,LOW,BASIC,LOW,LOW,MEDIUM,MEDIUM,MEDIUM,NEXT_CLUSTER,pending
+6,https://oling.fr/expertises-audit/rgpd,RGPD,131,7,42.35,transactional,"expert rgpd|dpo externalisé|audit rgpd|mise en conformité rgpd|registre traitements",MEDIUM,MEDIUM,MEDIUM,BASIC,MEDIUM,MEDIUM,MEDIUM,HIGH,HIGH,NEXT_CLUSTER,pending
+7,https://oling.fr/expertises-audit/conformite-ia-gouvernance-et-ai-act,AI_ACT_SERVICE,17,0,47.76,transactional,"audit de conformité ia|conformité ia|ia pour la conformité",MEDIUM,LOW,LOW,BASIC,LOW,LOW,MEDIUM,MEDIUM,HIGH,NEXT_CLUSTER,pending
+7,https://oling.fr/expertises/conformite-ia-gouvernance-ai-act,AI_ACT_EXPERTISE,21,0,55.43,informational,"conformité ia|gouvernance ia|ai act",MEDIUM,LOW,LOW,BASIC,LOW,LOW,MEDIUM,MEDIUM,MEDIUM,KEEP_SEPARATE,pending
+P1,https://oling.fr/expertises-audit/qse,QSE,931,1,40.80,informational,"certification qse|logiciel qse|audit qse|conformité qse",MEDIUM,LOW,LOW,BASIC,LOW,LOW,MEDIUM,HIGH,MEDIUM,BACKLOG_QSE,pending

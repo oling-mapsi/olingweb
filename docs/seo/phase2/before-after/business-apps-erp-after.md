@@ -1,23 +1,45 @@
 # /business-apps/erp — after
 
 Date de capture: 2026-08-18
-Source: attendu après patch local puis validation live
+Source: page live `https://oling.fr/business-apps/erp?phase2a2=live`
 
-- cible SEO: faire de `https://oling.fr/business-apps/erp` l'actif principal OLING sur l'intention `AMOA ERP` sans rediriger `/erp-progiciel`
-- title cible: `AMOA ERP : cadrage, choix et pilotage de projet ERP | OLING`
-- meta description cible: `Cabinet AMOA ERP indépendant : cadrage, choix de solution, pilotage intégrateur, reprise de données, recette, migration et conduite du changement.`
-- H1 cible: `AMOA ERP : cadrage, choix et pilotage de votre projet ERP`
-- ajouts visibles:
-  - promesse claire sur le positionnement cabinet indépendant
-  - liste des phases couvertes
-  - liste des livrables
-  - contextes d'intervention ERP
-  - maillage contextuel vers `/amoa-si`, `/crm`, `/gmao`, `/si-finance`, `/projets`, `/a-propos/team`, `/ressources`
-- structured data cible:
+- URL: `https://oling.fr/business-apps/erp`
+- title before -> after:
+  - `Assistance au déploiement Progiciel (ERP, CRM, GMAO, SI Finance, SIRH) | OLING`
+  - `AMOA ERP : cadrage, choix et pilotage de projet ERP | OLING`
+- meta description before -> after:
+  - `OLING aide les directions a securiser les choix, les arbitrages et l'execution des projets applicatifs structurants.`
+  - `Cabinet AMOA ERP indépendant : cadrage, choix de solution, pilotage intégrateur, reprise de données, recette, migration et conduite du changement.`
+- H1 before -> after:
+  - `Cadrer et piloter un projet ERP, CRM ou GMAO utile et tenable`
+  - `AMOA ERP : cadrage, choix et pilotage de votre projet ERP`
+- H2 principaux before -> after:
+  - before: `Assistance au déploiement Progiciel (ERP, CRM, GMAO, SI Finance, SIRH)` / `Ce que cette intervention doit rendre possible` / `Autres offres de Transformation digitale & Progiciels métier`
+  - after: `Pourquoi OLING intervient sur un projet ERP` / `Ce que couvre une mission AMOA ERP` / `Quand lancer une mission ERP avec OLING` / `Livrables utiles pour cadrer, choisir et piloter` / `Situations ou OLING apporte le plus de valeur` / `Equipes et organisations concernées` / `Explorer les sujets liés à un projet ERP`
+- contenu ajouté:
+  - positionnement explicite `cabinet AMOA ERP indépendant`
+  - phases couvertes de cadrage, choix, pilotage intégrateur, recette, migration et déploiement
+  - livrables visibles: note de cadrage, cartographie des processus, cahier des charges, matrice de choix, stratégie de recette et de reprise, conduite du changement
+  - contextes visibles: PME, ETI, industrie, services, secteur public, finance, achats, supply chain, production, maintenance
+- liens internes ajoutés:
+  - `/amoa-si`
+  - `/crm`
+  - `/gmao`
+  - `/si-finance`
+  - `/projets`
+  - `/a-propos/team`
+  - `/ressources`
+- structured data:
   - `Service` conservé
-  - `serviceType` explicité en `AMOA ERP`
-- garde-fous:
-  - `CONFIRMED`: aucune 301 métier nouvelle
-  - `CONFIRMED`: `/erp-progiciel` inchangé structurellement
-  - `CONFIRMED`: `/crm` inchangé structurellement
-  - `CONFIRMED`: aucune nouvelle landing page ERP
+  - `serviceType` modifié vers `AMOA ERP`
+  - `description` alignée sur la meta visible
+- requêtes ciblées:
+  - EXISTING_GSC_QUERY: `amoa erp`
+  - TARGET_QUERY: `conseil erp`, `cabinet amoa erp`, `cadrage erp`, `choix erp`, `refonte erp`, `migration erp`, `pilotage erp`
+- risques:
+  - `POSSIBLE`: overlap maintenu avec `/erp-progiciel` tant que l'export `page x query` détaillé n'est pas disponible
+  - `CONFIRMED`: aucune 301 nouvelle posée pendant cette passe
+  - `CONFIRMED`: canonical inchangé `https://oling.fr/business-apps/erp`
+- hypothèses mesurables:
+  - meilleure adéquation snippet/H1 sur `amoa erp`
+  - hausse attendue de pertinence sur des requêtes transactionnelles ERP sans redirection métier

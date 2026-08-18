@@ -41,7 +41,9 @@ Source: page live attendue après patch et validation
 - structured data:
   - `CONFIRMED`: canonical cohérent
   - `CONFIRMED`: page live servie en `https://oling.fr/gmao`
-  - `LIKELY`: `Service` + `FAQPage` conservés, aucun signal live de régression observé
+  - `CONFIRMED`: `ProfessionalService` global présent
+  - `CONFIRMED`: `Service` présent avec `serviceType = AMOA GMAO`
+  - `CONFIRMED`: `FAQPage` présent
 - micro-controle UTF-8:
   - `CONFIRMED`: `/amoa-si` OK
   - `CONFIRMED`: `/business-apps/erp` OK

@@ -1,0 +1,59 @@
+# /crm — before
+
+Date de capture: 2026-08-18
+Source: page live `https://oling.fr/crm`
+
+- URL: `https://oling.fr/crm`
+- title: `AMOA CRM | Parcours client, donnees et adoption metier | OLING`
+- meta description: `AMOA CRM pour directions commerciales, marketing et SI : cadrage cible, modele de donnees, gouvernance commerciale, recette, adoption et integration SI.`
+- canonical: `https://oling.fr/crm`
+- H1: `AMOA CRM : structurer le parcours client et la performance commerciale`
+- major H2:
+  - `Ce que nous cadrons`
+  - `Livrables AMOA`
+  - `Maillage`
+  - `Besoin d'un plan CRM sur 90 jours ?`
+  - `Cas clients et realisations`
+  - `Cette page oriente vers le bon niveau de réponse`
+  - `Nos zones d'intervention pour cette expertise`
+  - `FAQ`
+- word count: `~900`
+- principal blocks:
+  - hero court
+  - 2 blocs de cadrage / livrables
+  - maillage interne historique
+  - CTA court
+  - bloc cas clients générique
+  - parcours de lecture
+  - zones d'intervention
+  - FAQ
+- liens internes entrants pertinents observés dans le repo:
+  - `src/Service/PublicSiteConfig.php` depuis `/amoa-si`
+  - `src/Service/PublicSiteConfig.php` depuis `/business-apps/erp`
+  - menus / sitemap / pages geo SEO
+- liens internes sortants pertinents observés en live:
+  - `/erp-progiciel`
+  - `/gmao`
+  - `/si-finance`
+  - `/infrastructure-si-amoa`
+  - `/conformite-reglementaire`
+  - `/projets`
+  - `/contact`
+- structured data:
+  - `Service` présent
+  - `serviceType` = `AMOA CRM`
+  - `FAQPage` présent
+- requêtes GSC connues:
+  - page `https://oling.fr/crm` = `9 impressions`, `0 clic`, `0% CTR`, position `18.56`
+  - page `https://www.oling.fr/crm` = `4 impressions`, `0 clic`, `0% CTR`, position `50`
+  - query `amoa crm` = `2 impressions`, `0 clic`, position `53.5`
+- risques de cannibalisation:
+  - `https://oling.fr/business-apps/erp`
+  - `https://oling.fr/amoa-si`
+  - variante historique `https://www.oling.fr/crm`
+- problèmes observés:
+  - `CONFIRMED`: title et H1 restent orientés compréhension générale, mais pas assez explicites sur `cadrage`, `choix`, `deploiement` et `pilotage`.
+  - `CONFIRMED`: maillage sortant historique pointe encore vers `/erp-progiciel` au lieu de `/business-apps/erp`.
+  - `CONFIRMED`: contenu trop court sur choix CRM, migration de donnees, pilotage integrateur, adoption et mesure de performance.
+  - `POSSIBLE`: bloc `cas clients` encore trop générique pour soutenir une intention transactionnelle CRM.
+  - `CONFIRMED`: fragmentation `www/non-www` déjà mesurée dans GSC, mais maintenant corrigée côté HTTP.

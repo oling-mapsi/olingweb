@@ -210,7 +210,63 @@ class SeoLandingController extends AbstractController
             'pageFaqItems' => $pageFaqItems,
             'zoneMaillage' => $this->seoGeoInternalLinkService->build($page?->getSlug()),
             'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($page?->getSlug(), 10),
+            'landingNarrative' => $this->getLandingNarrative($pageSlug),
             'pract' => '',
         ]);
+    }
+
+    private function getLandingNarrative(string $pageSlug): array
+    {
+        return match ($pageSlug) {
+            'crm' => [
+                'metaTitle' => 'AMOA CRM : cadrage, choix et déploiement de votre CRM | OLING',
+                'metaDescription' => 'Cabinet AMOA CRM indépendant : cadrage métier, choix de solution, pilotage intégrateur, données, migration, recette et conduite du changement.',
+                'heroBadge' => 'Cabinet AMOA CRM independant',
+                'heroTitle' => 'AMOA CRM : cadrer, choisir et reussir votre projet CRM',
+                'heroIntro' => 'OLING accompagne les directions commerciales, marketing, service client et SI pour cadrer les processus, structurer les donnees, choisir la bonne solution CRM et piloter un deploiement utile et adopte.',
+                'promise' => 'OLING n\'est ni editeur, ni revendeur, ni integrateur CRM. Le cabinet intervient en AMOA CRM pour clarifier les objectifs metier, objectiver les choix, tenir la gouvernance projet et securiser l\'adoption.',
+                'focus' => [
+                    'Cadrage metier, parcours client, processus commerciaux et reporting',
+                    'Expression des besoins, cahier des charges et aide au choix CRM',
+                    'Pilotage integrateur, recette, migration des donnees et deploiement',
+                    'Conduite du changement, adoption et mesure de performance du CRM',
+                ],
+                'missionPhases' => [
+                    'Diagnostic du CRM existant, des usages reels et des limites d\'adoption',
+                    'Cadrage des objectifs, des processus, des roles et de la gouvernance des donnees',
+                    'Choix de solution, evaluation des scenarios et arbitrage entre editeurs et integrateurs',
+                    'Pilotage de projet, strategie de migration, recette, formation et mise sous controle de l’adoption',
+                ],
+                'deliverables' => [
+                    'Note de cadrage, roadmap CRM et gouvernance projet',
+                    'Cartographie des processus, expression des besoins et backlog metier',
+                    'Grille de choix, matrice de scoring et dossier d\'arbitrage',
+                    'Plan de reprise des donnees, strategie de recette et plan de conduite du changement',
+                ],
+                'projectContexts' => [
+                    'CRM peu adopte, usages heterogenes ou multiplication des fichiers Excel paralleles',
+                    'Refonte CRM pour mieux piloter prospection, opportunites, comptes, contacts et service client',
+                    'Projet CRM impliquant marketing, commerce, service client, data et SI',
+                    'Migration sensible, reprise de donnees complexe ou besoin de reprendre la trajectoire projet',
+                ],
+                'clientTypes' => [
+                    'Directions commerciales, marketing et relation client',
+                    'DSI, responsables applicatifs et chefs de projet transformation',
+                    'PME, ETI, services B2B, organisations multisites et acteurs publics',
+                    'Equipes ayant besoin d’un tiers independant pour arbitrer entre besoins metier, donnees et integrateurs',
+                ],
+                'supportLinks' => [
+                    ['href' => '/amoa-si', 'label' => 'AMOA des systemes d’information', 'description' => 'Pour le cadrage transverse, la gouvernance SI et le pilotage des transformations.'],
+                    ['href' => '/business-apps/erp', 'label' => 'Projet ERP', 'description' => 'Pour les projets ERP, interfaces, reprise de donnees et pilotage integrateur.'],
+                    ['href' => '/gmao', 'label' => 'Projet GMAO', 'description' => 'Pour les contextes maintenance, actifs, mobilite et interventions terrain.'],
+                    ['href' => '/si-finance', 'label' => 'SI Finance', 'description' => 'Pour les interfaces finance, reporting, controle de gestion et cloture.'],
+                    ['href' => '/projets', 'label' => 'Nos references', 'description' => 'Pour voir des contextes publies de transformation SI, AMOA et outillage metier.'],
+                    ['href' => '/a-propos/team', 'label' => 'Notre equipe', 'description' => 'Pour identifier les profils OLING mobilisables sur un projet CRM.'],
+                    ['href' => '/ressources', 'label' => 'Ressources', 'description' => 'Pour approfondir cadrage, adoption, donnees et risques de transformation.'],
+                ],
+                'schemaServiceType' => 'AMOA CRM',
+            ],
+            default => [],
+        };
     }
 }

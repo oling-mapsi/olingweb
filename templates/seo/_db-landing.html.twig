@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ page and page.title ? page.title : 'OLING' }}{% endblock %}
-{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Cabinet de conseil AMOA SI et conformite.' }}{% endblock %}
+{% block title %}{{ landingNarrative.metaTitle ?? (page and page.title ? page.title : 'OLING') }}{% endblock %}
+{% block meta_description %}{{ landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'Cabinet de conseil AMOA SI et conformite.') }}{% endblock %}
 
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
@@ -18,19 +18,19 @@
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
-              <li class="breadcrumb-item active" aria-current="page">{{ page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'Page') }}</li>
+              <li class="breadcrumb-item active" aria-current="page">{{ landingNarrative.heroTitle is defined ? landingNarrative.heroTitle|striptags : (page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'Page')) }}</li>
             </ol>
           </nav>
-          {% if page and page.heroBadge %}
-            <span class="oling-kicker">{{ page.heroBadge }}</span>
+          {% if landingNarrative.heroBadge is defined or (page and page.heroBadge) %}
+            <span class="oling-kicker">{{ landingNarrative.heroBadge ?? page.heroBadge }}</span>
           {% endif %}
-          {% if page and page.heroTitle %}
-            <h1>{{ page.heroTitle }}</h1>
+          {% if landingNarrative.heroTitle is defined or (page and page.heroTitle) %}
+            <h1>{{ landingNarrative.heroTitle ?? page.heroTitle }}</h1>
           {% elseif page and page.title %}
             <h1>{{ page.title }}</h1>
           {% endif %}
-          {% if page and page.heroIntro %}
-            <p class="oling-lede">{{ page.heroIntro|raw }}</p>
+          {% if landingNarrative.heroIntro is defined or (page and page.heroIntro) %}
+            <p class="oling-lede">{{ (landingNarrative.heroIntro ?? page.heroIntro)|raw }}</p>
           {% endif %}
         </div>
         {% if hasHeroImage %}
@@ -47,6 +47,139 @@
       {{ page.heroSideHtml|raw }}
     </div>
   {% endif %}
+
+  {% if landingNarrative.promise is defined or landingNarrative.focus is defined %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="row g-4">
+          {% if landingNarrative.promise is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Positionnement</span>
+                <h2>Pourquoi OLING intervient sur un projet CRM</h2>
+                <p class="mb-0">{{ landingNarrative.promise }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% if landingNarrative.focus is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Perimetre</span>
+                <h2>Ce que couvre une mission AMOA CRM</h2>
+                <ul class="mb-0">
+                  {% for item in landingNarrative.focus %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if landingNarrative.missionPhases is defined or landingNarrative.deliverables is defined %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="row g-4">
+          {% if landingNarrative.missionPhases is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Phases projet</span>
+                <h2>Quand lancer ou refondre un CRM</h2>
+                <ul class="mb-0">
+                  {% for item in landingNarrative.missionPhases %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+          {% if landingNarrative.deliverables is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Livrables</span>
+                <h2>Livrables utiles pour cadrer, choisir et deployer</h2>
+                <ul class="mb-0">
+                  {% for item in landingNarrative.deliverables %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if landingNarrative.projectContexts is defined or landingNarrative.clientTypes is defined %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="row g-4">
+          {% if landingNarrative.projectContexts is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Contextes</span>
+                <h2>Situations ou OLING apporte le plus de valeur</h2>
+                <ul class="mb-0">
+                  {% for item in landingNarrative.projectContexts %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+          {% if landingNarrative.clientTypes is defined %}
+            <div class="col-lg-6">
+              <div class="oling-surface p-4 h-100">
+                <span class="oling-kicker">Interlocuteurs</span>
+                <h2>Equipes et organisations concernees</h2>
+                <ul class="mb-0">
+                  {% for item in landingNarrative.clientTypes %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if landingNarrative.supportLinks is defined %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4">
+          <span class="oling-kicker">Maillage</span>
+          <h2>Explorer les sujets lies a un projet CRM</h2>
+          <p>Ces pages aident a relier cadrage CRM, transformation SI, applications connexes, references et expertise mobilisable sans creer de doublon.</p>
+          <div class="row g-4 mt-1">
+            {% for link in landingNarrative.supportLinks %}
+              <div class="col-lg-6">
+                <div class="oling-surface p-4 h-100">
+                  <h3 class="h6 mb-2"><a class="link" href="{{ link.href }}">{{ link.label }}</a></h3>
+                  <p class="mb-0">{{ link.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        <span class="oling-kicker">Parcours de lecture</span>
+        <h2 class="h4">Cette page oriente vers le bon niveau de réponse</h2>
+        <p class="mb-0">Cette landing sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
+      </div>
+    </div>
+  </section>
 
   {% if zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
     <section class="oling-section oling-section--tight">
@@ -103,8 +236,8 @@
   {% endif %}
 </main>
 
-{% set currentUrl = app.request.schemeAndHttpHost ~ app.request.pathInfo %}
-{% set contactUrl = app.request.schemeAndHttpHost ~ path('contact') %}
+{% set currentUrl = site_base_url ~ app.request.pathInfo %}
+{% set contactUrl = site_base_url ~ path('contact') %}
 {% set globalProfessionalServiceId = 'https://oling.fr/#professional-service' %}
 {% set pageSlug = page and page.slug ? page.slug : '' %}
 {% set isZonePage = pageSlug starts with 'cabinet-conseil-' %}
@@ -170,7 +303,7 @@
         'itemOffered': {
           '@type': 'Service',
           'name': link.label,
-          'url': app.request.schemeAndHttpHost ~ link.url
+          'url': site_base_url ~ link.url
         }
       }]) %}
     {% endif %}
@@ -187,12 +320,12 @@
 {% set serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  'name': page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'OLING'),
-  'serviceType': page and page.heroBadge ? page.heroBadge|striptags : 'Conseil AMOA SI',
+  'name': landingNarrative.heroTitle is defined ? landingNarrative.heroTitle|striptags : (page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'OLING')),
+  'serviceType': landingNarrative.schemaServiceType ?? (page and page.heroBadge ? page.heroBadge|striptags : 'Conseil AMOA SI'),
   'provider': {'@id': globalProfessionalServiceId},
   'url': currentUrl,
   'mainEntityOfPage': currentUrl,
-  'description': page and page.metaDescription ? page.metaDescription : 'Conseil AMOA SI, transformation et conformite.',
+  'description': landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'Conseil AMOA SI, transformation et conformite.'),
   'areaServed': schemaAreaServedNames,
   'serviceArea': schemaAreaServedObjects,
   'contactPoint': schemaContactPoint,

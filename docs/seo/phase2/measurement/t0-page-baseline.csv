@@ -1,0 +1,6 @@
+url,cluster,baseline_start,baseline_end,clicks,impressions,ctr,position,source_file,confidence
+https://oling.fr/amoa-si,AMOA_SI,2026-05-16,2026-08-15,0,271,0%,39.96,docs/seo/gsc/import/Pages.csv,CONFIRMED
+https://oling.fr/business-apps/erp,ERP,2026-05-16,2026-08-15,0,66,0%,35.27,docs/seo/gsc/import/Pages.csv,CONFIRMED
+https://oling.fr/crm,CRM,2026-05-16,2026-08-15,0,9,0%,18.56,docs/seo/gsc/import/Pages.csv,CONFIRMED
+https://oling.fr/gmao,GMAO,2026-05-16,2026-08-15,1,9,11.11%,19.22,docs/seo/gsc/import/Pages.csv,CONFIRMED
+https://oling.fr/si-finance,SI_FINANCE,2026-05-16,2026-08-15,0,2,0%,6,docs/seo/gsc/import/Pages.csv,CONFIRMED

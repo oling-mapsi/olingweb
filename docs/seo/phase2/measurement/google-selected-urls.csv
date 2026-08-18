@@ -1,0 +1,13 @@
+period,url,clicks,impressions,ctr,position,url_type,cluster,selection_status,confidence,notes
+2026-05-16_to_2026-08-15,https://oling.fr/amoa-si,0,271,0%,39.96,CANONICAL_MONEY_PAGE,AMOA_SI,EXPECTED,CONFIRMED,Current non-www canonical selected.
+2026-05-16_to_2026-08-15,https://oling.fr/consulting/assistance-a-maitrise-douvrage,0,183,0%,21.51,LEGACY_SUPPORT,AMOA_SI,POSSIBLE_MISALIGNED_URL,CONFIRMED,Legacy AMOA support URL still visible.
+2026-05-16_to_2026-08-15,https://oling.fr/business-apps/erp,0,66,0%,35.27,CANONICAL_MONEY_PAGE,ERP,EXPECTED,CONFIRMED,Current ERP money page selected.
+2026-05-16_to_2026-08-15,https://oling.fr/expertises/amoa-erp-applications-metiers,0,3,0%,36,EXPERTISE_SUPPORT,ERP,POSSIBLE_OVERLAP,CONFIRMED,Support page still receives impressions.
+2026-05-16_to_2026-08-15,https://oling.fr/crm,0,9,0%,18.56,CANONICAL_MONEY_PAGE,CRM,EXPECTED,CONFIRMED,Current CRM money page selected.
+2026-05-16_to_2026-08-15,https://www.oling.fr/crm,0,4,0%,50,RESIDUAL_WWW,CRM,RESIDUAL_HOST,CONFIRMED,www residual still present in GSC baseline.
+2026-05-16_to_2026-08-15,https://oling.fr/gmao,1,9,11.11%,19.22,CANONICAL_MONEY_PAGE,GMAO,EXPECTED,CONFIRMED,Current GMAO money page selected.
+2026-05-16_to_2026-08-15,https://www.oling.fr/gmao,0,26,0%,25.69,RESIDUAL_WWW,GMAO,RESIDUAL_HOST,CONFIRMED,www residual still present in GSC baseline.
+2026-05-16_to_2026-08-15,https://oling.fr/si-finance,0,2,0%,6,CANONICAL_MONEY_PAGE,SI_FINANCE,EXPECTED,CONFIRMED,Current SI Finance money page selected with very low volume.
+2026-05-16_to_2026-08-15,https://oling.fr/expertises-audit/finance,0,30,0%,74.83,EXPERTISE_SUPPORT,SI_FINANCE,POSSIBLE_OVERLAP,CONFIRMED,Finance expertise visible but should not become the money page.
+2026-05-16_to_2026-08-15,https://oling.fr/expertises-audit/controle-de-gestion,0,10,0%,7.9,EXPERTISE_SUPPORT,SI_FINANCE,POSSIBLE_OVERLAP,CONFIRMED,Control de gestion page has stronger aggregate position than SI Finance.
+2026-05-16_to_2026-08-15,https://oling.fr/consulting/reforme-facturation-electronique-amoa,1,94,1.06%,20.97,LEGACY_SUPPORT,SI_FINANCE,POSSIBLE_OVERLAP,CONFIRMED,RFE legacy page remains visible and commercially adjacent.

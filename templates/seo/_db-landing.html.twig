@@ -56,7 +56,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Positionnement</span>
-                <h2>Pourquoi OLING intervient sur un projet CRM</h2>
+                <h2>{{ landingNarrative.positioningTitle ?? 'Pourquoi OLING intervient sur ce projet' }}</h2>
                 <p class="mb-0">{{ landingNarrative.promise }}</p>
               </div>
             </div>
@@ -65,7 +65,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Perimetre</span>
-                <h2>Ce que couvre une mission AMOA CRM</h2>
+                <h2>{{ landingNarrative.scopeTitle ?? 'Ce que couvre cette mission' }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.focus %}
                     <li>{{ item }}</li>
@@ -87,7 +87,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Phases projet</span>
-                <h2>Quand lancer ou refondre un CRM</h2>
+                <h2>{{ landingNarrative.triggerTitle ?? 'Quand lancer ce projet' }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.missionPhases %}
                     <li>{{ item }}</li>
@@ -154,8 +154,8 @@
       <div class="container">
         <div class="oling-surface p-4">
           <span class="oling-kicker">Maillage</span>
-          <h2>Explorer les sujets lies a un projet CRM</h2>
-          <p>Ces pages aident a relier cadrage CRM, transformation SI, applications connexes, references et expertise mobilisable sans creer de doublon.</p>
+          <h2>{{ landingNarrative.linksTitle ?? 'Explorer les sujets lies a ce projet' }}</h2>
+          <p>{{ landingNarrative.linksIntro ?? 'Ces pages aident a relier cadrage, transformation SI, applications connexes, references et expertise mobilisable sans creer de doublon.' }}</p>
           <div class="row g-4 mt-1">
             {% for link in landingNarrative.supportLinks %}
               <div class="col-lg-6">

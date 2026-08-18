@@ -9,3 +9,43 @@ Source: page live attendue après patch et validation
   - `CONFIRMED`: aucune 301 nouvelle
   - `CONFIRMED`: `/si-finance` non modifiée
   - `CONFIRMED`: `/crm` seulement corrigée sur l'accent UTF-8 du H1
+- URL: `https://oling.fr/gmao`
+- title: `AMOA GMAO : cadrage, choix et déploiement de votre GMAO | OLING`
+- meta description: `Cabinet AMOA GMAO indépendant : cadrage maintenance, choix de solution, données équipements, pilotage intégrateur, recette, migration et conduite du changement.`
+- canonical: `https://oling.fr/gmao`
+- H1: `AMOA GMAO : cadrer, choisir et réussir votre projet de maintenance`
+- H2 principaux observés en live:
+  - `Axes d'intervention`
+  - `Secteurs cibles`
+  - `Liens utiles`
+  - `Cas clients et realisations`
+  - `Pourquoi OLING intervient sur un projet GMAO`
+  - `Ce que couvre une mission AMOA GMAO`
+  - `Quand lancer ou refondre une GMAO`
+  - `Livrables utiles pour cadrer, choisir et deployer`
+  - `Situations ou OLING apporte le plus de valeur`
+  - `Equipes et organisations concernees`
+  - `Explorer les sujets lies a un projet GMAO`
+  - `Cette page oriente vers le bon niveau de réponse`
+  - `Nos zones d'intervention pour cette expertise`
+  - `FAQ`
+- liens internes sortants confirmés en live dans le bloc ajouté:
+  - `/amoa-si`
+  - `/business-apps/erp`
+  - `/crm`
+  - `/si-finance`
+  - `/secteurs/industrie`
+  - `/projets`
+  - `/a-propos/team`
+  - `/ressources`
+- structured data:
+  - `CONFIRMED`: canonical cohérent
+  - `CONFIRMED`: page live servie en `https://oling.fr/gmao`
+  - `LIKELY`: `Service` + `FAQPage` conservés, aucun signal live de régression observé
+- micro-controle UTF-8:
+  - `CONFIRMED`: `/amoa-si` OK
+  - `CONFIRMED`: `/business-apps/erp` OK
+  - `CONFIRMED`: `/crm` corrigée de `reussir` vers `réussir`
+- reliquats observés:
+  - `CONFIRMED`: les blocs historiques `Axes d'intervention`, `Secteurs cibles`, `Liens utiles` et `Cas clients et realisations` restent présents au-dessus du nouveau bloc narratif
+  - `CONFIRMED`: un lien historique vers `/erp-progiciel` n'a plus été retenu dans le bloc ajouté, mais le socle éditorial historique conserve encore un maillage ancien plus générique

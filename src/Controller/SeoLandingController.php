@@ -225,6 +225,11 @@ class SeoLandingController extends AbstractController
                 'heroTitle' => 'AMOA CRM : cadrer, choisir et réussir votre projet CRM',
                 'heroIntro' => 'OLING accompagne les directions commerciales, marketing, service client et SI pour cadrer les processus, structurer les donnees, choisir la bonne solution CRM et piloter un deploiement utile et adopte.',
                 'promise' => 'OLING n\'est ni editeur, ni revendeur, ni integrateur CRM. Le cabinet intervient en AMOA CRM pour clarifier les objectifs metier, objectiver les choix, tenir la gouvernance projet et securiser l\'adoption.',
+                'positioningTitle' => 'Pourquoi OLING intervient sur un projet CRM',
+                'scopeTitle' => 'Ce que couvre une mission AMOA CRM',
+                'triggerTitle' => 'Quand lancer ou refondre un CRM',
+                'linksTitle' => 'Explorer les sujets lies a un projet CRM',
+                'linksIntro' => 'Ces pages aident a relier cadrage CRM, transformation SI, applications connexes, references et expertise mobilisable sans creer de doublon.',
                 'focus' => [
                     'Cadrage metier, parcours client, processus commerciaux et reporting',
                     'Expression des besoins, cahier des charges et aide au choix CRM',
@@ -273,6 +278,11 @@ class SeoLandingController extends AbstractController
                 'heroTitle' => 'AMOA GMAO : cadrer, choisir et réussir votre projet de maintenance',
                 'heroIntro' => 'OLING accompagne les directions maintenance, exploitation, patrimoine et SI pour cadrer les processus, structurer les données équipements, choisir la bonne GMAO et piloter un déploiement utile sur le terrain.',
                 'promise' => 'OLING n\'est ni éditeur, ni revendeur, ni intégrateur GMAO. Le cabinet intervient en AMOA GMAO pour clarifier les besoins maintenance, objectiver les choix, piloter les arbitrages et sécuriser l\'adoption des équipes terrain.',
+                'positioningTitle' => 'Pourquoi OLING intervient sur un projet GMAO',
+                'scopeTitle' => 'Ce que couvre une mission AMOA GMAO',
+                'triggerTitle' => 'Quand lancer ou refondre une GMAO',
+                'linksTitle' => 'Explorer les sujets lies a un projet GMAO',
+                'linksIntro' => 'Ces pages aident a relier cadrage GMAO, transformation SI, maintenance, actifs, references et expertise mobilisable sans creer de doublon.',
                 'focus' => [
                     'Cadrage maintenance, actifs, ordres de travail, préventif et indicateurs',
                     'Expression des besoins, cahier des charges et aide au choix GMAO',

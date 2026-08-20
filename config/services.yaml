@@ -38,6 +38,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
     App\EventListener\XRobotsTagListener:
         tags:
             - { name: kernel.event_listener, event: kernel.response }

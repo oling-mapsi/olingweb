@@ -29,6 +29,15 @@ class Metier
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageHero = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $homeHeroIntro = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $homeHeroText1 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $homeHeroText2 = null;
+
     #[ORM\OneToMany(mappedBy: 'metier', targetEntity: Projet::class)]
     private Collection $projets;
 
@@ -86,6 +95,42 @@ class Metier
     public function setImageHero(?string $imageHero): self
     {
         $this->imageHero = $imageHero;
+
+        return $this;
+    }
+
+    public function getHomeHeroIntro(): ?string
+    {
+        return $this->homeHeroIntro;
+    }
+
+    public function setHomeHeroIntro(?string $homeHeroIntro): self
+    {
+        $this->homeHeroIntro = $homeHeroIntro;
+
+        return $this;
+    }
+
+    public function getHomeHeroText1(): ?string
+    {
+        return $this->homeHeroText1;
+    }
+
+    public function setHomeHeroText1(?string $homeHeroText1): self
+    {
+        $this->homeHeroText1 = $homeHeroText1;
+
+        return $this;
+    }
+
+    public function getHomeHeroText2(): ?string
+    {
+        return $this->homeHeroText2;
+    }
+
+    public function setHomeHeroText2(?string $homeHeroText2): self
+    {
+        $this->homeHeroText2 = $homeHeroText2;
 
         return $this;
     }

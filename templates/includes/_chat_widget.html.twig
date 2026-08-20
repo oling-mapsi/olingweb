@@ -1,0 +1,81 @@
+<div
+  id="oling-chat-widget"
+  class="oling-chat-widget"
+  data-create-url="{{ path('api_chat_conversation_create') }}"
+  data-show-url-template="{{ path('api_chat_conversation_show', {token: 'CHAT_TOKEN'}) }}"
+  data-message-url-template="{{ path('api_chat_conversation_message', {token: 'CHAT_TOKEN'}) }}"
+  data-lead-url-template="{{ path('api_chat_conversation_lead', {token: 'CHAT_TOKEN'}) }}"
+  data-csrf-token="{{ csrf_token('chat_widget') }}"
+  data-contact-fallback-url="{{ path('contact', {chat_fallback: 1}) }}"
+  data-privacy-url="{{ path('polrgpd') }}"
+>
+  <button type="button" class="oling-chat-widget__launcher" aria-controls="oling-chat-panel" aria-expanded="false" aria-label="Parler à un consultant">
+    <span class="oling-chat-widget__launcher-dot" aria-hidden="true"></span>
+    <span class="oling-chat-widget__launcher-label"><strong>Parler à un consultant</strong></span>
+  </button>
+
+  <section id="oling-chat-panel" class="oling-chat-widget__panel" aria-hidden="true">
+    <header class="oling-chat-widget__header">
+      <div class="oling-chat-widget__header-copy">
+        <h3>Parler avec un consultant</h3>
+      </div>
+      <button type="button" class="oling-chat-widget__close" aria-label="Fermer le chat">Fermer</button>
+    </header>
+
+    <div class="oling-chat-widget__body">
+      <div class="oling-chat-widget__summary d-none" data-chat-summary></div>
+
+      <div class="oling-chat-widget__messages" data-chat-messages></div>
+
+      <div class="oling-chat-widget__sources d-none" data-chat-sources></div>
+
+      <div class="oling-chat-widget__lead d-none" data-chat-lead>
+        <div class="oling-chat-widget__lead-head">
+          <div class="oling-chat-widget__lead-title">Coordonnées de contact</div>
+          <p>Ces informations servent uniquement à transmettre une synthèse exploitable à un consultant OLING.</p>
+        </div>
+        <div class="row g-2">
+          <div class="col-12">
+            <input type="text" class="form-control" name="chatFullName" placeholder="Nom et prénom">
+          </div>
+          <div class="col-12">
+            <input type="email" class="form-control" name="chatEmail" placeholder="Email professionnel">
+          </div>
+          <div class="col-12">
+            <input type="text" class="form-control" name="chatPhone" placeholder="Téléphone">
+          </div>
+          <div class="col-12">
+            <input type="text" class="form-control" name="chatCompany" placeholder="Société">
+          </div>
+          <div class="col-12">
+            <textarea class="form-control" name="chatNeedDescription" rows="4" placeholder="Description synthétique du besoin"></textarea>
+          </div>
+          <div class="col-12">
+            <label class="oling-chat-widget__consent">
+              <input type="checkbox" name="chatConsent">
+              <span>J’accepte que les informations transmises soient utilisées par OLING pour traiter ma demande de contact.</span>
+            </label>
+            <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">Politique RGPD</a>
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-primary w-100" data-chat-submit-lead>Transmettre la demande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="oling-chat-widget__error d-none" data-chat-error></div>
+      <div class="oling-chat-widget__statusline d-none" data-chat-status></div>
+    </div>
+
+    <form class="oling-chat-widget__composer" data-chat-composer>
+      <div class="oling-chat-widget__composer-shell">
+        <textarea class="form-control" rows="3" placeholder="Décrivez votre contexte, enjeu ou blocage..." name="chatMessage"></textarea>
+      </div>
+      <div class="oling-chat-widget__actions">
+        <a href="{{ path('contact', {chat_fallback: 1}) }}" class="oling-chat-widget__fallback" data-chat-bypass="true">Formulaire classique</a>
+        <button type="button" class="btn btn-outline-secondary" data-chat-reset>Nouvelle conversation</button>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+      </div>
+    </form>
+  </section>
+</div>

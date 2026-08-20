@@ -71,7 +71,16 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h2 class="h5">Pages À propos</h2>
+                        <h2 class="h5">Conversations IA</h2>
+                        <p class="text-muted">Leads qualifiés et historiques du widget.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_chat_index') }}">Consulter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h5">Pages éditoriales</h2>
                         <p class="text-muted">À propos, secteurs, références, équipe.</p>
                         <a class="btn btn-sm btn-primary" href="{{ path('admin_pages_index') }}">Gérer</a>
                     </div>
@@ -89,9 +98,9 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h2 class="h5">Home highlights</h2>
-                        <p class="text-muted">Sélection des cards sous le hero.</p>
-                        <a class="btn btn-sm btn-primary" href="{{ path('admin_home_cards_index') }}">Gérer</a>
+                        <h2 class="h5">Home contenu</h2>
+                        <p class="text-muted">Hero complet et tous les textes JSON de l’accueil.</p>
+                        <a class="btn btn-sm btn-primary" href="{{ path('admin_home_content') }}">Gérer</a>
                     </div>
                 </div>
             </div>
@@ -99,7 +108,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h2 class="h5">Home practices</h2>
-                        <p class="text-muted">Titre + intro de la section practices.</p>
+                        <p class="text-muted">Bloc practices, sélection et ordre.</p>
                         <a class="btn btn-sm btn-primary" href="{{ path('admin_home_practices') }}">Gérer</a>
                     </div>
                 </div>
@@ -108,7 +117,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h2 class="h5">Home projects</h2>
-                        <p class="text-muted">Titre + intro de la section projets.</p>
+                        <p class="text-muted">Bloc projets, sélection et ordre.</p>
                         <a class="btn btn-sm btn-primary" href="{{ path('admin_home_projects') }}">Gérer</a>
                     </div>
                 </div>

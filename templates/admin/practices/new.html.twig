@@ -19,12 +19,16 @@
             {% endfor %}
         {% endfor %}
 
-        {% include 'admin/practices/_form.html.twig' with {
-            form: form,
-            practice: practice,
-            button_label: 'Créer',
-            form_action: path('admin_practices_new')
-        } %}
+        <div class="card admin-form-card">
+            <div class="card-body">
+                {% include 'admin/practices/_form.html.twig' with {
+                    form: form,
+                    practice: practice,
+                    button_label: 'Créer',
+                    form_action: path('admin_practices_new')
+                } %}
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

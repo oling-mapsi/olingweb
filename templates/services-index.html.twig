@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: page.primaryCta,
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
+  } %}
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-surface oling-surface--light">
+        <span class="oling-kicker">Hiérarchie éditoriale</span>
+        <h2>Expertises, services, secteurs : trois niveaux différents</h2>
+        <p>Les expertises servent à qualifier le sujet de fond. Les services décrivent l’intervention opérationnelle mobilisable. Les secteurs relisent ces offres à partir du terrain métier, des contraintes et des priorités propres à chaque environnement.</p>
+      </div>
+    </div>
+  </section>
+
+  {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
+    <section class="oling-page-section">
+      <div class="container oling-page-section__prose">
+        <div class="oling-surface oling-surface--light">
+          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% for practice in practices %}
+    {% set publishedServices = [] %}
+    {% for service in services %}
+      {% if service.practice and service.practice.id == practice.id and service.introductionShort %}
+        {% set publishedServices = publishedServices|merge([service]) %}
+      {% endif %}
+    {% endfor %}
+    {% if publishedServices is not empty %}
+      <section class="oling-shell-section{% if loop.index is even %} oling-shell-section--tint{% endif %}">
+        <div class="container">
+          <div class="oling-section-head">
+            <span class="oling-kicker">{{ practice.designationShort ?: page.listing.defaultPracticeLabel }}</span>
+            <h2>{{ practice.h1Title ?: practice.designation }}</h2>
+            <p>{{ practice.introductionShort ?: practice.introduction ?: page.listing.defaultPracticeIntro }}</p>
+          </div>
+          <div class="oling-service-link-grid">
+            {% for service in publishedServices %}
+              <a class="oling-service-link-card" href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">
+                <span class="oling-kicker">{{ service.designationShort ?: practice.designation }}</span>
+                <h3>{{ service.designation }}</h3>
+                <p>{{ service.introductionShort ?: service.descriptionShort ?: page.listing.defaultServiceIntro }}</p>
+                <span class="oling-service-link-card__more">{{ page.listing.moreLabel }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {% include 'public/_cta_band.html.twig' with {
+    eyebrow: page.cta.eyebrow,
+    title: page.cta.title,
+    text: page.cta.text,
+    primaryCta: page.cta.primaryCta
+  } %}
+</main>
+{% endblock %}

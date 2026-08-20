@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos projets | OLING{% endblock %}
-{% block meta_description %}Nos projets de transformation SI, AMOA et conformité réalisés par OLING.{% endblock %}
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block stylesheets %}
   {{ parent() }}
@@ -15,15 +15,14 @@
 
 {% block body %}
 <main id="content" role="main">
-  <section class="acc-hero acc-hero--home acc-hero--projects">
-    <div class="container acc-hero-shell">
-      <div class="acc-hero-copy">
-        <span class="acc-eyebrow">Nos projets</span>
-        <h1 class="acc-hero-title">Des projets concrets, des résultats mesurables</h1>
-        <p class="acc-hero-subtitle">ERP, gouvernance data, conformité et transformation SI : une sélection de missions menées par nos équipes.</p>
-      </div>
-    </div>
-  </section>
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: page.primaryCta,
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
+  } %}
 
   <section class="oling-section">
     <div class="container">
@@ -47,14 +46,14 @@
                 {% if projet.description %}
                   <p class="card-text">{{ projet.description|striptags|slice(0, 140) ~ '…' }}</p>
                 {% else %}
-                  <p class="card-text">Pilotage, transformation et conformité sur des projets SI structurants.</p>
+                  <p class="card-text">{{ page.cards.fallbackDescription }}</p>
                 {% endif %}
               </div>
             </a>
           </div>
         {% else %}
           <div class="col">
-            <div class="alert alert-info">Aucun projet n’est publié pour le moment.</div>
+            <div class="alert alert-info">{{ page.cards.emptyText }}</div>
           </div>
         {% endfor %}
       </div>
@@ -72,18 +71,28 @@
       {% endif %}
       {% endif %}
 
+      {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
+        <div class="oling-surface oling-surface--light mt-5">
+          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
+        </div>
+      {% endif %}
+
       <div class="oling-geo-map oling-geo-map--full" role="img" aria-label="Carte de la France métropolitaine et des territoires d'outre-mer">
         <div class="oling-geo-map__header">
-          <span class="acc-eyebrow">Présence terrain</span>
-          <h2>Des projets conduits sur l’ensemble de nos territoires.</h2>
-          <p>France & Outre‑mer : nous déployons, sécurisons et accompagnons vos programmes là où vous opérez.</p>
+          <span class="acc-eyebrow">{{ page.mapSection.kicker }}</span>
+          <h2>{{ page.mapSection.title }}</h2>
+          {% if page.legacySideHtml is defined and page.legacySideHtml %}
+            <div class="oling-richtext">{{ page.legacySideHtml|raw }}</div>
+          {% else %}
+            <p>{{ page.mapSection.text }}</p>
+          {% endif %}
         </div>
         <div
           id="oling-geo-map"
           class="oling-geo-map__canvas"
           data-world="{{ asset('geo/world.geojson') }}"
         ></div>
-        <div class="oling-geo-map__label">France métropolitaine & DROM</div>
+        <div class="oling-geo-map__label">{{ page.mapSection.label }}</div>
       </div>
       <script type="application/json" id="oling-geojson-data">
         {{ include('geo/france-overseas.json.twig')|raw }}

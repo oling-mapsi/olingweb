@@ -1,94 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ page and page.title ? page.title : "L'équipe | Experts AMOA SI - OLING" }}{% endblock %}
-{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : "Une équipe d'experts AMOA SI, transformation digitale, conformité et cybersécurité pour accompagner vos projets stratégiques." }}{% endblock %}
-
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
-
-      <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: page.primaryCta,
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
+  } %}
 
-
-
-    <!-- Description -->
-    <div class="container content-space-3">
-
-        <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
-            <div class="row">
-                <div class="col-md-6 mb-7 mb-lg-0">
-                    <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> {{ page and page.heroBadge ? page.heroBadge : 'Expertises métier' }}</span>
-                    <div class="w-md-75 mb-5">
-                    <h1 class="text-white">{{ page and page.heroTitle ? page.heroTitle : "Une équipe d'experts pluridisciplinaires" }}</h1>
-                    <p class="text-white-70">{{ page and page.heroIntro ? page.heroIntro|raw : '' }}</p>
-                    </div>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-md-6">
-
-                    
-                    
-                </div>
-                <!-- End Col -->
-            </div>
-            <!-- End Row -->
+  <section class="oling-shell-section">
+    <div class="container">
+      {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
+        <div class="oling-surface oling-surface--light mb-4">
+          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
         </div>
+      {% endif %}
 
-        <div id="listOfSocialLinks" class="position-relative">
-            <div class="row mb-3">
-                <div class="col-10 col-md-7 col-lg-7 offset-1 offset-md-4">
-                    {% if page and page.bodyHtml %}
-                        {{ page.bodyHtml|raw }}
-                    {% else %}
-                        <h4>Expertise et passion au service de vos projets !</h4>
-                        <p>Au sein d'OLING, notre équipe dynamique et passionnée est prête à relever tous les défis. Composée d'experts chevronnés et de talents prometteurs, nous sommes animés par la soif de réussite et le désir d'accompagner nos clients vers l'excellence. 
-                        <br />Nous mettons notre expertise, notre savoir-faire et notre dévouement au service de chaque projet, transformant les ambitions de nos clients en réalités concrètes. Ensemble, nous cultivons la réussite et savourons chaque victoire. </p>
-                        <blockquote class="blockquote m-6">Rejoignez-nous et laissez-vous porter par notre élan d'enthousiasme et de professionnalisme ! </blockquote>
-                    {% endif %}
-                    
-
-
-                    {% for people in team %}
-                    <!-- Media -->
-                    <div class="d-sm-flex mb-10">
-                        <div class="flex-shrink-0 mb-3 mb-sm-0">
-                            <span class="avatar avatar-xxl">
-                                <img class="avatar-img" src={{ people.photo }} alt="Photo de {{ people.noncomplet }}">
-                            </span>
-                        </div>
-                        <div class="flex-grow-1 ms-sm-4">
-                            <!-- Media -->
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4 class="mb-0">
-                                    <a class="text-dark" href="#">{{ people.noncomplet }}</a>
-                                </h4>
-                                <a class="link" href={{ people.linkedin }}><i class="bi-linkedin me-1"></i></a>
-                        
-                            </div>
-                            <!-- End Media -->
-
-                            <p>{{ people.shortcv | raw }}</p>
-                        </div>
-                    </div>
-                    <!-- End Media -->
-                    {% endfor %}
-                </div>
+      <div class="oling-team-page-grid">
+        {% for people in team %}
+          <article class="oling-team-card">
+            <div class="oling-team-media">
+              <img src="{{ people.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ people.noncomplet }}">
             </div>
-
-            {% include '/includes/sticky.html.twig' %}
-
-    
-            <!-- End Sticky End Point -->
-            <div id="stickyBlockEndPointEg1"></div>
-        </div>
-        <!-- End Description -->
-
-        
-        
+            <div class="oling-team-card__body">
+              <div class="oling-team-card__head">
+                <div>
+                  <h2>{{ people.noncomplet }}</h2>
+                  {% if people.titre %}
+                    <p class="oling-team-card__title">{{ people.titre }}</p>
+                  {% endif %}
+                </div>
+                {% if people.linkedin %}
+                  <a class="oling-team-card__link" href="{{ people.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                {% endif %}
+              </div>
+              {% if people.shortcv %}
+                <div class="oling-richtext oling-team-card__content">{{ people.shortcv|raw }}</div>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
     </div>
-    <!-- End Description -->
+  </section>
 </main>
-<!-- ========== END MAIN CONTENT ========== -->
-
 {% endblock %}

@@ -1,0 +1,17 @@
+<section class="oling-cta-band">
+  <div class="container">
+    <div class="oling-cta-band__inner">
+      <div>
+        <span class="oling-kicker">{{ eyebrow|default('Parlons de votre projet') }}</span>
+        <h2>{{ title }}</h2>
+        <p>{{ text }}</p>
+      </div>
+      <div class="oling-cta-band__actions">
+        <a class="btn btn-primary" href="{{ path(primaryCta.route, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+        {% if secondaryCta is defined and secondaryCta %}
+          <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

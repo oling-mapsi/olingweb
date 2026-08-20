@@ -1,0 +1,27 @@
+<h2>Nouveau lead IA OLING</h2>
+<p><strong>Date :</strong> {{ conversation.submittedAt ? conversation.submittedAt|date('d/m/Y H:i') : '' }}</p>
+<p><strong>Société :</strong> {{ lead.company }}<br>
+<strong>Nom :</strong> {{ lead.fullName }}<br>
+<strong>Email :</strong> {{ lead.email }}<br>
+<strong>Téléphone :</strong> {{ lead.phone }}<br>
+<strong>Page d'origine :</strong> {{ conversation.sourceUrl ?: conversation.sourcePath }}</p>
+
+<h3>Résumé court</h3>
+<p>{{ conversation.summaryShort }}</p>
+
+<h3>Qualification</h3>
+<ul>
+  <li><strong>Besoin principal :</strong> {{ qualification.primary_need ?: 'non qualifié' }}</li>
+  <li><strong>Urgence :</strong> {{ qualification.urgency_level ?: 'non qualifiée' }}</li>
+  <li><strong>Maturité :</strong> {{ qualification.maturity_level ?: 'non qualifiée' }}</li>
+  <li><strong>Type d'organisation :</strong> {{ qualification.organization_type ?: 'non qualifié' }}</li>
+  <li><strong>Taille :</strong> {{ qualification.organization_size ?: 'non qualifiée' }}</li>
+  <li><strong>Intention commerciale :</strong> {{ qualification.commercial_intent ?: 'non qualifiée' }}</li>
+  <li><strong>Valeur potentielle :</strong> {{ qualification.potential_value ?: 'non qualifiée' }}</li>
+</ul>
+
+<h3>Description consolidée</h3>
+<p>{{ lead.needDescription|nl2br }}</p>
+
+<h3>Consentement RGPD</h3>
+<p>{{ lead.rgpdConsent ? 'Oui' : 'Non' }} - {{ lead.rgpdConsentAt ? lead.rgpdConsentAt|date('d/m/Y H:i') : '' }}</p>

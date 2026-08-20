@@ -70,6 +70,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="mb-1">Home hero</h5>
+                    <p class="text-muted mb-3">Textes utilisés pour la rotation aléatoire du héros de la home.</p>
+                    <div class="mb-3">
+                        {{ form_label(form.homeHeroIntro) }}
+                        {{ form_widget(form.homeHeroIntro, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.homeHeroIntro) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.homeHeroText1) }}
+                        {{ form_widget(form.homeHeroText1, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.homeHeroText1) }}
+                    </div>
+                    <div class="mb-0">
+                        {{ form_label(form.homeHeroText2) }}
+                        {{ form_widget(form.homeHeroText2, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.homeHeroText2) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

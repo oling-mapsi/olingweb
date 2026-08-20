@@ -6,42 +6,33 @@
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 <main id="content" role="main" class="oling-seo-cabinet">
-  <section class="oling-section oling-section--tight">
-    <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ page and page.heroTitle ? page.heroTitle|striptags : 'Ressources' }}</li>
-        </ol>
-      </nav>
-      {% if page and page.heroBadge %}
-        <span class="oling-kicker">{{ page.heroBadge }}</span>
-      {% endif %}
-      {% if page and page.heroTitle %}
-        <h1>{{ page.heroTitle }}</h1>
-      {% elseif page and page.title %}
-        <h1>{{ page.title }}</h1>
-      {% endif %}
-      {% if page and page.heroIntro %}
-        <p class="oling-lede">{{ page.heroIntro|raw }}</p>
-      {% endif %}
-    </div>
-  </section>
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page and page.heroBadge ? page.heroBadge : 'Ressources OLING',
+    title: page and page.heroTitle ? page.heroTitle : 'Des ressources pour cadrer plus vite, arbitrer plus proprement et sécuriser les transformations',
+    intro: page and page.heroIntro ? page.heroIntro|striptags : "Cette bibliothèque rassemble des contenus de cadrage, des retours terrain et des points de vigilance sur les sujets ERP, SI, conformité, RGPD, cyber et IA.",
+    primaryCta: {route: 'contact', label: 'Parler de votre sujet'},
+    secondaryCta: {route: 'expertises_index', label: 'Voir les expertises'},
+    highlights: ['AMO ERP et SI', 'Conformité, RGPD, cyber', 'IA utile et gouvernée']
+  } %}
 
   {% if articles is not empty %}
-    <section class="oling-section oling-section--tight">
+    <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
-        <div class="row g-4">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Bibliothèque</span>
+          <h2>Contenus de cadrage, retours terrain et points de vigilance</h2>
+          <p>Les ressources complètent les expertises et les services avec un format plus pédagogique : méthode, vigilance, arbitrages et retours d’expérience.</p>
+        </div>
+        <div class="oling-editorial-grid">
           {% for article in articles %}
-            <div class="col-md-6 col-xl-4">
-              <article class="oling-surface p-4 h-100">
-                <h2 class="h4 mb-3"><a class="link" href="{{ path('seo_resource', {slug: article.slug}) }}">{{ article.h1 }}</a></h2>
-                {% if article.intro is not empty %}
-                  <p class="mb-3">{{ article.intro }}</p>
-                {% endif %}
-                <a class="btn btn-outline-primary btn-sm" href="{{ path('seo_resource', {slug: article.slug}) }}">Lire l'article</a>
-              </article>
-            </div>
+            <article class="oling-editorial-card">
+              <span class="oling-kicker">Ressource</span>
+              <h2><a class="link" href="{{ path('seo_resource', {slug: article.slug}) }}">{{ article.h1 }}</a></h2>
+              {% if article.intro is not empty %}
+                <p>{{ article.intro }}</p>
+              {% endif %}
+              <a class="oling-editorial-card__more" href="{{ path('seo_resource', {slug: article.slug}) }}">Lire l'article</a>
+            </article>
           {% endfor %}
         </div>
       </div>
@@ -49,15 +40,22 @@
   {% endif %}
 
   {% if page and page.heroSideHtml %}
-    {{ page.heroSideHtml|raw }}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-surface oling-surface--light">
+          <div class="oling-richtext oling-resource-content">{{ page.heroSideHtml|raw }}</div>
+        </div>
+      </div>
+    </section>
   {% endif %}
 
   {% if faqItems is not empty %}
-    <section class="oling-section oling-section--tight">
+    <section class="oling-shell-section">
       <div class="container">
-        <div class="oling-surface p-4">
-          <h2 class="h4">FAQ</h2>
-          <ul class="mb-0">
+        <div class="oling-surface oling-surface--light">
+          <span class="oling-kicker">FAQ</span>
+          <h2>Questions fréquentes</h2>
+          <ul class="oling-check-list mb-0">
             {% for item in faqItems %}
               <li><strong>{{ item.question }}</strong> {{ item.answer }}</li>
             {% endfor %}

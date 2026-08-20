@@ -39,6 +39,18 @@ class MetierRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Metier[]
+     */
+    public function findHomeHeroCandidates(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.imageHero IS NOT NULL OR m.image IS NOT NULL')
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Metier[] Returns an array of Metier objects
 //     */

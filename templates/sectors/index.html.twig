@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% set indexPage = page %}
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: indexPage.eyebrow,
+    title: indexPage.title,
+    intro: indexPage.intro,
+    primaryCta: {route: 'contact', label: 'Échanger sur votre contexte'},
+    secondaryCta: {route: 'expertises_index', label: 'Voir nos expertises'},
+    highlights: indexPage.highlights
+  } %}
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">{{ indexPage.section.kicker }}</span>
+        <h2>{{ indexPage.section.title }}</h2>
+        <p>{{ indexPage.section.text }}</p>
+      </div>
+      <div class="oling-editorial-grid">
+        {% for slug, sectorPage in sectorPages %}
+          <a class="oling-editorial-card" href="{{ path('sectors_show', {slug: slug}) }}">
+            <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
+            <h2>{{ sectorPage.title }}</h2>
+            <p>{{ sectorPage.intro }}</p>
+            {% if sectorPage.issues is not empty %}
+              <p><strong>Priorités types :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+            {% endif %}
+            <span class="oling-editorial-card__more">Voir le secteur</span>
+          </a>
+        {% else %}
+          <div class="oling-surface oling-surface--light">
+            <p class="mb-0">Aucun secteur n’est disponible pour le moment.</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% include 'public/_cta_band.html.twig' with {
+    title: indexPage.cta.title,
+    text: indexPage.cta.text,
+    primaryCta: indexPage.cta.primaryCta
+  } %}
+</main>
+{% endblock %}

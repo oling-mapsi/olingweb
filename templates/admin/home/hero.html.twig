@@ -9,7 +9,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
       <div>
         <h1 class="h3 mb-1">Home · Hero</h1>
-        <p class="text-muted mb-0">Titre H1, sous-titre et boutons du hero.</p>
+        <p class="text-muted mb-0">Titre H1, tags, bouton unique et métier mis en avant.</p>
       </div>
     </div>
 
@@ -24,24 +24,37 @@
     <div class="card">
       <div class="card-body">
         {{ form_start(form) }}
-          {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+          <div class="row g-3">
+            <div class="col-lg-4">
+              {{ form_row(form.eyebrow) }}
+            </div>
+            <div class="col-lg-8">
+              {{ form_row(form.title) }}
+            </div>
+          </div>
           {{ form_row(form.intro) }}
           <div class="row g-3">
             <div class="col-lg-6">
-              {{ form_row(form.ctaLabel, {'attr': {'class': 'form-control'}}) }}
+              {{ form_row(form.ctaLabelSecondary) }}
             </div>
             <div class="col-lg-6">
-              {{ form_row(form.ctaUrl, {'attr': {'class': 'form-control'}}) }}
+              {{ form_row(form.ctaUrlSecondary) }}
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-lg-6">
+              {{ form_row(form.tagsText) }}
             </div>
             <div class="col-lg-6">
-              {{ form_row(form.ctaLabelSecondary, {'attr': {'class': 'form-control'}}) }}
+              {{ form_row(form.metier) }}
             </div>
-            <div class="col-lg-6">
-              {{ form_row(form.ctaUrlSecondary, {'attr': {'class': 'form-control'}}) }}
+            <div class="col-12">
+              {{ form_row(form.metierIntro) }}
             </div>
           </div>
           <div class="d-flex gap-2 mt-3">
             <button class="btn btn-primary">Enregistrer</button>
+            <a class="btn btn-outline-secondary" href="{{ path('admin_home_content') }}">Éditer toute la home</a>
           </div>
         {{ form_end(form) }}
       </div>

@@ -9,7 +9,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
       <div>
         <h1 class="h3 mb-1">Home · Practices</h1>
-        <p class="text-muted mb-0">Titre et intro de la section “Nos practices” sous le hero.</p>
+        <p class="text-muted mb-0">Textes, sélection et ordre des practices affichées sur l’accueil.</p>
       </div>
     </div>
 
@@ -24,12 +24,98 @@
     <div class="card">
       <div class="card-body">
         {{ form_start(form) }}
-          {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+          <div class="row g-3">
+            <div class="col-lg-4">
+              {{ form_row(form.eyebrow) }}
+            </div>
+            <div class="col-lg-8">
+              {{ form_row(form.title) }}
+            </div>
+          </div>
           {{ form_row(form.intro) }}
+          <div class="row g-3">
+            <div class="col-lg-6">
+              {{ form_row(form.ctaLabel) }}
+            </div>
+            <div class="col-lg-6">
+              {{ form_row(form.ctaUrl) }}
+            </div>
+          </div>
           <div class="d-flex gap-2 mt-3">
             <button class="btn btn-primary">Enregistrer</button>
           </div>
         {{ form_end(form) }}
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-body">
+        <h2 class="h5 mb-2">Ordre affiché sur la home</h2>
+        <p class="text-muted mb-3">Glisse-dépose pour définir l’ordre des 4 practices.</p>
+        {% if featuredItems is empty %}
+          <div class="text-muted">Aucune practice sélectionnée.</div>
+        {% else %}
+          <ul class="home-order-list js-home-order" data-token="{{ csrf_token('home_order') }}" data-endpoint="{{ path('admin_practices_home_order') }}">
+            {% for practice in featuredItems %}
+              <li class="home-order-item" data-id="{{ practice.id }}" draggable="true">
+                <span class="home-order-handle">⋮⋮</span>
+                <span class="home-order-title">{{ practice.designation }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <div>
+            <h2 class="h5 mb-1">Sélection</h2>
+            <p class="text-muted mb-0">Coche jusqu’à 4 practices.</p>
+          </div>
+          <small class="text-muted js-featured-counter">0/4 sélectionnés</small>
+        </div>
+
+        <form method="post" class="js-featured-projects-form" data-max="4">
+          <input type="hidden" name="featured_form" value="practices">
+          <input type="hidden" name="_token" value="{{ csrf_token('home_practices') }}">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle js-admin-table">
+              <thead>
+                <tr>
+                  <th>Afficher</th>
+                  <th>Practice</th>
+                  <th>Slug</th>
+                  <th>Image</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for practice in practiceItems %}
+                  <tr>
+                    <td>
+                      <input class="form-check-input js-featured-projects-check" type="checkbox" name="featured_ids[]" value="{{ practice.id }}" {% if practice.featuredHome %}checked{% endif %}>
+                    </td>
+                    <td class="fw-semibold">
+                      <a href="{{ path('admin_practices_edit', {id: practice.id}) }}">{{ practice.designation }}</a>
+                    </td>
+                    <td>{{ practice.slug }}</td>
+                    <td>
+                      {% if practice.image1 %}
+                        <img src="{{ asset(practice.image1) }}" alt="Image" style="width: 80px; height: 50px; object-fit: cover;">
+                      {% else %}
+                        <span class="text-muted">-</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

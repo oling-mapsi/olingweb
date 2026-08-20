@@ -1,0 +1,80 @@
+{% set expertiseGroups = [
+  {
+    slug: 'consulting',
+    title: 'Stratégie et conseil',
+    intro: 'Cabinet AMOA SI : schéma directeur, gouvernance, pilotage de projets et optimisation des processus pour aligner SI et stratégie.'
+  },
+  {
+    slug: 'expertises-audit',
+    title: 'Conformité & Risques',
+    intro: 'Conformité RGPD, ISO 27001/9001, audits et gestion des risques : sécurisez vos données et vos obligations réglementaires.'
+  },
+  {
+    slug: 'business-apps',
+    title: 'Opérations et technologie',
+    intro: 'ERP, CRM, BI et apps métier : conseil, déploiement et conduite du changement pour accélérer la transformation digitale.'
+  }
+] %}
+
+{% if variant|default('page') == 'menu' %}
+  <div class="oling-mega-head">
+    <h3>Nos expertises</h3>
+    <a class="oling-mega-head-link" href="{{ path('projets') }}">Nos réalisations →</a>
+  </div>
+
+  <div class="oling-mega-grid">
+    {% for group in expertiseGroups %}
+      {% for practice in practices %}
+        {% if practice.slug == group.slug %}
+          <div class="oling-mega-col">
+            <a class="oling-mega-col-title" href="{{ path('practice_home', {slug: practice.slug}) }}">{{ practice.designation ?: group.title }}</a>
+            <ul class="oling-mega-links">
+              {% for service in services %}
+                {% if service.practice and service.practice.slug == group.slug %}
+                  <li><a href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">{{ service.designation }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="oling-expertise-groups">
+    {% for group in expertiseGroups %}
+      {% for practice in practices %}
+        {% if practice.slug == group.slug %}
+          <article class="oling-surface oling-surface--light oling-expertise-group">
+            <div class="oling-expertise-group__head">
+              <span class="oling-kicker">{{ group.title }}</span>
+              <h2>{{ practice.designation }}</h2>
+              <p>{{ group.intro }}</p>
+              <div class="oling-mega-actions">
+                <a class="oling-mega-link" href="{{ path('practice_home', {slug: practice.slug}) }}">Voir la practice</a>
+              </div>
+            </div>
+            <ul class="oling-expertise-group__links">
+              {% for service in services %}
+                {% if service.practice and service.practice.slug == group.slug %}
+                  <li>
+                    <a href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">
+                      <strong>{{ service.designation }}</strong>
+                      {% if service.introductionShort %}
+                        <span>{{ service.introductionShort|striptags }}</span>
+                      {% elseif service.descriptionShort %}
+                        <span>{{ service.descriptionShort|striptags }}</span>
+                      {% else %}
+                        <span>Découvrir l’expertise détaillée et les modalités d’intervention.</span>
+                      {% endif %}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </article>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endif %}

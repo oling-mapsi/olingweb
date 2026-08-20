@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: page.primaryCta,
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
+  } %}
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Fiches expertise</span>
+        <h2>Neuf expertises structurées pour cadrer, piloter et déployer</h2>
+        <p>Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.</p>
+      </div>
+      <div class="oling-project-proof-grid">
+        {% for slug, expertisePage in expertisePages %}
+          <article class="oling-proof-card">
+            {% if expertisePage.heroImage is defined and expertisePage.heroImage %}
+              <img class="img-fluid rounded-3 mb-3" src="{{ expertisePage.heroImage }}" alt="{{ expertisePage.title }}">
+            {% endif %}
+            <span class="oling-kicker">{{ expertisePage.nav }}</span>
+            <h3>{{ expertisePage.title }}</h3>
+            <p>{{ expertisePage.intro }}</p>
+            <a class="oling-mega-link" href="{{ path('expertises_show', {slug: slug}) }}">Voir la fiche</a>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-shell-section oling-shell-section--tint">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">{{ page.section.kicker }}</span>
+        <h2>{{ page.section.title }}</h2>
+        <p>{{ page.section.text }}</p>
+      </div>
+      {% include 'public/_expertise_groups.html.twig' with {variant: 'page', practices: practices, services: services} %}
+    </div>
+  </section>
+
+  {% include 'public/_cta_band.html.twig' with {
+    title: page.cta.title,
+    text: page.cta.text,
+    primaryCta: page.cta.primaryCta
+  } %}
+</main>
+{% endblock %}

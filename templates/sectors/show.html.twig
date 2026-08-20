@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: {route: 'contact', label: 'Parler de votre contexte'},
+    secondaryCta: {route: 'sectors_index', label: 'Voir tous les secteurs'},
+    highlights: page.issues|slice(0, 3)
+  } %}
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-surface oling-surface--light">
+        <span class="oling-kicker">Enjeux types</span>
+        <h2>Points de vigilance fréquents dans ce terrain</h2>
+        <ul class="oling-check-list">
+          {% for issue in page.issues %}
+            <li>{{ issue }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-shell-section oling-shell-section--tint">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Expertises recommandées</span>
+        <h2>Les sujets à prioriser en premier</h2>
+      </div>
+      <div class="oling-editorial-grid">
+        {% for slug in page.linkedExpertises %}
+          {% set linkedPage = expertisePages[slug] ?? null %}
+          {% if linkedPage %}
+            <a class="oling-editorial-card" href="{{ path('expertises_show', {slug: slug}) }}">
+              <span class="oling-kicker">{{ linkedPage.eyebrow }}</span>
+              <h3>{{ linkedPage.title }}</h3>
+              <p>{{ linkedPage.intro }}</p>
+              <span class="oling-editorial-card__more">Voir l'expertise</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% include 'public/_cta_band.html.twig' with {
+    title: 'Construire une trajectoire adaptée à votre environnement',
+    text: 'OLING peut intervenir en diagnostic ou en pilotage pour remettre de la clarté sur les enjeux, les dépendances, les risques et les décisions structurantes.',
+    primaryCta: {route: 'contact', label: 'Demander un échange'}
+  } %}
+</main>
+{% endblock %}

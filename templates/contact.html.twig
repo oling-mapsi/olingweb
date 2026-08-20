@@ -1,184 +1,115 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact | Cabinet de conseil AMOA SI à Paris, Hexagone et DROM - OLING{% endblock %}
-{% block meta_description %}Contactez OLING: cabinet de conseil AMOA SI, ERP, CRM, GMAO, risques et conformité. Présence Paris, métropoles Hexagone et DROM.{% endblock %}
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
-  
+<main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    highlights: page.highlights,
+  } %}
 
-  <!-- Card Grid -->
-<div class="container content-space-3 content-space-lg-3">
-  <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
-    <div class="row">
-      <div class="col-md-7 mb-8 mb-lg-0">
-        <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> Formulaire de contact</span>
-        <div class="w-md-75 mb-5">
-          <h1 class="text-white">Comment pouvons-nous vous aider ?</h1>
-          <p class="text-white-70">Décrivez votre besoin AMOA, SI ou conformité. Nous revenons vers vous avec une proposition claire et réaliste.</p>
-        </div>
-      </div>
-      <!-- End Col -->
-      <div class="col-md-6">
-      </div>
-      <!-- End Col -->
-    </div>
-    <!-- End Row -->
-  </div>
-
-
-    <div class="row">
-      <div class="col-lg-5 mb-10 mb-lg-0">
-        <div class="pe-lg-10">
-          <div class="mb-5">
-            <h3>Nos bureaux</h3>
-            <p class="text-white-70 mb-0">Présence Hexagone et DROM: Paris, Guadeloupe, Martinique, Guyane, Réunion et Saint-Pierre-et-Miquelon.</p>
-          </div>
-          {% if agencies is empty %}
-            <div class="alert alert-info">Aucune agence n'est renseignée pour le moment.</div>
-          {% else %}
-            {% for agency in agencies %}
-              <!-- Info -->
-              <address>
-                <span class="d-block fs-3 fw-bold text-dark mb-2">{{ agency.name }}</span>
-                {{ agency.streetLine1 }}<br>
-                {% if agency.streetLine2 %}{{ agency.streetLine2 }}<br>{% endif %}
-                {{ agency.postalCode }} {{ agency.city }}<br>
-                {{ agency.country }}
-              </address>
-              <!-- End Info -->
-            {% endfor %}
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-two-col">
+        <article class="oling-surface oling-surface--light">
+          <span class="oling-kicker">{{ page.requestSection.kicker }}</span>
+          <h2>{{ page.requestSection.title }}</h2>
+          {% if page.legacySideHtml is defined and page.legacySideHtml %}
+            <div class="oling-richtext">{{ page.legacySideHtml|raw }}</div>
+          {% elseif page.requestSection.items is defined and page.requestSection.items %}
+            <ul class="oling-check-list">
+              {% for item in page.requestSection.items %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
           {% endif %}
-        </div>
-      </div>
-      <!-- End Col -->
 
-      <div class="col-lg-7">
-        <div class="position-relative">
-          <!-- Card -->
-          <div class="card card-lg oling-surface">
-            <!-- Card Body -->
-            <div class="card-body">
-              <h4 class="mb-4">Envoyez-nous un message</h4>
-
-              <div id="contact-loading" class="d-none align-items-center gap-2 mb-3">
-                <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
-                <span>Envoi en cours…</span>
-              </div>
-
-              <div id="contact-error" class="alert alert-danger d-none mb-3"></div>
-
-              <div id="contact-success" class="d-none">
-                <h5 class="mb-2">Merci, votre message est bien envoyé.</h5>
-                <p class="mb-0">Nous revenons vers vous rapidement pour un échange de cadrage de 30 minutes.</p>
-              </div>
-
-              <form id="contact-form">
-                <div class="row">
-                  <div class="col-sm-6 mb-4 mb-sm-0">
-                    <!-- Form -->
-                    <div class="mb-4">
-                      <label class="form-label" for="contactFirstName">Prénom</label>
-                      <input type="text" class="form-control" name="contactFirstName" id="contactFirstName" placeholder="Prénom" aria-label="Prénom">
-                    </div>
-                    <!-- End Form -->
-                  </div>
-                  <!-- End Col -->
-
-                  <div class="col-sm-6">
-                    <!-- Form -->
-                    <div class="mb-4">
-                      <label class="form-label" for="contactLastName">Nom</label>
-                      <input type="text" class="form-control" name="contactLastName" id="contactLastName" placeholder="Nom" aria-label="Nom">
-                    </div>
-                    <!-- End Form -->
-                  </div>
-                  <!-- End Col -->
-                </div>
-                <!-- End Row -->
-
-                <div class="row">
-                  <!-- Form -->
-                  <div class="mb-4">
-                    <label class="form-label" for="contactCompany">Société</label>
-                    <input type="text" class="form-control" name="contactCompany" id="contactCompany" placeholder="Société" aria-label="Société">
-                  </div>
-                  <!-- End Form -->
-                </div>
-                <!-- End Col -->
-
-                <!-- Form -->
-                <div class="mb-4">
-                  <label class="form-label" for="contactWorkEmail">Email professionnel</label>
-                  <input type="text" class="form-control" name="contactWorkEmail" id="contactWorkEmail" placeholder="email@domaine.com" aria-label="email@domaine.com">
-                </div>
-                <!-- End Form -->
-
-                <!-- Form -->
-                <div class="mb-4">
-                  <label class="form-label" for="contactDetails">Votre message</label>
-                  <textarea class="form-control" name="contactDetails" id="contactDetails" placeholder="Donnez nous quelques éléments pour étudier votre besoin" aria-label="Donnez nous quelques éléments pour étudier votre besoins" rows="4"></textarea>
-                </div>
-                <!-- End Form -->
-
-                 <!-- Consentement RGPD -->
-                <div class="mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="consent" name="consent">
-                        <label class="form-check-label" for="consent">
-                            J'accepte que les données de ce formulaire soient collectées dans le cadre de ma demande.
-                        </label>
-                    </div>
-                </div>
-
-                <small class="text-muted small">
-                    Conformément au Règlement Général sur la Protection des Données (RGPD), les informations recueillies via ce formulaire sont nécessaires pour traiter votre demande. Vous disposez d'un droit d'accès, de rectification, et de suppression des données vous concernant.
-                    <br>Pour les demandes RGPD : <a class="link link-light link-light-75" href="https://v6.mapsi.fr/public-form/rgpdaccess/eyJ2IjoxLCJjIjo4LCJlIjoicmdwZGFjY2VzcyJ9.e041dfbf740ee072196f1117efc9b6cbcd69f074510a3e31216784d64f5f6965" target="_blank" rel="noopener">Accéder au formulaire RGPD</a>
-                </small>
-                <div class="mb-4">
-    
-                </div>
-
-                <div class="d-grid">
-                  <button type="button" class="btn btn-primary btn-lg" id="button-send">Envoyer</button>
-                </div>
-              </form>
-            </div>
-            <!-- End Card Body -->
+          <div class="oling-surface oling-surface--light mt-4">
+            <h3>{{ page.presenceSection.title }}</h3>
+            <p>{{ page.presenceSection.text }}</p>
+            {% if agencies is not empty %}
+              <ul class="oling-check-list">
+                {% for agency in agencies %}
+                  <li>{{ agency.name }}{% if agency.city %} - {{ agency.city }}{% endif %}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
-          <!-- End Card -->
-        </div>
+        </article>
+
+        <article class="oling-surface oling-surface--light">
+          <span class="oling-kicker">{{ page.formSection.kicker }}</span>
+          <h2>{{ page.formSection.title }}</h2>
+          <div id="contact-loading" class="d-none align-items-center gap-2 mb-3">
+            <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+            <span>{{ page.formSection.loadingText }}</span>
+          </div>
+          <div id="contact-error" class="alert alert-danger d-none mb-3">{{ page.formSection.errorText }}</div>
+          <div id="contact-success" class="d-none">
+            <h5 class="mb-2">{{ page.formSection.successTitle }}</h5>
+            <p class="mb-0">{{ page.formSection.successText }}</p>
+          </div>
+
+          <form id="contact-form" class="oling-contact-form">
+            <div class="row">
+              <div class="col-sm-6 mb-4">
+                <label class="form-label" for="contactFirstName">{{ page.formSection.fields.firstName.label }}</label>
+                <input type="text" class="form-control" name="contactFirstName" id="contactFirstName" placeholder="{{ page.formSection.fields.firstName.placeholder }}">
+              </div>
+              <div class="col-sm-6 mb-4">
+                <label class="form-label" for="contactLastName">{{ page.formSection.fields.lastName.label }}</label>
+                <input type="text" class="form-control" name="contactLastName" id="contactLastName" placeholder="{{ page.formSection.fields.lastName.placeholder }}">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="contactCompany">{{ page.formSection.fields.company.label }}</label>
+              <input type="text" class="form-control" name="contactCompany" id="contactCompany" placeholder="{{ page.formSection.fields.company.placeholder }}">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="contactWorkEmail">{{ page.formSection.fields.workEmail.label }}</label>
+              <input type="text" class="form-control" name="contactWorkEmail" id="contactWorkEmail" placeholder="{{ page.formSection.fields.workEmail.placeholder }}">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="contactDetails">{{ page.formSection.fields.details.label }}</label>
+              <textarea class="form-control" name="contactDetails" id="contactDetails" rows="5" placeholder="{{ page.formSection.fields.details.placeholder }}"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check oling-contact-form__consent">
+                <input class="form-check-input" type="checkbox" id="consent" name="consent">
+                <label class="form-check-label" for="consent">
+                  {{ page.formSection.consentText }}
+                </label>
+              </div>
+            </div>
+
+            <p class="small text-muted mb-4 oling-contact-form__legal">
+              {{ page.formSection.legalText }}
+              Pour les demandes RGPD :
+              <a href="{{ page.formSection.legalLinkUrl }}" target="_blank" rel="noopener">{{ page.formSection.legalLinkLabel }}</a>.
+            </p>
+
+            <div class="d-grid oling-contact-form__submit">
+              <button type="button" class="btn btn-primary btn-lg" id="button-send">{{ page.formSection.submitLabel }}</button>
+            </div>
+          </form>
+        </article>
       </div>
-      <!-- End Col -->
-
     </div>
-    <!-- End Row -->
-  </div>
-<!-- End Contact Form -->
+  </section>
 
-  
-
-  <!-- ========== SECONDARY CONTENTS ========== -->
-  <!-- Go To -->
-  <a class="js-go-to go-to position-fixed" href="javascript:;" style="visibility: hidden;"
-     data-hs-go-to-options='{
-       "offsetTop": 700,
-       "position": {
-         "init": {
-           "right": "2rem"
-         },
-         "show": {
-           "bottom": "2rem"
-         },
-         "hide": {
-           "bottom": "-2rem"
-         }
-       }
-     }'>
-    <i class="bi-chevron-up"></i>
-  </a>
-
-  <!-- JS Plugins Init. -->
-  <script>
-    
-  </script>
+  {% include 'public/_cta_band.html.twig' with {
+    eyebrow: page.cta.eyebrow,
+    title: page.cta.title,
+    text: page.legacyBodyHtml is defined and page.legacyBodyHtml ? page.legacyBodyHtml|striptags : page.cta.text,
+    primaryCta: page.cta.primaryCta
+  } %}
+</main>
 {% endblock %}

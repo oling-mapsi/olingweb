@@ -85,7 +85,7 @@
       <div class="oling-team-mini-list">
         {% for team in teams %}
           <div class="oling-team-mini">
-            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/400x400/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
+            <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
             <div class="oling-team-mini__meta">
               <div class="oling-team-mini__name">{{ team.noncomplet }}</div>
               {% if team.titre %}

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: {route: 'contact', label: 'Parler de votre projet'},
+    secondaryCta: {route: 'expertises_index', label: 'Voir toutes les expertises'},
+    highlights: page.deliverables|slice(0, 3)
+  } %}
+
+  {% if page.heroImage is defined and page.heroImage %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-surface oling-surface--light">
+          <img class="img-fluid rounded-3 w-100" src="{{ page.heroImage }}" alt="{{ page.title }}">
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-two-col">
+        <div class="oling-surface oling-surface--light">
+          <span class="oling-kicker">Situations fréquentes</span>
+          <h2>Quand OLING entre en jeu</h2>
+          <ul class="oling-check-list">
+            {% for item in page.situations %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="oling-surface oling-surface--light">
+          <span class="oling-kicker">Interventions</span>
+          <h2>Ce que nous cadrons et pilotons</h2>
+          <ul class="oling-check-list">
+            {% for item in page.interventions %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-shell-section oling-shell-section--tint">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Livrables</span>
+        <h2>Des sorties directement exploitables par la direction, les métiers et la DSI</h2>
+      </div>
+      <div class="oling-deliverable-grid">
+        {% for item in page.deliverables %}
+          <article class="oling-deliverable-card">
+            <h3>{{ item }}</h3>
+            <p>Formalisé pour arbitrer, engager les parties prenantes et tenir l'exécution.</p>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Offres liées</span>
+        <h2>Services associés</h2>
+      </div>
+      {% include 'public/_linked_service_cards.html.twig' with {links: page.linkedServices, services: services} %}
+    </div>
+  </section>
+
+  {% if projects|length > 0 %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Preuves</span>
+          <h2>Cas et contextes où la clarté devait revenir vite</h2>
+        </div>
+        <div class="oling-project-proof-grid">
+          {% for project in projects|slice(0, 3) %}
+            <article class="oling-proof-card">
+              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'Projet' }}</span>
+              <h3>{{ project.designation }}</h3>
+              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'Projet structuré pour remettre de la lisibilité et de la maîtrise dans une transformation sensible.' }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% include 'public/_cta_band.html.twig' with {
+    eyebrow: 'Diagnostic',
+    title: 'Obtenir une vision claire des priorités, des risques et des décisions à prendre',
+    text: 'OLING peut intervenir rapidement pour recadrer un projet, arbitrer une trajectoire ou remettre un sujet ERP, conformité, cyber ou IA sous contrôle.',
+    primaryCta: {route: 'contact', label: 'Demander un diagnostic'}
+  } %}
+</main>
+{% endblock %}

@@ -1,434 +1,274 @@
 <!DOCTYPE html>
 <html lang="fr">
-    {% set currentRoute = app.request.attributes.get('_route') %}
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="robots" content="{% if currentRoute starts with 'admin_' or currentRoute in ['login', 'logout', 'growth_preview_article'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' or app.request.pathinfo starts with '/preview/' %}noindex,nofollow{% else %}index,follow,max-image-preview:large{% endif %}" />
-       
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="shortcut icon" href="/favicon.ico">
-        {% set meta_description %}{% block meta_description %}{% endblock %}{% endset %}
-        <meta name="description" content="{{ meta_description|striptags|trim }}" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="canonical" href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}{% endblock %}" />
-        <link rel="alternate" hreflang="fr-FR" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
-        <link rel="alternate" hreflang="x-default" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
-        <meta property="og:title" content="{{ block('title')|striptags|trim }}">
-        <meta property="og:description" content="{{ meta_description|striptags|trim }}">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
-        <meta property="og:image" content="https://oling.fr/img/og/oling-home.jpg">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
-        <meta name="twitter:description" content="{{ meta_description|striptags|trim }}">
-        <meta name="theme-color" content="#0093DC">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-            
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <script type="application/ld+json">
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set currentSlug = app.request.attributes.get('slug') %}
+{% set currentPracticeSlug = app.request.attributes.get('practice') %}
+{% set isAdminPage = currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %}
+{% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="{% if currentRoute starts with 'admin_' or currentRoute in ['login', 'logout', 'growth_preview_article'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' or app.request.pathinfo starts with '/preview/' %}noindex,nofollow{% else %}index,follow,max-image-preview:large{% endif %}" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    {% set meta_description %}{% block meta_description %}{% endblock %}{% endset %}
+    <meta name="description" content="{{ meta_description|striptags|trim }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="canonical" href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}{% endblock %}" />
+    <link rel="alternate" hreflang="fr-FR" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+    <meta property="og:title" content="{{ block('title')|striptags|trim }}">
+    <meta property="og:description" content="{{ meta_description|striptags|trim }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
+    <meta property="og:image" content="https://oling.fr/img/1920x1080/security.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
+    <meta name="twitter:description" content="{{ meta_description|striptags|trim }}">
+    <meta name="theme-color" content="#2F5D62">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://oling.fr/#professional-service",
+      "name": "OLING Management et Technologie",
+      "url": "https://oling.fr",
+      "mainEntityOfPage": "https://oling.fr/",
+      "logo": "https://oling.fr/img/logo/logoling.png",
+      "description": "Cabinet de conseil pour PME, PMI et ETI : transformation SI, ERP, organisation, conformité, cybersécurité et intelligence artificielle.",
+      "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane", "Réunion", "Saint-Pierre-et-Miquelon"],
+      "email": "contact@oling.fr",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "contact@oling.fr",
+        "url": "https://oling.fr/contact",
+        "availableLanguage": ["fr-FR"]
+      },
+      "address": [
+        {% for agency in agencies %}
         {
-          "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-          "@id": "https://oling.fr/#professional-service",
-          "name": "OLING Management et Technologie",
-          "url": "https://oling.fr",
-          "mainEntityOfPage": "https://oling.fr/",
-          "logo": "https://oling.fr/img/logo/logoling.png",
-          "description": "Cabinet de conseil AMOA SI, ERP, CRM, GMAO, conformité et cybersécurité, présent à Paris, dans les métropoles de l'Hexagone et dans les DROM.",
-          "areaServed": [
-            "Paris",
-            "Hexagone",
-            "Guadeloupe",
-            "Martinique",
-            "Guyane",
-            "Reunion",
-            "Saint-Pierre-et-Miquelon"
-          ],
-          "serviceArea": [
-            {"@type": "AdministrativeArea", "name": "Paris"},
-            {"@type": "AdministrativeArea", "name": "Hexagone"},
-            {"@type": "AdministrativeArea", "name": "Guadeloupe"},
-            {"@type": "AdministrativeArea", "name": "Martinique"},
-            {"@type": "AdministrativeArea", "name": "Guyane"},
-            {"@type": "AdministrativeArea", "name": "Reunion"},
-            {"@type": "AdministrativeArea", "name": "Saint-Pierre-et-Miquelon"}
-          ],
-          "knowsAbout": [
-            "AMOA SI",
-            "ERP",
-            "CRM",
-            "GMAO",
-            "progiciel",
-            "gestion des risques",
-            "audit",
-            "controle interne",
-            "direction qualite deleguee",
-            "direction conformite externalisee",
-            "DSI externalisee"
-          ],
-          "email": "contact@oling.fr",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer support",
-            "email": "contact@oling.fr",
-            "url": "https://oling.fr/contact",
-            "availableLanguage": ["fr-FR"]
-          },
-          "address": [
-            {% for agency in agencies %}
-            {
-              "@type": "PostalAddress",
-              "streetAddress": "{{ agency.streetAddress|e('js') }}",
-              "postalCode": "{{ agency.postalCode|e('js') }}",
-              "addressLocality": "{{ agency.city|e('js') }}",
-              "addressCountry": "{{ (agency.countryCode ?: agency.country)|e('js') }}"
-            }{{ not loop.last ? ',' }}
-            {% endfor %}
-          ],
-          "sameAs": [
-            {% for sameAsUrl in oling_schema_same_as %}
-            "{{ sameAsUrl|e('js') }}"{{ not loop.last ? ',' }}
-            {% endfor %}
-          ]
-        }
-        </script>
-    </head>
-    <body class="oling-body oling-refresh{% if app.request.pathinfo == '/' %} oling-home{% endif %}{% if currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
-        <!-- ========== HEADER ========== -->
-        <header id="header" class="oling-header mymenumoov navbar navbar-expand-lg navbar-center navbar-absolute-top navbar-show-hide"
-                data-hs-header-options='{
-                    "fixMoment": 0,
-                    "fixEffect": "slide"
-                }'>
-            <div class="container">
-                <nav class="js-mega-menu navbar-nav-wrap">
-                    <div class="navbar-brand-wrapper">
-                    <!-- Default Logo -->
-                    <a class="navbar-brand" href={{ path('index')}} aria-label="Oling">
-                        <img class="" src="{{ asset('/img/logo/logoling.png') }}" alt="Logo" style="height: 59px; width: auto;">
-                    </a>
-                    <!-- End Default Logo -->
-                    </div>
+          "@type": "PostalAddress",
+          "streetAddress": "{{ agency.streetAddress|e('js') }}",
+          "postalCode": "{{ agency.postalCode|e('js') }}",
+          "addressLocality": "{{ agency.city|e('js') }}",
+          "addressCountry": "{{ (agency.countryCode ?: agency.country)|e('js') }}"
+        }{{ not loop.last ? ',' }}
+        {% endfor %}
+      ],
+      "sameAs": [
+        {% for sameAsUrl in oling_schema_same_as %}
+        "{{ sameAsUrl|e('js') }}"{{ not loop.last ? ',' }}
+        {% endfor %}
+      ]
+    }
+    </script>
+</head>
+<body class="oling-body oling-refresh{% if app.request.pathinfo == '/' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
+    {% if not isAdminPage %}
+    <header id="header" class="oling-header navbar navbar-expand-lg navbar-show-hide"
+            data-hs-header-options='{"fixMoment": 0, "fixEffect": "slide"}'>
+        <div class="container">
+            <nav class="js-mega-menu navbar-nav-wrap oling-topbar">
+                <a class="navbar-brand oling-brand" href="{{ path('index') }}" aria-label="OLING">
+                    <img src="{{ asset('/img/logo/logoling.png') }}" alt="Logo OLING">
+                </a>
 
-                    <!-- Toggler -->
-                    <button type="button" class="navbar-toggler ms-auto d-print-none" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuLeftAligned" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNavMenuLeftAligned">
-                    <span class="navbar-toggler-default d-print-none">
-                        <i class="bi-list mymenuspe"></i>
-                    </span>
-                    <span class="navbar-toggler-toggled d-print-none">
-                        <i class="bi-x"></i>
-                    </span>
-                    </button>
-                    <!-- End Toggler -->
-                
-                    <!-- Collapse -->
-                    <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
-                        <div class="navbar-absolute-top-scroller">
-                            <ul class="navbar-nav nav-pills justify-content-start">
-                            <li class="hs-has-mega-menu nav-item"
-                                data-hs-mega-menu-item-options='{
-                                    "desktop": {
-                                    "position": "left",
-                                    "maxWidth": "80rem"
-                                    }
-                                }'>
-                                <a id="needsMegaMenu"
-                                    class="mymenulink mt-2 nav-link dropdown-toggle hs-mega-menu-invoker"
-                                    href="javascript:;"
-                                    role="button"
-                                    aria-expanded="false">
-                                    Vos besoins
-                                </a>
+                <button type="button" class="navbar-toggler ms-auto d-print-none" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuLeftAligned" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navbarNavMenuLeftAligned">
+                    <span class="navbar-toggler-default d-print-none"><i class="bi-list"></i></span>
+                    <span class="navbar-toggler-toggled d-print-none"><i class="bi-x"></i></span>
+                </button>
 
-                                <div class="hs-mega-menu dropdown-menu oling-mega-menu oling-mega-menu--needs" aria-labelledby="needsMegaMenu">
-                                    <div class="oling-mega-head">
-                                        <h3>Nos expertises</h3>
-                                        <a class="oling-mega-head-link" href="{{ path('projets') }}">Nos réalisations →</a>
-                                    </div>
-                                    <div class="oling-mega-grid">
-                                        {% for practice in practices %}
-                                            {% if practice.slug != 'mapsi' %}
-                                                <div class="oling-mega-col">
-                                                    <a class="oling-mega-col-title" href="{{ path('practice_home', {'slug': practice.slug}) }}">
-                                                        {{ practice.designationShort ?: practice.designation }}
-                                                    </a>
-                                                    {% if practice.introductionShort %}
-                                                        <p class="oling-mega-col-intro">{{ practice.introductionShort|striptags|slice(0, 120) ~ '…' }}</p>
-                                                    {% endif %}
-                                                    <ul class="oling-mega-links">
-                                                        {% for service in practice.services %}
-                                                            <li><a href="{{ path('service', {'practice' : service.practice.slug, 'slug' : service.slug}) }}">{{ service.designation | raw }}</a></li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
+                <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
+                    <ul class="navbar-nav ms-lg-auto align-items-lg-center">
+                        <li class="hs-has-mega-menu nav-item"
+                            data-hs-mega-menu-item-options='{"desktop":{"position":"left"}}'>
+                            <a id="expertisesMegaMenu"
+                               class="hs-mega-menu-invoker hs-mega-menu__invoker nav-link {% if expertisesActive %}active{% endif %}"
+                               href="{{ path('expertises_index') }}"
+                               aria-expanded="false">Expertises</a>
+                            <div class="oling-mobile-mega d-lg-none">
+                                {% for practice in practices|default([]) %}
+                                    {% if practice.slug in ['consulting', 'expertises-audit', 'business-apps'] %}
+                                        <a class="oling-mobile-mega__group" href="{{ path('practice_home', {slug: practice.slug}) }}">{{ practice.designation }}</a>
+                                        <div class="oling-mobile-mega__links">
+                                            {% for service in services|default([]) %}
+                                                {% if service.practice and service.practice.slug == practice.slug %}
+                                                    <a class="oling-mobile-mega__link" href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">{{ service.designation }}</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <a class="oling-mobile-mega__all" href="{{ path('expertises_index') }}">Voir toutes les expertises</a>
+                            </div>
+                            {% if practices is defined and services is defined %}
+                                <div class="hs-mega-menu oling-mega-menu oling-mega-menu--needs" aria-labelledby="expertisesMegaMenu">
+                                    {% include 'public/_expertise_groups.html.twig' with {variant: 'menu', practices: practices, services: services} %}
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="mymenulink mt-2 nav-link" href="{{ path('projets') }}">Nos projets</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="mymenulink mt-2 nav-link" href="{{ path('apropos') }}">Nos atouts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="mymenulink mt-2 nav-link" href="{{ path('contact') }}">Contactez-nous</a>
-                            </li>
-                            <li class="nav-item ms-lg-2">
-                                <a class="nav-link mapsi-link mt-2 gap-2" href="{{ path('practice_home', {'slug': 'mapsi'}) }}" aria-label="Accéder à MAPSI">
-                                    <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo Mapsi">
-                                    <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo mapsi blanc">
-                                </a>
-                            </li>
-{# 
-                            <!-- Landings -->
-                            <li class="nav-item">
-                                <a class="mymenulink nav-link mt-2{% if app.request.pathinfo == '/a-propos' %} active{% endif %}" aria-current="page"  href={{ path('apropos')}} role="button" aria-expanded="false">Découvrez OLING</a>
-                            </li>
-                            <!-- End Landings -->
-
-                            <!-- contact -->
-                            <li class="nav-item ms-lg-auto">
-                                <a class="btn btn-light d-none d-lg-inline-block" style="transform: translateY(4px);" href={{ path('contact')}}>Contactez-nous</a>
-                            </li>
-                           <!-- End contact --> #}
-
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- End Collapse -->
-                </nav>
-            </div>
-            
-        </header>
-
-
-        <!-- ========== END HEADER ========== -->
-
-
-        {# Vignettes latérales supprimées #}
-
-
- 
-        {% block body %}{% endblock %}
-
-        <div id="cookie-banner" class="oling-cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
-            <div class="oling-cookie-banner__content">
-                <div class="oling-cookie-banner__text">
-                    <strong>Gestion des cookies</strong>
-                    <p>Nous utilisons des cookies essentiels au fonctionnement du site. Vous pouvez accepter la mesure d’audience ou refuser tout sauf le minimum nécessaire.</p>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if currentRoute in ['sectors_index', 'sectors_show', 'metiers'] %}active{% endif %}" href="{{ path('sectors_index') }}">Secteurs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if currentRoute in ['projets', 'projets_more'] %}active{% endif %}" href="{{ path('projets') }}">Cas clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if currentRoute == 'apropos' %}active{% endif %}" href="{{ path('apropos') }}">Cabinet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if currentRoute == 'seo_resources_index' %}active{% endif %}" href="{{ path('seo_resources_index') }}">Ressources</a>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-primary" href="{{ path('contact') }}">Parler à un consultant</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="nav-link mapsi-link" href="{{ path('practice_home', {'slug': 'mapsi'}) }}" aria-label="Accéder à MAPSI">
+                                <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo MAPSI">
+                                <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo MAPSI">
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="oling-cookie-banner__actions">
-                    <button type="button" class="btn btn-outline-light js-cookie-details">Voir les cookies</button>
-                    <button type="button" class="btn btn-primary js-cookie-accept">Accepter tout</button>
-                    <button type="button" class="btn btn-outline-light js-cookie-refuse">Refuser tout (minimum)</button>
-                </div>
+            </nav>
+        </div>
+    </header>
+    {% endif %}
+
+    {% block body %}{% endblock %}
+
+    {% if not isAdminPage %}
+    {% include 'includes/_chat_widget.html.twig' %}
+
+    <div id="cookie-banner" class="oling-cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
+        <div class="oling-cookie-banner__content">
+            <div class="oling-cookie-banner__text">
+                <strong>Gestion des cookies</strong>
+                <p>Nous utilisons des cookies essentiels au fonctionnement du site. Vous pouvez accepter la mesure d’audience ou refuser tout sauf le minimum nécessaire.</p>
             </div>
-            <div class="oling-cookie-banner__details">
-                <div class="oling-cookie-details">
-                    <div class="oling-cookie-details__block">
-                        <h4>Cookies essentiels (obligatoires)</h4>
-                        <div class="oling-cookie-choice">
-                            <label class="oling-cookie-choice__label">
-                                <input type="checkbox" checked disabled>
-                                Essentiels (toujours actifs)
-                            </label>
-                        </div>
-                        <ul>
-                            <li><strong>oling_cookie_consent</strong> — mémorise votre choix de consentement.</li>
-                            <li><strong>PHPSESSID</strong> — cookie de session (connexion, formulaires).</li>
-                        </ul>
+            <div class="oling-cookie-banner__actions">
+                <button type="button" class="btn btn-outline-light js-cookie-details">Voir les cookies</button>
+                <button type="button" class="btn btn-primary js-cookie-accept">Accepter tout</button>
+                <button type="button" class="btn btn-outline-light js-cookie-refuse">Refuser tout (minimum)</button>
+            </div>
+        </div>
+        <div class="oling-cookie-banner__details">
+            <div class="oling-cookie-details">
+                <div class="oling-cookie-details__block">
+                    <h4>Cookies essentiels (obligatoires)</h4>
+                    <div class="oling-cookie-choice">
+                        <label class="oling-cookie-choice__label">
+                            <input type="checkbox" checked disabled>
+                            Essentiels (toujours actifs)
+                        </label>
                     </div>
-                    <div class="oling-cookie-details__block">
-                        <h4>Cookies de mesure d’audience</h4>
-                        <div class="oling-cookie-choice">
-                            <label class="oling-cookie-choice__label">
-                                <input type="checkbox" class="js-cookie-analytics">
-                                Mesure d’audience (Google Analytics)
-                            </label>
-                        </div>
-                        <ul>
-                            <li><strong>_ga</strong> — identifiant Google Analytics.</li>
-                            <li><strong>_ga_*</strong> — cookie GA4 lié à la propriété.</li>
-                            <li><strong>_gid</strong> — mesure d’audience (Google Analytics).</li>
-                        </ul>
-                        <p class="oling-cookie-details__note">Les cookies de mesure d’audience ne sont déposés qu’après consentement. En cas de refus, seules des mesures anonymisées sans cookie peuvent etre transmises (Consent Mode).</p>
+                    <ul>
+                        <li><strong>oling_cookie_consent</strong> : mémorise votre choix.</li>
+                        <li><strong>PHPSESSID</strong> : cookie de session.</li>
+                    </ul>
+                </div>
+                <div class="oling-cookie-details__block">
+                    <h4>Cookies de mesure d’audience</h4>
+                    <div class="oling-cookie-choice">
+                        <label class="oling-cookie-choice__label">
+                            <input type="checkbox" class="js-cookie-analytics">
+                            Mesure d’audience (Google Analytics)
+                        </label>
                     </div>
-                    <div class="oling-cookie-details__actions">
-                        <button type="button" class="btn btn-primary js-cookie-save">Enregistrer mes choix</button>
-                    </div>
+                    <ul>
+                        <li><strong>_ga</strong> : identifiant Google Analytics.</li>
+                        <li><strong>_ga_*</strong> : cookie GA4 lié à la propriété.</li>
+                        <li><strong>_gid</strong> : mesure d’audience.</li>
+                    </ul>
+                </div>
+                <div class="oling-cookie-details__actions">
+                    <button type="button" class="btn btn-primary js-cookie-save">Enregistrer mes choix</button>
                 </div>
             </div>
         </div>
+    </div>
 
-
-
-        <!-- ========== FOOTER ========== -->
-        <footer class="oling-footer bg-dark d-print-none">
-            <div class="container">
-            <div class="row align-items-center pt-8 pb-4">
-                <div class="col-md mb-5 mb-md-0">
-                <h2 class="fw-medium text-white-70 mb-0"><span class="fw-bold text-white">OLING</span><br> Expertise et innovation<br> au service de votre réussite.</h2>
+    <footer class="oling-footer d-print-none">
+        <div class="container">
+            <div class="oling-footer__top">
+                <div>
+                    <span class="oling-kicker">OLING</span>
+                    <h2>Cabinet de conseil pour transformations métier, SI, conformité et résilience.</h2>
+                    <p>OLING accompagne les PME, PMI et ETI sur les projets structurants qui exigent de la clarté, de la gouvernance et une exécution solide.</p>
                 </div>
-                <!-- End Col -->
-            
-                {# <div class="col-md-auto">
-                    <div class="d-grid d-sm-flex gap-3">
-                        <div class="text-center mx-auto" style="max-width: 32rem;">
-                            <form id="newsletter-form">
-                            <!-- Input Card -->
-                            <div class="input-card border mb-5">
-                                <div class="input-card-form">
-                                <label for="champsemail" class="form-label visually-hidden">Votre email</label>
-                                <input type="email" class="form-control form-control-lg" id="champsemail" placeholder="Votre email" aria-label="Enter email">
-                                </div>
-                                <button type="button" class="btn btn-primary btn-lg" id="envoiemail">S'inscrire à la newsletter</button>
-                            </div>
-                            <!-- End Input Card -->
-                            </form>
-                        </div>
-                        <!-- End Subscribe -->
-                    </div>
+                <div class="oling-footer__cta">
+                    <a class="btn btn-primary" href="{{ path('contact') }}">Demander un échange</a>
                 </div>
-                <!-- End Col --> #}
             </div>
-            <!-- End Row -->
 
-            <div class="border-bottom border-white-10">
-                <div class="row py-9">
-                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
-                    <span class="text-cap text-white">Practices</span>
-
-                    <!-- List -->
-                    <ul class="list-unstyled list-py-1 mb-0">
-                    {% for practice in practices %}
-                    <li><a class="link link-light link-light-75" href="{{path('practice_home',{'slug' : practice.slug} ) }}">{{ practice.designation }}</a></li>
-                    {% endfor %}
+            <div class="oling-footer__grid">
+                <div>
+                    <span class="oling-footer__title">Expertises</span>
+                    <ul>
+                        <li><a href="{{ path('practice_home', {slug: 'consulting'}) }}">Stratégie et conseil</a></li>
+                        <li><a href="{{ path('practice_home', {slug: 'expertises-audit'}) }}">Conformité & Risques</a></li>
+                        <li><a href="{{ path('practice_home', {slug: 'business-apps'}) }}">Opérations et technologie</a></li>
+                        <li><a href="{{ path('expertises_index') }}">Toutes les expertises</a></li>
+                        <li><a href="{{ path('services_index') }}">Tous les services</a></li>
                     </ul>
-                    <!-- End List -->
                 </div>
-                <!-- End Col -->
-
-                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
-                    <span class="text-cap text-white">La société</span>
-
-                    <!-- List -->
-                    <ul class="list-unstyled list-py-1 mb-0">
-                    <li><a class="link link-light link-light-75" href={{path('apropos') }}>A propos de OLING </a></li>
-                    <li><a class="link link-light link-light-75" href={{path('team') }}>L'Equipe </a> <span class="fs-6 fw-bold text-primary">&mdash; Nous recrutons</span></li>
-                    <li><a class="link link-light link-light-75" href={{path('rse') }}>Démarche RSE</a></li>
-                    <li><a class="link link-light link-light-75" href={{path('seo_resources_index') }}>Ressources & guides</a></li>
-                    <li><a class="link link-light link-light-75" href="https://mapsi.fr/" target="_blank" rel="noopener">MAPSI <i class="bi-box-arrow-up-right ms-1"></i></a></li>
-                    <li><a class="link link-light link-light-75" href="https://www.linkedin.com/company/oling-management-&-technologie/" target="_blank" rel="noopener">LinkedIn <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+                <div>
+                    <span class="oling-footer__title">Secteurs</span>
+                    <ul>
+                        <li><a href="{{ path('sectors_show', {slug: 'industrie'}) }}">Industrie et PMI</a></li>
+                        <li><a href="{{ path('sectors_show', {slug: 'services'}) }}">Services B2B</a></li>
+                        <li><a href="{{ path('sectors_show', {slug: 'secteur-public'}) }}">Organisations régulées</a></li>
+                        <li><a href="{{ path('projets') }}">Cas clients</a></li>
+                        <li><a href="{{ path('seo_resources_index') }}">Ressources</a></li>
                     </ul>
-                    <!-- End List -->
                 </div>
-                <!-- End Col -->
-
-                <div class="col-12 col-md-6 col-lg-3 mb-7 mb-lg-0">
-                    <span class="text-cap text-white">Contactez-nous</span>
-                    <!-- List -->
-                    <ul class="list-unstyled list-py-2 mb-0">
-                        <li class="link link-light link-light-75 fs-6">Présence: Paris, métropoles Hexagone, Guadeloupe, Martinique, Guyane, Réunion, Saint-Pierre-et-Miquelon.</li>
+                <div>
+                    <span class="oling-footer__title">Cabinet</span>
+                    <ul>
+                        <li><a href="{{ path('apropos') }}">À propos</a></li>
+                        <li><a href="{{ path('team') }}">Équipe</a></li>
+                        <li><a href="{{ path('metiers') }}">Nos métiers</a></li>
+                        <li><a href="{{ path('rse') }}">Démarche RSE</a></li>
+                        <li><a href="https://mapsi.fr/" target="_blank" rel="noopener">MAPSI</a></li>
+                        <li><a href="{{ path('seo_mapsi_progiciel') }}">MAPSI progiciel</a></li>
+                        <li><a href="https://www.linkedin.com/company/oling-management-&-technologie/" target="_blank" rel="noopener">LinkedIn</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="oling-footer__title">Coordonnées</span>
+                    <ul>
+                        <li><a href="{{ path('contact') }}">Formulaire de contact</a></li>
                         {% if agencies is empty %}
-                            <li class="link link-light link-light-75 fs-6">Adresse à venir.</li>
+                            <li>Présence Hexagone et DROM.</li>
                         {% else %}
-                            {% for agency in agencies %}
+                            {% for agency in agencies|slice(0, 3) %}
                                 <li>
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 link-light-75 fs-6">
-                                            <i class="bi-building"></i>
-                                        </div>
-
-                                        <div class="flex-grow-1 ms-2">
-                                            <span class="link link-light link-light-75 fs-6">
-                                                {{ agency.streetLine1 }}{% if agency.streetLine2 %}, {{ agency.streetLine2 }}{% endif %}, {{ agency.postalCode }} {{ agency.city }}
-                                            </span>
-                                        </div>
-                                    </div>
+                                    {% if agency.streetAddress %}{{ agency.streetAddress }}, {% endif %}{{ agency.city }}{% if agency.postalCode %}, {{ agency.postalCode }}{% endif %}
                                 </li>
                             {% endfor %}
                         {% endif %}
-                        <li><a class="link link-light link-light-75" href={{path('contact') }}>
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-envelope"></i>
-                            </div>
-
-                            <div class="flex-grow-1 ms-2">
-                                <span>Envoyer un email</span>
-                            </div>
-                            </div>
-                        </a></li>
+                        <li><a href="{{ path('polrgpd') }}">Politique RGPD</a></li>
+                        <li><a href="{{ path('polsecurite') }}">Politique de sécurité</a></li>
+                        <li><a href="{{ path('discloser') }}">Mentions légales</a></li>
+                        <li><a href="javascript:;" class="js-cookie-manage">Gérer mes cookies</a></li>
                     </ul>
-                    <!-- End List -->
                 </div>
-                <!-- End Col -->
-
-                
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <span class="text-cap text-white">Expertises clés</span>
-                    {% set footerExpertiseItems = [] %}
-                    {% for practice in practices %}
-                        {% if practice.slug != 'mapsi' %}
-                            {% for service in practice.services %}
-                                {% if footerExpertiseItems|length < 6 and service.slug and service.practice and service.introductionShort %}
-                                    {% set footerExpertiseItems = footerExpertiseItems|merge([{
-                                        label: service.designationShort ?: service.designation,
-                                        url: path('service', {'practice': service.practice.slug, 'slug': service.slug})
-                                    }]) %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    <ul class="list-unstyled list-py-2 mb-0">
-                        {% for item in footerExpertiseItems %}
-                            <li><a class="link link-light link-light-75" href="{{ item.url }}">{{ item.label }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    <a class="link link-light link-light-75 d-inline-block mt-2" href="{{ path('amoa_si') }}">Voir toutes les expertises</a>
-                </div>
-                <!-- End Col -->
-                </div>
-                <!-- End Row -->
             </div>
 
-            <div class="row align-items-md-center py-6">
-                <div class="col-md mb-3 mb-md-0">
-                <!-- List -->
-                <ul class="list-inline list-px-2 mb-0">
-                    <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('polrgpd')}}>Politique générale de protection des données</a></li>
-                    <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('polsecurite')}}>Politique de sécurité de l'information</a></li>
-                    <li class="list-inline-item"><a class="link link-light link-light-75" href={{ path('discloser')}}>Mentions légales</a></li>
-                    <li class="list-inline-item"><a href="javascript:;" class="link link-light link-light-75 js-cookie-manage">Gérer mes cookies</a></li>
-                </ul>
-                <!-- End List -->
-                </div>
-                <!-- End Col -->
-
-                <div class="col-md-auto">
-                <p class="fs-5 text-white-70 mb-0">© OLING Management et Technologie - 2026</p>
-                </div>
-                <!-- End Col -->
+            <div class="oling-footer__bottom">
+                <p>© OLING Management et Technologie - 2026</p>
             </div>
-            <!-- End Row -->
-
-            </div>
-        </footer>
-        <!-- ========== END FOOTER ========== -->
-
-    <script>
-   
-    </script>
-    </body>
+        </div>
+    </footer>
+    {% endif %}
+</body>
 </html>

@@ -1,0 +1,32 @@
+<section class="oling-shell-hero{% if variant is defined and variant %} oling-shell-hero--{{ variant }}{% endif %}">
+  <div class="container">
+    <div class="oling-shell-hero__inner">
+      <div class="oling-shell-hero__copy">
+        {% if eyebrow is defined and eyebrow %}
+          <span class="oling-shell-hero__eyebrow">{{ eyebrow }}</span>
+        {% endif %}
+        <h1>{{ title }}</h1>
+        {% if intro is defined and intro %}
+          <p class="oling-shell-hero__intro">{{ intro }}</p>
+        {% endif %}
+        {% if primaryCta is defined or secondaryCta is defined %}
+          <div class="oling-shell-hero__actions">
+            {% if primaryCta is defined and primaryCta %}
+              <a class="btn btn-primary" href="{{ path(primaryCta.route, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+            {% endif %}
+            {% if secondaryCta is defined and secondaryCta %}
+              <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      {% if highlights is defined and highlights|length > 0 %}
+        <div class="oling-shell-hero__highlights">
+          {% for item in highlights %}
+            <span>{{ item }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

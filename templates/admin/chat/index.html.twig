@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversations IA | Admin{% endblock %}
+{% block meta_description %}Suivi des conversations du widget IA OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Conversations IA</h1>
+                <p class="text-muted mb-0">Lecture des conversations et des leads captés par le widget.</p>
+            </div>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="text-muted d-block mb-1">Conversations ouvertes</span>
+                        <strong class="fs-3">{{ activeCount }}</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="text-muted d-block mb-1">Leads soumis</span>
+                        <strong class="fs-3">{{ submittedCount }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if conversations is empty %}
+            <div class="alert alert-info">Aucune conversation enregistrée pour l’instant.</div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Besoin</th>
+                        <th>Société</th>
+                        <th>Origine</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for conversation in conversations %}
+                        {% set q = conversation.qualification ?? {} %}
+                        <tr>
+                            <td>{{ conversation.lastMessageAt ? conversation.lastMessageAt|date('d/m/Y H:i') : '-' }}</td>
+                            <td><span class="badge text-bg-light">{{ conversation.status }}</span></td>
+                            <td>{{ q.primary_need ?? '-' }}</td>
+                            <td>{{ conversation.lead ? conversation.lead.company : '-' }}</td>
+                            <td><span class="text-break">{{ conversation.sourcePath ?: '-' }}</span></td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_chat_show', {id: conversation.id}) }}">Voir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

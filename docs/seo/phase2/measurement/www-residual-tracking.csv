@@ -1,2 +1,0 @@
-period,www_impressions,www_clicks,non_www_impressions,non_www_clicks,confidence,notes
-2026-05-16_to_2026-08-15,30,0,20,1,CONFIRMED,"Tracked pages with confirmed host split in current baseline: /gmao and /crm only. This is a residual-host monitor, not a full-site host report."

@@ -7,59 +7,70 @@
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 <main id="content" role="main" class="oling-seo-cabinet">
-  <section class="oling-section oling-section--tight">
+  <section class="oling-shell-hero">
     <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
-          <li class="breadcrumb-item"><a href="{{ path('seo_resources_index') }}">Ressources</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ page and page.heroTitle ? page.heroTitle|striptags : 'Article' }}</li>
-        </ol>
-      </nav>
-      {% if page and page.heroBadge %}
-        <span class="oling-kicker">{{ page.heroBadge }}</span>
-      {% endif %}
-      {% if page and page.heroTitle %}
-        <h1>{{ page.heroTitle }}</h1>
-      {% elseif page and page.title %}
-        <h1>{{ page.title }}</h1>
-      {% endif %}
-      {% if isPreview is defined and isPreview %}
-        <p class="alert alert-warning mt-3 mb-0">Preview protegee Growth. Cette URL n’est pas publique.</p>
-      {% endif %}
-      {% if page and (page.publicationDate or page.authorDisplayName) %}
-        <p class="text-muted mt-3 mb-0">
-          {% if page.publicationDate %}{{ page.publicationDate|date('d/m/Y') }}{% endif %}
-          {% if page.publicationDate and page.authorDisplayName %} · {% endif %}
-          {% if page.authorDisplayName %}{{ page.authorDisplayName }}{% endif %}
-        </p>
-      {% endif %}
-      {% if page and page.heroIntro %}
-        <p class="oling-lede">{{ page.heroIntro|raw }}</p>
-      {% endif %}
-      {% if page and page.categories is not empty %}
-        <div class="d-flex flex-wrap gap-2 mt-3">
-          {% for category in page.categories %}
-            <span class="badge bg-soft-primary text-primary">{{ category }}</span>
-          {% endfor %}
+      <div class="oling-shell-hero__inner">
+        <div class="oling-shell-hero__copy">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+              <li class="breadcrumb-item"><a href="{{ path('seo_resources_index') }}">Ressources</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ page and page.heroTitle ? page.heroTitle|striptags : 'Article' }}</li>
+            </ol>
+          </nav>
+          {% if page and page.heroBadge %}
+            <span class="oling-shell-hero__eyebrow">{{ page.heroBadge }}</span>
+          {% endif %}
+          <h1>{{ page and page.heroTitle ? page.heroTitle : (page and page.title ? page.title : 'Ressource OLING') }}</h1>
+          {% if page and page.heroIntro %}
+            <p class="oling-shell-hero__intro">{{ page.heroIntro|striptags }}</p>
+          {% endif %}
+          {% if page and (page.publicationDate or page.authorDisplayName) %}
+            <p class="oling-resource-meta">
+              {% if page.publicationDate %}{{ page.publicationDate|date('d/m/Y') }}{% endif %}
+              {% if page.publicationDate and page.authorDisplayName %} · {% endif %}
+              {% if page.authorDisplayName %}{{ page.authorDisplayName }}{% endif %}
+            </p>
+          {% endif %}
+          {% if page and page.categories is not empty %}
+            <div class="oling-resource-tags">
+              {% for category in page.categories %}
+                <span>{{ category }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if isPreview is defined and isPreview %}
+            <p class="alert alert-warning mt-3 mb-0">Preview protegee Growth. Cette URL n’est pas publique.</p>
+          {% endif %}
         </div>
-      {% endif %}
+        <div class="oling-shell-hero__highlights">
+          {% if page and page.tags is not empty %}
+            {% for tag in page.tags|slice(0, 3) %}
+              <span>{{ tag }}</span>
+            {% endfor %}
+          {% else %}
+            <span>Conseil</span>
+            <span>Transformation</span>
+            <span>Exécution</span>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </section>
 
   {% if page and page.heroImage %}
     {% set imageSrc = page.heroImage starts with 'http' ? page.heroImage : asset(page.heroImage|trim('/', 'left')) %}
-    <section class="oling-section oling-section--tight pt-0">
+    <section class="oling-shell-section pt-0">
       <div class="container">
-        <img class="img-fluid rounded-3 w-100" src="{{ imageSrc }}" alt="{{ page.heroTitle ?: page.title }}">
+        <img class="img-fluid rounded-5 w-100 oling-resource-hero-image" src="{{ imageSrc }}" alt="{{ page.heroTitle ?: page.title }}">
       </div>
     </section>
   {% endif %}
 
   {% if page and page.heroSideHtml %}
-    <section class="oling-section oling-section--tight">
+    <section class="oling-shell-section">
       <div class="container">
-        <article class="oling-surface p-5 oling-markdown-content">
+        <article class="oling-surface oling-surface--light oling-markdown-content oling-resource-content">
           {{ page.heroSideHtml|raw }}
         </article>
       </div>
@@ -67,13 +78,14 @@
   {% endif %}
 
   {% if page and page.tags is not empty %}
-    <section class="oling-section oling-section--tight pt-0">
+    <section class="oling-shell-section pt-0">
       <div class="container">
-        <div class="oling-surface p-4">
-          <h2 class="h5 mb-3">Tags</h2>
-          <div class="d-flex flex-wrap gap-2">
+        <div class="oling-surface oling-surface--light">
+          <span class="oling-kicker">Tags</span>
+          <h2>Axes reliés</h2>
+          <div class="oling-resource-tags">
             {% for tag in page.tags %}
-              <span class="badge bg-light text-dark border">{{ tag }}</span>
+              <span>{{ tag }}</span>
             {% endfor %}
           </div>
         </div>
@@ -82,28 +94,35 @@
   {% endif %}
 
   {% if related is not empty %}
-    <section class="oling-section oling-section--tight">
+    <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
-        <div class="oling-surface p-4">
-          <h2 class="h4">Articles connexes</h2>
-          <div class="row g-3 mt-1">
-            {% for item in related %}
-              <div class="col-md-6">
-                <a class="link" href="{{ path('seo_resource', {slug: item.slug}) }}">{{ item.h1 }}</a>
-              </div>
-            {% endfor %}
-          </div>
+        <div class="oling-section-head">
+          <span class="oling-kicker">Suite</span>
+          <h2>Articles connexes</h2>
+        </div>
+        <div class="oling-editorial-grid">
+          {% for item in related %}
+            <a class="oling-editorial-card" href="{{ path('seo_resource', {slug: item.slug}) }}">
+              <span class="oling-kicker">Ressource</span>
+              <h3>{{ item.h1 }}</h3>
+              {% if item.intro %}
+                <p>{{ item.intro }}</p>
+              {% endif %}
+              <span class="oling-editorial-card__more">Lire l'article</span>
+            </a>
+          {% endfor %}
         </div>
       </div>
     </section>
   {% endif %}
 
   {% if faqItems is not empty %}
-    <section class="oling-section oling-section--tight">
+    <section class="oling-shell-section">
       <div class="container">
-        <div class="oling-surface p-4">
-          <h2 class="h4">FAQ</h2>
-          <ul class="mb-0">
+        <div class="oling-surface oling-surface--light">
+          <span class="oling-kicker">FAQ</span>
+          <h2>Questions fréquentes</h2>
+          <ul class="oling-check-list mb-0">
             {% for item in faqItems %}
               <li><strong>{{ item.question }}</strong> {{ item.answer }}</li>
             {% endfor %}

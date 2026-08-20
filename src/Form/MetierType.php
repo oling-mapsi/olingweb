@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Metier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,6 +50,19 @@ class MetierType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez envoyer une image valide.',
                     ]),
                 ],
+            ])
+            ->add('homeHeroIntro', TextType::class, [
+                'label' => 'Home hero - introduction',
+                'required' => false,
+            ])
+            ->add('homeHeroText1', TextType::class, [
+                'label' => 'Home hero - texte 1',
+                'required' => false,
+            ])
+            ->add('homeHeroText2', TextareaType::class, [
+                'label' => 'Home hero - texte 2',
+                'required' => false,
+                'attr' => ['rows' => 3],
             ])
         ;
     }

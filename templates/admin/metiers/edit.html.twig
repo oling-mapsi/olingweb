@@ -19,13 +19,19 @@
             {% endfor %}
         {% endfor %}
 
-        {% include 'admin/metiers/_form.html.twig' with {
-            form: form,
-            metier: metier,
-            button_label: 'Mettre à jour'
-        } %}
+        <div class="card admin-form-card">
+            <div class="card-body">
+                {% include 'admin/metiers/_form.html.twig' with {
+                    form: form,
+                    metier: metier,
+                    button_label: 'Mettre à jour'
+                } %}
+            </div>
+        </div>
 
-        <div class="mt-4">
+        <div class="admin-danger-zone mt-4">
+            <h2 class="h5 mb-2">Suppression</h2>
+            <p class="text-muted mb-3">Cette action est irreversible.</p>
             <form method="post" action="{{ path('admin_metiers_delete', {id: metier.id}) }}" onsubmit="return confirm('Supprimer ce métier ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ metier.id) }}">
                 <div class="form-check mb-2">

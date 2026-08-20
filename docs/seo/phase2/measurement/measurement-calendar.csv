@@ -1,6 +1,0 @@
-url,deployment_date,first_complete_t7_date,first_complete_t14_date,first_complete_t28_date,gsc_data_available_date,status
-https://oling.fr/amoa-si,2026-08-18,2026-08-25,2026-09-01,2026-09-15,2026-08-15,WAITING_DATA
-https://oling.fr/business-apps/erp,2026-08-18,2026-08-25,2026-09-01,2026-09-15,2026-08-15,WAITING_DATA
-https://oling.fr/crm,2026-08-18,2026-08-25,2026-09-01,2026-09-15,2026-08-15,WAITING_DATA
-https://oling.fr/gmao,2026-08-18,2026-08-25,2026-09-01,2026-09-15,2026-08-15,WAITING_DATA
-https://oling.fr/si-finance,2026-08-18,2026-08-25,2026-09-01,2026-09-15,2026-08-15,WAITING_DATA

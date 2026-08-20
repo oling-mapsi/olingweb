@@ -1,0 +1,26 @@
+Nouveau lead IA OLING
+
+Date : {{ conversation.submittedAt ? conversation.submittedAt|date('d/m/Y H:i') : '' }}
+Société : {{ lead.company }}
+Nom : {{ lead.fullName }}
+Email : {{ lead.email }}
+Téléphone : {{ lead.phone }}
+Page d'origine : {{ conversation.sourceUrl ?: conversation.sourcePath }}
+
+Résumé court :
+{{ conversation.summaryShort }}
+
+Qualification :
+- Besoin principal : {{ qualification.primary_need ?: 'non qualifié' }}
+- Urgence : {{ qualification.urgency_level ?: 'non qualifiée' }}
+- Maturité : {{ qualification.maturity_level ?: 'non qualifiée' }}
+- Type d'organisation : {{ qualification.organization_type ?: 'non qualifié' }}
+- Taille : {{ qualification.organization_size ?: 'non qualifiée' }}
+- Intention commerciale : {{ qualification.commercial_intent ?: 'non qualifiée' }}
+- Valeur potentielle : {{ qualification.potential_value ?: 'non qualifiée' }}
+
+Description consolidée :
+{{ lead.needDescription }}
+
+Consentement RGPD :
+{{ lead.rgpdConsent ? 'Oui' : 'Non' }} - {{ lead.rgpdConsentAt ? lead.rgpdConsentAt|date('d/m/Y H:i') : '' }}

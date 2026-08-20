@@ -1,2 +1,0 @@
-source_url,linked_url,redirect_target,recommended_fix,status
-template:templates/includes/slider.html.twig,https://oling.fr/business-apps/erp,https://oling.fr/erp-progiciel,replace_internal_link_after_business_decision,OPEN

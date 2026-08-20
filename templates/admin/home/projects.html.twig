@@ -9,7 +9,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
       <div>
         <h1 class="h3 mb-1">Home · Projets</h1>
-        <p class="text-muted mb-0">Titre, intro et KPI de la section projets.</p>
+        <p class="text-muted mb-0">Textes, sélection et ordre des projets affichés sur l’accueil.</p>
       </div>
     </div>
 
@@ -21,11 +21,26 @@
       {% endfor %}
     {% endfor %}
 
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-body">
         {{ form_start(form) }}
-          {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+          <div class="row g-3">
+            <div class="col-lg-4">
+              {{ form_row(form.eyebrow) }}
+            </div>
+            <div class="col-lg-8">
+              {{ form_row(form.title) }}
+            </div>
+          </div>
           {{ form_row(form.intro) }}
+          <div class="row g-3">
+            <div class="col-lg-6">
+              {{ form_row(form.ctaLabel) }}
+            </div>
+            <div class="col-lg-6">
+              {{ form_row(form.ctaUrl) }}
+            </div>
+          </div>
           <div class="d-flex gap-2 mt-3">
             <button class="btn btn-primary">Enregistrer</button>
           </div>
@@ -33,46 +48,74 @@
       </div>
     </div>
 
-    <div class="card mt-4">
+    <div class="card mb-4">
       <div class="card-body">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <h2 class="h5 mb-2">Ordre affiché sur la home</h2>
+        <p class="text-muted mb-3">Glisse-dépose pour définir l’ordre des 6 projets.</p>
+        {% if featuredItems is empty %}
+          <div class="text-muted">Aucun projet sélectionné.</div>
+        {% else %}
+          <ul class="home-order-list js-home-order" data-token="{{ csrf_token('projets_featured_order') }}" data-endpoint="{{ path('admin_projets_featured_order') }}">
+            {% for projet in featuredItems %}
+              <li class="home-order-item" data-id="{{ projet.id }}" draggable="true">
+                <span class="home-order-handle">⋮⋮</span>
+                <span class="home-order-title">{{ projet.designation }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
           <div>
-            <h2 class="h5 mb-1">KPI (chiffres)</h2>
-            <p class="text-muted mb-0">Les 4 chiffres affichés dans la section projets de la home.</p>
+            <h2 class="h5 mb-1">Sélection</h2>
+            <p class="text-muted mb-0">Coche jusqu’à 6 projets.</p>
           </div>
-          <a class="btn btn-outline-primary" href="{{ path('admin_home_projects_kpis_new') }}">Nouveau KPI</a>
+          <small class="text-muted js-featured-counter">0/6 sélectionnés</small>
         </div>
 
-        {% if kpis is empty %}
-          <div class="alert alert-info">Aucun KPI pour l’instant.</div>
-        {% else %}
+        <form method="post" class="js-featured-projects-form" data-max="6">
+          <input type="hidden" name="featured_form" value="projects">
+          <input type="hidden" name="_token" value="{{ csrf_token('home_projets') }}">
           <div class="table-responsive">
             <table class="table table-hover align-middle js-admin-table">
               <thead>
                 <tr>
-                  <th>Chiffre</th>
-                  <th>Titre</th>
-                  <th>Description</th>
-                  <th>Position</th>
-                  <th>Actif</th>
+                  <th>Afficher</th>
+                  <th>Désignation</th>
+                  <th>Métier</th>
+                  <th>Image</th>
                 </tr>
               </thead>
               <tbody>
-                {% for kpi in kpis %}
+                {% for projet in projets %}
                   <tr>
-                    <td class="fw-semibold">
-                      <a href="{{ path('admin_home_projects_kpis_edit', {id: kpi.id}) }}">{{ kpi.indicator }}</a>
+                    <td>
+                      <input class="form-check-input js-featured-projects-check" type="checkbox" name="featured_ids[]" value="{{ projet.id }}" {% if projet.featuredProjects %}checked{% endif %}>
                     </td>
-                    <td>{{ kpi.title }}</td>
-                    <td>{{ kpi.description ? kpi.description|striptags|slice(0, 80) ~ '…' : '-' }}</td>
-                    <td>{{ kpi.position ?? '-' }}</td>
-                    <td>{{ kpi.isActive ? 'Oui' : 'Non' }}</td>
+                    <td class="fw-semibold">
+                      <a href="{{ path('admin_projets_edit', {id: projet.id}) }}">{{ projet.designation }}</a>
+                    </td>
+                    <td>{{ projet.metier ? projet.metier.designation : '-' }}</td>
+                    <td>
+                      {% if projet.image %}
+                        <img src="{{ asset(projet.image) }}" alt="Image" style="width: 80px; height: 50px; object-fit: cover;">
+                      {% else %}
+                        <span class="text-muted">-</span>
+                      {% endif %}
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
-        {% endif %}
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

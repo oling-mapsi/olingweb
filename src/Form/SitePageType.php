@@ -3,21 +3,29 @@
 namespace App\Form;
 
 use App\Entity\SitePage;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class SitePageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $isSeoPage = (bool) ($options['is_seo_page'] ?? false);
-        $bodyLabel = $isSeoPage ? 'FAQ (JSON)' : 'Contenu principal (HTML)';
-        $bodyClass = $isSeoPage ? 'form-control' : 'form-control js-wysiwyg';
+        $editorMode = (string) ($options['editor_mode'] ?? 'default');
+        $isHomePage = $editorMode === 'home';
+        $isEditorialPage = $editorMode === 'editorial';
+        $isSeoPage = $editorMode === 'seo';
+        $isStructuredPage = $editorMode === 'structured';
+        $bodyLabel = $isHomePage
+            ? 'Configuration home (JSON)'
+            : ($isEditorialPage ? 'Configuration editoriale (JSON)' : ($isSeoPage ? 'FAQ (JSON)' : ($isStructuredPage ? 'Configuration structuree (JSON)' : 'Contenu principal (HTML)')));
+        $bodyClass = ($isHomePage || $isEditorialPage || $isSeoPage || $isStructuredPage) ? 'form-control' : 'form-control js-wysiwyg';
         $heroSideLabel = $isSeoPage ? 'Contenu principal (HTML)' : 'Bloc hero droit (HTML)';
-        $heroSideClass = $isSeoPage ? 'form-control js-wysiwyg' : 'form-control js-wysiwyg';
+        $heroSideClass = 'form-control js-wysiwyg';
 
         $builder
             ->add('slug', TextType::class, [
@@ -64,6 +72,18 @@ class SitePageType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('heroImageFile', FileType::class, [
+                'label' => 'Téléverser l\'image hero',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => ['image/*'],
+                        'mimeTypesMessage' => 'Veuillez envoyer une image valide.',
+                    ]),
+                ],
+                'attr' => ['class' => 'form-control'],
+            ])
         ;
     }
 
@@ -71,7 +91,7 @@ class SitePageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SitePage::class,
-            'is_seo_page' => false,
+            'editor_mode' => 'default',
         ]);
     }
 }

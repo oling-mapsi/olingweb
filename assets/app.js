@@ -9,6 +9,8 @@ import 'select2/dist/css/select2.css';
 import 'cropperjs/dist/cropper.css';
 // Custom overrides should load after vendor/theme styles
 import './styles/app.css';
+import './styles/chat-widget.css';
+import './js/chat-widget.js';
 
 // Importez les dépendances
 import $ from 'jquery';
@@ -148,6 +150,95 @@ $(document).ready(function () {
     }
   };
 
+  const initHomeHeroMetierRotator = () => {
+    const rotator = document.querySelector('[data-home-hero-rotator]');
+    const image = document.querySelector('[data-home-hero-image]');
+    const portraitCard = image ? image.closest('.oling-home-hero-card--portrait') : null;
+    if (!rotator || !image || !portraitCard) return;
+
+    const raw = rotator.getAttribute('data-home-hero-metiers') || '[]';
+    let items = [];
+
+    try {
+      items = JSON.parse(raw);
+    } catch (e) {
+      items = [];
+    }
+
+    const text1El = rotator.querySelector('[data-home-hero-text1]');
+    const text2El = rotator.querySelector('[data-home-hero-text2]');
+    let index = 0;
+    let isAnimating = false;
+
+    const fitSignalCard = () => {
+      rotator.classList.remove('is-compact', 'is-tight');
+
+      const overflow = () => rotator.scrollHeight > rotator.clientHeight + 2;
+      if (!overflow()) return;
+
+      rotator.classList.add('is-compact');
+      if (!overflow()) return;
+
+      rotator.classList.add('is-tight');
+    };
+
+    const applyMetier = (item) => {
+      if (!item) return;
+
+      if (typeof item.image === 'string' && item.image.length > 0) {
+        image.src = item.image;
+      }
+
+      if (typeof item.designation === 'string' && item.designation.length > 0) {
+        image.alt = item.designation;
+      }
+
+      if (text1El) {
+        text1El.textContent = typeof item.text1 === 'string' ? item.text1 : '';
+      }
+
+      if (text2El) {
+        text2El.textContent = typeof item.text2 === 'string' ? item.text2 : '';
+      }
+
+      window.requestAnimationFrame(fitSignalCard);
+    };
+
+    const swapMetier = (item) => {
+      if (!item || isAnimating) return;
+      isAnimating = true;
+
+      rotator.classList.add('is-swapping');
+      portraitCard.classList.add('is-swapping');
+
+      window.setTimeout(() => {
+        applyMetier(item);
+        window.requestAnimationFrame(() => {
+          rotator.classList.remove('is-swapping');
+          portraitCard.classList.remove('is-swapping');
+          window.setTimeout(() => {
+            isAnimating = false;
+          }, 420);
+        });
+      }, 220);
+    };
+
+    fitSignalCard();
+
+    window.addEventListener('resize', fitSignalCard);
+
+    if (!Array.isArray(items) || items.length < 2) return;
+
+    setInterval(() => {
+      index = (index + 1) % items.length;
+      const nextItem = items[index];
+      const preload = new Image();
+      preload.onload = () => swapMetier(nextItem);
+      preload.onerror = () => swapMetier(nextItem);
+      preload.src = nextItem.image;
+    }, 10000);
+  };
+
   const initGeoMap = () => {
     const mapEl = document.getElementById('oling-geo-map');
     if (!mapEl || mapEl.dataset.ready === '1') return;
@@ -171,9 +262,9 @@ $(document).ready(function () {
     const markerStyle = {
       radius: 6,
       color: '#0093dc',
-      weight: 2,
+      weight: 2.5,
       fillColor: '#0093dc',
-      fillOpacity: 0.9,
+      fillOpacity: 0.92,
     };
 
     const points = [
@@ -215,8 +306,8 @@ $(document).ready(function () {
       if (worldData) {
         worldLayer = window.L.geoJSON(worldData, {
           style: () => ({
-            color: 'rgba(255,255,255,0.28)',
-            weight: 1.1,
+            color: 'rgba(83,105,125,0.22)',
+            weight: 1.15,
             fill: false,
             fillOpacity: 0,
             fillColor: 'transparent',
@@ -230,10 +321,10 @@ $(document).ready(function () {
           const data = JSON.parse(geojsonText);
           franceLayer = window.L.geoJSON(data, {
             style: () => ({
-              color: 'rgba(255,255,255,0.95)',
-              weight: 2.2,
-              fillColor: 'rgba(0,147,220,0.55)',
-              fillOpacity: 0.9,
+              color: 'rgba(23,50,74,0.42)',
+              weight: 1.4,
+              fillColor: 'rgba(79,143,214,0.24)',
+              fillOpacity: 1,
               className: 'oling-france-layer',
             }),
           }).addTo(map);
@@ -260,6 +351,8 @@ $(document).ready(function () {
       map.invalidateSize();
     }, 200);
   };
+
+  initHomeHeroMetierRotator();
 
   // COOKIE CONSENT
   // =======================================================
@@ -347,6 +440,21 @@ $(document).ready(function () {
   };
 
   const banner = document.getElementById('cookie-banner');
+  const syncCookieBannerState = () => {
+    if (!banner) return;
+
+    const isVisible = banner.classList.contains('is-visible');
+    document.body.classList.toggle('has-visible-cookie-banner', isVisible);
+
+    if (!isVisible) {
+      document.body.style.removeProperty('--oling-cookie-banner-offset');
+      return;
+    }
+
+    const offset = Math.ceil(banner.getBoundingClientRect().height) + 18;
+    document.body.style.setProperty('--oling-cookie-banner-offset', `${offset}px`);
+  };
+
   const bindCookieActions = () => {
     if (!banner) return;
     const acceptBtn = banner.querySelector('.js-cookie-accept');
@@ -368,6 +476,7 @@ $(document).ready(function () {
     if (detailsBtn) {
       detailsBtn.addEventListener('click', () => {
         banner.classList.toggle('is-details-open');
+        syncCookieBannerState();
       });
     }
     if (saveBtn) {
@@ -380,6 +489,15 @@ $(document).ready(function () {
   };
 
   bindCookieActions();
+  syncCookieBannerState();
+
+  if (banner && typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(() => {
+      syncCookieBannerState();
+    }).observe(banner);
+  }
+
+  window.addEventListener('resize', syncCookieBannerState);
 
   initConsentMode();
 
@@ -390,6 +508,7 @@ $(document).ready(function () {
   } else if (banner) {
     setAnalyticsCheckbox(false);
     banner.classList.add('is-visible');
+    syncCookieBannerState();
   }
 
   document.querySelectorAll('.js-cookie-manage').forEach((button) => {
@@ -398,6 +517,7 @@ $(document).ready(function () {
       const currentConsent = localStorage.getItem(consentKey);
       setAnalyticsCheckbox(currentConsent === consentAll);
       banner.classList.add('is-visible', 'is-details-open');
+      syncCookieBannerState();
       banner.scrollIntoView({ behavior: 'smooth', block: 'end' });
     });
   });
@@ -1229,6 +1349,7 @@ $(document).ready(function() {
   let lastScrollTop = 0;
   const header = document.getElementById('header');
   if (!header) return;
+  const isHome = document.body.classList.contains('oling-home');
 
   const updateHeader = () => {
     const current = window.pageYOffset || document.documentElement.scrollTop;
@@ -1236,12 +1357,15 @@ $(document).ready(function() {
     const scrollingDown = current > lastScrollTop + 6;
     const scrollingUp = current < lastScrollTop - 6;
 
-    if (isTop) {
+    if (isHome && isTop) {
       header.classList.remove('header-hidden', 'header-blur');
       header.classList.add('navbar-transparent');
     } else {
       header.classList.remove('navbar-transparent');
-      if (scrollingDown) {
+      if (isTop) {
+        header.classList.remove('header-hidden');
+        header.classList.add('header-blur');
+      } else if (scrollingDown) {
         header.classList.add('header-hidden');
         header.classList.remove('header-blur');
       } else if (scrollingUp) {

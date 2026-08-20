@@ -1,0 +1,20 @@
+{% if links is defined and links|length > 0 %}
+  <div class="oling-service-link-grid">
+    {% for item in links %}
+      {% set linkedService = null %}
+      {% for service in services %}
+        {% if service.practice and service.practice.slug == item.practice and service.slug == item.service %}
+          {% set linkedService = service %}
+        {% endif %}
+      {% endfor %}
+      {% if linkedService %}
+        <a class="oling-service-link-card" href="{{ path('service', {practice: linkedService.practice.slug, slug: linkedService.slug}) }}">
+          <span class="oling-kicker">{{ linkedService.practice.designationShort ?: linkedService.practice.designation }}</span>
+          <h3>{{ linkedService.designation }}</h3>
+          <p>{{ linkedService.introductionShort ?: linkedService.descriptionShort ?: 'Voir le detail de cette offre.' }}</p>
+          <span class="oling-service-link-card__more">Voir l'offre</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

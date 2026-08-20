@@ -19,14 +19,20 @@
             {% endfor %}
         {% endfor %}
 
-        {% include 'admin/practices/_form.html.twig' with {
-            form: form,
-            practice: practice,
-            button_label: 'Mettre à jour',
-            form_action: path('admin_practices_edit', {id: practice.id})
-        } %}
+        <div class="card admin-form-card">
+            <div class="card-body">
+                {% include 'admin/practices/_form.html.twig' with {
+                    form: form,
+                    practice: practice,
+                    button_label: 'Mettre à jour',
+                    form_action: path('admin_practices_edit', {id: practice.id})
+                } %}
+            </div>
+        </div>
 
-        <div class="mt-4">
+        <div class="admin-danger-zone mt-4">
+            <h2 class="h5 mb-2">Suppression</h2>
+            <p class="text-muted mb-3">Cette action est irreversible.</p>
             <form method="post" action="{{ path('admin_practices_delete', {id: practice.id}) }}" onsubmit="return confirm('Supprimer cette practice ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ practice.id) }}">
                 <div class="form-check mb-2">

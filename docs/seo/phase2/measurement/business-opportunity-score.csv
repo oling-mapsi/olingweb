@@ -1,6 +1,0 @@
-url,cluster,non_brand_business_clicks,non_brand_business_impressions,best_known_position,top10_gap,business_value,business_score,priority_band,confidence,notes
-https://oling.fr/amoa-si,AMOA_SI,0,44,13.54,3.54,HIGH,78,P1,LIKELY,Large AMOA baseline with one query already close to top 10.
-https://oling.fr/business-apps/erp,ERP,0,69,21.46,11.46,HIGH,74,P1,LIKELY,Strongest ERP business volume in the current baseline despite weaker average rank.
-https://oling.fr/gmao,GMAO,0,19,19.05,9.05,HIGH,69,P1,CONFIRMED,Best current mix of business relevance and position plus one page click.
-https://oling.fr/si-finance,SI_FINANCE,0,15,6,0,MEDIUM,67,P1,LIKELY,Very low volume but strongest observed aggregate page position in the cluster.
-https://oling.fr/crm,CRM,0,2,18.56,8.56,HIGH,49,P2,LIKELY,Commercially important but too little confirmed baseline demand so far.

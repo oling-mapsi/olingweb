@@ -15,6 +15,8 @@ use App\Repository\HomeSectionRepository;
 use App\Repository\ContentItemRepository;
 use App\Repository\LegalPageRepository;
 use App\Repository\SitePageRepository;
+use App\Service\PublicSiteConfig;
+use App\Service\PublicSitePageResolver;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,24 +30,30 @@ use App\Middleware\XRobotsTagMiddleware;
 
 class PracticeController extends AbstractController
 {
+    public function __construct(
+        private readonly PublicSiteConfig $publicSiteConfig,
+        private readonly PublicSitePageResolver $publicSitePageResolver,
+    )
+    {
+    }
+
     #[Route('/', name: 'index', options: ["sitemap" => true])]
     public function index(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         ProjetRepository $repoprojet,
         MetierRepository $repometier,
-        \App\Repository\HomeCardRepository $homeCardRepository,
         HomeSectionRepository $homeSectionRepository,
         \App\Repository\HomeAwardItemRepository $homeAwardRepository,
-        \App\Repository\HomeProjectKpiRepository $homeProjectKpiRepository,
         ContentItemRepository $contentItemRepository,
+        SitePageRepository $sitePageRepository,
         Request $request
     ): Response {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
-        $homeCards = $homeCardRepository->findBy([], ['createdAt' => 'DESC'], 8);
+        $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates());
         $featuredPractices = $repopractice->findBy(['featuredHome' => true]);
         usort($featuredPractices, static function ($a, $b) {
             $rankA = $a->getFeaturedHomeRank() ?? 9999;
@@ -56,14 +64,18 @@ class PracticeController extends AbstractController
             return $rankA <=> $rankB;
         });
         $homePractices = array_slice($featuredPractices, 0, 4);
+        [$homeProjects] = $this->resolveFeaturedProjects($repoprojet);
 
         $homePracticesSection = $homeSectionRepository->findOneBy(['slug' => 'practices']);
         $homeHeroSection = $homeSectionRepository->findOneBy(['slug' => 'hero']);
         $homeProjectsSection = $homeSectionRepository->findOneBy(['slug' => 'projects']);
         $homeAwardsSection = $homeSectionRepository->findOneBy(['slug' => 'awards']);
         $homeAwards = $homeAwardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']);
-        $homeProjectKpis = $homeProjectKpiRepository->findBy(['isActive' => true], ['position' => 'ASC', 'id' => 'ASC']);
         $flashInfo = $contentItemRepository->findOneBy([], ['id' => 'DESC']);
+        $latestResources = array_values(array_filter(array_map(
+            fn (\App\Entity\SitePage $page): ?array => $this->buildHomeResourceCard($page),
+            array_slice($sitePageRepository->findResourceArticles(), 0, 2)
+        )));
 
         return $this->render('index.html.twig', [
             'controller_name' => 'PracticeController',
@@ -71,14 +83,16 @@ class PracticeController extends AbstractController
             'services' => $services,
             'projets' => $projets,
             'metiers' => $metiers,
-            'homeCards' => $homeCards,
+            'homePage' => $this->publicSitePageResolver->getHomePage(),
+            'homeHeroMetiers' => $homeHeroMetiers,
             'homePractices' => $homePractices,
+            'homeProjects' => $homeProjects,
             'homePracticesSection' => $homePracticesSection,
             'homeHeroSection' => $homeHeroSection,
             'homeProjectsSection' => $homeProjectsSection,
             'homeAwardsSection' => $homeAwardsSection,
             'homeAwards' => $homeAwards,
-            'homeProjectKpis' => $homeProjectKpis,
+            'latestResources' => $latestResources,
             'flashInfo' => $flashInfo,
             'pract' => '',
         ]);
@@ -110,17 +124,17 @@ class PracticeController extends AbstractController
     public function apropos(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
-        \App\Repository\SitePageRepository $sitePageRepository
+        TeamRepository $repoteam,
         ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
-        $page = $sitePageRepository->findOneBy(['slug' => 'apropos']);
         return $this->render('about.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'page' => $page,
+            'teamPreview' => array_slice($repoteam->findAll(), 0, 3),
+            'page' => $this->publicSitePageResolver->getEditorialPage('apropos'),
             'pract' => '',
         ]);
     }
@@ -137,6 +151,22 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'page' => $this->publicSitePageResolver->getEditorialPage('contact'),
+            'pract' => '',
+        ]);
+    }
+
+    #[Route('/services', name: 'services_index', options: ["sitemap" => true])]
+    public function servicesIndex(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository
+    ): Response
+    {
+        return $this->render('services-index.html.twig', [
+            'controller_name' => 'PracticeController',
+            'practices' => $practiceRepository->findAll(),
+            'services' => $servicesRepository->findAll(),
+            'page' => $this->publicSitePageResolver->getEditorialPage('services'),
             'pract' => '',
         ]);
     }
@@ -180,6 +210,7 @@ class PracticeController extends AbstractController
             'practices' => $practices,
             'services' => $services,
             'projets' => $projets,
+            'page' => $this->publicSitePageResolver->getEditorialPage('projets'),
             'featuredProjects' => $featuredProjects,
             'miniProjects' => $miniProjects,
             'miniHasMore' => $hasMoreMini,
@@ -252,28 +283,70 @@ class PracticeController extends AbstractController
         return [$featuredProjects, $featuredIds];
     }
 
+    private function buildHomeResourceCard(\App\Entity\SitePage $page): ?array
+    {
+        $storedSlug = (string) $page->getSlug();
+        if (!str_starts_with($storedSlug, 'ressource-')) {
+            return null;
+        }
+
+        $publicSlug = substr($storedSlug, strlen('ressource-'));
+        if ($publicSlug === false || $publicSlug === '') {
+            return null;
+        }
+
+        return [
+            'slug' => $publicSlug,
+            'title' => (string) ($page->getHeroTitle() ?: $page->getTitle()),
+            'intro' => trim((string) ($page->getHeroIntro() ?: '')),
+            'publicationDate' => $page->getPublicationDate(),
+        ];
+    }
+
+    /**
+     * @param \App\Entity\Metier[] $metiers
+     * @return array<int, array<string, string>>
+     */
+    private function buildHomeHeroMetiers(array $metiers): array
+    {
+        $items = [];
+
+        foreach ($metiers as $metier) {
+            $image = $metier->getImageHero() ?: $metier->getImage();
+            if (!is_string($image) || trim($image) === '') {
+                continue;
+            }
+
+            $designation = trim((string) $metier->getDesignation());
+            $items[] = [
+                'designation' => $designation,
+                'image' => trim($image),
+                'intro' => trim((string) ($metier->getHomeHeroIntro() ?: '')),
+                'text1' => trim((string) ($metier->getHomeHeroText1() ?: $designation)),
+                'text2' => trim((string) ($metier->getHomeHeroText2() ?: '')),
+            ];
+        }
+
+        if (count($items) > 1) {
+            shuffle($items);
+        }
+
+        return $items;
+    }
+
     #[Route('/amoa-si', name: 'amoa_si', options: ["sitemap" => true])]
     public function amoaSi(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices,
-        SitePageRepository $sitePageRepository,
-        SitePageFaqParser $sitePageFaqParser,
-        SeoGeoInternalLinkService $seoGeoInternalLinkService
+        ServicesRepository $reposervices
     ): Response
     {
-        $page = $sitePageRepository->findOneBy(['slug' => 'amoa-si']);
-        $pageFaqItems = $sitePageFaqParser->parse($page?->getBodyHtml());
+        $practice = $repopractice->findOneBy(['slug' => 'consulting']);
 
-        return $this->render('amoa-si.html.twig', [
-            'controller_name' => 'PracticeController',
-            'practices' => $repopractice->findAll(),
-            'services' => $reposervices->findAll(),
-            'page' => $page,
-            'pageFaqItems' => $pageFaqItems,
-            'zoneMaillage' => $seoGeoInternalLinkService->build($page?->getSlug()),
-            'zoneExpertises' => $seoGeoInternalLinkService->buildExpertiseLinksForZone($page?->getSlug(), 10),
-            'pract' => '',
-        ]);
+        if (!$practice) {
+            throw $this->createNotFoundException('La pratique n\'existe pas.');
+        }
+
+        return $this->renderPracticeHome($practice, $repopractice, $reposervices);
     }
 
    
@@ -281,18 +354,16 @@ class PracticeController extends AbstractController
     #[Route('/a-propos/metiers', name: 'metiers', options: ["sitemap" => true])]
     public function metiers(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices,
-        \App\Repository\SitePageRepository $sitePageRepository
+        ServicesRepository $reposervices
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
-        $page = $sitePageRepository->findOneBy(['slug' => 'metiers']);
         return $this->render('metiers.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'page' => $page,
+            'page' => $this->publicSitePageResolver->getEditorialPage('metiers'),
             'pract' => '',
         ]);
     }
@@ -302,19 +373,17 @@ class PracticeController extends AbstractController
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         TeamRepository $repoteam,
-        \App\Repository\SitePageRepository $sitePageRepository
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
         $team = $repoteam->findAll();
-        $page = $sitePageRepository->findOneBy(['slug' => 'team']);
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
             'team' => $team,
-            'page' => $page,
+            'page' => $this->publicSitePageResolver->getEditorialPage('team'),
             'pract' => '',
         ]);
     }
@@ -322,18 +391,16 @@ class PracticeController extends AbstractController
     #[Route('/a-propos/client', name: 'client', options: ["sitemap" => true])]
     public function client(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices,
-        \App\Repository\SitePageRepository $sitePageRepository
+        ServicesRepository $reposervices
     ): Response
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
-        $page = $sitePageRepository->findOneBy(['slug' => 'client']);
         return $this->render('client.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'page' => $page,
+            'page' => $this->publicSitePageResolver->getEditorialPage('client'),
             'pract' => '',
         ]);
     }
@@ -456,6 +523,30 @@ class PracticeController extends AbstractController
             throw $this->createNotFoundException('Le service n\'existe pas.');
         }
 
+        $servicePractice = $service->getPractice();
+        $expectedPracticeSlug = $servicePractice?->getSlug();
+
+        if (!$expectedPracticeSlug) {
+            throw $this->createNotFoundException('Le service n\'est rattaché à aucune practice publiée.');
+        }
+
+        if ($practice !== $expectedPracticeSlug) {
+            return $this->redirectToRoute('service', [
+                'practice' => $expectedPracticeSlug,
+                'slug' => $slug,
+            ], 301);
+        }
+
+        $practiceEntity = $practiceRepository->findOneBy(['slug' => $practice]);
+
+        if (!$practiceEntity) {
+            throw $this->createNotFoundException('La practice n\'existe pas.');
+        }
+
+        if ($servicePractice?->getId() !== $practiceEntity->getId()) {
+            throw $this->createNotFoundException('Le service ne correspond pas à la practice demandée.');
+        }
+
         $practices = $practiceRepository->findAll();
         $services = $servicesRepository->findAll();
 
@@ -466,6 +557,7 @@ class PracticeController extends AbstractController
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',
             'service' => $service,
+            'serviceNarrative' => $this->publicSiteConfig->getServiceNarrative($service),
             'pract' => $practice,
             'practices' => $practices,
             'services' => $services,
@@ -473,6 +565,48 @@ class PracticeController extends AbstractController
     }
 
 
+
+    #[Route('/practice/consulting', name: 'practice_home_consulting', methods: ['GET'], priority: 10)]
+    public function practiceHomeConsulting(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository
+    ): Response {
+        $practice = $practiceRepository->findOneBy(['slug' => 'consulting']);
+
+        if (!$practice) {
+            throw $this->createNotFoundException('La pratique n\'existe pas.');
+        }
+
+        return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
+    }
+
+    #[Route('/practice/expertises-audit', name: 'practice_home_expertises_audit', methods: ['GET'], priority: 10)]
+    public function practiceHomeExpertisesAudit(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository
+    ): Response {
+        $practice = $practiceRepository->findOneBy(['slug' => 'expertises-audit']);
+
+        if (!$practice) {
+            throw $this->createNotFoundException('La pratique n\'existe pas.');
+        }
+
+        return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
+    }
+
+    #[Route('/practice/business-apps', name: 'practice_home_business_apps', methods: ['GET'], priority: 10)]
+    public function practiceHomeBusinessApps(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository
+    ): Response {
+        $practice = $practiceRepository->findOneBy(['slug' => 'business-apps']);
+
+        if (!$practice) {
+            throw $this->createNotFoundException('La pratique n\'existe pas.');
+        }
+
+        return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
+    }
 
     #[Route('/practice/{slug}', name: 'practice_home', requirements: ['slug' => '(?!login$|logout$|admin$|uploads$)[a-z0-9\\-]+'], priority: 0)]
     public function practiceHome(
@@ -538,6 +672,8 @@ class PracticeController extends AbstractController
         return $this->render('practice-home.html.twig', [
             'controller_name' => 'PracticeController',
             'practice' => $practice,
+            'practiceNarrative' => $this->publicSiteConfig->getPracticeNarrative($practice),
+            'expertisePages' => $this->publicSiteConfig->getExpertisePages(),
             'pract' => $practice->getSlug(),
             'practices' => $practices,
             'services' => $services,
@@ -548,7 +684,7 @@ class PracticeController extends AbstractController
 
     private function isAmoaAlias(string $slug): bool
     {
-        return in_array($slug, ['consulting', 'amoa-si'], true);
+        return $slug === 'amoa-si';
     }
 
 

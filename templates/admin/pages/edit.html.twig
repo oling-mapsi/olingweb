@@ -16,8 +16,36 @@
         {% include 'admin/_nav.html.twig' %}
 
         {{ form_start(form) }}
-            {% if isSeoPage %}
-                <div class="alert alert-info">
+            {% if editorMode == 'home' %}
+                <div class="alert alert-info admin-info-panel">
+                    <p class="mb-2"><strong>Mode home:</strong> cette page pilote l’accueil du nouveau site.</p>
+                    <p class="mb-2">Les champs hero pilotent le bandeau principal. Pour le titre hero, utilisez <code>|</code> comme séparateur de lignes si nécessaire.</p>
+                    <p class="mb-2">Utilisez <code>Configuration home (JSON)</code> pour gérer les autres textes et médias. Les chemins médias peuvent être absolus web (<code>/uploads/...</code>) ou des URLs.</p>
+                    <pre class="mb-0">{
+  "introCards":[
+    {"variant":"blue","eyebrow":"AMOA ERP","title":"..."},
+    {"variant":"image","image":"/uploads/pages/hero/visuel.jpg","alt":"Visuel"}
+  ],
+  "practices":{"title":"...","quoteTitle":"..."},
+  "proof":{"title":"...","image":"/uploads/pages/hero/preuve.jpg"},
+  "kpis":[{"variant":"dark","label":"ERP","text":"..."}],
+  "finalCta":{"title":"...","text":"..."}
+}</pre>
+                </div>
+            {% elseif editorMode == 'editorial' %}
+                <div class="alert alert-info admin-info-panel">
+                    <p class="mb-2"><strong>Mode éditorial:</strong> cette page pilote une page vitrine du nouveau site avec un schéma JSON complet.</p>
+                    <p class="mb-2">Les champs hero pilotent l’en-tête. Utilisez <code>Configuration editoriale (JSON)</code> pour les sections, CTA et microcopy.</p>
+                    <pre class="mb-0">{
+  "highlights":["Point 1","Point 2","Point 3"],
+  "sections":[
+    {"kicker":"Positionnement","title":"Titre","text":"Texte"}
+  ],
+  "cta":{"title":"Titre CTA","text":"Texte CTA","primaryCta":{"route":"contact","label":"Nous écrire"}}
+}</pre>
+                </div>
+            {% elseif editorMode == 'seo' %}
+                <div class="alert alert-info admin-info-panel">
                     <p class="mb-2"><strong>Mode SEO:</strong> cette page pilote le hero, le contenu principal et la FAQ.</p>
                     <p class="mb-2">Renseignez <code>Contenu principal (HTML)</code> pour tous les blocs de la page (sections, CTA, maillage).</p>
                     <p class="mb-2">Renseignez <code>FAQ (JSON)</code> avec ce format :</p>
@@ -26,9 +54,35 @@
   {"question":"Question 2","answer":"Reponse 2"}
 ]</pre>
                 </div>
+            {% elseif editorMode == 'structured' %}
+                <div class="alert alert-info admin-info-panel">
+                    <p class="mb-2"><strong>Mode parcours public:</strong> cette page pilote les nouveaux hubs <code>/expertises</code> et <code>/secteurs</code>.</p>
+                    <p class="mb-2">Renseignez les champs hero normalement. Utilisez <code>Configuration structuree (JSON)</code> pour surcharger les listes.</p>
+                    <p class="mb-2">Exemple hub :</p>
+                    <pre class="mb-2">{
+  "eyebrow":"Expertises OLING",
+  "title":"Titre du hub",
+  "intro":"Introduction",
+  "highlights":["Point 1","Point 2","Point 3"]
+}</pre>
+                    <p class="mb-2">Exemple page expertise :</p>
+                    <pre class="mb-2">{
+  "situations":["Situation 1","Situation 2"],
+  "interventions":["Intervention 1","Intervention 2"],
+  "deliverables":["Livrable 1","Livrable 2"],
+  "linkedServices":[{"practice":"business-apps","service":"erp"}]
+}</pre>
+                    <p class="mb-0">Exemple page secteur :</p>
+                    <pre class="mb-0">{
+  "issues":["Enjeu 1","Enjeu 2"],
+  "linkedExpertises":["amoa-erp-applications-metiers","cybersecurite-conformite-resilience"]
+}</pre>
+                </div>
             {% endif %}
             <div class="row g-4">
                 <div class="col-lg-7">
+                    <div class="card admin-form-card h-100">
+                        <div class="card-body">
                     <div class="mb-3">
                         {{ form_label(form.title) }}
                         {{ form_widget(form.title) }}
@@ -54,8 +108,12 @@
                         {{ form_widget(form.bodyHtml) }}
                         {{ form_errors(form.bodyHtml) }}
                     </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-5">
+                    <div class="card admin-form-card h-100">
+                        <div class="card-body">
                     <div class="mb-3">
                         {{ form_label(form.slug) }}
                         {{ form_widget(form.slug) }}
@@ -76,12 +134,19 @@
                         {{ form_widget(form.heroImage) }}
                         {{ form_errors(form.heroImage) }}
                     </div>
+                    <div class="mb-3">
+                        {{ form_label(form.heroImageFile) }}
+                        {{ form_widget(form.heroImageFile) }}
+                        {{ form_errors(form.heroImageFile) }}
+                    </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="d-flex gap-2 mt-4">
                 <button class="btn btn-primary">Enregistrer</button>
-                <a class="btn btn-outline-secondary" href="{{ path('admin_pages_index') }}">Retour</a>
+                <a class="btn btn-outline-secondary" href="{{ editorMode == 'home' ? path('admin_index') : path('admin_pages_index') }}">Retour</a>
             </div>
         {{ form_end(form) }}
     </div>

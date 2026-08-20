@@ -1,101 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ page and page.title ? page.title : 'Références clients | Conseil AMOA SI - OLING' }}{% endblock %}
-{% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Découvrez nos références clients en AMOA SI, transformation digitale, conformité RGPD et gouvernance, en France et Outre-mer.' }}{% endblock %}
+{% block title %}{{ page.seoTitle }}{% endblock %}
+{% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
-      <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main">
-    <!-- Description -->
-    <div class="container content-space-3">
+  {% include 'public/_page_hero.html.twig' with {
+    eyebrow: page.eyebrow,
+    title: page.title,
+    intro: page.intro,
+    primaryCta: page.primaryCta,
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
+  } %}
 
-        <div class="linear rounded-3 p-9 mb-10 oling-page-hero">
-            <div class="row">
-                <div class="col-md-6 mb-7 mb-lg-0">
-                    <span class="badge bg-soft-light text-white text-wrap mb-3"><i class="bi-stars me-1"></i> {{ page and page.heroBadge ? page.heroBadge : 'Nos références' }}</span>
-                    <div class="w-md-75 mb-5">
-                    <h1 class="text-white">{{ page and page.heroTitle ? page.heroTitle : 'Nos clients sont au cœur de notre démarche' }}</h1>
-                    <p class="text-white-70">{{ page and page.heroIntro ? page.heroIntro|raw : "Nous travaillons avec une grande variété d'organisations, allant des PME aux grands groupes, dans des secteurs aussi divers que les infrastructures, les applications, les systèmes, la finance, les ressources humaines, le négoce et la normalisation" }}</p>
-                    </div>
-                </div>
-                <!-- End Col -->
-
-                <div class="col-md-6">
-                    <!-- Icon Blocks -->
-                    {% if page and page.heroSideHtml %}
-                        {{ page.heroSideHtml|raw }}
-                    {% else %}
-                        <div class="d-grid gap-4">
-                            <!-- Media -->
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-file-earmark-text fs-2 text-light"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-5">
-                                <h5 class="text-white">Comprendre les besoins, précisement.</h5>
-                                <p class="text-white-70">En écoutant attentivement les enjeux spécifiques de chaque client, nous adaptons nos solutions pour répondre au mieux à leurs attentes.</p>
-                            </div>
-                            </div>
-                            <!-- End Media -->
-
-                            <!-- Media -->
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-chat-right-dots fs-2 text-light"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-5">
-                                <h5 class="text-white">Personnaliser l'offre pour un accompagnement sur-mesure </h5>
-                                <p class="text-white-70">Notre approche sur-mesure permet de proposer des stratégies et des solutions adaptées à chaque contexte organisationnel et technologique.</p>
-                            </div>
-                            </div>
-                            <!-- End Media -->
-
-                            <!-- Media -->
-                            <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="bi-hand-thumbs-up fs-2 text-light"></i>
-                            </div>
-                            <div class="flex-grow-1 ms-5">
-                                <h5 class="text-white">Cultiver des relations durables</h5>
-                                <p class="text-white-70">Nous mettons tout en œuvre pour créer un climat de confiance avec nos clients, en restant à leur écoute et en nous engageant à leurs côtés pour assurer leur réussite.</p>
-                            </div>
-                            </div>
-                            <!-- End Media -->
-                        </div>
-                    {% endif %}
-                    <!-- End Icon Blocks -->
-                </div>
-                <!-- End Col -->
-            </div>
-            <!-- End Row -->
+  <section class="oling-page-section">
+    <div class="container">
+      {% if (page.methodSection.left.html is defined and page.methodSection.left.html) or (page.legacySideHtml is defined and page.legacySideHtml) %}
+        <div class="oling-two-col mb-4">
+          <article class="oling-surface oling-surface--light">
+            <span class="oling-kicker">{{ page.methodSection.left.kicker }}</span>
+            <h2>{{ page.methodSection.left.title }}</h2>
+            <div class="oling-richtext">{{ page.methodSection.left.html is defined and page.methodSection.left.html ? page.methodSection.left.html|raw : page.legacySideHtml|raw }}</div>
+          </article>
+          <article class="oling-surface oling-surface--light">
+            <span class="oling-kicker">{{ page.methodSection.right.kicker }}</span>
+            <h2>{{ page.methodSection.right.title }}</h2>
+            <p>{{ page.methodSection.right.text }}</p>
+          </article>
         </div>
+      {% endif %}
 
-
-        <div id="listOfSocialLinks" class="position-relative">
-      
-
-            {% if page and page.bodyHtml %}
-                {{ page.bodyHtml|raw }}
-            {% else %}
-                <div class="row mb-3">
-                    <div class="col-10 col-md-7 col-lg-8 offset-1 offset-md-4">
-                    <a data-fslightbox="html5-video" data-video-poster="../img/spe/clients.png" href="../img/spe/clients.png">
-                    <img class="img-fluid" src="/img/spe/clients.png" alt="Image Description">
-                    </a>
-                    </div>
-                </div>
-            {% endif %}
-
-            {% include '/includes/sticky.html.twig' %}
-
-    
-            <!-- End Sticky End Point -->
-            <div id="stickyBlockEndPointEg1"></div>
-   
-    
-        </div>
-        <!-- End Description -->
+      <div class="oling-page-section__prose">
+        {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
+          <div class="oling-surface oling-surface--light">
+            <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
+          </div>
+        {% else %}
+          <div class="oling-surface oling-surface--light">
+            <span class="oling-kicker">{{ page.referencesSection.kicker }}</span>
+            <h2>{{ page.referencesSection.title }}</h2>
+            <p>{{ page.referencesSection.text }}</p>
+            <img class="img-fluid rounded-4 mt-3" src="{{ asset(page.referencesSection.image) }}" alt="{{ page.referencesSection.imageAlt }}">
+          </div>
+        {% endif %}
+      </div>
     </div>
+  </section>
 </main>
-<!-- ========== END MAIN CONTENT ========== -->
 {% endblock %}

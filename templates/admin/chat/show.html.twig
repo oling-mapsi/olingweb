@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation IA #{{ conversation.id }} | Admin{% endblock %}
+{% block meta_description %}Détail d’une conversation IA OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">Conversation #{{ conversation.id }}</h1>
+                <p class="text-muted mb-0">Lecture seule du parcours et de la qualification.</p>
+            </div>
+            <a class="btn btn-outline-primary" href="{{ path('admin_chat_index') }}">Retour à la liste</a>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Synthèse</h2>
+                        <dl class="row mb-0">
+                            <dt class="col-5">Statut</dt>
+                            <dd class="col-7">{{ conversation.status }}</dd>
+                            <dt class="col-5">Début</dt>
+                            <dd class="col-7">{{ conversation.startedAt ? conversation.startedAt|date('d/m/Y H:i') : '-' }}</dd>
+                            <dt class="col-5">Dernier message</dt>
+                            <dd class="col-7">{{ conversation.lastMessageAt ? conversation.lastMessageAt|date('d/m/Y H:i') : '-' }}</dd>
+                            <dt class="col-5">Origine</dt>
+                            <dd class="col-7 text-break">{{ conversation.sourceUrl ?: conversation.sourcePath ?: '-' }}</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Qualification</h2>
+                        <dl class="row mb-0">
+                            {% for key, value in qualification %}
+                                <dt class="col-6">{{ key }}</dt>
+                                <dd class="col-6">
+                                    {% if value is iterable and value is not same as(false) and value is not same as(true) and value is not same as(null) %}
+                                        {{ value|join(', ') }}
+                                    {% else %}
+                                        {{ value ?: '-' }}
+                                    {% endif %}
+                                </dd>
+                            {% endfor %}
+                        </dl>
+                    </div>
+                </div>
+
+                {% if conversation.lead %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="h5 mb-3">Lead</h2>
+                            <p class="mb-1"><strong>{{ conversation.lead.fullName }}</strong></p>
+                            <p class="mb-1">{{ conversation.lead.company }}</p>
+                            <p class="mb-1">{{ conversation.lead.email }}</p>
+                            <p class="mb-3">{{ conversation.lead.phone }}</p>
+                            <p class="mb-1 small text-muted">Consentement : {{ conversation.lead.rgpdConsent ? 'Oui' : 'Non' }}</p>
+                            <p class="mb-0 small text-muted">{{ conversation.lead.rgpdConsentAt ? conversation.lead.rgpdConsentAt|date('d/m/Y H:i') : '' }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-8">
+                {% if conversation.summaryShort %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2 class="h5 mb-2">Résumé</h2>
+                            <p class="mb-2">{{ conversation.summaryShort }}</p>
+                            {% if conversation.summaryLong %}
+                                <pre class="mb-0 small admin-pre">{{ conversation.summaryLong }}</pre>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Messages</h2>
+                        <div class="d-flex flex-column gap-3">
+                            {% for message in conversation.messages %}
+                                <div class="admin-message-card {% if message.role == 'assistant' %}admin-message-card--assistant{% endif %}">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong>{{ message.role == 'assistant' ? 'Assistant' : 'Visiteur' }}</strong>
+                                        <span class="small text-muted">{{ message.createdAt ? message.createdAt|date('d/m/Y H:i') : '' }}</span>
+                                    </div>
+                                    <div class="mb-2" style="white-space: pre-wrap;">{{ message.content }}</div>
+                                    {% if message.sourceUrls is not empty %}
+                                        <div class="small text-muted">
+                                            Sources :
+                                            {% for url in message.sourceUrls %}
+                                                <a href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a>{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

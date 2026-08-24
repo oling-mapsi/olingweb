@@ -80,7 +80,7 @@ class ChatResponder
 
         return new ChatReply(
             $this->finalizeReply($decision->reply, $contactStep),
-            $contactStep === 'lead_request',
+            $this->shouldShowLeadForm($contactStep),
             $this->filterSources($documents, $visitorMessage, $mergedQualification),
             $mergedQualification,
             $provider,
@@ -131,7 +131,7 @@ class ChatResponder
 
         return new ChatReply(
             $this->finalizeReply($reply, $contactStep),
-            $contactStep === 'lead_request',
+            $this->shouldShowLeadForm($contactStep),
             $this->filterSources($documents, $visitorMessage, $qualification),
             $qualification,
             'emergency_fallback',
@@ -299,6 +299,11 @@ class ChatResponder
         }
 
         return 'Si vous souhaitez contacter OLING, appelez le 01 89 70 15 60 ou écrivez à contact@oling.fr. Je peux aussi vous proposer un échange via le formulaire.';
+    }
+
+    private function shouldShowLeadForm(string $contactStep): bool
+    {
+        return in_array($contactStep, ['contact_info', 'contact_offer', 'lead_request'], true);
     }
 
     private function normalize(string $value): string

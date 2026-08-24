@@ -53,7 +53,7 @@ class ChatResponderTest extends TestCase
         self::assertStringContainsString('01 89 70 15 60', $reply->content);
         self::assertStringContainsString('contact@oling.fr', $reply->content);
         self::assertSame([], $reply->sources);
-        self::assertFalse($reply->requestLead);
+        self::assertTrue($reply->requestLead);
     }
 
     private function buildResponder(): ChatResponder

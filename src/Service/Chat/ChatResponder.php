@@ -30,7 +30,9 @@ class ChatResponder
     public function reply(ChatConversation $conversation, string $visitorMessage): ChatReply
     {
         $qualification = $this->qualificationService->qualify($conversation);
-        $documents = $this->findRelevantDocumentsSafely($conversation, $visitorMessage, $qualification);
+        $documents = $this->showsDirectContactQuestion($visitorMessage)
+            ? []
+            : $this->findRelevantDocumentsSafely($conversation, $visitorMessage, $qualification);
 
         foreach ($this->providers as $provider) {
             if (!$provider->isAvailable()) {
@@ -164,6 +166,10 @@ class ChatResponder
      */
     private function resolveContactStep(ChatConversation $conversation, string $visitorMessage, array $qualification, bool $providerRequestsLead): string
     {
+        if ($this->showsDirectContactQuestion($visitorMessage)) {
+            return 'contact_info';
+        }
+
         if ($this->showsStrongContactIntent($visitorMessage)) {
             return 'lead_request';
         }
@@ -234,6 +240,17 @@ class ChatResponder
         return (bool) preg_match('/\b(contact|me contacter|vous contacter|etre contacte|je veux etre contacte|contactez moi|contactez-nous|contact direct|prise de contact|contacter un consultant|parler a quelqu|parler avec un consultant|echange avec un consultant|etre rappele|rappelez moi|rappel|rdv|rendez vous|formulaire de contact|page contact|aller au contact|aller sur le formulaire|ouvrir le formulaire|devis|audit|accompagnement|proposition d accompagnement|proposition commerciale|je veux une proposition|appelez moi)\b/', $text);
     }
 
+    private function showsDirectContactQuestion(string $message): bool
+    {
+        $text = $this->normalize($message);
+
+        if (!preg_match('/\b(tel|telephone|numero|mail|email|e-mail|joindre|contacter|contact)\b/', $text)) {
+            return false;
+        }
+
+        return (bool) preg_match('/\b(votre|vos|comment|quel|quelle|joindre|contacter|contact)\b/', $text);
+    }
+
     private function isPositiveReply(string $message): bool
     {
         $text = trim($this->normalize($message));
@@ -245,6 +262,10 @@ class ChatResponder
     {
         $reply = trim($reply);
         $reply = preg_replace('/\s+/', ' ', $reply) ?? $reply;
+
+        if ($contactStep === 'contact_info') {
+            return $this->contactDetailsText(false);
+        }
 
         if ($contactStep === 'contact_offer') {
             $reply = rtrim($reply, " \t\n\r\0\x0B?.!");

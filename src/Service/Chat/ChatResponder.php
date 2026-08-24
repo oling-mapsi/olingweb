@@ -30,7 +30,7 @@ class ChatResponder
     public function reply(ChatConversation $conversation, string $visitorMessage): ChatReply
     {
         $qualification = $this->qualificationService->qualify($conversation);
-        $documents = $this->showsDirectContactQuestion($visitorMessage)
+        $documents = $this->shouldSkipDocumentLookup($visitorMessage, $qualification)
             ? []
             : $this->findRelevantDocumentsSafely($conversation, $visitorMessage, $qualification);
 
@@ -231,6 +231,18 @@ class ChatResponder
         }
 
         return $count;
+    }
+
+    /**
+     * @param array<string, string|null> $qualification
+     */
+    private function shouldSkipDocumentLookup(string $visitorMessage, array $qualification): bool
+    {
+        if ($this->showsDirectContactQuestion($visitorMessage)) {
+            return true;
+        }
+
+        return mb_strlen(trim($visitorMessage)) < 24 && $this->qualificationService->isTooVague($qualification);
     }
 
     private function showsStrongContactIntent(string $message): bool

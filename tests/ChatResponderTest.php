@@ -19,6 +19,24 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ChatResponderTest extends TestCase
 {
+    public function testGreetingKeepsConversationalOpeningWithoutGenericScopeSentence(): void
+    {
+        $conversation = new ChatConversation();
+        $message = (new ChatMessage())
+            ->setRole('visitor')
+            ->setContent('Bonjour')
+            ->setMessageType('answer')
+            ->setSequenceNumber(1)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $conversation->addMessage($message);
+
+        $reply = $this->buildResponder()->reply($conversation, 'Bonjour');
+
+        self::assertStringStartsWith('Bonjour.', $reply->content);
+        self::assertStringNotContainsString('Je reste dans le périmètre public du site OLING.', $reply->content);
+        self::assertSame([], $reply->sources);
+    }
+
     public function testDirectContactQuestionReturnsPhoneAndEmailWithoutSources(): void
     {
         $conversation = new ChatConversation();
@@ -30,7 +48,19 @@ class ChatResponderTest extends TestCase
             ->setCreatedAt(new \DateTimeImmutable());
         $conversation->addMessage($message);
 
-        $responder = new ChatResponder(
+        $reply = $this->buildResponder()->reply($conversation, 'votre numero de tel');
+
+        self::assertStringContainsString('01 89 70 15 60', $reply->content);
+        self::assertStringContainsString('contact@oling.fr', $reply->content);
+        self::assertSame([], $reply->sources);
+        self::assertFalse($reply->requestLead);
+    }
+
+    private function buildResponder(): ChatResponder
+    {
+        $qualificationService = new ChatQualificationService();
+
+        return new ChatResponder(
             new PublicContentCatalog(
                 $this->createMock(SitePageRepository::class),
                 $this->createMock(PracticeRepository::class),
@@ -39,17 +69,10 @@ class ChatResponderTest extends TestCase
                 $this->createMock(TeamRepository::class),
                 $this->createMock(UrlGeneratorInterface::class),
             ),
-            new ChatQualificationService(),
-            new HeuristicAiProvider(new ChatQualificationService()),
+            $qualificationService,
+            new HeuristicAiProvider($qualificationService),
             [],
             new NullLogger(),
         );
-
-        $reply = $responder->reply($conversation, 'votre numero de tel');
-
-        self::assertStringContainsString('01 89 70 15 60', $reply->content);
-        self::assertStringContainsString('contact@oling.fr', $reply->content);
-        self::assertSame([], $reply->sources);
-        self::assertFalse($reply->requestLead);
     }
 }

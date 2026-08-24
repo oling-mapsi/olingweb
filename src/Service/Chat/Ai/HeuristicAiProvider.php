@@ -33,7 +33,7 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         $qualification = $this->qualificationService->sanitizeQualification($qualification);
-        $reply = trim($this->buildContextSentence($documents, $qualification['primary_need'] ?? null).' '.$this->nextQuestion($qualification, $missingFields));
+        $reply = trim($this->buildLeadSentence($visitorMessage, $documents, $qualification).' '.$this->nextQuestion($qualification, $missingFields));
 
         return new AiDecision(
             $reply,
@@ -49,14 +49,19 @@ class HeuristicAiProvider implements AiProviderInterface
     /**
      * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
      */
-    private function buildContextSentence(array $documents, ?string $primaryNeed): string
+    private function buildLeadSentence(string $visitorMessage, array $documents, array $qualification): string
     {
-        if ($documents !== []) {
+        if ($this->looksLikeGreeting($visitorMessage) && $this->qualificationService->isTooVague($qualification)) {
+            return 'Bonjour.';
+        }
+
+        if ($documents !== [] && !$this->qualificationService->isTooVague($qualification)) {
             $titles = array_slice(array_map(static fn (array $document): string => $document['title'], $documents), 0, 1);
 
             return 'Je pense notamment à '.implode(' et ', $titles).'.';
         }
 
+        $primaryNeed = $qualification['primary_need'] ?? null;
         if ($primaryNeed !== null) {
             return match ($primaryNeed) {
                 'amoa_erp' => 'OLING intervient sur le cadrage et la sécurisation des projets ERP et applicatifs métiers.',
@@ -70,7 +75,11 @@ class HeuristicAiProvider implements AiProviderInterface
             };
         }
 
-        return 'Je reste dans le périmètre public du site OLING.';
+        if ($this->qualificationService->isTooVague($qualification)) {
+            return 'Je peux vous aider à cadrer le sujet.';
+        }
+
+        return 'Je peux vous aider à clarifier le besoin.';
     }
 
     /**
@@ -104,5 +113,15 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         return 'Quel est le point métier ou opérationnel le plus important à sécuriser ?';
+    }
+
+    private function looksLikeGreeting(string $message): bool
+    {
+        $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $message);
+        if ($normalized === false) {
+            $normalized = $message;
+        }
+
+        return (bool) preg_match('/^\s*(bonjour|bonsoir|salut|hello|coucou)\b/i', strtolower($normalized));
     }
 }

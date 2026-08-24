@@ -88,7 +88,7 @@
                 </button>
 
                 <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
-                    <ul class="navbar-nav ms-lg-auto align-items-lg-center">
+                    <ul class="navbar-nav oling-main-menu align-items-lg-center">
                         <li class="hs-has-mega-menu nav-item"
                             data-hs-mega-menu-item-options='{"desktop":{"position":"left"}}'>
                             <a id="expertisesMegaMenu"
@@ -123,19 +123,19 @@
                             <a class="nav-link {% if currentRoute in ['projets', 'projets_more'] %}active{% endif %}" href="{{ path('projets') }}">Cas clients</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if currentRoute == 'apropos' %}active{% endif %}" href="{{ path('apropos') }}">Cabinet</a>
+                            <a class="nav-link {% if currentRoute == 'apropos' %}active{% endif %}" href="{{ path('apropos') }}">Qui sommes nous ?</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if currentRoute == 'seo_resources_index' %}active{% endif %}" href="{{ path('seo_resources_index') }}">Ressources</a>
                         </li>
-                        <li class="nav-item ms-lg-3">
-                            <a class="btn btn-primary" href="{{ path('contact') }}">Parler à un consultant</a>
-                        </li>
-                        <li class="nav-item ms-lg-2">
+                        <li class="nav-item oling-main-menu__mapsi">
                             <a class="nav-link mapsi-link" href="{{ path('practice_home', {'slug': 'mapsi'}) }}" aria-label="Accéder à MAPSI">
                                 <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo MAPSI">
                                 <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo MAPSI">
                             </a>
+                        </li>
+                        <li class="nav-item oling-main-menu__cta">
+                            <a class="btn btn-primary" href="{{ path('contact') }}">Parler à un consultant</a>
                         </li>
                     </ul>
                 </div>
@@ -147,7 +147,7 @@
     {% block body %}{% endblock %}
 
     {% if not isAdminPage %}
-    {% include 'includes/_chat_widget.html.twig' %}
+    {% include 'includes/_chat_widget_v2.html.twig' %}
 
     <div id="cookie-banner" class="oling-cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
         <div class="oling-cookie-banner__content">
@@ -203,7 +203,6 @@
                 <div>
                     <span class="oling-kicker">OLING</span>
                     <h2>Cabinet de conseil pour transformations métier, SI, conformité et résilience.</h2>
-                    <p>OLING accompagne les PME, PMI et ETI sur les projets structurants qui exigent de la clarté, de la gouvernance et une exécution solide.</p>
                 </div>
                 <div class="oling-footer__cta">
                     <a class="btn btn-primary" href="{{ path('contact') }}">Demander un échange</a>
@@ -224,9 +223,10 @@
                 <div>
                     <span class="oling-footer__title">Secteurs</span>
                     <ul>
-                        <li><a href="{{ path('sectors_show', {slug: 'industrie'}) }}">Industrie et PMI</a></li>
-                        <li><a href="{{ path('sectors_show', {slug: 'services'}) }}">Services B2B</a></li>
-                        <li><a href="{{ path('sectors_show', {slug: 'secteur-public'}) }}">Organisations régulées</a></li>
+                        {% for sector in public_site_page_resolver.getSectorCatalogEntries()|slice(0, 8) %}
+                            <li><a href="{{ sector.detailUrl ?: path('sectors_index') }}">{{ sector.designation }}</a></li>
+                        {% endfor %}
+                        <li><a href="{{ path('sectors_index') }}">Tous les secteurs</a></li>
                         <li><a href="{{ path('projets') }}">Cas clients</a></li>
                         <li><a href="{{ path('seo_resources_index') }}">Ressources</a></li>
                     </ul>
@@ -234,7 +234,7 @@
                 <div>
                     <span class="oling-footer__title">Cabinet</span>
                     <ul>
-                        <li><a href="{{ path('apropos') }}">À propos</a></li>
+                        <li><a href="{{ path('apropos') }}">Qui sommes nous ?</a></li>
                         <li><a href="{{ path('team') }}">Équipe</a></li>
                         <li><a href="{{ path('metiers') }}">Nos métiers</a></li>
                         <li><a href="{{ path('rse') }}">Démarche RSE</a></li>

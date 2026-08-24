@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block body %}
-<main id="content" role="main">
+<main id="content" role="main" class="oling-case-studies-page">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
@@ -24,41 +24,55 @@
     highlights: page.highlights
   } %}
 
-  <section class="oling-section">
+  <section class="oling-section oling-case-studies-section">
     <div class="container">
 
       {% set featuredProjects = featuredProjects is defined ? featuredProjects : projets|slice(0, 6) %}
       {% set miniProjects = miniProjects is defined ? miniProjects : projets|slice(6) %}
 
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+      <div class="oling-case-studies-head">
+        <div>
+          <span class="oling-kicker">{{ page.cards.kicker|default('Cas clients') }}</span>
+          <h2>{{ page.cards.title|default('Des retours terrain plus incarnés, plus lisibles.') }}</h2>
+        </div>
+        <p>{{ page.cards.intro|default('Une sélection de références présentée avec plus de relief, de clarté et une lecture plus immédiate des contextes clients.') }}</p>
+      </div>
+
+      <div class="oling-case-grid">
         {% for projet in featuredProjects %}
-          {% set projetService = projet.services|length ? projet.services|first : null %}
-          <div class="col">
-            <a class="card card-ghost card-transition-zoom h-100" href="{{ projetService ? path('service', {'practice' : projetService.practice.slug, 'slug' : projetService.slug}) : path('contact') }}">
-              <div class="card-pinned card-transition-zoom-item">
-                <img class="card-img" src="{{ projet.image ?: asset('img/1920x1080/img5.jpg') }}" alt="{{ projet.designation }}">
-                {% if projet.metier %}
-                  <span class="badge bg-dark text-white card-pinned-top-end">{{ projet.metier.designation | raw }}</span>
+          <a class="oling-case-card" href="{{ projet.href }}">
+            <div class="oling-case-card__media">
+              <img src="{{ projet.image }}" alt="{{ projet.title }}">
+              <div class="oling-case-card__overlay">
+                {% if projet.meta %}
+                  <span class="oling-case-card__service">{{ projet.meta }}</span>
                 {% endif %}
               </div>
-              <div class="card-body">
-                <h4 class="mb-2">{{ projet.designation }}</h4>
-                {% if projet.description %}
-                  <p class="card-text">{{ projet.description|striptags|slice(0, 140) ~ '…' }}</p>
-                {% else %}
-                  <p class="card-text">{{ page.cards.fallbackDescription }}</p>
-                {% endif %}
-              </div>
-            </a>
-          </div>
+            </div>
+            <div class="oling-case-card__body">
+              <span class="oling-case-card__index">{{ '%02d'|format(loop.index) }}</span>
+              <h3>{{ projet.title }}</h3>
+              {% if projet.period %}
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light">{{ projet.period }}</span>
+                </div>
+              {% endif %}
+              <p>{{ projet.excerpt }}</p>
+              <span class="oling-case-card__cta">Voir le cas</span>
+            </div>
+          </a>
         {% else %}
-          <div class="col">
+          <div>
             <div class="alert alert-info">{{ page.cards.emptyText }}</div>
           </div>
         {% endfor %}
       </div>
 
       {% if miniProjects is not empty %}
+      <div class="oling-case-studies-subhead">
+        <span class="oling-kicker">{{ page.cards.archiveKicker|default('Autres références') }}</span>
+        <h3>{{ page.cards.archiveTitle|default('Plus de cas clients à parcourir') }}</h3>
+      </div>
       <div class="oling-projects-mini-grid mt-5 js-projets-mini-grid"
            data-endpoint="{{ path('projets_more') }}"
            data-next-page="{{ miniNextPage ?? 2 }}"

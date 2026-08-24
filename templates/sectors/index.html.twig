@@ -23,16 +23,20 @@
         <p>{{ indexPage.section.text }}</p>
       </div>
       <div class="oling-editorial-grid">
-        {% for slug, sectorPage in sectorPages %}
-          <a class="oling-editorial-card" href="{{ path('sectors_show', {slug: slug}) }}">
-            <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
-            <h2>{{ sectorPage.title }}</h2>
-            <p>{{ sectorPage.intro }}</p>
-            {% if sectorPage.issues is not empty %}
-              <p><strong>Priorités types :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+        {% for sector in sectorCatalog %}
+          {% set tag = sector.detailUrl ? 'a' : 'article' %}
+          <{{ tag }} class="oling-editorial-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
+            <span class="oling-kicker">Secteur servi</span>
+            <h2>{{ sector.designation }}</h2>
+            <p>{{ sector.intro }}</p>
+            {% if sector.specifics is not empty %}
+              <p><strong>Spécificités connues :</strong> {{ sector.specifics|join(' · ') }}</p>
             {% endif %}
-            <span class="oling-editorial-card__more">Voir le secteur</span>
-          </a>
+            <p><strong>Références publiées :</strong> {{ sector.projectCount }}</p>
+            {% if sector.detailUrl %}
+              <span class="oling-editorial-card__more">Voir l’approche associée</span>
+            {% endif %}
+          </{{ tag }}>
         {% else %}
           <div class="oling-surface oling-surface--light">
             <p class="mb-0">Aucun secteur n’est disponible pour le moment.</p>
@@ -41,6 +45,31 @@
       </div>
     </div>
   </section>
+
+  {% if sectorPages is not empty %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Angles sectoriels</span>
+          <h2>Quelques lectures transverses déjà détaillées</h2>
+          <p>Certains environnements disposent déjà d’une page de cadrage plus développée quand plusieurs secteurs partagent des contraintes proches.</p>
+        </div>
+        <div class="oling-editorial-grid">
+          {% for slug, sectorPage in sectorPages %}
+            <a class="oling-editorial-card" href="{{ path('sectors_show', {slug: slug}) }}">
+              <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
+              <h2>{{ sectorPage.title }}</h2>
+              <p>{{ sectorPage.intro }}</p>
+              {% if sectorPage.issues is not empty %}
+                <p><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+              {% endif %}
+              <span class="oling-editorial-card__more">Voir la page</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
     title: indexPage.cta.title,

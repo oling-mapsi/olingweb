@@ -44,7 +44,9 @@ $(document).ready(function () {
     const style = window.getComputedStyle(element);
     const bg = style.backgroundImage || '';
     const match = /url\(["']?(.+?)["']?\)/.exec(bg);
-    return match ? match[1] : '';
+    if (match) return match[1];
+    const media = element.querySelector('img');
+    return media ? media.currentSrc || media.src || '' : '';
   };
 
   const analyzeProjectCardTone = (card) => {
@@ -237,6 +239,20 @@ $(document).ready(function () {
       preload.onerror = () => swapMetier(nextItem);
       preload.src = nextItem.image;
     }, 10000);
+  };
+
+  const initHomeResourcesNav = () => {
+    const track = document.querySelector('[data-home-resources-track]');
+    if (!track) return;
+
+    const amount = () => Math.max(280, Math.round(track.clientWidth * 0.58));
+
+    document.querySelectorAll('[data-home-resources-nav]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const direction = button.getAttribute('data-home-resources-nav') === 'prev' ? -1 : 1;
+        track.scrollBy({ left: direction * amount(), behavior: 'smooth' });
+      });
+    });
   };
 
   const initGeoMap = () => {
@@ -1336,6 +1352,7 @@ $(document).ready(function () {
 
   updatePracticeTone();
   window.addEventListener('load', updatePracticeTone);
+  initHomeResourcesNav();
   initGeoMap();
   window.addEventListener('load', initGeoMap);
   window.addEventListener('resize', initGeoMap);

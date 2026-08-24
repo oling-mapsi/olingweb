@@ -5,6 +5,29 @@
 
 {% block body %}
 <main id="content" role="main">
+  <style>
+    .oling-about-leadership .oling-about-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .oling-about-leadership .oling-about-team-card { grid-template-columns: 84px minmax(0, 1fr); grid-template-rows: none; gap: 0.9rem; align-items: start; padding: 0.9rem; border-radius: 16px; }
+    .oling-about-leadership .oling-about-team-card__media { aspect-ratio: 1 / 1; width: 84px; min-width: 84px; border-radius: 12px; overflow: hidden; }
+    .oling-about-leadership .oling-about-team-card__media::after { display: none; }
+    .oling-about-leadership .oling-about-team-card__avatar { object-position: center 12%; }
+    .oling-about-leadership .oling-about-team-card__body { gap: 0.5rem; min-height: 0; padding: 0.1rem 0 0; }
+    .oling-about-leadership .oling-about-team-card__name { font-size: 1.12rem; line-height: 1; }
+    .oling-about-leadership .oling-about-team-card__title { font-size: 0.62rem; letter-spacing: 0.14em; }
+    .oling-about-leadership .oling-about-team-card__text { font-size: 0.84rem; line-height: 1.5; -webkit-line-clamp: 2; }
+    .oling-about-leadership .oling-about-team-card__link { padding-top: 0.2rem; font-size: 0.62rem; }
+    .oling-about-leadership .oling-about-team-card__link::after { margin-left: 0.26rem; font-size: 0.68rem; }
+    .oling-about-leadership .oling-about-team__actions { gap: 0.6rem; }
+    .oling-about-leadership .oling-about-team__actions .btn { min-height: auto; padding: 0.58rem 0.9rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 999px; }
+    @media (max-width: 991.98px) {
+      .oling-about-leadership .oling-about-team-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 575.98px) {
+      .oling-about-leadership .oling-about-team-card { grid-template-columns: 72px minmax(0, 1fr); padding: 0.8rem; }
+      .oling-about-leadership .oling-about-team-card__media { width: 72px; min-width: 72px; }
+    }
+  </style>
+
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
@@ -43,33 +66,44 @@
   {% endfor %}
 
   {% if teamPreview is defined and teamPreview|length > 0 %}
-    <section class="oling-shell-section oling-shell-section--tint">
+    <section class="oling-shell-section oling-shell-section--tint oling-about-leadership">
       <div class="container">
-        <div class="oling-section-head oling-about-team-head">
-          <span class="oling-kicker">{{ page.teamSection.kicker }}</span>
-          <h2>{{ page.teamSection.title }}</h2>
-          <p>{{ page.teamSection.intro }}</p>
-        </div>
-        <div class="oling-about-team-grid">
-          {% for member in teamPreview %}
-            <article class="oling-about-team-card">
-              <div class="oling-about-team-card__top">
-                <img class="oling-about-team-card__avatar" src="{{ member.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ member.noncomplet }}">
-                {% if member.titre %}
-                  <p class="oling-about-team-card__title">{{ member.titre }}</p>
-                {% endif %}
-              </div>
-              <div class="oling-about-team-card__body">
-                <h3 class="oling-about-team-card__name">{{ member.noncomplet }}</h3>
-                {% if member.shortcv %}
-                  <p class="oling-about-team-card__text">{{ member.shortcv|striptags|slice(0, 170) ~ '…' }}</p>
-                {% endif %}
-                {% if member.linkedin %}
-                  <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener">Voir sur LinkedIn</a>
-                {% endif %}
-              </div>
-            </article>
-          {% endfor %}
+        <div class="oling-about-team-stage">
+          <div class="oling-section-head oling-about-team-head">
+            <div class="oling-about-team-head__main">
+              <span class="oling-kicker">{{ page.teamSection.kicker }}</span>
+              <h2>{{ page.teamSection.title }}</h2>
+              <p>{{ page.teamSection.intro }}</p>
+            </div>
+            <div class="oling-about-team-head__meta" aria-hidden="true">
+              <span class="oling-about-team-head__count">06</span>
+              <span class="oling-about-team-head__label">Direction</span>
+            </div>
+          </div>
+
+          <div class="oling-about-team-grid">
+            {% for member in teamPreview %}
+              <article class="oling-about-team-card">
+                <div class="oling-about-team-card__media">
+                  <img class="oling-about-team-card__avatar" src="{{ member.photo }}" alt="Photo de {{ member.noncomplet }}">
+                </div>
+                <div class="oling-about-team-card__body">
+                  {% if member.titre %}
+                    <p class="oling-about-team-card__title">{{ member.titre }}</p>
+                  {% endif %}
+                  <h3 class="oling-about-team-card__name">{{ member.noncomplet }}</h3>
+                  {% if member.shortcv %}
+                    <p class="oling-about-team-card__text">{{ member.shortcv|striptags|slice(0, 180) ~ '…' }}</p>
+                  {% else %}
+                    <p class="oling-about-team-card__text">Direction engagée sur les sujets de transformation, de gouvernance et d’exécution portés par le cabinet.</p>
+                  {% endif %}
+                  {% if member.linkedin %}
+                    <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener">Voir sur LinkedIn</a>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
         </div>
         <div class="oling-section-actions oling-about-team__actions mt-4">
           <a class="btn btn-primary" href="{{ path(page.teamSection.primaryCta.route, page.teamSection.primaryCta.routeParams|default({})) }}">{{ page.teamSection.primaryCta.label }}</a>

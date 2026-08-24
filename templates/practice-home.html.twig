@@ -11,6 +11,7 @@
     intro: practiceNarrative.intro,
     primaryCta: {route: 'contact', label: 'Parler de votre projet'},
     secondaryCta: {route: 'expertises_index', label: 'Voir les expertises'},
+    externalCta: practice.slug == 'mapsi' ? {href: 'https://mapsi.fr', label: 'Accéder au site MAPSI'} : null,
     highlights: practiceNarrative.focus|slice(0, 3)
   } %}
 
@@ -177,14 +178,14 @@
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Maillage</span>
+          <span class="oling-kicker">Pages liées</span>
           <h2>Pages liées pour approfondir l’AMOA SI</h2>
-          <p>Chaque lien ci-dessous renvoie vers un actif existant du site, utile pour qualifier un projet, une expertise ou une preuve.</p>
+          <p>Chaque lien ci-dessous renvoie vers une page utile pour approfondir un projet, une expertise ou un contexte d’intervention.</p>
         </div>
         <div class="oling-service-link-grid">
           {% for item in practiceNarrative.supportLinks %}
             <a class="oling-service-link-card" href="{{ item.href }}">
-              <span class="oling-kicker">Actif existant</span>
+              <span class="oling-kicker">Page liée</span>
               <h3>{{ item.label }}</h3>
               <p>{{ item.description }}</p>
               <span class="oling-service-link-card__more">Ouvrir la page liée</span>
@@ -197,7 +198,7 @@
 
   {% include 'public/_cta_band.html.twig' with {
     title: 'Remettre de la clarté et de la maîtrise dans vos transformations',
-    text: 'OLING peut intervenir en renfort ponctuel ou sur la durée pour structurer les décisions, piloter, fiabiliser l\'exécution et produire des preuves de maîtrise.',
+    text: 'OLING peut intervenir en renfort ponctuel ou sur la durée pour structurer les décisions, piloter et fiabiliser l\'exécution du projet.',
     primaryCta: {route: 'contact', label: 'Demander un échange'}
   } %}
 </main>

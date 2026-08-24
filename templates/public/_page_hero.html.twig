@@ -9,13 +9,16 @@
         {% if intro is defined and intro %}
           <p class="oling-shell-hero__intro">{{ intro }}</p>
         {% endif %}
-        {% if primaryCta is defined or secondaryCta is defined %}
+        {% if primaryCta is defined or secondaryCta is defined or externalCta is defined %}
           <div class="oling-shell-hero__actions">
             {% if primaryCta is defined and primaryCta %}
               <a class="btn btn-primary" href="{{ path(primaryCta.route, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
             {% endif %}
             {% if secondaryCta is defined and secondaryCta %}
               <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+            {% endif %}
+            {% if externalCta is defined and externalCta %}
+              <a class="btn btn-outline-dark" href="{{ externalCta.href }}" target="_blank" rel="noopener">{{ externalCta.label }}</a>
             {% endif %}
           </div>
         {% endif %}

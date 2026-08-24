@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         oling_schema_same_as: '%oling_schema_same_as%'
+        public_site_page_resolver: '@App\Service\PublicSitePageResolver'
 
 when@test:
     twig:

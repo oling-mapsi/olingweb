@@ -25,7 +25,8 @@
               <div class="swiper-wrapper">
                 {% for projet in projects %}
                   <div class="swiper-slide pt-4 pb-8">
-                    <a class="card card-transition oling-project-card {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                    <a class="card card-transition oling-project-card {{ projet.class }}" href="#">
+                      <img class="oling-project-card__bg" src="{{ projet.image }}" alt="">
                       <div class="card-body">
                         {% if projet.metier %}
                           <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation | raw }}</span>

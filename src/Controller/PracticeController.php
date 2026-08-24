@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Email;
+use App\Entity\Projet;
 use App\Entity\Team;
 use App\Form\EmailType;
 use App\Repository\PracticeRepository;
@@ -64,7 +65,8 @@ class PracticeController extends AbstractController
             return $rankA <=> $rankB;
         });
         $homePractices = array_slice($featuredPractices, 0, 4);
-        [$homeProjects] = $this->resolveFeaturedProjects($repoprojet);
+        [$featuredHomeProjects] = $this->resolveFeaturedProjects($repoprojet);
+        $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets));
 
         $homePracticesSection = $homeSectionRepository->findOneBy(['slug' => 'practices']);
         $homeHeroSection = $homeSectionRepository->findOneBy(['slug' => 'hero']);
@@ -133,7 +135,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => array_slice($repoteam->findAll(), 0, 3),
+            'teamPreview' => $this->buildLeadershipPreview($repoteam->findAll()),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos'),
             'pract' => '',
         ]);
@@ -183,27 +185,18 @@ class PracticeController extends AbstractController
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
 
-        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjects($repoprojet);
+        $importedProjects = array_values(array_filter($projets, static fn (Projet $projet) => $projet->getExternalId() !== null));
+        $historicalProjects = array_values(array_filter($projets, static fn (Projet $projet) => $projet->getExternalId() === null));
+        $projectPool = $importedProjects !== [] ? $importedProjects : $projets;
+
+        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
+        $imagePool = $this->buildProjectImagePool($projets);
 
         $perPage = 12;
-        $miniQuery = $repoprojet->createQueryBuilder('p')
-            ->orderBy('p.id', 'DESC');
-        if (!empty($featuredIds)) {
-            $miniQuery
-                ->andWhere('p.id NOT IN (:featuredIds)')
-                ->setParameter('featuredIds', $featuredIds);
-        }
-        $countQuery = clone $miniQuery;
-        $totalMini = (int) $countQuery
-            ->select('COUNT(p.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-        $miniProjects = $miniQuery
-            ->setFirstResult(0)
-            ->setMaxResults($perPage)
-            ->getQuery()
-            ->getResult();
-        $hasMoreMini = $totalMini > $perPage;
+        $miniProjectsAll = array_values(array_filter($projectPool, static fn (Projet $projet) => !in_array($projet->getId(), $featuredIds, true)));
+        usort($miniProjectsAll, [$this, 'sortProjectsForListing']);
+        $miniProjects = array_slice($miniProjectsAll, 0, $perPage);
+        $hasMoreMini = count($miniProjectsAll) > $perPage;
 
         return $this->render('projets.html.twig', [
             'controller_name' => 'PracticeController',
@@ -211,8 +204,8 @@ class PracticeController extends AbstractController
             'services' => $services,
             'projets' => $projets,
             'page' => $this->publicSitePageResolver->getEditorialPage('projets'),
-            'featuredProjects' => $featuredProjects,
-            'miniProjects' => $miniProjects,
+            'featuredProjects' => $this->buildProjectCards($featuredProjects, $imagePool),
+            'miniProjects' => $this->buildProjectCards($miniProjects, $imagePool),
             'miniHasMore' => $hasMoreMini,
             'miniNextPage' => 2,
             'metiers' => $metiers,
@@ -225,30 +218,19 @@ class PracticeController extends AbstractController
     {
         $page = max(1, (int) $request->query->get('page', 1));
         $perPage = 12;
-        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjects($repoprojet);
-
-        $miniQuery = $repoprojet->createQueryBuilder('p')
-            ->orderBy('p.id', 'DESC');
-        if (!empty($featuredIds)) {
-            $miniQuery
-                ->andWhere('p.id NOT IN (:featuredIds)')
-                ->setParameter('featuredIds', $featuredIds);
-        }
-        $countQuery = clone $miniQuery;
-        $totalMini = (int) $countQuery
-            ->select('COUNT(p.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        $projects = $repoprojet->findAll();
+        $importedProjects = array_values(array_filter($projects, static fn (Projet $projet) => $projet->getExternalId() !== null));
+        $projectPool = $importedProjects !== [] ? $importedProjects : $projects;
+        $imagePool = $this->buildProjectImagePool($projects);
+        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
+        $miniProjectsAll = array_values(array_filter($projectPool, static fn (Projet $projet) => !in_array($projet->getId(), $featuredIds, true)));
+        usort($miniProjectsAll, [$this, 'sortProjectsForListing']);
         $offset = ($page - 1) * $perPage;
-        $miniProjects = $miniQuery
-            ->setFirstResult($offset)
-            ->setMaxResults($perPage)
-            ->getQuery()
-            ->getResult();
-        $hasMoreMini = $totalMini > ($offset + $perPage);
+        $miniProjects = array_slice($miniProjectsAll, $offset, $perPage);
+        $hasMoreMini = count($miniProjectsAll) > ($offset + $perPage);
 
         $html = $this->renderView('projets/_mini_cards.html.twig', [
-            'miniProjects' => $miniProjects,
+            'miniProjects' => $this->buildProjectCards($miniProjects, $imagePool),
         ]);
 
         return new JsonResponse([
@@ -260,27 +242,296 @@ class PracticeController extends AbstractController
 
     private function resolveFeaturedProjects(ProjetRepository $repository): array
     {
-        $featuredProjects = $repository->findBy(['featuredProjects' => true]);
-        usort($featuredProjects, static function ($a, $b) {
-            $rankA = $a->getFeaturedProjectsRank() ?? 9999;
-            $rankB = $b->getFeaturedProjectsRank() ?? 9999;
-            if ($rankA === $rankB) {
-                return ($b->getId() ?? 0) <=> ($a->getId() ?? 0);
-            }
-            return $rankA <=> $rankB;
-        });
+        return $this->resolveFeaturedProjectsFromCollection($repository->findAll());
+    }
+
+    /**
+     * @param Projet[] $projects
+     * @return array{0: array<int, Projet>, 1: array<int, int|null>}
+     */
+    private function resolveFeaturedProjectsFromCollection(array $projects): array
+    {
+        $featuredProjects = array_values(array_filter($projects, static function (Projet $projet) {
+            return $projet->isFeaturedProjects();
+        }));
+        usort($featuredProjects, [$this, 'sortFeaturedProjects']);
 
         if (count($featuredProjects) === 0) {
-            $featuredProjects = $repository->findBy([], ['id' => 'DESC'], 6);
+            usort($projects, [$this, 'sortProjectsForListing']);
+            $featuredProjects = array_slice($projects, 0, 6);
         } else {
             $featuredProjects = array_slice($featuredProjects, 0, 6);
         }
 
-        $featuredIds = array_map(static function ($projet) {
-            return $projet->getId();
-        }, $featuredProjects);
+        $featuredIds = array_map(static fn (Projet $projet) => $projet->getId(), $featuredProjects);
 
         return [$featuredProjects, $featuredIds];
+    }
+
+    private function sortFeaturedProjects(Projet $a, Projet $b): int
+    {
+        $rankA = $a->getFeaturedProjectsRank() ?? 9999;
+        $rankB = $b->getFeaturedProjectsRank() ?? 9999;
+        if ($rankA === $rankB) {
+            return ($b->getId() ?? 0) <=> ($a->getId() ?? 0);
+        }
+
+        return $rankA <=> $rankB;
+    }
+
+    private function sortProjectsForListing(Projet $a, Projet $b): int
+    {
+        $externalA = $a->getExternalId() ?? '';
+        $externalB = $b->getExternalId() ?? '';
+        if ($externalA !== '' && $externalB !== '') {
+            $scoreA = $this->buildEditorialSortScore($a);
+            $scoreB = $this->buildEditorialSortScore($b);
+
+            foreach ($scoreA as $index => $value) {
+                $comparison = $value <=> $scoreB[$index];
+                if ($comparison !== 0) {
+                    return $comparison;
+                }
+            }
+
+            return 0;
+        }
+
+        return ($b->getId() ?? 0) <=> ($a->getId() ?? 0);
+    }
+
+    private function buildEditorialSortScore(Projet $project): array
+    {
+        $externalId = $project->getExternalId() ?? '';
+        $metadata = $project->getMetadata();
+
+        return [
+            $this->projectTypeBucket($externalId),
+            $this->publicationBucket((string) $project->getPublicationStatus()),
+            $this->linkedFeaturedBucket((string) ($metadata['linked_featured_project'] ?? '')),
+            $this->contentTypeBucket((string) ($metadata['content_type'] ?? '')),
+            $this->waveBucket((string) ($metadata['priority_wave'] ?? '')),
+            $this->proofBucket((string) $project->getProofStatus()),
+            -$this->extractProjectOrder($externalId),
+        ];
+    }
+
+    private function projectTypeBucket(string $externalId): int
+    {
+        return match (true) {
+            str_starts_with($externalId, 'PH-') => 0,
+            str_starts_with($externalId, 'ACT-') => 1,
+            default => 9,
+        };
+    }
+
+    private function publicationBucket(string $publicationStatus): int
+    {
+        $value = mb_strtolower(trim($publicationStatus));
+
+        return match (true) {
+            str_contains($value, 'déjà cité') => 0,
+            str_contains($value, 'référence publiable') => 1,
+            str_contains($value, 'à valider avant publication') => 2,
+            str_contains($value, 'base interne') => 5,
+            $value === '' => 6,
+            default => 3,
+        };
+    }
+
+    private function linkedFeaturedBucket(string $linkedFeaturedProject): int
+    {
+        return trim($linkedFeaturedProject) !== '' ? 0 : 1;
+    }
+
+    private function contentTypeBucket(string $contentType): int
+    {
+        $value = mb_strtolower(trim($contentType));
+
+        return match (true) {
+            str_contains($value, 'cas client détaillé') => 0,
+            str_contains($value, 'carte catalogue') => 1,
+            str_contains($value, 'référence courte') => 2,
+            str_contains($value, 'base interne') => 5,
+            $value === '' => 4,
+            default => 3,
+        };
+    }
+
+    private function waveBucket(string $wave): int
+    {
+        if (preg_match('/vague\s+(\d+)/i', $wave, $matches) === 1) {
+            return (int) $matches[1];
+        }
+
+        return 9;
+    }
+
+    private function proofBucket(string $proofStatus): int
+    {
+        $value = mb_strtolower(trim($proofStatus));
+
+        return match (true) {
+            str_contains($value, 'documenté') => 0,
+            str_contains($value, 'prouv') => 0,
+            str_contains($value, 'facture') => 1,
+            str_contains($value, 'historique') => 2,
+            str_contains($value, 'à enrichir') => 4,
+            $value === '' => 5,
+            default => 3,
+        };
+    }
+
+    private function extractProjectOrder(string $externalId): int
+    {
+        if (preg_match('/(\d+)$/', $externalId, $matches) === 1) {
+            return (int) $matches[1];
+        }
+
+        return 9999;
+    }
+
+    /**
+     * @param Projet[] $projects
+     * @return array<int, string>
+     */
+    private function buildProjectImagePool(array $projects): array
+    {
+        $images = [];
+
+        foreach ($projects as $project) {
+            $image = $project->getImageHero() ?: $project->getImage();
+            if (!is_string($image) || trim($image) === '') {
+                continue;
+            }
+            $images[] = trim($image);
+        }
+
+        return array_values(array_unique($images));
+    }
+
+    /**
+     * @param Projet[] $projects
+     * @param string[] $imagePool
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildProjectCards(array $projects, array $imagePool): array
+    {
+        $poolOffset = 0;
+        if ($projects !== [] && $imagePool !== []) {
+            $firstKey = $projects[0]->getExternalId() ?: $projects[0]->getSlug() ?: (string) $projects[0]->getId();
+            $poolOffset = abs(crc32($firstKey)) % count($imagePool);
+        }
+
+        return array_map(function (Projet $project, int $position) use ($imagePool, $poolOffset): array {
+            $projectService = $project->getServices()->first();
+            $metadata = $project->getMetadata();
+
+            return [
+                'href' => $this->resolveProjectCardHref($project, $projectService),
+                'image' => $this->resolveProjectCardImage($project, $imagePool, $poolOffset + $position),
+                'title' => $this->buildProjectCardTitle($project),
+                'eyebrow' => $this->buildProjectCardEyebrow($project, $metadata),
+                'meta' => $project->getTerritory() ?: ($projectService ? $projectService->getDesignation() : null),
+                'period' => $project->getPeriodLabel(),
+                'excerpt' => $this->buildProjectCardExcerpt($project, $metadata),
+                'index' => $project->getFeaturedProjectsRank(),
+            ];
+        }, $projects, array_keys($projects));
+    }
+
+    private function resolveProjectCardHref(Projet $project, mixed $projectService): string
+    {
+        $publicUrl = trim((string) ($project->getPublicUrl() ?? ''));
+        if ($publicUrl !== '' && !str_starts_with($publicUrl, '/projets/')) {
+            return $publicUrl;
+        }
+
+        if ($projectService && $projectService->getPractice()) {
+            return $this->generateUrl('service', [
+                'practice' => $projectService->getPractice()->getSlug(),
+                'slug' => $projectService->getSlug(),
+            ]);
+        }
+
+        return $this->generateUrl('contact');
+    }
+
+    /**
+     * @param array<string, mixed> $metadata
+     */
+    private function buildProjectCardEyebrow(Projet $project, array $metadata): ?string
+    {
+        $subPractice = trim((string) ($metadata['sub_practice'] ?? ''));
+        if ($subPractice !== '') {
+            return $subPractice;
+        }
+
+        $practice = trim((string) ($metadata['practice'] ?? ''));
+        if ($practice !== '') {
+            return $practice;
+        }
+
+        if ($project->getMetier() !== null) {
+            return trim(strip_tags((string) $project->getMetier()->getDesignation()));
+        }
+
+        return null;
+    }
+
+    private function buildProjectCardTitle(Projet $project): string
+    {
+        $designation = trim((string) $project->getDesignation());
+        if ($project->getExternalId() !== null && str_contains($designation, ' – ')) {
+            $parts = explode(' – ', $designation, 2);
+
+            return trim($parts[1]) !== '' ? trim($parts[1]) : $designation;
+        }
+
+        return $designation;
+    }
+
+    /**
+     * @param array<string, mixed> $metadata
+     */
+    private function buildProjectCardExcerpt(Projet $project, array $metadata): string
+    {
+        $editorialAngle = trim((string) ($metadata['editorial_angle'] ?? ''));
+        if ($editorialAngle !== '') {
+            return $editorialAngle;
+        }
+
+        $shortDescription = trim((string) ($project->getShortDescription() ?? ''));
+        if ($shortDescription !== '') {
+            return $shortDescription;
+        }
+
+        $description = trim(strip_tags((string) ($project->getDescription() ?? '')));
+        if ($description !== '') {
+            $sentences = preg_split('/(?<=[.!?])\s+/u', $description) ?: [];
+            if (($sentences[0] ?? '') !== '') {
+                return trim((string) $sentences[0]);
+            }
+        }
+
+        return 'Projet de transformation, de cadrage ou de mise en œuvre mené par les équipes OLING.';
+    }
+
+    /**
+     * @param string[] $imagePool
+     */
+    private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex): string
+    {
+        $image = $project->getImageHero() ?: $project->getImage();
+        if (is_string($image) && trim($image) !== '') {
+            return trim($image);
+        }
+
+        if ($imagePool !== []) {
+            return $imagePool[$fallbackIndex % count($imagePool)];
+        }
+
+        return '/img/1920x1080/img5.jpg';
     }
 
     private function buildHomeResourceCard(\App\Entity\SitePage $page): ?array
@@ -364,6 +615,8 @@ class PracticeController extends AbstractController
             'practices' => $practices,
             'services' => $services,
             'page' => $this->publicSitePageResolver->getEditorialPage('metiers'),
+            'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries(),
+            'sectorPages' => $this->publicSitePageResolver->getSectorPages(),
             'pract' => '',
         ]);
     }
@@ -417,6 +670,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
+            'page' => $this->publicSitePageResolver->getEditorialPage('rse'),
             'pract' => '',
         ]);
     }
@@ -680,6 +934,76 @@ class PracticeController extends AbstractController
             'teams' => $teams,
             'projects' => $projects,
         ]);
+    }
+
+    /**
+     * @param Team[] $members
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildLeadershipPreview(array $members): array
+    {
+        $catalog = [
+            'florestan rouet' => [
+                'displayName' => 'Florestan Rouet',
+                'photo' => '/img/people/florestan-oling.png',
+            ],
+            'dorothee maitrias' => [
+                'displayName' => 'Dorothée Maitrias',
+                'photo' => '/img/people/dorothee-oling.jpg',
+            ],
+            'hanna badan' => [
+                'displayName' => 'Hanna Badan',
+                'photo' => '/img/people/hanna-oling.jpg',
+            ],
+            'manuel feuillard' => [
+                'displayName' => 'Manuel Feuillard',
+                'photo' => '/img/people/manuel-oling.png',
+            ],
+            'julien pujol' => [
+                'displayName' => 'Julien Pujol',
+                'photo' => '/img/people/julien-oling.png',
+            ],
+            'claire tillon' => [
+                'displayName' => 'Claire Tillon',
+                'photo' => '/img/people/claire-oling.png',
+                'titre' => 'Équipe de direction',
+            ],
+        ];
+
+        $index = [];
+        foreach ($members as $member) {
+            $index[$this->normalizeTeamName($member->getNoncomplet())] = $member;
+        }
+
+        $preview = [];
+        foreach ($catalog as $key => $defaults) {
+            $member = $index[$key] ?? null;
+            $preview[] = [
+                'noncomplet' => $member?->getNoncomplet() ?: $defaults['displayName'],
+                'titre' => $member?->getTitre() ?: ($defaults['titre'] ?? 'Équipe de direction'),
+                'shortcv' => $member?->getShortcv(),
+                'linkedin' => $member?->getLinkedin(),
+                'photo' => $defaults['photo'],
+            ];
+        }
+
+        return $preview;
+    }
+
+    private function normalizeTeamName(?string $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        $normalized = trim(mb_strtolower($value));
+        $normalized = str_replace(
+            ['é', 'è', 'ê', 'ë', 'à', 'â', 'ä', 'î', 'ï', 'ô', 'ö', 'ù', 'û', 'ü', 'ç'],
+            ['e', 'e', 'e', 'e', 'a', 'a', 'a', 'i', 'i', 'o', 'o', 'u', 'u', 'u', 'c'],
+            $normalized
+        );
+
+        return preg_replace('/\s+/', ' ', $normalized) ?? $normalized;
     }
 
     private function isAmoaAlias(string $slug): bool

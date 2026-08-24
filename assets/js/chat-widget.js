@@ -39,10 +39,50 @@ const sourceTypeLabel = (type) => {
   return labels[type] || 'Ressource';
 };
 
+const getMessageSourceCards = (message) => (
+  message.sourceCards && message.sourceCards.length
+    ? message.sourceCards
+    : (message.sources || []).map((url) => ({
+        url,
+        title: sourceLabel(url),
+        type: 'page',
+        typeLabel: 'Ressource',
+        image: null,
+        excerpt: '',
+      }))
+);
+
+const createSourceCardsHtml = (cards) => `
+  <div class="oling-chat-widget__sources-inline">
+    ${cards.map((card) => `
+      <a class="oling-chat-widget__source-card oling-chat-widget__source-card--inline" href="${escapeHtml(card.url)}" target="_blank" rel="noopener" data-chat-bypass="true">
+        ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="${escapeHtml(card.title)}" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
+        <span class="oling-chat-widget__source-body">
+          <span class="oling-chat-widget__source-type">${escapeHtml(card.typeLabel || sourceTypeLabel(card.type))}</span>
+          <span class="oling-chat-widget__source-title">${escapeHtml(card.title || sourceLabel(card.url))}</span>
+          ${card.excerpt ? `<span class="oling-chat-widget__source-excerpt">${escapeHtml(card.excerpt)}</span>` : ''}
+        </span>
+      </a>
+    `).join('')}
+  </div>
+`;
+
 const createMessageHtml = (message) => `
   <article class="oling-chat-widget__message oling-chat-widget__message--${message.role}">
     <div class="oling-chat-widget__message-meta">${message.role === 'assistant' ? 'OLING' : 'Vous'}</div>
     <div class="oling-chat-widget__bubble">${formatMessageContent(message.content)}</div>
+    ${message.role === 'assistant' && getMessageSourceCards(message).length ? createSourceCardsHtml(getMessageSourceCards(message)) : ''}
+  </article>
+`;
+
+const createTypingHtml = () => `
+  <article class="oling-chat-widget__message oling-chat-widget__message--assistant oling-chat-widget__message--typing">
+    <div class="oling-chat-widget__message-meta">OLING</div>
+    <div class="oling-chat-widget__bubble">
+      <span class="oling-chat-widget__typing" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </div>
   </article>
 `;
 
@@ -54,7 +94,6 @@ const initChatWidget = () => {
   const panel = root.querySelector('.oling-chat-widget__panel');
   const closeButton = root.querySelector('.oling-chat-widget__close');
   const messages = root.querySelector('[data-chat-messages]');
-  const sources = root.querySelector('[data-chat-sources]');
   const leadBlock = root.querySelector('[data-chat-lead]');
   const errorBox = root.querySelector('[data-chat-error]');
   const statusBox = root.querySelector('[data-chat-status]');
@@ -64,9 +103,9 @@ const initChatWidget = () => {
   const leadButton = root.querySelector('[data-chat-submit-lead]');
   const submitButton = composer?.querySelector('button[type="submit"]');
   const resetButton = root.querySelector('[data-chat-reset]');
+  const contactButton = root.querySelector('.oling-chat-widget__composer-tools a[data-chat-bypass="true"]');
   const contactPath = new URL(root.dataset.contactFallbackUrl, window.location.origin).pathname;
   const defaultPlaceholder = messageInput?.getAttribute('placeholder') || '';
-  const defaultSubmitLabel = submitButton?.textContent || 'Envoyer';
   const defaultLeadLabel = leadButton?.textContent || 'Transmettre la demande';
 
   const state = {
@@ -74,6 +113,7 @@ const initChatWidget = () => {
     open: window.localStorage.getItem(CHAT_OPEN_STATE_KEY) === 'open',
     loading: false,
     conversation: null,
+    typing: false,
   };
 
   const setOpen = (open) => {
@@ -110,6 +150,9 @@ const initChatWidget = () => {
 
   const setLoading = (loading, message = '') => {
     state.loading = loading;
+    if (!loading) {
+      state.typing = false;
+    }
     root.classList.toggle('is-loading', loading);
     messageInput?.toggleAttribute('disabled', loading);
     leadButton?.toggleAttribute('disabled', loading);
@@ -117,13 +160,15 @@ const initChatWidget = () => {
     resetButton?.toggleAttribute('disabled', loading);
     closeButton?.toggleAttribute('disabled', loading);
     launcher?.toggleAttribute('disabled', loading && !state.open);
-    if (submitButton) {
-      submitButton.textContent = loading ? 'En cours...' : defaultSubmitLabel;
-    }
+    submitButton?.setAttribute('aria-label', loading ? 'Envoi en cours' : 'Envoyer');
+    submitButton?.setAttribute('title', loading ? 'Envoi en cours' : 'Envoyer');
     if (leadButton) {
       leadButton.textContent = loading ? 'En cours...' : defaultLeadLabel;
     }
     setStatus(loading ? message : '');
+    if (!loading && state.conversation) {
+      renderMessageList(state.conversation.messages || []);
+    }
   };
 
   const setLeadVisible = (visible) => {
@@ -132,42 +177,24 @@ const initChatWidget = () => {
     root.classList.toggle('is-lead-step', visible);
   };
 
-  const renderSources = (messageList) => {
-    if (!sources) return;
-    const latestAssistant = [...messageList].reverse().find((message) => message.role === 'assistant' && ((message.sourceCards && message.sourceCards.length) || (message.sources && message.sources.length)));
-    if (!latestAssistant) {
-      sources.classList.add('d-none');
-      sources.innerHTML = '';
-      return;
-    }
+  const scrollMessagesToBottom = () => {
+    if (!messages) return;
+    messages.scrollTop = messages.scrollHeight;
+  };
 
-    const cards = latestAssistant.sourceCards && latestAssistant.sourceCards.length
-      ? latestAssistant.sourceCards
-      : (latestAssistant.sources || []).map((url) => ({
-          url,
-          title: sourceLabel(url),
-          type: 'page',
-          typeLabel: 'Ressource',
-          image: null,
-          excerpt: '',
-        }));
+  const renderMessageList = (messageList = []) => {
+    if (!messages) return;
 
-    sources.classList.remove('d-none');
-    sources.innerHTML = `
-      <span class="oling-chat-widget__sources-label">Sources utiles</span>
-      <div class="oling-chat-widget__sources-grid">
-        ${cards.map((card) => `
-          <a class="oling-chat-widget__source-card" href="${escapeHtml(card.url)}" target="_blank" rel="noopener" data-chat-bypass="true">
-            ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="${escapeHtml(card.title)}" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
-            <span class="oling-chat-widget__source-body">
-              <span class="oling-chat-widget__source-type">${escapeHtml(card.typeLabel || sourceTypeLabel(card.type))}</span>
-              <span class="oling-chat-widget__source-title">${escapeHtml(card.title || sourceLabel(card.url))}</span>
-              ${card.excerpt ? `<span class="oling-chat-widget__source-excerpt">${escapeHtml(card.excerpt)}</span>` : ''}
-            </span>
-          </a>
-        `).join('')}
-      </div>
-    `;
+    messages.innerHTML = messageList.length
+      ? messageList.map(createMessageHtml).join('') + (state.loading && state.typing ? createTypingHtml() : '')
+      : '<div class="oling-chat-widget__empty">La conversation commence ici.</div>';
+    scrollMessagesToBottom();
+  };
+
+  const syncResetVisibility = (conversation = state.conversation) => {
+    if (!resetButton) return;
+    const hasVisitorMessage = (conversation?.messages || []).some((message) => message.role === 'visitor');
+    resetButton.classList.toggle('d-none', !hasVisitorMessage);
   };
 
   const renderConversation = (conversation) => {
@@ -175,11 +202,12 @@ const initChatWidget = () => {
     if (!messages) return;
 
     const messageList = conversation.messages || [];
-    messages.innerHTML = messageList.length
-      ? messageList.map(createMessageHtml).join('')
-      : '<div class="oling-chat-widget__empty">La conversation commence ici.</div>';
-    messages.scrollTop = messages.scrollHeight;
-    renderSources(messageList);
+    const lastMessage = messageList.length ? messageList[messageList.length - 1] : null;
+    if (!lastMessage || lastMessage.role === 'assistant') {
+      state.typing = false;
+    }
+    syncResetVisibility(conversation);
+    renderMessageList(messageList);
     setLeadVisible(!!conversation.requestLead && !conversation.leadSubmitted);
 
     if (conversation.contact) {
@@ -200,9 +228,6 @@ const initChatWidget = () => {
       if (messageInput) {
         messageInput.placeholder = 'Ajouter un complément, une précision ou un autre besoin...';
       }
-      if (submitButton) {
-        submitButton.textContent = 'Continuer';
-      }
       return;
     }
 
@@ -211,7 +236,8 @@ const initChatWidget = () => {
       messageInput.placeholder = defaultPlaceholder;
     }
     if (submitButton) {
-      submitButton.textContent = defaultSubmitLabel;
+      submitButton.setAttribute('aria-label', 'Envoyer');
+      submitButton.setAttribute('title', 'Envoyer');
     }
   };
 
@@ -298,8 +324,21 @@ const initChatWidget = () => {
       }),
     });
 
+    state.typing = false;
     renderConversation(payload.conversation);
+    setStatus('');
     prefillLeadDescription();
+  };
+
+  const renderOptimisticVisitorMessage = (content) => {
+    const optimisticConversation = {
+      ...(state.conversation || {}),
+      messages: [...(state.conversation?.messages || []), { role: 'visitor', content }],
+    };
+
+    state.typing = true;
+    renderConversation(optimisticConversation);
+    setStatus('OLING rédige sa réponse...');
   };
 
   const resetConversation = async () => {
@@ -310,12 +349,9 @@ const initChatWidget = () => {
     setSummary('');
     setStatus('');
     setLeadVisible(false);
+    syncResetVisibility(null);
     if (messages) {
       messages.innerHTML = '<div class="oling-chat-widget__empty">La conversation commence ici.</div>';
-    }
-    if (sources) {
-      sources.classList.add('d-none');
-      sources.innerHTML = '';
     }
     if (messageInput) {
       messageInput.value = '';
@@ -354,6 +390,7 @@ const initChatWidget = () => {
   launcher?.addEventListener('click', async () => {
     setOpen(true);
     setError('');
+    state.typing = false;
     setLoading(true, 'Ouverture du chat...');
     try {
       await ensureConversation();
@@ -375,12 +412,20 @@ const initChatWidget = () => {
     if (!content) return;
 
     setError('');
+    messageInput.value = '';
     setLoading(true, 'Envoi en cours...');
+    const previousConversation = state.conversation ? { ...state.conversation, messages: [...(state.conversation.messages || [])] } : null;
     try {
       await ensureConversation();
+      renderOptimisticVisitorMessage(content);
       await sendMessage(content);
-      messageInput.value = '';
+      state.typing = false;
+      setStatus('');
     } catch (error) {
+      state.typing = false;
+      if (previousConversation) {
+        renderConversation(previousConversation);
+      }
       setError(error.message || 'Impossible d’envoyer le message.');
     } finally {
       setLoading(false);
@@ -410,6 +455,10 @@ const initChatWidget = () => {
     } finally {
       setLoading(false);
     }
+  });
+
+  contactButton?.addEventListener('click', () => {
+    setOpen(false);
   });
 
   document.addEventListener('click', async (event) => {
@@ -448,6 +497,8 @@ const initChatWidget = () => {
   });
 
   restoreConversation().then(async () => {
+    state.typing = false;
+    syncResetVisibility();
     root.classList.add('is-ready');
     if (window.location.hash === '#chat') {
       setOpen(true);

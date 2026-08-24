@@ -66,6 +66,7 @@ class PublicSiteController extends AbstractController
             'services' => $servicesRepository->findAll(),
             'page' => $page,
             'sectorPages' => $sectorPages,
+            'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries(),
         ]);
     }
 

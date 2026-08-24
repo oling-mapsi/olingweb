@@ -249,14 +249,23 @@ class ChatResponder
         if ($contactStep === 'contact_offer') {
             $reply = rtrim($reply, " \t\n\r\0\x0B?.!");
 
-            return $reply.'. Si vous le souhaitez, je peux aussi vous proposer un échange avec un consultant.';
+            return $reply.'. '.$this->contactDetailsText(false);
         }
 
         if ($contactStep === 'lead_request') {
-            return 'Très bien. Je peux transmettre votre demande à un consultant OLING. Vous pouvez laisser vos coordonnées ci-dessous.';
+            return 'Très bien. '.$this->contactDetailsText(true);
         }
 
         return $reply;
+    }
+
+    private function contactDetailsText(bool $includeLeadForm): string
+    {
+        if ($includeLeadForm) {
+            return 'Pour joindre OLING rapidement, appelez le 01 89 70 15 60 ou écrivez à contact@oling.fr. Je peux aussi transmettre votre demande à un consultant OLING via le formulaire ci-dessous. Adresse publique : 40 rue Alexandre Dumas, 75011 Paris.';
+        }
+
+        return 'Si vous souhaitez contacter OLING, appelez le 01 89 70 15 60 ou écrivez à contact@oling.fr. Je peux aussi vous proposer un échange via le formulaire.';
     }
 
     private function normalize(string $value): string

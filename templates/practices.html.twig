@@ -10,11 +10,13 @@
   {% set practiceColorMap = {'#7d5ba6':0,'#0093dc':1,'#8aea92':2,'#f4743b':3} %}
   {% set practiceColor = practice.color ? (practice.color starts with '#' ? practice.color|lower : '#' ~ practice.color|lower) : '' %}
   {% set practiceVariant = practiceColorMap[practiceColor] is defined ? practiceColorMap[practiceColor] : (practice.id ? (practice.id % 4) : 1) %}
-  {% set practiceAccent = practiceColor ? practiceColor : practicePalette[practiceVariant] %}
-  {% set practiceGrad2 = practiceGrad2Palette[practiceVariant] %}
+  {% set practiceHeroImage = practice.image1 ?: practice.image2 ?: asset('img/1920x1080/img13.png') %}
   <div class="container content-space-2 content-space-lg-3">
-    <section class="oling-practice-hero" data-variant="{{ practiceVariant }}" style="background: linear-gradient(135deg, {{ practiceAccent }}, {{ practiceGrad2 }} 70%); --practice-bg: url('{{ practice.image1 ?: practice.image2 ?: asset('img/1920x1080/img13.png') }}'); --practice-accent: {{ practiceAccent }}; --card-grad-1: {{ practiceAccent }}; --card-grad-2: {{ practiceGrad2 }};">
-      <div class="acc-practice-step-media" aria-hidden="true"></div>
+    <section class="oling-practice-hero" data-variant="{{ practiceVariant }}">
+      <div class="practice-hero-color" aria-hidden="true"></div>
+      <div class="acc-practice-step-media" aria-hidden="true">
+        <img src="{{ practiceHeroImage starts with 'http://' or practiceHeroImage starts with 'https://' or practiceHeroImage starts with '/' ? practiceHeroImage : asset(practiceHeroImage) }}" alt="">
+      </div>
       <div class="p-7 p-lg-9 oling-hero-content">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-4">
@@ -146,7 +148,8 @@
                     {% if projet.id not in projetsShown %}
                       {% set projetsShown = projetsShown|merge([projet.id]) %}
                       <div class="swiper-slide pt-4 pb-8">
-                        <a class="card card-transition {{ projet.class }}" href="#" style="background-image: url({{ projet.image }});">
+                        <a class="card card-transition oling-project-card {{ projet.class }}" href="#">
+                          <img class="oling-project-card__bg" src="{{ projet.image }}" alt="">
                           <div class="card-body">
                             <span class="card-subtitle text-white mb-3 highlight-text p-1">{{ projet.metier.designation | raw }}</span>
                             <h3 class="highlight-text card-title text-white lh-base">{{ projet.designation | raw }}</h3>

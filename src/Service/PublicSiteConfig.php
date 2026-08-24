@@ -10,120 +10,71 @@ class PublicSiteConfig
     public function getHome(): array
     {
         return [
-            'seoTitle' => 'OLING | Conseil en transformation SI, ERP, conformité et IA',
-            'metaDescription' => 'OLING accompagne les PME, PMI et ETI sur les projets ERP, d\'organisation, de gouvernance SI, de conformité, de cybersécurité et d\'intelligence artificielle.',
+            'seoTitle' => 'OLING | AMOA SI, ERP, CRM, GMAO & conformité',
+            'metaDescription' => 'Cabinet de conseil AMOA SI : cadrage et pilotage ERP, CRM, GMAO, SIRH, SI Finance, schéma directeur, RGPD, ISO 27001, NIS2/DORA. France et DROM.',
             'hero' => [
-                'eyebrow' => 'ERP, flux critiques, risques, conformité, IA',
-                'badge' => 'OLING certifiée ISO 27001:2022',
-                'titleLines' => ['FAIRE TENIR', 'VOS PROJETS SI', 'DANS LE REEL'],
-                'intro' => 'Quand les flux se tendent, que les dépendances s\'empilent et que les projets SI cessent de tenir, OLING remet de la lisibilité, des responsables et une trajectoire exploitable. ERP, gouvernance, conformité, risques et IA sont traités comme un même système de pilotage.',
-                'secondaryCta' => ['label' => 'Voir les expertises', 'route' => 'expertises_index'],
-                'tags' => ['AMOA ERP', 'Flux & continuite', 'RGPD & gouvernance', 'IA utile'],
+                'badge' => '',
+                'eyebrow' => 'Cabinet de conseil AMOA SI depuis 2012',
+                'titleLines' => ['Cadrer et piloter', 'vos projets SI, progiciels', 'et conformité'],
+                'intro' => 'OLING accompagne les directions générales, DSI et directions métiers dans le cadrage et le pilotage de projets ERP, CRM, GMAO, SIRH et SI Finance, ainsi que sur la gouvernance SI, le RGPD, les risques et les démarches ISO.',
+                'secondaryCta' => ['label' => 'Découvrir nos expertises', 'route' => 'expertises_index'],
+                'tags' => ['AMOA SI', 'ERP · CRM · GMAO', 'RGPD · ISO 27001', 'MAPSI'],
                 'portraitImage' => '/uploads/metiers/hero/transport-intermodal-69a3a08f1beb31.17401526.jpg',
-                'portraitAlt' => 'Port, logistique et flux intermodaux',
+                'portraitAlt' => 'Projet SI métier',
                 'statement' => [
-                    'eyebrow' => 'Flux, arbitrages, execution',
-                    'title' => 'Clarifier. Arbitrer. Tenir.',
-                    'text' => 'Nous ne commentons pas la transformation à distance. Nous tenons la chaîne entre enjeux métier, flux critiques, outils et exécution.',
+                    'eyebrow' => 'AMOA et pilotage',
+                    'title' => 'Du cadrage à la mise en service',
+                    'text' => 'Diagnostic, expression de besoin, consultation, choix de solution, pilotage, recette et conduite du changement.',
                 ],
                 'signal' => [
                     'eyebrow' => 'Métier adressé',
-                    'title' => 'Transport intermodal',
-                    'text' => 'Pilotage, dépendances, exécution et continuité sur un métier exposé aux flux critiques.',
+                    'title' => '',
+                    'text' => '',
                 ],
+                'metierSlug' => null,
+                'metierIntro' => null,
             ],
-            'introCards' => [
-                [
-                    'variant' => 'blue',
-                    'eyebrow' => 'AMOA ERP',
-                    'title' => 'Choisir sans subir. Cadrer les flux. Tenir jusqu\'à l\'adoption.',
-                ],
-                [
-                    'variant' => 'pink',
-                    'eyebrow' => 'Risques & conformité',
-                    'title' => 'Remettre les points de rupture sous contrôle, avec preuve et responsabilité.',
-                ],
-                [
-                    'variant' => 'image',
-                    'image' => '/img/spe/human.jpeg',
-                    'alt' => 'Equipe en travail collaboratif',
-                ],
-            ],
-            'practices' => [
-                'eyebrow' => 'Practices',
-                'title' => 'Des practices pour reprendre la main sur les flux, les risques et l\'exécution.',
-                'featured' => [
-                    [
-                        'variant' => 'wide',
-                        'route' => 'expertises_show',
-                        'routeParams' => ['slug' => 'amoa-erp-applications-metiers'],
-                        'index' => '01',
-                        'title' => 'AMOA ERP et applications métiers',
-                        'text' => 'Poser un cadre de décision solide, arbitrer entre métiers, DSI et intégrateurs, puis tenir les flux cibles jusqu\'à la mise en service utile.',
-                        'image' => '/uploads/services/images/amoaerpoling-69a1c09fcdab91.34156790.jpg',
-                        'alt' => 'AMOA ERP et applications métier',
-                    ],
-                    [
-                        'variant' => 'blue',
-                        'route' => 'expertises_show',
-                        'routeParams' => ['slug' => 'cybersecurite-conformite-resilience'],
-                        'index' => '02',
-                        'title' => 'Risques, conformité et résilience',
-                        'text' => 'Faire passer la gouvernance du discours au pilotage réel : dépendances, continuité, sécurité, exposition fournisseur et points de rupture.',
-                    ],
-                    [
-                        'variant' => 'pink',
-                        'route' => 'expertises_show',
-                        'routeParams' => ['slug' => 'rgpd-dpo-gouvernance'],
-                        'index' => '03',
-                        'title' => 'RGPD, DPO et responsabilisation',
-                        'text' => 'Sortir d\'une conformité documentaire pour installer un dispositif de preuve, de responsabilisation et de maîtrise des traitements.',
-                    ],
-                    [
-                        'variant' => 'image',
-                        'route' => 'expertises_show',
-                        'routeParams' => ['slug' => 'data-automatisation-intelligence-artificielle'],
-                        'index' => '04',
-                        'title' => 'IA, automatisation et usages tenables',
-                        'text' => 'Identifier les cas d\'usage utiles, poser le cadre de gouvernance et intégrer l\'IA sans fragiliser les données, les rôles ni les décisions.',
-                        'image' => '/img/people/hanna-oling.jpg',
-                        'alt' => 'Consultante OLING',
-                    ],
-                ],
-                'quoteEyebrow' => 'Positionnement',
-                'quoteTitle' => 'Quand les flux se bloquent entre métiers, fournisseurs et comités, nous remettons une chaîne de décision claire.',
-            ],
-            'proof' => [
-                'eyebrow' => 'Cabinet',
-                'title' => 'Un cabinet engagé dans la transformation, mais suffisamment ferme pour tenir les arbitrages qui comptent.',
-                'items' => [
-                    [
-                        'title' => 'Même cadre de décision',
-                        'text' => 'Métier, SI, données, sécurité, conformité et fournisseurs sont traités dans une seule logique d\'arbitrage.',
-                    ],
-                    [
-                        'title' => 'Livrables de pilotage',
-                        'text' => 'Nous ne produisons pas des livrables de décor. Chaque sortie doit aider à décider, engager, déployer ou prouver.',
-                    ],
-                    [
-                        'title' => 'IA sous gouvernance',
-                        'text' => 'Les usages IA sont traités comme des choix de responsabilité, de données et de contrôle, pas comme une vitrine.',
-                    ],
-                ],
-                'image' => '/img/spe/bureau.jpg',
-                'imageAlt' => 'Equipe OLING au travail',
-                'editorialEyebrow' => 'Editorial',
-                'editorialTitle' => 'Des contenus pour orienter une décision, pas pour meubler une communication.',
+            'kpisSection' => [
+                'eyebrow' => 'Repères',
+                'title' => 'Des repères simples sur le périmètre OLING',
             ],
             'kpis' => [
-                ['variant' => 'dark', 'label' => 'ERP', 'text' => 'Sécuriser l\'avant-projet, la consultation et la mise en œuvre'],
-                ['variant' => 'blue', 'label' => 'RISK', 'text' => 'Reprendre la main sur les dépendances critiques et les arbitrages faibles'],
-                ['variant' => 'pink', 'label' => 'RGPD', 'text' => 'Sortir du déclaratif pour installer des preuves, des rôles et des contrôles'],
-                ['variant' => 'image', 'image' => '/uploads/metiers/hero/transport-intermodal-69a3a08f1beb31.17401526.jpg', 'alt' => 'Environnement operationnel et logistique'],
+                ['variant' => 'dark', 'label' => '2012', 'text' => 'Création d’OLING'],
+                ['variant' => 'blue', 'label' => 'ISO 27001:2022', 'text' => 'Certification OLING'],
+                ['variant' => 'pink', 'label' => 'Hexagone & DROM', 'text' => 'Interventions sur site et à distance'],
+                ['variant' => 'image', 'image' => '/img/spe/bureau.jpg', 'alt' => 'Equipe OLING'],
+            ],
+            'practices' => [
+                'eyebrow' => 'Expertises',
+                'title' => '',
+            ],
+            'accompaniments' => [
+                'eyebrow' => 'Accompagnements',
+                'title' => '',
+                'items' => [],
+            ],
+            'proof' => [
+                'eyebrow' => 'Méthode d’intervention',
+                'title' => '',
+                'items' => [],
+                'image' => '/img/spe/bureau.jpg',
+                'imageAlt' => 'Equipe OLING au travail',
+            ],
+            'projects' => [
+                'eyebrow' => 'Références',
+                'title' => '',
+                'intro' => '',
+            ],
+            'resources' => [
+                'eyebrow' => 'Ressources',
+                'title' => '',
+                'intro' => '',
+                'cta' => ['label' => 'Voir toutes les ressources', 'route' => 'seo_resources_index'],
             ],
             'finalCta' => [
-                'title' => 'Obtenir une lecture exploitable de votre transformation',
-                'text' => 'En quelques semaines, OLING remet à plat les enjeux, les risques, les rôles et les décisions pour remettre un projet SI, ERP, conformité ou IA sous contrôle.',
+                'eyebrow' => 'Diagnostic',
+                'title' => '',
+                'text' => '',
                 'primaryCta' => ['label' => 'Demander un diagnostic', 'route' => 'contact'],
             ],
         ];
@@ -136,9 +87,9 @@ class PublicSiteConfig
                 'seoTitle' => 'Cabinet | OLING',
                 'metaDescription' => 'OLING, cabinet de conseil pour PME, PMI et ETI : transformation SI, organisation, conformité, cybersécurité et intelligence artificielle.',
                 'eyebrow' => 'Cabinet OLING',
-                'title' => 'Un cabinet de combat pour les transformations qui engagent vraiment l\'entreprise',
-                'intro' => 'OLING accompagne les PME, PMI et ETI quand il faut arbitrer vite, remettre de la clarté dans les responsabilités et tenir l\'exécution sur des sujets ERP, risques, conformité, RGPD et IA.',
-                'highlights' => ['Transformation et AMO ERP', 'Risques, conformité et résilience', 'IA utile, intégrée, gouvernée'],
+                'title' => 'Un cabinet de conseil engagé sur les projets qui structurent l\'entreprise',
+                'intro' => 'OLING accompagne les PME, PMI et ETI sur les projets ERP, SI, conformité, RGPD et IA qui demandent un cadrage solide, une gouvernance claire et un pilotage constant.',
+                'highlights' => ['Transformation et AMOA ERP', 'Risques, conformité et résilience', 'IA cadrée et gouvernée'],
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre projet'],
                 'secondaryCta' => ['route' => 'team', 'label' => 'Voir l\'équipe'],
                 'sections' => [
@@ -148,7 +99,7 @@ class PublicSiteConfig
                             [
                                 'kicker' => 'Positionnement',
                                 'title' => 'Deux fronts, une seule logique de maîtrise',
-                                'text' => 'OLING intervient d\'un côté sur la transformation des opérations et des systèmes d\'information, de l\'autre sur les risques, la conformité et la résilience. Dans les deux cas, l\'enjeu est le même : reprendre la main sur les décisions, les dépendances et l\'exécution.',
+                                'text' => 'OLING intervient sur la transformation des opérations et des systèmes d\'information, ainsi que sur les risques, la conformité et la résilience. Dans les deux cas, le travail porte sur les décisions, les dépendances et les conditions d\'exécution.',
                             ],
                             [
                                 'kicker' => 'Différence',
@@ -257,9 +208,9 @@ class PublicSiteConfig
                 'seoTitle' => 'Références clients | Conseil AMOA SI - OLING',
                 'metaDescription' => 'Découvrez nos références clients en AMOA SI, transformation digitale, conformité RGPD et gouvernance, en France et Outre-mer.',
                 'eyebrow' => 'Cas clients OLING',
-                'title' => 'Des cas clients qui montrent comment OLING remet de la tenue dans les projets exposés',
-                'intro' => 'OLING intervient auprès de PME, PMI, ETI et organisations multisites quand les arbitrages deviennent sensibles, que les flux se tendent et qu\'un projet ERP, SI, conformité ou gouvernance doit redevenir pilotable.',
-                'highlights' => ['ERP, SI, conformité', 'Hexagone et DROM', 'Décisions, exécution, preuves'],
+                'title' => 'Des cas clients pour comprendre les contextes, missions et résultats accompagnés par OLING',
+                'intro' => 'OLING intervient auprès de PME, PMI, ETI et organisations multisites sur des projets ERP, SI, conformité et gouvernance qui demandent cadrage, coordination et suivi.',
+                'highlights' => ['ERP, SI, conformité', 'Hexagone et DROM', 'Cadrage, pilotage, résultats'],
                 'primaryCta' => ['route' => 'projets', 'label' => 'Voir les projets'],
                 'secondaryCta' => ['route' => 'contact', 'label' => 'Parler de votre contexte'],
                 'methodSection' => [
@@ -271,15 +222,141 @@ class PublicSiteConfig
                     'right' => [
                         'kicker' => 'Position',
                         'title' => 'Un accompagnement qui reste utile à la décision',
-                        'text' => 'Nous écoutons les enjeux spécifiques, adaptons le dispositif et restons concentrés sur ce qui doit vraiment changer : arbitrages, maîtrise des risques, trajectoire d\'exécution et appropriation par les équipes.',
+                        'text' => 'Nous adaptons le dispositif au contexte du client et restons concentrés sur les décisions à prendre, la maîtrise des risques et l’appropriation par les équipes.',
                     ],
                 ],
                 'referencesSection' => [
                     'kicker' => 'Références',
                     'title' => 'Des contextes différents, une même exigence de clarté',
-                    'text' => 'OLING intervient pour des organisations qui doivent faire tenir ensemble contraintes métier, exigences réglementaires, transformation des systèmes et exécution sur le terrain.',
+                    'text' => 'OLING intervient pour des organisations qui doivent articuler contraintes métier, exigences réglementaires, transformation des systèmes et mise en œuvre opérationnelle.',
                     'image' => 'img/spe/clients.png',
                     'imageAlt' => 'Références clients OLING',
+                ],
+            ],
+            'rse' => [
+                'seoTitle' => 'Démarche RSE | OLING',
+                'metaDescription' => 'Nos engagements RSE : gouvernance, éthique, impact environnemental et responsabilité sociétale chez OLING.',
+                'eyebrow' => 'Responsabilité sociétale',
+                'title' => 'Une démarche RSE intégrée à notre gouvernance, à nos pratiques et à nos choix d’exécution',
+                'intro' => 'OLING inscrit ses choix de gouvernance, ses pratiques internes et ses relations de travail dans une logique de responsabilité durable, concrète et pilotable.',
+                'highlights' => ['Éthique et intégrité', 'Gouvernance responsable', 'Impact environnemental'],
+                'primaryCta' => ['route' => 'contact', 'label' => 'Nous contacter'],
+                'secondaryCta' => ['route' => 'apropos', 'label' => 'À propos d’OLING'],
+                'sections' => [
+                    [
+                        'items' => [
+                            [
+                                'kicker' => 'Cadre d’engagement',
+                                'title' => 'Une charte appliquée à nos activités et à nos parties prenantes',
+                                'text' => 'La responsabilité sociétale des entreprises est au cœur des préoccupations d’OLING. Cette charte formalise les engagements que nous prenons pour contribuer à un développement économique, social et environnemental durable, en cohérence avec nos valeurs, notre mission et nos pratiques de terrain.',
+                            ],
+                        ],
+                    ],
+                    [
+                        'items' => [
+                            [
+                                'kicker' => '01',
+                                'title' => 'Éthique et intégrité',
+                                'list' => [
+                                    'Respect des lois et des réglementations en vigueur dans les pays où nous opérons.',
+                                    'Culture d’intégrité, de transparence et d’honnêteté dans l’ensemble du cabinet.',
+                                    'Lutte active contre la corruption, les discriminations et le harcèlement.',
+                                ],
+                            ],
+                            [
+                                'kicker' => '02',
+                                'title' => 'Gouvernance et management responsable',
+                                'list' => [
+                                    'Gouvernance transparente, efficace et respectueuse des droits des parties prenantes.',
+                                    'Intégration des enjeux RSE dans la stratégie et la gestion des risques.',
+                                    'Innovation et créativité mobilisées pour répondre aux enjeux sociétaux et environnementaux.',
+                                ],
+                            ],
+                            [
+                                'kicker' => '03',
+                                'title' => 'Respect des droits humains',
+                                'list' => [
+                                    'Protection des droits humains et des droits des travailleurs selon les standards internationaux.',
+                                    'Vigilance sur l’alignement de nos partenaires commerciaux avec ces principes.',
+                                ],
+                            ],
+                            [
+                                'kicker' => '04',
+                                'title' => 'Équité et diversité',
+                                'list' => [
+                                    'Égalité des chances dans le recrutement, la formation et la promotion interne.',
+                                    'Valorisation de la diversité, de l’inclusion et de la mixité au sein de l’entreprise.',
+                                ],
+                            ],
+                            [
+                                'kicker' => '05',
+                                'title' => 'Dialogue avec les parties prenantes',
+                                'list' => [
+                                    'Dialogue constructif et transparent avec clients, fournisseurs, partenaires et collaborateurs.',
+                                    'Contribution au développement des communautés locales et à des projets d’intérêt général.',
+                                ],
+                            ],
+                            [
+                                'kicker' => '06',
+                                'title' => 'Protection de l’environnement',
+                                'list' => [
+                                    'Réduction de l’empreinte environnementale et promotion de pratiques durables.',
+                                    'Sensibilisation des collaborateurs et partenaires aux comportements écoresponsables.',
+                                    'Recherche de solutions pour économiser les ressources, réduire les déchets et limiter les émissions.',
+                                ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'items' => [
+                            [
+                                'kicker' => 'Pilotage',
+                                'title' => 'Suivi et évaluation',
+                                'list' => [
+                                    'Mise en place d’indicateurs et de processus de reporting pour suivre les progrès.',
+                                    'Évaluation régulière de la conformité à la charte et ajustement des pratiques si nécessaire.',
+                                ],
+                            ],
+                            [
+                                'kicker' => 'Positionnement',
+                                'title' => 'Un engagement assumé dans la durée',
+                                'text' => 'En portant cette charte RSE, OLING confirme sa volonté de contribuer à un développement durable et responsable, au service de ses clients, de ses collaborateurs, de ses partenaires et de son écosystème.',
+                            ],
+                        ],
+                    ],
+                ],
+                'linksSection' => [
+                    'kicker' => 'Pages liées',
+                    'title' => 'Autres engagements et politiques',
+                    'links' => [
+                        [
+                            'kicker' => 'Sécurité',
+                            'title' => 'Politique de sécurité de l’information',
+                            'text' => 'Mesures, principes et responsabilités relatifs à la protection de l’information chez OLING.',
+                            'route' => 'polsecurite',
+                            'moreLabel' => 'Lire la page',
+                        ],
+                        [
+                            'kicker' => 'Données personnelles',
+                            'title' => 'Politique RGPD',
+                            'text' => 'Cadre de traitement, de protection et de conformité appliqué aux données personnelles.',
+                            'route' => 'polrgpd',
+                            'moreLabel' => 'Lire la page',
+                        ],
+                        [
+                            'kicker' => 'Échange',
+                            'title' => 'Nous contacter',
+                            'text' => 'Pour échanger sur vos enjeux de gouvernance, de conformité, de transformation et d’impact.',
+                            'route' => 'contact',
+                            'moreLabel' => 'Prendre contact',
+                        ],
+                    ],
+                ],
+                'cta' => [
+                    'eyebrow' => 'Parlons de vos priorités',
+                    'title' => 'Besoin d’un accompagnement structuré sur vos enjeux RSE, gouvernance ou conformité ?',
+                    'text' => 'Nous intervenons pour cadrer, structurer et prioriser des démarches concrètes, adaptées à votre contexte et à vos contraintes d’exécution.',
+                    'primaryCta' => ['route' => 'contact', 'label' => 'Parler à OLING'],
                 ],
             ],
             'services' => [
@@ -310,17 +387,17 @@ class PublicSiteConfig
             'metiers' => [
                 'seoTitle' => 'Secteurs d’activité | Conseil AMOA SI - OLING',
                 'metaDescription' => 'Expertise multisectorielle en AMOA SI, transformation digitale et conformité pour acteurs publics et privés.',
-                'eyebrow' => 'Secteurs et métiers',
-                'title' => 'Un partenaire expert pour une transformation adaptée à votre métier',
-                'intro' => 'OLING intervient dans des environnements sectoriels différents, tout en gardant une logique commune : clarifier les priorités, tenir les contraintes et rendre les transformations pilotables.',
-                'highlights' => ['PME, PMI, ETI', 'Hexagone et DROM', 'Métier, SI, conformité'],
+                'eyebrow' => 'Secteurs servis',
+                'title' => 'Les secteurs métiers accompagnés par OLING',
+                'intro' => 'OLING intervient dans des environnements variés avec une même exigence : comprendre les contraintes métier, clarifier les priorités et rendre les transformations pilotables.',
+                'highlights' => ['Secteurs réellement couverts', 'Références publiées', 'Contraintes métier, SI et conformité'],
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre contexte'],
                 'secondaryCta' => ['route' => 'sectors_index', 'label' => 'Voir les secteurs'],
                 'sections' => [
                     [
                         'kicker' => 'Approche',
-                        'title' => 'Une lecture multisectorielle, sans perdre la réalité du terrain',
-                        'text' => 'Notre approche multisectorielle nous permet d\'appliquer des principes robustes et standardisés tout en prenant en compte les particularités et les besoins spécifiques de chaque secteur. Cela nous permet d\'offrir à nos clients des solutions sur mesure et adaptées à leurs défis et à leurs objectifs.',
+                        'title' => 'Des interventions adaptées au terrain',
+                        'text' => 'OLING ne présente ici que les secteurs effectivement servis. Pour chacun, la page met en avant les contraintes récurrentes déjà rencontrées dans les missions publiées et les contextes de transformation les plus fréquents.',
                     ],
                     [
                         'kicker' => 'Secteur public, grands ports et aéroports',
@@ -361,9 +438,9 @@ class PublicSiteConfig
                 'seoTitle' => 'Nos projets | OLING',
                 'metaDescription' => 'Nos projets de transformation SI, AMOA et conformité réalisés par OLING.',
                 'eyebrow' => 'Cas clients OLING',
-                'title' => 'Des projets concrets qui montrent comment OLING remet les transformations sous contrôle',
-                'intro' => 'ERP, gouvernance data, conformité et transformation SI : une sélection de missions menées par nos équipes pour remettre de la clarté, de la décision et de l’exécution dans des contextes exposés.',
-                'highlights' => ['ERP, SI, conformité', 'Hexagone et DROM', 'Décisions, exécution, preuves'],
+                'title' => 'Réalisations et missions OLING',
+                'intro' => 'Une sélection de missions menées par OLING en AMOA SI, progiciels métiers, transformation des organisations, conformité et gouvernance.',
+                'highlights' => ['AMOA SI', 'Progiciels métiers', 'Conformité et gouvernance'],
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre contexte'],
                 'secondaryCta' => ['route' => 'expertises_index', 'label' => 'Voir les expertises'],
                 'cards' => [
@@ -475,7 +552,7 @@ class PublicSiteConfig
                 'nav' => 'Data et IA',
                 'title' => 'Donnees, automatisation et intelligence artificielle',
                 'seoTitle' => 'Conseil en data, automatisation et intelligence artificielle | OLING',
-                'metaDescription' => 'OLING aide les entreprises a identifier les cas d’usage IA utiles, structurer leur gouvernance, integrer des agents et piloter des projets data et automatisation.',
+                'metaDescription' => 'OLING aide les entreprises a identifier des cas d’usage IA pertinents, structurer leur gouvernance, integrer des agents et piloter des projets data et automatisation.',
                 'eyebrow' => 'Transformation des usages et de la gouvernance',
                 'intro' => 'L\'IA doit etre reliee aux processus, aux donnees, aux responsabilites et aux risques. OLING structure des usages utiles, controles et integrables dans l\'organisation.',
                 'situations' => [
@@ -563,7 +640,7 @@ class PublicSiteConfig
                 'seoTitle' => 'AMOA IA, pilotage de projets IA et agents metier | OLING',
                 'metaDescription' => 'OLING cadre, co-construit et pilote les projets IA: AMOA IA, grands chantiers de transformation, agents adaptes aux TPE, PME et ETI.',
                 'eyebrow' => 'AMOA IA et execution terrain',
-                'intro' => 'OLING accompagne les directions et equipes projet sur toutes les facettes des programmes IA: cadrer, construire, co-construire, arbitrer et faire tenir des deploiements utiles, du chantier strategique aux agents metier pour TPE et PME.',
+                'intro' => 'OLING accompagne les directions et equipes projet dans le cadrage, le pilotage et le deploiement de programmes IA, du chantier structurant aux agents metier integres aux processus existants.',
                 'heroImage' => '/img/spe/projet.png',
                 'situations' => [
                     'Programme IA lance sans cadrage robuste entre metiers, DSI, data, securite et direction.',
@@ -619,9 +696,9 @@ class PublicSiteConfig
             ],
             'transformation-digitale-ia-pme-pmi' => [
                 'nav' => 'Transformation digitale',
-                'title' => 'Transformation digitale, automatisation et IA utile',
+                'title' => 'Transformation digitale, automatisation et IA',
                 'seoTitle' => 'Transformation digitale, automatisation et IA pour TPE, PME et PMI | OLING',
-                'metaDescription' => 'OLING accelere la transformation digitale des TPE, PME et PMI avec des projets IA utiles, des automatisations tenables et des agents integres aux operations.',
+                'metaDescription' => 'OLING accelere la transformation digitale des TPE, PME et PMI avec des projets IA cibles, des automatisations tenables et des agents integres aux operations.',
                 'eyebrow' => 'Transformation digitale et performance',
                 'intro' => 'OLING relie transformation digitale, automatisation et intelligence artificielle a la realite des operations: gains concrets, adoption, outillage tenable et agents integres aux usages quotidiens.',
                 'heroImage' => '/img/spe/transition-digitale-1200x710.jpg',
@@ -724,7 +801,7 @@ class PublicSiteConfig
                 'metaTitle' => 'AMOA SI et pilotage de projets de transformation | OLING',
                 'metaDescription' => 'Cabinet AMOA SI indépendant : cadrage, expression des besoins, choix de solution, pilotage projet, recette, migration et conduite du changement.',
                 'intro' => 'OLING accompagne les directions métier, DSI et sponsors de projet pour cadrer, arbitrer et piloter les transformations SI, depuis l’expression des besoins jusqu’au déploiement.',
-                'promise' => 'Cabinet indépendant, OLING intervient en AMOA SI pour structurer les décisions, sécuriser les choix de solution, piloter les parties prenantes et faire tenir l’exécution.',
+                'promise' => 'Cabinet indépendant, OLING intervient en AMOA SI pour structurer les décisions, sécuriser les choix de solution, piloter les parties prenantes et organiser l’exécution du projet.',
                 'focus' => [
                     'Cadrage, expression des besoins et cahier des charges',
                     'Choix de solution, consultation et pilotage fournisseurs',
@@ -761,7 +838,7 @@ class PublicSiteConfig
                     ['href' => '/gmao', 'label' => 'Conseil et AMOA GMAO', 'description' => 'Pour les projets maintenance, actifs, mobilité et processus de terrain.'],
                     ['href' => '/si-finance', 'label' => 'AMOA SI Finance', 'description' => 'Pour le reporting, la clôture, le contrôle de gestion et les interfaces finance.'],
                     ['href' => '/expertises-audit/rgpd', 'label' => 'RGPD et gouvernance des données', 'description' => 'Pour articuler transformation SI, conformité et responsabilité.'],
-                    ['href' => '/consulting/assistance-a-maitrise-douvrage', 'label' => 'Assistance à maîtrise d’ouvrage', 'description' => 'Actif historique à conserver comme page support du cluster AMOA.'],
+                    ['href' => '/consulting/assistance-a-maitrise-douvrage', 'label' => 'Assistance à maîtrise d’ouvrage', 'description' => 'Page complémentaire pour détailler le cadrage AMOA SI et ses livrables.'],
                     ['href' => '/ressources/cadrage-projet-amoa-si', 'label' => 'Ressource cadrage projet AMOA SI', 'description' => 'Contenu support pour structurer un cadrage utile avant consultation.'],
                     ['href' => '/projets', 'label' => 'Cas clients et projets', 'description' => 'Preuves, contextes d’intervention et réalisations publiées.'],
                     ['href' => '/a-propos/team', 'label' => 'Experts OLING', 'description' => 'Profils mobilisables sur les projets de transformation et de gouvernance SI.'],
@@ -835,18 +912,18 @@ class PublicSiteConfig
                 'missionPhases' => [
                     'Cadrage du projet ERP, objectifs, perimetre, priorites et gouvernance',
                     'Cartographie des processus, ateliers metier et expression des besoins',
-                    'Aide au choix, evaluation des solutions et alignement des parties prenantes',
-                    'Pilotage de l\'integrateur, suivi des risques, recette, migration et deploiement',
+                    'Consultation, analyse des offres, evaluation des solutions et alignement des parties prenantes',
+                    'Pilotage de l\'integrateur, interfaces, reprise de donnees, recette, formation et deploiement',
                 ],
                 'deliverables' => [
                     'Note de cadrage, macro-planning et gouvernance projet',
                     'Cartographie des processus, expression des besoins et cahier des charges',
-                    'Grille d\'evaluation, matrice de choix et dossier de consultation',
-                    'Strategie de recette, strategie de reprise, plan de conduite du changement et suivi des risques',
+                    'Grille d\'evaluation, matrice de choix, dossier de consultation et synthese d\'analyse des offres',
+                    'Strategie de recette, interfaces, strategie de reprise, plan de formation, conduite du changement et suivi des risques',
                 ],
                 'projectContexts' => [
                     'Refonte ou remplacement d\'un ERP devenu limitant pour les operations',
-                    'Projet ERP multi-metiers avec enjeux finance, achats, supply chain, production ou maintenance',
+                    'Projet ERP multi-metiers avec enjeux finance, achats, approvisionnement, stocks, production, maintenance ou RH',
                     'Pilotage d\'un integrateur dans un contexte PME, ETI, industrie, services ou secteur public',
                     'Projet en derive, migration sensible ou besoin de remettre la trajectoire sous controle',
                 ],
@@ -854,7 +931,7 @@ class PublicSiteConfig
                     'Directions generales, directions metier et DSI',
                     'PME, ETI et organisations multi-sites',
                     'Equipes finance, achats, supply chain, production et maintenance',
-                    'Sponsors de projet ayant besoin d\'un tiers independant pour arbitrer et tenir l\'execution',
+                    'Sponsors de projet ayant besoin d\'un tiers independant pour arbitrer et piloter l\'execution',
                 ],
                 'supportLinks' => [
                     ['href' => '/amoa-si', 'label' => 'AMOA des systemes d\'information', 'description' => 'Pour le cadrage transverse, la gouvernance SI et le pilotage des transformations.'],
@@ -889,8 +966,8 @@ class PublicSiteConfig
             ],
             'consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier' => [
                 'eyebrow' => 'AMOA IA et programmes structurants',
-                'headline' => 'Cadrer, arbitrer et faire tenir un projet IA ou un dispositif d’agents',
-                'intro' => 'OLING intervient en AMOA IA pour transformer une intention en trajectoire pilotable, du grand chantier transverse jusqu’aux agents utiles pour les TPE et PME.',
+                'headline' => 'Cadrer, piloter et déployer un projet IA ou un dispositif d’agents',
+                'intro' => 'OLING intervient en AMOA IA pour transformer une intention en programme pilotable, du chantier transverse jusqu’aux agents métier adaptés aux TPE et PME.',
                 'outcomes' => [
                     'Programme IA cadré et loti',
                     'Décisions clarifiées entre métiers, DSI et partenaires',
@@ -909,7 +986,7 @@ class PublicSiteConfig
             ],
             'business-apps/transformation-digitale-automatisation-et-ia-utile' => [
                 'eyebrow' => 'Transformation digitale et IA',
-                'headline' => 'Moderniser les operations avec des automatisations et usages IA utiles',
+                'headline' => 'Moderniser les operations avec des automatisations et usages IA cibles',
                 'intro' => 'OLING relie transformation digitale, automatisation et IA à des gains concrets, avec des dispositifs adaptés aux moyens et contraintes des PME et PMI.',
                 'outcomes' => [
                     'Feuille de route digitale pragmatique',

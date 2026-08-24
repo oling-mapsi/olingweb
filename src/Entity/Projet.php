@@ -51,6 +51,48 @@ class Projet
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $featuredProjectsRank = null;
 
+    #[ORM\Column(length: 32, nullable: true, unique: true)]
+    private ?string $externalId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clientName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $territory = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $periodLabel = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $publicUrl = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $shortDescription = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $proofStatus = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $publicationStatus = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $softwareTags = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $softwareFamilies = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $softwareRelation = null;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $softwarePriority = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $historicalReference = false;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $metadata = null;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -217,6 +259,174 @@ class Projet
     public function setFeaturedProjectsRank(?int $featuredProjectsRank): self
     {
         $this->featuredProjectsRank = $featuredProjectsRank;
+
+        return $this;
+    }
+
+    public function getExternalId(): ?string
+    {
+        return $this->externalId;
+    }
+
+    public function setExternalId(?string $externalId): self
+    {
+        $this->externalId = $externalId;
+
+        return $this;
+    }
+
+    public function getClientName(): ?string
+    {
+        return $this->clientName;
+    }
+
+    public function setClientName(?string $clientName): self
+    {
+        $this->clientName = $clientName;
+
+        return $this;
+    }
+
+    public function getTerritory(): ?string
+    {
+        return $this->territory;
+    }
+
+    public function setTerritory(?string $territory): self
+    {
+        $this->territory = $territory;
+
+        return $this;
+    }
+
+    public function getPeriodLabel(): ?string
+    {
+        return $this->periodLabel;
+    }
+
+    public function setPeriodLabel(?string $periodLabel): self
+    {
+        $this->periodLabel = $periodLabel;
+
+        return $this;
+    }
+
+    public function getPublicUrl(): ?string
+    {
+        return $this->publicUrl;
+    }
+
+    public function setPublicUrl(?string $publicUrl): self
+    {
+        $this->publicUrl = $publicUrl;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function getProofStatus(): ?string
+    {
+        return $this->proofStatus;
+    }
+
+    public function setProofStatus(?string $proofStatus): self
+    {
+        $this->proofStatus = $proofStatus;
+
+        return $this;
+    }
+
+    public function getPublicationStatus(): ?string
+    {
+        return $this->publicationStatus;
+    }
+
+    public function setPublicationStatus(?string $publicationStatus): self
+    {
+        $this->publicationStatus = $publicationStatus;
+
+        return $this;
+    }
+
+    public function getSoftwareTags(): array
+    {
+        return $this->softwareTags ?? [];
+    }
+
+    public function setSoftwareTags(?array $softwareTags): self
+    {
+        $this->softwareTags = $softwareTags;
+
+        return $this;
+    }
+
+    public function getSoftwareFamilies(): array
+    {
+        return $this->softwareFamilies ?? [];
+    }
+
+    public function setSoftwareFamilies(?array $softwareFamilies): self
+    {
+        $this->softwareFamilies = $softwareFamilies;
+
+        return $this;
+    }
+
+    public function getSoftwareRelation(): ?string
+    {
+        return $this->softwareRelation;
+    }
+
+    public function setSoftwareRelation(?string $softwareRelation): self
+    {
+        $this->softwareRelation = $softwareRelation;
+
+        return $this;
+    }
+
+    public function getSoftwarePriority(): ?string
+    {
+        return $this->softwarePriority;
+    }
+
+    public function setSoftwarePriority(?string $softwarePriority): self
+    {
+        $this->softwarePriority = $softwarePriority;
+
+        return $this;
+    }
+
+    public function isHistoricalReference(): bool
+    {
+        return $this->historicalReference;
+    }
+
+    public function setHistoricalReference(bool $historicalReference): self
+    {
+        $this->historicalReference = $historicalReference;
+
+        return $this;
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata ?? [];
+    }
+
+    public function setMetadata(?array $metadata): self
+    {
+        $this->metadata = $metadata;
 
         return $this;
     }

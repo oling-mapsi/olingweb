@@ -5,16 +5,17 @@
 
 {% block body %}
 <main id="content" role="main" class="oling-home-radical">
-  <section class="oling-home-hero" style="background: radial-gradient(circle at 78% 18%, rgba(232, 66, 117, 0.22), transparent 20%), radial-gradient(circle at 18% 22%, rgba(34, 111, 199, 0.18), transparent 24%), linear-gradient(180deg, #071520 0%, #0b1a29 100%) !important;">
+  <section class="oling-home-hero">
     <div class="container">
+      {% set defaultHeroMetier = homeHeroMetiers[0] ?? null %}
       <div class="oling-home-hero__grid">
-        <div class="oling-home-hero__copy" style="background: linear-gradient(180deg, #071520 0%, #0b1a29 100%) !important;">
-          {% if homePage.hero.badge is defined and homePage.hero.badge %}
-            <div class="oling-home-hero__badges">
-              <span class="oling-home-hero__badge">{{ homePage.hero.badge }}</span>
+        <div class="oling-home-hero__copy">
+          {% set heroEyebrow = homePage.hero.eyebrow|default('')|striptags|trim %}
+          {% if heroEyebrow and 'iso 27001' not in heroEyebrow|lower %}
+            <div class="oling-home-hero__meta">
+              <span class="oling-home-hero__eyebrow">{{ heroEyebrow }}</span>
             </div>
           {% endif %}
-          <span class="oling-home-hero__eyebrow">{{ homePage.hero.eyebrow }}</span>
           <h1>
             {% for line in homePage.hero.titleLines %}
               <span>{{ line }}</span>
@@ -33,9 +34,8 @@
           </div>
         </div>
 
-        <div class="oling-home-hero__visuals" style="background: linear-gradient(180deg, #071520 0%, #0b1a29 100%) !important;">
-          {% set defaultHeroMetier = homeHeroMetiers[0] ?? null %}
-          <article class="oling-home-hero-card oling-home-hero-card--portrait" style="background: linear-gradient(145deg, rgba(34, 111, 199, 0.18), rgba(232, 66, 117, 0.06)) !important;">
+        <div class="oling-home-hero__visuals">
+          <article class="oling-home-hero-card oling-home-hero-card--portrait">
             {% set heroPortrait = defaultHeroMetier ? defaultHeroMetier.image : homePage.hero.portraitImage %}
             {% set heroPortraitAlt = defaultHeroMetier ? defaultHeroMetier.designation : homePage.hero.portraitAlt %}
             <img
@@ -44,7 +44,7 @@
               alt="{{ heroPortraitAlt }}"
             >
           </article>
-          <article class="oling-home-hero-card oling-home-hero-card--statement" style="background: linear-gradient(145deg, #2466c6, #0f417f) !important;">
+          <article class="oling-home-hero-card oling-home-hero-card--statement">
             <span>{{ homePage.hero.statement.eyebrow }}</span>
             <strong>{{ homePage.hero.statement.title }}</strong>
             <p>{{ homePage.hero.statement.text }}</p>
@@ -53,8 +53,8 @@
             class="oling-home-hero-card oling-home-hero-card--signal"
             data-home-hero-rotator
             data-home-hero-metiers="{{ homeHeroMetiers|json_encode|e('html_attr') }}"
-            style="background: linear-gradient(145deg, #f0477b, #d33067) !important;"
           >
+            <span>{{ homePage.hero.signal.eyebrow }}</span>
             <strong data-home-hero-text1>{{ defaultHeroMetier ? defaultHeroMetier.text1 : homePage.hero.signal.title }}</strong>
             <p data-home-hero-text2>{{ defaultHeroMetier and defaultHeroMetier.text2 ? defaultHeroMetier.text2 : (homePage.hero.signal.text is defined ? homePage.hero.signal.text : '') }}</p>
           </article>
@@ -63,34 +63,29 @@
     </div>
   </section>
 
-  <section class="oling-home-intro">
+  <section class="oling-home-kpis">
     <div class="container">
-      <div class="oling-home-intro__grid">
-        {% for resource in latestResources|default([]) %}
-          <article class="oling-home-intro__card oling-home-intro__card--{{ loop.index is odd ? 'blue' : 'pink' }}">
-            <span>Ressource{% if resource.publicationDate %} · {{ resource.publicationDate|date('d/m/Y') }}{% endif %}</span>
-            <h2><a class="link-light text-decoration-none" href="{{ path('seo_resource', {slug: resource.slug}) }}">{{ resource.title }}</a></h2>
-            {% if resource.intro is not empty %}
-              <p>{{ resource.intro|striptags }}</p>
+      {% if homePage.kpisSection is defined %}
+      <div class="oling-home-section-head">
+        <span>{{ homePage.kpisSection.eyebrow }}</span>
+        <div>
+          <h2>{{ homePage.kpisSection.title }}</h2>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="oling-home-kpis__grid">
+        {% for item in homePage.kpis %}
+          <article class="oling-home-kpi oling-home-kpi--{{ item.variant }}">
+            {% if item.variant == 'image' %}
+              {% set kpiImage = item.image %}
+              <img src="{{ kpiImage starts with 'http://' or kpiImage starts with 'https://' or kpiImage starts with '/' ? kpiImage : asset(kpiImage) }}" alt="{{ item.alt|default('Illustration') }}">
+            {% else %}
+              <strong>{{ item.label }}</strong>
+              <span>{{ item.text }}</span>
             {% endif %}
           </article>
         {% endfor %}
-
-        {% set fallbackCards = homePage.introCards|filter(card => card.variant != 'image') %}
-        {% for card in fallbackCards|slice(0, 2 - (latestResources|default([]))|length) %}
-          <article class="oling-home-intro__card oling-home-intro__card--{{ card.variant }}">
-            <span>{{ card.eyebrow }}</span>
-            <h2>{{ card.title }}</h2>
-          </article>
-        {% endfor %}
-
-        {% set introImageCard = homePage.introCards|filter(card => card.variant == 'image')|first %}
-        {% if introImageCard %}
-          <article class="oling-home-intro__card oling-home-intro__card--image">
-            {% set introImage = introImageCard.image %}
-            <img src="{{ introImage starts with 'http://' or introImage starts with 'https://' or introImage starts with '/' ? introImage : asset(introImage) }}" alt="{{ introImageCard.alt|default('Illustration') }}">
-          </article>
-        {% endif %}
       </div>
     </div>
   </section>
@@ -103,10 +98,12 @@
       {% set leadPractice = homePractices[0] ?? null %}
       <div class="oling-home-section-head">
         <span>{{ practicesEyebrow }}</span>
-        <h2>{{ practicesTitle }}</h2>
-        {% if practicesIntro %}
-          <p>{{ practicesIntro|raw }}</p>
-        {% endif %}
+        <div>
+          <h2>{{ practicesTitle }}</h2>
+          {% if practicesIntro %}
+            <p>{{ practicesIntro|raw }}</p>
+          {% endif %}
+        </div>
       </div>
 
       <div class="oling-home-expertises__stack">
@@ -145,14 +142,28 @@
               </div>
             </a>
           {% endfor %}
-
-          <article class="oling-home-panel oling-home-panel--quote">
-            <div class="oling-home-panel__body">
-              <span>{{ homePage.practices.quoteEyebrow }}</span>
-              <h3>{{ homePage.practices.quoteTitle }}</h3>
-            </div>
-          </article>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-home-support oling-home-support--accompaniments">
+    <div class="container">
+      <div class="oling-home-section-head">
+        <span>{{ homePage.accompaniments.eyebrow }}</span>
+        <div>
+          <h2>{{ homePage.accompaniments.title }}</h2>
+        </div>
+      </div>
+
+      <div class="oling-home-list-grid">
+        {% for item in homePage.accompaniments.items|default([]) %}
+          {% set itemHref = item.url|default(item.route is defined ? path(item.route, item.routeParams|default({})) : '#') %}
+          <a class="oling-home-list-card" href="{{ itemHref }}">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.text }}</p>
+          </a>
+        {% endfor %}
       </div>
     </div>
   </section>
@@ -184,26 +195,78 @@
     </div>
   </section>
 
-  <section class="oling-home-kpis">
+  {% if homeProjects|length > 0 %}
+  <section class="oling-home-support oling-home-support--references">
     <div class="container">
-      <div class="oling-home-kpis__grid">
-        {% for item in homePage.kpis %}
-          <article class="oling-home-kpi oling-home-kpi--{{ item.variant }}">
-            {% if item.variant == 'image' %}
-              {% set kpiImage = item.image %}
-              <img src="{{ kpiImage starts with 'http://' or kpiImage starts with 'https://' or kpiImage starts with '/' ? kpiImage : asset(kpiImage) }}" alt="{{ item.alt|default('Illustration') }}">
-            {% else %}
-              <strong>{{ item.label }}</strong>
-              <span>{{ item.text }}</span>
-            {% endif %}
-          </article>
+      <div class="oling-home-section-head">
+        <span>{{ homePage.projects.eyebrow }}</span>
+        <div>
+          <h2>{{ homePage.projects.title }}</h2>
+          {% if homePage.projects.intro %}
+            <p>{{ homePage.projects.intro }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="oling-home-project-grid">
+        {% for project in homeProjects %}
+          <a class="oling-home-project-card" href="{{ project.href }}">
+            <div class="oling-home-project-card__media">
+              <img src="{{ project.image starts with 'http://' or project.image starts with 'https://' or project.image starts with '/' ? project.image : asset(project.image) }}" alt="{{ project.title }}">
+            </div>
+            <div class="oling-home-project-card__body">
+              {% if project.eyebrow %}
+                <span>{{ project.eyebrow }}</span>
+              {% endif %}
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.excerpt }}</p>
+            </div>
+          </a>
         {% endfor %}
       </div>
     </div>
   </section>
+  {% endif %}
+
+  {% if latestResources|default([])|length > 0 %}
+  <section class="oling-home-intro oling-home-intro--resources">
+    <div class="container">
+      <div class="oling-home-section-head">
+        <span>{{ homePage.resources.eyebrow }}</span>
+        <div>
+          <h2>{{ homePage.resources.title }}</h2>
+          {% if homePage.resources.intro %}
+            <p>{{ homePage.resources.intro }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="oling-home-resources__grid">
+        {% for resource in latestResources|default([]) %}
+          <article class="oling-home-resource-card">
+            <span>Ressource{% if resource.publicationDate %} · {{ resource.publicationDate|date('d/m/Y') }}{% endif %}</span>
+            <h3><a href="{{ path('seo_resource', {slug: resource.slug}) }}">{{ resource.title }}</a></h3>
+            {% if resource.intro is not empty %}
+              <p>{{ resource.intro|striptags }}</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if homePage.resources.cta is defined %}
+        {% set resourcesHref = homePage.resources.cta.url|default(homePage.resources.cta.route is defined ? path(homePage.resources.cta.route, homePage.resources.cta.routeParams|default({})) : null) %}
+        {% if resourcesHref %}
+          <div class="oling-home-section-actions">
+            <a class="btn btn-outline-dark" href="{{ resourcesHref }}">{{ homePage.resources.cta.label }}</a>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
-    eyebrow: 'Diagnostic de transformation',
+    eyebrow: homePage.finalCta.eyebrow,
     title: homePage.finalCta.title,
     text: homePage.finalCta.text,
     primaryCta: homePage.finalCta.primaryCta

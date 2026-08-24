@@ -14,26 +14,60 @@
     highlights: page.highlights
   } %}
 
-  <section class="oling-page-section">
-    <div class="container oling-page-section__prose">
-      {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
-        <div class="oling-surface oling-surface--light">
-          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
-        </div>
-      {% else %}
-        <div class="oling-page-stack">
-          {% for section in page.sections %}
-            <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">{{ section.kicker }}</span>
-              {% if section.title is defined and section.title %}
-                <h2>{{ section.title }}</h2>
-              {% endif %}
-              <p>{{ section.text }}</p>
-            </article>
-          {% endfor %}
-        </div>
-      {% endif %}
+  <section class="oling-shell-section">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">Vue d’ensemble</span>
+        <h2>Secteurs présents dans l’admin et visibles publiquement</h2>
+        <p>Cette page reprend les secteurs réellement enregistrés dans le back-office et les replace dans les contextes déjà traités par OLING.</p>
+      </div>
+      <div class="oling-editorial-grid">
+        {% for sector in sectorCatalog %}
+          {% set tag = sector.detailUrl ? 'a' : 'article' %}
+          <{{ tag }} class="oling-editorial-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
+            <span class="oling-kicker">Secteur servi</span>
+            <h2>{{ sector.designation }}</h2>
+            <p>{{ sector.intro }}</p>
+            {% if sector.specifics is not empty %}
+              <p><strong>Spécificités connues :</strong> {{ sector.specifics|join(' · ') }}</p>
+            {% endif %}
+            <p><strong>Références publiées :</strong> {{ sector.projectCount }}</p>
+            {% if sector.detailUrl %}
+              <span class="oling-editorial-card__more">Voir la page associée</span>
+            {% endif %}
+          </{{ tag }}>
+        {% else %}
+          <div class="oling-surface oling-surface--light">
+            <p class="mb-0">Aucun secteur n’est disponible pour le moment.</p>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </section>
+
+  {% if sectorPages is not empty %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Pages détaillées</span>
+          <h2>Lectures complémentaires déjà structurées</h2>
+          <p>Ces pages regroupent plusieurs secteurs quand les enjeux sont proches et déjà documentés côté site.</p>
+        </div>
+        <div class="oling-editorial-grid">
+          {% for slug, sectorPage in sectorPages %}
+            <a class="oling-editorial-card" href="{{ path('sectors_show', {slug: slug}) }}">
+              <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
+              <h2>{{ sectorPage.title }}</h2>
+              <p>{{ sectorPage.intro }}</p>
+              {% if sectorPage.issues is not empty %}
+                <p><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+              {% endif %}
+              <span class="oling-editorial-card__more">Voir la page</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
 </main>
 {% endblock %}

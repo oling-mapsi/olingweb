@@ -8,6 +8,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
@@ -85,6 +88,29 @@ class SitePageType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
         ;
+
+        if ($isHomePage || $isEditorialPage || $isSeoPage || $isStructuredPage) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+                $form = $event->getForm();
+                $bodyHtml = (string) $form->get('bodyHtml')->getData();
+
+                if (trim($bodyHtml) === '') {
+                    return;
+                }
+
+                try {
+                    $decoded = json_decode($bodyHtml, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    $form->get('bodyHtml')->addError(new FormError(sprintf('JSON invalide : %s', $exception->getMessage())));
+
+                    return;
+                }
+
+                if (!is_array($decoded)) {
+                    $form->get('bodyHtml')->addError(new FormError('Le JSON doit contenir un objet ou un tableau.'));
+                }
+            });
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

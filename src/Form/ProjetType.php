@@ -29,6 +29,27 @@ class ProjetType extends AbstractType
                 'required' => false,
                 'attr' => ['rows' => 6],
             ])
+            ->add('clientName', TextType::class, [
+                'label' => 'Client / bénéficiaire',
+                'required' => false,
+            ])
+            ->add('territory', TextType::class, [
+                'label' => 'Territoire',
+                'required' => false,
+            ])
+            ->add('periodLabel', TextType::class, [
+                'label' => 'Période',
+                'required' => false,
+            ])
+            ->add('publicUrl', TextType::class, [
+                'label' => 'URL publique cible',
+                'required' => false,
+            ])
+            ->add('shortDescription', TextareaType::class, [
+                'label' => 'Description courte',
+                'required' => false,
+                'attr' => ['rows' => 4],
+            ])
             ->add('class', TextType::class, [
                 'label' => 'Classe CSS',
                 'required' => false,

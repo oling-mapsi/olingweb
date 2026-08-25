@@ -11,13 +11,14 @@
 >
   <button type="button" class="oling-chat-widget__launcher" aria-controls="oling-chat-panel" aria-expanded="false" aria-label="Parler à un consultant">
     <span class="oling-chat-widget__launcher-dot" aria-hidden="true"></span>
-    <span class="oling-chat-widget__launcher-label"><strong>Orientez-vous avec l'IA OLING</strong></span>
+    <span class="oling-chat-widget__launcher-label"><strong>Assistant OLING</strong></span>
   </button>
 
   <section id="oling-chat-panel" class="oling-chat-widget__panel" aria-hidden="true">
     <header class="oling-chat-widget__header">
       <div class="oling-chat-widget__header-copy">
-        <h3>Orientez-vous avec l'IA OLING</h3>
+        <h3>Assistant expert OLING</h3>
+        <p>Posez une question sur nos expertises et nos expériences.</p>
       </div>
       <button type="button" class="oling-chat-widget__close" aria-label="Fermer le chat" title="Fermer">
         <span aria-hidden="true">×</span>
@@ -28,6 +29,13 @@
       <div class="oling-chat-widget__summary d-none" data-chat-summary></div>
 
       <div class="oling-chat-widget__messages" data-chat-messages></div>
+
+      <div class="oling-chat-widget__suggestions" data-chat-suggestions>
+        <button type="button" class="oling-chat-widget__suggestion" data-chat-suggestion="Avez-vous des références dans mon secteur ?">Avez-vous des références dans mon secteur ?</button>
+        <button type="button" class="oling-chat-widget__suggestion" data-chat-suggestion="Quel expert OLING pour mon projet ?">Quel expert OLING pour mon projet ?</button>
+        <button type="button" class="oling-chat-widget__suggestion" data-chat-suggestion="Comment accompagnez-vous un projet ERP ?">Comment accompagnez-vous un projet ERP ?</button>
+        <button type="button" class="oling-chat-widget__suggestion" data-chat-suggestion="Quelles solutions et progiciels maîtrisez-vous ?">Quelles solutions et progiciels maîtrisez-vous ?</button>
+      </div>
 
       <div class="oling-chat-widget__lead d-none" data-chat-lead>
         <div class="oling-chat-widget__lead-head">
@@ -82,6 +90,7 @@
     <form class="oling-chat-widget__composer" data-chat-composer>
       <div class="oling-chat-widget__composer-shell">
         <textarea class="form-control" rows="3" placeholder="Décrivez votre contexte, enjeu ou blocage..." name="chatMessage"></textarea>
+        <p class="oling-chat-widget__composer-note">Réponse générée par l’IA à partir des contenus publics OLING.</p>
         <div class="oling-chat-widget__composer-bar">
           <div class="oling-chat-widget__composer-tools">
             <a href="{{ path('contact', {chat_fallback: 1}) }}" class="oling-chat-widget__aux" data-chat-bypass="true" data-label="Contact" aria-label="Contact" title="Contact">
@@ -105,7 +114,6 @@
             <span aria-hidden="true">➜</span>
           </button>
         </div>
-        <p class="oling-chat-widget__composer-note">Réponse générée par l’IA. En cas de doute ou pour aller plus loin, contactez OLING.</p>
       </div>
     </form>
   </section>

@@ -75,6 +75,11 @@ services:
         arguments:
             $providers: !tagged_iterator app.chat_ai_provider
 
+    App\Service\Chat\PublicContentCatalog:
+        arguments:
+            $documentRepository: '@App\Repository\ChatPublicDocumentRepository'
+            $indexer: '@App\Service\Chat\ChatPublicContentIndexer'
+
     App\Service\Chat\Ai\HeuristicAiProvider:
         tags:
             - { name: app.chat_ai_provider, priority: 10 }

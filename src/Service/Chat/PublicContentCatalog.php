@@ -2,12 +2,8 @@
 
 namespace App\Service\Chat;
 
-use App\Repository\PracticeRepository;
-use App\Repository\ProjetRepository;
-use App\Repository\ServicesRepository;
-use App\Repository\SitePageRepository;
-use App\Repository\TeamRepository;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Entity\ChatPublicDocument;
+use App\Repository\ChatPublicDocumentRepository;
 
 class PublicContentCatalog
 {
@@ -15,67 +11,60 @@ class PublicContentCatalog
         'page' => 'Page',
         'expertise' => 'Expertise',
         'service' => 'Service',
-        'cas_client' => 'Cas client',
-        'equipe' => 'Équipe',
+        'reference' => 'Référence OLING',
+        'team' => 'Équipe',
+    ];
+
+    private const SYNONYMS = [
+        'erp' => ['progiciel', 'sage x3', 'sage', 'sap', 's4hana', 'divalto', 'cegid'],
+        'gmao' => ['maintenance', 'actifs', 'equipements', 'parc', 'interventions', 'stocks', 'ordres de travail'],
+        'crm' => ['relation client', 'ventes', 'commercial', 'salesforce'],
+        'sirh' => ['rh', 'paie', 'gestion des temps', 'ressources humaines'],
+        'si finance' => ['finance', 'comptabilite', 'budget', 'facturation', 'reporting'],
+        'rfe' => ['reforme facturation electronique', 'facturation electronique'],
+        'rgpd' => ['dpo', 'dpd', 'cnil', 'registre', 'dpia', 'aipd', 'donnees personnelles'],
+        'cyber' => ['iso 27001', 'ssi', 'nis2', 'dora', 'securite'],
+        'pca pra' => ['continuite', 'reprise', 'resilience', 'iso 22301'],
+        'data bi' => ['power bi', 'reporting', 'analytique', 'decisionnel'],
     ];
 
     public function __construct(
-        private readonly SitePageRepository $sitePageRepository,
-        private readonly PracticeRepository $practiceRepository,
-        private readonly ServicesRepository $servicesRepository,
-        private readonly ProjetRepository $projetRepository,
-        private readonly TeamRepository $teamRepository,
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ChatPublicDocumentRepository $documentRepository,
+        private readonly ChatPublicContentIndexer $indexer,
     ) {
     }
 
     /**
      * @return array<int, array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}>
      */
-    public function findRelevantDocuments(string $query, ?string $sourcePath = null, int $limit = 3): array
+    public function findRelevantDocuments(string $query, ?string $sourcePath = null, int $limit = 4): array
     {
-        $tokens = $this->tokenize($query);
-        if ($tokens === []) {
+        $documents = $this->activeDocuments();
+        if ($documents === []) {
             return [];
         }
 
-        $documents = [];
-        foreach ($this->buildDocuments() as $document) {
-            $haystack = $this->normalize($document['title'].' '.$document['text'].' '.$document['type']);
-            $score = 0;
-            foreach ($tokens as $token) {
-                if (str_contains($haystack, $token)) {
-                    $score += 4;
-                }
-                if (str_contains($this->normalize($document['title']), $token)) {
-                    $score += 3;
-                }
-            }
+        $tokens = $this->expandedTokens($query);
+        $normalizedQuery = $this->normalize($query);
+        $scored = [];
 
-            if ($sourcePath && $document['url'] === $sourcePath) {
-                $score += 2;
-            }
-
+        foreach ($documents as $document) {
+            $score = $this->scoreDocument($document, $tokens, $normalizedQuery, $sourcePath);
             if ($score <= 0) {
                 continue;
             }
 
-            $document['score'] = $score;
-            $documents[] = $document;
+            $scored[] = [
+                'document' => $document,
+                'score' => $score,
+            ];
         }
 
-        usort($documents, static fn (array $a, array $b): int => $b['score'] <=> $a['score']);
+        usort($scored, static fn (array $left, array $right): int => $right['score'] <=> $left['score']);
 
         return array_map(
-            static fn (array $document): array => [
-                'title' => $document['title'],
-                'url' => $document['url'],
-                'text' => $document['text'],
-                'type' => $document['type'],
-                'image' => $document['image'],
-                'excerpt' => $document['excerpt'],
-            ],
-            array_slice($documents, 0, $limit)
+            fn (array $row): array => $this->serializeDocument($row['document']),
+            array_slice($scored, 0, $limit)
         );
     }
 
@@ -90,138 +79,175 @@ class PublicContentCatalog
         }
 
         $byUrl = [];
-        foreach ($this->buildDocuments() as $document) {
-            $byUrl[$document['url']] = [
-                'title' => $document['title'],
-                'url' => $document['url'],
-                'type' => $document['type'],
-                'typeLabel' => self::TYPE_LABELS[$document['type']] ?? ucfirst(str_replace('_', ' ', $document['type'])),
-                'image' => $document['image'],
-                'excerpt' => $document['excerpt'],
-            ];
+        foreach ($this->activeDocuments() as $document) {
+            $url = $document->getUrl();
+            if (!isset($byUrl[$url])) {
+                $byUrl[$url] = $this->serializeCard($document);
+            }
+
+            if ($document->getSourceType() === 'reference') {
+                $byUrl[$url] = [
+                    'title' => 'Voir nos réalisations',
+                    'url' => $url,
+                    'type' => 'reference',
+                    'typeLabel' => self::TYPE_LABELS['reference'],
+                    'image' => null,
+                    'excerpt' => 'Références OLING anonymisées par secteur, mission et contexte.',
+                ];
+            }
         }
 
         $cards = [];
-        foreach ($urls as $url) {
+        foreach (array_values(array_unique($urls)) as $url) {
             if (isset($byUrl[$url])) {
                 $cards[] = $byUrl[$url];
             }
         }
 
-        return $cards;
+        return array_slice($cards, 0, 2);
     }
 
     /**
-     * @return array<int, array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}>
+     * @return ChatPublicDocument[]
      */
-    private function buildDocuments(): array
+    private function activeDocuments(): array
     {
-        $documents = [];
-
-        foreach ($this->sitePageRepository->findAll() as $page) {
-            $status = $page->getPublicationStatus();
-            if ($status !== null && $status !== 'published') {
-                continue;
+        try {
+            $documents = $this->documentRepository->findActiveDocuments();
+            if ($documents !== []) {
+                return $documents;
             }
-
-            $url = '/'.$page->getSlug();
-            if ($page->getSlug() === 'contact') {
-                $url = $this->urlGenerator->generate('contact');
-            } elseif ($page->getSlug() === 'a-propos') {
-                $url = $this->urlGenerator->generate('apropos');
-            } elseif ($page->getSlug() === 'ressources') {
-                $url = $this->urlGenerator->generate('seo_resources_index');
-            } elseif (str_starts_with((string) $page->getSlug(), 'ressource-')) {
-                $url = $this->urlGenerator->generate('seo_resource', ['slug' => substr((string) $page->getSlug(), 10)]);
-            }
-
-            $text = trim($this->plain($page->getHeroTitle()).' '.$this->plain($page->getHeroIntro()).' '.$this->plain($page->getBodyHtml()));
-            if ($text === '') {
-                continue;
-            }
-
-            $documents[] = [
-                'title' => (string) $page->getTitle(),
-                'url' => $url,
-                'text' => $text,
-                'type' => 'page',
-                'image' => $this->normalizeImagePath($page->getHeroImage()),
-                'excerpt' => $this->excerpt($text),
-            ];
+        } catch (\Throwable) {
+            return $this->fallbackSnapshot();
         }
 
-        foreach ($this->practiceRepository->findAll() as $practice) {
-            $text = trim($this->plain($practice->getIntroductionShort()).' '.$this->plain($practice->getDescription()));
-            $documents[] = [
-                'title' => (string) $practice->getDesignation(),
-                'url' => $this->urlGenerator->generate('practice_home', ['slug' => $practice->getSlug()]),
-                'text' => $text,
-                'type' => 'expertise',
-                'image' => $this->normalizeImagePath($practice->getImage1() ?: $practice->getImage2()),
-                'excerpt' => $this->excerpt($text),
-            ];
+        try {
+            $this->indexer->rebuild();
+
+            return $this->documentRepository->findActiveDocuments();
+        } catch (\Throwable) {
+            return $this->fallbackSnapshot();
         }
-
-        foreach ($this->servicesRepository->findAll() as $service) {
-            if (!$service->getPractice()) {
-                continue;
-            }
-
-            $text = trim($this->plain($service->getIntroductionShort()).' '.$this->plain($service->getDescription()));
-            $documents[] = [
-                'title' => (string) $service->getDesignation(),
-                'url' => $this->urlGenerator->generate('service', [
-                    'practice' => $service->getPractice()->getSlug(),
-                    'slug' => $service->getSlug(),
-                ]),
-                'text' => $text,
-                'type' => 'service',
-                'image' => $this->normalizeImagePath($service->getImageHero() ?: $service->getImage1() ?: $service->getImage2()),
-                'excerpt' => $this->excerpt($text),
-            ];
-        }
-
-        foreach ($this->projetRepository->findAll() as $project) {
-            $text = trim($this->plain($project->getDescription()));
-            $documents[] = [
-                'title' => (string) $project->getDesignation(),
-                'url' => $this->urlGenerator->generate('projets'),
-                'text' => $text,
-                'type' => 'cas_client',
-                'image' => $this->normalizeImagePath($project->getImageHero() ?: $project->getImage()),
-                'excerpt' => $this->excerpt($text),
-            ];
-        }
-
-        foreach ($this->teamRepository->findAll() as $member) {
-            $text = trim($this->plain($member->getShortcv()));
-            $documents[] = [
-                'title' => trim((string) $member->getNoncomplet().' '.(string) $member->getTitre()),
-                'url' => $this->urlGenerator->generate('team'),
-                'text' => $text,
-                'type' => 'equipe',
-                'image' => $this->normalizeImagePath($member->getPhoto()),
-                'excerpt' => $this->excerpt($text),
-            ];
-        }
-
-        return array_filter($documents, static fn (array $document): bool => trim($document['text']) !== '');
     }
 
-    private function plain(?string $value): string
+    /**
+     * @return ChatPublicDocument[]
+     */
+    private function fallbackSnapshot(): array
     {
-        return trim(preg_replace('/\s+/', ' ', strip_tags((string) $value)) ?? '');
+        try {
+            return $this->indexer->buildDocumentSnapshot();
+        } catch (\Throwable) {
+            return [];
+        }
+    }
+
+    /**
+     * @param string[] $tokens
+     */
+    private function scoreDocument(ChatPublicDocument $document, array $tokens, string $normalizedQuery, ?string $sourcePath): int
+    {
+        $score = 0;
+        $title = $this->normalize($document->getSafeTitle());
+        $body = $this->normalize($document->getSafeText());
+        $keywords = $this->normalize(implode(' ', $document->getKeywords()));
+        $search = $document->getSearchText();
+        $isExpertIntent = $this->isExpertIntent($normalizedQuery);
+        $isReferenceIntent = $this->isReferenceIntent($normalizedQuery);
+        $isProjectIntent = $this->isProjectIntent($normalizedQuery);
+
+        if ($normalizedQuery !== '' && str_contains($title, $normalizedQuery)) {
+            $score += 12;
+        }
+
+        foreach ($tokens as $token) {
+            if (str_contains($keywords, $token)) {
+                $score += 7;
+            }
+            if (str_contains($title, $token)) {
+                $score += 6;
+            }
+            if (str_contains($body, $token) || str_contains($search, $token)) {
+                $score += 3;
+            }
+        }
+
+        if ($sourcePath !== null && $sourcePath !== '' && $document->getUrl() === $sourcePath) {
+            $score += 2;
+        }
+
+        if ($document->getSourceType() === 'team' && $isExpertIntent) {
+            $score += 6;
+        } elseif ($document->getSourceType() === 'team') {
+            $score -= 6;
+        }
+
+        if ($document->getSourceType() === 'reference' && $isReferenceIntent) {
+            $score += 8;
+        } elseif ($document->getSourceType() === 'reference' && $isProjectIntent) {
+            $score += 2;
+        }
+
+        if (in_array($document->getSourceType(), ['service', 'expertise'], true) && $isProjectIntent) {
+            $score += 5;
+        }
+
+        if ($document->getSourceType() === 'page' && $isProjectIntent) {
+            $score += 2;
+        }
+
+        return $score;
+    }
+
+    /**
+     * @return array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}
+     */
+    private function serializeDocument(ChatPublicDocument $document): array
+    {
+        return [
+            'title' => $document->getSafeTitle(),
+            'url' => $document->getUrl(),
+            'text' => $document->getSafeText(),
+            'type' => $document->getSourceType(),
+            'image' => $document->getImage(),
+            'excerpt' => $this->excerpt($document->getSafeText()),
+        ];
+    }
+
+    /**
+     * @return array{title:string,url:string,type:string,typeLabel:string,image:?string,excerpt:string}
+     */
+    private function serializeCard(ChatPublicDocument $document): array
+    {
+        return [
+            'title' => $document->getSafeTitle(),
+            'url' => $document->getUrl(),
+            'type' => $document->getSourceType(),
+            'typeLabel' => self::TYPE_LABELS[$document->getSourceType()] ?? 'Ressource',
+            'image' => in_array($document->getSourceType(), ['reference', 'team'], true) ? null : $document->getImage(),
+            'excerpt' => $this->excerpt($document->getSafeText()),
+        ];
     }
 
     /**
      * @return string[]
      */
-    private function tokenize(string $value): array
+    private function expandedTokens(string $query): array
     {
-        $tokens = preg_split('/[^a-z0-9]+/i', $this->normalize($value)) ?: [];
-        $tokens = array_values(array_filter($tokens, static fn (string $token): bool => strlen($token) >= 3));
+        $normalized = $this->normalize($query);
+        $tokens = preg_split('/[^a-z0-9]+/i', $normalized) ?: [];
+        $tokens = array_values(array_filter($tokens, static fn (string $token): bool => strlen($token) >= 2));
+        $expanded = $tokens;
 
-        return array_slice(array_unique($tokens), 0, 12);
+        foreach (self::SYNONYMS as $label => $synonyms) {
+            if (str_contains($normalized, $this->normalize($label))) {
+                foreach ($synonyms as $synonym) {
+                    $expanded[] = $this->normalize($synonym);
+                }
+            }
+        }
+
+        return array_values(array_unique(array_slice($expanded, 0, 24)));
     }
 
     private function normalize(string $value): string
@@ -231,10 +257,12 @@ class PublicContentCatalog
             $normalized = $value;
         }
 
-        return strtolower($normalized);
+        $normalized = strtolower($normalized);
+
+        return trim(preg_replace('/[^a-z0-9]+/', ' ', $normalized) ?? $normalized);
     }
 
-    private function excerpt(string $value, int $limit = 120): string
+    private function excerpt(string $value, int $limit = 140): string
     {
         $value = trim($value);
         if ($value === '') {
@@ -248,10 +276,18 @@ class PublicContentCatalog
         return rtrim(mb_substr($value, 0, $limit - 1)).'…';
     }
 
-    private function normalizeImagePath(?string $path): ?string
+    private function isExpertIntent(string $normalizedQuery): bool
     {
-        $path = trim((string) $path);
+        return preg_match('/\b(qui|quel expert|quels experts|expert|consultant|equipe|profil)\b/', $normalizedQuery) === 1;
+    }
 
-        return $path !== '' ? $path : null;
+    private function isReferenceIntent(string $normalizedQuery): bool
+    {
+        return preg_match('/\b(reference|references|realisation|realisations|experience|experiences|cas client)\b/', $normalizedQuery) === 1;
+    }
+
+    private function isProjectIntent(string $normalizedQuery): bool
+    {
+        return preg_match('/\b(projet|amoa|erp|progiciel|facturation|client|crm|si|organisation|outil|consultation|cadrage)\b/', $normalizedQuery) === 1;
     }
 }

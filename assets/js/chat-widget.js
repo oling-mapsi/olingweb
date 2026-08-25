@@ -27,13 +27,58 @@ const sourceLabel = (url) => {
 
 const formatMessageContent = (value) => escapeHtml(value).replace(/\n/g, '<br>');
 
+const sanitizeAssistantIntro = (value) => String(value || '')
+  .replace('Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.', 'Bonjour. Je suis l’assistant expert OLING.')
+  .replace('Posez une question sur OLING.', '')
+  .trim();
+
+const formatAssistantContent = (value) => {
+  const lines = sanitizeAssistantIntro(value)
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (!lines.length) {
+    return '';
+  }
+
+  const blocks = [];
+  let listBuffer = [];
+
+  const flushList = () => {
+    if (!listBuffer.length) return;
+    blocks.push(`
+      <ul class="oling-chat-widget__assistant-list">
+        ${listBuffer.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+      </ul>
+    `);
+    listBuffer = [];
+  };
+
+  lines.forEach((line) => {
+    const bulletMatch = line.match(/^[-•]\s+(.+)$/);
+    const numberedMatch = line.match(/^\d+[.)]\s+(.+)$/);
+
+    if (bulletMatch || numberedMatch) {
+      listBuffer.push((bulletMatch || numberedMatch)[1]);
+      return;
+    }
+
+    flushList();
+    blocks.push(`<p>${escapeHtml(line)}</p>`);
+  });
+
+  flushList();
+  return blocks.join('');
+};
+
 const sourceTypeLabel = (type) => {
   const labels = {
     page: 'Page',
     expertise: 'Expertise',
     service: 'Service',
-    cas_client: 'Cas client',
-    equipe: 'Équipe',
+    reference: 'Référence OLING',
+    team: 'Équipe',
   };
 
   return labels[type] || 'Ressource';
@@ -56,7 +101,7 @@ const createSourceCardsHtml = (cards) => `
   <div class="oling-chat-widget__sources-inline">
     ${cards.map((card) => `
       <a class="oling-chat-widget__source-card oling-chat-widget__source-card--inline" href="${escapeHtml(card.url)}" target="_blank" rel="noopener" data-chat-bypass="true">
-        ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="${escapeHtml(card.title)}" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
+        ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
         <span class="oling-chat-widget__source-body">
           <span class="oling-chat-widget__source-type">${escapeHtml(card.typeLabel || sourceTypeLabel(card.type))}</span>
           <span class="oling-chat-widget__source-title">${escapeHtml(card.title || sourceLabel(card.url))}</span>
@@ -69,8 +114,17 @@ const createSourceCardsHtml = (cards) => `
 
 const createMessageHtml = (message) => `
   <article class="oling-chat-widget__message oling-chat-widget__message--${message.role}">
-    <div class="oling-chat-widget__message-meta">${message.role === 'assistant' ? 'OLING' : 'Vous'}</div>
-    <div class="oling-chat-widget__bubble">${formatMessageContent(message.content)}</div>
+    ${message.role === 'assistant'
+      ? `
+        <div class="oling-chat-widget__assistant-block">
+          <div class="oling-chat-widget__message-meta">OLING</div>
+          <div class="oling-chat-widget__assistant-body">${formatAssistantContent(message.content)}</div>
+        </div>
+      `
+      : `
+        <div class="oling-chat-widget__message-meta">Vous</div>
+        <div class="oling-chat-widget__bubble">${formatMessageContent(message.content)}</div>
+      `}
     ${message.role === 'assistant' && getMessageSourceCards(message).length ? createSourceCardsHtml(getMessageSourceCards(message)) : ''}
   </article>
 `;
@@ -86,12 +140,25 @@ const createTypingHtml = () => `
   </article>
 `;
 
+const createWelcomeHtml = () => `
+  <div class="oling-chat-widget__welcome">
+    <div class="oling-chat-widget__welcome-badge">Assistant expert IA</div>
+    <p>L’assistant peut vous orienter sur les expertises, les expériences, l’équipe et les démarches d’accompagnement.</p>
+    <ul class="oling-chat-widget__welcome-list">
+      <li>Expertises SI, ERP, GMAO, conformité, data ou cybersécurité</li>
+      <li>Références anonymisées par secteur, mission ou technologie</li>
+      <li>Profils OLING pertinents selon votre sujet</li>
+    </ul>
+  </div>
+`;
+
 const initChatWidget = () => {
   const root = document.getElementById('oling-chat-widget');
   if (!root) return;
 
   const launcher = root.querySelector('.oling-chat-widget__launcher');
   const panel = root.querySelector('.oling-chat-widget__panel');
+  const body = root.querySelector('.oling-chat-widget__body');
   const closeButton = root.querySelector('.oling-chat-widget__close');
   const messages = root.querySelector('[data-chat-messages]');
   const leadBlock = root.querySelector('[data-chat-lead]');
@@ -126,6 +193,7 @@ const initChatWidget = () => {
     panel?.setAttribute('aria-hidden', open ? 'false' : 'true');
     if (open) {
       messageInput?.focus();
+      scrollMessagesToBottom();
     }
   };
 
@@ -178,8 +246,11 @@ const initChatWidget = () => {
   };
 
   const scrollMessagesToBottom = () => {
-    if (!messages) return;
-    messages.scrollTop = messages.scrollHeight;
+    const scrollContainer = body || messages;
+    if (!scrollContainer) return;
+    window.requestAnimationFrame(() => {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    });
   };
 
   const renderMessageList = (messageList = []) => {
@@ -187,7 +258,7 @@ const initChatWidget = () => {
 
     messages.innerHTML = messageList.length
       ? messageList.map(createMessageHtml).join('') + (state.loading && state.typing ? createTypingHtml() : '')
-      : '<div class="oling-chat-widget__empty">La conversation commence ici.</div>';
+      : createWelcomeHtml();
     scrollMessagesToBottom();
   };
 
@@ -351,7 +422,8 @@ const initChatWidget = () => {
     setLeadVisible(false);
     syncResetVisibility(null);
     if (messages) {
-      messages.innerHTML = '<div class="oling-chat-widget__empty">La conversation commence ici.</div>';
+      messages.innerHTML = createWelcomeHtml();
+      scrollMessagesToBottom();
     }
     if (messageInput) {
       messageInput.value = '';
@@ -403,6 +475,17 @@ const initChatWidget = () => {
   });
 
   closeButton?.addEventListener('click', () => setOpen(false));
+
+  messageInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' || event.shiftKey) {
+      return;
+    }
+
+    event.preventDefault();
+    if (!state.loading) {
+      composer?.requestSubmit();
+    }
+  });
 
   composer?.addEventListener('submit', async (event) => {
     event.preventDefault();

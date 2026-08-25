@@ -141,7 +141,7 @@ class ChatConversationManager
             'messages' => array_map(
                 fn (ChatMessage $message): array => [
                     'role' => $message->getRole(),
-                    'content' => $message->getContent(),
+                    'content' => $this->normalizeSerializedMessageContent($message),
                     'type' => $message->getMessageType(),
                     'sources' => $message->getSourceUrls(),
                     'sourceCards' => $this->publicContentCatalog->findCardsByUrls($message->getSourceUrls()),
@@ -203,5 +203,18 @@ class ChatConversationManager
         $conversation
             ->setExpiresAt($now->modify('+30 days'))
             ->setRetentionPurgeAt($now->modify('+30 days'));
+    }
+
+    private function normalizeSerializedMessageContent(ChatMessage $message): string
+    {
+        if ($message->getRole() === 'assistant' && $message->getMessageType() === 'welcome') {
+            $content = trim($message->getContent());
+
+            if (str_contains($content, 'Constat') && str_contains($content, 'Prochaine étape')) {
+                return 'Bonjour. Je peux vous aider à clarifier votre besoin. Décrivez simplement votre contexte, votre enjeu ou votre point de blocage.';
+            }
+        }
+
+        return $message->getContent();
     }
 }

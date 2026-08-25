@@ -89,7 +89,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
 
             $payload = $response->toArray();
             $output = $this->extractOutputText($payload);
-            $decoded = json_decode($output, true, 512, JSON_THROW_ON_ERROR);
+            $decoded = json_decode($this->sanitizeJsonPayload($output), true, 512, JSON_THROW_ON_ERROR);
         } catch (
             ClientException|
             DecodingExceptionInterface|
@@ -137,19 +137,37 @@ class OpenAiResponsesProvider implements AiProviderInterface
     {
         return <<<TEXT
 Return strict JSON only.
-You are the OLING commercial qualification assistant for a B2B consulting website.
-Rules:
-- Stay strictly within public OLING website scope.
-- Never invent offers, clients, guarantees, deadlines, budgets, certifications, or legal conclusions.
-- Keep the reply premium, sober, short, and useful.
-- Use a consultant tone and briefly reformulate the need when useful.
-- If information is missing, ask exactly one focused qualification question.
-- Never ask for lead details in the body of the answer.
-- If the visitor explicitly asks to be contacted, to receive a proposal, or asks for support/accompagnement, set request_lead to true and do not ask another question.
-- If the visitor asks how to contact OLING, strongly prioritize phone and email and mention them first: `01 89 70 15 60` and `contact@oling.fr`. Mention the form after that, and the public address only if useful.
-- Do not push contact in every answer.
-- Mention at most 1 or 2 useful public resources, only if they are truly relevant.
-- Use only the allowed taxonomy values.
+Tu es l’assistant expert d’OLING.
+
+Tu réponds aux visiteurs sur les expertises, services, méthodes, consultants, progiciels, secteurs et expériences OLING.
+
+Ta priorité est de répondre précisément à la question posée.
+
+Utilise exclusivement les informations OLING fournies dans le contexte.
+Tu peux raisonner, synthétiser, comparer et rapprocher plusieurs sources.
+Quand le contexte contient une practice, un service, une référence projet ou un profil OLING pertinent, cite-les explicitement dans la réponse par leur intitulé OLING.
+Ne reste pas générique si des éléments OLING précis sont présents dans le contexte.
+
+N’invente jamais une compétence, une technologie, un projet, un résultat, une certification, un prix ou un délai.
+
+Tu peux citer les collaborateurs OLING lorsque les données Team le justifient.
+Tu ne cites jamais le nom d’un client OLING et tu ne confirmes ni n’infirmes une relation avec une organisation nommée.
+Le mot "client" peut être utilisé au sens générique métier. L’interdiction porte uniquement sur l’identité d’un client nommé ou d’une organisation nommée.
+
+Quand tu décris les références, parle des secteurs, contextes, missions, technologies, processus, livrables et résultats documentés, sans nommer les clients.
+
+Réponds d’abord à la question.
+Ne pose une question que si elle est réellement nécessaire pour donner une réponse utile.
+Ne transforme pas une question d’information en questionnaire commercial.
+Quand cela améliore la lisibilité, structure la réponse avec des retours à la ligne et des puces simples commençant par "-".
+Utilise des paragraphes courts. Évite les blocs compacts denses.
+
+Propose un contact uniquement lorsque le visiteur le demande ou lorsqu’un projet concret est clairement exprimé.
+
+Ton: consultant senior, précis, naturel, factuel.
+
+La question originale du visiteur reste toujours le signal principal.
+Les champs de qualification sont des métadonnées secondaires.
 TEXT;
     }
 
@@ -185,7 +203,7 @@ Produce a valid json object that matches the schema.
 Current page: {$conversation->getSourceUrl()}
 Current source path: {$conversation->getSourcePath()}
 
-Known deterministic qualification:
+Qualification metadata only:
 {$this->jsonEncode($qualification)}
 
 Recent conversation:
@@ -196,6 +214,14 @@ Latest visitor message:
 
 Relevant public OLING snippets:
 {$this->joinOrPlaceholder($snippets)}
+
+Priority:
+- answer the latest visitor question first
+- use the snippets as evidence
+- mention the most relevant OLING practice, service, project reference, or team member when the context supports it
+- keep qualification as secondary metadata only
+- if information is sufficient, do not ask a follow-up question
+- use short paragraphs and bullets when the answer contains several distinct points
 
 Allowed taxonomy:
 - primary_need: transformation_si, amoa_erp, organisation_gouvernance, conformite, rgpd, cybersecurite, ia_data_automatisation, autre
@@ -233,20 +259,20 @@ TEXT;
                         'potential_value',
                     ],
                     'properties' => [
-                        'primary_need' => ['type' => 'string'],
-                        'urgency_level' => ['type' => 'string'],
-                        'maturity_level' => ['type' => 'string'],
-                        'organization_type' => ['type' => 'string'],
-                        'organization_size' => ['type' => 'string'],
-                        'commercial_intent' => ['type' => 'string'],
-                        'potential_value' => ['type' => 'string'],
+                        'primary_need' => ['type' => ['string', 'null']],
+                        'urgency_level' => ['type' => ['string', 'null']],
+                        'maturity_level' => ['type' => ['string', 'null']],
+                        'organization_type' => ['type' => ['string', 'null']],
+                        'organization_size' => ['type' => ['string', 'null']],
+                        'commercial_intent' => ['type' => ['string', 'null']],
+                        'potential_value' => ['type' => ['string', 'null']],
                     ],
                 ],
                 'missing_fields' => [
                     'type' => 'array',
                     'items' => ['type' => 'string'],
                 ],
-                'confidence' => ['type' => 'number'],
+                'confidence' => ['type' => ['number', 'null']],
             ],
         ];
     }
@@ -302,5 +328,10 @@ TEXT;
         } catch (\JsonException) {
             return '{}';
         }
+    }
+
+    private function sanitizeJsonPayload(string $payload): string
+    {
+        return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $payload) ?? $payload;
     }
 }

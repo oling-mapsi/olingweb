@@ -34,17 +34,96 @@
   border: 0;
   border-radius: 50%;
   padding: 0;
-  background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-accent-2) 100%);
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.22), transparent 26%),
+    linear-gradient(145deg, #ef5f94 0%, var(--chat-accent) 42%, var(--chat-accent-2) 100%);
   color: #fff;
   text-align: center;
-  box-shadow: 0 22px 44px rgba(18, 52, 59, 0.22);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 22px 44px rgba(18, 52, 59, 0.22);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, filter 180ms ease;
+  isolation: isolate;
+  overflow: visible;
 }
 
 .oling-chat-widget__launcher:hover,
 .oling-chat-widget__launcher:focus {
-  transform: translateY(-1px);
-  box-shadow: 0 26px 50px rgba(18, 52, 59, 0.28);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 28px 52px rgba(18, 52, 59, 0.28);
+  filter: saturate(1.03);
+}
+
+.oling-chat-widget__launcher::before {
+  content: '';
+  position: absolute;
+  inset: -0.38rem;
+  border-radius: inherit;
+  border: 1px solid rgba(226, 77, 124, 0.36);
+  box-shadow: 0 0 0 0 rgba(226, 77, 124, 0.24);
+  opacity: 0;
+  z-index: -1;
+  animation: oling-chat-launcher-pulse 2.6s ease-out infinite;
+}
+
+.oling-chat-widget__launcher::after {
+  content: '...';
+  position: absolute;
+  top: -0.38rem;
+  left: -0.08rem;
+  min-width: 1.88rem;
+  height: 1.18rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.38rem 0.06rem;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--chat-accent-2);
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  box-shadow: 0 10px 24px rgba(18, 52, 59, 0.16);
+  transform-origin: 50% 100%;
+  animation: oling-chat-launcher-bubble 2.4s ease-in-out infinite;
+}
+
+.oling-chat-widget__launcher-voice {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 2.7rem;
+  height: 2.7rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.oling-chat-widget__launcher-voice span {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  opacity: 0;
+  animation: oling-chat-voice-wave 2.4s ease-out infinite;
+}
+
+.oling-chat-widget__launcher-voice span:nth-child(2) {
+  animation-delay: 0.45s;
+}
+
+.oling-chat-widget__launcher-voice span:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
+.oling-chat-widget__launcher-core {
+  position: relative;
+  width: 2.12rem;
+  height: 2.12rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #oling-chat-widget .oling-chat-widget__launcher,
@@ -59,12 +138,31 @@
 }
 
 .oling-chat-widget__launcher-dot {
-  width: 0.96rem;
-  height: 0.96rem;
+  width: 1rem;
+  height: 1rem;
   flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
   border-radius: 999px;
   background: radial-gradient(circle at 35% 35%, #f4f0dd 0%, #cfe0d2 35%, #7fc39d 100%);
-  box-shadow: 0 0 0 0.34rem rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 0 0 0.4rem rgba(255, 255, 255, 0.14),
+    0 0.28rem 0.9rem rgba(20, 51, 58, 0.24);
+  animation: oling-chat-launcher-core 1.8s ease-in-out infinite;
+}
+
+.oling-chat-widget__launcher-dot::before,
+.oling-chat-widget__launcher-dot::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.22rem;
+  height: 0.22rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  transform: translate(-50%, -50%);
+  box-shadow: -0.34rem 0 0 rgba(255, 255, 255, 0.72), 0.34rem 0 0 rgba(255, 255, 255, 0.72);
+  animation: oling-chat-launcher-dots 1.2s ease-in-out infinite;
 }
 
 .oling-chat-widget__launcher-label {
@@ -82,6 +180,10 @@
   padding: 0.68rem 0.92rem;
   box-shadow: 0 18px 36px rgba(7, 21, 32, 0.22);
   transition: opacity 160ms ease, transform 180ms ease;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
 }
 
 .oling-chat-widget__launcher-label strong {
@@ -89,6 +191,13 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.oling-chat-widget__launcher-label span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.74);
 }
 
 .oling-chat-widget__launcher:hover .oling-chat-widget__launcher-label,
@@ -165,24 +274,113 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.1rem;
-  padding: 1.2rem 1.2rem 1rem;
-  background: linear-gradient(180deg, var(--chat-accent-2) 0%, var(--chat-accent) 100%);
+  padding: 1.15rem 1.2rem 1.05rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.16), transparent 34%),
+    linear-gradient(145deg, #8e274d 0%, var(--chat-accent-2) 42%, var(--chat-accent) 100%);
   color: #fff;
+  position: relative;
+}
+
+#oling-chat-widget .oling-chat-widget__header-figure {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  flex: 0 0 auto;
+}
+
+#oling-chat-widget .oling-chat-widget__header-avatar {
+  width: 2.7rem;
+  height: 2.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 26px rgba(72, 15, 40, 0.26);
+  backdrop-filter: blur(8px);
+}
+
+#oling-chat-widget .oling-chat-widget__header-avatar svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  display: block;
 }
 
 #oling-chat-widget .oling-chat-widget__header-copy {
   min-width: 0;
+  flex: 1 1 auto;
+  color: #fff !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header-kicker {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.34rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: #fff !important;
 }
 
 #oling-chat-widget .oling-chat-widget__header h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-family: var(--oling-body, 'Plus Jakarta Sans', sans-serif);
-  line-height: 1.25;
+  line-height: 1.18;
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header h3:hover,
+#oling-chat-widget .oling-chat-widget__header h3:focus,
+#oling-chat-widget .oling-chat-widget__header h3:active,
+#oling-chat-widget .oling-chat-widget__header-copy:hover h3,
+#oling-chat-widget .oling-chat-widget__header-copy:focus-within h3 {
+  color: #fff !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header p {
+  margin: 0.42rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.48;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header-presence {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.24rem 0.52rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header-status::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.36rem;
+  border-radius: 999px;
+  background: #7ff0a9;
+  box-shadow: 0 0 0 0 rgba(127, 240, 169, 0.35);
+  animation: oling-chat-online-dot 1.8s ease-out infinite;
 }
 
 #oling-chat-widget .oling-chat-widget__header,
@@ -192,6 +390,13 @@
 #oling-chat-widget .oling-chat-widget__header *:visited {
   color: inherit !important;
   text-decoration: none !important;
+}
+
+#oling-chat-widget .oling-chat-widget__header .oling-chat-widget__header-copy,
+#oling-chat-widget .oling-chat-widget__header .oling-chat-widget__header-copy *,
+#oling-chat-widget .oling-chat-widget__header .oling-chat-widget__header-kicker,
+#oling-chat-widget .oling-chat-widget__header .oling-chat-widget__header-kicker.text-white {
+  color: #fff !important;
 }
 
 .oling-chat-widget__close {
@@ -270,14 +475,86 @@
   gap: 0.96rem;
 }
 
+.oling-chat-widget__welcome {
+  padding: 1rem 1rem 1.05rem;
+  border-radius: 20px;
+  border: 1px solid rgba(47, 93, 98, 0.12);
+  background:
+    radial-gradient(circle at top right, rgba(226, 77, 124, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 252, 255, 0.82));
+  box-shadow: 0 18px 42px rgba(23, 50, 74, 0.06);
+}
+
+.oling-chat-widget__welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  background: rgba(185, 49, 98, 0.08);
+  color: var(--chat-accent-2);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.oling-chat-widget__welcome h4 {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  line-height: 1.28;
+  color: #17324a;
+}
+
+.oling-chat-widget__welcome p {
+  margin: 0.48rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.58;
+  color: #48606d;
+}
+
+.oling-chat-widget__welcome-list {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.48rem;
+}
+
+.oling-chat-widget__welcome-list li {
+  position: relative;
+  padding-left: 1.12rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #214254;
+}
+
+.oling-chat-widget__welcome-list li::before {
+  content: '';
+  position: absolute;
+  top: 0.42rem;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--chat-accent) 0%, var(--chat-accent-2) 100%);
+  box-shadow: 0 0 0 0.12rem rgba(226, 77, 124, 0.12);
+}
+
 .oling-chat-widget__message {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0;
 }
 
 .oling-chat-widget__message--assistant {
   align-items: flex-start;
+}
+
+.oling-chat-widget__assistant-block {
+  display: grid;
+  gap: 0.18rem;
+  width: 100%;
+  margin: 0;
 }
 
 .oling-chat-widget__message--visitor {
@@ -286,47 +563,84 @@
 
 .oling-chat-widget__message-meta {
   padding: 0 0.15rem;
+  margin: 0;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(23, 48, 54, 0.5);
+  line-height: 1;
 }
 
 .oling-chat-widget__bubble {
   max-width: 89%;
-  padding: 0.84rem 0.94rem 0.9rem;
+  width: fit-content;
+  padding: 0.56rem 0.74rem 0.6rem;
   border-radius: 22px;
   font-size: 0.93rem;
-  line-height: 1.58;
+  line-height: 1.42;
   letter-spacing: -0.005em;
   white-space: pre-wrap;
 }
 
-.oling-chat-widget__message--assistant .oling-chat-widget__bubble {
-  max-width: 100%;
-  padding: 0.1rem 0 0;
-  border-radius: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
+.oling-chat-widget__assistant-body {
+  display: grid;
+  gap: 0.08rem;
   color: #18353b;
+  margin: 0;
+  padding: 0;
+}
+
+.oling-chat-widget__assistant-body p {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.42;
+  color: inherit;
+}
+
+.oling-chat-widget__assistant-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.oling-chat-widget__assistant-list li {
+  position: relative;
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 0.88rem;
+  line-height: 1.52;
+  color: #214254;
+}
+
+.oling-chat-widget__assistant-list li::before {
+  content: '';
+  position: absolute;
+  top: 0.48rem;
+  left: 0;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--chat-accent) 0%, var(--chat-accent-2) 100%);
+  box-shadow: none;
 }
 
 .oling-chat-widget__message--visitor .oling-chat-widget__bubble {
+  max-width: min(89%, 40rem);
+  margin-top: 0.04rem;
+  display: inline-block;
+  width: auto;
+  min-height: 0;
+  padding: 0.54rem 0.72rem 0.58rem;
+  border-radius: 16px;
+  font-size: 0.93rem;
+  line-height: 1.42;
   background: linear-gradient(180deg, rgba(233, 241, 249, 0.98) 0%, rgba(220, 232, 244, 0.98) 100%);
   color: #214254;
   border: 1px solid rgba(47, 93, 98, 0.1);
   box-shadow: 0 8px 18px rgba(23, 50, 74, 0.05);
-}
-
-.oling-chat-widget__empty {
-  padding: 1.1rem 1rem;
-  border: 1px dashed rgba(47, 93, 98, 0.18);
-  border-radius: 18px;
-  font-size: 0.83rem;
-  color: var(--chat-muted);
-  background: rgba(255, 255, 255, 0.5);
 }
 
 .oling-chat-widget__sources,
@@ -357,7 +671,7 @@
 .oling-chat-widget__sources-inline {
   display: grid;
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   max-width: 85%;
 }
 
@@ -830,6 +1144,21 @@
   animation: oling-chat-launcher-in 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.oling-chat-widget.is-open .oling-chat-widget__launcher::before,
+.oling-chat-widget.is-open .oling-chat-widget__launcher::after,
+.oling-chat-widget.is-open .oling-chat-widget__launcher-voice span,
+.oling-chat-widget.is-open .oling-chat-widget__launcher-dot,
+.oling-chat-widget.is-open .oling-chat-widget__launcher-dot::before,
+.oling-chat-widget.is-open .oling-chat-widget__launcher-dot::after,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher::before,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher::after,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher-voice span,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher-dot,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher-dot::before,
+.oling-chat-widget.is-loading .oling-chat-widget__launcher-dot::after {
+  animation-play-state: paused;
+}
+
 @keyframes oling-chat-launcher-in {
   from {
     opacity: 0;
@@ -838,6 +1167,75 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes oling-chat-launcher-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+    box-shadow: 0 0 0 0 rgba(226, 77, 124, 0.24);
+  }
+  18% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.24);
+    box-shadow: 0 0 0 0.7rem rgba(226, 77, 124, 0);
+  }
+}
+
+@keyframes oling-chat-launcher-bubble {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-0.16rem) scale(1.04);
+  }
+  55% {
+    transform: translateY(0.02rem) scale(0.98);
+  }
+}
+
+@keyframes oling-chat-voice-wave {
+  0% {
+    opacity: 0;
+    transform: scale(0.62);
+  }
+  25% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.34);
+  }
+}
+
+@keyframes oling-chat-launcher-core {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0.4rem rgba(255, 255, 255, 0.14),
+      0 0.28rem 0.9rem rgba(20, 51, 58, 0.24);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 0.56rem rgba(255, 255, 255, 0.2),
+      0 0.4rem 1rem rgba(20, 51, 58, 0.22);
+  }
+}
+
+@keyframes oling-chat-launcher-dots {
+  0%,
+  100% {
+    opacity: 0.68;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -871,6 +1269,24 @@
     min-width: 3.7rem;
     height: 3.7rem;
     justify-self: end;
+  }
+
+  .oling-chat-widget__launcher::after {
+    top: -0.3rem;
+    left: -0.02rem;
+    min-width: 1.66rem;
+    height: 1.04rem;
+    font-size: 0.66rem;
+  }
+
+  .oling-chat-widget__launcher-voice {
+    width: 2.42rem;
+    height: 2.42rem;
+  }
+
+  .oling-chat-widget__launcher-core {
+    width: 1.98rem;
+    height: 1.98rem;
   }
 
   .oling-chat-widget__launcher-label {
@@ -910,8 +1326,21 @@
     padding-bottom: 0.9rem;
   }
 
+  .oling-chat-widget__header-avatar {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+
   .oling-chat-widget__header h3 {
     font-size: 1.16rem;
+  }
+
+  .oling-chat-widget__header p {
+    font-size: 0.8rem;
+  }
+
+  .oling-chat-widget__header-presence {
+    gap: 0.45rem;
   }
 
   .oling-chat-widget__bubble {
@@ -946,6 +1375,24 @@
 
   .oling-chat-widget__source-excerpt {
     font-size: 0.74rem;
+  }
+
+  .oling-chat-widget__welcome {
+    padding: 0.9rem 0.9rem 0.95rem;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oling-chat-widget__launcher,
+  .oling-chat-widget__launcher::before,
+  .oling-chat-widget__launcher::after,
+  .oling-chat-widget__launcher-voice span,
+  .oling-chat-widget__launcher-dot,
+  .oling-chat-widget__launcher-dot::before,
+  .oling-chat-widget__launcher-dot::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
 

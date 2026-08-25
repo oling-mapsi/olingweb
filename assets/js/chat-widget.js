@@ -1,5 +1,6 @@
 const CHAT_STORAGE_KEY = 'oling_chat_conversation_token';
 const CHAT_OPEN_STATE_KEY = 'oling_chat_open_state';
+const CHAT_STORAGE_VERSION_KEY = 'oling_chat_storage_version';
 
 const parseJson = async (response) => {
   const text = await response.text();
@@ -181,6 +182,13 @@ const initChatWidget = () => {
     conversation: null,
     typing: false,
   };
+
+  const storageVersion = root.dataset.storageVersion || '1';
+  if (window.localStorage.getItem(CHAT_STORAGE_VERSION_KEY) !== storageVersion) {
+    window.localStorage.removeItem(CHAT_STORAGE_KEY);
+    window.localStorage.setItem(CHAT_STORAGE_VERSION_KEY, storageVersion);
+    state.token = null;
+  }
 
   const setOpen = (open) => {
     state.open = open;

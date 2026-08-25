@@ -24,7 +24,7 @@ class ChatResponder
 
     public function getWelcomeMessage(): string
     {
-        return 'Bonjour. Je suis l’assistant expert OLING.';
+        return 'Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.';
     }
 
     public function reply(ChatConversation $conversation, string $visitorMessage): ChatReply

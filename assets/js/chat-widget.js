@@ -28,7 +28,6 @@ const sourceLabel = (url) => {
 const formatMessageContent = (value) => escapeHtml(value).replace(/\n/g, '<br>');
 
 const sanitizeAssistantIntro = (value) => String(value || '')
-  .replace('Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.', 'Bonjour. Je suis l’assistant expert OLING.')
   .replace('Posez une question sur OLING.', '')
   .trim();
 

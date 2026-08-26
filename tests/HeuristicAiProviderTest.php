@@ -122,4 +122,66 @@ class HeuristicAiProviderTest extends TestCase
         self::assertStringContainsString('01 89 70 15 60', $decision->reply);
         self::assertStringContainsString('contact@oling.fr', $decision->reply);
     }
+
+    public function testProviderReturnsExpertCadrageDeliverablesForAmoaQuestion(): void
+    {
+        $conversation = new ChatConversation();
+        $previous = (new ChatMessage())
+            ->setRole('visitor')
+            ->setContent('amoa si client')
+            ->setMessageType('answer')
+            ->setSequenceNumber(1)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $current = (new ChatMessage())
+            ->setRole('visitor')
+            ->setContent('que doit on faire dans la phase de cadrage, quels livrables ?')
+            ->setMessageType('answer')
+            ->setSequenceNumber(2)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $conversation->addMessage($previous);
+        $conversation->addMessage($current);
+
+        $qualificationService = new ChatQualificationService();
+        $qualification = $qualificationService->qualify($conversation);
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision($conversation, $current->getContent(), [[
+            'title' => 'AMOA Réforme de la facturation électronique (RFE)',
+            'url' => '/consulting/reforme-facturation-electronique-amoa',
+            'text' => 'AMOA réforme de la facturation électronique : cadrage, conformité, choix de solutions.',
+            'type' => 'service',
+        ], [
+            'title' => 'AMOA ERP, CRM, GMAO, SI Finance et SIRH',
+            'url' => '/business-apps/erp',
+            'text' => 'Note de cadrage, macro-planning, gouvernance projet, expression des besoins, cahier des charges, recette et reprise de données.',
+            'type' => 'service',
+        ]], $qualification);
+
+        self::assertStringContainsString('phase de cadrage', mb_strtolower($decision->reply));
+        self::assertStringContainsString('note de cadrage', mb_strtolower($decision->reply));
+        self::assertStringContainsString('cahier des charges', mb_strtolower($decision->reply));
+        self::assertStringContainsString('stratégie de recette', mb_strtolower($decision->reply));
+    }
+
+    public function testProviderAnswersClearlyOnSectorCoverage(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'intervenez vous dans le transport et l assainissement ?', [[
+            'title' => 'Référence Eau et assainissement - AMOA progiciel',
+            'url' => '/projets',
+            'text' => 'Mission AMOA progiciel en eau et assainissement avec cadrage, consultation, reprise de données et déploiement.',
+            'type' => 'reference',
+        ], [
+            'title' => 'Secteurs métiers accompagnés par OLING',
+            'url' => '/secteurs',
+            'text' => 'Dans les transports et collectivités, OLING intervient sur des ERP, catalogues de services, schémas directeurs SI, ISO, RGPD et continuité.',
+            'type' => 'page',
+        ]], []);
+
+        self::assertStringStartsWith('Oui.', $decision->reply);
+        self::assertStringContainsString('transports', mb_strtolower($decision->reply));
+        self::assertStringContainsString('eau et assainissement', mb_strtolower($decision->reply));
+    }
 }

@@ -26,6 +26,14 @@ class PublicContentCatalog
         'cyber' => ['iso 27001', 'ssi', 'nis2', 'dora', 'securite'],
         'pca pra' => ['continuite', 'reprise', 'resilience', 'iso 22301'],
         'data bi' => ['power bi', 'reporting', 'analytique', 'decisionnel'],
+        'cadrage' => ['note de cadrage', 'expression des besoins', 'cahier des charges', 'macro planning', 'gouvernance projet'],
+        'livrables' => ['note de cadrage', 'roadmap', 'cahier des charges', 'grille de choix', 'strategie de recette', 'plan de migration'],
+        'transport' => ['transports', 'port', 'ports', 'aeroport', 'aeroports', 'mobilite', 'collectivite'],
+        'eau assainissement' => ['eau', 'assainissement', 'eaux', 'regie', 'facturation eau'],
+        'medico social' => ['medico social', 'ehpad', 'sante', 'hopital', 'social'],
+        'public' => ['collectivite', 'collectivites', 'administration', 'organisation regulee', 'service public'],
+        'industrie' => ['industriel', 'industrie', 'pmi', 'usine', 'production'],
+        'services' => ['services b2b', 'societe de services', 'prestations', 'relation client'],
     ];
 
     public function __construct(
@@ -155,6 +163,8 @@ class PublicContentCatalog
         $isExpertIntent = $this->isExpertIntent($normalizedQuery);
         $isReferenceIntent = $this->isReferenceIntent($normalizedQuery);
         $isProjectIntent = $this->isProjectIntent($normalizedQuery);
+        $isSectorIntent = $this->isSectorIntent($normalizedQuery);
+        $isMethodIntent = $this->isMethodIntent($normalizedQuery);
 
         if ($normalizedQuery !== '' && str_contains($title, $normalizedQuery)) {
             $score += 12;
@@ -188,12 +198,28 @@ class PublicContentCatalog
             $score += 2;
         }
 
+        if ($document->getSourceType() === 'reference' && $isSectorIntent) {
+            $score += 6;
+        }
+
         if (in_array($document->getSourceType(), ['service', 'expertise'], true) && $isProjectIntent) {
             $score += 5;
         }
 
         if ($document->getSourceType() === 'page' && $isProjectIntent) {
             $score += 2;
+        }
+
+        if ($document->getSourceType() === 'page' && $isSectorIntent) {
+            $score += 5;
+        }
+
+        if (in_array($document->getSourceType(), ['service', 'expertise', 'page'], true) && $isMethodIntent) {
+            $score += 5;
+        }
+
+        if ($isMethodIntent && preg_match('/\b(note de cadrage|expression des besoins|cahier des charges|gouvernance projet|strategie de recette|plan de migration|reprise de donnees|cartographie)\b/', $body.' '.$keywords) === 1) {
+            $score += 6;
         }
 
         return $score;
@@ -289,5 +315,15 @@ class PublicContentCatalog
     private function isProjectIntent(string $normalizedQuery): bool
     {
         return preg_match('/\b(projet|amoa|erp|progiciel|facturation|client|crm|si|organisation|outil|consultation|cadrage)\b/', $normalizedQuery) === 1;
+    }
+
+    private function isSectorIntent(string $normalizedQuery): bool
+    {
+        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $normalizedQuery) === 1;
+    }
+
+    private function isMethodIntent(string $normalizedQuery): bool
+    {
+        return preg_match('/\b(cadrage|livrable|livrables|expression des besoins|cahier des charges|recette|reprise|migration|gouvernance|macro planning|roadmap)\b/', $normalizedQuery) === 1;
     }
 }

@@ -50,7 +50,7 @@ class ChatResponderTest extends TestCase
         self::assertStringContainsString('01 89 70 15 60', $reply->content);
         self::assertStringContainsString('contact@oling.fr', $reply->content);
         self::assertSame([], $reply->sources);
-        self::assertTrue($reply->requestLead);
+        self::assertFalse($reply->requestLead);
     }
 
     public function testDirectContactQuestionWithAccentsReturnsPhoneAndEmail(): void
@@ -68,6 +68,19 @@ class ChatResponderTest extends TestCase
 
         self::assertStringContainsString('01 89 70 15 60', $reply->content);
         self::assertStringContainsString('contact@oling.fr', $reply->content);
+    }
+
+    public function testRecontactRequestTriggersLeadFlowWithoutSources(): void
+    {
+        $reply = $this->buildResponderWithDocuments([
+            $this->buildDocument('service', '/business-apps/erp', 'AMOA ERP, CRM, GMAO, SI Finance et SIRH'),
+            $this->buildDocument('service', '/consulting/reforme-facturation-electronique-amoa', 'AMOA Réforme de la facturation électronique (RFE)'),
+        ])->reply(new ChatConversation(), 'je veux que vous me recontactiez');
+
+        self::assertStringContainsString('01 89 70 15 60', $reply->content);
+        self::assertStringContainsString('contact@oling.fr', $reply->content);
+        self::assertSame([], $reply->sources);
+        self::assertFalse($reply->requestLead);
     }
 
     public function testWelcomeMessageUsesNaturalFormat(): void
@@ -136,6 +149,18 @@ class ChatResponderTest extends TestCase
         ])->reply(new ChatConversation(), 'quelle est votre offre erp ?');
 
         self::assertSame(['/business-apps/erp', '/practice/business-apps'], $reply->sources);
+    }
+
+    public function testSectorQuestionCanSelectReferenceAndSectorPage(): void
+    {
+        $reply = $this->buildResponderWithDocuments([
+            $this->buildDocument('page', '/secteurs', 'Secteurs métiers accompagnés par OLING', 'Transports, collectivités, industrie, services, conformité, sécurité et schémas directeurs SI.'),
+            $this->buildDocument('reference', '/projets', 'Référence Eau et assainissement', 'Mission AMOA progiciel en eau et assainissement avec cadrage, consultation, reprise de données et déploiement.'),
+            $this->buildDocument('service', '/business-apps/erp', 'AMOA ERP, CRM, GMAO, SI Finance et SIRH', 'amoa erp progiciels metiers cadrage reprise donnees interfaces recette'),
+        ])->reply(new ChatConversation(), 'avez vous des références dans le transport et l assainissement ?');
+
+        self::assertContains('/projets', $reply->sources);
+        self::assertContains('/secteurs', $reply->sources);
     }
 
     private function buildResponder(): ChatResponder

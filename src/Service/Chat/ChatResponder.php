@@ -196,9 +196,12 @@ class ChatResponder
 
         $expertIntent = $this->isExpertIntent($visitorMessage);
         $referenceIntent = $this->isReferenceIntent($visitorMessage);
+        $sectorIntent = $this->isSectorIntent($visitorMessage);
         $preferredTypes = $expertIntent
             ? ['team', 'expertise', 'service', 'page', 'reference']
-            : ($referenceIntent ? ['reference', 'expertise', 'service', 'page'] : ['expertise', 'service', 'page', 'reference']);
+            : ($sectorIntent
+                ? ['reference', 'page', 'expertise', 'service']
+                : ($referenceIntent ? ['reference', 'expertise', 'service', 'page'] : ['expertise', 'service', 'page', 'reference']));
 
         $filtered = array_values(array_filter(
             $documents,
@@ -318,14 +321,14 @@ class ChatResponder
             return true;
         }
 
-        return $this->showsDirectContactQuestion($visitorMessage);
+        return $this->showsDirectContactQuestion($visitorMessage) || $this->showsStrongContactIntent($visitorMessage);
     }
 
     private function showsStrongContactIntent(string $message): bool
     {
         $text = $this->normalize($message);
 
-        return (bool) preg_match('/\b(contactez moi|je souhaite etre contacte|etre rappele|rappelez moi|prendre rendez vous|rendez vous|rdv|parler avec quelqu un|parler a un consultant|je souhaite une proposition|proposition commerciale|demande de devis|faites moi un devis|je veux un rendez vous|je veux etre contacte|appelez moi)\b/', $text);
+        return (bool) preg_match('/\b(contactez moi|recontactez moi|recontacte moi|recontactiez|recontacter|je souhaite etre contacte|etre rappele|rappelez moi|rappeler moi|prendre rendez vous|rendez vous|rdv|parler avec quelqu un|parler a un consultant|je souhaite une proposition|proposition commerciale|demande de devis|faites moi un devis|je veux un rendez vous|je veux etre contacte|appelez moi)\b/', $text);
     }
 
     private function showsDirectContactQuestion(string $message): bool
@@ -357,8 +360,7 @@ class ChatResponder
 
     private function finalizeReply(string $reply, string $contactStep): string
     {
-        $reply = trim($reply);
-        $reply = preg_replace('/\s+/', ' ', $reply) ?? $reply;
+        $reply = $this->normalizeReplyFormatting($reply);
 
         if ($contactStep === 'contact_info') {
             return $this->contactDetailsText(false);
@@ -370,7 +372,7 @@ class ChatResponder
         }
 
         if ($contactStep === 'lead_request') {
-            return 'Très bien. '.$this->contactDetailsText(true);
+            return $this->contactDetailsText(false);
         }
 
         return $reply;
@@ -378,16 +380,12 @@ class ChatResponder
 
     private function contactDetailsText(bool $includeLeadForm): string
     {
-        if ($includeLeadForm) {
-            return 'Pour joindre OLING rapidement, appelez le 01 89 70 15 60 ou écrivez à contact@oling.fr. Je peux aussi transmettre votre demande à un consultant OLING via le formulaire ci-dessous. Adresse publique : 40 rue Alexandre Dumas, 75011 Paris.';
-        }
-
-        return 'Si vous souhaitez contacter OLING, appelez le 01 89 70 15 60 ou écrivez à contact@oling.fr. Je peux aussi vous proposer un échange via le formulaire.';
+        return "Pour contacter OLING, vous pouvez utiliser ces accès directs :\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : [Ouvrir la page Contact](/contact?chat_fallback=1)";
     }
 
     private function shouldShowLeadForm(string $contactStep): bool
     {
-        return in_array($contactStep, ['contact_info', 'contact_offer', 'lead_request'], true);
+        return $contactStep === 'contact_offer';
     }
 
     private function asksForNamedClientOrClientList(string $message): bool
@@ -425,6 +423,32 @@ class ChatResponder
         }
 
         return $reply;
+    }
+
+    private function normalizeReplyFormatting(string $reply): string
+    {
+        $reply = str_replace(["\r\n", "\r"], "\n", trim($reply));
+        $lines = array_map(
+            static fn (string $line): string => preg_replace('/[ \t]+/', ' ', trim($line)) ?? trim($line),
+            explode("\n", $reply)
+        );
+
+        $normalized = [];
+        $previousBlank = false;
+        foreach ($lines as $line) {
+            if ($line === '') {
+                if (!$previousBlank) {
+                    $normalized[] = '';
+                }
+                $previousBlank = true;
+                continue;
+            }
+
+            $normalized[] = $line;
+            $previousBlank = false;
+        }
+
+        return trim(implode("\n", $normalized));
     }
 
     private function logTechnicalMetrics(
@@ -478,6 +502,11 @@ class ChatResponder
         return preg_match('/\b(reference|references|realisation|realisations|experience|experiences|secteur)\b/', $this->normalize($message)) === 1;
     }
 
+    private function isSectorIntent(string $message): bool
+    {
+        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $this->normalize($message)) === 1;
+    }
+
     /**
      * @param array{title:string,url:string,text:string,type:string,image:?string,excerpt:string} $document
      */
@@ -506,6 +535,14 @@ class ChatResponder
 
         if (($document['type'] ?? null) === 'reference' && $this->isReferenceIntent($visitorMessage)) {
             $score += 4;
+        }
+
+        if (($document['type'] ?? null) === 'page' && $this->isSectorIntent($visitorMessage)) {
+            $score += 5;
+        }
+
+        if (($document['type'] ?? null) === 'reference' && $this->isSectorIntent($visitorMessage)) {
+            $score += 3;
         }
 
         if (($document['type'] ?? null) === 'team' && $this->isExpertIntent($visitorMessage)) {

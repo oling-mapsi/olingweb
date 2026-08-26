@@ -76,11 +76,19 @@ class HeuristicAiProvider implements AiProviderInterface
             return 'Vous semblez croiser un sujet d’AMOA et de structuration ISO 27001. Cherchez-vous surtout à cadrer une démarche ISO 27001, à choisir ou piloter un outil, ou à articuler les deux ?';
         }
 
+        if ($this->asksForSectorCoverage($visitorMessage)) {
+            return $this->buildSectorCoverageReply($visitorMessage, $documents, $qualification);
+        }
+
         if ($this->asksForReferences($visitorMessage) || $this->shouldPreferReferenceReply($visitorMessage, $documents)) {
             return $this->buildReferenceReply($visitorMessage, $documents, $qualification);
         }
 
         if ($this->isInformationRequest($visitorMessage)) {
+            if ($this->asksForCadrageDeliverables($visitorMessage)) {
+                return $this->buildCadrageDeliverablesReply($visitorMessage, $documents, $qualification);
+            }
+
             return $this->buildInformationReply($visitorMessage, $documents, $qualification);
         }
 
@@ -149,6 +157,132 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         return 'Je peux vous aider à identifier les expertises, expériences et ressources OLING les plus pertinentes.';
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
+     * @param array<string, string|null> $qualification
+     */
+    private function buildSectorCoverageReply(string $visitorMessage, array $documents, array $qualification): string
+    {
+        $sectorLabel = $this->detectSectorLabel($visitorMessage) ?? 'ce type de secteur';
+        $reference = $this->firstDocumentOfType($documents, 'reference');
+        $page = $this->firstDocumentOfType($documents, 'page');
+        $service = $this->firstDocumentOfTypes($documents, ['service', 'expertise']);
+        $items = [];
+
+        if ($reference !== null) {
+            $items[] = $this->excerptSentence($reference['text']);
+        }
+
+        if ($page !== null && count($items) < 2) {
+            $items[] = $this->excerptSentence($page['text']);
+        }
+
+        if ($service !== null && count($items) < 3) {
+            $items[] = $this->bridgeSentence($service['text']);
+        }
+
+        if ($items !== []) {
+            return $this->formatBulletReply(
+                ($this->asksForReferences($visitorMessage) || $reference !== null)
+                    ? sprintf('Oui. OLING dispose de références anonymisées dans %s.', $sectorLabel)
+                    : sprintf('Oui. OLING intervient aussi dans %s.', $sectorLabel),
+                $items
+            );
+        }
+
+        if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
+            return sprintf(
+                'Oui. OLING intervient dans %s sur des sujets d’AMOA SI, ERP, CRM, GMAO ou applicatifs métiers, avec un angle cadrage, choix de solution, pilotage, recette et déploiement.',
+                $sectorLabel
+            );
+        }
+
+        return sprintf(
+            'Oui. OLING intervient dans %s, avec des approches qui croisent selon les cas transformation SI, organisation, conformité, sécurité et pilotage de projet.',
+            $sectorLabel
+        );
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
+     * @param array<string, string|null> $qualification
+     */
+    private function buildCadrageDeliverablesReply(string $visitorMessage, array $documents, array $qualification): string
+    {
+        $track = $this->detectAmoaTrack($visitorMessage, $documents, $qualification);
+
+        return match ($track) {
+            'crm' => $this->formatBulletReply(
+                'En phase de cadrage CRM, OLING cherche surtout à sécuriser le besoin, les processus et la trajectoire projet :',
+                [
+                    'clarification des objectifs métier, des parcours, des rôles et de la gouvernance des données',
+                    'cartographie des processus, expression des besoins et backlog métier',
+                    'évaluation des scénarios de solution, critères d’arbitrage et gouvernance projet',
+                    'préparation de la reprise, de la recette et de la conduite du changement',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables mobilisables :',
+                [
+                    'note de cadrage, roadmap CRM et gouvernance projet',
+                    'cartographie des processus, expression des besoins et backlog métier',
+                    'grille de choix, matrice de scoring et dossier d’arbitrage',
+                    'plan de reprise des données, stratégie de recette et plan de conduite du changement',
+                ]
+            ),
+            'gmao' => $this->formatBulletReply(
+                'En phase de cadrage GMAO, OLING sécurise d’abord les processus maintenance, les données équipements et les interfaces terrain :',
+                [
+                    'diagnostic de l’existant, des usages réels et des limites du dispositif maintenance',
+                    'cadrage des processus maintenance, des rôles, des équipements et des données de référence',
+                    'expression des besoins, cahier des charges et scénarios de démonstration',
+                    'préparation de la reprise, de la recette, du déploiement et de l’adoption terrain',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables mobilisables :',
+                [
+                    'diagnostic de l’existant, cartographie des processus maintenance et roadmap GMAO',
+                    'expression des besoins, cahier des charges et modèle de données équipements',
+                    'grille de choix, scénarios de démonstration et dossier d’arbitrage',
+                    'stratégie de reprise, stratégie de recette, plan de déploiement et conduite du changement',
+                ]
+            ),
+            'si_finance' => $this->formatBulletReply(
+                'En phase de cadrage SI Finance, OLING cadre les processus, les données et les arbitrages entre fonctions Finance, DSI et intégrateurs :',
+                [
+                    'diagnostic de l’existant et des points de fragilité sur clôture, reporting, référentiels et interfaces',
+                    'cadrage des besoins, des processus Finance, des responsabilités et de la gouvernance cible',
+                    'évaluation des scénarios ERP ou EPM et objectivation des choix',
+                    'préparation de la reprise, de la recette et de la conduite du changement',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables mobilisables :',
+                [
+                    'diagnostic SI Finance, cartographie des processus et note de cadrage',
+                    'expression des besoins, roadmap, architecture fonctionnelle cible et gouvernance projet',
+                    'grille de choix, matrice de scoring et dossier d’arbitrage entre solutions et intégrateurs',
+                    'stratégie de reprise, stratégie de recette, plan de conduite du changement et indicateurs de pilotage',
+                ]
+            ),
+            default => $this->formatBulletReply(
+                'En phase de cadrage AMOA, OLING cherche d’abord à rendre le projet arbitrable et pilotable :',
+                [
+                    'clarification des objectifs, du périmètre, des priorités et des points de vigilance',
+                    'ateliers métier, cartographie des processus et expression des besoins',
+                    'choix du scénario cible, gouvernance projet, macro-planning et stratégie de consultation si nécessaire',
+                    'anticipation des interfaces, de la reprise, de la recette et de la conduite du changement',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables mobilisables :',
+                [
+                    'note de cadrage, macro-planning et gouvernance projet',
+                    'expression des besoins, cahier des charges et critères de choix',
+                    'cartographie des processus ou dossier de consultation selon le contexte',
+                    'stratégie de recette, plan de migration et plan de conduite du changement',
+                ]
+            ),
+        };
     }
 
     /**
@@ -324,6 +458,20 @@ class HeuristicAiProvider implements AiProviderInterface
         return preg_match('/\b(qui|quel expert|quels experts|expert|consultant|profil|equipe)\b/', $this->normalize($message)) === 1;
     }
 
+    private function asksForSectorCoverage(string $message): bool
+    {
+        $text = $this->normalize($message);
+
+        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $text) === 1;
+    }
+
+    private function asksForCadrageDeliverables(string $message): bool
+    {
+        $text = $this->normalize($message);
+
+        return preg_match('/\b(cadrage|livrable|livrables|note de cadrage|expression des besoins|cahier des charges|macro planning|gouvernance projet|recette|migration|reprise)\b/', $text) === 1;
+    }
+
     private function isDirectContactQuestion(string $message): bool
     {
         $text = $this->normalize($message);
@@ -348,6 +496,10 @@ class HeuristicAiProvider implements AiProviderInterface
     private function shouldPreferReferenceReply(string $message, array $documents): bool
     {
         if ($documents === []) {
+            return false;
+        }
+
+        if ($this->asksForSectorCoverage($message) && !$this->asksForReferences($message)) {
             return false;
         }
 
@@ -438,6 +590,84 @@ class HeuristicAiProvider implements AiProviderInterface
     private function bridgeSentence(string $text): string
     {
         return 'OLING intervient aussi sur '.$this->lowercaseFirst($this->excerptSentence($text));
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
+     * @param array<string, string|null> $qualification
+     */
+    private function detectAmoaTrack(string $message, array $documents, array $qualification): string
+    {
+        $text = $this->normalize($message);
+
+        if (preg_match('/\b(crm|relation client|vente|commercial|salesforce)\b/', $text) === 1) {
+            return 'crm';
+        }
+
+        if (preg_match('/\b(gmao|maintenance|equipement|actif|intervention)\b/', $text) === 1) {
+            return 'gmao';
+        }
+
+        if (preg_match('/\b(finance|comptabilite|reporting|controle de gestion|facturation)\b/', $text) === 1) {
+            return 'si_finance';
+        }
+
+        foreach ($documents as $document) {
+            $haystack = $this->normalize(($document['title'] ?? '').' '.($document['text'] ?? ''));
+            if (preg_match('/\b(erp|progiciel|applicatif metier|application metier)\b/', $haystack) === 1) {
+                return 'erp';
+            }
+            if (preg_match('/\b(crm|relation client|vente|commercial|salesforce)\b/', $haystack) === 1) {
+                return 'crm';
+            }
+            if (preg_match('/\b(gmao|maintenance|equipement|actif|intervention)\b/', $haystack) === 1) {
+                return 'gmao';
+            }
+            if (preg_match('/\b(si finance|finance|comptabilite|reporting|controle de gestion)\b/', $haystack) === 1) {
+                return 'si_finance';
+            }
+        }
+
+        return ($qualification['primary_need'] ?? null) === 'amoa_erp' ? 'erp' : 'transformation_si';
+    }
+
+    private function detectSectorLabel(string $message): ?string
+    {
+        $text = $this->normalize($message);
+        $labels = [];
+
+        if (preg_match('/\b(transport|transports|port|aeroport|mobilite)\b/', $text) === 1) {
+            $labels[] = 'les transports';
+        }
+
+        if (preg_match('/\b(eau|assainissement|eaux)\b/', $text) === 1) {
+            $labels[] = 'l’eau et l’assainissement';
+        }
+
+        if (preg_match('/\b(medico social|ehpad|sante|hopital|social)\b/', $text) === 1) {
+            $labels[] = 'le médico-social';
+        }
+
+        if (preg_match('/\b(public|collectivite|collectivites|administration|service public)\b/', $text) === 1) {
+            $labels[] = 'les organisations publiques et régulées';
+        }
+
+        if (preg_match('/\b(industrie|industriel|pmi|usine|production)\b/', $text) === 1) {
+            $labels[] = 'l’industrie et les PMI';
+        }
+
+        if (preg_match('/\b(services|service|prestations|b2b)\b/', $text) === 1) {
+            $labels[] = 'les services';
+        }
+
+        $labels = array_values(array_unique($labels));
+
+        return match (count($labels)) {
+            0 => null,
+            1 => $labels[0],
+            2 => $labels[0].' et '.$labels[1],
+            default => $labels[0].', '.$labels[1].' et '.$labels[2],
+        };
     }
 
     /**

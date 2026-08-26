@@ -32,6 +32,39 @@ const sanitizeAssistantIntro = (value) => String(value || '')
   .replace('Posez une question sur OLING.', '')
   .trim();
 
+const escapeHtmlWithBasicInlineMarkup = (value) => escapeHtml(value)
+  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener" data-chat-bypass="true">$1</a>');
+
+const renderContactAssistantCard = (lines) => {
+  const phoneLine = lines.find((line) => /^-?\s*Téléphone\s*:/i.test(line));
+  const emailLine = lines.find((line) => /^-?\s*Email\s*:/i.test(line));
+  const formLine = lines.find((line) => /^-?\s*Formulaire\s*:/i.test(line));
+
+  if (!phoneLine || !emailLine) {
+    return null;
+  }
+
+  const phone = (phoneLine.split(':').slice(1).join(':') || '').trim();
+  const email = (emailLine.split(':').slice(1).join(':') || '').trim();
+  const formMatch = formLine?.match(/\[([^\]]+)\]\(([^)]+)\)/);
+  const formLabel = formMatch?.[1] || 'Ouvrir la page Contact';
+  const formHref = formMatch?.[2] || '/contact?chat_fallback=1';
+  const intro = lines.find((line) => !/^-\s*(Téléphone|Email|Formulaire)\s*:/i.test(line)) || 'Si vous souhaitez contacter OLING :';
+  const phoneHref = `tel:${phone.replace(/[^+\d]/g, '')}`;
+
+  return `
+    <div class="oling-chat-widget__assistant-contact-card">
+      <p class="oling-chat-widget__assistant-contact-intro">${escapeHtmlWithBasicInlineMarkup(intro)}</p>
+      <div class="oling-chat-widget__assistant-contact-links">
+        <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--phone" href="${escapeHtml(phoneHref)}" data-chat-bypass="true">${escapeHtml(phone)}</a>
+        <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--email" href="mailto:${escapeHtml(email)}" target="_blank" rel="noopener" data-chat-bypass="true">${escapeHtml(email)}</a>
+      </div>
+      <a class="oling-chat-widget__assistant-contact-form-link" href="${escapeHtml(formHref)}" data-chat-bypass="true">${escapeHtml(formLabel)}</a>
+    </div>
+  `;
+};
+
 const formatAssistantContent = (value) => {
   const lines = sanitizeAssistantIntro(value)
     .split('\n')
@@ -42,6 +75,11 @@ const formatAssistantContent = (value) => {
     return '';
   }
 
+  const contactCardHtml = renderContactAssistantCard(lines);
+  if (contactCardHtml) {
+    return contactCardHtml;
+  }
+
   const blocks = [];
   let listBuffer = [];
 
@@ -49,7 +87,7 @@ const formatAssistantContent = (value) => {
     if (!listBuffer.length) return;
     blocks.push(`
       <ul class="oling-chat-widget__assistant-list">
-        ${listBuffer.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
+        ${listBuffer.map((item) => `<li>${escapeHtmlWithBasicInlineMarkup(item)}</li>`).join('')}
       </ul>
     `);
     listBuffer = [];
@@ -58,14 +96,21 @@ const formatAssistantContent = (value) => {
   lines.forEach((line) => {
     const bulletMatch = line.match(/^[-•]\s+(.+)$/);
     const numberedMatch = line.match(/^\d+[.)]\s+(.+)$/);
+    const headingMatch = line.match(/^([^:]{2,80})\s*:\s*$/);
 
     if (bulletMatch || numberedMatch) {
       listBuffer.push((bulletMatch || numberedMatch)[1]);
       return;
     }
 
+    if (headingMatch) {
+      flushList();
+      blocks.push(`<p class="oling-chat-widget__assistant-heading">${escapeHtmlWithBasicInlineMarkup(headingMatch[1])}</p>`);
+      return;
+    }
+
     flushList();
-    blocks.push(`<p>${escapeHtml(line)}</p>`);
+    blocks.push(`<p>${escapeHtmlWithBasicInlineMarkup(line)}</p>`);
   });
 
   flushList();
@@ -129,16 +174,7 @@ const createMessageHtml = (message) => `
   </article>
 `;
 
-const createTypingHtml = () => `
-  <article class="oling-chat-widget__message oling-chat-widget__message--assistant oling-chat-widget__message--typing">
-    <div class="oling-chat-widget__message-meta">OLING</div>
-    <div class="oling-chat-widget__bubble">
-      <span class="oling-chat-widget__typing" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
-    </div>
-  </article>
-`;
+const createTypingHtml = () => '';
 
 const createWelcomeHtml = () => `
   <div class="oling-chat-widget__welcome">
@@ -165,6 +201,7 @@ const initChatWidget = () => {
   const errorBox = root.querySelector('[data-chat-error]');
   const statusBox = root.querySelector('[data-chat-status]');
   const summaryBox = root.querySelector('[data-chat-summary]');
+  const contactCard = root.querySelector('[data-chat-contact-card]');
   const composer = root.querySelector('[data-chat-composer]');
   const messageInput = composer?.querySelector('textarea[name="chatMessage"]');
   const leadButton = root.querySelector('[data-chat-submit-lead]');
@@ -174,6 +211,8 @@ const initChatWidget = () => {
   const contactPath = new URL(root.dataset.contactFallbackUrl, window.location.origin).pathname;
   const defaultPlaceholder = messageInput?.getAttribute('placeholder') || '';
   const defaultLeadLabel = leadButton?.textContent || 'Transmettre la demande';
+  const minComposerRows = 1;
+  const maxComposerRows = 5;
 
   const state = {
     token: window.localStorage.getItem(CHAT_STORAGE_KEY),
@@ -181,6 +220,7 @@ const initChatWidget = () => {
     loading: false,
     conversation: null,
     typing: false,
+    scrollMode: 'bottom',
   };
 
   const storageVersion = root.dataset.storageVersion || '1';
@@ -200,6 +240,7 @@ const initChatWidget = () => {
     panel?.setAttribute('aria-hidden', open ? 'false' : 'true');
     if (open) {
       messageInput?.focus();
+      resizeMessageInput();
       scrollMessagesToBottom();
     }
   };
@@ -221,6 +262,11 @@ const initChatWidget = () => {
     summaryBox.textContent = message;
     summaryBox.dataset.tone = tone;
     summaryBox.classList.toggle('d-none', !message);
+  };
+
+  const syncContactCard = () => {
+    if (!contactCard) return;
+    contactCard.classList.add('d-none');
   };
 
   const setLoading = (loading, message = '') => {
@@ -252,6 +298,25 @@ const initChatWidget = () => {
     root.classList.toggle('is-lead-step', visible);
   };
 
+  const resizeMessageInput = () => {
+    if (!messageInput) return;
+
+    const computedStyle = window.getComputedStyle(messageInput);
+    const lineHeight = parseFloat(computedStyle.lineHeight) || 24;
+    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
+    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+    const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
+    const borderBottom = parseFloat(computedStyle.borderBottomWidth) || 0;
+    const verticalExtra = paddingTop + paddingBottom + borderTop + borderBottom;
+    const minHeight = lineHeight * minComposerRows + verticalExtra;
+    const maxHeight = lineHeight * maxComposerRows + verticalExtra;
+
+    messageInput.style.height = 'auto';
+    const nextHeight = Math.min(Math.max(messageInput.scrollHeight, minHeight), maxHeight);
+    messageInput.style.height = `${nextHeight}px`;
+    messageInput.style.overflowY = messageInput.scrollHeight > maxHeight ? 'auto' : 'hidden';
+  };
+
   const scrollMessagesToBottom = () => {
     const scrollContainer = body || messages;
     if (!scrollContainer) return;
@@ -260,13 +325,39 @@ const initChatWidget = () => {
     });
   };
 
+  const scrollToLatestAssistantStart = () => {
+    const scrollContainer = body || messages;
+    const latestAssistantMessage = messages?.querySelector('.oling-chat-widget__message--assistant:last-of-type');
+    if (!scrollContainer || !latestAssistantMessage) return;
+
+    window.requestAnimationFrame(() => {
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const messageRect = latestAssistantMessage.getBoundingClientRect();
+      const nextScrollTop = scrollContainer.scrollTop + (messageRect.top - containerRect.top) - 8;
+      scrollContainer.scrollTop = Math.max(0, nextScrollTop);
+    });
+  };
+
+  const applyScrollMode = () => {
+    if (state.scrollMode === 'assistant-start') {
+      scrollToLatestAssistantStart();
+      return;
+    }
+
+    scrollMessagesToBottom();
+  };
+
   const renderMessageList = (messageList = []) => {
     if (!messages) return;
 
+    const hasVisitorMessage = messageList.some((message) => message.role === 'visitor');
+    const isInitialHistory = !hasVisitorMessage && messageList.length <= 1;
+    root.classList.toggle('is-empty-history', !messageList.length);
+    root.classList.toggle('is-initial-history', isInitialHistory);
     messages.innerHTML = messageList.length
       ? messageList.map(createMessageHtml).join('') + (state.loading && state.typing ? createTypingHtml() : '')
       : createWelcomeHtml();
-    scrollMessagesToBottom();
+    applyScrollMode();
   };
 
   const syncResetVisibility = (conversation = state.conversation) => {
@@ -276,17 +367,32 @@ const initChatWidget = () => {
   };
 
   const renderConversation = (conversation) => {
+    const previousMessageCount = state.conversation?.messages?.length || 0;
     state.conversation = conversation;
     if (!messages) return;
 
     const messageList = conversation.messages || [];
     const lastMessage = messageList.length ? messageList[messageList.length - 1] : null;
+
+    state.scrollMode = 'bottom';
     if (!lastMessage || lastMessage.role === 'assistant') {
       state.typing = false;
     }
+    if (
+      lastMessage
+      && lastMessage.role === 'assistant'
+      && messageList.length > previousMessageCount
+    ) {
+      state.scrollMode = 'assistant-start';
+    }
     syncResetVisibility(conversation);
+    syncContactCard(conversation);
     renderMessageList(messageList);
-    setLeadVisible(!!conversation.requestLead && !conversation.leadSubmitted);
+    const hasDirectContactDetails = !!conversation && (conversation.messages || []).some((message) => (
+      message.role === 'assistant'
+      && /01 89 70 15 60|contact@oling\.fr/i.test(String(message.content || ''))
+    ));
+    setLeadVisible(!!conversation.requestLead && !conversation.leadSubmitted && !hasDirectContactDetails);
 
     if (conversation.contact) {
       root.querySelector('input[name="chatFullName"]').value = conversation.contact.fullName || '';
@@ -305,13 +411,20 @@ const initChatWidget = () => {
       );
       if (messageInput) {
         messageInput.placeholder = 'Ajouter un complément, une précision ou un autre besoin...';
+        resizeMessageInput();
       }
       return;
     }
 
-    setSummary(conversation.requestLead ? 'Si vous souhaitez être recontacté, vous pouvez laisser vos coordonnées ci-dessous. Vous pouvez aussi continuer à préciser votre besoin.' : '', 'info');
+    setSummary(
+      conversation.requestLead && !hasDirectContactDetails
+        ? 'Si vous souhaitez être recontacté, vous pouvez laisser vos coordonnées ci-dessous. Vous pouvez aussi continuer à préciser votre besoin.'
+        : '',
+      'info'
+    );
     if (messageInput) {
       messageInput.placeholder = defaultPlaceholder;
+       resizeMessageInput();
     }
     if (submitButton) {
       submitButton.setAttribute('aria-label', 'Envoyer');
@@ -427,6 +540,7 @@ const initChatWidget = () => {
     setSummary('');
     setStatus('');
     setLeadVisible(false);
+    syncContactCard(null);
     syncResetVisibility(null);
     if (messages) {
       messages.innerHTML = createWelcomeHtml();
@@ -435,6 +549,7 @@ const initChatWidget = () => {
     if (messageInput) {
       messageInput.value = '';
       messageInput.placeholder = defaultPlaceholder;
+      resizeMessageInput();
     }
     root.querySelector('input[name="chatFullName"]').value = '';
     root.querySelector('input[name="chatEmail"]').value = '';
@@ -494,6 +609,12 @@ const initChatWidget = () => {
     }
   });
 
+  messageInput?.addEventListener('input', () => {
+    resizeMessageInput();
+  });
+
+  resizeMessageInput();
+
   composer?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (state.loading) return;
@@ -503,6 +624,7 @@ const initChatWidget = () => {
 
     setError('');
     messageInput.value = '';
+    resizeMessageInput();
     setLoading(true, 'Envoi en cours...');
     const previousConversation = state.conversation ? { ...state.conversation, messages: [...(state.conversation.messages || [])] } : null;
     try {

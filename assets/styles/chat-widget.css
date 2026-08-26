@@ -9,6 +9,8 @@
   --chat-white: #ffffff;
   --chat-accent: var(--oling-rose, #e24d7c);
   --chat-accent-2: var(--oling-rose-deep, #b93162);
+  --chat-message-font-size: 0.94rem;
+  --chat-message-color: #2a343d;
   font-family: var(--oling-body, 'Plus Jakarta Sans', sans-serif);
   position: fixed;
   right: 1.4rem;
@@ -219,7 +221,7 @@
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.55), transparent 42%),
     linear-gradient(180deg, var(--chat-soft) 0%, var(--chat-soft-2) 100%);
   color: var(--chat-ink);
-  border-radius: 28px;
+  border-radius: 24px;
   box-shadow: var(--oling-shadow-soft, 0 22px 55px -40px rgba(47, 111, 181, 0.2));
   overflow: hidden;
   border: 1px solid rgba(47, 93, 98, 0.12);
@@ -243,6 +245,14 @@
     opacity 180ms ease,
     transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0s linear 0s;
+}
+
+.oling-chat-widget.is-empty-history .oling-chat-widget__panel {
+  min-height: 34rem;
+}
+
+.oling-chat-widget.is-initial-history .oling-chat-widget__panel {
+  min-height: 40rem;
 }
 
 .oling-chat-widget__body {
@@ -273,8 +283,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1.1rem;
-  padding: 1.15rem 1.2rem 1.05rem;
+  gap: 0.82rem;
+  padding: 0.72rem 1rem 0.64rem;
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.16), transparent 34%),
     linear-gradient(145deg, #8e274d 0%, var(--chat-accent-2) 42%, var(--chat-accent) 100%);
@@ -291,8 +301,8 @@
 }
 
 #oling-chat-widget .oling-chat-widget__header-avatar {
-  width: 2.7rem;
-  height: 2.7rem;
+  width: 2.15rem;
+  height: 2.15rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -301,12 +311,14 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 26px rgba(72, 15, 40, 0.26);
   backdrop-filter: blur(8px);
+  color: #fff !important;
 }
 
 #oling-chat-widget .oling-chat-widget__header-avatar svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.02rem;
+  height: 1.02rem;
   display: block;
+  color: #fff !important;
 }
 
 #oling-chat-widget .oling-chat-widget__header-copy {
@@ -318,10 +330,10 @@
 #oling-chat-widget .oling-chat-widget__header-kicker {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 0.34rem;
-  font-size: 0.66rem;
+  margin-bottom: 0;
+  font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff !important;
 }
@@ -469,7 +481,7 @@
 }
 
 .oling-chat-widget__messages {
-  padding: 1rem 1rem 0.9rem;
+  padding: 0.9rem 1rem 0.8rem;
   display: flex;
   flex-direction: column;
   gap: 0.96rem;
@@ -507,7 +519,7 @@
 
 .oling-chat-widget__welcome p {
   margin: 0.48rem 0 0;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   line-height: 1.58;
   color: #48606d;
 }
@@ -564,9 +576,9 @@
 .oling-chat-widget__message-meta {
   padding: 0 0.15rem;
   margin: 0;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(23, 48, 54, 0.5);
   line-height: 1;
@@ -575,9 +587,9 @@
 .oling-chat-widget__bubble {
   max-width: 89%;
   width: fit-content;
-  padding: 0.56rem 0.74rem 0.6rem;
-  border-radius: 22px;
-  font-size: 0.93rem;
+  padding: 0.5rem 0.68rem 0.54rem;
+  border-radius: 18px;
+  font-size: var(--chat-message-font-size);
   line-height: 1.42;
   letter-spacing: -0.005em;
   white-space: pre-wrap;
@@ -585,22 +597,32 @@
 
 .oling-chat-widget__assistant-body {
   display: grid;
-  gap: 0.08rem;
-  color: #18353b;
+  gap: 0.52rem;
+  color: var(--chat-message-color);
   margin: 0;
-  padding: 0;
+  padding: 0.04rem 0 0;
 }
 
 .oling-chat-widget__assistant-body p {
   margin: 0;
-  font-size: 0.93rem;
+  font-size: var(--chat-message-font-size);
   line-height: 1.42;
   color: inherit;
 }
 
+.oling-chat-widget__assistant-heading {
+  margin: 0.18rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chat-accent-2);
+}
+
 .oling-chat-widget__assistant-list {
   margin: 0;
-  padding: 0;
+  padding: 0.08rem 0 0;
   list-style: none;
   display: grid;
   gap: 0.42rem;
@@ -610,9 +632,100 @@
   position: relative;
   margin: 0;
   padding-left: 1rem;
-  font-size: 0.88rem;
-  line-height: 1.52;
-  color: #214254;
+  font-size: var(--chat-message-font-size);
+  line-height: 1.42;
+  color: var(--chat-message-color);
+}
+
+#oling-chat-widget .oling-chat-widget__assistant-body p,
+#oling-chat-widget .oling-chat-widget__assistant-list li {
+  font-size: var(--chat-message-font-size) !important;
+}
+
+.oling-chat-widget__assistant-contact-card {
+  margin: 0.12rem 0 0;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 49, 98, 0.16);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 32%),
+    linear-gradient(135deg, rgba(255, 239, 244, 0.98), rgba(243, 248, 255, 0.98));
+  box-shadow: 0 16px 34px rgba(23, 50, 74, 0.08);
+  display: grid;
+  gap: 0.58rem;
+}
+
+.oling-chat-widget__assistant-contact-intro {
+  margin: 0;
+  font-size: var(--chat-message-font-size);
+  line-height: 1.45;
+  color: var(--chat-message-color);
+}
+
+.oling-chat-widget__assistant-contact-links {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.oling-chat-widget__assistant-contact-link {
+  display: inline-flex;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.oling-chat-widget__assistant-contact-link--phone {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #17324a;
+}
+
+.oling-chat-widget__assistant-contact-link--email {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--chat-accent-2);
+}
+
+.oling-chat-widget__assistant-contact-form-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: 0;
+  color: #214254 !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(185, 49, 98, 0.28);
+}
+
+#oling-chat-widget .oling-chat-widget__assistant-contact-card a,
+#oling-chat-widget .oling-chat-widget__assistant-contact-card a:hover,
+#oling-chat-widget .oling-chat-widget__assistant-contact-card a:focus,
+#oling-chat-widget .oling-chat-widget__assistant-contact-card a:visited {
+  text-decoration: none;
+}
+
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--phone,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--phone:hover,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--phone:focus,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--phone:visited {
+  color: #17324a !important;
+}
+
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--email,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--email:hover,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--email:focus,
+#oling-chat-widget .oling-chat-widget__assistant-contact-link--email:visited {
+  color: var(--chat-accent-2) !important;
+}
+
+#oling-chat-widget .oling-chat-widget__assistant-contact-form-link,
+#oling-chat-widget .oling-chat-widget__assistant-contact-form-link:hover,
+#oling-chat-widget .oling-chat-widget__assistant-contact-form-link:focus,
+#oling-chat-widget .oling-chat-widget__assistant-contact-form-link:visited {
+  color: #214254 !important;
 }
 
 .oling-chat-widget__assistant-list li::before {
@@ -633,12 +746,12 @@
   display: inline-block;
   width: auto;
   min-height: 0;
-  padding: 0.54rem 0.72rem 0.58rem;
-  border-radius: 16px;
-  font-size: 0.93rem;
+  padding: 0.48rem 0.66rem 0.52rem;
+  border-radius: 14px;
+  font-size: var(--chat-message-font-size);
   line-height: 1.42;
   background: linear-gradient(180deg, rgba(233, 241, 249, 0.98) 0%, rgba(220, 232, 244, 0.98) 100%);
-  color: #214254;
+  color: var(--chat-message-color);
   border: 1px solid rgba(47, 93, 98, 0.1);
   box-shadow: 0 8px 18px rgba(23, 50, 74, 0.05);
 }
@@ -666,6 +779,78 @@
   background: linear-gradient(180deg, rgba(255, 226, 234, 0.96), rgba(255, 245, 248, 0.96));
   border-color: rgba(185, 49, 98, 0.18);
   color: var(--oling-ink-strong, #17324a);
+}
+
+.oling-chat-widget__contact-card {
+  margin: 1rem 1rem 0;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 49, 98, 0.14);
+  background: linear-gradient(135deg, rgba(255, 238, 242, 0.98), rgba(244, 248, 255, 0.98));
+  box-shadow: 0 16px 34px rgba(23, 50, 74, 0.08);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.oling-chat-widget__contact-card-kicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chat-accent-2);
+}
+
+.oling-chat-widget__contact-card-phone,
+.oling-chat-widget__contact-card-email {
+  display: inline-block;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.oling-chat-widget__contact-card-phone {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #17324a;
+}
+
+.oling-chat-widget__contact-card-email {
+  font-size: 0.88rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--chat-accent-2);
+}
+
+.oling-chat-widget__contact-card-note {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #3a5867;
+}
+
+.oling-chat-widget__contact-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.5rem;
+  padding: 0.7rem 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--chat-accent) 0%, var(--chat-accent-2) 100%);
+  color: #fff !important;
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 12px 24px rgba(185, 49, 98, 0.18);
+}
+
+#oling-chat-widget .oling-chat-widget__contact-card a,
+#oling-chat-widget .oling-chat-widget__contact-card a:hover,
+#oling-chat-widget .oling-chat-widget__contact-card a:focus,
+#oling-chat-widget .oling-chat-widget__contact-card a:visited {
+  color: inherit !important;
 }
 
 .oling-chat-widget__sources-inline {
@@ -760,26 +945,26 @@
 }
 
 .oling-chat-widget__source-title {
-  font-size: 0.88rem;
-  line-height: 1.3;
+  font-size: var(--chat-message-font-size);
+  line-height: 1.42;
   font-weight: 700;
   color: var(--chat-ink);
 }
 
 .oling-chat-widget__source-card--inline .oling-chat-widget__source-title {
-  font-size: 0.79rem;
-  line-height: 1.25;
+  font-size: 0.81rem;
+  line-height: 1.28;
 }
 
 .oling-chat-widget__source-excerpt {
-  font-size: 0.77rem;
-  line-height: 1.45;
+  font-size: var(--chat-message-font-size);
+  line-height: 1.42;
   color: var(--chat-muted);
 }
 
 .oling-chat-widget__source-card--inline .oling-chat-widget__source-excerpt {
-  font-size: 0.71rem;
-  line-height: 1.35;
+  font-size: 0.79rem;
+  line-height: 1.28;
 }
 
 #oling-chat-widget .oling-chat-widget__sources-inline a,
@@ -894,11 +1079,14 @@
 
 .oling-chat-widget__composer-shell {
   position: relative;
-  padding: 0.55rem;
-  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.2rem 2.6rem 0.2rem 0.2rem;
+  border-radius: 12px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.92));
   border: 1px solid rgba(47, 93, 98, 0.12);
-  box-shadow: 0 18px 40px rgba(23, 50, 74, 0.08);
+  box-shadow: 0 10px 22px rgba(23, 50, 74, 0.08);
   transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
@@ -913,22 +1101,30 @@
   border-top: 1px solid rgba(47, 93, 98, 0.1);
   background: linear-gradient(180deg, rgba(245, 249, 253, 0.82), rgba(231, 240, 251, 0.96));
   backdrop-filter: blur(10px);
-  padding-top: 0.45rem;
+  padding-top: 0.22rem;
 }
 
 .oling-chat-widget__composer textarea {
   display: block;
   width: 100%;
   resize: none;
-  min-height: 7.4rem;
+  min-height: calc(1.34em + 0.72rem);
+  max-height: calc(1.34em * 5 + 0.72rem);
   border: 0;
   background: transparent;
   box-shadow: none;
-  padding: 0.55rem 0.7rem 0.35rem;
+  padding: 0.22rem 0.48rem 0.18rem;
   margin: 0;
-  font-size: 0.96rem;
-  line-height: 1.55;
+  font-size: 0.84rem;
+  line-height: 1.34;
   font-weight: 500;
+  overflow-y: hidden;
+}
+
+.oling-chat-widget__composer-shell .oling-chat-widget__send {
+  position: absolute;
+  right: 0.22rem;
+  bottom: 0.2rem;
 }
 
 .oling-chat-widget__composer textarea:focus {
@@ -936,43 +1132,62 @@
   border: 0;
 }
 
+.oling-chat-widget__composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.34rem 0.08rem 0.02rem;
+}
+
 .oling-chat-widget__composer-note {
   margin: 0;
-  padding: 0 0.7rem 0.22rem;
+  padding: 0;
   color: rgba(23, 50, 74, 0.7);
-  font-size: 10px;
-  line-height: 1.3;
+  font-size: 11px;
+  line-height: 1.32;
   letter-spacing: 0;
+  flex: 1 1 auto;
 }
 
 #oling-chat-widget .oling-chat-widget__composer-note {
   display: block !important;
-  font-size: 10px !important;
-  line-height: 1.3 !important;
+  font-size: 11px !important;
+  line-height: 1.32 !important;
   font-weight: 400 !important;
   color: rgba(23, 50, 74, 0.7) !important;
   letter-spacing: 0 !important;
 }
 
+#oling-chat-widget .oling-chat-widget__composer-note a,
+#oling-chat-widget .oling-chat-widget__composer-note a:hover,
+#oling-chat-widget .oling-chat-widget__composer-note a:focus,
+#oling-chat-widget .oling-chat-widget__composer-note a:visited {
+  color: #1f5b66 !important;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .oling-chat-widget__composer-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.16rem 0.16rem 0.06rem;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  padding: 0;
+  flex: 0 0 auto;
 }
 
 .oling-chat-widget__composer-tools {
   display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
+  gap: 0.55rem;
 }
 
 .oling-chat-widget__send {
   position: relative;
   flex: 0 0 auto;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.62rem;
+  height: 1.62rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -994,7 +1209,7 @@
 
 .oling-chat-widget__send span {
   display: inline-block;
-  font-size: 0.96rem;
+  font-size: 0.78rem;
   line-height: 1;
 }
 
@@ -1003,8 +1218,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  min-height: 2.2rem;
-  min-width: 2.2rem;
+  min-height: 1.85rem;
+  min-width: 1.85rem;
   padding: 0;
   border: 1px solid rgba(24, 78, 87, 0.14);
   border-radius: 999px;
@@ -1015,6 +1230,12 @@
   text-decoration: none;
   font-weight: 700;
   transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.oling-chat-widget__aux-button.d-none {
+  display: inline-flex !important;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .oling-chat-widget__aux::after {
@@ -1345,12 +1566,13 @@
 
   .oling-chat-widget__bubble {
     max-width: 94%;
-    font-size: 0.91rem;
+    font-size: var(--chat-message-font-size);
     line-height: 1.56;
   }
 
   .oling-chat-widget__composer textarea {
-    min-height: 6.4rem;
+    min-height: calc(1.55em + 0.9rem);
+    max-height: calc(1.55em * 5 + 0.9rem);
   }
 
   .oling-chat-widget__composer-bar {

@@ -127,6 +127,10 @@ class ChatQualificationService
 
         foreach ($map as $label => $keywords) {
             foreach ($keywords as $keyword) {
+                if ($keyword === 'crm' && str_contains($text, 'si client') && !preg_match('/\b(crm|salesforce|relation client|ventes|commercial)\b/', $text)) {
+                    continue;
+                }
+
                 if (str_contains($text, $keyword)) {
                     return $label;
                 }

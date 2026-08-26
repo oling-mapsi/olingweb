@@ -219,6 +219,7 @@ const initChatWidget = () => {
   const summaryBox = root.querySelector('[data-chat-summary]');
   const contactCard = root.querySelector('[data-chat-contact-card]');
   const composer = root.querySelector('[data-chat-composer]');
+  const composerShell = composer?.querySelector('.oling-chat-widget__composer-shell');
   const messageInput = composer?.querySelector('textarea[name="chatMessage"]');
   const leadButton = root.querySelector('[data-chat-submit-lead]');
   const submitButton = composer?.querySelector('button[type="submit"]');
@@ -247,6 +248,17 @@ const initChatWidget = () => {
     state.token = null;
   }
 
+  const focusMessageInput = () => {
+    if (!messageInput || state.loading) return;
+
+    window.requestAnimationFrame(() => {
+      messageInput.focus({ preventScroll: true });
+      const length = messageInput.value.length;
+      messageInput.setSelectionRange(length, length);
+      resizeMessageInput();
+    });
+  };
+
   const setOpen = (open) => {
     state.open = open;
     window.localStorage.setItem(CHAT_OPEN_STATE_KEY, open ? 'open' : 'closed');
@@ -256,8 +268,8 @@ const initChatWidget = () => {
     launcher?.setAttribute('aria-expanded', open ? 'true' : 'false');
     panel?.setAttribute('aria-hidden', open ? 'false' : 'true');
     if (open) {
-      messageInput?.focus();
-      resizeMessageInput();
+      updateViewportHeight();
+      focusMessageInput();
       scrollMessagesToBottom();
     }
   };
@@ -635,6 +647,26 @@ const initChatWidget = () => {
     resizeMessageInput();
   });
 
+  messageInput?.addEventListener('focus', () => {
+    root.classList.add('is-composer-focus');
+    updateViewportHeight();
+  });
+
+  messageInput?.addEventListener('blur', () => {
+    window.setTimeout(() => {
+      if (document.activeElement !== messageInput) {
+        root.classList.remove('is-composer-focus');
+        updateViewportHeight();
+      }
+    }, 120);
+  });
+
+  composerShell?.addEventListener('click', (event) => {
+    if (!mobileBreakpoint.matches) return;
+    if (event.target.closest('button, a')) return;
+    focusMessageInput();
+  });
+
   resizeMessageInput();
 
   composer?.addEventListener('submit', async (event) => {
@@ -783,7 +815,6 @@ const initChatWidget = () => {
   updateViewportHeight();
   window.addEventListener('resize', updateViewportHeight);
   window.visualViewport?.addEventListener('resize', updateViewportHeight);
-  window.visualViewport?.addEventListener('scroll', updateViewportHeight);
 };
 
 document.addEventListener('DOMContentLoaded', initChatWidget);

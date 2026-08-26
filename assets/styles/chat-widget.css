@@ -1489,6 +1489,12 @@
     overflow: hidden;
   }
 
+  .oling-chat-widget.is-open .oling-chat-widget__launcher {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.4rem) scale(0.96);
+  }
+
   .oling-chat-widget__launcher {
     width: 3.7rem;
     min-width: 3.7rem;
@@ -1533,6 +1539,10 @@
     height: calc(var(--oling-chat-viewport-height, 100dvh) - max(0.35rem, env(safe-area-inset-top)) - max(0.35rem, env(safe-area-inset-bottom)) - var(--oling-cookie-banner-offset, 0px) - 0.7rem);
     border-radius: 20px;
     transform-origin: bottom center;
+  }
+
+  .oling-chat-widget.is-composer-focus .oling-chat-widget__panel {
+    transition-duration: 120ms;
   }
 
   body.has-visible-cookie-banner .oling-chat-widget__panel {

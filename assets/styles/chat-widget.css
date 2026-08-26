@@ -224,6 +224,7 @@
   border-radius: 24px;
   box-shadow: var(--oling-shadow-soft, 0 22px 55px -40px rgba(47, 111, 181, 0.2));
   overflow: hidden;
+  overflow-x: clip;
   border: 1px solid rgba(47, 93, 98, 0.12);
   opacity: 0;
   visibility: hidden;
@@ -259,6 +260,7 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 0.25rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(47, 93, 98, 0.28) transparent;
@@ -1482,7 +1484,10 @@
     right: 0;
     left: 0;
     bottom: 0;
+    width: 100%;
+    max-width: 100%;
     align-items: stretch;
+    overflow-x: clip;
   }
 
   body.has-open-chat-widget {
@@ -1533,12 +1538,14 @@
       0.35rem
       calc(max(0.35rem, env(safe-area-inset-bottom)) + var(--oling-cookie-banner-offset, 0px))
       0.35rem;
-    width: auto;
+    width: calc(100vw - 0.7rem);
+    max-width: calc(100vw - 0.7rem);
     max-height: none;
     min-height: 0;
     height: calc(var(--oling-chat-viewport-height, 100dvh) - max(0.35rem, env(safe-area-inset-top)) - max(0.35rem, env(safe-area-inset-bottom)) - var(--oling-cookie-banner-offset, 0px) - 0.7rem);
     border-radius: 20px;
     transform-origin: bottom center;
+    overflow-x: clip;
   }
 
   .oling-chat-widget.is-composer-focus .oling-chat-widget__panel {
@@ -1565,6 +1572,7 @@
   .oling-chat-widget__composer,
   .oling-chat-widget__error,
   .oling-chat-widget__statusline {
+    min-width: 0;
     padding-left: 0.9rem;
     padding-right: 0.9rem;
   }

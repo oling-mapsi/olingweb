@@ -1479,10 +1479,14 @@
 
 @media (max-width: 767px) {
   .oling-chat-widget {
-    right: 0.6rem;
-    left: 0.6rem;
-    bottom: max(0.6rem, env(safe-area-inset-bottom));
+    right: 0;
+    left: 0;
+    bottom: 0;
     align-items: stretch;
+  }
+
+  body.has-open-chat-widget {
+    overflow: hidden;
   }
 
   .oling-chat-widget__launcher {
@@ -1490,6 +1494,8 @@
     min-width: 3.7rem;
     height: 3.7rem;
     justify-self: end;
+    margin-right: 0.75rem;
+    margin-bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
 
   .oling-chat-widget__launcher::after {
@@ -1515,20 +1521,31 @@
   }
 
   .oling-chat-widget__panel {
-    right: 0;
-    bottom: calc(100% + 0.7rem + var(--oling-cookie-banner-offset, 0px));
-    width: 100%;
-    border-radius: 24px;
-    max-height: calc(100dvh - var(--oling-cookie-banner-offset, 0px) - 6rem);
+    position: fixed;
+    inset:
+      max(0.35rem, env(safe-area-inset-top))
+      0.35rem
+      calc(max(0.35rem, env(safe-area-inset-bottom)) + var(--oling-cookie-banner-offset, 0px))
+      0.35rem;
+    width: auto;
+    max-height: none;
+    min-height: 0;
+    height: calc(var(--oling-chat-viewport-height, 100dvh) - max(0.35rem, env(safe-area-inset-top)) - max(0.35rem, env(safe-area-inset-bottom)) - var(--oling-cookie-banner-offset, 0px) - 0.7rem);
+    border-radius: 20px;
     transform-origin: bottom center;
   }
 
   body.has-visible-cookie-banner .oling-chat-widget__panel {
-    max-height: calc(100dvh - var(--oling-cookie-banner-offset, 0px) - 6rem);
+    height: calc(var(--oling-chat-viewport-height, 100dvh) - max(0.35rem, env(safe-area-inset-top)) - max(0.35rem, env(safe-area-inset-bottom)) - var(--oling-cookie-banner-offset, 0px) - 0.7rem);
   }
 
   body.has-visible-cookie-banner .oling-chat-widget__messages {
     max-height: none;
+  }
+
+  .oling-chat-widget.is-empty-history .oling-chat-widget__panel,
+  .oling-chat-widget.is-initial-history .oling-chat-widget__panel {
+    min-height: 0;
   }
 
   .oling-chat-widget__header,

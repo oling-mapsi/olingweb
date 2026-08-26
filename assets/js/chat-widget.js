@@ -17,6 +17,22 @@ const escapeHtml = (value) => {
   return div.innerHTML;
 };
 
+const getLinkAttributes = (url) => {
+  try {
+    const parsed = new URL(url, window.location.origin);
+    const isInternal = parsed.origin === window.location.origin;
+    const isHttp = parsed.protocol === 'http:' || parsed.protocol === 'https:';
+
+    if (!isHttp || isInternal) {
+      return 'data-chat-bypass="true"';
+    }
+
+    return 'target="_blank" rel="noopener" data-chat-bypass="true"';
+  } catch (error) {
+    return 'data-chat-bypass="true"';
+  }
+};
+
 const sourceLabel = (url) => {
   try {
     const parsed = new URL(url, window.location.origin);
@@ -34,7 +50,7 @@ const sanitizeAssistantIntro = (value) => String(value || '')
 
 const escapeHtmlWithBasicInlineMarkup = (value) => escapeHtml(value)
   .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-  .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener" data-chat-bypass="true">$1</a>');
+  .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, url) => `<a href="${url}" ${getLinkAttributes(url)}>${label}</a>`);
 
 const renderContactAssistantCard = (lines) => {
   const phoneLine = lines.find((line) => /^-?\s*Téléphone\s*:/i.test(line));
@@ -58,7 +74,7 @@ const renderContactAssistantCard = (lines) => {
       <p class="oling-chat-widget__assistant-contact-intro">${escapeHtmlWithBasicInlineMarkup(intro)}</p>
       <div class="oling-chat-widget__assistant-contact-links">
         <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--phone" href="${escapeHtml(phoneHref)}" data-chat-bypass="true">${escapeHtml(phone)}</a>
-        <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--email" href="mailto:${escapeHtml(email)}" target="_blank" rel="noopener" data-chat-bypass="true">${escapeHtml(email)}</a>
+        <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--email" href="mailto:${escapeHtml(email)}" data-chat-bypass="true">${escapeHtml(email)}</a>
       </div>
       <a class="oling-chat-widget__assistant-contact-form-link" href="${escapeHtml(formHref)}" data-chat-bypass="true">${escapeHtml(formLabel)}</a>
     </div>
@@ -145,7 +161,7 @@ const getMessageSourceCards = (message) => (
 const createSourceCardsHtml = (cards) => `
   <div class="oling-chat-widget__sources-inline">
     ${cards.map((card) => `
-      <a class="oling-chat-widget__source-card oling-chat-widget__source-card--inline" href="${escapeHtml(card.url)}" target="_blank" rel="noopener" data-chat-bypass="true">
+      <a class="oling-chat-widget__source-card oling-chat-widget__source-card--inline" href="${escapeHtml(card.url)}" ${getLinkAttributes(card.url)}>
         ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
         <span class="oling-chat-widget__source-body">
           <span class="oling-chat-widget__source-type">${escapeHtml(card.typeLabel || sourceTypeLabel(card.type))}</span>
@@ -213,6 +229,7 @@ const initChatWidget = () => {
   const defaultLeadLabel = leadButton?.textContent || 'Transmettre la demande';
   const minComposerRows = 1;
   const maxComposerRows = 5;
+  const mobileBreakpoint = window.matchMedia('(max-width: 767px)');
 
   const state = {
     token: window.localStorage.getItem(CHAT_STORAGE_KEY),
@@ -243,6 +260,11 @@ const initChatWidget = () => {
       resizeMessageInput();
       scrollMessagesToBottom();
     }
+  };
+
+  const updateViewportHeight = () => {
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty('--oling-chat-viewport-height', `${viewportHeight}px`);
   };
 
   const setError = (message = '') => {
@@ -673,6 +695,34 @@ const initChatWidget = () => {
     setOpen(false);
   });
 
+  root.addEventListener('click', (event) => {
+    const link = event.target.closest('a[data-chat-bypass="true"]');
+    if (!link) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    let url;
+    try {
+      url = new URL(href, window.location.origin);
+    } catch (error) {
+      return;
+    }
+
+    const isInternalNavigation = (
+      (url.protocol === 'http:' || url.protocol === 'https:')
+      && url.origin === window.location.origin
+      && (!link.target || link.target === '_self')
+    );
+
+    if (!isInternalNavigation) return;
+
+    if (mobileBreakpoint.matches) {
+      setOpen(false);
+    }
+  });
+
   document.addEventListener('click', async (event) => {
     const link = event.target.closest('a');
     if (!link || link.dataset.chatBypass === 'true') return;
@@ -729,6 +779,11 @@ const initChatWidget = () => {
       prefillLeadDescription();
     }
   });
+
+  updateViewportHeight();
+  window.addEventListener('resize', updateViewportHeight);
+  window.visualViewport?.addEventListener('resize', updateViewportHeight);
+  window.visualViewport?.addEventListener('scroll', updateViewportHeight);
 };
 
 document.addEventListener('DOMContentLoaded', initChatWidget);

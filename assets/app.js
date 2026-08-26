@@ -231,6 +231,8 @@ $(document).ready(function () {
 
     if (!Array.isArray(items) || items.length < 2) return;
 
+    const rotationDelay = 3000;
+
     setInterval(() => {
       index = (index + 1) % items.length;
       const nextItem = items[index];
@@ -238,7 +240,7 @@ $(document).ready(function () {
       preload.onload = () => swapMetier(nextItem);
       preload.onerror = () => swapMetier(nextItem);
       preload.src = nextItem.image;
-    }, 10000);
+    }, rotationDelay);
   };
 
   const initHomeResourcesNav = () => {

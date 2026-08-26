@@ -118,9 +118,9 @@ class ChatQualificationService
         $map = [
             'amoa_erp' => ['amoa', 'amo', 'erp', 'crm', 'gmao', 'sage', 'sap', 'progiciel', 'applicatif', 'application metier', 'applications metiers'],
             'rgpd' => ['rgpd', 'cnil', 'dpo', 'donnees personnelles', 'donnees perso'],
-            'cybersecurite' => ['cyber', 'securite', 'ransomware', 'rancongiciel', 'iso27001', 'ssi'],
+            'cybersecurite' => ['cyber', 'securite', 'ransomware', 'rancongiciel', 'iso27001', 'ssi', 'smsi', 'nis2', 'dora', 'pca', 'pra', 'continuite', 'resilience'],
             'ia_data_automatisation' => ['ia', 'intelligence artificielle', 'data', 'automatisation', 'reporting', 'bi'],
-            'conformite' => ['conformite', 'audit', 'controle interne', 'reglementaire', 'iso'],
+            'conformite' => ['conformite', 'audit', 'controle interne', 'reglementaire', 'iso', 'qse', 'qualiopi', 'iso 9001', 'iso 14001', 'iso 45001', 'ai act'],
             'organisation_gouvernance' => ['gouvernance', 'organisation', 'pilotage', 'comite', 'process', 'operating model'],
             'transformation_si' => ['transformation si', 'schema directeur', 'urbanisation', 'systeme information', 'transformation numerique'],
         ];

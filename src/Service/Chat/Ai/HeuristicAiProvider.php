@@ -85,6 +85,10 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         if ($this->isInformationRequest($visitorMessage)) {
+            if ($this->asksForDomainExpertise($visitorMessage)) {
+                return $this->buildDomainExpertReply($visitorMessage, $documents, $qualification);
+            }
+
             if ($this->asksForCadrageDeliverables($visitorMessage)) {
                 return $this->buildCadrageDeliverablesReply($visitorMessage, $documents, $qualification);
             }
@@ -323,6 +327,87 @@ class HeuristicAiProvider implements AiProviderInterface
      * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
      * @param array<string, string|null> $qualification
      */
+    private function buildDomainExpertReply(string $visitorMessage, array $documents, array $qualification): string
+    {
+        $domain = $this->detectExpertDomain($visitorMessage, $documents, $qualification);
+
+        return match ($domain) {
+            'qse' => $this->formatBulletReply(
+                'Sur les sujets QSE, OLING intervient surtout pour structurer un dispositif pilotable et exploitable par les équipes :',
+                [
+                    'diagnostic du dispositif existant, des écarts, des responsabilités et des pratiques réellement tenues',
+                    'mise en cohérence entre exigences qualité, sécurité, environnement, organisation et outils',
+                    'préparation ou remise sous contrôle de démarches ISO 9001, ISO 14001, ISO 45001 ou Qualiopi selon le contexte',
+                    'définition d’un pilotage concret avec plans d’actions, indicateurs, revues et preuves attendues',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables typiques :',
+                [
+                    'diagnostic QSE, cartographie des écarts et feuille de route',
+                    'matrice des responsabilités, processus cibles et plan de maîtrise',
+                    'plan d’actions, indicateurs, supports de revue et dossier de preuves',
+                    'trame documentaire, politiques, procédures et supports de sensibilisation',
+                ]
+            ),
+            'cyber' => $this->formatBulletReply(
+                'Sur les sujets cybersécurité, conformité et résilience, OLING cherche d’abord à rendre le dispositif gouvernable et priorisable :',
+                [
+                    'évaluation de posture, analyse de risques et lecture des dépendances critiques',
+                    'mise en cohérence entre sécurité SI, continuité, exigences métiers, fournisseurs et gouvernance',
+                    'structuration de trajectoires ISO 27001, NIS2, DORA, PCA/PRA ou organisation de crise',
+                    'priorisation des mesures, arbitrages et preuves de pilotage attendues par la direction',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables typiques :',
+                [
+                    'diagnostic de posture, cartographie des risques et feuille de route cyber',
+                    'politique de sécurité, gouvernance, RACI et plan de traitement',
+                    'dispositif PCA/PRA, scénarios de crise et plan de tests',
+                    'tableau de bord de conformité, indicateurs et supports de comité',
+                ]
+            ),
+            'rgpd' => $this->formatBulletReply(
+                'Sur les sujets RGPD et gouvernance des données, OLING intervient pour remettre la conformité dans un cadre opérationnel :',
+                [
+                    'diagnostic du dispositif, des traitements, des rôles et des preuves disponibles',
+                    'articulation entre registre, AIPD, sous-traitants, demandes de droits et mesures de sécurité',
+                    'mise en cohérence entre RGPD, outils, pratiques métiers, DSI et gouvernance interne',
+                    'priorisation des écarts et organisation durable du pilotage DPO ou DPO externalisé',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables typiques :',
+                [
+                    'registre, cartographie des traitements et feuille de route RGPD',
+                    'AIPD, matrice de rôles, procédures et trame documentaire',
+                    'plan d’actions, support de preuves et dispositif de sensibilisation',
+                    'cadre de gouvernance DPO, calendrier de revues et suivi des écarts',
+                ]
+            ),
+            'ia_conformite' => $this->formatBulletReply(
+                'Sur la conformité IA, OLING aide à sécuriser les usages avant qu’ils ne deviennent une dette de gouvernance :',
+                [
+                    'cartographie des usages IA, des risques, des données et des dépendances fournisseurs',
+                    'alignement entre AI Act, RGPD, cybersécurité, achats et supervision humaine',
+                    'définition des rôles, contrôles, critères d’escalade et exigences de preuve',
+                    'mise sous contrôle des cas d’usage sensibles et du pilotage des agents ou assistants IA',
+                ]
+            )."\n\n".$this->formatBulletReply(
+                'Livrables typiques :',
+                [
+                    'cartographie des usages IA et matrice de risques',
+                    'politique IA, cadre de gouvernance et registre de conformité',
+                    'dossier de preuves, exigences fournisseurs et contrôles de supervision',
+                    'plan d’actions AI Act / RGPD / cyber et tableau de bord de suivi',
+                ]
+            ),
+            default => $this->buildInformationReply($visitorMessage, $documents, $qualification),
+        };
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
+     * @param array<string, string|null> $qualification
+     */
     private function buildProjectAnalysis(array $documents, array $qualification): string
     {
         if ($documents !== []) {
@@ -456,6 +541,13 @@ class HeuristicAiProvider implements AiProviderInterface
     private function asksForExpert(string $message): bool
     {
         return preg_match('/\b(qui|quel expert|quels experts|expert|consultant|profil|equipe)\b/', $this->normalize($message)) === 1;
+    }
+
+    private function asksForDomainExpertise(string $message): bool
+    {
+        $text = $this->normalize($message);
+
+        return preg_match('/\b(qse|qualiopi|iso 9001|iso 14001|iso 45001|conformite|rgpd|dpo|cyber|securite|iso27001|iso 27001|smsi|nis2|dora|pca|pra|resilience|ai act)\b/', $text) === 1;
     }
 
     private function asksForSectorCoverage(string $message): bool
@@ -629,6 +721,41 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         return ($qualification['primary_need'] ?? null) === 'amoa_erp' ? 'erp' : 'transformation_si';
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string}> $documents
+     * @param array<string, string|null> $qualification
+     */
+    private function detectExpertDomain(string $message, array $documents, array $qualification): string
+    {
+        $text = $this->normalize($message);
+        $haystack = $text;
+        foreach ($documents as $document) {
+            $haystack .= ' '.$this->normalize(($document['title'] ?? '').' '.($document['text'] ?? ''));
+        }
+
+        if (preg_match('/\b(ai act|conformite ia|gouvernance ia)\b/', $haystack) === 1) {
+            return 'ia_conformite';
+        }
+
+        if (preg_match('/\b(rgpd|dpo|donnees personnelles|aipd|dpia|cnil)\b/', $haystack) === 1 || ($qualification['primary_need'] ?? null) === 'rgpd') {
+            return 'rgpd';
+        }
+
+        if (preg_match('/\b(qse|qualiopi|iso 9001|iso 14001|iso 45001|qualite|environnement|securite au travail)\b/', $haystack) === 1) {
+            return 'qse';
+        }
+
+        if (preg_match('/\b(cyber|securite|iso27001|iso 27001|smsi|nis2|dora|pca|pra|resilience|continuit[e]?)\b/', $haystack) === 1 || ($qualification['primary_need'] ?? null) === 'cybersecurite') {
+            return 'cyber';
+        }
+
+        if (($qualification['primary_need'] ?? null) === 'conformite') {
+            return 'qse';
+        }
+
+        return 'generic';
     }
 
     private function detectSectorLabel(string $message): ?string

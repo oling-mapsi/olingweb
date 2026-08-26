@@ -13829,3 +13829,170 @@ body.oling-body.oling-home .oling-home-hero__badges,
 body.oling-body.oling-home .oling-home-hero__badge {
   display: none !important;
 }
+
+/* Responsive text safety: prevent admin-managed labels from overflowing cards. */
+body.oling-body.oling-home .oling-home-section-head h2,
+body.oling-body.oling-home .oling-home-section-head p,
+body.oling-body.oling-home .oling-home-panel__body h3,
+body.oling-body.oling-home .oling-home-panel__body p,
+body.oling-body.oling-home .oling-home-kpi strong,
+body.oling-body.oling-home .oling-home-kpi span,
+body.oling-body.oling-home .oling-home-list-card h3,
+body.oling-body.oling-home .oling-home-list-card p,
+body.oling-body.oling-home .oling-home-resource-card h3,
+body.oling-body.oling-home .oling-home-resource-card p,
+body.oling-body.oling-home .oling-home-project-card__body h3,
+body.oling-body.oling-home .oling-home-project-card__body p {
+  max-width: 100%;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+body.oling-body.oling-home .oling-home-section-head span,
+body.oling-body.oling-home .oling-home-proof__copy > span,
+body.oling-body.oling-home .oling-home-intro--resources .oling-home-resource-card span {
+  max-width: 100%;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body.oling-home .oling-home-kpis__grid,
+  body.oling-body.oling-home .oling-home-panel-grid,
+  body.oling-body.oling-home .oling-home-list-grid,
+  body.oling-body.oling-home .oling-home-project-grid,
+  body.oling-body.oling-home .oling-home-resources__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.oling-body.oling-home .oling-home-section-head {
+    grid-template-columns: 1fr !important;
+    gap: 0.9rem;
+  }
+
+  body.oling-body.oling-home .oling-home-section-head h2,
+  body.oling-body.oling-home .oling-home-proof__copy h2 {
+    font-size: clamp(2.05rem, 8.5vw, 3.4rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  body.oling-body.oling-home .oling-home-panel__body h3,
+  body.oling-body.oling-home .oling-home-list-card h3,
+  body.oling-body.oling-home .oling-home-resource-card h3,
+  body.oling-body.oling-home .oling-home-project-card__body h3 {
+    font-size: clamp(1.75rem, 7vw, 2.75rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  body.oling-body.oling-home .oling-home-kpi {
+    min-height: auto !important;
+    padding: 1.25rem !important;
+  }
+
+  body.oling-body.oling-home .oling-home-kpi strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(3) strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(4) strong {
+    font-size: clamp(2.25rem, 10vw, 3.55rem) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.03em !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.oling-body.oling-home .oling-home-radical .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  body.oling-body.oling-home .oling-home-section-head span,
+  body.oling-body.oling-home .oling-home-proof__copy > span {
+    padding: 0.5rem 0.78rem 0.46rem !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  body.oling-body.oling-home .oling-home-section-head h2,
+  body.oling-body.oling-home .oling-home-proof__copy h2 {
+    font-size: clamp(1.8rem, 9.5vw, 2.65rem) !important;
+  }
+
+  body.oling-body.oling-home .oling-home-panel,
+  body.oling-body.oling-home .oling-home-list-card,
+  body.oling-body.oling-home .oling-home-resource-card,
+  body.oling-body.oling-home .oling-home-project-card,
+  body.oling-body.oling-home .oling-home-proof__copy {
+    padding: 1.1rem !important;
+    border-radius: 1.1rem !important;
+  }
+
+  body.oling-body.oling-home .oling-home-panel__body {
+    padding: 1.1rem !important;
+  }
+
+  body.oling-body.oling-home .oling-home-panel__body h3,
+  body.oling-body.oling-home .oling-home-list-card h3,
+  body.oling-body.oling-home .oling-home-resource-card h3,
+  body.oling-body.oling-home .oling-home-project-card__body h3 {
+    font-size: clamp(1.45rem, 8.2vw, 2.18rem) !important;
+  }
+
+  body.oling-body.oling-home .oling-home-kpi strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(3) strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(4) strong {
+    font-size: clamp(1.8rem, 11vw, 2.7rem) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  body.oling-body.oling-home .oling-home-kpi strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(3) strong,
+  body.oling-body.oling-home .oling-home-kpis__grid > .oling-home-kpi:nth-child(4) strong {
+    font-size: clamp(1.6rem, 10vw, 2.25rem) !important;
+  }
+}
+
+body.oling-body.oling-home .oling-home-panel__media,
+body.oling-body.oling-home .oling-home-project-card__media,
+body.oling-body.oling-home .oling-home-proof-tile--image,
+body.oling-body.oling-home .oling-home-kpi--image {
+  overflow: hidden !important;
+}
+
+body.oling-body.oling-home .oling-home-panel__media img,
+body.oling-body.oling-home .oling-home-project-card__media img,
+body.oling-body.oling-home .oling-home-proof-tile--image img,
+body.oling-body.oling-home .oling-home-kpi--image img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body .oling-brand,
+  body.oling-body .oling-header .mapsi-link {
+    width: auto !important;
+    max-width: min(42vw, 9rem) !important;
+    flex: 0 0 auto !important;
+  }
+
+  body.oling-body .oling-brand img {
+    width: auto !important;
+    max-width: min(34vw, 5.2rem) !important;
+    height: auto !important;
+    max-height: 4.8rem !important;
+  }
+
+  body.oling-body .oling-header .mapsi-link img {
+    width: auto !important;
+    max-width: min(28vw, 5.4rem) !important;
+    height: auto !important;
+  }
+
+  body.oling-body,
+  body.oling-body.oling-home,
+  body.oling-body.oling-home .oling-home-radical {
+    overflow-x: clip;
+  }
+}

@@ -184,4 +184,57 @@ class HeuristicAiProviderTest extends TestCase
         self::assertStringContainsString('transports', mb_strtolower($decision->reply));
         self::assertStringContainsString('eau et assainissement', mb_strtolower($decision->reply));
     }
+
+    public function testProviderBuildsExpertQseReplyWithDeliverables(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'que faites vous en qse et quels livrables ?', [[
+            'title' => 'QSE, qualité, sécurité et environnement',
+            'url' => '/expertises-audit/qse',
+            'text' => 'QSE, Qualiopi, ISO 9001, ISO 14001, ISO 45001, diagnostic, feuille de route, processus, indicateurs et preuves.',
+            'type' => 'service',
+        ]], []);
+
+        self::assertStringContainsString('qse', mb_strtolower($decision->reply));
+        self::assertStringContainsString('feuille de route', mb_strtolower($decision->reply));
+        self::assertStringContainsString('indicateurs', mb_strtolower($decision->reply));
+        self::assertStringContainsString('preuves', mb_strtolower($decision->reply));
+    }
+
+    public function testProviderBuildsExpertCyberReplyWithResilienceDeliverables(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'quels livrables sur un sujet iso 27001 nis2 pca pra ?', [[
+            'title' => 'Sécurité des SI, ISO 27001, DORA et NIS2',
+            'url' => '/expertises-audit/si',
+            'text' => 'Sécurité des SI, ISO 27001, NIS2, DORA, PCA, PRA, gestion de crise, feuille de route cyber et plan de traitement.',
+            'type' => 'service',
+        ]], []);
+
+        self::assertStringContainsString('iso 27001', mb_strtolower($decision->reply));
+        self::assertStringContainsString('pca', mb_strtolower($decision->reply));
+        self::assertStringContainsString('plan de traitement', mb_strtolower($decision->reply));
+        self::assertStringContainsString('gouvernance', mb_strtolower($decision->reply));
+    }
+
+    public function testProviderBuildsExpertAiComplianceReply(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'que faites vous sur ai act et gouvernance ia ?', [[
+            'title' => 'Conformité IA, gouvernance et AI Act',
+            'url' => '/expertises/conformite-ia-gouvernance-ai-act',
+            'text' => 'AI Act, RGPD, cybersécurité, supervision humaine, registre de conformité et contrôles.',
+            'type' => 'expertise',
+        ]], []);
+
+        self::assertStringContainsString('ai act', mb_strtolower($decision->reply));
+        self::assertStringContainsString('registre de conformité', mb_strtolower($decision->reply));
+        self::assertStringContainsString('supervision', mb_strtolower($decision->reply));
+    }
 }

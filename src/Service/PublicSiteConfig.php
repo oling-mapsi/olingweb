@@ -206,7 +206,7 @@ class PublicSiteConfig
             ],
             'client' => [
                 'seoTitle' => 'Références clients | Conseil AMOA SI - OLING',
-                'metaDescription' => 'Découvrez nos références clients en AMOA SI, transformation digitale, conformité RGPD et gouvernance, en France et Outre-mer.',
+                'metaDescription' => 'Découvrez nos références clients en AMOA SI, progiciels, conformité RGPD et gouvernance, en France et Outre-mer.',
                 'eyebrow' => 'Cas clients OLING',
                 'title' => 'Des cas clients pour comprendre les contextes, missions et résultats accompagnés par OLING',
                 'intro' => 'OLING intervient auprès de PME, PMI, ETI et organisations multisites sur des projets ERP, SI, conformité et gouvernance qui demandent cadrage, coordination et suivi.',
@@ -386,7 +386,7 @@ class PublicSiteConfig
             ],
             'metiers' => [
                 'seoTitle' => 'Secteurs d’activité | Conseil AMOA SI - OLING',
-                'metaDescription' => 'Expertise multisectorielle en AMOA SI, transformation digitale et conformité pour acteurs publics et privés.',
+                'metaDescription' => 'Expertise multisectorielle en AMOA SI, progiciels et conformité pour acteurs publics et privés.',
                 'eyebrow' => 'Secteurs servis',
                 'title' => 'Les secteurs métiers accompagnés par OLING',
                 'intro' => 'OLING intervient dans des environnements variés avec une même exigence : comprendre les contraintes métier, clarifier les priorités et rendre les transformations pilotables.',
@@ -423,7 +423,7 @@ class PublicSiteConfig
             ],
             'team' => [
                 'seoTitle' => 'L\'équipe | Experts AMOA SI - OLING',
-                'metaDescription' => 'Une équipe d\'experts AMOA SI, transformation digitale, conformité et cybersécurité pour accompagner vos projets stratégiques.',
+                'metaDescription' => 'Une équipe d\'experts AMOA SI, progiciels, conformité et cybersécurité pour accompagner vos projets stratégiques.',
                 'eyebrow' => 'Équipe OLING',
                 'title' => 'Une équipe d\'experts pluridisciplinaires',
                 'intro' => 'Conseil, AMO ERP, risques, conformité, cybersécurité et transformation : les profils visibles ici restent reliés à l\'admin et conservent leur contenu existant.',
@@ -698,9 +698,9 @@ class PublicSiteConfig
                 'nav' => 'Transformation digitale',
                 'title' => 'Transformation digitale, automatisation et IA',
                 'seoTitle' => 'Transformation digitale, automatisation et IA pour TPE, PME et PMI | OLING',
-                'metaDescription' => 'OLING accelere la transformation digitale des TPE, PME et PMI avec des projets IA cibles, des automatisations tenables et des agents integres aux operations.',
+                'metaDescription' => 'OLING cadre les projets d’automatisation et d’IA des TPE, PME et PMI avec des usages cibles et des agents integres aux operations.',
                 'eyebrow' => 'Transformation digitale et performance',
-                'intro' => 'OLING relie transformation digitale, automatisation et intelligence artificielle a la realite des operations: gains concrets, adoption, outillage tenable et agents integres aux usages quotidiens.',
+                'intro' => 'OLING relie automatisation et intelligence artificielle a la realite des operations: gains concrets, adoption, outillage tenable et agents integres aux usages quotidiens.',
                 'heroImage' => '/img/spe/transition-digitale-1200x710.jpg',
                 'situations' => [
                     'PME ou PMI qui veut moderniser ses processus sans empiler les outils ni casser les habitudes de travail.',
@@ -714,7 +714,7 @@ class PublicSiteConfig
                     'Pilotage de transformation, conduite du changement et mesure des gains reels.',
                 ],
                 'deliverables' => [
-                    'Feuille de route transformation digitale',
+                    'Feuille de route automatisation et IA',
                     'Cartographie des flux et irritants',
                     'Plan d\'automatisation et d\'adoption',
                     'Tableau de bord de gains et de priorites',
@@ -987,7 +987,7 @@ class PublicSiteConfig
             'business-apps/transformation-digitale-automatisation-et-ia-utile' => [
                 'eyebrow' => 'Transformation digitale et IA',
                 'headline' => 'Moderniser les operations avec des automatisations et usages IA cibles',
-                'intro' => 'OLING relie transformation digitale, automatisation et IA à des gains concrets, avec des dispositifs adaptés aux moyens et contraintes des PME et PMI.',
+                'intro' => 'OLING relie automatisation et IA à des gains concrets, avec des dispositifs adaptés aux moyens et contraintes des PME et PMI.',
                 'outcomes' => [
                     'Feuille de route digitale pragmatique',
                     'Processus simplifiés et mieux outillés',

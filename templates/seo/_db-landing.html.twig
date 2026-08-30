@@ -5,6 +5,18 @@
 
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
+{% set pageSlug = page and page.slug ? page.slug : '' %}
+{% set conversionCtas = {
+  'erp-progiciel': 'Échanger sur mon projet ERP',
+  'crm': 'Échanger sur mon projet CRM',
+  'gmao': 'Cadrer mon projet GMAO',
+  'si-finance': 'Parler de mon SI Finance',
+  'facturation-electronique-amoa': 'Sécuriser mon projet de facturation électronique',
+  'rgpd': 'Échanger avec un DPO',
+  'cyber-securite': 'Évaluer mon projet cyber',
+  'conseil-qualite': 'Échanger sur ma démarche QSE'
+} %}
+{% set conversionCtaLabel = conversionCtas[pageSlug]|default(null) %}
 {% set hasHeroImage = page and page.heroImage %}
 {% if hasHeroImage %}
   {% set heroImageRaw = page.heroImage|trim %}
@@ -153,9 +165,9 @@
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">
-          <span class="oling-kicker">Maillage</span>
+          <span class="oling-kicker">Expertises complémentaires</span>
           <h2>{{ landingNarrative.linksTitle ?? 'Explorer les sujets lies a ce projet' }}</h2>
-          <p>{{ landingNarrative.linksIntro ?? 'Ces pages aident a relier cadrage, transformation SI, applications connexes, references et expertise mobilisable sans creer de doublon.' }}</p>
+          <p>{{ landingNarrative.linksIntro ?? 'Ces pages prolongent le cadrage avec les expertises, les références et les services mobilisables selon votre contexte.' }}</p>
           <div class="row g-4 mt-1">
             {% for link in landingNarrative.supportLinks %}
               <div class="col-lg-6">
@@ -176,10 +188,25 @@
       <div class="oling-surface p-4">
         <span class="oling-kicker">Parcours de lecture</span>
         <h2 class="h4">Cette page oriente vers le bon niveau de réponse</h2>
-        <p class="mb-0">Cette landing sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
+        <p class="mb-0">Cette page sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
       </div>
     </div>
   </section>
+
+  {% if conversionCtaLabel %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4 d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between">
+          <div>
+            <span class="oling-kicker">Échange de cadrage</span>
+            <h2 class="h4 mb-2">Clarifier votre besoin et les prochaines décisions</h2>
+            <p class="mb-0">Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d'accompagnement.</p>
+          </div>
+          <a class="btn btn-primary" href="{{ path('contact') }}">{{ conversionCtaLabel }}</a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
 
   {% if zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
     <section class="oling-section oling-section--tight">
@@ -239,7 +266,6 @@
 {% set currentUrl = site_base_url ~ app.request.pathInfo %}
 {% set contactUrl = site_base_url ~ path('contact') %}
 {% set globalProfessionalServiceId = 'https://oling.fr/#professional-service' %}
-{% set pageSlug = page and page.slug ? page.slug : '' %}
 {% set isZonePage = pageSlug starts with 'cabinet-conseil-' %}
 {% set zoneName = page and page.heroBadge ? page.heroBadge|striptags|trim : '' %}
 {% set schemaSameAs = oling_schema_same_as is defined ? oling_schema_same_as : [] %}

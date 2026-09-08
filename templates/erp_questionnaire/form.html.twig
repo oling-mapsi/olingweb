@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Questionnaire besoin ERP / progiciel | OLING{% endblock %}
+{% block meta_description %}Questionnaire de qualification AMOA ERP / progiciel OLING.{% endblock %}
+
+{% block body %}
+{% set v = values|default({}) %}
+<main id="content" role="main" class="oling-seo-cabinet">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4 p-lg-5">
+        <span class="oling-kicker">Questionnaire IA OLING</span>
+        <h1 class="h2">Qualifier un besoin ERP ou progiciel</h1>
+        <p class="oling-lede mb-2">Décrivez votre projet ERP ou progiciel en quelques minutes et obtenez une première analyse structurée de votre besoin.</p>
+        <p class="mb-0">5 étapes, moins de 15 minutes. Vous pouvez répondre « à préciser » lorsque l’information n’est pas encore connue ; les estimations restent indicatives.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      {% if errors is not empty %}
+        <div class="alert alert-danger"><ul class="mb-0">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul></div>
+      {% endif %}
+
+      <form method="post" class="oling-surface p-4 p-lg-5 erp-questionnaire">
+        <input type="hidden" name="_token" value="{{ csrf_token('erp_questionnaire') }}">
+        <input class="d-none" tabindex="-1" autocomplete="off" name="website" value="">
+
+        <section class="mb-5">
+          <span class="oling-kicker">1. Identification</span>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Nom et prénom *</label><input class="form-control" maxlength="160" name="fullName" value="{{ v.fullName|default('') }}" required></div>
+            <div class="col-md-6"><label class="form-label">Email professionnel *</label><input type="email" class="form-control" maxlength="180" name="email" value="{{ v.email|default('') }}" required></div>
+            <div class="col-md-6"><label class="form-label">Téléphone *</label><input class="form-control" maxlength="50" name="phone" value="{{ v.phone|default('') }}" required></div>
+            <div class="col-md-6"><label class="form-label">Organisation *</label><input class="form-control" maxlength="180" name="company" value="{{ v.company|default('') }}" required></div>
+            <div class="col-md-6"><label class="form-label">Fonction</label><input class="form-control" maxlength="160" name="jobTitle" value="{{ v.jobTitle|default('') }}"></div>
+            <div class="col-md-6"><label class="form-label">Secteur</label><input class="form-control" maxlength="160" name="sector" value="{{ v.sector|default('') }}"></div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <span class="oling-kicker">2. Organisation et solution</span>
+          <div class="row g-3">
+            <div class="col-md-3"><label class="form-label">Taille</label><select class="form-select" name="organizationSize"><option value="">À préciser</option>{% for key,label in {'1_49':'1 à 49','50_249':'50 à 249','250_999':'250 à 999','1000_plus':'1000+'} %}<option value="{{ key }}" {{ v.organizationSize|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-3"><label class="form-label">Utilisateurs</label><select class="form-select" name="userCount"><option value="">À préciser</option>{% for key,label in {'1_49':'1 à 49','50_249':'50 à 249','250_999':'250 à 999','1000_plus':'1000+'} %}<option value="{{ key }}" {{ v.userCount|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-3"><label class="form-label">Nature du projet</label><select class="form-select" name="projectNature">{% for key,label in {'replacement':'Remplacement','first_equipment':'Premier équipement','extension':'Extension','rescue':'Reprise de projet'} %}<option value="{{ key }}" {{ v.projectNature|default('replacement') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-3"><label class="form-label">Type de solution *</label><select class="form-select" name="solutionType" required><option value="">Choisir</option>{% for key,label in {'erp':'ERP','si_finance':'SI Finance','purchasing_solution':'Achats','sales_solution':'Gestion commerciale','crm':'CRM','sirh':'SIRH / Paie','gmao':'GMAO','mes':'MES / production','bi':'BI / reporting','ged':'GED','business_solution':'Solution métier','other':'Autre'} %}<option value="{{ key }}" {{ v.solutionType|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-4"><label class="form-label">Solution existante ?</label><select class="form-select" name="hasExistingSolution" data-toggle-target="existing-block"><option value="yes" {{ v.hasExistingSolution|default('yes') == 'yes' ? 'selected' : '' }}>Oui</option><option value="no" {{ v.hasExistingSolution|default('') == 'no' ? 'selected' : '' }}>Non</option><option value="unknown" {{ v.hasExistingSolution|default('') == 'unknown' ? 'selected' : '' }}>À préciser</option></select></div>
+            <div class="col-md-8 conditional" id="existing-block">
+              <div class="row g-3">
+                <div class="col-md-5"><label class="form-label">Solution actuelle</label><input class="form-control" maxlength="240" name="existingSolution" value="{{ v.existingSolution|default('') }}"></div>
+                <div class="col-md-3"><label class="form-label">Ancienneté</label><select class="form-select" name="existingSolutionAge"><option value="">À préciser</option>{% for key,label in {'recent':'< 3 ans','mid':'3 à 8 ans','old':'> 8 ans'} %}<option value="{{ key }}" {{ v.existingSolutionAge|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+                <div class="col-md-4"><label class="form-label">Hébergement</label><select class="form-select" name="existingSolutionHosting"><option value="">À préciser</option>{% for key,label in {'cloud':'Cloud / SaaS','on_premise':'On premise','hybrid':'Hybride','unknown':'À préciser'} %}<option value="{{ key }}" {{ v.existingSolutionHosting|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+              </div>
+            </div>
+            <div class="col-12"><label class="form-label">Contexte *</label><textarea class="form-control" maxlength="1200" rows="3" name="context" required>{{ v.context|default('') }}</textarea></div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <span class="oling-kicker">3. Besoin, périmètre, irritants</span>
+          <div class="row g-3">
+            <div class="col-12"><label class="form-label">Besoin exprimé *</label><textarea class="form-control" maxlength="1200" rows="3" name="need" required>{{ v.need|default('') }}</textarea></div>
+            <div class="col-12"><label class="form-label">Périmètre fonctionnel pressenti *</label><div class="row g-2">{% for key,label in functionalOptions %}<div class="col-md-4"><label class="form-check"><input class="form-check-input" type="checkbox" name="functionalScope[]" value="{{ key }}" {{ key in v.functionalScope|default([]) ? 'checked' : '' }}> <span class="form-check-label">{{ label }}</span></label></div>{% endfor %}</div></div>
+            <div class="col-12 conditional" id="finance-block"><label class="form-label">Points Finance à cadrer</label><textarea class="form-control" maxlength="800" rows="3" name="financeSpecific" placeholder="Ex. comptabilité, budget, engagements, facturation, clôture, contrôle de gestion">{{ v.financeSpecific|default('') }}</textarea></div>
+            <div class="col-md-6"><label class="form-label">Irritants principaux *</label><textarea class="form-control" maxlength="1200" rows="4" name="irritants" required placeholder="Ex. doubles saisies; Excel; reporting lent">{{ v.irritants|default('') }}</textarea></div>
+            <div class="col-md-6"><label class="form-label">Périmètre cible *</label><textarea class="form-control" maxlength="1200" rows="4" name="scope" required>{{ v.scope|default('') }}</textarea></div>
+          </div>
+        </section>
+
+        <section class="mb-5">
+          <span class="oling-kicker">4. Projet, données, sécurité</span>
+          <div class="row g-3">
+            <div class="col-md-3"><label class="form-label">Maturité *</label><select class="form-select" name="projectMaturity" required><option value="">Choisir</option>{% for key,label in {'idea':'Réflexion','scoping':'Cadrage','consultation':'Consultation','running':'En cours','blocked':'Bloqué'} %}<option value="{{ key }}" {{ v.projectMaturity|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-9 conditional" id="project-advanced-block"><div class="row g-3">
+              <div class="col-md-4"><label class="form-label">Spécification</label><select class="form-select" name="hasSpecification"><option value="no">Non</option><option value="draft" {{ v.hasSpecification|default('') == 'draft' ? 'selected' : '' }}>Brouillon</option><option value="formalized" {{ v.hasSpecification|default('') == 'formalized' ? 'selected' : '' }}>Formalisée</option></select></div>
+              <div class="col-md-4"><label class="form-label">Éditeur identifié</label><select class="form-select" name="hasEditorIdentified" data-toggle-target="editor-block"><option value="no">Non</option><option value="yes" {{ v.hasEditorIdentified|default('') == 'yes' ? 'selected' : '' }}>Oui</option><option value="unknown" {{ v.hasEditorIdentified|default('') == 'unknown' ? 'selected' : '' }}>À préciser</option></select></div>
+              <div class="col-md-4"><label class="form-label">Consultation</label><select class="form-select" name="consultationStatus">{% for key,label in {'not_started':'Non démarrée','started':'Démarrée','ongoing':'En cours','unknown':'À préciser'} %}<option value="{{ key }}" {{ v.consultationStatus|default('not_started') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            </div></div>
+            <div class="col-12 conditional" id="editor-block"><label class="form-label">Éditeur ou intégrateur pressenti</label><input class="form-control" maxlength="240" name="editorDetails" value="{{ v.editorDetails|default('') }}"></div>
+            <div class="col-md-6"><label class="form-label">Organisation projet *</label><textarea class="form-control" maxlength="1000" rows="3" name="organization" required>{{ v.organization|default('') }}</textarea></div>
+            <div class="col-md-3"><label class="form-label">Sponsor</label><input class="form-control" maxlength="180" name="sponsor" value="{{ v.sponsor|default('') }}"></div>
+            <div class="col-md-3"><label class="form-label">Équipe projet</label><input class="form-control" maxlength="240" name="projectTeam" value="{{ v.projectTeam|default('') }}"></div>
+            <div class="col-md-3"><label class="form-label">Migration données</label><select class="form-select" name="dataMigration" data-toggle-target="migration-block"><option value="unknown">À préciser</option><option value="yes" {{ v.dataMigration|default('') == 'yes' ? 'selected' : '' }}>Oui</option><option value="no" {{ v.dataMigration|default('') == 'no' ? 'selected' : '' }}>Non</option></select></div>
+            <div class="col-md-3"><label class="form-label">Interfaces</label><select class="form-select" name="interfaceLevel" data-toggle-target="interfaces-block">{% for key,label in {'none':'Aucune majeure','few':'Quelques-unes','several':'Plusieurs systèmes','many':'SI très interfacé'} %}<option value="{{ key }}" {{ v.interfaceLevel|default('few') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-6 conditional" id="migration-block"><label class="form-label">Détails migration</label><textarea class="form-control" maxlength="800" rows="3" name="migrationDetails">{{ v.migrationDetails|default('') }}</textarea></div>
+            <div class="col-md-6 conditional" id="interfaces-block"><label class="form-label">Données et interfaces</label><textarea class="form-control" maxlength="1000" rows="3" name="dataInterfaces">{{ v.dataInterfaces|default('') }}</textarea></div>
+            <div class="col-md-6"><label class="form-label">Sécurité / RGPD</label><textarea class="form-control" maxlength="800" rows="3" name="securityRgpd">{{ v.securityRgpd|default('') }}</textarea></div>
+            <div class="col-md-6"><label class="form-label">Contraintes</label><textarea class="form-control" maxlength="800" rows="3" name="constraints">{{ v.constraints|default('') }}</textarea></div>
+          </div>
+        </section>
+
+        <section class="mb-4">
+          <span class="oling-kicker">5. Planning, budget, AMOA</span>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Planning attendu *</label><textarea class="form-control" maxlength="600" rows="3" name="planning" required>{{ v.planning|default('') }}</textarea></div>
+            <div class="col-md-3"><label class="form-label">Urgence</label><select class="form-select" name="urgency"><option value="">À préciser</option>{% for key,label in {'immediate':'Immédiate','short_term':'Court terme','planned':'Planifiée','exploratory':'Exploratoire'} %}<option value="{{ key }}" {{ v.urgency|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-3"><label class="form-label">Budget</label><select class="form-select" name="budgetStatus"><option value="unknown">Inconnu</option><option value="known" {{ v.budgetStatus|default('') == 'known' ? 'selected' : '' }}>Connu</option><option value="approx" {{ v.budgetStatus|default('') == 'approx' ? 'selected' : '' }}>Approximatif</option><option value="confidential" {{ v.budgetStatus|default('') == 'confidential' ? 'selected' : '' }}>Confidentiel</option></select></div>
+            <div class="col-md-4"><label class="form-label">Budget AMOA indicatif</label><select class="form-select" name="budgetRange"><option value="">À confirmer</option>{% for key,label in {'lt_15k':'< 15 k€','15_30k':'15 à 30 k€','30_60k':'30 à 60 k€','60k_plus':'> 60 k€','100k_plus':'> 100 k€'} %}<option value="{{ key }}" {{ v.budgetRange|default('') == key ? 'selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-md-8"><label class="form-label">Attentes AMOA OLING *</label><div class="row g-2">{% for key,label in {'cadrage':'Cadrage','requirements':'Expression de besoin','spec':'Cahier des charges','vendor':'Aide au choix','planning':'Macro-planning','data':'Données / interfaces','change':'Conduite du changement','pilotage':'Pilotage projet'} %}<div class="col-md-6"><label class="form-check"><input class="form-check-input" type="checkbox" name="amoaExpectations[]" value="{{ key }}" {{ key in v.amoaExpectations|default([]) ? 'checked' : '' }}> <span class="form-check-label">{{ label }}</span></label></div>{% endfor %}</div></div>
+            <div class="col-12"><label class="form-check"><input class="form-check-input" type="checkbox" name="rgpdConsent" value="1" {{ v.rgpdConsent|default(false) ? 'checked' : '' }} required> <span class="form-check-label">J’accepte que les informations transmises soient utilisées par OLING pour traiter ma demande. *</span></label></div>
+          </div>
+        </section>
+
+        <button class="btn btn-primary btn-lg" type="submit">Générer ma synthèse</button>
+      </form>
+    </div>
+  </section>
+</main>
+<script>
+document.querySelectorAll('[data-toggle-target]').forEach((select) => {
+  const refresh = () => {
+    const target = document.getElementById(select.dataset.toggleTarget);
+    if (!target) return;
+    const visible = (select.name === 'hasExistingSolution' && select.value === 'yes')
+      || (select.name === 'dataMigration' && select.value === 'yes')
+      || (select.name === 'interfaceLevel' && ['several', 'many'].includes(select.value))
+      || (select.name === 'hasEditorIdentified' && select.value === 'yes');
+    target.hidden = !visible;
+  };
+  select.addEventListener('change', refresh);
+  refresh();
+});
+const refreshFinanceBlock = () => {
+  const block = document.getElementById('finance-block');
+  const solution = document.querySelector('[name="solutionType"]');
+  if (!block || !solution) return;
+  const checked = [...document.querySelectorAll('input[name="functionalScope[]"]:checked')].map((input) => input.value);
+  block.hidden = !(solution.value === 'si_finance' || checked.includes('finance') || checked.includes('budget'));
+};
+document.querySelector('[name="solutionType"]')?.addEventListener('change', refreshFinanceBlock);
+document.querySelectorAll('input[name="functionalScope[]"]').forEach((input) => input.addEventListener('change', refreshFinanceBlock));
+refreshFinanceBlock();
+const refreshProjectAdvancedBlock = () => {
+  const block = document.getElementById('project-advanced-block');
+  const maturity = document.querySelector('[name="projectMaturity"]');
+  if (!block || !maturity) return;
+  block.hidden = ['', 'idea'].includes(maturity.value);
+};
+document.querySelector('[name="projectMaturity"]')?.addEventListener('change', refreshProjectAdvancedBlock);
+refreshProjectAdvancedBlock();
+</script>
+{% endblock %}

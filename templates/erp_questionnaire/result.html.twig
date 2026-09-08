@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Synthèse ERP / progiciel | OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="oling-seo-cabinet">
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4 p-lg-5">
+        <span class="oling-kicker">Synthèse IA OLING</span>
+        <h1 class="h2">Qualification ERP / progiciel</h1>
+        <h2 class="h5 mt-4">Synthèse exécutive</h2>
+        <p>{{ summary.executive_summary }}</p>
+        <a class="btn btn-primary" href="{{ path('erp_questionnaire_pdf', {token: submission.publicToken}) }}">Télécharger le PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-section oling-section--tight">
+    <div class="container">
+      <div class="oling-surface p-4">
+        {% for title, key in {
+          'Contexte':'context',
+          'Besoin exprimé':'expressed_need',
+          'Maturité projet':'maturity',
+          'Complexité':'complexity',
+          'Charge AMOA indicative':'amoa_charge_estimate',
+          'Budget AMOA indicatif':'amoa_budget_estimate',
+          'Prochaine étape commerciale OLING':'recommended_commercial_next_step'
+        } %}
+          <h2 class="h5 mt-3">{{ title }}</h2>
+          <p>{{ summary[key] }}</p>
+        {% endfor %}
+
+        {% for title, key in {
+          'Situation actuelle':'current_situation',
+          'Périmètre fonctionnel pressenti':'functional_scope',
+          'Irritants':'irritants',
+          'Risques':'risks',
+          'Contraintes':'constraints',
+          'Données et interfaces':'data_interfaces',
+          'Sécurité / RGPD':'security_rgpd',
+          'Organisation projet':'project_organization',
+          'Livrables AMOA recommandés':'recommended_deliverables',
+          'Macro-démarche proposée':'macro_approach',
+          'Macro-planning indicatif':'macro_planning',
+          'Hypothèses utilisées':'estimation_assumptions',
+          'Informations manquantes':'missing_information',
+          'Questions prioritaires en rendez-vous':'priority_meeting_questions'
+        } %}
+          <h2 class="h5 mt-4">{{ title }}</h2>
+          <ul>
+            {% for item in summary[key] %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+
+        <p class="small text-muted mt-4">À ce stade, les estimations sont indicatives et devront être confirmées après un échange de cadrage avec OLING.</p>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

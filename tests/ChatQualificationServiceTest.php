@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use App\Entity\ChatConversation;
+use App\Entity\ChatLead;
 use App\Entity\ChatMessage;
+use App\Service\Chat\ChatSummaryService;
 use App\Service\Chat\ChatQualificationService;
 use PHPUnit\Framework\TestCase;
 
@@ -59,5 +61,36 @@ class ChatQualificationServiceTest extends TestCase
         self::assertSame('planned', $qualification['urgency_level']);
         self::assertSame('eti', $qualification['organization_type']);
         self::assertSame('diagnostic', $qualification['commercial_intent']);
+    }
+
+    public function testErpLeadSummaryAddsAmoaProjectFrame(): void
+    {
+        $conversation = new ChatConversation();
+        $message = (new ChatMessage())
+            ->setRole('visitor')
+            ->setContent('Projet ERP finance et achats bloqué, avec reprise de données, interfaces et habilitations RGPD.')
+            ->setMessageType('answer')
+            ->setSequenceNumber(1)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $conversation->addMessage($message);
+
+        $lead = (new ChatLead())
+            ->setConversation($conversation)
+            ->setFullName('Jane Doe')
+            ->setEmail('jane@example.test')
+            ->setPhone('0102030405')
+            ->setCompany('Acme')
+            ->setNeedDescription('Besoin de cadrage ERP finance achats, interfaces et reprise de données.')
+            ->setRgpdConsent(true)
+            ->setRgpdConsentAt(new \DateTimeImmutable());
+
+        $qualification = (new ChatQualificationService())->qualify($conversation);
+        $summary = (new ChatSummaryService())->build($conversation, $lead, $qualification);
+
+        self::assertStringContainsString('Analyse AMOA ERP / progiciel', $summary['long']);
+        self::assertStringContainsString('finance', $summary['long']);
+        self::assertStringContainsString('achats', $summary['long']);
+        self::assertStringContainsString('interfaces', $summary['long']);
+        self::assertStringContainsString('Prochaine étape OLING', $summary['long']);
     }
 }

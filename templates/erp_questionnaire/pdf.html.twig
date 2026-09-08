@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: DejaVu Sans, sans-serif; color: #17324a; font-size: 11px; line-height: 1.45; }
+    .header { display: table; width: 100%; border-bottom: 2px solid #e24d7c; padding-bottom: 14px; margin-bottom: 18px; }
+    .brand, .meta { display: table-cell; vertical-align: middle; }
+    .brand img { width: 110px; }
+    .meta { text-align: right; color: #53697d; }
+    h1 { font-size: 22px; margin: 0 0 8px; color: #17324a; }
+    h2 { font-size: 14px; margin: 16px 0 6px; color: #b93162; }
+    p { margin: 0 0 6px; }
+    ul { margin: 0 0 8px 16px; padding: 0; }
+    li { margin: 0 0 3px; }
+    .box { border: 1px solid #d9e6f2; background: #f5f9fd; padding: 12px; margin-bottom: 12px; }
+    .grid { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+    .grid td { border: 1px solid #d9e6f2; padding: 6px; vertical-align: top; }
+    .label { color: #53697d; font-size: 9px; text-transform: uppercase; }
+    .notice { margin-top: 18px; padding: 10px; background: #fff6f9; border: 1px solid #f0bfd0; color: #7b2444; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">{% if logoDataUri %}<img src="{{ logoDataUri }}" alt="OLING">{% else %}<strong>OLING</strong>{% endif %}</div>
+    <div class="meta">Qualification ERP / progiciel<br>{{ submission.createdAt ? submission.createdAt|date('d/m/Y') : 'Date du jour' }}</div>
+  </div>
+
+  <h1>Synthèse de qualification AMOA ERP / progiciel</h1>
+  <div class="box"><strong>Synthèse exécutive</strong><br>{{ summary.executive_summary }}</div>
+
+  <table class="grid">
+    <tr><td><span class="label">Prospect</span><br>{{ submission.fullName }}</td><td><span class="label">Organisation</span><br>{{ submission.company }}</td></tr>
+    <tr><td><span class="label">Email</span><br>{{ submission.email }}</td><td><span class="label">Téléphone</span><br>{{ submission.phone }}</td></tr>
+    <tr><td><span class="label">Fonction</span><br>{{ submission.jobTitle ?: 'À préciser' }}</td><td><span class="label">Secteur</span><br>{{ submission.sector ?: 'À préciser' }}</td></tr>
+  </table>
+
+  {% for title, key in {
+    'Contexte':'context',
+    'Besoin exprimé':'expressed_need',
+    'Maturité projet':'maturity',
+    'Complexité':'complexity',
+    'Estimation de charge AMOA':'amoa_charge_estimate',
+    'Estimation de budget AMOA':'amoa_budget_estimate',
+    'Prochaines étapes':'recommended_commercial_next_step'
+  } %}
+    <h2>{{ title }}</h2>
+    <p>{{ summary[key] }}</p>
+  {% endfor %}
+
+  {% for title, key in {
+    'Situation actuelle':'current_situation',
+    'Périmètre fonctionnel pressenti':'functional_scope',
+    'Irritants':'irritants',
+    'Risques':'risks',
+    'Contraintes':'constraints',
+    'Données et interfaces':'data_interfaces',
+    'Sécurité / RGPD':'security_rgpd',
+    'Organisation projet':'project_organization',
+    'Livrables AMOA recommandés':'recommended_deliverables',
+    'Macro-démarche proposée':'macro_approach',
+    'Macro-planning indicatif':'macro_planning',
+    'Hypothèses utilisées':'estimation_assumptions',
+    'Points à clarifier':'missing_information',
+    'Questions prioritaires':'priority_meeting_questions'
+  } %}
+    <h2>{{ title }}</h2>
+    <ul>{% for item in summary[key] %}<li>{{ item }}</li>{% endfor %}</ul>
+  {% endfor %}
+
+  <div class="notice">À ce stade, les estimations sont indicatives et devront être confirmées après un échange de cadrage avec OLING.</div>
+</body>
+</html>

@@ -555,6 +555,23 @@ const initChatWidget = () => {
     prefillLeadDescription();
   };
 
+  const openAndSendPrefill = async (content) => {
+    if (!content || state.loading) return;
+    setOpen(true);
+    setError('');
+    setLoading(true, 'Ouverture du chat...');
+    try {
+      await ensureConversation();
+      renderOptimisticVisitorMessage(content);
+      await sendMessage(content);
+      prefillLeadDescription();
+    } catch (error) {
+      setError(error.message || 'Impossible de lancer le questionnaire.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const renderOptimisticVisitorMessage = (content) => {
     const optimisticConversation = {
       ...(state.conversation || {}),
@@ -756,6 +773,13 @@ const initChatWidget = () => {
   });
 
   document.addEventListener('click', async (event) => {
+    const prefillButton = event.target.closest('[data-chat-prefill]');
+    if (prefillButton) {
+      event.preventDefault();
+      await openAndSendPrefill(prefillButton.dataset.chatPrefill || '');
+      return;
+    }
+
     const link = event.target.closest('a');
     if (!link || link.dataset.chatBypass === 'true') return;
 

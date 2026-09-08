@@ -208,6 +208,27 @@
     </section>
   {% endif %}
 
+  {% if pageSlug == 'erp-progiciel' %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+              <span class="oling-kicker">Questionnaire IA OLING</span>
+              <h2 class="h4 mb-2">Qualifier un besoin ERP ou progiciel</h2>
+              <p class="mb-0">Le consultant IA reprend le cadre AMOA OLING pour structurer le besoin, la maturité projet, les modules, le périmètre, les risques, les données, les interfaces, les livrables, le macro-planning et les prochaines étapes.</p>
+            </div>
+            <div class="col-lg-5 d-flex flex-column flex-sm-row flex-lg-column gap-2 justify-content-lg-end">
+              <a class="btn btn-primary" href="{{ path('erp_questionnaire') }}">Ouvrir le questionnaire structuré</a>
+              <button type="button" class="btn btn-primary" data-chat-prefill="Je souhaite lancer le questionnaire OLING pour qualifier un besoin ERP ou progiciel. Aidez-moi à structurer le contexte, les modules, le périmètre, les risques, les données, les interfaces, les livrables AMOA, le macro-planning, la charge, le budget indicatif et les prochaines étapes.">Lancer le questionnaire ERP</button>
+              <button type="button" class="btn btn-outline-primary" data-chat-prefill="J’ai un projet ERP ou progiciel à cadrer. Pouvez-vous m’aider à identifier les questions clés avant un échange OLING ?">Préparer mon cadrage AMOA</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   {% if zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
     <section class="oling-section oling-section--tight">
       <div class="container">

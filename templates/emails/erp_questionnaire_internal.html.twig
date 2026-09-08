@@ -1,0 +1,57 @@
+<h2>Nouveau questionnaire ERP / progiciel OLING</h2>
+
+<h3>Coordonnées prospect</h3>
+<ul>
+  <li><strong>Nom :</strong> {{ submission.fullName }}</li>
+  <li><strong>Email :</strong> {{ submission.email }}</li>
+  <li><strong>Téléphone :</strong> {{ submission.phone }}</li>
+  <li><strong>Organisation :</strong> {{ submission.company }}</li>
+  <li><strong>Fonction :</strong> {{ submission.jobTitle ?: 'à préciser' }}</li>
+  <li><strong>Secteur :</strong> {{ submission.sector ?: 'à préciser' }}</li>
+  <li><strong>Taille :</strong> {{ submission.organizationSize ?: 'à préciser' }}</li>
+  <li><strong>Utilisateurs :</strong> {{ submission.userCount ?: 'à préciser' }}</li>
+  <li><strong>Type de solution :</strong> {{ submission.solutionType ?: 'à préciser' }}</li>
+  <li><strong>Urgence :</strong> {{ submission.urgency ?: 'à préciser' }}</li>
+  <li><strong>Budget indicatif :</strong> {{ submission.budgetRange ?: 'à confirmer' }}</li>
+</ul>
+
+<h3>Scoring commercial interne</h3>
+<ul>
+  <li><strong>Maturité :</strong> {{ scoring.maturity|default('à qualifier') }}</li>
+  <li><strong>Complexité :</strong> {{ scoring.complexity|default('à qualifier') }}</li>
+  <li><strong>Urgence :</strong> {{ scoring.urgency|default('à qualifier') }}</li>
+  <li><strong>Potentiel OLING :</strong> {{ scoring.oling_potential|default('à qualifier') }}</li>
+  <li><strong>Justification :</strong> {{ scoring.justification|default('à qualifier') }}</li>
+  <li><strong>Action suivante :</strong> {{ scoring.next_action|default('à qualifier') }}</li>
+  <li><strong>Délai recommandé :</strong> {{ scoring.recommended_contact_delay|default('à qualifier') }}</li>
+</ul>
+
+<h3>Synthèse IA complète</h3>
+<p><strong>Résumé exécutif :</strong> {{ summary.executive_summary }}</p>
+<p><strong>Contexte :</strong> {{ summary.context }}</p>
+<p><strong>Besoin exprimé :</strong> {{ summary.expressed_need }}</p>
+<p><strong>Maturité :</strong> {{ summary.maturity }}</p>
+<p><strong>Complexité :</strong> {{ summary.complexity }}</p>
+<p><strong>Charge AMOA :</strong> {{ summary.amoa_charge_estimate }}</p>
+<p><strong>Budget AMOA :</strong> {{ summary.amoa_budget_estimate }}</p>
+
+{% for title, key in {
+  'Situation actuelle':'current_situation',
+  'Périmètre':'functional_scope',
+  'Irritants':'irritants',
+  'Risques':'risks',
+  'Contraintes':'constraints',
+  'Données et interfaces':'data_interfaces',
+  'Sécurité / RGPD':'security_rgpd',
+  'Organisation projet':'project_organization',
+  'Livrables AMOA recommandés':'recommended_deliverables',
+  'Macro-démarche':'macro_approach',
+  'Hypothèses d’estimation':'estimation_assumptions',
+  'Points à creuser en rendez-vous':'priority_meeting_questions'
+} %}
+  <h3>{{ title }}</h3>
+  <ul>{% for item in summary[key] %}<li>{{ item }}</li>{% endfor %}</ul>
+{% endfor %}
+
+<h3>Réponses brutes structurées</h3>
+<pre>{{ answers|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE')) }}</pre>

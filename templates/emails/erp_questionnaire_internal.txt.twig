@@ -1,0 +1,83 @@
+Nouveau questionnaire ERP / progiciel OLING
+
+Coordonnées prospect :
+- Nom : {{ submission.fullName }}
+- Email : {{ submission.email }}
+- Téléphone : {{ submission.phone }}
+- Organisation : {{ submission.company }}
+- Fonction : {{ submission.jobTitle ?: 'à préciser' }}
+- Secteur : {{ submission.sector ?: 'à préciser' }}
+- Taille : {{ submission.organizationSize ?: 'à préciser' }}
+- Utilisateurs : {{ submission.userCount ?: 'à préciser' }}
+- Type de solution : {{ submission.solutionType ?: 'à préciser' }}
+- Urgence : {{ submission.urgency ?: 'à préciser' }}
+- Budget indicatif : {{ submission.budgetRange ?: 'à confirmer' }}
+
+Scoring commercial interne :
+- Maturité : {{ scoring.maturity|default('à qualifier') }}
+- Complexité : {{ scoring.complexity|default('à qualifier') }}
+- Urgence : {{ scoring.urgency|default('à qualifier') }}
+- Potentiel OLING : {{ scoring.oling_potential|default('à qualifier') }}
+- Justification : {{ scoring.justification|default('à qualifier') }}
+- Action suivante : {{ scoring.next_action|default('à qualifier') }}
+- Délai recommandé : {{ scoring.recommended_contact_delay|default('à qualifier') }}
+
+Synthèse IA complète :
+Résumé exécutif : {{ summary.executive_summary }}
+Contexte : {{ summary.context }}
+Situation actuelle :
+{% for item in summary.current_situation %}- {{ item }}
+{% endfor %}
+Besoin exprimé : {{ summary.expressed_need }}
+Maturité : {{ summary.maturity }}
+Complexité : {{ summary.complexity }}
+Charge AMOA : {{ summary.amoa_charge_estimate }}
+Budget AMOA : {{ summary.amoa_budget_estimate }}
+Prochaine étape : {{ summary.oling_next_step }}
+
+Périmètre :
+{% for item in summary.functional_scope %}- {{ item }}
+{% endfor %}
+
+Irritants :
+{% for item in summary.irritants %}- {{ item }}
+{% endfor %}
+
+Risques :
+{% for item in summary.risks %}- {{ item }}
+{% endfor %}
+
+Contraintes :
+{% for item in summary.constraints %}- {{ item }}
+{% endfor %}
+
+Données et interfaces :
+{% for item in summary.data_interfaces %}- {{ item }}
+{% endfor %}
+
+Sécurité / RGPD :
+{% for item in summary.security_rgpd %}- {{ item }}
+{% endfor %}
+
+Organisation projet :
+{% for item in summary.project_organization %}- {{ item }}
+{% endfor %}
+
+Livrables AMOA recommandés :
+{% for item in summary.recommended_deliverables %}- {{ item }}
+{% endfor %}
+
+Macro-démarche :
+{% for item in summary.macro_approach %}- {{ item }}
+{% endfor %}
+
+Hypothèses d’estimation :
+{% for item in summary.estimation_assumptions %}- {{ item }}
+{% endfor %}
+
+Points à creuser en rendez-vous :
+{% for item in summary.priority_meeting_questions %}- {{ item }}
+{% endfor %}
+
+Réponses brutes structurées :
+{{ answers|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_UNICODE')) }}

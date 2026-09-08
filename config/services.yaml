@@ -71,6 +71,14 @@ services:
         arguments:
             $recipient: '%chat_lead_recipient%'
 
+    App\Service\ErpQuestionnaire\ErpQuestionnairePdfGenerator:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\Service\ErpQuestionnaire\ErpQuestionnaireMailer:
+        arguments:
+            $recipient: '%chat_lead_recipient%'
+
     App\Service\Chat\ChatResponder:
         arguments:
             $providers: !tagged_iterator app.chat_ai_provider

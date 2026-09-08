@@ -76,6 +76,10 @@ class HeuristicAiProvider implements AiProviderInterface
             return 'Vous semblez croiser un sujet d’AMOA et de structuration ISO 27001. Cherchez-vous surtout à cadrer une démarche ISO 27001, à choisir ou piloter un outil, ou à articuler les deux ?';
         }
 
+        if ($this->asksForErpQuestionnaire($visitorMessage, $qualification)) {
+            return $this->buildErpQuestionnaireReply();
+        }
+
         if ($this->asksForSectorCoverage($visitorMessage)) {
             return $this->buildSectorCoverageReply($visitorMessage, $documents, $qualification);
         }
@@ -444,6 +448,10 @@ class HeuristicAiProvider implements AiProviderInterface
      */
     private function nextUsefulQuestion(string $visitorMessage, array $qualification, array $missingFields): string
     {
+        if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
+            return 'Pour avancer, quel est votre point prioritaire: clarifier le périmètre, choisir une solution, sécuriser les données et interfaces, ou reprendre un projet déjà lancé ?';
+        }
+
         if ($this->qualificationService->isTooVague($qualification)) {
             return 'Pour bien cadrer: votre sujet porte surtout sur un outil, une organisation, une contrainte réglementaire ou un risque ?';
         }
@@ -562,6 +570,35 @@ class HeuristicAiProvider implements AiProviderInterface
         $text = $this->normalize($message);
 
         return preg_match('/\b(cadrage|livrable|livrables|note de cadrage|expression des besoins|cahier des charges|macro planning|gouvernance projet|recette|migration|reprise)\b/', $text) === 1;
+    }
+
+    /**
+     * @param array<string, string|null> $qualification
+     */
+    private function asksForErpQuestionnaire(string $message, array $qualification): bool
+    {
+        $text = $this->normalize($message);
+
+        return preg_match('/\b(questionnaire|qualifier|qualification)\b/', $text) === 1
+            && (
+                preg_match('/\b(erp|progiciel|applicatif|application metier|logiciel metier|sirh|sage|sap)\b/', $text) === 1
+                || ($qualification['primary_need'] ?? null) === 'amoa_erp'
+            );
+    }
+
+    private function buildErpQuestionnaireReply(): string
+    {
+        return $this->formatBulletReply(
+            'Pour qualifier un besoin ERP ou progiciel, OLING commence par cadrer les points suivants :',
+            [
+                'contexte métier, irritants actuels, objectifs attendus et niveau de maturité du projet',
+                'modules concernés: finance, achats, ventes, stocks, production, maintenance, RH, reporting ou interfaces',
+                'périmètre cible, sites concernés, volumes, données à reprendre et interfaces critiques',
+                'contraintes sécurité, RGPD, habilitations, hébergement, traçabilité et continuité d’activité',
+                'livrables AMOA attendus: note de cadrage, expression de besoins, cahier des charges, grille de choix, recette, reprise et conduite du changement',
+                'macro-planning, gouvernance, risques, charge et budget indicatifs à confirmer après échange',
+            ]
+        )."\n\n".'Première question: quel progiciel ou domaine applicatif souhaitez-vous cadrer, et quel irritant métier déclenche le projet ?';
     }
 
     private function isDirectContactQuestion(string $message): bool

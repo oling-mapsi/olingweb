@@ -6,6 +6,8 @@ use App\Entity\ChatConversation;
 use App\Entity\ChatMessage;
 use App\Entity\ChatPublicDocument;
 use App\Repository\ChatPublicDocumentRepository;
+use App\Service\Chat\Ai\AiDecision;
+use App\Service\Chat\Ai\AiProviderInterface;
 use App\Service\Chat\ChatPublicContentIndexer;
 use App\Service\Chat\Ai\HeuristicAiProvider;
 use App\Service\Chat\ChatQualificationService;
@@ -149,6 +151,76 @@ class ChatResponderTest extends TestCase
         ])->reply(new ChatConversation(), 'quelle est votre offre erp ?');
 
         self::assertSame(['/business-apps/erp', '/practice/business-apps'], $reply->sources);
+    }
+
+    public function testErpQuestionnaireUsesAmoaQualificationFrame(): void
+    {
+        $conversation = new ChatConversation();
+        $message = (new ChatMessage())
+            ->setRole('visitor')
+            ->setContent('Je souhaite lancer un questionnaire ERP pour cadrer un progiciel.')
+            ->setMessageType('answer')
+            ->setSequenceNumber(1)
+            ->setCreatedAt(new \DateTimeImmutable());
+        $conversation->addMessage($message);
+
+        $reply = $this->buildResponder()->reply($conversation, 'Je souhaite lancer un questionnaire ERP pour cadrer un progiciel.');
+
+        self::assertStringContainsString('modules concernés', $reply->content);
+        self::assertStringContainsString('sécurité, RGPD', $reply->content);
+        self::assertStringContainsString('livrables AMOA', $reply->content);
+        self::assertStringContainsString('macro-planning', $reply->content);
+    }
+
+    public function testUnavailableOpenAiProviderFallsBackToHeuristicProvider(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $heuristicCalls = 0;
+        $heuristic = new class($qualificationService, $heuristicCalls) extends HeuristicAiProvider {
+            public function __construct(ChatQualificationService $qualificationService, private int &$calls)
+            {
+                parent::__construct($qualificationService);
+            }
+
+            public function generateDecision(ChatConversation $conversation, string $visitorMessage, array $documents, array $qualification): AiDecision
+            {
+                ++$this->calls;
+
+                return parent::generateDecision($conversation, $visitorMessage, $documents, $qualification);
+            }
+        };
+        $failingOpenAi = new class implements AiProviderInterface {
+            public function getName(): string
+            {
+                return 'openai_responses';
+            }
+
+            public function isAvailable(): bool
+            {
+                return true;
+            }
+
+            public function generateDecision(ChatConversation $conversation, string $visitorMessage, array $documents, array $qualification): AiDecision
+            {
+                throw new \RuntimeException('OpenAI unavailable');
+            }
+        };
+
+        $repository = $this->createMock(ChatPublicDocumentRepository::class);
+        $repository->method('findActiveDocuments')->willReturn([]);
+        $responder = new ChatResponder(
+            new PublicContentCatalog($repository, $this->createMock(ChatPublicContentIndexer::class)),
+            $qualificationService,
+            $heuristic,
+            [$failingOpenAi],
+            new NullLogger(),
+        );
+
+        $reply = $responder->reply(new ChatConversation(), 'Je veux qualifier un besoin ERP finance avec reprise de données.');
+
+        self::assertSame(1, $heuristicCalls);
+        self::assertSame('heuristic', $reply->provider);
+        self::assertStringContainsString('ERP', $reply->content);
     }
 
     public function testSectorQuestionCanSelectReferenceAndSectorPage(): void

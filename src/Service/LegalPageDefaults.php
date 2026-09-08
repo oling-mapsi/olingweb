@@ -163,7 +163,6 @@ HTML,
   <h4>Loi applicable</h4>
   <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
   <p>Dernière mise à jour le jeudi 13 avril 2023</p>
-  <p>Note : Ces mentions légales sont données à titre d'exemple et peuvent nécessiter des modifications pour s'adapter à la situation spécifique d'OLING. Il est recommandé de consulter un conseiller juridique pour adapter ces mentions légales à la réalité de l'entreprise.</p>
 </div>
 HTML,
             ],

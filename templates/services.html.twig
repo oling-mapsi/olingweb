@@ -11,7 +11,7 @@
     title: serviceNarrative.headline,
     intro: serviceNarrative.intro,
     primaryCta: {route: 'contact', label: 'Parler de votre projet'},
-    secondaryCta: {route: 'practice_home', routeParams: {slug: service.practice.slug}, label: 'Voir la practice'},
+    secondaryCta: null,
     highlights: serviceNarrative.outcomes|slice(0, 3)
   } %}
 
@@ -125,28 +125,6 @@
       </div>
     </section>
   {% endif %}
-
-  <section class="oling-shell-section oling-shell-section--tint">
-    <div class="container">
-      <div class="oling-section-head">
-        <span class="oling-kicker">Practice</span>
-        <h2>Autres offres de {{ service.practice.designation }}</h2>
-        <p>La logique de practice permet de relier cadrage, outillage, conformité et exécution dans un même ensemble de services.</p>
-      </div>
-      <div class="oling-service-link-grid">
-        {% for serv in services %}
-          {% if serv.practice == service.practice %}
-            <a class="oling-service-link-card" href="{{ path('service', {practice: serv.practice.slug, slug: serv.slug}) }}">
-              <span class="oling-kicker">{{ serv.designationShort ?: 'Offre OLING' }}</span>
-              <h3>{{ serv.designation }}</h3>
-              <p>{{ serv.introductionShort ?: serv.descriptionShort ?: 'Voir le détail de cette offre.' }}</p>
-              <span class="oling-service-link-card__more">{% if serv.id == service.id %}Offre actuelle{% else %}Voir l'offre{% endif %}</span>
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
 
   {% if serviceNarrative.supportLinks is defined %}
     <section class="oling-shell-section">

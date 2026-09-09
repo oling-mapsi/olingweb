@@ -19,7 +19,7 @@
     <div class="container">
       <div class="oling-two-col">
         <article class="oling-surface oling-surface--light">
-          <span class="oling-kicker">{{ practice.designationShort ?: 'Practice OLING' }}</span>
+          <span class="oling-kicker">{{ practice.designationShort ?: 'Domaine OLING' }}</span>
           <h2>{% if practice.slug == 'consulting' %}Quel rôle joue OLING dans un projet d’AMOA SI ?{% else %}{{ practice.designation }}{% endif %}</h2>
           <p>{{ practiceNarrative.promise }}</p>
           {% if practice.description %}
@@ -28,7 +28,7 @@
         </article>
         <article class="oling-surface oling-surface--light">
           <span class="oling-kicker">Services clés</span>
-          <h2>{% if practice.slug == 'consulting' %}Quelles expertises OLING peut mobiliser autour de l’AMOA SI ?{% else %}Les expertises rattachées à cette practice{% endif %}</h2>
+          <h2>{% if practice.slug == 'consulting' %}Quelles expertises OLING peut mobiliser autour de l’AMOA SI ?{% else %}Les interventions mobilisables{% endif %}</h2>
           <ul class="oling-check-list">
             {% for item in practiceNarrative.focus %}
               <li>{{ item }}</li>
@@ -108,7 +108,7 @@
         <div class="oling-section-head">
           <span class="oling-kicker">Offres</span>
           <h2>{{ practice.designationShort ?: 'Services OLING' }}</h2>
-          <p>{{ practice.introductionShort ?: 'Cette practice regroupe un même angle d’expertise. Les services ci-dessous décrivent ensuite les interventions concrètes, livrables et dispositifs activables selon votre contexte.' }}</p>
+          <p>{{ practice.introductionShort ?: 'Les offres ci-dessous décrivent les interventions concrètes, livrables et dispositifs activables selon votre contexte.' }}</p>
       </div>
       <div class="oling-service-link-grid">
         {% for service in practice.services %}
@@ -132,7 +132,7 @@
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">Cas et contextes</span>
-          <h2>Quelques projets liés à cette practice</h2>
+          <h2>Réalisations</h2>
         </div>
         <div class="oling-project-proof-grid">
           {% for project in projects|slice(0, 3) %}
@@ -152,7 +152,7 @@
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">Équipe</span>
-          <h2>Experts mobilisables sur cette practice</h2>
+          <h2>Experts mobilisables</h2>
         </div>
         <div class="oling-team-mini-list">
           {% for team in teams %}

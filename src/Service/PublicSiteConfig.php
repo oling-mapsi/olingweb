@@ -364,7 +364,7 @@ class PublicSiteConfig
                 'metaDescription' => 'Découvrez les offres OLING : AMOA ERP, transformation SI, organisation, conformité, cybersécurité, risques, RGPD et IA.',
                 'eyebrow' => 'Services et offres',
                 'title' => 'Des offres structurées pour cadrer, sécuriser et faire avancer les transformations',
-                'intro' => 'Les services OLING traduisent les expertises en interventions concrètes. Les expertises aident à qualifier le sujet, les services précisent le niveau d’intervention, et les secteurs permettent de relire le tout à partir du terrain métier.',
+                'intro' => 'Les services OLING décrivent les interventions concrètes mobilisables selon le contexte, les risques et les décisions à prendre.',
                 'highlights' => ['AMOA ERP et applications', 'Conformité, risques et résilience', 'Data, automatisation et IA'],
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre projet'],
                 'secondaryCta' => ['route' => 'expertises_index', 'label' => 'Voir les expertises'],
@@ -372,15 +372,15 @@ class PublicSiteConfig
                     'enabled' => true,
                 ],
                 'listing' => [
-                    'defaultPracticeLabel' => 'Practice',
-                    'defaultPracticeIntro' => 'Offres reliées à cette practice.',
+                    'defaultPracticeLabel' => 'Domaine',
+                    'defaultPracticeIntro' => 'Offres associées à ce domaine.',
                     'defaultServiceIntro' => 'Voir le détail de cette offre.',
                     'moreLabel' => 'Voir l\'offre',
                 ],
                 'cta' => [
                     'eyebrow' => 'Qualification',
                     'title' => 'Choisir le bon niveau d’intervention plutôt que multiplier les chantiers',
-                    'text' => 'OLING peut vous aider à qualifier rapidement si votre sujet relève d’une expertise, d’une practice complète ou d’une intervention ciblée.',
+                    'text' => 'OLING peut vous aider à qualifier rapidement si votre sujet relève d’une intervention ciblée ou d’un dispositif plus complet.',
                     'primaryCta' => ['route' => 'contact', 'label' => 'Demander un échange'],
                 ],
             ],
@@ -787,7 +787,7 @@ class PublicSiteConfig
     public function getPracticeNarrative(Practice $practice): array
     {
         $defaults = [
-            'eyebrow' => $practice->getDesignationShort() ?: 'Practice OLING',
+            'eyebrow' => $practice->getDesignationShort() ?: 'Domaine OLING',
             'headline' => $practice->getH1Title() ?: $practice->getDesignation(),
             'intro' => $practice->getIntroductionShort() ?: $practice->getIntroduction() ?: '',
             'promise' => $practice->getDescription() ?: 'Une pratique structuree pour relier enjeux operationnels, outils et execution.',

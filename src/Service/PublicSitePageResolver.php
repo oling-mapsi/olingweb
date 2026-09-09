@@ -138,7 +138,7 @@ class PublicSitePageResolver
                 'seoTitle' => 'Expertises | OLING',
                 'metaDescription' => 'Découvrez les expertises OLING pour les PME, PMI et ETI : transformation SI, AMOA ERP, organisation, data, IA, cybersécurité et conformité.',
                 'eyebrow' => 'Expertises OLING',
-                'title' => 'AMO ERP, risques, conformité, RGPD, IA : les expertises qui tiennent les transformations',
+                'title' => 'AMOA SI, applications métiers, gouvernance DSI, risques et conformité',
                 'intro' => 'OLING structure son accompagnement autour des sujets qui exposent directement la direction : arbitrages SI, projets ERP, conformité, gouvernance des données, résilience et usages IA.',
                 'highlights' => ['AMO ERP et applications métiers', 'Risques, cyber et résilience', 'RGPD, gouvernance et IA'],
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler à un consultant'],
@@ -149,7 +149,7 @@ class PublicSitePageResolver
                     'text' => 'Cette couche éditoriale aide à qualifier le problème à traiter. Une fois le sujet clarifié, les pages services détaillent le niveau d’intervention mobilisable, et les pages secteurs montrent comment ces expertises s’appliquent selon le contexte métier.',
                 ],
                 'cta' => [
-                    'title' => 'Besoin d\'un regard indépendant avant de relancer ou sécuriser un sujet critique',
+                    'title' => 'Besoin d\'un regard indépendant avant de relancer ou sécuriser un sujet critique ?',
                     'text' => 'OLING intervient quand un projet ERP, une trajectoire SI, un risque de conformité ou un sujet IA doivent redevenir pilotables rapidement.',
                     'primaryCta' => ['route' => 'contact', 'label' => 'Demander un échange'],
                 ],

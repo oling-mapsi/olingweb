@@ -4,34 +4,76 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
+{% set universes = [
+  {
+    title: 'AMOA & Applications métiers',
+    intro: 'ERP, CRM, GMAO, SI Finance, SIRH, data et IA : cadrage, choix, recette et mise en production.',
+    items: [
+      {label: 'AMOA SI', href: path('amoa_si'), text: 'Cadrage, gouvernance projet, expression des besoins, recette et conduite du changement.'},
+      {label: 'ERP', href: '/business-apps/erp', text: 'Choix du progiciel, déploiement, reprise de données, interfaces et mise en production.'},
+      {label: 'CRM', href: '/crm', text: 'Processus commerciaux, données client, choix de solution, adoption et reporting.'},
+      {label: 'GMAO', href: '/gmao', text: 'Maintenance, actifs, données équipements, mobilité terrain, recette et déploiement.'},
+      {label: 'SI Finance', href: '/si-finance', text: 'Processus finance, ERP/EPM, reporting, contrôle interne et intégrations.'},
+      {label: 'Facturation électronique', href: '/consulting/reforme-facturation-electronique-amoa', text: 'Cadrage e-invoicing, flux, formats, plateformes agréées (PA) et conduite du changement.'},
+      {label: 'Data / BI', href: '/business-apps/bi-et-analytique', text: 'Reporting, données décisionnelles, tableaux de bord et pilotage par les indicateurs.'},
+      {label: 'IA & automatisation', href: '/business-apps/transformation-digitale-automatisation-et-ia-utile', text: 'Processus, automatisation utile, agents métier, cadrage et mesure des gains.'}
+    ]
+  },
+  {
+    title: 'Gouvernance & Performance DSI',
+    intro: 'Organiser le SI, prioriser les décisions et rendre les projets pilotables.',
+    items: [
+      {label: 'Schéma directeur SI', href: '/consulting/plan-strategique', text: 'Diagnostic, trajectoire SI, priorisation du portefeuille et feuille de route.'},
+      {label: 'Pilotage de projets / PMO', href: '/consulting/pilotage-des-plans', text: 'Planning, budget, risques, fournisseurs, comités et décisions de cadrage.'},
+      {label: 'Organisation & processus', href: '/consulting/management-des-processus', text: 'Clarification des processus, responsabilités, irritants et modes de fonctionnement.'},
+      {label: 'Gouvernance des données', href: '/consulting/gouvernance-des-donnees', text: 'Référentiels, qualité des données, responsabilités et usages de pilotage.'},
+      {label: 'Infrastructure & modernisation SI', href: '/infrastructure-si-amoa', text: 'Cadrage infrastructure, scénarios techniques, risques, planning et gouvernance de transition.'},
+      {label: 'DSI externalisée', href: '/dsi-externalisee', text: 'Appui de direction SI, priorités, fournisseurs, budget et continuité opérationnelle.'}
+    ]
+  },
+  {
+    title: 'Conformité, Risques & Résilience',
+    intro: 'RGPD, cyber, QSE, PCA/PRA, risques, contrôle interne et IA : obligations, contrôles et preuves.',
+    items: [
+      {label: 'RGPD / DPO', href: '/expertises-audit/rgpd', text: 'DPO externalisé, registre, DPIA, droits, contrats et pilotage de conformité.'},
+      {label: 'Cybersécurité / ISO 27001', href: '/cyber-securite', text: 'Gouvernance sécurité, risques, PSSI, contrôles, ISO 27001, NIS2 et DORA.'},
+      {label: 'QSE', href: '/expertises-audit/qse', text: 'Qualité, sécurité, environnement, audits, plans d’action et amélioration continue.'},
+      {label: 'Risques & contrôle interne', href: '/gestion-risques-audit-controle-interne', text: 'Cartographie des risques, contrôles, plans de maîtrise et reporting.'},
+      {label: 'Conformité IA / AI Act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act', text: 'Usages IA, responsabilités, registres, risques, supervision humaine et preuves.'}
+    ]
+  }
+] %}
+
 <main id="content" role="main">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
-    intro: page.intro,
+    intro: 'AMOA SI, applications métiers, gouvernance DSI, conformité, risques et résilience.',
     primaryCta: page.primaryCta,
-    secondaryCta: page.secondaryCta,
-    highlights: page.highlights
+    secondaryCta: null,
+    highlights: []
   } %}
 
   <section class="oling-shell-section">
     <div class="container">
-      <div class="oling-section-head">
-        <span class="oling-kicker">Fiches expertise</span>
-        <h2>Neuf expertises structurées pour cadrer, piloter et déployer</h2>
-        <p>Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.</p>
-      </div>
-      <div class="oling-project-proof-grid">
-        {% for slug, expertisePage in expertisePages %}
-          <article class="oling-proof-card">
-            {% if expertisePage.heroImage is defined and expertisePage.heroImage %}
-              <img class="img-fluid rounded-3 mb-3" src="{{ expertisePage.heroImage }}" alt="{{ expertisePage.title }}">
-            {% endif %}
-            <span class="oling-kicker">{{ expertisePage.nav }}</span>
-            <h3>{{ expertisePage.title }}</h3>
-            <p>{{ expertisePage.intro }}</p>
-            <a class="oling-mega-link" href="{{ path('expertises_show', {slug: slug}) }}">Voir la fiche</a>
-          </article>
+      <div class="d-flex flex-column gap-5">
+        {% for universe in universes %}
+          <div aria-labelledby="expertise-universe-{{ loop.index }}">
+            <div class="oling-section-head">
+              <h2 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h2>
+              <p>{{ universe.intro }}</p>
+            </div>
+            <div class="row g-4">
+              {% for item in universe.items %}
+                <div class="col-md-6 col-xl-4">
+                  <div class="border-top pt-3 h-100">
+                    <h3 class="h5 mb-2"><a class="link" href="{{ item.href }}">{{ item.label }}</a></h3>
+                    <p class="mb-0">{{ item.text }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -40,18 +82,25 @@
   <section class="oling-shell-section oling-shell-section--tint">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">{{ page.section.kicker }}</span>
-        <h2>{{ page.section.title }}</h2>
-        <p>{{ page.section.text }}</p>
+        <h2>MAPSI</h2>
+        <p>La plateforme GRC développée par OLING outille des dispositifs de risques, conformité, qualité, RGPD, PCA et contrôle interne.</p>
       </div>
-      {% include 'public/_expertise_groups.html.twig' with {variant: 'page', practices: practices, services: services} %}
+      <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">Accéder à mapsi.fr</a>
     </div>
   </section>
 
-  {% include 'public/_cta_band.html.twig' with {
-    title: page.cta.title,
-    text: page.cta.text,
-    primaryCta: page.cta.primaryCta
-  } %}
+  <section class="oling-cta-band">
+    <div class="container">
+      <div class="oling-cta-band__inner">
+        <div>
+          <span class="oling-kicker">Parlons de votre projet</span>
+          <h2>{{ page.cta.title }}</h2>
+        </div>
+        <div class="oling-cta-band__actions">
+          <a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre projet</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

@@ -11639,7 +11639,12 @@ body.oling-body .oling-topbar .btn.btn-primary:active * {
 
   .oling-shell-hero__inner,
   .oling-cta-band__inner {
+    grid-template-columns: 1fr;
     padding: 2rem 1.4rem;
+  }
+
+  .oling-section-head {
+    grid-template-columns: 1fr;
   }
 
   .oling-hero-visuals {

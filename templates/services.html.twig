@@ -20,8 +20,21 @@
       <div class="oling-two-col">
         <article class="oling-surface oling-surface--light">
           <span class="oling-kicker">Ce que couvre l'offre</span>
-          <h2>{{ service.designation }}</h2>
-          <div class="oling-richtext">{{ service.description|raw }}</div>
+          <h2>{{ serviceNarrative.coverageTitle|default(service.designation) }}</h2>
+          {% if serviceNarrative.hideLegacyDescription|default(false) %}
+            {% if serviceNarrative.coverageText is defined %}
+              <p>{{ serviceNarrative.coverageText }}</p>
+            {% endif %}
+            {% if serviceNarrative.coverageItems is defined %}
+              <ul class="oling-check-list">
+                {% for item in serviceNarrative.coverageItems %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% else %}
+            <div class="oling-richtext">{{ service.description|raw }}</div>
+          {% endif %}
         </article>
         <article class="oling-surface oling-surface--light">
           <span class="oling-kicker">Résultats attendus</span>
@@ -148,7 +161,14 @@
     </section>
   {% endif %}
 
-  {% if service.projets|length > 0 %}
+  {% if serviceNarrative.anonymousProofs is defined and serviceNarrative.anonymousProofs|length > 0 %}
+    {% include 'public/_anonymous_proof_cards.html.twig' with {
+      proofs: serviceNarrative.anonymousProofs,
+      sectionClass: 'oling-shell-section oling-shell-section--tint',
+      title: serviceNarrative.anonymousProofsTitle|default('Missions anonymisees associees'),
+      intro: serviceNarrative.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+    } %}
+  {% elseif service.projets|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">

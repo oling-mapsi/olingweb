@@ -367,6 +367,16 @@ class SeoLandingController extends AbstractController
                     'PME, ETI, groupes multisites, secteur public et organisations avec enjeux de gouvernance et reporting',
                     'Equipes ayant besoin d\'un tiers independant pour arbitrer entre processus, donnees, ERP, EPM et integrateurs',
                 ],
+                'anonymousProofsTitle' => 'Mission anonymisee associee',
+                'anonymousProofsIntro' => 'Cette preuve reste anonymisee et limitee au perimetre SI Finance documente.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Grand port maritime',
+                        'sector' => 'Transport portuaire',
+                        'mission' => 'AMOA de transformation du SI Finance : cadrage, contraintes reglementaires et preparation de la reprise de donnees.',
+                        'perimeter' => ['SI Finance', 'contraintes reglementaires', 'reprise de donnees'],
+                    ],
+                ],
                 'supportLinks' => [
                     ['href' => '/amoa-si', 'label' => 'AMOA des systemes d\'information', 'description' => 'Pour le cadrage transverse, la gouvernance SI et le pilotage des projets.'],
                     ['href' => '/business-apps/erp', 'label' => 'Projet ERP', 'description' => 'Pour les projets ERP globaux, interfaces, reprises de donnees et pilotage integrateur.'],

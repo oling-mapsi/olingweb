@@ -183,6 +183,15 @@
     </section>
   {% endif %}
 
+  {% if landingNarrative.anonymousProofs is defined and landingNarrative.anonymousProofs|length > 0 %}
+    {% include 'public/_anonymous_proof_cards.html.twig' with {
+      proofs: landingNarrative.anonymousProofs,
+      sectionClass: 'oling-section oling-section--tight',
+      title: landingNarrative.anonymousProofsTitle|default('Missions anonymisees associees'),
+      intro: landingNarrative.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+    } %}
+  {% endif %}
+
   <section class="oling-section oling-section--tight">
     <div class="container">
       <div class="oling-surface p-4">

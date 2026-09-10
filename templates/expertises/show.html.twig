@@ -76,7 +76,14 @@
     </div>
   </section>
 
-  {% if projects|length > 0 %}
+  {% if page.anonymousProofs is defined and page.anonymousProofs|length > 0 %}
+    {% include 'public/_anonymous_proof_cards.html.twig' with {
+      proofs: page.anonymousProofs,
+      sectionClass: 'oling-shell-section oling-shell-section--tint',
+      title: page.anonymousProofsTitle|default('Missions anonymisees associees'),
+      intro: page.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+    } %}
+  {% elseif projects|length > 0 %}
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">

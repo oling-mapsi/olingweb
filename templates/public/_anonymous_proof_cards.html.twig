@@ -1,0 +1,26 @@
+{% set proofs = proofs|default([]) %}
+{% if proofs is not empty %}
+  <section class="{{ sectionClass|default('oling-shell-section') }}">
+    <div class="container">
+      <div class="oling-section-head">
+        <span class="oling-kicker">{{ eyebrow|default('Preuves') }}</span>
+        <h2>{{ title|default('Missions anonymisees') }}</h2>
+        {% if intro is defined and intro %}
+          <p>{{ intro }}</p>
+        {% endif %}
+      </div>
+      <div class="oling-project-proof-grid">
+        {% for proof in proofs|slice(0, 3) %}
+          <article class="oling-proof-card">
+            <span class="oling-kicker">{{ proof.sector }}</span>
+            <h3>{{ proof.label }}</h3>
+            <p>{{ proof.mission }}</p>
+            {% if proof.perimeter is defined and proof.perimeter is not empty %}
+              <p class="mb-0"><strong>Perimetre :</strong> {{ proof.perimeter|join(' · ') }}</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}

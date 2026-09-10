@@ -633,6 +633,16 @@ class PublicSiteConfig
                 'linkedServices' => [
                     ['practice' => 'expertises-audit', 'service' => 'rgpd'],
                 ],
+                'anonymousProofsTitle' => 'Missions anonymisees associees',
+                'anonymousProofsIntro' => 'Ces preuves restent anonymisees et limitees aux missions documentees.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Intercommunalite',
+                        'sector' => 'Secteur public local',
+                        'mission' => 'DPO externalise et gouvernance RGPD dans un contexte de services numeriques mutualises.',
+                        'perimeter' => ['DPO externalise', 'RGPD', 'gouvernance', 'services numeriques mutualises'],
+                    ],
+                ],
             ],
             'amoa-ia-pilotage-projets-agents' => [
                 'nav' => 'AMOA IA',
@@ -832,6 +842,28 @@ class PublicSiteConfig
                     'PME, ETI, grands comptes et organisations du secteur public',
                     'Contextes multi-sites, multi-outils ou multi-prestataires',
                 ],
+                'anonymousProofsTitle' => 'Missions anonymisees associees',
+                'anonymousProofsIntro' => 'Quelques contextes de mission, anonymises et limites au perimetre documente.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Operateur public de l\'eau',
+                        'sector' => 'Eau et assainissement',
+                        'mission' => 'AMOA GMAO et modernisation du SI interventions, avec interoperabilite entre SI technique, client, RH, finance et SIG.',
+                        'perimeter' => ['GMAO', 'SI interventions', 'SI technique', 'client', 'RH', 'finance', 'SIG'],
+                    ],
+                    [
+                        'label' => 'Intercommunalite',
+                        'sector' => 'Secteur public local',
+                        'mission' => 'Gouvernance SI et Microsoft 365 dans un environnement de services mutualises.',
+                        'perimeter' => ['Gouvernance SI', 'Microsoft 365', 'services mutualises'],
+                    ],
+                    [
+                        'label' => 'Organisme consulaire',
+                        'sector' => 'Services aux entreprises',
+                        'mission' => 'AMOA de digitalisation de processus metier et integration d\'applications.',
+                        'perimeter' => ['Digitalisation', 'applications metier', 'interfaces'],
+                    ],
+                ],
                 'supportLinks' => [
                     ['href' => '/business-apps/erp', 'label' => 'AMOA ERP et pilotage applicatif', 'description' => 'Pour les projets ERP, interfaces, reprise de données et pilotage intégrateur.'],
                     ['href' => '/crm', 'label' => 'AMOA CRM', 'description' => 'Pour les projets CRM, processus commerciaux, données et adoption.'],
@@ -933,6 +965,22 @@ class PublicSiteConfig
                     'Equipes finance, achats, supply chain, production et maintenance',
                     'Sponsors de projet ayant besoin d\'un tiers independant pour arbitrer et piloter l\'execution',
                 ],
+                'anonymousProofsTitle' => 'Missions anonymisees associees',
+                'anonymousProofsIntro' => 'Deux contextes ERP anonymises, sans nom client ni resultat non documente.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Operateur public de l\'eau',
+                        'sector' => 'Eau et assainissement',
+                        'mission' => 'AMOA ERP autour de la gestion des interventions et des echanges avec les SI metier.',
+                        'perimeter' => ['ERP', 'gestion des interventions', 'interfaces SI metier'],
+                    ],
+                    [
+                        'label' => 'Groupe industriel',
+                        'sector' => 'Industrie',
+                        'mission' => 'AMOA ERP Divalto Infinity, gouvernance SI, interim DSI et PMO.',
+                        'perimeter' => ['Divalto Infinity', 'gouvernance SI', 'interim DSI', 'PMO'],
+                    ],
+                ],
                 'supportLinks' => [
                     ['href' => '/amoa-si', 'label' => 'AMOA des systemes d\'information', 'description' => 'Pour le cadrage transverse, la gouvernance SI et le pilotage des transformations.'],
                     ['href' => '/crm', 'label' => 'Projet CRM', 'description' => 'Pour les enjeux relation client, processus commerciaux, donnees et adoption.'],
@@ -952,6 +1000,51 @@ class PublicSiteConfig
                     'Vision claire des traitements et des risques',
                     'Dispositif DPO et gouvernance activables',
                     'Meilleure coordination metiers, SI et conformite',
+                ],
+                'anonymousProofsTitle' => 'Mission anonymisee associee',
+                'anonymousProofsIntro' => 'Cette preuve reste limitee au diagnostic et aux traitements documentes.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Societe d\'economie mixte',
+                        'sector' => 'Immobilier / commerce local',
+                        'mission' => 'Diagnostic RGPD et analyse des traitements de donnees clients.',
+                        'perimeter' => ['RGPD', 'traitements de donnees clients', 'diagnostic'],
+                    ],
+                ],
+            ],
+            'consulting/reforme-facturation-electronique-amoa' => [
+                'eyebrow' => 'AMOA facturation electronique',
+                'headline' => 'AMOA Réforme de la facturation électronique (RFE)',
+                'intro' => 'AMOA réforme de la facturation électronique : cadrage, conformité, choix de solutions, conduite du changement et mise en œuvre.',
+                'hideLegacyDescription' => true,
+                'coverageTitle' => 'Ce que couvre une mission AMOA facturation electronique',
+                'coverageText' => 'La mission porte sur le cadrage des flux, des donnees, des impacts SI et de la consultation, sans presumer du deploiement final.',
+                'coverageItems' => [
+                    'Cadrage des flux de facturation electronique',
+                    'Analyse des impacts SI, ERP et donnees de reference',
+                    'Preparation de la consultation et des arbitrages',
+                    'Organisation du pilotage, des risques et de la conduite du changement',
+                ],
+                'outcomes' => [
+                    'Flux et impacts SI clarifies',
+                    'Consultation mieux preparee',
+                    'Donnees de reference mieux cadrées',
+                ],
+                'anonymousProofsTitle' => 'Missions anonymisees associees',
+                'anonymousProofsIntro' => 'Deux contextes RFE anonymises, sans nom client ni resultat extrapole.',
+                'anonymousProofs' => [
+                    [
+                        'label' => 'Acteur du transport',
+                        'sector' => 'Transport',
+                        'mission' => 'AMOA facturation electronique : cadrage des flux, preparation de la consultation et analyse des impacts SI.',
+                        'perimeter' => ['Facturation electronique', 'flux', 'SI'],
+                    ],
+                    [
+                        'label' => 'Etablissement de recherche',
+                        'sector' => 'Sante / recherche',
+                        'mission' => 'Analyse et preparation des referentiels necessaires a la facturation electronique dans un environnement Sage X3.',
+                        'perimeter' => ['Facturation electronique', 'referentiels', 'Sage X3'],
+                    ],
                 ],
             ],
             'expertises-audit/si' => [

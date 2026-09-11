@@ -4,8 +4,14 @@
 {% block meta_description %}{{ landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'Cabinet de conseil AMOA SI et conformite.') }}{% endblock %}
 
 {% block body %}
-{% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 {% set pageSlug = page and page.slug ? page.slug : '' %}
+{% set compactLanding = landingNarrative.compactLanding is defined ? landingNarrative.compactLanding : false %}
+{% set showFaq = landingNarrative.showFaq is defined ? landingNarrative.showFaq : true %}
+{% set showHeroSideHtml = landingNarrative.showHeroSideHtml is defined ? landingNarrative.showHeroSideHtml : true %}
+{% set showHeroImage = landingNarrative.showHeroImage is defined ? landingNarrative.showHeroImage : true %}
+{% set showReadingPath = landingNarrative.showReadingPath is defined ? landingNarrative.showReadingPath : true %}
+{% set showAutomaticZones = landingNarrative.showAutomaticZones is defined ? landingNarrative.showAutomaticZones : true %}
+{% set faqItems = showFaq and pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 {% set conversionCtas = {
   'erp-progiciel': 'Échanger sur mon projet ERP',
   'crm': 'Échanger sur mon projet CRM',
@@ -16,8 +22,9 @@
   'cyber-securite': 'Évaluer mon projet cybersécurité',
   'conseil-qualite': 'Échanger sur ma démarche QSE'
 } %}
-{% set conversionCtaLabel = conversionCtas[pageSlug]|default(null) %}
-{% set hasHeroImage = page and page.heroImage %}
+{% set conversionCtaLabel = landingNarrative.finalCtaLabel|default(conversionCtas[pageSlug]|default(null)) %}
+{% set conversionCtaText = landingNarrative.finalCtaText is defined ? landingNarrative.finalCtaText : 'Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d’accompagnement.' %}
+{% set hasHeroImage = showHeroImage and page and page.heroImage %}
 {% if hasHeroImage %}
   {% set heroImageRaw = page.heroImage|trim %}
   {% set heroImageSrc = heroImageRaw starts with 'http://' or heroImageRaw starts with 'https://' ? heroImageRaw : asset(heroImageRaw starts with '/' ? heroImageRaw|slice(1) : heroImageRaw) %}
@@ -54,7 +61,7 @@
     </div>
   </section>
 
-  {% if page and page.heroSideHtml %}
+  {% if showHeroSideHtml and page and page.heroSideHtml %}
     <div class="oling-seo-cabinet__content">
       {{ page.heroSideHtml|raw }}
     </div>
@@ -76,7 +83,7 @@
           {% if landingNarrative.focus is defined %}
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
-                <span class="oling-kicker">Perimetre</span>
+                <span class="oling-kicker">{{ compactLanding ? 'Périmètre' : 'Perimetre' }}</span>
                 <h2>{{ landingNarrative.scopeTitle ?? 'Ce que couvre cette mission' }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.focus %}
@@ -112,7 +119,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Livrables</span>
-                <h2>Livrables utiles pour cadrer, choisir et deployer</h2>
+                <h2>{{ landingNarrative.deliverablesTitle|default('Livrables utiles pour cadrer, choisir et deployer') }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.deliverables %}
                     <li>{{ item }}</li>
@@ -166,18 +173,28 @@
       <div class="container">
         <div class="oling-surface p-4">
           <span class="oling-kicker">Expertises complémentaires</span>
-          <h2>{{ landingNarrative.linksTitle ?? 'Explorer les sujets lies a ce projet' }}</h2>
-          <p>{{ landingNarrative.linksIntro ?? 'Ces pages prolongent le cadrage avec les expertises, les références et les services mobilisables selon votre contexte.' }}</p>
-          <div class="row g-4 mt-1">
-            {% for link in landingNarrative.supportLinks %}
-              <div class="col-lg-6">
-                <div class="oling-surface p-4 h-100">
-                  <h3 class="h6 mb-2"><a class="link" href="{{ link.href }}">{{ link.label }}</a></h3>
-                  <p class="mb-0">{{ link.description }}</p>
+          <h2>{{ landingNarrative.linksTitle ?? 'Explorer les sujets liés à ce projet' }}</h2>
+          {% if not compactLanding %}
+            <p>{{ landingNarrative.linksIntro ?? 'Ces pages prolongent le cadrage avec les expertises, les références et les services mobilisables selon votre contexte.' }}</p>
+          {% endif %}
+          {% if compactLanding %}
+            <ul class="mb-0">
+              {% for link in landingNarrative.supportLinks %}
+                <li><a class="link" href="{{ link.href }}">{{ link.label }}</a></li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="row g-4 mt-1">
+              {% for link in landingNarrative.supportLinks %}
+                <div class="col-lg-6">
+                  <div class="oling-surface p-4 h-100">
+                    <h3 class="h6 mb-2"><a class="link" href="{{ link.href }}">{{ link.label }}</a></h3>
+                    <p class="mb-0">{{ link.description }}</p>
+                  </div>
                 </div>
-              </div>
-            {% endfor %}
-          </div>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </section>
@@ -192,15 +209,17 @@
     } %}
   {% endif %}
 
-  <section class="oling-section oling-section--tight">
-    <div class="container">
-      <div class="oling-surface p-4">
-        <span class="oling-kicker">Parcours de lecture</span>
-        <h2 class="h4">Cette page oriente vers le bon niveau de réponse</h2>
-        <p class="mb-0">Cette page sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
+  {% if showReadingPath %}
+    <section class="oling-section oling-section--tight">
+      <div class="container">
+        <div class="oling-surface p-4">
+          <span class="oling-kicker">Parcours de lecture</span>
+          <h2 class="h4">Cette page oriente vers le bon niveau de réponse</h2>
+          <p class="mb-0">Cette page sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  {% endif %}
 
   {% if conversionCtaLabel %}
     <section class="oling-section oling-section--tight">
@@ -208,8 +227,10 @@
         <div class="oling-surface p-4 d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between">
           <div>
             <span class="oling-kicker">Échange de cadrage</span>
-            <h2 class="h4 mb-2">Clarifier votre besoin et les prochaines décisions</h2>
-            <p class="mb-0">Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d'accompagnement.</p>
+            <h2 class="h4 mb-2">{{ landingNarrative.finalCtaTitle|default('Clarifier votre besoin et les prochaines décisions') }}</h2>
+            {% if conversionCtaText %}
+              <p class="mb-0">{{ conversionCtaText }}</p>
+            {% endif %}
           </div>
           <a class="btn btn-primary" href="{{ path('contact') }}">{{ conversionCtaLabel }}</a>
         </div>
@@ -238,7 +259,7 @@
     </section>
   {% endif %}
 
-  {% if zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
+  {% if showAutomaticZones and zoneMaillage is defined and (zoneMaillage.hexagone is not empty or zoneMaillage.outreMer is not empty) %}
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">

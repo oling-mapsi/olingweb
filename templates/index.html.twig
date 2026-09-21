@@ -76,12 +76,17 @@
 
       <div class="oling-home-kpis__grid">
         {% for item in homePage.kpis %}
-          <article class="oling-home-kpi oling-home-kpi--{{ item.variant }}">
+          {% set isTerritoryKpi = item.label|default('')|lower|trim == 'hexagone & drom' %}
+          <article class="oling-home-kpi oling-home-kpi--{{ item.variant }}"{% if isTerritoryKpi %} style="container-type: inline-size;"{% endif %}>
             {% if item.variant == 'image' %}
               {% set kpiImage = item.image %}
               <img src="{{ kpiImage starts with 'http://' or kpiImage starts with 'https://' or kpiImage starts with '/' ? kpiImage : asset(kpiImage) }}" alt="{{ item.alt|default('Illustration') }}">
             {% else %}
-              <strong>{{ item.label }}</strong>
+              {% if isTerritoryKpi %}
+                <strong style="font-size: min(4.65rem, 20cqw) !important; white-space: nowrap;">Hexagone<br>&amp; DROM</strong>
+              {% else %}
+                <strong>{{ item.label }}</strong>
+              {% endif %}
               <span>{{ item.text }}</span>
             {% endif %}
           </article>

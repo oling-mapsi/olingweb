@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Charte IA | OLING{% endblock %}
+{% block meta_description %}Les sept principes d’OLING pour une intelligence artificielle responsable, maîtrisée et digne de confiance.{% endblock %}
+
+{% block body %}
+<main id="content" role="main">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="w-lg-75 mx-lg-auto">
+            <article class="card card-lg card-shadow oling-legal-card">
+                <div class="card-header bg-dark">
+                    <h1 class="card-title h2 text-white">{{ legalPage and legalPage.title ? legalPage.title : defaults.title }}</h1>
+                </div>
+                <div class="card-body">
+                    {{ (legalPage and legalPage.body ? legalPage.body : defaults.body)|raw }}
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+{% endblock %}

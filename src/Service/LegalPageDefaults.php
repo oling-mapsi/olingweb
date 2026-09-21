@@ -7,6 +7,92 @@ final class LegalPageDefaults
     public static function defaults(): array
     {
         return [
+            'charte-ia' => [
+                'title' => 'Charte éthique pour l’intelligence artificielle',
+                'body' => <<<'HTML'
+<div class="mb-7">
+  <p class="lead">Une intelligence artificielle responsable, maîtrisée et digne de confiance</p>
+  <p>OLING Management et Technologie (OMT)<br>Version 1.0 - 2026</p>
+  <p>Une IA de confiance : gouvernance, sécurité, responsabilité et maîtrise humaine.</p>
+</div>
+<section class="mb-7">
+  <h2 class="h4">Notre engagement pour une IA de confiance</h2>
+  <p>L’intelligence artificielle constitue une technologie qui amène une transformation profonde des organisations, des métiers, des services et des usages numériques.</p>
+  <p>OLING accompagne ses clients dans leurs projets de transformation, de systèmes d’information et de protection des données. Dans ce cadre, l’utilisation de solutions d’intelligence artificielle est incontournable et doit s’inscrire dans une démarche responsable, maîtrisée et respectueuse des personnes et des données de nos clients.</p>
+  <p>La présente Charte éthique pour l’Intelligence Artificielle définit les principes qu’OLING s’engage à appliquer dans l’utilisation, l’évaluation, la conception, l’intégration ou la recommandation de solutions reposant sur l’intelligence artificielle. Elle s’applique aussi bien aux usages internes de l’IA qu’aux prestations réalisées pour nos clients.</p>
+  <p>Elle complète les politiques et procédures d’OLING relatives notamment à la sécurité de l’information, à la protection des données personnelles, à la confidentialité et à la gestion des risques.</p>
+</section>
+<nav class="mb-7" aria-label="Les sept principes">
+  <h2 class="h4">Nos 7 principes</h2>
+  <ol>
+    <li><a href="#principe-1">Finalité et impact maîtrisés</a></li>
+    <li><a href="#principe-2">Responsabilité et durabilité</a></li>
+    <li><a href="#principe-3">Équité et non-discrimination</a></li>
+    <li><a href="#principe-4">Transparence et explicabilité</a></li>
+    <li><a href="#principe-5">Contrôle humain et responsabilité</a></li>
+    <li><a href="#principe-6">Robustesse et sécurité</a></li>
+    <li><a href="#principe-7">Vie privée et données personnelles</a></li>
+  </ol>
+</nav>
+<section class="mb-7" id="principe-1">
+  <h2 class="h4">1. Une IA à finalité définie et à impact maîtrisé</h2>
+  <p>Toute utilisation de l’intelligence artificielle doit répondre à une finalité clairement identifiée, légitime et proportionnée.</p>
+  <p>Avant d’utiliser ou de recommander une solution d’IA, OLING veille à identifier son objectif, les utilisateurs concernés, les résultats attendus ainsi que les principaux risques susceptibles d’en découler.</p>
+  <p>L’IA doit être utilisée dans l’intérêt des personnes et des organisations et ne doit pas conduire à créer ou amplifier des atteintes injustifiées aux droits et libertés.</p>
+  <p>Lorsque la nature ou la sensibilité d’un projet le justifie, les impacts potentiels de l’IA sont évalués avant sa mise en œuvre et des mesures adaptées sont définies pour maîtriser les risques identifiés.</p>
+</section>
+<section class="mb-7" id="principe-2">
+  <h2 class="h4">2. Une IA responsable et durable</h2>
+  <p>OLING prend en considération les impacts environnementaux, sociaux et organisationnels associés aux solutions d’intelligence artificielle.</p>
+  <p>Le recours à l’IA doit être proportionné au besoin et apporter une valeur réelle au regard des ressources nécessaires à son fonctionnement.</p>
+  <p>Lorsque plusieurs solutions permettent de répondre au même besoin, OLING encourage la prise en compte de critères tels que la localisation de solutions, la consommation de ressources, la pérennité de la solution, son utilité et ses impacts sur les parties prenantes.</p>
+  <p>La recherche de performance technologique ne doit pas être dissociée de la recherche d’un usage responsable et durable du numérique.</p>
+</section>
+<section class="mb-7" id="principe-3">
+  <h2 class="h4">3. Une IA équitable et non discriminatoire</h2>
+  <p>OLING veille à ce que l’utilisation de l’intelligence artificielle ne conduise pas à des discriminations injustifiées ou à des traitements inéquitables.</p>
+  <p>Une attention particulière est portée à la qualité et à la représentativité des données, ainsi qu’aux biais susceptibles d’être introduits par les données, les modèles, les règles de fonctionnement ou les conditions d’utilisation.</p>
+  <p>Lorsque les résultats produits par une IA sont susceptibles d’avoir un impact significatif sur des personnes, les risques de biais et de discrimination doivent être identifiés et, lorsque cela est possible, évalués et corrigés.</p>
+  <p>La diversité des compétences et des points de vue est encouragée dans l’analyse et la conduite des projets utilisant l’intelligence artificielle.</p>
+</section>
+<section class="mb-7" id="principe-4">
+  <h2 class="h4">4. Une IA transparente et explicable</h2>
+  <p>OLING promeut une utilisation transparente de l’intelligence artificielle.</p>
+  <p>Lorsqu’une personne interagit directement avec un système d’IA ou lorsqu’un contenu est produit de manière significative par une IA, cette utilisation doit pouvoir être portée à sa connaissance lorsque le contexte le nécessite.</p>
+  <p>Les capacités mais également les limites de la solution doivent être comprises par les personnes qui l’utilisent.</p>
+  <p>Les décisions et résultats produits avec l’assistance d’une IA doivent, lorsque leur importance le justifie, pouvoir être expliqués, retracés et contrôlés. Le niveau d’explicabilité attendu est adapté à la nature de l’usage et à la gravité des conséquences potentielles d’un résultat erroné.</p>
+</section>
+<section class="mb-7" id="principe-5">
+  <h2 class="h4">5. Une IA sous contrôle humain et avec des responsabilités clairement définies</h2>
+  <p>L’intelligence artificielle constitue un outil d’assistance et non un transfert de responsabilité à la machine.</p>
+  <p>Les personnes utilisant une solution d’IA restent responsables de l’usage qu’elles en font dans le cadre de leurs missions. Un contrôle humain adapté doit être maintenu lorsque les résultats produits par une IA sont susceptibles d’avoir des conséquences significatives.</p>
+  <p>Les résultats générés par une IA ne doivent pas être considérés comme exacts par principe. Ils doivent faire l’objet d’un niveau de vérification adapté à leur utilisation.</p>
+  <p>Les rôles et responsabilités des différents intervenants doivent être identifiés, notamment lorsque plusieurs acteurs participent à la fourniture, l’intégration ou l’exploitation d’une solution d’IA.</p>
+</section>
+<section class="mb-7" id="principe-6">
+  <h2 class="h4">6. Une IA robuste et sécurisée</h2>
+  <p>La sécurité de l’information est prise en compte dans le choix, l’utilisation et l’intégration des solutions d’intelligence artificielle. OLING applique aux systèmes d’IA des mesures de sécurité proportionnées aux risques associés à leur utilisation.</p>
+  <p>Une attention particulière est portée à la confidentialité des informations, à la maîtrise des accès, à l’intégrité et à la qualité des données, à la fiabilité des résultats, à la gestion des vulnérabilités, à la dépendance vis-à-vis des fournisseurs et à la continuité des activités.</p>
+  <p>Les informations sensibles, confidentielles ou appartenant à un client ne doivent pas être introduites dans une solution d’IA sans s’assurer au préalable que son utilisation est autorisée et que les garanties de sécurité sont appropriées.</p>
+  <p>Lorsque cela est nécessaire, un retour à un traitement humain ou conventionnel doit rester possible.</p>
+</section>
+<section class="mb-7" id="principe-7">
+  <h2 class="h4">7. Une IA respectueuse de la vie privée et des données personnelles</h2>
+  <p>OLING applique les principes de protection des données personnelles et de respect de la vie privée dès la conception aux usages de l’intelligence artificielle.</p>
+  <p>Tout traitement de données personnelles réalisé au moyen d’une solution d’IA doit respecter les exigences applicables en matière de protection des données.</p>
+  <p>OLING veille notamment à limiter les données utilisées à celles nécessaires à la finalité poursuivie, à assurer leur sécurité et à déterminer les conditions dans lesquelles elles peuvent être communiquées à un fournisseur de solution d’IA.</p>
+  <p>Une vigilance particulière est appliquée aux données sensibles, aux informations confidentielles et aux traitements susceptibles de présenter des risques importants pour les personnes. Les personnes concernées doivent bénéficier du niveau d’information approprié et pouvoir exercer leurs droits dans les conditions prévues par la réglementation applicable.</p>
+</section>
+<section class="mb-7">
+  <h2 class="h4">Mise en application de la Charte</h2>
+  <p>Ces principes s’appliquent aux collaborateurs d’OLING ainsi qu’aux intervenants agissant pour son compte lorsqu’ils utilisent ou participent à un projet impliquant une solution d’intelligence artificielle.</p>
+  <p>Les solutions et fournisseurs d’IA utilisés par OLING doivent être sélectionnés en tenant compte des exigences de sécurité, de confidentialité, de protection des données et des principes définis dans la présente Charte.</p>
+  <p>Dans le cadre des missions réalisées pour ses clients, OLING veille à identifier les responsabilités respectives des différentes parties et à alerter le client lorsqu’un usage envisagé de l’IA présente un risque significatif identifié.</p>
+  <p>Tout collaborateur ayant un doute concernant l’utilisation d’une solution d’intelligence artificielle doit solliciter une validation avant de poursuivre son utilisation.</p>
+  <p>La présente Charte est communiquée aux personnes concernées et fait l’objet d’une révision périodique, notamment afin de tenir compte de l’évolution des usages, des technologies, des risques et du cadre réglementaire.</p>
+</section>
+HTML,
+            ],
             'polrgpd' => [
                 'title' => 'Charte de Protection des Données à Caractère Personnel',
                 'body' => <<<HTML

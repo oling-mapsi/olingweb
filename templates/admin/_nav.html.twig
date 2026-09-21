@@ -28,6 +28,7 @@
                 <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'polrgpd' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'polrgpd'}) }}">Politique RGPD</a>
                 <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'polsecurite' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'polsecurite'}) }}">Politique sécurité</a>
                 <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'mentions-legales' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'mentions-legales'}) }}">Mentions légales</a>
+                <a class="nav-link {{ route == 'admin_legal_pages_edit' and app.request.get('slug') == 'charte-ia' ? 'active' : '' }}" href="{{ path('admin_legal_pages_edit', {'slug': 'charte-ia'}) }}">Charte IA</a>
             </div>
         </div>
     </div>

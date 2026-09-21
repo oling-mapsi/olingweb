@@ -122,6 +122,21 @@ class PracticeController extends AbstractController
         ]);
     }
 
+    #[Route('/charte-ia', name: 'charte_ia', methods: ['GET'])]
+    public function charteIa(
+        PracticeRepository $practiceRepository,
+        ServicesRepository $servicesRepository,
+        LegalPageRepository $legalPageRepository
+    ): Response {
+        return $this->render('charte-ia.html.twig', [
+            'practices' => $practiceRepository->findAll(),
+            'services' => $servicesRepository->findAll(),
+            'legalPage' => $legalPageRepository->findOneBy(['slug' => 'charte-ia']),
+            'defaults' => \App\Service\LegalPageDefaults::defaults()['charte-ia'],
+            'pract' => '',
+        ]);
+    }
+
     #[Route('/a-propos', name: 'apropos', options: ["sitemap" => true])]
     public function apropos(
         PracticeRepository $repopractice,

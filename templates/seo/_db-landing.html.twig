@@ -106,7 +106,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Phases projet</span>
-                <h2>{{ landingNarrative.triggerTitle ?? 'Quand lancer ce projet' }}</h2>
+                <h2>{{ landingNarrative.missionPhasesTitle ?? landingNarrative.triggerTitle ?? 'Quand lancer ce projet' }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.missionPhases %}
                     <li>{{ item }}</li>
@@ -141,7 +141,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Contextes</span>
-                <h2>Situations ou OLING apporte le plus de valeur</h2>
+                <h2>{{ landingNarrative.projectContextsTitle|default('Situations ou OLING apporte le plus de valeur') }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.projectContexts %}
                     <li>{{ item }}</li>
@@ -154,7 +154,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Interlocuteurs</span>
-                <h2>Equipes et organisations concernees</h2>
+                <h2>{{ landingNarrative.clientTypesTitle|default('Equipes et organisations concernees') }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.clientTypes %}
                     <li>{{ item }}</li>

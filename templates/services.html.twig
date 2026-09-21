@@ -10,7 +10,7 @@
     eyebrow: serviceNarrative.eyebrow,
     title: serviceNarrative.headline,
     intro: serviceNarrative.intro,
-    primaryCta: {route: 'contact', label: 'Parler de votre projet'},
+    primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: 'Parler de votre projet'},
     secondaryCta: null,
     highlights: serviceNarrative.outcomes|slice(0, 3)
   } %}
@@ -57,14 +57,14 @@
           {% if serviceNarrative.promise is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Positionnement</span>
-              <h2>Pourquoi OLING intervient sur un projet ERP</h2>
+              <h2>{{ serviceNarrative.promiseTitle|default('Pourquoi OLING intervient sur un projet ERP') }}</h2>
               <p>{{ serviceNarrative.promise }}</p>
             </article>
           {% endif %}
           {% if serviceNarrative.focus is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Périmètre</span>
-              <h2>Ce que couvre une mission AMOA ERP</h2>
+              <h2>{{ serviceNarrative.focusTitle|default('Ce que couvre une mission AMOA ERP') }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.focus %}
                   <li>{{ item }}</li>
@@ -84,7 +84,7 @@
           {% if serviceNarrative.missionPhases is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Phases projet</span>
-              <h2>Quand lancer une mission ERP avec OLING</h2>
+              <h2>{{ serviceNarrative.missionPhasesTitle|default('Quand lancer une mission ERP avec OLING') }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.missionPhases %}
                   <li>{{ item }}</li>
@@ -95,7 +95,7 @@
           {% if serviceNarrative.deliverables is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Livrables</span>
-              <h2>Livrables utiles pour cadrer, choisir et piloter</h2>
+              <h2>{{ serviceNarrative.deliverablesTitle|default('Livrables utiles pour cadrer, choisir et piloter') }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.deliverables %}
                   <li>{{ item }}</li>
@@ -115,7 +115,7 @@
           {% if serviceNarrative.projectContexts is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Contextes</span>
-              <h2>Situations ou OLING apporte le plus de valeur</h2>
+              <h2>{{ serviceNarrative.projectContextsTitle|default('Situations ou OLING apporte le plus de valeur') }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.projectContexts %}
                   <li>{{ item }}</li>
@@ -126,7 +126,7 @@
           {% if serviceNarrative.clientTypes is defined %}
             <article class="oling-surface oling-surface--light">
               <span class="oling-kicker">Interlocuteurs</span>
-              <h2>Equipes et organisations concernées</h2>
+              <h2>{{ serviceNarrative.clientTypesTitle|default('Equipes et organisations concernées') }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.clientTypes %}
                   <li>{{ item }}</li>
@@ -144,8 +144,8 @@
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">Pages liées</span>
-          <h2>Explorer les sujets liés à un projet ERP</h2>
-          <p>Ces pages complètent le cadrage ERP avec des contenus liés aux transformations SI, aux applications connexes et aux contextes de mission.</p>
+          <h2>{{ serviceNarrative.supportLinksTitle|default('Explorer les sujets liés à un projet ERP') }}</h2>
+          <p>{{ serviceNarrative.supportLinksIntro|default('Ces pages complètent le cadrage ERP avec des contenus liés aux transformations SI, aux applications connexes et aux contextes de mission.') }}</p>
         </div>
         <div class="oling-service-link-grid">
           {% for link in serviceNarrative.supportLinks %}
@@ -217,9 +217,9 @@
 
   {% include 'public/_cta_band.html.twig' with {
     eyebrow: 'Passage à l\'action',
-    title: 'Vérifier rapidement si cette offre est le bon niveau d\'intervention',
-    text: 'OLING peut qualifier votre contexte, confirmer le bon angle d\'attaque et engager un cadrage utile sans surdimensionner le dispositif.',
-    primaryCta: {route: 'contact', label: 'Parler de votre sujet'}
+    title: serviceNarrative.finalCtaTitle|default('Vérifier rapidement si cette offre est le bon niveau d\'intervention'),
+    text: serviceNarrative.finalCtaText|default('OLING peut qualifier votre contexte, confirmer le bon angle d\'attaque et engager un cadrage utile sans surdimensionner le dispositif.'),
+    primaryCta: {route: 'contact', label: serviceNarrative.finalCtaLabel|default('Parler de votre sujet')}
   } %}
 </main>
 

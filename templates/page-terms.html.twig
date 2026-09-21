@@ -15,7 +15,7 @@
         <div class="card card-lg card-shadow oling-legal-card">
           <!-- Header -->
           <div class="card-header bg-dark">
-            <h1 class="card-title h2 text-white">{{ legalPage and legalPage.title ? legalPage.title : 'Mentions légales et conditions générales du site oling.fr' }}</h1>
+            <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage and legalPage.title ? legalPage.title : 'Mentions légales et conditions générales du site oling.fr' }}</h1>
             {% if legalPage and legalPage.updatedAt %}
               <p class="card-text text-white">Dernière mise à jour : {{ legalPage.updatedAt|date('d/m/Y') }}</p>
             {% else %}

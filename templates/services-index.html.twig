@@ -6,6 +6,7 @@
 {% block body %}
 {% set serviceUniverses = [
   {
+    slug: 'amoa-applications-metiers',
     title: 'AMOA & Applications métiers',
     intro: 'ERP, CRM, GMAO, SI Finance, SIRH, data et IA : cadrage, choix d’outils, recette, migration et mise en production.',
     items: [
@@ -20,6 +21,7 @@
     ]
   },
   {
+    slug: 'gouvernance-performance-dsi',
     title: 'Gouvernance & Performance DSI',
     intro: 'Missions pour organiser le SI, arbitrer les priorités et tenir l’exécution.',
     items: [
@@ -32,6 +34,7 @@
     ]
   },
   {
+    slug: 'conformite-risques-resilience',
     title: 'Conformité, Risques & Résilience',
     intro: 'RGPD, cyber, QSE, PCA/PRA, risques, contrôle interne et IA : obligations, contrôles, preuves et plans d’action.',
     items: [
@@ -58,7 +61,7 @@
     <div class="container">
       <div class="d-flex flex-column gap-5">
         {% for universe in serviceUniverses %}
-          <div aria-labelledby="services-universe-{{ loop.index }}">
+          <div id="{{ universe.slug }}" aria-labelledby="services-universe-{{ loop.index }}">
             <div class="oling-section-head">
               <h2 id="services-universe-{{ loop.index }}">{{ universe.title }}</h2>
               <p>{{ universe.intro }}</p>

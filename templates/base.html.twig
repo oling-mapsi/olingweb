@@ -5,6 +5,45 @@
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
 {% set isAdminPage = currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
+{% set navigationUniverses = [
+    {
+        title: 'AMOA & Applications métiers',
+        href: path('services_index') ~ '#amoa-applications-metiers',
+        items: [
+            {label: 'AMOA SI', href: path('amoa_si')},
+            {label: 'ERP', href: '/business-apps/erp'},
+            {label: 'CRM', href: '/crm'},
+            {label: 'GMAO', href: '/gmao'},
+            {label: 'SI Finance', href: '/si-finance'},
+            {label: 'Facturation électronique', href: '/consulting/reforme-facturation-electronique-amoa'},
+            {label: 'Data / BI', href: '/business-apps/bi-et-analytique'},
+            {label: 'IA & automatisation', href: '/business-apps/transformation-digitale-automatisation-et-ia-utile'}
+        ]
+    },
+    {
+        title: 'Gouvernance & Performance DSI',
+        href: path('services_index') ~ '#gouvernance-performance-dsi',
+        items: [
+            {label: 'Schéma directeur SI', href: '/consulting/plan-strategique'},
+            {label: 'Pilotage de projets / PMO', href: '/consulting/pilotage-des-plans'},
+            {label: 'Organisation & processus', href: '/consulting/management-des-processus'},
+            {label: 'Gouvernance des données', href: '/consulting/gouvernance-des-donnees'},
+            {label: 'Infrastructure & modernisation SI', href: '/infrastructure-si-amoa'},
+            {label: 'DSI externalisée', href: '/dsi-externalisee'}
+        ]
+    },
+    {
+        title: 'Conformité, Risques & Résilience',
+        href: path('services_index') ~ '#conformite-risques-resilience',
+        items: [
+            {label: 'RGPD / DPO', href: '/expertises-audit/rgpd'},
+            {label: 'Cybersécurité / ISO 27001', href: '/cyber-securite'},
+            {label: 'QSE', href: '/expertises-audit/qse'},
+            {label: 'Risques & contrôle interne', href: '/gestion-risques-audit-controle-interne'},
+            {label: 'Conformité IA / AI Act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act'}
+        ]
+    }
+] %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,6 +70,44 @@
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
+    <style>
+      @media (min-width: 992px) {
+        .oling-header .hs-has-mega-menu > .oling-mega-menu--needs {
+          left: 0 !important;
+          transform: none !important;
+        }
+      }
+
+      @media (max-width: 991.98px) {
+        .oling-header .oling-topbar {
+          position: relative;
+          width: 100%;
+        }
+
+        .oling-header .navbar-nav-wrap-col.collapse.show {
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          left: 0;
+          right: 0;
+          width: 100%;
+          max-height: calc(100vh - 6.5rem);
+          overflow-y: auto;
+        }
+
+        .oling-header .oling-mobile-mega__group,
+        .oling-header .oling-mobile-mega__all {
+          color: #ffffff !important;
+          white-space: normal;
+          overflow-wrap: anywhere;
+        }
+
+        .oling-header .oling-mobile-mega__link {
+          color: rgba(255, 255, 255, 0.78) !important;
+          white-space: normal;
+          overflow-wrap: anywhere;
+        }
+      }
+    </style>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
@@ -96,23 +173,19 @@
                                href="{{ path('expertises_index') }}"
                                aria-expanded="false">Expertises</a>
                             <div class="oling-mobile-mega d-lg-none">
-                                {% for practice in practices|default([]) %}
-                                    {% if practice.slug in ['consulting', 'expertises-audit', 'business-apps'] %}
-                                        <a class="oling-mobile-mega__group" href="{{ path('practice_home', {slug: practice.slug}) }}">{{ practice.designation }}</a>
-                                        <div class="oling-mobile-mega__links">
-                                            {% for service in services|default([]) %}
-                                                {% if service.practice and service.practice.slug == practice.slug %}
-                                                    <a class="oling-mobile-mega__link" href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">{{ service.designation }}</a>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
+                                {% for universe in navigationUniverses %}
+                                    <a class="oling-mobile-mega__group" href="{{ universe.href }}">{{ universe.title }}</a>
+                                    <div class="oling-mobile-mega__links">
+                                        {% for item in universe.items %}
+                                            <a class="oling-mobile-mega__link" href="{{ item.href }}">{{ item.label }}</a>
+                                        {% endfor %}
+                                    </div>
                                 {% endfor %}
                                 <a class="oling-mobile-mega__all" href="{{ path('expertises_index') }}">Voir toutes les expertises</a>
                             </div>
                             {% if practices is defined and services is defined %}
                                 <div class="hs-mega-menu oling-mega-menu oling-mega-menu--needs" aria-labelledby="expertisesMegaMenu">
-                                    {% include 'public/_expertise_groups.html.twig' with {variant: 'menu', practices: practices, services: services} %}
+                                    {% include 'public/_expertise_groups.html.twig' with {navigationUniverses: navigationUniverses} %}
                                 </div>
                             {% endif %}
                         </li>
@@ -211,11 +284,11 @@
 
             <div class="oling-footer__grid">
                 <div>
-                    <span class="oling-footer__title">Expertises</span>
+                    <span class="oling-footer__title">Nos univers</span>
                     <ul>
-                        <li><a href="{{ path('practice_home', {slug: 'consulting'}) }}">Stratégie et conseil</a></li>
-                        <li><a href="{{ path('practice_home', {slug: 'expertises-audit'}) }}">Conformité & Risques</a></li>
-                        <li><a href="{{ path('practice_home', {slug: 'business-apps'}) }}">Opérations et technologie</a></li>
+                        {% for universe in navigationUniverses %}
+                            <li><a href="{{ universe.href }}">{{ universe.title }}</a></li>
+                        {% endfor %}
                         <li><a href="{{ path('expertises_index') }}">Toutes les expertises</a></li>
                         <li><a href="{{ path('services_index') }}">Tous les services</a></li>
                     </ul>

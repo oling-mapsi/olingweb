@@ -98,9 +98,34 @@
   <section class="oling-home-expertises">
     <div class="container">
       {% set practicesEyebrow = homePracticesSection and homePracticesSection.eyebrow ? homePracticesSection.eyebrow : homePage.practices.eyebrow %}
-      {% set practicesTitle = homePracticesSection and homePracticesSection.title ? homePracticesSection.title : homePage.practices.title %}
+      {% set practicesTitle = 'Trois univers de conseil, une plateforme métier' %}
       {% set practicesIntro = homePracticesSection and homePracticesSection.intro ? homePracticesSection.intro : null %}
-      {% set leadPractice = homePractices[0] ?? null %}
+      {% set homeUniverseCards = [
+        {
+          practiceSlug: 'consulting',
+          title: 'AMOA & Applications métiers',
+          text: 'AMOA SI, ERP, CRM, GMAO, SI Finance, data et IA : cadrer les choix et sécuriser la mise en œuvre.',
+          href: path('services_index') ~ '#amoa-applications-metiers'
+        },
+        {
+          practiceSlug: 'business-apps',
+          title: 'Gouvernance & Performance DSI',
+          text: 'Schéma directeur SI, PMO, processus, données, infrastructures et appui à la direction SI.',
+          href: path('services_index') ~ '#gouvernance-performance-dsi'
+        },
+        {
+          practiceSlug: 'expertises-audit',
+          title: 'Conformité, Risques & Résilience',
+          text: 'RGPD, cybersécurité, QSE, risques, contrôle interne, résilience et conformité IA.',
+          href: path('services_index') ~ '#conformite-risques-resilience'
+        },
+        {
+          practiceSlug: 'mapsi',
+          title: 'MAPSI – Plateforme Privacy, QSE',
+          text: 'Plateforme GRC pour centraliser registres, audits, risques, plans d’action, incidents et reporting.',
+          href: path('practice_home', {slug: 'mapsi'})
+        }
+      ] %}
       <div class="oling-home-section-head">
         <span>{{ practicesEyebrow }}</span>
         <div>
@@ -112,40 +137,44 @@
       </div>
 
       <div class="oling-home-expertises__stack">
-        {% if leadPractice %}
-        <a class="oling-home-panel oling-home-panel--wide oling-home-panel--dark" href="{{ path('practice_home', {slug: leadPractice.slug}) }}">
-          <div class="oling-home-panel__media">
-            {% set leadImage = leadPractice.image1 ?: leadPractice.image2 %}
-            {% if leadImage %}
-              <img src="{{ asset(leadImage) }}" alt="{{ leadPractice.designation }}">
-            {% endif %}
-          </div>
-          <div class="oling-home-panel__body">
-            <span>{{ '%02d'|format(1) }}</span>
-            <h3>{{ leadPractice.designation }}</h3>
-            <p>{{ leadPractice.introductionShort ?: leadPractice.introduction ?: leadPractice.descriptionShort ?: '' }}</p>
-          </div>
-        </a>
-        {% endif %}
-
-        <div class="oling-home-panel-grid">
-          {% for practice in homePractices|slice(1) %}
-            {% set cardVariant = loop.last ? 'image' : (loop.index is even ? 'blue' : 'pink') %}
-            <a class="oling-home-panel oling-home-panel--{{ cardVariant }}" href="{{ path('practice_home', {slug: practice.slug}) }}">
-              {% if cardVariant == 'image' %}
-                <div class="oling-home-panel__media">
-                  {% set panelImage = practice.image1 ?: practice.image2 %}
-                  {% if panelImage %}
-                    <img src="{{ asset(panelImage) }}" alt="{{ practice.designation }}">
-                  {% endif %}
-                </div>
-              {% endif %}
+        {% for card in homeUniverseCards|slice(0, 1) %}
+          {% for practice in homePractices|filter(item => item.slug == card.practiceSlug) %}
+            <a class="oling-home-panel oling-home-panel--wide oling-home-panel--dark" href="{{ card.href }}">
+              <div class="oling-home-panel__media">
+                {% set leadImage = practice.image1 ?: practice.image2 %}
+                {% if leadImage %}
+                  <img src="{{ asset(leadImage) }}" alt="{{ card.title }}">
+                {% endif %}
+              </div>
               <div class="oling-home-panel__body">
-                <span>{{ '%02d'|format(loop.index + 1) }}</span>
-                <h3>{{ practice.designation }}</h3>
-                <p>{{ practice.introductionShort ?: practice.introduction ?: practice.descriptionShort ?: '' }}</p>
+                <span>01</span>
+                <h3>{{ card.title }}</h3>
+                <p>{{ card.text }}</p>
               </div>
             </a>
+          {% endfor %}
+        {% endfor %}
+
+        <div class="oling-home-panel-grid">
+          {% for card in homeUniverseCards|slice(1) %}
+            {% set cardVariant = loop.last ? 'image' : (loop.index is even ? 'blue' : 'pink') %}
+            {% for practice in homePractices|filter(item => item.slug == card.practiceSlug) %}
+              <a class="oling-home-panel oling-home-panel--{{ cardVariant }}" href="{{ card.href }}">
+                {% if cardVariant == 'image' %}
+                  <div class="oling-home-panel__media">
+                    {% set panelImage = practice.image1 ?: practice.image2 %}
+                    {% if panelImage %}
+                      <img src="{{ asset(panelImage) }}" alt="{{ card.title }}">
+                    {% endif %}
+                  </div>
+                {% endif %}
+                <div class="oling-home-panel__body">
+                  <span>{{ '%02d'|format(loop.parent.loop.index + 1) }}</span>
+                  <h3>{{ card.title }}</h3>
+                  <p>{{ card.text }}</p>
+                </div>
+              </a>
+            {% endfor %}
           {% endfor %}
         </div>
       </div>

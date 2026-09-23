@@ -26,6 +26,16 @@ class ContactController extends AbstractController
         $workEmail = $request->request->get('contactWorkEmail', '');
         $details = $request->request->get('contactDetails', '');
         $consent = $request->request->get('consent', '');
+        $demand = [
+            'Source' => $this->demandValue($request, 'demandSource', 100),
+            'Referrer' => $this->demandValue($request, 'demandReferrer', 500),
+            'Landing page' => $this->demandValue($request, 'demandLandingPage', 255),
+            'First landing page' => $this->demandValue($request, 'demandFirstLandingPage', 255),
+            'CTA source' => $this->demandValue($request, 'demandCtaSource', 100),
+            'UTM source' => $this->demandValue($request, 'demandUtmSource', 100),
+            'UTM medium' => $this->demandValue($request, 'demandUtmMedium', 100),
+            'UTM campaign' => $this->demandValue($request, 'demandUtmCampaign', 150),
+        ];
 
         // Initialisation des messages d'erreur
         $errors = [];
@@ -80,7 +90,13 @@ class ContactController extends AbstractController
                         "Nom: {$lastName}\n" .
                         "Société: {$company}\n" .
                         "Email: {$workEmail}\n\n" .
-                        "Message:\n{$details}\n"
+                        "Message:\n{$details}\n\n" .
+                        "Attribution de la demande:\n" .
+                        implode("\n", array_map(
+                            static fn (string $label, string $value): string => "{$label}: ".($value !== '' ? $value : 'non disponible'),
+                            array_keys($demand),
+                            array_values($demand)
+                        )) . "\n"
                     );
 
                 $mailer->send($email);
@@ -102,5 +118,13 @@ class ContactController extends AbstractController
                 'message' => 'Une erreur s\'est produite lors de la validation du message.',
             ]);
         }
+    }
+
+    private function demandValue(Request $request, string $name, int $maxLength): string
+    {
+        $value = trim((string) $request->request->get($name, ''));
+        $value = preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value) ?? '';
+
+        return mb_substr($value, 0, $maxLength);
     }
 }

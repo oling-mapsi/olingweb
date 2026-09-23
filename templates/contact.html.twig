@@ -31,6 +31,10 @@
           <div class="oling-surface oling-surface--light mt-4">
             <h3>{{ page.presenceSection.title }}</h3>
             <p>{{ page.presenceSection.text }}</p>
+            <p class="mb-3">
+              <strong>Échanger avec OLING</strong><br>
+              <a href="tel:+33189701560" data-demand-phone="contact">01 89 70 15 60</a>
+            </p>
             {% if agencies is not empty %}
               <ul class="oling-check-list">
                 {% for agency in agencies %}
@@ -55,6 +59,14 @@
           </div>
 
           <form id="contact-form" class="oling-contact-form">
+            <input type="hidden" name="demandSource">
+            <input type="hidden" name="demandReferrer">
+            <input type="hidden" name="demandLandingPage">
+            <input type="hidden" name="demandFirstLandingPage">
+            <input type="hidden" name="demandCtaSource">
+            <input type="hidden" name="demandUtmSource">
+            <input type="hidden" name="demandUtmMedium">
+            <input type="hidden" name="demandUtmCampaign">
             <div class="row">
               <div class="col-sm-6 mb-4">
                 <label class="form-label" for="contactFirstName">{{ page.formSection.fields.firstName.label }}</label>

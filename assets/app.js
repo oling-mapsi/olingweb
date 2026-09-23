@@ -372,6 +372,181 @@ $(document).ready(function () {
 
   initHomeHeroMetierRotator();
 
+  // DEMAND ATTRIBUTION
+  // =======================================================
+  const demandAttributionKey = 'oling_demand_attribution';
+  const demandOwnerByPath = {
+    '/amoa-si': 'amoa-si',
+    '/business-apps/erp': 'erp',
+    '/crm': 'crm',
+    '/gmao': 'gmao',
+    '/si-finance': 'si-finance',
+    '/consulting/reforme-facturation-electronique-amoa': 'rfe',
+    '/expertises-audit/rgpd': 'rgpd',
+    '/expertises/rgpd-dpo-gouvernance': 'dpo',
+    '/cyber-securite': 'cyber',
+    '/expertises-audit/si': 'iso27001',
+    '/expertises-audit/conformite-ia-gouvernance-et-ai-act': 'ai-act',
+    '/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier': 'amoa-ia',
+  };
+
+  const normalizeDemandPath = (path) => path.replace(/\/$/, '') || '/';
+
+  const safeReferrer = () => {
+    if (!document.referrer) return '';
+    try {
+      const url = new URL(document.referrer);
+      return `${url.origin}${url.pathname}`.slice(0, 500);
+    } catch (e) {
+      return '';
+    }
+  };
+
+  const classifyDemandSource = (utmSource, referrer) => {
+    const classify = (value) => {
+      const normalized = (value || '').toLowerCase();
+      if (/chatgpt|openai/.test(normalized)) return 'chatgpt';
+      if (/claude|anthropic/.test(normalized)) return 'claude';
+      if (/perplexity/.test(normalized)) return 'perplexity';
+      if (/bing|copilot/.test(normalized)) return 'bing-copilot';
+      if (/google/.test(normalized)) return 'google';
+      return null;
+    };
+
+    if (utmSource) return classify(utmSource) || 'referral';
+    const referrerSource = classify(referrer);
+    if (referrerSource) return referrerSource;
+    if (referrer) return 'referral';
+    return 'unknown / direct';
+  };
+
+  const currentDemandContext = () => {
+    const params = new URLSearchParams(window.location.search);
+    const referrer = safeReferrer();
+    const utmSource = (params.get('utm_source') || '').slice(0, 100);
+
+    return {
+      source: classifyDemandSource(utmSource, referrer),
+      referrer,
+      landingPage: normalizeDemandPath(window.location.pathname),
+      utmSource,
+      utmMedium: (params.get('utm_medium') || '').slice(0, 100),
+      utmCampaign: (params.get('utm_campaign') || '').slice(0, 150),
+      ctaSource: '',
+    };
+  };
+
+  const initialDemandContext = currentDemandContext();
+
+  const readDemandAttribution = () => {
+    if (localStorage.getItem('oling_cookie_consent') !== 'all') return null;
+    try {
+      return JSON.parse(sessionStorage.getItem(demandAttributionKey) || 'null');
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const writeDemandAttribution = (changes = {}) => {
+    if (localStorage.getItem('oling_cookie_consent') !== 'all') return null;
+
+    const existing = readDemandAttribution() || {};
+    const attribution = {
+      ...initialDemandContext,
+      ...existing,
+      firstLandingPage: existing.firstLandingPage || initialDemandContext.landingPage,
+      ...changes,
+    };
+
+    try {
+      sessionStorage.setItem(demandAttributionKey, JSON.stringify(attribution));
+    } catch (e) {
+      return null;
+    }
+
+    return attribution;
+  };
+
+  const trackDemandEvent = (name, parameters = {}) => {
+    if (localStorage.getItem('oling_cookie_consent') !== 'all' || typeof window.gtag !== 'function') return;
+    window.gtag('event', name, parameters);
+  };
+
+  const demandCtaLocation = (link) => {
+    if (link.closest('.oling-shell-hero')) return 'hero';
+    if (link.closest('.oling-cta-band')) return 'final';
+    if (link.closest('.oling-footer')) return 'footer';
+    if (link.closest('.oling-header')) return 'header';
+    return 'body';
+  };
+
+  const demandAttributionForForm = () => {
+    const stored = readDemandAttribution();
+    return stored || {
+      ...initialDemandContext,
+      firstLandingPage: initialDemandContext.landingPage,
+    };
+  };
+
+  const populateDemandFields = () => {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    const attribution = demandAttributionForForm();
+    const values = {
+      demandSource: attribution.source,
+      demandReferrer: attribution.referrer,
+      demandLandingPage: attribution.landingPage,
+      demandFirstLandingPage: attribution.firstLandingPage,
+      demandCtaSource: attribution.ctaSource,
+      demandUtmSource: attribution.utmSource,
+      demandUtmMedium: attribution.utmMedium,
+      demandUtmCampaign: attribution.utmCampaign,
+    };
+
+    Object.entries(values).forEach(([name, value]) => {
+      const input = form.querySelector(`[name="${name}"]`);
+      if (input) input.value = value || '';
+    });
+  };
+
+  const initDemandTracking = () => {
+    writeDemandAttribution();
+
+    const owner = demandOwnerByPath[normalizeDemandPath(window.location.pathname)];
+    if (owner) {
+      document.querySelectorAll('a[href]').forEach((link) => {
+        try {
+          const url = new URL(link.href, window.location.origin);
+          if (url.origin === window.location.origin && normalizeDemandPath(url.pathname) === '/contact') {
+            link.dataset.demandCta = owner;
+            link.addEventListener('click', () => {
+              writeDemandAttribution({ ctaSource: owner });
+              trackDemandEvent('demand_cta_click', {
+                demand_cluster: owner,
+                demand_source: demandAttributionForForm().source,
+                cta_location: demandCtaLocation(link),
+                page_path: normalizeDemandPath(window.location.pathname),
+              });
+            }, { capture: true });
+          }
+        } catch (e) {
+          // Ignore malformed third-party links.
+        }
+      });
+    }
+
+    document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+      link.addEventListener('click', () => {
+        trackDemandEvent('phone_click', {
+          page_path: normalizeDemandPath(window.location.pathname),
+          demand_source: demandAttributionForForm().source,
+        });
+      }, { capture: true });
+    });
+
+    populateDemandFields();
+  };
+
   // COOKIE CONSENT
   // =======================================================
   const consentKey = 'oling_cookie_consent';
@@ -448,6 +623,11 @@ $(document).ready(function () {
       banner.classList.remove('is-details-open');
     }
     updateConsentMode(value);
+    if (value === consentAll) {
+      writeDemandAttribution();
+    } else {
+      sessionStorage.removeItem(demandAttributionKey);
+    }
   };
 
   const setAnalyticsCheckbox = (value) => {
@@ -528,6 +708,8 @@ $(document).ready(function () {
     banner.classList.add('is-visible');
     syncCookieBannerState();
   }
+
+  initDemandTracking();
 
   document.querySelectorAll('.js-cookie-manage').forEach((button) => {
     button.addEventListener('click', () => {
@@ -1276,6 +1458,9 @@ $(document).ready(function () {
     const $error = $('#contact-error');
     const $button = $('#button-send');
 
+    populateDemandFields();
+    const demandAttribution = demandAttributionForForm();
+
     $error.addClass('d-none').text('');
     $loading.removeClass('d-none').addClass('d-flex');
     $button.prop('disabled', true);
@@ -1286,6 +1471,11 @@ $(document).ready(function () {
         data: $form.serialize(),
         success: function (response) {
             if (response.success) {
+                trackDemandEvent('contact_submit', {
+                  demand_source: demandAttribution.source,
+                  demand_cluster: demandAttribution.ctaSource || 'contact-page',
+                  landing_page: demandAttribution.landingPage,
+                });
                 $form.addClass('d-none');
                 $success.removeClass('d-none');
                 $form[0].reset();

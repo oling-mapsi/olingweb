@@ -232,7 +232,12 @@
               <p class="mb-0">{{ conversionCtaText }}</p>
             {% endif %}
           </div>
-          <a class="btn btn-primary" href="{{ path('contact') }}">{{ conversionCtaLabel }}</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="{{ path('contact') }}">{{ conversionCtaLabel }}</a>
+            {% if pageSlug in ['crm', 'gmao', 'si-finance', 'cyber-securite'] %}
+              <a class="btn btn-outline-dark" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">Ou appelez-nous au 01 89 70 15 60</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </section>

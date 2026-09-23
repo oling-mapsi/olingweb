@@ -5,6 +5,14 @@
 {% block body_class %} service-detail-page{% endblock %}
 
 {% block body %}
+{% set phoneOwnerPaths = [
+  '/business-apps/erp',
+  '/consulting/reforme-facturation-electronique-amoa',
+  '/expertises-audit/rgpd',
+  '/expertises-audit/si',
+  '/expertises-audit/conformite-ia-gouvernance-et-ai-act',
+  '/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier'
+] %}
 <main id="content" role="main">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: serviceNarrative.eyebrow,
@@ -219,7 +227,8 @@
     eyebrow: 'Passage à l\'action',
     title: serviceNarrative.finalCtaTitle|default('Vérifier rapidement si cette offre est le bon niveau d\'intervention'),
     text: serviceNarrative.finalCtaText|default('OLING peut qualifier votre contexte, confirmer le bon angle d\'attaque et engager un cadrage utile sans surdimensionner le dispositif.'),
-    primaryCta: {route: 'contact', label: serviceNarrative.finalCtaLabel|default('Parler de votre sujet')}
+    primaryCta: {route: 'contact', label: serviceNarrative.finalCtaLabel|default('Parler de votre sujet')},
+    phoneCta: app.request.pathInfo in phoneOwnerPaths
   } %}
 </main>
 

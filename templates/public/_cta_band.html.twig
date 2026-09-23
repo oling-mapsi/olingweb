@@ -11,6 +11,9 @@
         {% if secondaryCta is defined and secondaryCta %}
           <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
         {% endif %}
+        {% if phoneCta is defined and phoneCta %}
+          <a class="btn btn-outline-light" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">Ou appelez-nous au 01 89 70 15 60</a>
+        {% endif %}
       </div>
     </div>
   </div>

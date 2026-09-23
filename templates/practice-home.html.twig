@@ -206,7 +206,8 @@
   {% include 'public/_cta_band.html.twig' with {
     title: 'Remettre de la clarté et de la maîtrise dans vos transformations',
     text: 'OLING peut intervenir en renfort ponctuel ou sur la durée pour structurer les décisions, piloter et fiabiliser l\'exécution du projet.',
-    primaryCta: {route: 'contact', label: 'Demander un échange'}
+    primaryCta: {route: 'contact', label: 'Demander un échange'},
+    phoneCta: app.request.pathInfo == '/amoa-si'
   } %}
 </main>
 

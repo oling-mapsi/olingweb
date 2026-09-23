@@ -473,6 +473,7 @@ $(document).ready(function () {
   };
 
   const demandCtaLocation = (link) => {
+    if (link.dataset.demandLocation) return link.dataset.demandLocation;
     if (link.closest('.oling-shell-hero')) return 'hero';
     if (link.closest('.oling-cta-band')) return 'final';
     if (link.closest('.oling-footer')) return 'footer';
@@ -537,9 +538,12 @@ $(document).ready(function () {
 
     document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
       link.addEventListener('click', () => {
+        const pagePath = normalizeDemandPath(window.location.pathname);
         trackDemandEvent('phone_click', {
-          page_path: normalizeDemandPath(window.location.pathname),
+          page_path: pagePath,
           demand_source: demandAttributionForForm().source,
+          demand_cluster: demandOwnerByPath[pagePath] || link.dataset.demandPhone || 'contact',
+          cta_location: demandCtaLocation(link),
         });
       }, { capture: true });
     });

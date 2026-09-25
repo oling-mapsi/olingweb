@@ -13,18 +13,50 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class ContactController extends AbstractController
 {
     #[Route('/send-email', name: 'send_mail', methods: ['POST'])]
-    public function sendEmail(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, MailerInterface $mailer)
-    {
-        // Récupérer les données du formulaire
-        $firstName = $request->request->get('contactFirstName', '');
-        $lastName = $request->request->get('contactLastName', '');
-        $company = $request->request->get('contactCompany', '');
-        $workEmail = $request->request->get('contactWorkEmail', '');
-        $details = $request->request->get('contactDetails', '');
+    public function sendEmail(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator,
+        MailerInterface $mailer,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        RateLimiterFactory $contactFormLimiter
+    ): JsonResponse {
+        $csrfToken = (string) $request->request->get('_token', '');
+        if (!$csrfTokenManager->isTokenValid(new CsrfToken('contact_form', $csrfToken))) {
+            return $this->json([
+                'success' => false,
+                'message' => 'La demande n’a pas pu être validée. Merci de recharger la page et de réessayer.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $honeypot = $request->request->get('website', '');
+        if (!is_scalar($honeypot) || trim((string) $honeypot) !== '') {
+            return $this->json([
+                'success' => false,
+                'message' => 'La demande n’a pas pu être validée.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $clientKey = $request->getClientIp() ?: 'anonymous';
+        if (!$contactFormLimiter->create($clientKey)->consume()->isAccepted()) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Trop de demandes ont été envoyées. Merci de réessayer dans quelques minutes.',
+            ], Response::HTTP_TOO_MANY_REQUESTS);
+        }
+
+        [$firstName, $firstNameTooLong] = $this->singleLineValue($request, 'contactFirstName', 100);
+        [$lastName, $lastNameTooLong] = $this->singleLineValue($request, 'contactLastName', 100);
+        [$company, $companyTooLong] = $this->singleLineValue($request, 'contactCompany', 180);
+        [$workEmail, $workEmailTooLong] = $this->singleLineValue($request, 'contactWorkEmail', 180);
+        [$details, $detailsTooLong] = $this->multiLineValue($request, 'contactDetails', 200);
         $consent = $request->request->get('consent', '');
         $demand = [
             'Source' => $this->demandValue($request, 'demandSource', 100),
@@ -46,7 +78,9 @@ class ContactController extends AbstractController
         }
 
         // Vérification des champs
-        if (empty($firstName) || empty($lastName) || empty($workEmail) || empty($details)) {
+        if ($firstNameTooLong || $lastNameTooLong || $companyTooLong || $workEmailTooLong || $detailsTooLong) {
+            $errors[] = 'Un ou plusieurs champs dépassent la longueur autorisée.';
+        } elseif (empty($firstName) || empty($lastName) || empty($workEmail) || empty($details)) {
             $errors[] = 'Veuillez remplir tous les champs pour que nous puissions traiter votre demande.';
         } elseif (!filter_var($workEmail, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'L\'email n\'est pas valide.';
@@ -122,9 +156,49 @@ class ContactController extends AbstractController
 
     private function demandValue(Request $request, string $name, int $maxLength): string
     {
-        $value = trim((string) $request->request->get($name, ''));
+        $rawValue = $request->request->get($name, '');
+        if (!is_scalar($rawValue)) {
+            return '';
+        }
+
+        $value = trim(strip_tags((string) $rawValue));
         $value = preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $value) ?? '';
 
         return mb_substr($value, 0, $maxLength);
+    }
+
+    /**
+     * @return array{0: string, 1: bool}
+     */
+    private function singleLineValue(Request $request, string $name, int $maxLength): array
+    {
+        $value = $this->scalarValue($request, $name);
+        $value = preg_replace('/[\r\n\t]+/u', ' ', $value) ?? '';
+        $value = preg_replace('/\s{2,}/u', ' ', $value) ?? '';
+        $value = trim($value);
+
+        return [$value, mb_strlen($value) > $maxLength];
+    }
+
+    /**
+     * @return array{0: string, 1: bool}
+     */
+    private function multiLineValue(Request $request, string $name, int $maxLength): array
+    {
+        $value = trim($this->scalarValue($request, $name));
+
+        return [$value, mb_strlen($value) > $maxLength];
+    }
+
+    private function scalarValue(Request $request, string $name): string
+    {
+        $value = $request->request->get($name, '');
+        if (!is_scalar($value)) {
+            return '';
+        }
+
+        $value = strip_tags((string) $value);
+
+        return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value) ?? '';
     }
 }

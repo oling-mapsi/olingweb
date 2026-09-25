@@ -313,7 +313,6 @@ const initChatWidget = () => {
     leadButton?.toggleAttribute('disabled', loading);
     submitButton?.toggleAttribute('disabled', loading);
     resetButton?.toggleAttribute('disabled', loading);
-    closeButton?.toggleAttribute('disabled', loading);
     launcher?.toggleAttribute('disabled', loading && !state.open);
     submitButton?.setAttribute('aria-label', loading ? 'Envoi en cours' : 'Envoyer');
     submitButton?.setAttribute('title', loading ? 'Envoi en cours' : 'Envoyer');
@@ -648,6 +647,12 @@ const initChatWidget = () => {
   });
 
   closeButton?.addEventListener('click', () => setOpen(false));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !state.open) return;
+    setOpen(false);
+    launcher?.focus({ preventScroll: true });
+  });
 
   messageInput?.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' || event.shiftKey) {

@@ -214,7 +214,8 @@
   right: 0;
   bottom: calc(100% + 0.9rem + var(--oling-cookie-banner-offset, 0px));
   width: min(448px, calc(100vw - 2rem));
-  max-height: calc(100dvh - var(--oling-cookie-banner-offset, 0px) - 7.2rem);
+  max-height: calc(100vh - var(--oling-cookie-banner-offset, 0px) - 7.2rem);
+  max-height: calc(var(--oling-chat-viewport-height, 100dvh) - var(--oling-cookie-banner-offset, 0px) - 7.2rem);
   display: flex;
   flex-direction: column;
   background:
@@ -249,11 +250,11 @@
 }
 
 .oling-chat-widget.is-empty-history .oling-chat-widget__panel {
-  min-height: 34rem;
+  min-height: min(34rem, calc(var(--oling-chat-viewport-height, 100dvh) - var(--oling-cookie-banner-offset, 0px) - 7.2rem));
 }
 
 .oling-chat-widget.is-initial-history .oling-chat-widget__panel {
-  min-height: 40rem;
+  min-height: min(40rem, calc(var(--oling-chat-viewport-height, 100dvh) - var(--oling-cookie-banner-offset, 0px) - 7.2rem));
 }
 
 .oling-chat-widget__body {
@@ -282,6 +283,7 @@
 }
 
 .oling-chat-widget__header {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;

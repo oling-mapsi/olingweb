@@ -1487,8 +1487,8 @@ $(document).ready(function () {
                 $error.removeClass('d-none').text(response.message || 'Une erreur est survenue lors de l’envoi.');
             }
         },
-        error: function () {
-            $error.removeClass('d-none').text('Une erreur est survenue lors de l’envoi du message.');
+        error: function (response) {
+            $error.removeClass('d-none').text(response.responseJSON?.message || 'Une erreur est survenue lors de l’envoi du message.');
         },
         complete: function () {
             $loading.addClass('d-none').removeClass('d-flex');

@@ -1,5 +1,9 @@
 framework:
     rate_limiter:
+        contact_form:
+            policy: 'fixed_window'
+            limit: 5
+            interval: '10 minutes'
         erp_questionnaire:
             policy: 'fixed_window'
             limit: 5

@@ -59,6 +59,11 @@
           </div>
 
           <form id="contact-form" class="oling-contact-form">
+            <input type="hidden" name="_token" value="{{ csrf_token('contact_form') }}">
+            <div class="oling-contact-form__website" aria-hidden="true">
+              <label for="contactWebsite">Site internet</label>
+              <input type="text" name="website" id="contactWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </div>
             <input type="hidden" name="demandSource">
             <input type="hidden" name="demandReferrer">
             <input type="hidden" name="demandLandingPage">
@@ -70,27 +75,27 @@
             <div class="row">
               <div class="col-sm-6 mb-4">
                 <label class="form-label" for="contactFirstName">{{ page.formSection.fields.firstName.label }}</label>
-                <input type="text" class="form-control" name="contactFirstName" id="contactFirstName" placeholder="{{ page.formSection.fields.firstName.placeholder }}">
+                <input type="text" class="form-control" name="contactFirstName" id="contactFirstName" maxlength="100" placeholder="{{ page.formSection.fields.firstName.placeholder }}">
               </div>
               <div class="col-sm-6 mb-4">
                 <label class="form-label" for="contactLastName">{{ page.formSection.fields.lastName.label }}</label>
-                <input type="text" class="form-control" name="contactLastName" id="contactLastName" placeholder="{{ page.formSection.fields.lastName.placeholder }}">
+                <input type="text" class="form-control" name="contactLastName" id="contactLastName" maxlength="100" placeholder="{{ page.formSection.fields.lastName.placeholder }}">
               </div>
             </div>
 
             <div class="mb-4">
               <label class="form-label" for="contactCompany">{{ page.formSection.fields.company.label }}</label>
-              <input type="text" class="form-control" name="contactCompany" id="contactCompany" placeholder="{{ page.formSection.fields.company.placeholder }}">
+              <input type="text" class="form-control" name="contactCompany" id="contactCompany" maxlength="180" placeholder="{{ page.formSection.fields.company.placeholder }}">
             </div>
 
             <div class="mb-4">
               <label class="form-label" for="contactWorkEmail">{{ page.formSection.fields.workEmail.label }}</label>
-              <input type="text" class="form-control" name="contactWorkEmail" id="contactWorkEmail" placeholder="{{ page.formSection.fields.workEmail.placeholder }}">
+              <input type="email" class="form-control" name="contactWorkEmail" id="contactWorkEmail" maxlength="180" placeholder="{{ page.formSection.fields.workEmail.placeholder }}">
             </div>
 
             <div class="mb-4">
               <label class="form-label" for="contactDetails">{{ page.formSection.fields.details.label }}</label>
-              <textarea class="form-control" name="contactDetails" id="contactDetails" rows="5" placeholder="{{ page.formSection.fields.details.placeholder }}"></textarea>
+              <textarea class="form-control" name="contactDetails" id="contactDetails" rows="5" maxlength="200" placeholder="{{ page.formSection.fields.details.placeholder }}"></textarea>
             </div>
 
             <div class="mb-4">

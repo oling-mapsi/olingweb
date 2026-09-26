@@ -105,9 +105,9 @@
 
   {% include 'public/_cta_band.html.twig' with {
     eyebrow: 'Diagnostic',
-    title: 'Obtenir une vision claire des priorités, des risques et des décisions à prendre',
-    text: 'OLING peut intervenir rapidement pour recadrer un projet, arbitrer une trajectoire ou remettre un sujet ERP, conformité, cyber ou IA sous contrôle.',
-    primaryCta: {route: 'contact', label: 'Demander un diagnostic'},
+    title: page.finalCtaTitle|default('Obtenir une vision claire des priorités, des risques et des décisions à prendre'),
+    text: page.finalCtaText|default('OLING peut intervenir rapidement pour recadrer un projet, arbitrer une trajectoire ou remettre un sujet ERP, conformité, cyber ou IA sous contrôle.'),
+    primaryCta: {route: 'contact', label: page.finalCtaLabel|default('Demander un diagnostic')},
     phoneCta: app.request.pathInfo == '/expertises/rgpd-dpo-gouvernance'
   } %}
 </main>

@@ -218,6 +218,20 @@ class SeoLandingController extends AbstractController
     private function getLandingNarrative(string $pageSlug): array
     {
         return match ($pageSlug) {
+            'cyber-securite' => [
+                'finalCtaLabel' => 'Échanger sur votre gouvernance cyber',
+                'finalCtaTitle' => 'Qualifier la gouvernance, les risques et les priorités cyber',
+                'finalCtaText' => 'L’échange initial porte sur les actifs critiques, les responsabilités, les exigences applicables, les incidents redoutés et les plans déjà engagés.',
+                'schemaServiceType' => 'Conseil en gouvernance cyber et résilience',
+            ],
+            'rgpd' => [
+                'linksTitle' => 'Approfondir le diagnostic et l’animation RGPD',
+                'linksIntro' => 'Cette page de synthèse oriente vers les deux dispositifs owner selon que le besoin porte sur une remise en conformité ou sur une fonction DPO continue.',
+                'supportLinks' => [
+                    ['href' => '/expertises-audit/rgpd', 'label' => 'Diagnostic et conformité RGPD', 'description' => 'Pour cartographier les traitements, qualifier les écarts et piloter une remise en conformité.'],
+                    ['href' => '/expertises/rgpd-dpo-gouvernance', 'label' => 'DPO externalisé', 'description' => 'Pour animer le registre, rendre les avis et suivre la conformité dans la durée.'],
+                ],
+            ],
             'crm' => [
                 'showHeroSideHtml' => false,
                 'showReadingPath' => false,

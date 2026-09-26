@@ -65,6 +65,10 @@
     </section>
   {% endfor %}
 
+  {% include 'public/_iso27001_certification_proof.html.twig' with {
+    headingId: 'iso27001-certification-about'
+  } %}
+
   {% if teamPreview is defined and teamPreview|length > 0 %}
     <section class="oling-shell-section oling-shell-section--tint oling-about-leadership">
       <div class="container">

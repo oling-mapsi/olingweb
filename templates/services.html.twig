@@ -59,6 +59,12 @@
     </div>
   </section>
 
+  {% if app.request.pathInfo == '/expertises-audit/si' %}
+    {% include 'public/_iso27001_certification_proof.html.twig' with {
+      headingId: 'iso27001-certification-owner'
+    } %}
+  {% endif %}
+
   {% if serviceNarrative.promise is defined or serviceNarrative.focus is defined %}
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">

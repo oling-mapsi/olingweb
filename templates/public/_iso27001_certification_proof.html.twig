@@ -1,0 +1,67 @@
+<style>
+  .oling-certification-proof {
+    border-block: 1px solid rgba(14, 42, 63, 0.16);
+    background: #f3f7f8;
+  }
+  .oling-certification-proof__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: start;
+  }
+  .oling-certification-proof__inner h2 {
+    margin-bottom: 0.75rem;
+  }
+  .oling-certification-proof__details {
+    padding-left: 1.25rem;
+    border-left: 3px solid #167c80;
+  }
+  .oling-certification-proof__details p {
+    margin-bottom: 0.75rem;
+  }
+  .oling-certification-proof__link {
+    color: #075b62;
+    font-weight: 700;
+    text-decoration: underline !important;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+  .oling-certification-proof__link:hover {
+    color: #0e2a3f !important;
+  }
+  .oling-certification-proof__link:focus-visible {
+    color: #0e2a3f !important;
+    outline: 3px solid #f2b84b;
+    outline-offset: 4px;
+  }
+  .oling-certification-proof__search {
+    margin-top: 0.9rem;
+    color: #314955;
+    font-size: 0.92rem;
+  }
+  @media (max-width: 767.98px) {
+    .oling-certification-proof__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .oling-certification-proof__details {
+      padding-left: 1rem;
+    }
+  }
+</style>
+
+<section class="oling-shell-section oling-certification-proof" aria-labelledby="{{ headingId }}">
+  <div class="container">
+    <div class="oling-certification-proof__inner">
+      <div>
+        <span class="oling-kicker">Certification vérifiable</span>
+        <h2 id="{{ headingId }}">Certification ISO/IEC 27001:2022</h2>
+        <p>OLING Management et Technologie est certifiée ISO/IEC 27001:2022 par Bureau Veritas Certification France.</p>
+      </div>
+      <div class="oling-certification-proof__details">
+        <p><strong>Certificat FR092915</strong><br>Statut : Certifié</p>
+        <a class="oling-certification-proof__link" href="https://certifie.bureauveritas.fr/recherche.php?certificat=certifies">Vérifier la certification auprès de Bureau Veritas</a>
+        <p class="oling-certification-proof__search">Rechercher : OLING MANAGEMENT ET TECHNOLOGIE - certificat FR092915</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -5,12 +5,34 @@
 
 {% block stylesheets %}
   {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('vendor/leaflet/leaflet.css') }}">
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('vendor/leaflet/leaflet.js') }}"></script>
+  <style>
+    .oling-proof-library { padding: 3rem 0 4.5rem; }
+    .oling-proof-library__intro { max-width: 48rem; margin-bottom: 1.5rem; }
+    .oling-proof-filters { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0 0 2.5rem; }
+    .oling-proof-filter { border: 1px solid rgba(16,38,60,.18); background: #fff; color: #17324a; padding: .62rem .85rem; font: inherit; font-weight: 700; cursor: pointer; }
+    .oling-proof-filter[aria-pressed="true"] { background: #17324a; border-color: #17324a; color: #fff; }
+    .oling-proof-list { display: grid; gap: 0; }
+    .oling-proof-mission { display: grid; grid-template-columns: minmax(13rem,.65fr) minmax(0,1.35fr); gap: 2rem; padding: 2.5rem 0; border-top: 1px solid rgba(16,38,60,.16); }
+    .oling-proof-mission[hidden] { display: none; }
+    .oling-proof-mission__identity h2 { margin: .45rem 0 .7rem; color: #10263c; font-size: clamp(1.8rem,3vw,2.6rem); line-height: 1; letter-spacing: 0; }
+    .oling-proof-mission__org { margin: 0; color: #4b6175; font-weight: 700; }
+    .oling-proof-mission__content { display: grid; gap: 1.3rem; }
+    .oling-proof-mission__content h3 { margin: 0 0 .35rem; color: #17324a; font-size: 1rem; }
+    .oling-proof-mission__content p { margin: 0; color: #334b60; line-height: 1.65; }
+    .oling-proof-terms { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+    .oling-proof-terms li { border-left: 3px solid #2f7d79; background: #f1f6f5; padding: .4rem .62rem; color: #23433f; font-size: .9rem; }
+    .oling-proof-quotes { display: grid; gap: .65rem; }
+    .oling-proof-quotes p { border-left: 3px solid #226fc7; padding-left: .9rem; color: #183a59; }
+    .oling-proof-owner { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    .oling-proof-owner a { font-weight: 800; }
+    .oling-proof-empty { padding: 2rem 0; border-top: 1px solid rgba(16,38,60,.16); color: #4b6175; }
+    @media (max-width: 767.98px) {
+      .oling-proof-library { padding-top: 2rem; }
+      .oling-proof-filters { display: grid; grid-template-columns: 1fr; }
+      .oling-proof-filter { width: 100%; text-align: left; }
+      .oling-proof-mission { grid-template-columns: 1fr; gap: 1.3rem; padding: 2rem 0; }
+    }
+  </style>
 {% endblock %}
 
 {% block body %}
@@ -18,100 +40,104 @@
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
-    intro: page.intro,
+    intro: page.proofLibrary.heroIntro,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
     highlights: page.highlights
   } %}
 
-  <section class="oling-section oling-case-studies-section">
+  <section class="oling-proof-library" aria-labelledby="proof-library-title">
     <div class="container">
-
-      {% set featuredProjects = featuredProjects is defined ? featuredProjects : projets|slice(0, 6) %}
-      {% set miniProjects = miniProjects is defined ? miniProjects : projets|slice(6) %}
-
-      <div class="oling-case-studies-head">
-        <div>
-          <span class="oling-kicker">{{ page.cards.kicker|default('Cas clients') }}</span>
-          <h2>{{ page.cards.title|default('Des retours terrain plus incarnés, plus lisibles.') }}</h2>
-        </div>
-        <p>{{ page.cards.intro|default('Une sélection de références présentée avec plus de relief, de clarté et une lecture plus immédiate des contextes clients.') }}</p>
+      <div class="oling-proof-library__intro">
+        <span class="oling-kicker">Missions OLING</span>
+        <h2 id="proof-library-title">Missions documentées</h2>
+        <p>Chaque mission présente un contexte réel, le périmètre de l’intervention et les éléments effectivement documentés. Les organisations sont anonymisées.</p>
       </div>
 
-      <div class="oling-case-grid">
-        {% for projet in featuredProjects %}
-          <a class="oling-case-card" href="{{ projet.href }}">
-            <div class="oling-case-card__media">
-              <img src="{{ projet.image }}" alt="{{ projet.title }}">
-              <div class="oling-case-card__overlay">
-                {% if projet.meta %}
-                  <span class="oling-case-card__service">{{ projet.meta }}</span>
-                {% endif %}
-              </div>
-            </div>
-            <div class="oling-case-card__body">
-              <span class="oling-case-card__index">{{ '%02d'|format(loop.index) }}</span>
-              <h3>{{ projet.title }}</h3>
-              {% if projet.period %}
-                <div class="d-flex flex-wrap gap-2 mb-3">
-                  <span class="badge text-bg-light">{{ projet.period }}</span>
-                </div>
-              {% endif %}
-              <p>{{ projet.excerpt }}</p>
-              <span class="oling-case-card__cta">Voir le cas</span>
-            </div>
-          </a>
-        {% else %}
-          <div>
-            <div class="alert alert-info">{{ page.cards.emptyText }}</div>
-          </div>
+      <div class="oling-proof-filters" role="group" aria-label="Filtrer les missions">
+        <button class="oling-proof-filter" type="button" data-proof-filter="all" aria-pressed="true">Toutes</button>
+        {% for filter in page.proofLibrary.filters %}
+          <button class="oling-proof-filter" type="button" data-proof-filter="{{ filter.id }}" aria-pressed="false">{{ filter.label }}</button>
         {% endfor %}
       </div>
 
-      {% if miniProjects is not empty %}
-      <div class="oling-case-studies-subhead">
-        <span class="oling-kicker">{{ page.cards.archiveKicker|default('Autres références') }}</span>
-        <h3>{{ page.cards.archiveTitle|default('Plus de cas clients à parcourir') }}</h3>
+      <div class="oling-proof-list">
+        {% for mission in page.proofLibrary.missions %}
+          <article id="{{ mission.id }}" class="oling-proof-mission" data-proof-category="{{ mission.category }}">
+            <header class="oling-proof-mission__identity">
+              <span class="oling-kicker">{{ mission.categoryLabel }}</span>
+              <h2>{{ mission.title }}</h2>
+              <p class="oling-proof-mission__org">{{ mission.organization }} · {{ mission.sector }}</p>
+            </header>
+            <div class="oling-proof-mission__content">
+              <div>
+                <h3>Contexte</h3>
+                <p>{{ mission.context }}</p>
+              </div>
+              <div>
+                <h3>Intervention OLING</h3>
+                <p>{{ mission.intervention }}</p>
+              </div>
+              <div>
+                <h3>Périmètre</h3>
+                <ul class="oling-proof-terms">
+                  {% for item in mission.scope %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              </div>
+              <div>
+                <h3>Livrables et éléments documentés</h3>
+                <ul class="oling-proof-terms">
+                  {% for item in mission.deliverables %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              </div>
+              {% if mission.systems is not empty %}
+                <div>
+                  <h3>Systèmes et technologies</h3>
+                  <p>{{ mission.systems|join(' · ') }}</p>
+                </div>
+              {% endif %}
+              <div class="oling-proof-quotes" aria-label="Synthèse factuelle">
+                {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
+              </div>
+              <div class="oling-proof-owner">
+                <a href="{{ mission.owner.href }}">Voir l’expertise : {{ mission.owner.label }}</a>
+                {% if mission.secondaryOwner is defined %}
+                  <a href="{{ mission.secondaryOwner.href }}">{{ mission.secondaryOwner.label }}</a>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
       </div>
-      <div class="oling-projects-mini-grid mt-5 js-projets-mini-grid"
-           data-endpoint="{{ path('projets_more') }}"
-           data-next-page="{{ miniNextPage ?? 2 }}"
-           data-has-more="{{ miniHasMore is defined and miniHasMore ? '1' : '0' }}">
-        {% include 'projets/_mini_cards.html.twig' with { miniProjects: miniProjects } %}
-      </div>
-      {% if miniHasMore is defined and miniHasMore %}
-        <div class="oling-projects-mini-loader js-projets-loader" hidden>Chargement…</div>
-        <div class="oling-projects-mini-sentinel js-projets-sentinel" aria-hidden="true"></div>
-      {% endif %}
-      {% endif %}
-
-      {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
-        <div class="oling-surface oling-surface--light mt-5">
-          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
-        </div>
-      {% endif %}
-
-      <div class="oling-geo-map oling-geo-map--full" role="img" aria-label="Carte de la France métropolitaine et des territoires d'outre-mer">
-        <div class="oling-geo-map__header">
-          <span class="acc-eyebrow">{{ page.mapSection.kicker }}</span>
-          <h2>{{ page.mapSection.title }}</h2>
-          {% if page.legacySideHtml is defined and page.legacySideHtml %}
-            <div class="oling-richtext">{{ page.legacySideHtml|raw }}</div>
-          {% else %}
-            <p>{{ page.mapSection.text }}</p>
-          {% endif %}
-        </div>
-        <div
-          id="oling-geo-map"
-          class="oling-geo-map__canvas"
-          data-world="{{ asset('geo/world.geojson') }}"
-        ></div>
-        <div class="oling-geo-map__label">{{ page.mapSection.label }}</div>
-      </div>
-      <script type="application/json" id="oling-geojson-data">
-        {{ include('geo/france-overseas.json.twig')|raw }}
-      </script>
+      <p class="oling-proof-empty" data-proof-empty hidden>Aucune mission anonymisée suffisamment documentée n’est publiée dans cette catégorie.</p>
     </div>
   </section>
+
+  {% include 'public/_cta_band.html.twig' with {
+    eyebrow: 'Votre contexte',
+    title: 'Échanger sur votre projet',
+    text: 'Présentez-nous le périmètre, les systèmes concernés et les décisions à préparer.',
+    primaryCta: {route: 'contact', label: 'Demander un échange'},
+    phoneCta: true
+  } %}
+
+  <script>
+    document.querySelectorAll('[data-proof-filter]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.proofFilter;
+        let visible = 0;
+        document.querySelectorAll('[data-proof-filter]').forEach((item) => {
+          item.setAttribute('aria-pressed', item === button ? 'true' : 'false');
+        });
+        document.querySelectorAll('[data-proof-category]').forEach((mission) => {
+          const show = filter === 'all' || mission.dataset.proofCategory === filter;
+          mission.hidden = !show;
+          if (show) visible += 1;
+        });
+        const empty = document.querySelector('[data-proof-empty]');
+        if (empty) empty.hidden = visible !== 0;
+      });
+    });
+  </script>
 </main>
 {% endblock %}

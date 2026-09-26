@@ -38,6 +38,12 @@ class SeoLandingController extends AbstractController
         return $this->renderLanding('seo/conseil-qualite.html.twig', 'conseil-qualite', $practiceRepository, $servicesRepository);
     }
 
+    #[Route('/pca-pra-continuite-activite', name: 'seo_pca_pra_continuite', options: ['sitemap' => true])]
+    public function pcaPraContinuite(PracticeRepository $practiceRepository, ServicesRepository $servicesRepository): Response
+    {
+        return $this->renderLanding('seo/pca-pra-continuite-activite.html.twig', 'pca-pra-continuite-activite', $practiceRepository, $servicesRepository);
+    }
+
     #[Route('/public-pme-eti', name: 'seo_public_pme_eti', options: ['sitemap' => true])]
     public function publicPmeEti(PracticeRepository $practiceRepository, ServicesRepository $servicesRepository): Response
     {
@@ -211,6 +217,7 @@ class SeoLandingController extends AbstractController
             'zoneMaillage' => $this->seoGeoInternalLinkService->build($page?->getSlug()),
             'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($page?->getSlug(), 10),
             'landingNarrative' => $this->getLandingNarrative($pageSlug),
+            'landingPageSlug' => $pageSlug,
             'pract' => '',
         ]);
     }
@@ -223,6 +230,84 @@ class SeoLandingController extends AbstractController
                 'finalCtaTitle' => 'Qualifier la gouvernance, les risques et les priorités cyber',
                 'finalCtaText' => 'L’échange initial porte sur les actifs critiques, les responsabilités, les exigences applicables, les incidents redoutés et les plans déjà engagés.',
                 'schemaServiceType' => 'Conseil en gouvernance cyber et résilience',
+            ],
+            'pca-pra-continuite-activite' => [
+                'compactLanding' => true,
+                'showHeroSideHtml' => false,
+                'showHeroImage' => false,
+                'showReadingPath' => false,
+                'showAutomaticZones' => false,
+                'showFaq' => false,
+                'phoneCta' => true,
+                'metaTitle' => 'Conseil PCA PRA et continuité d’activité | ISO 22301 | OLING',
+                'metaDescription' => 'Conseil PCA et PRA : BIA, activités critiques, RTO/RPO, stratégies de continuité, reprise informatique, tests et trajectoire ISO 22301.',
+                'heroBadge' => 'Continuité d’activité',
+                'heroTitle' => 'Conseil PCA, PRA et continuité d’activité',
+                'heroIntro' => 'OLING aide les directions métier et SI à identifier les activités critiques, fixer les objectifs de reprise, choisir des solutions de continuité et organiser des tests réellement exploitables.',
+                'promise' => 'Le dispositif part des impacts métier et des dépendances réelles. Il relie le BIA, les scénarios d’indisponibilité, les stratégies de continuité, le PRA informatique, l’organisation de crise et le retour à la normale sans réduire la continuité à un document ou à une sauvegarde.',
+                'positioningTitle' => 'Partir des décisions métier, pas d’un plan générique',
+                'scopeTitle' => 'Ce que couvre le dispositif de continuité',
+                'focus' => [
+                    'Activités prioritaires, processus critiques, périodes sensibles, impacts acceptables et ressources minimales nécessaires.',
+                    'Dépendances aux équipes, locaux, fournisseurs, applications, données, infrastructures, télécommunications et moyens de travail.',
+                    'RTO pour le délai cible de reprise, RPO pour la perte de données admissible lorsque le système d’information est concerné.',
+                    'Scénarios d’indisponibilité, solutions de continuité, procédures dégradées, cellule de crise, communication et retour à la normale.',
+                ],
+                'missionPhasesTitle' => 'Construire puis éprouver le PCA et le PRA',
+                'missionPhases' => [
+                    'Cadrer le périmètre, les responsabilités, les hypothèses de crise et les critères de décision avec la direction, les métiers et la DSI.',
+                    'Conduire le BIA, qualifier les dépendances et arbitrer les objectifs de continuité et de reprise par activité et par service SI.',
+                    'Définir les stratégies, formaliser les plans, organiser les contacts, les escalades et le séquencement de reprise.',
+                    'Préparer les exercices, consigner les écarts, affecter les actions et installer un cycle de maintien en condition opérationnelle.',
+                ],
+                'deliverablesTitle' => 'Livrables utilisables en situation dégradée',
+                'deliverables' => [
+                    'BIA et cartographie des activités critiques, impacts, dépendances, RTO, RPO et ressources minimales.',
+                    'Stratégie de continuité et scénarios de solutions arbitrés selon leur faisabilité, leur coût et les risques résiduels.',
+                    'PCA métier, PRA informatique, procédures dégradées, annuaires de crise et fiches réflexes adaptées aux rôles.',
+                    'Programme d’exercices, comptes rendus de tests, plan d’actions, indicateurs et calendrier de mise à jour.',
+                ],
+                'projectContextsTitle' => 'Trajectoire ISO 22301',
+                'projectContexts' => [
+                    'Définir le contexte, le périmètre, la politique, les responsabilités et les critères d’acceptation du système de management de la continuité.',
+                    'Relier BIA, appréciation des risques, stratégies, procédures, exercices, compétences et maîtrise documentaire.',
+                    'Mettre en place des indicateurs, des audits internes, une revue de direction et le suivi des non-conformités et actions correctives.',
+                    'Préparer l’organisation à un audit de certification sans présenter OLING comme organisme certificateur ni promettre l’obtention du certificat.',
+                ],
+                'clientTypesTitle' => 'Responsabilités à articuler',
+                'clientTypes' => [
+                    'Direction générale pour le périmètre, les priorités, les ressources et l’acceptation des risques résiduels.',
+                    'Directions métier pour les impacts, les modes dégradés, les ressources minimales et les critères de retour à la normale.',
+                    'DSI, sécurité et fournisseurs pour les dépendances techniques, sauvegardes, restaurations et séquences de reprise.',
+                    'Qualité, risques, conformité, RH et communication pour la gouvernance, les exercices, les preuves et la gestion de crise.',
+                ],
+                'citablePassagesTitle' => 'Repères pour cadrer la continuité',
+                'citablePassages' => [
+                    ['title' => 'Comment construire un PCA ?', 'text' => 'Un PCA commence par un BIA : l’organisation identifie les activités prioritaires, mesure les impacts d’une interruption, recense les dépendances et fixe les délais de reprise acceptables. Elle choisit ensuite des solutions de continuité, attribue les responsabilités, documente les procédures dégradées et vérifie le dispositif par des exercices.'],
+                    ['title' => 'Quelle différence entre PCA et PRA ?', 'text' => 'Le PCA organise le maintien ou la reprise des activités prioritaires, y compris les équipes, locaux, fournisseurs et procédures métier. Le PRA organise le rétablissement des applications, données et infrastructures nécessaires. Le PRA contribue donc au dispositif de continuité, mais il ne remplace pas le PCA.'],
+                    ['title' => 'À quoi servent le RTO et le RPO ?', 'text' => 'Le RTO indique le délai cible pour rétablir une activité ou un service après une interruption. Le RPO indique la quantité maximale de données que l’organisation accepte de perdre, exprimée en durée. Ces objectifs doivent être arbitrés par le métier puis vérifiés face aux capacités techniques et contractuelles réelles.'],
+                    ['title' => 'Comment structurer une trajectoire ISO 22301 ?', 'text' => 'Une trajectoire ISO 22301 relie la gouvernance au fonctionnement réel : contexte et périmètre, politique, BIA, risques, stratégies, procédures, exercices, indicateurs, audits internes et revue de direction. La préparation à la certification consiste à faire fonctionner ce système et à traiter ses écarts ; la certification relève d’un organisme indépendant.'],
+                ],
+                'anonymousProofsTitle' => 'Mission anonymisée associée',
+                'anonymousProofsIntro' => 'Cette preuve porte sur un périmètre BIA et PCA documenté ; elle ne constitue pas une référence ISO 22301.',
+                'anonymousProofs' => [[
+                    'label' => 'Organisation régulée',
+                    'sector' => 'Mutuelle et assurance',
+                    'mission' => 'Analyse d’impact, qualification des risques et formalisation d’un plan de continuité dans un contexte de résilience numérique.',
+                    'perimeter' => ['RIA', 'BIA', 'PCA'],
+                ]],
+                'linksTitle' => 'Relier continuité métier et dépendances SI',
+                'linksIntro' => 'Ces pages approfondissent les sujets de gouvernance cyber, de système de management de la sécurité et de modernisation des infrastructures.',
+                'supportLinks' => [
+                    ['href' => '/cyber-securite', 'label' => 'Gouvernance cyber', 'description' => 'Pour relier continuité, scénarios de menace, incidents, NIS2 et DORA.'],
+                    ['href' => '/expertises-audit/si', 'label' => 'SMSI et ISO 27001', 'description' => 'Pour structurer le système de management de la sécurité et ses contrôles.'],
+                    ['href' => '/infrastructure-si-amoa', 'label' => 'Infrastructure SI', 'description' => 'Pour cadrer les plateformes, sauvegardes, dépendances techniques et trajectoires de modernisation.'],
+                    ['href' => '/ressources/pca-pra-structurer-la-continuit-viter-les-illusions', 'label' => 'Ressource PCA/PRA', 'description' => 'Pour approfondir les arbitrages et les pièges d’un plan déconnecté du terrain.'],
+                ],
+                'finalCtaLabel' => 'Échanger sur votre dispositif de continuité',
+                'finalCtaTitle' => 'Qualifier les activités critiques et les décisions à prendre',
+                'finalCtaText' => 'L’échange initial porte sur le périmètre, les impacts redoutés, les dépendances, les objectifs de reprise et les tests déjà réalisés.',
+                'schemaServiceType' => 'Conseil PCA, PRA et système de management de la continuité',
             ],
             'rgpd' => [
                 'linksTitle' => 'Approfondir le diagnostic et l’animation RGPD',

@@ -1,0 +1,18 @@
+{% extends 'seo/_db-landing.html.twig' %}
+
+{% block body_class %} pca-pra-owner{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    .pca-pra-owner .oling-seo-cabinet__hero-copy .breadcrumb {
+      --bs-breadcrumb-divider-color: #52677b;
+    }
+
+    .pca-pra-owner .oling-seo-cabinet__hero-copy .breadcrumb a,
+    .pca-pra-owner .oling-seo-cabinet__hero-copy .breadcrumb-item.active,
+    .pca-pra-owner .oling-seo-cabinet__hero-copy .oling-lede {
+      color: #344b61 !important;
+    }
+  </style>
+{% endblock %}

@@ -9,6 +9,7 @@
   '/business-apps/erp',
   '/consulting/reforme-facturation-electronique-amoa',
   '/expertises-audit/rgpd',
+  '/expertises-audit/qse',
   '/expertises-audit/si',
   '/expertises-audit/conformite-ia-gouvernance-et-ai-act',
   '/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier'
@@ -147,6 +148,25 @@
     </section>
   {% endif %}
 
+  {% if serviceNarrative.citablePassages is defined %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">Questions de cadrage</span>
+          <h2>{{ serviceNarrative.citablePassagesTitle }}</h2>
+        </div>
+        <div class="row g-4">
+          {% for passage in serviceNarrative.citablePassages %}
+            <article class="col-lg-6">
+              <h3 class="h5">{{ passage.title }}</h3>
+              <p class="mb-0">{{ passage.text }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   {% if serviceNarrative.supportLinks is defined %}
     <section class="oling-shell-section">
       <div class="container">
@@ -236,7 +256,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "{{ service.designation|striptags|e('js') }}",
+  "name": "{{ (serviceNarrative.schemaName ?? service.designation)|striptags|e('js') }}",
   "serviceType": "{{ (serviceNarrative.schemaServiceType ?? service.practice.designation)|striptags|e('js') }}",
   "provider": {
     "@type": "ProfessionalService",

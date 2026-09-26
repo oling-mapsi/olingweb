@@ -38,7 +38,8 @@
         items: [
             {label: 'RGPD / DPO', href: '/expertises-audit/rgpd'},
             {label: 'Cybersécurité / ISO 27001', href: '/cyber-securite'},
-            {label: 'QSE', href: '/expertises-audit/qse'},
+            {label: 'PCA / PRA / ISO 22301', href: '/pca-pra-continuite-activite'},
+            {label: 'ISO 9001 / QSE', href: '/expertises-audit/qse'},
             {label: 'Risques & contrôle interne', href: '/gestion-risques-audit-controle-interne'},
             {label: 'Conformité IA / AI Act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act'}
         ]
@@ -107,6 +108,14 @@
           overflow-wrap: anywhere;
         }
       }
+
+      {% if app.request.pathinfo in ['/pca-pra-continuite-activite', '/expertises-audit/qse'] %}
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+          .oling-header .oling-main-menu__cta {
+            display: none !important;
+          }
+        }
+      {% endif %}
     </style>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}

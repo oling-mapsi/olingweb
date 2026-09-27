@@ -228,6 +228,12 @@
     } %}
   {% endif %}
 
+  {% if pageSlug == 'cyber-securite' %}
+    {% include 'public/_iso27001_certification_proof.html.twig' with {
+      headingId: 'iso27001-certification-cyber'
+    } %}
+  {% endif %}
+
   {% if showReadingPath %}
     <section class="oling-section oling-section--tight">
       <div class="container">

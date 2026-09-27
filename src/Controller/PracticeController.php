@@ -984,8 +984,8 @@ class PracticeController extends AbstractController
                     ['label' => 'Systèmes de management'],
                 ],
                 'linkedin' => 'https://www.linkedin.com/in/dorothee-maitrias-0584b196/',
-                'relationSchema' => 'worksFor',
-                'relationshipText' => 'OLING Management et Technologie',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
             ],
             'manuel feuillard' => [
                 'slug' => 'manuel-feuillard',

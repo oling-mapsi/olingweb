@@ -132,4 +132,43 @@
     </section>
   {% endif %}
 </main>
+
+{% if not isPreview|default(false) %}
+  {% set resourceUrl = page and page.canonicalUrl ? page.canonicalUrl : app.request.schemeAndHttpHost ~ path('seo_resource', {slug: publicSlug}) %}
+  {% set resourceHeadline = page and page.heroTitle ? page.heroTitle|striptags|trim : (page and page.title ? page.title|striptags|trim : '') %}
+  {% set resourceDescription = page and page.heroIntro ? page.heroIntro|striptags|trim : (page and page.metaDescription ? page.metaDescription|striptags|trim : '') %}
+  {% set resourceBreadcrumbName = page and page.heroTitle ? page.heroTitle|striptags : 'Article' %}
+  {% set structuredDataGraph = [{
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {'@type': 'ListItem', 'position': 1, 'name': 'Accueil', 'item': site_base_url ~ path('index')},
+      {'@type': 'ListItem', 'position': 2, 'name': 'Ressources', 'item': site_base_url ~ path('seo_resources_index')},
+      {'@type': 'ListItem', 'position': 3, 'name': resourceBreadcrumbName, 'item': resourceUrl}
+    ]
+  }] %}
+
+  {% if page and page.publicationDate and page.authorDisplayName and resourceHeadline and resourceDescription %}
+    {% set articleSchema = {
+      '@type': 'Article',
+      'headline': resourceHeadline,
+      'description': resourceDescription,
+      'datePublished': page.publicationDate|date('c'),
+      'author': {
+        '@type': 'Organization',
+        'name': page.authorDisplayName|striptags|trim
+      },
+      'publisher': {'@id': site_base_url ~ '/#professional-service'},
+      'mainEntityOfPage': {'@type': 'WebPage', '@id': resourceUrl}
+    } %}
+    {% if page.heroImage %}
+      {% set articleImage = page.heroImage starts with 'http' ? page.heroImage : absolute_url(asset(page.heroImage|trim('/', 'left'))) %}
+      {% set articleSchema = articleSchema|merge({'image': articleImage}) %}
+    {% endif %}
+    {% set structuredDataGraph = structuredDataGraph|merge([articleSchema]) %}
+  {% endif %}
+
+  <script type="application/ld+json">
+  {{ {'@context': 'https://schema.org', '@graph': structuredDataGraph}|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))|raw }}
+  </script>
+{% endif %}
 {% endblock %}

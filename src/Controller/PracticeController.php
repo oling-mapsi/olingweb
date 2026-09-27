@@ -150,7 +150,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => $this->buildLeadershipPreview($repoteam->findAll()),
+            'teamPreview' => $this->buildTeamProfiles($repoteam->findAll()),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos'),
             'pract' => '',
         ]);
@@ -645,12 +645,13 @@ class PracticeController extends AbstractController
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
-        $team = $repoteam->findAll();
+        $team = $this->buildTeamProfiles($repoteam->findAll());
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
             'team' => $team,
+            'teamSchemas' => $this->buildTeamSchemas($team),
             'page' => $this->publicSitePageResolver->getEditorialPage('team'),
             'pract' => '',
         ]);
@@ -955,33 +956,105 @@ class PracticeController extends AbstractController
      * @param Team[] $members
      * @return array<int, array<string, mixed>>
      */
-    private function buildLeadershipPreview(array $members): array
+    private function buildTeamProfiles(array $members): array
     {
         $catalog = [
             'florestan rouet' => [
+                'slug' => 'florestan-rouet',
                 'displayName' => 'Florestan Rouet',
                 'photo' => '/img/people/florestan-oling.png',
+                'shortcv' => 'Florestan Rouet accompagne les organisations dans le cadrage et la gouvernance de leurs projets SI. Il publie également sur la GRC et le pilotage avec MAPSI.',
+                'areas' => [
+                    ['label' => 'AMOA SI', 'href' => '/amoa-si'],
+                    ['label' => 'Gouvernance SI'],
+                    ['label' => 'GRC / MAPSI'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/florestanrouet/',
+                'publicationsUrl' => 'https://mapsi.fr/fr/auteurs/florestan-rouet',
+                'relationSchema' => 'worksFor',
+                'relationshipText' => 'OLING Management et Technologie',
             ],
             'dorothee maitrias' => [
+                'slug' => 'dorothee-maitrias',
                 'displayName' => 'Dorothée Maitrias',
                 'photo' => '/img/people/dorothee-oling.jpg',
-            ],
-            'hanna badan' => [
-                'displayName' => 'Hanna Badan',
-                'photo' => '/img/people/hanna-oling.jpg',
+                'shortcv' => 'Dorothée Maitrias accompagne les démarches qualité, QSE et d’amélioration continue, de leur structuration à leur pilotage opérationnel.',
+                'areas' => [
+                    ['label' => 'Qualité / QSE', 'href' => '/expertises-audit/qse'],
+                    ['label' => 'Systèmes de management'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/dorothee-maitrias-0584b196/',
+                'relationSchema' => 'worksFor',
+                'relationshipText' => 'OLING Management et Technologie',
             ],
             'manuel feuillard' => [
+                'slug' => 'manuel-feuillard',
                 'displayName' => 'Manuel Feuillard',
                 'photo' => '/img/people/manuel-oling.png',
+                'shortcv' => 'Manuel Feuillard intervient sur les systèmes de management QSE et leur digitalisation, avec une approche adaptée aux processus et au contexte de chaque organisation.',
+                'areas' => [
+                    ['label' => 'QSE', 'href' => '/expertises-audit/qse'],
+                    ['label' => 'Systèmes de management'],
+                    ['label' => 'Digitalisation'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/manuel-feuillard-a10b84248/',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
+            ],
+            'hanna badan' => [
+                'slug' => 'hanna-badan',
+                'displayName' => 'Hanna Badan',
+                'photo' => '/img/people/hanna-oling.jpg',
+                'shortcv' => 'Hanna Badan contribue au cadrage des transformations SI et des projets ERP ou progiciels, en reliant besoins métier, exploitation et pilotage.',
+                'areas' => [
+                    ['label' => 'ERP et progiciels', 'href' => '/business-apps/erp'],
+                    ['label' => 'Transformation SI'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/hannabadan/',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
             ],
             'julien pujol' => [
+                'slug' => 'julien-pujol',
                 'displayName' => 'Julien Pujol',
                 'photo' => '/img/people/julien-oling.png',
+                'shortcv' => 'Julien Pujol intervient sur l’intégration d’ERP et les enjeux associés de finance et de décisionnel.',
+                'areas' => [
+                    ['label' => 'ERP', 'href' => '/business-apps/erp'],
+                    ['label' => 'SI Finance', 'href' => '/si-finance'],
+                    ['label' => 'BI'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/julien-pujol-752a364/',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
             ],
             'claire tillon' => [
+                'slug' => 'claire-tillon',
                 'displayName' => 'Claire Tillon',
                 'photo' => '/img/people/claire-oling.png',
-                'titre' => 'Équipe de direction',
+                'titre' => 'Consultante en gouvernance et gestion de projet',
+                'shortcv' => 'Claire Tillon accompagne les acteurs publics dans leurs démarches de gouvernance, de structuration et de conduite de projet.',
+                'areas' => [
+                    ['label' => 'Gouvernance', 'href' => '/amoa-si'],
+                    ['label' => 'Gestion de projet'],
+                    ['label' => 'Secteur public'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/clairetillon/',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
+            ],
+            'jean claude vati' => [
+                'slug' => 'jean-claude-vati',
+                'displayName' => 'Jean-Claude Vati',
+                'photo' => 'https://oling.fr/uploads/teams/photos/1767729618943-69d0310ed53909.71845746.jpg',
+                'shortcv' => 'Jean-Claude Vati accompagne les projets d’infrastructure SI et l’évolution des environnements Microsoft 365.',
+                'areas' => [
+                    ['label' => 'Infrastructure SI', 'href' => '/infrastructure-si-amoa'],
+                    ['label' => 'Microsoft 365'],
+                ],
+                'linkedin' => 'https://www.linkedin.com/in/jean-claude-vati-415ba33a3/',
+                'relationSchema' => 'affiliation',
+                'relationshipText' => 'Intervient avec OLING Management et Technologie',
             ],
         ];
 
@@ -994,15 +1067,52 @@ class PracticeController extends AbstractController
         foreach ($catalog as $key => $defaults) {
             $member = $index[$key] ?? null;
             $preview[] = [
-                'noncomplet' => $member?->getNoncomplet() ?: $defaults['displayName'],
+                'slug' => $defaults['slug'],
+                'noncomplet' => $defaults['displayName'],
                 'titre' => $member?->getTitre() ?: ($defaults['titre'] ?? 'Équipe de direction'),
-                'shortcv' => $member?->getShortcv(),
-                'linkedin' => $member?->getLinkedin(),
+                'shortcv' => $defaults['shortcv'],
+                'areas' => $defaults['areas'],
+                'organization' => $defaults['relationshipText'],
+                'relationSchema' => $defaults['relationSchema'],
+                'linkedin' => $defaults['linkedin'],
+                'publicationsUrl' => $defaults['publicationsUrl'] ?? null,
                 'photo' => $defaults['photo'],
             ];
         }
 
         return $preview;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $profiles
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildTeamSchemas(array $profiles): array
+    {
+        return array_map(static function (array $profile): array {
+            $sameAs = [$profile['linkedin']];
+            if ($profile['publicationsUrl']) {
+                $sameAs[] = $profile['publicationsUrl'];
+            }
+
+            $schema = [
+                '@type' => 'Person',
+                '@id' => sprintf('https://oling.fr/a-propos/team#%s', $profile['slug']),
+                'name' => $profile['noncomplet'],
+                'jobTitle' => $profile['titre'],
+                'url' => sprintf('https://oling.fr/a-propos/team#%s', $profile['slug']),
+                'sameAs' => $sameAs,
+                'knowsAbout' => array_column($profile['areas'], 'label'),
+            ];
+
+            $schema[$profile['relationSchema']] = [
+                '@type' => 'Organization',
+                '@id' => 'https://oling.fr/#professional-service',
+                'name' => 'OLING Management et Technologie',
+            ];
+
+            return $schema;
+        }, $profiles);
     }
 
     private function normalizeTeamName(?string $value): string

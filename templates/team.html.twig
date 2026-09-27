@@ -15,10 +15,14 @@
     .oling-team-card__head h2 { font-size: 1.28rem; line-height: 0.98; max-width: 13ch; }
     .oling-team-card__title { margin-top: 0.22rem; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .oling-team-card__link { font-size: 0.66rem; letter-spacing: 0.12em; }
+    .oling-team-card__organization { margin: 0.25rem 0 0; color: #52616d; font-size: 0.75rem; }
+    .oling-team-card__areas { display: flex; flex-wrap: wrap; gap: 0.35rem 0.75rem; margin: 0 0 0.65rem; padding: 0; list-style: none; }
+    .oling-team-card__areas li, .oling-team-card__areas a { color: #244968; font-size: 0.76rem; font-weight: 700; }
+    .oling-team-card__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.7rem; }
     .oling-team-card__content, .oling-team-card__content p, .oling-team-card__content li { font-size: 0.9rem; line-height: 1.55; }
     @media (max-width: 575.98px) {
       .oling-team-card { grid-template-columns: 1fr; }
-      .oling-team-media { height: 140px; min-height: 140px; margin: 0.95rem 0.95rem 0; }
+      .oling-team-media { width: calc(100% - 1.9rem); height: 140px; min-height: 140px; margin: 0.95rem 0.95rem 0; }
       .oling-team-card__body { padding: 0.9rem 0.95rem 1rem; }
     }
   </style>
@@ -42,7 +46,7 @@
 
       <div class="oling-team-page-grid">
         {% for people in team %}
-          <article class="oling-team-card">
+          <article id="{{ people.slug }}" class="oling-team-card">
             <div class="oling-team-media">
               <img src="{{ people.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ people.noncomplet }}">
             </div>
@@ -53,14 +57,27 @@
                   {% if people.titre %}
                     <p class="oling-team-card__title">{{ people.titre }}</p>
                   {% endif %}
+                  <p class="oling-team-card__organization">{{ people.organization }}</p>
                 </div>
+              </div>
+              <ul class="oling-team-card__areas" aria-label="Domaines d’intervention">
+                {% for area in people.areas %}
+                  <li>
+                    {% if area.href is defined %}<a href="{{ area.href }}">{{ area.label }}</a>{% else %}{{ area.label }}{% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+              {% if people.shortcv %}
+                <div class="oling-richtext oling-team-card__content"><p>{{ people.shortcv }}</p></div>
+              {% endif %}
+              <div class="oling-team-card__actions">
                 {% if people.linkedin %}
                   <a class="oling-team-card__link" href="{{ people.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
                 {% endif %}
+                {% if people.publicationsUrl %}
+                  <a class="oling-team-card__link" href="{{ people.publicationsUrl }}" target="_blank" rel="noopener">Voir ses publications</a>
+                {% endif %}
               </div>
-              {% if people.shortcv %}
-                <div class="oling-richtext oling-team-card__content">{{ people.shortcv|raw }}</div>
-              {% endif %}
             </div>
           </article>
         {% endfor %}
@@ -68,4 +85,5 @@
     </div>
   </section>
 </main>
+<script type="application/ld+json">{{ {'@context': 'https://schema.org', '@graph': teamSchemas}|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
 {% endblock %}

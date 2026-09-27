@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ressources OLING</title>
+    <link>{{ site_base_url ~ path('seo_resources_index') }}</link>
+    <description>Ressources OLING sur l'AMOA SI, les applications métiers, la conformité, la cybersécurité, la continuité et la gouvernance.</description>
+    <language>fr-FR</language>
+    <atom:link href="{{ site_base_url ~ path('seo_resources_rss') }}" rel="self" type="application/rss+xml" />
+{% for item in items %}
+{% set itemUrl = site_base_url ~ path('seo_resource', {slug: item.slug}) %}
+    <item>
+      <title>{{ item.title }}</title>
+      <link>{{ itemUrl }}</link>
+      <guid isPermaLink="true">{{ itemUrl }}</guid>
+      <pubDate>{{ item.publicationDate|date('r') }}</pubDate>
+      <description>{{ item.summary }}</description>
+    </item>
+{% endfor %}
+  </channel>
+</rss>

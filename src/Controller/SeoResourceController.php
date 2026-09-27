@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\SitePage;
 use App\Repository\PracticeRepository;
 use App\Repository\SitePageRepository;
 use App\Repository\ServicesRepository;
@@ -43,6 +44,27 @@ class SeoResourceController extends AbstractController
         ]);
     }
 
+    #[Route('/ressources/rss.xml', name: 'seo_resources_rss', methods: ['GET'], options: ['sitemap' => false])]
+    public function rss(): Response
+    {
+        $items = array_values(array_filter(array_map(
+            fn (SitePage $resourcePage): ?array => $this->buildResourceFeedItem($resourcePage),
+            $this->sitePageRepository->findResourceArticles()
+        )));
+        usort($items, static fn (array $left, array $right): int => $right['publicationDate'] <=> $left['publicationDate']);
+        $items = array_slice($items, 0, 20);
+
+        $response = $this->render('seo/resources-rss.xml.twig', [
+            'items' => $items,
+        ]);
+        $response->headers->set('Content-Type', 'application/rss+xml; charset=UTF-8');
+        $response->setPublic();
+        $response->setMaxAge(300);
+        $response->setSharedMaxAge(300);
+
+        return $response;
+    }
+
     #[Route('/ressources/{slug}', name: 'seo_resource', options: ['sitemap' => false])]
     public function show(
         string $slug,
@@ -73,7 +95,7 @@ class SeoResourceController extends AbstractController
     /**
      * @return array{slug: string, title: string, h1: string, intro: string}|null
      */
-    private function buildResourceCard(\App\Entity\SitePage $page): ?array
+    private function buildResourceCard(SitePage $page): ?array
     {
         $storedSlug = (string) $page->getSlug();
         if (!str_starts_with($storedSlug, self::RESOURCE_ARTICLE_PREFIX)) {
@@ -90,6 +112,29 @@ class SeoResourceController extends AbstractController
             'title' => (string) $page->getTitle(),
             'h1' => (string) ($page->getHeroTitle() ?: $page->getTitle()),
             'intro' => (string) ($page->getHeroIntro() ?: ''),
+        ];
+    }
+
+    /**
+     * @return array{slug: string, title: string, summary: string, publicationDate: \DateTimeImmutable}|null
+     */
+    private function buildResourceFeedItem(SitePage $page): ?array
+    {
+        $card = $this->buildResourceCard($page);
+        $publicationDate = $page->getPublicationDate() ?? $page->getPublishedAt();
+        if ($card === null || $publicationDate === null) {
+            return null;
+        }
+
+        $summary = $page->getHeroIntro() ?: $page->getMetaDescription() ?: $card['h1'];
+        $summary = html_entity_decode(strip_tags($summary), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $summary = trim((string) preg_replace('/\s+/u', ' ', $summary));
+
+        return [
+            'slug' => $card['slug'],
+            'title' => $card['h1'],
+            'summary' => $summary,
+            'publicationDate' => $publicationDate,
         ];
     }
 }

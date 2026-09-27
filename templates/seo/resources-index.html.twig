@@ -2,6 +2,10 @@
 
 {% block title %}{{ page and page.title ? page.title : 'Ressources | OLING' }}{% endblock %}
 {% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Ressources OLING.' }}{% endblock %}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="alternate" type="application/rss+xml" title="Ressources OLING" href="{{ site_base_url ~ path('seo_resources_rss') }}">
+{% endblock %}
 
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}

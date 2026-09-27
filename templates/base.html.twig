@@ -63,10 +63,19 @@
     <meta property="og:description" content="{{ meta_description|striptags|trim }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}">
-    <meta property="og:image" content="https://oling.fr/img/1920x1080/security.jpg">
+    {% set social_image_url %}{% block social_image_url %}{{ absolute_url(asset('images/social/oling-expertises-si-conformite-2026.png')) }}{% endblock %}{% endset %}
+    {% set social_image_type %}{% block social_image_type %}image/png{% endblock %}{% endset %}
+    {% set social_image_width %}{% block social_image_width %}1200{% endblock %}{% endset %}
+    {% set social_image_height %}{% block social_image_height %}627{% endblock %}{% endset %}
+    <meta property="og:image" content="{{ social_image_url|trim }}">
+    <meta property="og:image:secure_url" content="{{ social_image_url|trim }}">
+    <meta property="og:image:type" content="{{ social_image_type|trim }}">
+    <meta property="og:image:width" content="{{ social_image_width|trim }}">
+    <meta property="og:image:height" content="{{ social_image_height|trim }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ block('title')|striptags|trim }}">
     <meta name="twitter:description" content="{{ meta_description|striptags|trim }}">
+    <meta name="twitter:image" content="{{ social_image_url|trim }}">
     <meta name="theme-color" content="#2F5D62">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}

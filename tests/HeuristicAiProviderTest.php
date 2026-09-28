@@ -86,6 +86,23 @@ class HeuristicAiProviderTest extends TestCase
         self::assertFalse($decision->requestLead);
     }
 
+    public function testProviderAnswersGenericGrandPortReferenceQuestion(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'Avez-vous accompagné des grands ports sur la continuité ou la cybersécurité ?', [[
+            'title' => 'Référence grand port maritime',
+            'url' => '/projets',
+            'text' => 'Mission anonymisée pour un grand port maritime : continuité, PCA et cybersécurité.',
+            'type' => 'reference',
+        ]], []);
+
+        self::assertStringNotContainsString('Je ne cite pas les noms de clients', $decision->reply);
+        self::assertStringContainsString('grand port maritime', mb_strtolower($decision->reply));
+        self::assertStringContainsString('continuité', mb_strtolower($decision->reply));
+    }
+
     public function testProviderPrioritizesAnonymizedReferencesForMixedSectorQuestion(): void
     {
         $conversation = new ChatConversation();

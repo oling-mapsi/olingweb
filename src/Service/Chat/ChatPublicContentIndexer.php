@@ -448,10 +448,16 @@ class ChatPublicContentIndexer
         }
 
         $description = method_exists($project, 'getDescription') ? $project->getDescription() : null;
+        $projectIdentifiers = $this->confidentialProjectSanitizer->collectSensitiveIdentifiers(
+            method_exists($project, 'getClientName') && is_string($project->getClientName()) ? $project->getClientName() : null,
+            method_exists($project, 'getMetadata') && is_array($project->getMetadata()) ? $project->getMetadata() : []
+        );
         $safeDescription = $this->confidentialProjectSanitizer->sanitize(
             $this->plain(is_string($description) ? $description : null),
-            $sensitiveIdentifiers
+            $projectIdentifiers,
+            $this->publicOrganizationLabel($project, is_string($metierName) ? $metierName : null)
         );
+        $safeDescription = $this->confidentialProjectSanitizer->sanitize($safeDescription, $sensitiveIdentifiers);
         if ($safeDescription !== '') {
             $parts[] = $safeDescription;
         }
@@ -488,6 +494,24 @@ class ChatPublicContentIndexer
                 ConfidentialProjectSanitizer::SAFE_INDEX_MARKER,
             ]),
         ];
+    }
+
+    private function publicOrganizationLabel(object $project, ?string $sector): string
+    {
+        $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
+        $normalized = $this->normalize(is_string($name) ? $name : '');
+
+        if (str_contains($normalized, 'grand port maritime')) {
+            return 'grand port maritime';
+        }
+        if (str_contains($normalized, 'mutuelle')) {
+            return 'mutuelle / acteur de l’assurance';
+        }
+        if ($sector !== null && $this->normalize($sector) === 'formation professionnelle') {
+            return 'organisme de formation';
+        }
+
+        return 'organisation anonymisée';
     }
 
     /** @return list<string> */

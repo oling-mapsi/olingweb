@@ -63,6 +63,33 @@ final class ChatPublicContentIndexerSanitizationTest extends TestCase
         self::assertStringContainsString('pca et resilience', $document->getSearchText());
     }
 
+    public function testMutualReferenceKeepsSafeSectorLabel(): void
+    {
+        $project = (new Projet())
+            ->setDesignation('Mission continuité')
+            ->setClientName('Mutuelle Exemple Régionale')
+            ->setDescription('Mutuelle Exemple Régionale et MER : analyse d’impact et PCA.');
+        $project->setMetier((new Metier())->setDesignation('Mutuelle et assurance'));
+
+        $projects = $this->createMock(ProjetRepository::class);
+        $projects->method('findAll')->willReturn([$project]);
+        $indexer = new ChatPublicContentIndexer(
+            $this->createMock(EntityManagerInterface::class),
+            $this->emptyRepository(SitePageRepository::class),
+            $this->emptyRepository(PracticeRepository::class),
+            $this->emptyRepository(ServicesRepository::class),
+            $projects,
+            $this->emptyRepository(TeamRepository::class),
+            $this->createMock(UrlGeneratorInterface::class),
+            new ConfidentialProjectSanitizer(),
+        );
+
+        $document = $indexer->buildDocumentSnapshot()[0];
+        self::assertStringContainsString('mutuelle / acteur de l’assurance', $document->getSafeText());
+        self::assertStringNotContainsString('Exemple Régionale', $document->getSafeText());
+        self::assertStringNotContainsString('MER', $document->getSafeText());
+    }
+
     private function emptyRepository(string $class): object
     {
         $repository = $this->createMock($class);

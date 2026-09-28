@@ -657,6 +657,10 @@ class HeuristicAiProvider implements AiProviderInterface
     {
         $text = $this->normalize($message);
 
+        if (preg_match('/\b(des|plusieurs) grands? ports?\b|\b(une|des) mutuelles?\b|\b(des|plusieurs) organismes? de formation\b/', $text) === 1) {
+            return false;
+        }
+
         if (preg_match('/\b(quels sont vos clients|donnez moi vos principaux clients|principaux clients|noms de clients)\b/', $text) === 1) {
             return true;
         }

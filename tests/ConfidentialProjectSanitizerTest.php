@@ -44,6 +44,22 @@ final class ConfidentialProjectSanitizerTest extends TestCase
         self::assertStringNotContainsString('ALPHA', $sanitizer->sanitize('Mission ALPHA de continuité.', $identifiers));
     }
 
+    public function testUsesSafeOrganizationTypeAsReplacement(): void
+    {
+        $sanitizer = new ConfidentialProjectSanitizer();
+        $identifiers = $sanitizer->collectSensitiveIdentifiers('Mutuelle Exemple Régionale');
+        $result = $sanitizer->sanitize(
+            'Pour Mutuelle Exemple Régionale, MER a cadré un PCA.',
+            $identifiers,
+            'mutuelle / acteur de l’assurance'
+        );
+
+        self::assertStringNotContainsString('Exemple Régionale', $result);
+        self::assertStringNotContainsString('MER', $result);
+        self::assertStringContainsString('mutuelle / acteur de l’assurance', $result);
+        self::assertStringContainsString('PCA', $result);
+    }
+
     public function testBlocksLegacyReferenceBeforeSafeRebuild(): void
     {
         $sanitizer = new ConfidentialProjectSanitizer();

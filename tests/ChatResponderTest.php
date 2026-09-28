@@ -118,6 +118,16 @@ class ChatResponderTest extends TestCase
         self::assertSame([], $reply->sources);
     }
 
+    public function testGenericGrandPortQuestionIsNotTreatedAsNamedClient(): void
+    {
+        $reply = $this->buildResponderWithDocuments([
+            $this->buildDocument('reference', '/projets', 'Référence grand port maritime : continuité, PCA et cybersécurité'),
+        ])->reply(new ChatConversation(), 'Avez-vous accompagné des grands ports sur la continuité ou la cybersécurité ?');
+
+        self::assertStringNotContainsString('Je ne confirme ni ne détaille', $reply->content);
+        self::assertContains('/projets', $reply->sources);
+    }
+
     public function testReferenceQuestionDoesNotExposeTeamCardWhenExpertWasNotAsked(): void
     {
         $reply = $this->buildResponderWithDocuments([

@@ -37,7 +37,7 @@ final class ConfidentialProjectSanitizer
     /**
      * @param string[] $sensitiveIdentifiers
      */
-    public function sanitize(string $text, array $sensitiveIdentifiers): string
+    public function sanitize(string $text, array $sensitiveIdentifiers, string $replacement = 'organisation anonymisée'): string
     {
         if ($text === '') {
             return '';
@@ -52,7 +52,7 @@ final class ConfidentialProjectSanitizer
 
             $text = preg_replace(
                 '/(?<![\p{L}\p{N}])'.preg_quote($identifier, '/').'(?![\p{L}\p{N}])/iu',
-                'organisation anonymisée',
+                $replacement,
                 $text
             ) ?? $text;
         }

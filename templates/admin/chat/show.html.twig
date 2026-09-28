@@ -99,6 +99,16 @@
                                             {% endfor %}
                                         </div>
                                     {% endif %}
+                                    {% if message.role == 'assistant' and message.provider %}
+                                        <div class="small text-muted mt-2">
+                                            {{ message.provider }}{% if message.model %} · {{ message.model }}{% endif %}
+                                            {% if message.ownerUrl %} · owner {{ message.ownerUrl }}{% endif %}
+                                            {% if message.latencyMs is not null %} · {{ message.latencyMs }} ms{% endif %}
+                                            {% if message.inputTokens is not null %} · {{ message.inputTokens }}/{{ message.outputTokens }} tokens{% endif %}
+                                            {% if message.fallbackUsed %} · fallback{% endif %}
+                                            {% if message.errorCode %} · {{ message.errorCode }}{% endif %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             {% endfor %}
                         </div>

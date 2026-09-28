@@ -54,7 +54,7 @@ class ChatConversationManager
         $this->addVisitorMessage($conversation, $content);
         $reply = $this->chatResponder->reply($conversation, $content);
         $qualification = $reply->qualification !== [] ? $reply->qualification : $this->qualificationService->qualify($conversation);
-        $this->addAssistantMessage($conversation, $reply->content, $reply->messageType, $reply->sources);
+        $this->addAssistantMessage($conversation, $reply->content, $reply->messageType, $reply->sources, $reply);
 
         $conversation->setQualification($qualification);
         $conversation->setStatus($reply->requestLead ? ChatConversation::STATUS_LEAD_PENDING : ChatConversation::STATUS_ACTIVE);
@@ -177,13 +177,23 @@ class ChatConversationManager
     /**
      * @param string[] $sources
      */
-    private function addAssistantMessage(ChatConversation $conversation, string $content, string $type, array $sources = []): void
+    private function addAssistantMessage(ChatConversation $conversation, string $content, string $type, array $sources = [], ?ChatReply $reply = null): void
     {
         $message = (new ChatMessage())
             ->setRole('assistant')
             ->setMessageType($type)
             ->setContent($content)
             ->setSourceUrls($sources)
+            ->setProvider($reply?->provider)
+            ->setModel($reply?->model)
+            ->setFallbackUsed($reply?->fallbackUsed ?? false)
+            ->setOwnerUrl($reply?->ownerUrl)
+            ->setSelectedDocuments($reply?->selectedDocuments)
+            ->setLatencyMs($reply?->latencyMs)
+            ->setInputTokens($reply?->inputTokens)
+            ->setOutputTokens($reply?->outputTokens)
+            ->setErrorCode($reply?->errorCode)
+            ->setRequestId($reply?->requestId)
             ->setSequenceNumber($conversation->getMessages()->count() + 1)
             ->setCreatedAt(new \DateTimeImmutable());
 

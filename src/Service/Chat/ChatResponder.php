@@ -19,8 +19,12 @@ class ChatResponder
         private readonly HeuristicAiProvider $heuristicProvider,
         private readonly iterable $providers,
         private readonly LoggerInterface $logger,
+        ?ChatOwnerRouter $ownerRouter = null,
     ) {
+        $this->ownerRouter = $ownerRouter ?? new ChatOwnerRouter();
     }
+
+    private readonly ChatOwnerRouter $ownerRouter;
 
     public function getWelcomeMessage(): string
     {
@@ -49,6 +53,8 @@ class ChatResponder
             : $this->findRelevantDocumentsSafely($conversation, $visitorMessage, $qualification);
         $retrievalDurationMs = (int) round((microtime(true) - $lookupStartedAt) * 1000);
 
+        $fallbackUsed = false;
+        $errorCode = null;
         foreach ($this->providers as $provider) {
             if (!$provider->isAvailable()) {
                 continue;
@@ -57,11 +63,13 @@ class ChatResponder
             try {
                 $providerStartedAt = microtime(true);
                 $decision = $provider->generateDecision($conversation, $visitorMessage, $documents, $qualification);
-                $reply = $this->createReplyFromDecision($conversation, $visitorMessage, $documents, $qualification, $decision, $provider->getName());
+                $reply = $this->createReplyFromDecision($conversation, $visitorMessage, $documents, $qualification, $decision, $provider->getName(), $fallbackUsed, $errorCode, (int) round((microtime(true) - $startedAt) * 1000));
                 $this->logTechnicalMetrics($visitorMessage, $documents, $reply, $provider->getName(), $retrievalDurationMs, (int) round((microtime(true) - $providerStartedAt) * 1000), (int) round((microtime(true) - $startedAt) * 1000), false);
 
                 return $reply;
             } catch (\Throwable $exception) {
+                $fallbackUsed = true;
+                $errorCode = $exception::class;
                 $this->logger->warning('Chat provider failed.', [
                     'provider' => $provider->getName(),
                     'error' => $exception->getMessage(),
@@ -72,7 +80,7 @@ class ChatResponder
         try {
             $providerStartedAt = microtime(true);
             $decision = $this->heuristicProvider->generateDecision($conversation, $visitorMessage, $documents, $qualification);
-            $reply = $this->createReplyFromDecision($conversation, $visitorMessage, $documents, $qualification, $decision, $this->heuristicProvider->getName());
+            $reply = $this->createReplyFromDecision($conversation, $visitorMessage, $documents, $qualification, $decision, $this->heuristicProvider->getName(), true, $errorCode, (int) round((microtime(true) - $startedAt) * 1000));
             $this->logTechnicalMetrics($visitorMessage, $documents, $reply, $this->heuristicProvider->getName(), $retrievalDurationMs, (int) round((microtime(true) - $providerStartedAt) * 1000), (int) round((microtime(true) - $startedAt) * 1000), true);
 
             return $reply;
@@ -98,7 +106,10 @@ class ChatResponder
         array $documents,
         array $qualification,
         AiDecision $decision,
-        ?string $provider
+        ?string $provider,
+        bool $fallbackUsed,
+        ?string $errorCode,
+        int $latencyMs
     ): ChatReply {
         $mergedQualification = $this->qualificationService->qualify($conversation, $decision->qualification ?: $qualification);
         $contactStep = $this->resolveContactStep($conversation, $visitorMessage, $mergedQualification, $decision->requestLead);
@@ -109,7 +120,20 @@ class ChatResponder
             $this->filterSources($documents, $visitorMessage, $mergedQualification),
             $mergedQualification,
             $provider,
-            $contactStep
+            $contactStep,
+            $decision->model,
+            $fallbackUsed,
+            $this->ownerRouter->resolveOwnerUrl($visitorMessage),
+            array_map(static fn (array $document): array => [
+                'url' => $document['url'],
+                'type' => $document['type'],
+                'score' => $document['score'] ?? null,
+            ], $documents),
+            $latencyMs,
+            $decision->inputTokens,
+            $decision->outputTokens,
+            $errorCode,
+            $decision->requestId
         );
     }
 

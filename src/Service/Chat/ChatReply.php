@@ -15,6 +15,15 @@ final class ChatReply
         public readonly array $qualification = [],
         public readonly ?string $provider = null,
         public readonly string $messageType = 'question',
+        public readonly ?string $model = null,
+        public readonly bool $fallbackUsed = false,
+        public readonly ?string $ownerUrl = null,
+        public readonly array $selectedDocuments = [],
+        public readonly ?int $latencyMs = null,
+        public readonly ?int $inputTokens = null,
+        public readonly ?int $outputTokens = null,
+        public readonly ?string $errorCode = null,
+        public readonly ?string $requestId = null,
     ) {
     }
 }

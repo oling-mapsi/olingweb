@@ -34,6 +34,36 @@ class ChatMessage
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $sourceUrls = null;
 
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $provider = null;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $model = null;
+
+    #[ORM\Column]
+    private bool $fallbackUsed = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ownerUrl = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $selectedDocuments = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $latencyMs = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $inputTokens = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $outputTokens = null;
+
+    #[ORM\Column(length: 128, nullable: true)]
+    private ?string $errorCode = null;
+
+    #[ORM\Column(length: 128, nullable: true)]
+    private ?string $requestId = null;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -113,6 +143,27 @@ class ChatMessage
 
         return $this;
     }
+
+    public function getProvider(): ?string { return $this->provider; }
+    public function setProvider(?string $value): self { $this->provider = $value; return $this; }
+    public function getModel(): ?string { return $this->model; }
+    public function setModel(?string $value): self { $this->model = $value; return $this; }
+    public function isFallbackUsed(): bool { return $this->fallbackUsed; }
+    public function setFallbackUsed(bool $value): self { $this->fallbackUsed = $value; return $this; }
+    public function getOwnerUrl(): ?string { return $this->ownerUrl; }
+    public function setOwnerUrl(?string $value): self { $this->ownerUrl = $value; return $this; }
+    public function getSelectedDocuments(): array { return $this->selectedDocuments ?? []; }
+    public function setSelectedDocuments(?array $value): self { $this->selectedDocuments = $value; return $this; }
+    public function getLatencyMs(): ?int { return $this->latencyMs; }
+    public function setLatencyMs(?int $value): self { $this->latencyMs = $value; return $this; }
+    public function getInputTokens(): ?int { return $this->inputTokens; }
+    public function setInputTokens(?int $value): self { $this->inputTokens = $value; return $this; }
+    public function getOutputTokens(): ?int { return $this->outputTokens; }
+    public function setOutputTokens(?int $value): self { $this->outputTokens = $value; return $this; }
+    public function getErrorCode(): ?string { return $this->errorCode; }
+    public function setErrorCode(?string $value): self { $this->errorCode = $value; return $this; }
+    public function getRequestId(): ?string { return $this->requestId; }
+    public function setRequestId(?string $value): self { $this->requestId = $value; return $this; }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

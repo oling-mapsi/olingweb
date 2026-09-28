@@ -17,6 +17,10 @@ final class AiDecision
         public readonly array $missingFields = [],
         public readonly ?float $confidence = null,
         public readonly ?string $provider = null,
+        public readonly ?string $model = null,
+        public readonly ?int $inputTokens = null,
+        public readonly ?int $outputTokens = null,
+        public readonly ?string $requestId = null,
     ) {
     }
 }

@@ -87,6 +87,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
                 'timeout' => 20,
             ]);
 
+            $headers = $response->getHeaders(false);
             $payload = $response->toArray();
             $output = $this->extractOutputText($payload);
             $decoded = json_decode($this->sanitizeJsonPayload($output), true, 512, JSON_THROW_ON_ERROR);
@@ -129,7 +130,11 @@ class OpenAiResponsesProvider implements AiProviderInterface
             array_column($documents, 'url'),
             $missingFields,
             isset($decoded['confidence']) ? (float) $decoded['confidence'] : null,
-            $this->getName()
+            $this->getName(),
+            $this->model,
+            isset($payload['usage']['input_tokens']) ? (int) $payload['usage']['input_tokens'] : null,
+            isset($payload['usage']['output_tokens']) ? (int) $payload['usage']['output_tokens'] : null,
+            $headers['x-request-id'][0] ?? null
         );
     }
 

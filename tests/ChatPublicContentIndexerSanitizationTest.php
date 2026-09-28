@@ -94,8 +94,7 @@ final class ChatPublicContentIndexerSanitizationTest extends TestCase
     {
         $project = (new Projet())
             ->setDesignation('Mission continuité portuaire')
-            ->setClientName('GPMX')
-            ->setDescription('GPMX : PCA et cybersécurité.');
+            ->setClientName('GPMX');
         $project->setMetier((new Metier())->setDesignation('Transport'));
 
         $projects = $this->createMock(ProjetRepository::class);

@@ -452,10 +452,15 @@ class ChatPublicContentIndexer
             method_exists($project, 'getClientName') && is_string($project->getClientName()) ? $project->getClientName() : null,
             method_exists($project, 'getMetadata') && is_array($project->getMetadata()) ? $project->getMetadata() : []
         );
+        $organizationLabel = $this->publicOrganizationLabel($project, is_string($metierName) ? $metierName : null);
+        if ($organizationLabel !== 'organisation anonymisée') {
+            $parts[] = 'Type d’organisation: '.$organizationLabel;
+            $keywords[] = $organizationLabel;
+        }
         $safeDescription = $this->confidentialProjectSanitizer->sanitize(
             $this->plain(is_string($description) ? $description : null),
             $projectIdentifiers,
-            $this->publicOrganizationLabel($project, is_string($metierName) ? $metierName : null)
+            $organizationLabel
         );
         $safeDescription = $this->confidentialProjectSanitizer->sanitize($safeDescription, $sensitiveIdentifiers);
         if ($safeDescription !== '') {

@@ -84,9 +84,24 @@ class PublicContentCatalog
 
         usort($scored, static fn (array $left, array $right): int => $right['score'] <=> $left['score']);
 
+        $selected = array_slice($scored, 0, $limit);
+        $selectedHasReference = array_filter($selected, static fn (array $row): bool => $row['document']->getSourceType() === 'reference') !== [];
+        if ($this->isReferenceIntent($normalizedQuery) && !$selectedHasReference) {
+            $reference = null;
+            foreach ($scored as $row) {
+                if ($row['document']->getSourceType() === 'reference') {
+                    $reference = $row;
+                    break;
+                }
+            }
+            if ($reference !== null) {
+                $selected[max(0, count($selected) - 1)] = $reference;
+            }
+        }
+
         return array_map(
             fn (array $row): array => $this->serializeDocument($row['document'], $row['score']),
-            array_slice($scored, 0, $limit)
+            $selected
         );
     }
 
@@ -449,7 +464,7 @@ class PublicContentCatalog
 
     private function isReferenceIntent(string $normalizedQuery): bool
     {
-        return preg_match('/\b(reference|references|realisation|realisations|experience|experiences|cas client)\b/', $normalizedQuery) === 1;
+        return preg_match('/\b(reference|references|realisation|realisations|experience|experiences|cas client|accompagne|accompagnes|accompagnement|intervenu|travaille)\b/', $normalizedQuery) === 1;
     }
 
     private function isProjectIntent(string $normalizedQuery): bool

@@ -3,11 +3,300 @@
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    .oling-expertises-index {
+      --expertises-ink: #0b2234;
+      --expertises-copy: #425b71;
+      --expertises-blue: #0f5da6;
+      --expertises-border: rgba(15, 93, 166, 0.14);
+      background: #fff;
+      color: var(--expertises-ink);
+    }
+    .oling-expertises-index > section .container { max-width: 1240px; }
+    .oling-expertises-index .oling-shell-hero { padding-bottom: 4rem; background: #f6f9fc; }
+    .oling-expertises-index .oling-shell-hero__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      padding: 3.25rem;
+      border-radius: 8px;
+    }
+    .oling-expertises-index .oling-shell-hero__copy { max-width: 900px; }
+    .oling-expertises-index .oling-shell-hero h1 {
+      max-width: 21ch;
+      margin: 0.8rem 0 1.15rem;
+      font-size: clamp(3.5rem, 4.4vw, 4.75rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+    .oling-expertises-index .oling-shell-hero__intro {
+      max-width: 710px;
+      margin-bottom: 1.5rem;
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+    .oling-expertises-index .oling-shell-hero__highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+    }
+    .oling-expertises-index .oling-shell-hero__highlights span {
+      padding: 0.48rem 0.72rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.07);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .oling-expertises-index .oling-shell-section { padding: 5rem 0; }
+    .oling-expertises-index .oling-section-head {
+      display: block;
+      max-width: 760px;
+      margin-bottom: 2.25rem;
+    }
+    .oling-expertises-index .oling-section-head h2 {
+      max-width: 18ch;
+      margin: 0.65rem 0 0.85rem;
+      font-size: clamp(2.65rem, 4vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+    .oling-expertises-index .oling-section-head p {
+      max-width: 690px;
+      color: var(--expertises-copy);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .oling-expertises-index .oling-kicker { color: #557086; font-size: 0.75rem; letter-spacing: 0; }
+    .oling-expertise-index-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: 1fr;
+      gap: 1rem;
+    }
+    .oling-expertise-index-card {
+      --card-accent: #0f5da6;
+      position: relative;
+      display: flex;
+      min-height: 278px;
+      height: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.6rem;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--expertises-border);
+      border-radius: 8px;
+      box-shadow: 0 10px 28px rgba(11, 35, 55, 0.035);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .oling-expertise-index-card::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: var(--card-accent);
+      content: "";
+    }
+    .oling-expertise-index-card:nth-child(3n + 2) { --card-accent: #287c86; }
+    .oling-expertise-index-card:nth-child(3n) { --card-accent: #486784; }
+    .oling-expertise-index-card h3 {
+      min-height: 2.05em;
+      margin: 0.75rem 0 0.7rem;
+      color: var(--expertises-ink);
+      font-size: 1.85rem;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    .oling-expertise-index-card p {
+      margin: 0 0 1.25rem;
+      color: var(--expertises-copy);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+    .oling-expertise-index-card__link,
+    .oling-expertises-index .oling-universe__link,
+    .oling-expertises-index .oling-universe__cta {
+      color: var(--expertises-blue) !important;
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .oling-expertise-index-card__link { margin-top: auto; }
+    .oling-expertise-index-card__link::after,
+    .oling-expertises-index .oling-universe__link::after,
+    .oling-expertises-index .oling-universe__cta::after {
+      display: inline-block;
+      margin-left: 0.35rem;
+      content: "\2192";
+      transition: transform 180ms ease;
+    }
+    .oling-expertise-index-card:has(.oling-expertise-index-card__link:hover),
+    .oling-expertise-index-card:focus-within {
+      transform: translateY(-2px);
+      border-color: rgba(15, 93, 166, 0.32);
+      box-shadow: 0 16px 34px rgba(11, 35, 55, 0.08);
+    }
+    .oling-expertise-index-card__link:hover::after,
+    .oling-universe__link:hover::after,
+    .oling-universe__cta:hover::after { transform: translateX(3px); }
+    .oling-expertises-needs {
+      padding: 4.75rem 0;
+      background: #eef4f9;
+      border-block: 1px solid rgba(15, 93, 166, 0.08);
+    }
+    .oling-expertises-needs__inner {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
+      gap: 4rem;
+      align-items: start;
+    }
+    .oling-expertises-needs h2 {
+      max-width: 13ch;
+      margin: 0.65rem 0 0;
+      color: var(--expertises-ink);
+      font-size: clamp(2.75rem, 4vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+    .oling-expertises-needs p {
+      max-width: 650px;
+      margin: 0.2rem 0 0;
+      color: var(--expertises-copy);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    .oling-universes { padding: 2rem 0; background: #fff; }
+    .oling-universe {
+      display: grid;
+      grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.28fr);
+      gap: 4rem;
+      padding: 4rem 0;
+      border-bottom: 1px solid rgba(11, 35, 55, 0.11);
+    }
+    .oling-universe:last-child { padding-bottom: 2rem; border-bottom: 0; }
+    .oling-universe__head { align-self: start; }
+    .oling-universe__head h2 {
+      max-width: 14ch;
+      margin: 0.65rem 0 0.85rem;
+      color: var(--expertises-ink);
+      font-size: clamp(2.35rem, 3.2vw, 3.35rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+    .oling-universe__head p {
+      max-width: 430px;
+      margin-bottom: 1.2rem;
+      color: var(--expertises-copy);
+      line-height: 1.65;
+    }
+    .oling-universe__links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid rgba(11, 35, 55, 0.11);
+    }
+    .oling-universe__links li { min-width: 0; border-bottom: 1px solid rgba(11, 35, 55, 0.11); }
+    .oling-universe__links li:nth-child(odd) { border-right: 1px solid rgba(11, 35, 55, 0.11); }
+    .oling-universe__link {
+      display: grid;
+      min-height: 108px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-content: start;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem;
+      color: var(--expertises-ink);
+      line-height: 1.35;
+      transition: color 180ms ease, background-color 180ms ease;
+    }
+    .oling-universe__link strong { font-size: 0.9rem; line-height: 1.35; }
+    .oling-universe__link span {
+      grid-column: 1 / -1;
+      color: var(--expertises-copy);
+      font-size: 0.8rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .oling-expertises-index .oling-universe__link::after { grid-column: 2; grid-row: 1; }
+    .oling-universe__link:hover { color: var(--expertises-blue); background: #f6f9fc; }
+    .oling-expertises-index .oling-expertises-mapsi { padding-block: 4rem; background: #f6f9fc; }
+    .oling-expertises-mapsi__inner {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .oling-expertises-index .oling-cta-band__inner { border-radius: 8px; }
+    .oling-expertises-index :is(a, button):focus-visible { outline: 3px solid #5eb4ef; outline-offset: 3px; }
+
+    @media (max-width: 1199.98px) {
+      .oling-expertise-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 991.98px) {
+      .oling-expertises-needs__inner,
+      .oling-universe { grid-template-columns: 1fr; gap: 2rem; }
+      .oling-universe__head h2 { max-width: 19ch; }
+    }
+
+    @media (max-width: 767.98px) {
+      .oling-expertises-index .oling-shell-hero { padding: 3.25rem 0 2.75rem; }
+      .oling-expertises-index .oling-shell-hero__inner { gap: 1.4rem; padding: 2rem 1.35rem; }
+      .oling-expertises-index .oling-shell-hero h1 {
+        max-width: 12ch;
+        font-size: clamp(2.55rem, 11vw, 3.05rem);
+        line-height: 0.94;
+      }
+      .oling-expertises-index .oling-shell-hero__intro { font-size: 0.96rem; }
+      .oling-expertises-index .oling-shell-hero__actions,
+      .oling-expertises-index .oling-shell-hero__actions .btn { width: 100%; }
+      .oling-expertises-index .oling-shell-hero__actions .btn { justify-content: center; }
+      .oling-expertises-index .oling-shell-section,
+      .oling-expertises-needs { padding: 3.75rem 0; }
+      .oling-expertises-index .oling-section-head { margin-bottom: 1.65rem; }
+      .oling-expertises-index .oling-section-head h2,
+      .oling-expertises-needs h2 { font-size: 2.75rem; }
+      .oling-expertise-index-grid,
+      .oling-universe__links { grid-template-columns: 1fr; }
+      .oling-expertise-index-card { min-height: auto; padding: 1.35rem; }
+      .oling-expertise-index-card h3 { min-height: auto; font-size: 1.7rem; }
+      .oling-expertise-index-card__link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .oling-expertises-needs__inner,
+      .oling-universe { gap: 1.5rem; }
+      .oling-universe { padding: 3.25rem 0; }
+      .oling-universe:last-child { padding-bottom: 1.5rem; }
+      .oling-universe__links li:nth-child(odd) { border-right: 0; }
+      .oling-universe__link { min-height: 96px; padding-inline: 0.25rem; }
+      .oling-expertises-mapsi__inner { align-items: start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .oling-expertises-index *,
+      .oling-expertises-index *::before,
+      .oling-expertises-index *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
 {% set universes = [
   {
     title: 'AMOA & Applications métiers',
     intro: 'ERP, CRM, GMAO, SI Finance, SIRH, data et IA : cadrage, choix, recette et mise en production.',
+    href: path('services_index') ~ '#amoa-applications-metiers',
     items: [
       {label: 'AMOA SI', href: path('amoa_si'), text: 'Cadrage, gouvernance projet, expression des besoins, recette et conduite du changement.'},
       {label: 'ERP', href: '/business-apps/erp', text: 'Choix du progiciel, déploiement, reprise de données, interfaces et mise en production.'},
@@ -22,6 +311,7 @@
   {
     title: 'Gouvernance & Performance DSI',
     intro: 'Organiser le SI, prioriser les décisions et rendre les projets pilotables.',
+    href: path('services_index') ~ '#gouvernance-performance-dsi',
     items: [
       {label: 'Schéma directeur SI', href: '/consulting/plan-strategique', text: 'Diagnostic, trajectoire SI, priorisation du portefeuille et feuille de route.'},
       {label: 'Pilotage de projets / PMO', href: '/consulting/pilotage-des-plans', text: 'Planning, budget, risques, fournisseurs, comités et décisions de cadrage.'},
@@ -34,6 +324,7 @@
   {
     title: 'Conformité, Risques & Résilience',
     intro: 'RGPD, cyber, QSE, PCA/PRA, risques, contrôle interne et IA : obligations, contrôles et preuves.',
+    href: path('services_index') ~ '#conformite-risques-resilience',
     items: [
       {label: 'RGPD / DPO', href: '/expertises-audit/rgpd', text: 'DPO externalisé, registre, DPIA, droits, contrats et pilotage de conformité.'},
       {label: 'Cybersécurité / ISO 27001', href: '/cyber-securite', text: 'Gouvernance sécurité, risques, PSSI, contrôles, ISO 27001, NIS2 et DORA.'},
@@ -45,63 +336,86 @@
   }
 ] %}
 
-<main id="content" role="main">
+<main id="content" class="oling-expertises-index" role="main">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
-    intro: 'AMOA SI, applications métiers, gouvernance DSI, conformité, risques et résilience.',
+    intro: page.intro,
     primaryCta: page.primaryCta,
-    secondaryCta: null,
-    highlights: []
+    secondaryCta: page.secondaryCta,
+    highlights: page.highlights
   } %}
 
-  <section class="oling-shell-section">
+  <section class="oling-shell-section" aria-labelledby="expertises-featured-title">
     <div class="container">
-      <div class="d-flex flex-column gap-5">
-        {% for universe in universes %}
-          <div aria-labelledby="expertise-universe-{{ loop.index }}">
-            <div class="oling-section-head">
-              <h2 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h2>
-              <p>{{ universe.intro }}</p>
-            </div>
-            <div class="row g-4">
-              {% for item in universe.items %}
-                <div class="col-md-6 col-xl-4">
-                  <div class="border-top pt-3 h-100">
-                    <h3 class="h5 mb-2"><a class="link" href="{{ item.href }}">{{ item.label }}</a></h3>
-                    <p class="mb-0">{{ item.text }}</p>
-                  </div>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
+      <div class="oling-section-head">
+        <span class="oling-kicker">Fiches expertise</span>
+        <h2 id="expertises-featured-title">Neuf expertises structurées pour cadrer, piloter et déployer</h2>
+        <p>Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.</p>
+      </div>
+      <div class="oling-expertise-index-grid">
+        {% for slug, expertisePage in expertisePages %}
+          <article class="oling-expertise-index-card">
+            <span class="oling-kicker">{{ expertisePage.nav }}</span>
+            <h3>{{ expertisePage.title }}</h3>
+            <p>{{ expertisePage.intro }}</p>
+            <a class="oling-expertise-index-card__link" href="{{ path('expertises_show', {slug: slug}) }}">Voir la fiche</a>
+          </article>
         {% endfor %}
       </div>
     </div>
   </section>
 
-  <section class="oling-shell-section oling-shell-section--tint">
-    <div class="container">
-      <div class="oling-section-head">
-        <h2>MAPSI</h2>
-        <p>La plateforme GRC développée par OLING outille des dispositifs de risques, conformité, qualité, RGPD, PCA et contrôle interne.</p>
+  <section class="oling-expertises-needs" aria-labelledby="expertises-needs-title">
+    <div class="container oling-expertises-needs__inner">
+      <div>
+        <span class="oling-kicker">{{ page.section.kicker }}</span>
+        <h2 id="expertises-needs-title">{{ page.section.title }}</h2>
       </div>
-      <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">Accéder à mapsi.fr</a>
+      <p>{{ page.section.text }}</p>
     </div>
   </section>
 
-  <section class="oling-cta-band">
+  <section class="oling-universes" aria-label="Univers d'intervention OLING">
     <div class="container">
-      <div class="oling-cta-band__inner">
-        <div>
-          <span class="oling-kicker">Parlons de votre projet</span>
-          <h2>{{ page.cta.title }}</h2>
-        </div>
-        <div class="oling-cta-band__actions">
-          <a class="btn btn-primary" href="{{ path('contact') }}">Parler de votre projet</a>
-        </div>
-      </div>
+      {% for universe in universes %}
+        <article class="oling-universe" aria-labelledby="expertise-universe-{{ loop.index }}">
+          <div class="oling-universe__head">
+            <span class="oling-kicker">Univers {{ '%02d'|format(loop.index) }}</span>
+            <h2 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h2>
+            <p>{{ universe.intro }}</p>
+            <a class="oling-universe__cta" href="{{ universe.href }}">Voir les services</a>
+          </div>
+          <ul class="oling-universe__links">
+            {% for item in universe.items %}
+              <li>
+                <a class="oling-universe__link" href="{{ item.href }}">
+                  <strong>{{ item.label }}</strong>
+                  <span>{{ item.text }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+      {% endfor %}
     </div>
   </section>
+
+  <section class="oling-shell-section oling-expertises-mapsi" aria-labelledby="expertises-mapsi-title">
+    <div class="container oling-expertises-mapsi__inner">
+      <div class="oling-section-head mb-0">
+        <span class="oling-kicker">Plateforme GRC</span>
+        <h2 id="expertises-mapsi-title">MAPSI</h2>
+        <p>La plateforme GRC développée par OLING outille des dispositifs de risques, conformité, qualité, RGPD, PCA et contrôle interne.</p>
+      </div>
+      <a class="oling-universe__cta" href="https://mapsi.fr/" target="_blank" rel="noopener">Accéder à mapsi.fr</a>
+    </div>
+  </section>
+
+  {% include 'public/_cta_band.html.twig' with {
+    title: page.cta.title,
+    text: page.cta.text,
+    primaryCta: page.cta.primaryCta
+  } %}
 </main>
 {% endblock %}

@@ -69,7 +69,10 @@ class ChatResponder
                 return $reply;
             } catch (\Throwable $exception) {
                 $fallbackUsed = true;
-                $rootException = $exception->getPrevious() ?? $exception;
+                $rootException = $exception;
+                while ($rootException->getPrevious() !== null) {
+                    $rootException = $rootException->getPrevious();
+                }
                 $errorCode = (new \ReflectionClass($rootException))->getShortName();
                 $this->logger->warning('Chat provider failed.', [
                     'provider' => $provider->getName(),

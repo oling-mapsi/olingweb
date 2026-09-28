@@ -16,6 +16,34 @@ final class ConfidentialProjectSanitizerTest extends TestCase
         self::assertStringContainsString('cadrage ERP', $result);
     }
 
+    public function testCollectsAndRemovesLongNameAcronymAndAdministeredAlias(): void
+    {
+        $sanitizer = new ConfidentialProjectSanitizer();
+        $identifiers = $sanitizer->collectSensitiveIdentifiers(
+            'Compagnie Régionale des Services Numériques',
+            ['client_aliases' => ['Horizon Services']]
+        );
+        $result = $sanitizer->sanitize(
+            'Compagnie Régionale des Services Numériques, CRSN et Horizon Services pilotent un PCA pour le secteur de la formation.',
+            $identifiers
+        );
+
+        self::assertStringNotContainsString('Compagnie Régionale', $result);
+        self::assertStringNotContainsString('CRSN', $result);
+        self::assertStringNotContainsString('Horizon Services', $result);
+        self::assertStringContainsString('PCA', $result);
+        self::assertStringContainsString('secteur de la formation', $result);
+    }
+
+    public function testCollectsUppercaseShortNameFromOrganizationName(): void
+    {
+        $sanitizer = new ConfidentialProjectSanitizer();
+        $identifiers = $sanitizer->collectSensitiveIdentifiers('ALPHA Territoires');
+
+        self::assertContains('ALPHA', $identifiers);
+        self::assertStringNotContainsString('ALPHA', $sanitizer->sanitize('Mission ALPHA de continuité.', $identifiers));
+    }
+
     public function testBlocksLegacyReferenceBeforeSafeRebuild(): void
     {
         $sanitizer = new ConfidentialProjectSanitizer();

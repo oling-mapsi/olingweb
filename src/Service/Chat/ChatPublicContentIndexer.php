@@ -49,8 +49,6 @@ class ChatPublicContentIndexer
         $this->entityManager->createQuery('DELETE FROM App\Entity\ChatPublicDocument d')->execute();
 
         $documents = [];
-        $organizationNames = $this->projectOrganizationNames();
-
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
             if ($status !== null && $status !== 'published') {
@@ -142,7 +140,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project, $organizationNames);
+            $safeSummary = $this->buildSafeProjectSummary($project, $this->projectSensitiveIdentifiers($project));
             if ($safeSummary === null) {
                 $referencesWithoutSafeSummary[] = 'project:'.($project->getId() ?? 'unknown');
                 $ignored[] = 'project:'.($project->getId() ?? 'unknown');
@@ -214,8 +212,6 @@ class ChatPublicContentIndexer
     public function buildDocumentSnapshot(): array
     {
         $snapshot = [];
-        $organizationNames = $this->projectOrganizationNames();
-
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
             if ($status !== null && $status !== 'published') {
@@ -302,7 +298,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project, $organizationNames);
+            $safeSummary = $this->buildSafeProjectSummary($project, $this->projectSensitiveIdentifiers($project));
             if ($safeSummary === null) {
                 continue;
             }
@@ -398,9 +394,10 @@ class ChatPublicContentIndexer
     }
 
     /**
+     * @param list<string> $sensitiveIdentifiers
      * @return array{title:string,text:string,keywords:list<string>}|null
      */
-    private function buildSafeProjectSummary(object $project, array $organizationNames): ?array
+    private function buildSafeProjectSummary(object $project, array $sensitiveIdentifiers): ?array
     {
         $parts = [];
         $titleParts = [];
@@ -451,7 +448,7 @@ class ChatPublicContentIndexer
         $description = method_exists($project, 'getDescription') ? $project->getDescription() : null;
         $safeDescription = $this->confidentialProjectSanitizer->sanitize(
             $this->plain(is_string($description) ? $description : null),
-            $organizationNames
+            $sensitiveIdentifiers
         );
         if ($safeDescription !== '') {
             $parts[] = $safeDescription;
@@ -479,11 +476,11 @@ class ChatPublicContentIndexer
         }
 
         return [
-            'title' => $this->confidentialProjectSanitizer->sanitize($title, $organizationNames),
-            'text' => $this->confidentialProjectSanitizer->sanitize(implode('. ', $parts).'.', $organizationNames),
+            'title' => $this->confidentialProjectSanitizer->sanitize($title, $sensitiveIdentifiers),
+            'text' => $this->confidentialProjectSanitizer->sanitize(implode('. ', $parts).'.', $sensitiveIdentifiers),
             'keywords' => $this->normalizeKeywords([
                 ...array_map(
-                    fn (string $keyword): string => $this->confidentialProjectSanitizer->sanitize($keyword, $organizationNames),
+                    fn (string $keyword): string => $this->confidentialProjectSanitizer->sanitize($keyword, $sensitiveIdentifiers),
                     $keywords
                 ),
                 ConfidentialProjectSanitizer::SAFE_INDEX_MARKER,
@@ -492,17 +489,15 @@ class ChatPublicContentIndexer
     }
 
     /** @return list<string> */
-    private function projectOrganizationNames(): array
+    private function projectSensitiveIdentifiers(object $project): array
     {
-        $names = [];
-        foreach ($this->projetRepository->findAll() as $project) {
-            $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
-            if (is_string($name) && trim($name) !== '') {
-                $names[] = trim($name);
-            }
-        }
+        $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
+        $metadata = method_exists($project, 'getMetadata') ? $project->getMetadata() : [];
 
-        return array_values(array_unique($names));
+        return $this->confidentialProjectSanitizer->collectSensitiveIdentifiers(
+            is_string($name) ? $name : null,
+            is_array($metadata) ? $metadata : []
+        );
     }
 
     /**

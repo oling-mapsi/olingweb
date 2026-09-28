@@ -499,12 +499,18 @@ class ChatPublicContentIndexer
     private function publicOrganizationLabel(object $project, ?string $sector): string
     {
         $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
-        $normalized = $this->normalize(is_string($name) ? $name : '');
+        $metadata = method_exists($project, 'getMetadata') ? $project->getMetadata() : [];
+        $metadataText = is_array($metadata) ? json_encode($metadata, JSON_UNESCAPED_UNICODE) : '';
+        $normalized = $this->normalize(trim(
+            (is_string($name) ? $name : '').' '.
+            (is_string($sector) ? $sector : '').' '.
+            (is_string($metadataText) ? $metadataText : '')
+        ));
 
-        if (str_contains($normalized, 'grand port maritime')) {
+        if (str_contains($normalized, 'grand port maritime') || str_contains($normalized, 'secteur portuaire')) {
             return 'grand port maritime';
         }
-        if (str_contains($normalized, 'mutuelle')) {
+        if (str_contains($normalized, 'mutuelle') || str_contains($normalized, 'assurance')) {
             return 'mutuelle / acteur de l’assurance';
         }
         if ($sector !== null && $this->normalize($sector) === 'formation professionnelle') {

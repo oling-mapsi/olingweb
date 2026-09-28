@@ -425,7 +425,7 @@ class ChatResponder
     {
         $text = $this->normalize($message);
 
-        if (preg_match('/\b(des|plusieurs) grands? ports?\b|\b(une|des) mutuelles?\b|\b(des|plusieurs) organismes? de formation\b/', $text) === 1) {
+        if (preg_match('/\b(des|plusieurs) grands? ports?\b|\b(une|des) mutuelles?\b|\b(un|des|plusieurs) organismes? de formation\b/', $text) === 1) {
             return false;
         }
 

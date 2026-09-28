@@ -90,6 +90,34 @@ final class ChatPublicContentIndexerSanitizationTest extends TestCase
         self::assertStringNotContainsString('MER', $document->getSafeText());
     }
 
+    public function testPortReferenceDerivesSafeTypeFromAliasMetadata(): void
+    {
+        $project = (new Projet())
+            ->setDesignation('Mission continuité portuaire')
+            ->setClientName('GPMX')
+            ->setDescription('Grand Port Maritime Exemple : PCA et cybersécurité.')
+            ->setMetadata(['aliases' => ['Grand Port Maritime Exemple']]);
+        $project->setMetier((new Metier())->setDesignation('Transport'));
+
+        $projects = $this->createMock(ProjetRepository::class);
+        $projects->method('findAll')->willReturn([$project]);
+        $indexer = new ChatPublicContentIndexer(
+            $this->createMock(EntityManagerInterface::class),
+            $this->emptyRepository(SitePageRepository::class),
+            $this->emptyRepository(PracticeRepository::class),
+            $this->emptyRepository(ServicesRepository::class),
+            $projects,
+            $this->emptyRepository(TeamRepository::class),
+            $this->createMock(UrlGeneratorInterface::class),
+            new ConfidentialProjectSanitizer(),
+        );
+
+        $document = $indexer->buildDocumentSnapshot()[0];
+        self::assertStringContainsString('grand port maritime', $document->getSafeText());
+        self::assertStringNotContainsString('GPMX', $document->getSafeText());
+        self::assertStringNotContainsString('Exemple', $document->getSafeText());
+    }
+
     private function emptyRepository(string $class): object
     {
         $repository = $this->createMock($class);

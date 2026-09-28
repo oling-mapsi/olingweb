@@ -128,6 +128,16 @@ class ChatResponderTest extends TestCase
         self::assertContains('/projets', $reply->sources);
     }
 
+    public function testGenericTrainingOrganizationQuestionIsNotTreatedAsNamedClient(): void
+    {
+        $reply = $this->buildResponderWithDocuments([
+            $this->buildDocument('reference', '/projets', 'Référence organisme de formation : QSE et Qualiopi'),
+        ])->reply(new ChatConversation(), 'Avez-vous accompagné un organisme de formation sur un sujet QSE ou Qualiopi ?');
+
+        self::assertStringNotContainsString('Je ne confirme ni ne détaille', $reply->content);
+        self::assertContains('/projets', $reply->sources);
+    }
+
     public function testReferenceQuestionDoesNotExposeTeamCardWhenExpertWasNotAsked(): void
     {
         $reply = $this->buildResponderWithDocuments([

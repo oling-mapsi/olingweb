@@ -49,6 +49,7 @@ class ChatPublicContentIndexer
         $this->entityManager->createQuery('DELETE FROM App\Entity\ChatPublicDocument d')->execute();
 
         $documents = [];
+        $sensitiveIdentifiers = $this->projectSensitiveIdentifiers();
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
             if ($status !== null && $status !== 'published') {
@@ -140,7 +141,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project, $this->projectSensitiveIdentifiers($project));
+            $safeSummary = $this->buildSafeProjectSummary($project, $sensitiveIdentifiers);
             if ($safeSummary === null) {
                 $referencesWithoutSafeSummary[] = 'project:'.($project->getId() ?? 'unknown');
                 $ignored[] = 'project:'.($project->getId() ?? 'unknown');
@@ -212,6 +213,7 @@ class ChatPublicContentIndexer
     public function buildDocumentSnapshot(): array
     {
         $snapshot = [];
+        $sensitiveIdentifiers = $this->projectSensitiveIdentifiers();
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
             if ($status !== null && $status !== 'published') {
@@ -298,7 +300,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project, $this->projectSensitiveIdentifiers($project));
+            $safeSummary = $this->buildSafeProjectSummary($project, $sensitiveIdentifiers);
             if ($safeSummary === null) {
                 continue;
             }
@@ -489,15 +491,22 @@ class ChatPublicContentIndexer
     }
 
     /** @return list<string> */
-    private function projectSensitiveIdentifiers(object $project): array
+    private function projectSensitiveIdentifiers(): array
     {
-        $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
-        $metadata = method_exists($project, 'getMetadata') ? $project->getMetadata() : [];
+        $identifiers = [];
+        foreach ($this->projetRepository->findAll() as $project) {
+            $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
+            $metadata = method_exists($project, 'getMetadata') ? $project->getMetadata() : [];
+            array_push($identifiers, ...$this->confidentialProjectSanitizer->collectSensitiveIdentifiers(
+                is_string($name) ? $name : null,
+                is_array($metadata) ? $metadata : []
+            ));
+        }
 
-        return $this->confidentialProjectSanitizer->collectSensitiveIdentifiers(
-            is_string($name) ? $name : null,
-            is_array($metadata) ? $metadata : []
-        );
+        return array_values(array_unique(array_filter(
+            $identifiers,
+            static fn (string $identifier): bool => mb_strtolower($identifier) !== 'oling'
+        )));
     }
 
     /**

@@ -27,8 +27,16 @@ final class ChatPublicContentIndexerSanitizationTest extends TestCase
             ->setSoftwareRelation('PCA et résilience');
         $project->setMetier((new Metier())->setDesignation('Formation professionnelle'));
 
+        $relatedProject = (new Projet())
+            ->setDesignation('Autre mission confidentielle')
+            ->setClientName('Horizon Portuaire Atlantique')
+            ->setDescription('Mission distincte de continuité.');
+        $relatedProject->setMetier((new Metier())->setDesignation('Transport'));
+
+        $project->setDescription($project->getDescription().' HPA intervient aussi dans la description consolidée.');
+
         $projects = $this->createMock(ProjetRepository::class);
-        $projects->method('findAll')->willReturn([$project]);
+        $projects->method('findAll')->willReturn([$project, $relatedProject]);
 
         $indexer = new ChatPublicContentIndexer(
             $this->createMock(EntityManagerInterface::class),
@@ -43,9 +51,9 @@ final class ChatPublicContentIndexerSanitizationTest extends TestCase
 
         $documents = $indexer->buildDocumentSnapshot();
 
-        self::assertCount(1, $documents);
+        self::assertCount(2, $documents);
         $document = $documents[0];
-        foreach (['Compagnie Régionale', 'CRSN', 'Horizon Services'] as $identifier) {
+        foreach (['Compagnie Régionale', 'CRSN', 'Horizon Services', 'HPA'] as $identifier) {
             self::assertStringNotContainsStringIgnoringCase($identifier, $document->getSafeText());
             self::assertStringNotContainsStringIgnoringCase($identifier, $document->getSearchText());
         }

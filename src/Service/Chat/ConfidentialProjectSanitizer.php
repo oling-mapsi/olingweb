@@ -20,7 +20,9 @@ final class ConfidentialProjectSanitizer
     public function collectSensitiveIdentifiers(?string $organizationName, array $metadata = []): array
     {
         $identifiers = [];
-        $this->appendIdentifierVariants($identifiers, (string) $organizationName);
+        if (!$this->isGenericOrganizationLabel((string) $organizationName)) {
+            $this->appendIdentifierVariants($identifiers, (string) $organizationName);
+        }
         $this->appendMetadataIdentifiers($identifiers, $metadata);
 
         $identifiers = array_values(array_unique(array_filter(
@@ -142,6 +144,22 @@ final class ConfidentialProjectSanitizer
         $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
 
         return mb_strtolower($normalized === false ? $value : $normalized);
+    }
+
+    private function isGenericOrganizationLabel(string $value): bool
+    {
+        $words = preg_split('/[^\p{L}\p{N}]+/u', trim($value), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if ($words === []) {
+            return true;
+        }
+
+        $genericWords = [...self::GENERIC_ORGANIZATION_WORDS, 'de', 'du', 'des', 'd', 'et', 'la', 'le', 'les'];
+
+        return array_reduce(
+            $words,
+            fn (bool $generic, string $word): bool => $generic && in_array($this->normalizeWord($word), $genericWords, true),
+            true
+        );
     }
 
     /**

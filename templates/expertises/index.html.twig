@@ -169,22 +169,54 @@
       font-size: 1.05rem;
       line-height: 1.75;
     }
-    .oling-universes { padding: 2rem 0; background: #fff; }
-    .oling-universe {
-      display: grid;
-      grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.28fr);
-      gap: 4rem;
-      padding: 4rem 0;
-      border-bottom: 1px solid rgba(11, 35, 55, 0.11);
+    .oling-expertises-needs__lead {
+      margin-bottom: 0.65rem !important;
+      color: var(--expertises-ink) !important;
+      font-weight: 700;
     }
-    .oling-universe:last-child { padding-bottom: 2rem; border-bottom: 0; }
+    .oling-universes {
+      padding: 5rem 0;
+      background: #eef4f9;
+      border-bottom: 1px solid rgba(15, 93, 166, 0.08);
+    }
+    .oling-universes__head { margin-bottom: 2.25rem; }
+    .oling-universes__head h2 {
+      max-width: 15ch;
+      margin: 0.65rem 0 0;
+      color: var(--expertises-ink);
+      font-size: clamp(2.65rem, 4vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+    .oling-universes__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .oling-universe {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1.75rem;
+      background: #fff;
+      border: 1px solid var(--expertises-border);
+      border-radius: 8px;
+    }
+    .oling-universe:first-child {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.32fr);
+      gap: 3rem;
+      padding: 2rem;
+    }
     .oling-universe__head { align-self: start; }
-    .oling-universe__head h2 {
+    .oling-universe__head h3 {
       max-width: 14ch;
       margin: 0.65rem 0 0.85rem;
       color: var(--expertises-ink);
-      font-size: clamp(2.35rem, 3.2vw, 3.35rem);
-      line-height: 0.96;
+      font-size: clamp(2rem, 2.8vw, 2.75rem);
+      line-height: 1;
       letter-spacing: 0;
     }
     .oling-universe__head p {
@@ -195,15 +227,16 @@
     }
     .oling-universe__links {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 0;
       margin: 0;
       padding: 0;
       list-style: none;
       border-top: 1px solid rgba(11, 35, 55, 0.11);
     }
+    .oling-universe:first-child .oling-universe__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .oling-universe__links li { min-width: 0; border-bottom: 1px solid rgba(11, 35, 55, 0.11); }
-    .oling-universe__links li:nth-child(odd) { border-right: 1px solid rgba(11, 35, 55, 0.11); }
+    .oling-universe:first-child .oling-universe__links li:nth-child(odd) { border-right: 1px solid rgba(11, 35, 55, 0.11); }
     .oling-universe__link {
       display: grid;
       min-height: 108px;
@@ -241,8 +274,8 @@
 
     @media (max-width: 991.98px) {
       .oling-expertises-needs__inner,
-      .oling-universe { grid-template-columns: 1fr; gap: 2rem; }
-      .oling-universe__head h2 { max-width: 19ch; }
+      .oling-universe:first-child { grid-template-columns: 1fr; gap: 2rem; }
+      .oling-universe__head h3 { max-width: 19ch; }
     }
 
     @media (max-width: 767.98px) {
@@ -258,11 +291,15 @@
       .oling-expertises-index .oling-shell-hero__actions .btn { width: 100%; }
       .oling-expertises-index .oling-shell-hero__actions .btn { justify-content: center; }
       .oling-expertises-index .oling-shell-section,
-      .oling-expertises-needs { padding: 3.75rem 0; }
+      .oling-expertises-needs,
+      .oling-universes { padding: 3.75rem 0; }
       .oling-expertises-index .oling-section-head { margin-bottom: 1.65rem; }
       .oling-expertises-index .oling-section-head h2,
-      .oling-expertises-needs h2 { font-size: 2.75rem; }
+      .oling-expertises-needs h2,
+      .oling-universes__head h2 { font-size: 2.75rem; }
       .oling-expertise-index-grid,
+      .oling-universes__grid,
+      .oling-universe:first-child .oling-universe__links,
       .oling-universe__links { grid-template-columns: 1fr; }
       .oling-expertise-index-card { min-height: auto; padding: 1.35rem; }
       .oling-expertise-index-card h3 { min-height: auto; font-size: 1.7rem; }
@@ -272,10 +309,10 @@
         align-items: center;
       }
       .oling-expertises-needs__inner,
-      .oling-universe { gap: 1.5rem; }
-      .oling-universe { padding: 3.25rem 0; }
-      .oling-universe:last-child { padding-bottom: 1.5rem; }
-      .oling-universe__links li:nth-child(odd) { border-right: 0; }
+      .oling-universe:first-child { gap: 1.5rem; }
+      .oling-universe,
+      .oling-universe:first-child { padding: 1.35rem; }
+      .oling-universe:first-child .oling-universe__links li:nth-child(odd) { border-right: 0; }
       .oling-universe__link { min-height: 96px; padding-inline: 0.25rem; }
       .oling-expertises-mapsi__inner { align-items: start; flex-direction: column; }
     }
@@ -346,11 +383,56 @@
     highlights: page.highlights
   } %}
 
+  <section class="oling-universes" aria-labelledby="expertises-domains-title">
+    <div class="container">
+      <div class="oling-universes__head">
+        <span class="oling-kicker">Domaines d’intervention</span>
+        <h2 id="expertises-domains-title">Nos 3 domaines d’intervention</h2>
+      </div>
+      <div class="oling-universes__grid">
+        {% for universe in universes %}
+          <article class="oling-universe" aria-labelledby="expertise-universe-{{ loop.index }}">
+            <div class="oling-universe__head">
+              <span class="oling-kicker">Domaine d’intervention</span>
+              <h3 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h3>
+              <p>{{ universe.intro }}</p>
+              <a class="oling-universe__cta" href="{{ universe.href }}">Voir les services</a>
+            </div>
+            <ul class="oling-universe__links">
+              {% for item in universe.items %}
+                <li>
+                  <a class="oling-universe__link" href="{{ item.href }}">
+                    <strong>{{ item.label }}</strong>
+                    <span>{{ item.text }}</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="oling-expertises-needs" aria-labelledby="expertises-needs-title">
+    <div class="container oling-expertises-needs__inner">
+      <div>
+        <span class="oling-kicker">{{ page.section.kicker }}</span>
+        <h2 id="expertises-needs-title">Vous partez d’un besoin, pas d’une offre</h2>
+      </div>
+      <div>
+        <p class="oling-expertises-needs__lead">{{ page.section.title }}</p>
+        <p>{{ page.section.text }}</p>
+      </div>
+    </div>
+  </section>
+
   <section class="oling-shell-section" aria-labelledby="expertises-featured-title">
     <div class="container">
       <div class="oling-section-head">
         <span class="oling-kicker">Fiches expertise</span>
-        <h2 id="expertises-featured-title">Neuf expertises structurées pour cadrer, piloter et déployer</h2>
+        <h2 id="expertises-featured-title">Expertises transverses</h2>
+        <p class="oling-expertises-needs__lead">Neuf expertises structurées pour cadrer, piloter et déployer</p>
         <p>Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.</p>
       </div>
       <div class="oling-expertise-index-grid">
@@ -363,41 +445,6 @@
           </article>
         {% endfor %}
       </div>
-    </div>
-  </section>
-
-  <section class="oling-expertises-needs" aria-labelledby="expertises-needs-title">
-    <div class="container oling-expertises-needs__inner">
-      <div>
-        <span class="oling-kicker">{{ page.section.kicker }}</span>
-        <h2 id="expertises-needs-title">{{ page.section.title }}</h2>
-      </div>
-      <p>{{ page.section.text }}</p>
-    </div>
-  </section>
-
-  <section class="oling-universes" aria-label="Univers d'intervention OLING">
-    <div class="container">
-      {% for universe in universes %}
-        <article class="oling-universe" aria-labelledby="expertise-universe-{{ loop.index }}">
-          <div class="oling-universe__head">
-            <span class="oling-kicker">Univers {{ '%02d'|format(loop.index) }}</span>
-            <h2 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h2>
-            <p>{{ universe.intro }}</p>
-            <a class="oling-universe__cta" href="{{ universe.href }}">Voir les services</a>
-          </div>
-          <ul class="oling-universe__links">
-            {% for item in universe.items %}
-              <li>
-                <a class="oling-universe__link" href="{{ item.href }}">
-                  <strong>{{ item.label }}</strong>
-                  <span>{{ item.text }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </article>
-      {% endfor %}
     </div>
   </section>
 

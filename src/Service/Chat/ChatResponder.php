@@ -19,6 +19,7 @@ class ChatResponder
         private readonly HeuristicAiProvider $heuristicProvider,
         private readonly iterable $providers,
         private readonly LoggerInterface $logger,
+        private readonly SectorTaxonomy $sectorTaxonomy = new SectorTaxonomy(),
         ?ChatOwnerRouter $ownerRouter = null,
     ) {
         $this->ownerRouter = $ownerRouter ?? new ChatOwnerRouter();
@@ -119,7 +120,7 @@ class ChatResponder
         $contactStep = $this->resolveContactStep($conversation, $visitorMessage, $mergedQualification, $decision->requestLead);
 
         return new ChatReply(
-            $this->applyFinalSafetyGuard($this->finalizeReply($decision->reply, $contactStep)),
+            $this->applyFinalSafetyGuard($this->enforceSectorReferenceTruth($this->finalizeReply($decision->reply, $contactStep), $documents, $visitorMessage)),
             $this->shouldShowLeadForm($contactStep),
             $this->filterSources($documents, $visitorMessage, $mergedQualification),
             $mergedQualification,
@@ -157,9 +158,13 @@ class ChatResponder
                 $conversation->getSourcePath(),
                 6
             );
+            $sector = $this->publicContentCatalog->detectSector($visitorMessage);
+            $sectorReferences = $sector === null
+                ? []
+                : $this->publicContentCatalog->findSectorReferences($sector, $visitorMessage, 3);
 
             if ($qualificationTerms === []) {
-                return $primaryDocuments;
+                return array_slice($this->mergeDocumentsByUrl($sectorReferences, $primaryDocuments), 0, 8);
             }
 
             $expandedDocuments = $this->publicContentCatalog->findRelevantDocuments(
@@ -168,7 +173,7 @@ class ChatResponder
                 8
             );
 
-            return array_slice($this->mergeDocumentsByUrl($primaryDocuments, $expandedDocuments), 0, 8);
+            return array_slice($this->mergeDocumentsByUrl($sectorReferences, $primaryDocuments, $expandedDocuments), 0, 8);
         } catch (\Throwable $exception) {
             $this->logger->warning('Public content catalog lookup failed.', [
                 'error' => $exception->getMessage(),
@@ -453,6 +458,58 @@ class ChatResponder
         return $reply;
     }
 
+    private function enforceSectorReferenceTruth(string $reply, array $documents, string $visitorMessage): string
+    {
+        $sector = $this->publicContentCatalog->detectSector($visitorMessage);
+        if ($sector === null || $this->sectorReferenceCount($documents, $visitorMessage) === 0) {
+            return $reply;
+        }
+
+        $normalized = $this->normalize($reply);
+        $deniesReference = preg_match('/\b(pas de reference|aucune reference|ne dispose pas de reference|n avons pas identifie|ne documentent|pas identifie d experience|aucune experience)\b/', $normalized) === 1;
+        $mentionsExperience = preg_match('/\b(reference|references|experience|experiences|intervient|accompagne)\b/', $normalized) === 1
+            && str_contains($normalized, $this->normalize($sector));
+
+        $reference = $this->firstDocumentOfType($documents, 'reference');
+        $evidence = $reference === null ? '' : ' '.$this->shortEvidence($reference['text'] ?? '');
+        $positive = sprintf('Oui. OLING dispose de références dans le secteur %s.%s', $sector, $evidence);
+
+        if ($deniesReference) {
+            return $positive;
+        }
+
+        if (!$mentionsExperience) {
+            return $positive."\n\n".$reply;
+        }
+
+        return $reply;
+    }
+
+    /**
+     * @param array<int, array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}> $documents
+     * @return array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}|null
+     */
+    private function firstDocumentOfType(array $documents, string $type): ?array
+    {
+        foreach ($documents as $document) {
+            if (($document['type'] ?? null) === $type) {
+                return $document;
+            }
+        }
+
+        return null;
+    }
+
+    private function shortEvidence(string $text): string
+    {
+        $text = trim(preg_replace('/\s+/', ' ', $text) ?? $text);
+        if ($text === '') {
+            return '';
+        }
+
+        return mb_strlen($text) <= 180 ? $text : rtrim(mb_substr($text, 0, 177)).'...';
+    }
+
     private function normalizeReplyFormatting(string $reply): string
     {
         $reply = str_replace(["\r\n", "\r"], "\n", trim($reply));
@@ -490,6 +547,15 @@ class ChatResponder
         bool $fallbackUsed
     ): void {
         $this->logger->info('Chat technical metrics.', [
+            'detected_intents' => $this->detectedIntents($visitorMessage),
+            'detected_sector' => $this->publicContentCatalog->detectSector($visitorMessage),
+            'canonical_sector' => $this->publicContentCatalog->detectSector($visitorMessage),
+            'sector_reference_count' => $this->sectorReferenceCount($documents, $visitorMessage),
+            'selected_reference_ids' => $this->selectedSourceIds($documents, 'reference'),
+            'selected_service_ids' => $this->selectedSourceIds($documents, 'service'),
+            'selected_expertise_ids' => $this->selectedSourceIds($documents, 'expertise'),
+            'retrieval_sources_count' => count($documents),
+            'no_reference_claim_allowed' => $this->sectorReferenceCount($documents, $visitorMessage) === 0,
             'intent' => $this->classificationIntent($visitorMessage),
             'retrieval_count' => count($documents),
             'retrieval_duration_ms' => $retrievalDurationMs,
@@ -532,7 +598,71 @@ class ChatResponder
 
     private function isSectorIntent(string $message): bool
     {
-        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $this->normalize($message)) === 1;
+        $text = $this->normalize($message);
+
+        return $this->publicContentCatalog->detectSector($message) !== null
+            || preg_match('/\b(secteur|public|services)\b/', $text) === 1;
+    }
+
+    /** @return list<string> */
+    private function detectedIntents(string $message): array
+    {
+        $intents = [$this->classificationIntent($message)];
+        $text = $this->normalize($message);
+        foreach ([
+            'erp' => '/\b(erp|progiciel|pgi)\b/',
+            'si_client' => '/\b(si client|facturation|abonnes|usagers|portail client)\b/',
+            'gmao' => '/\b(gmao|maintenance)\b/',
+            'si_finance' => '/\b(si finance|finance|comptabilite|reporting)\b/',
+            'pca_pra' => '/\b(pca|pra|continuite|resilience)\b/',
+            'schema_directeur' => '/\b(schema directeur)\b/',
+            'amoa' => '/\b(amoa|amo|assistance maitrise)\b/',
+        ] as $intent => $pattern) {
+            if (preg_match($pattern, $text) === 1) {
+                $intents[] = $intent;
+            }
+        }
+
+        return array_values(array_unique($intents));
+    }
+
+    private function sectorReferenceCount(array $documents, string $message): int
+    {
+        $sector = $this->publicContentCatalog->detectSector($message);
+        if ($sector === null) {
+            return 0;
+        }
+
+        $aliases = array_map(fn (string $alias): string => $this->normalize($alias), [$sector, ...$this->sectorTaxonomy->aliasesFor($sector)]);
+        $count = 0;
+        foreach ($documents as $document) {
+            if (($document['type'] ?? null) !== 'reference') {
+                continue;
+            }
+            $haystack = $this->normalize(($document['title'] ?? '').' '.($document['text'] ?? ''));
+            foreach ($aliases as $alias) {
+                if ($alias !== '' && str_contains($haystack, $alias)) {
+                    ++$count;
+                    break;
+                }
+            }
+        }
+
+        return $count;
+    }
+
+    /** @return list<int|string> */
+    private function selectedSourceIds(array $documents, string $type): array
+    {
+        $ids = [];
+        foreach ($documents as $document) {
+            if (($document['type'] ?? null) !== $type) {
+                continue;
+            }
+            $ids[] = $document['url'] ?? '';
+        }
+
+        return array_values(array_filter($ids));
     }
 
     /**

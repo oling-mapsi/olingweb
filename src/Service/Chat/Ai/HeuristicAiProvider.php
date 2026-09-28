@@ -9,7 +9,10 @@ class HeuristicAiProvider implements AiProviderInterface
 {
     public function __construct(private readonly ChatQualificationService $qualificationService)
     {
+        $this->sectorTaxonomy = new \App\Service\Chat\SectorTaxonomy();
     }
+
+    private readonly \App\Service\Chat\SectorTaxonomy $sectorTaxonomy;
 
     public function getName(): string
     {
@@ -81,6 +84,10 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         if ($this->asksForSectorCoverage($visitorMessage)) {
+            return $this->buildSectorCoverageReply($visitorMessage, $documents, $qualification);
+        }
+
+        if ($this->sectorTaxonomy->detect($visitorMessage) !== null && $this->mentionsAmoaProgiciel($visitorMessage)) {
             return $this->buildSectorCoverageReply($visitorMessage, $documents, $qualification);
         }
 
@@ -194,10 +201,10 @@ class HeuristicAiProvider implements AiProviderInterface
         if ($items !== []) {
             return $this->formatBulletReply(
                 ($this->asksForReferences($visitorMessage) || $reference !== null)
-                    ? sprintf('Oui. OLING dispose de références anonymisées dans %s.', $sectorLabel)
+                    ? sprintf('Oui. OLING dispose de références anonymisées dans %s et peut accompagner ce type de besoin.', $sectorLabel)
                     : sprintf('Oui. OLING intervient aussi dans %s.', $sectorLabel),
                 $items
-            );
+            )."\n\n".'Une première étape utile serait de qualifier le périmètre, les applications en place, les interfaces et la trajectoire cible.';
         }
 
         if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
@@ -562,7 +569,8 @@ class HeuristicAiProvider implements AiProviderInterface
     {
         $text = $this->normalize($message);
 
-        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services b2b|secteur des services)\b/', $text) === 1;
+        return $this->sectorTaxonomy->detect($message) !== null
+            || preg_match('/\b(secteur|public|services b2b|secteur des services)\b/', $text) === 1;
     }
 
     private function asksForCadrageDeliverables(string $message): bool
@@ -797,41 +805,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
     private function detectSectorLabel(string $message): ?string
     {
-        $text = $this->normalize($message);
-        $labels = [];
-
-        if (preg_match('/\b(transport|transports|port|aeroport|mobilite)\b/', $text) === 1) {
-            $labels[] = 'les transports';
-        }
-
-        if (preg_match('/\b(eau|assainissement|eaux)\b/', $text) === 1) {
-            $labels[] = 'l’eau et l’assainissement';
-        }
-
-        if (preg_match('/\b(medico social|ehpad|sante|hopital|social)\b/', $text) === 1) {
-            $labels[] = 'le médico-social';
-        }
-
-        if (preg_match('/\b(public|collectivite|collectivites|administration|service public)\b/', $text) === 1) {
-            $labels[] = 'les organisations publiques et régulées';
-        }
-
-        if (preg_match('/\b(industrie|industriel|pmi|usine|production)\b/', $text) === 1) {
-            $labels[] = 'l’industrie et les PMI';
-        }
-
-        if (preg_match('/\b(services|service|prestations|b2b)\b/', $text) === 1) {
-            $labels[] = 'les services';
-        }
-
-        $labels = array_values(array_unique($labels));
-
-        return match (count($labels)) {
-            0 => null,
-            1 => $labels[0],
-            2 => $labels[0].' et '.$labels[1],
-            default => $labels[0].', '.$labels[1].' et '.$labels[2],
-        };
+        return $this->sectorTaxonomy->detect($message);
     }
 
     /**

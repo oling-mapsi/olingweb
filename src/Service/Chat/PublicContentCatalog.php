@@ -45,6 +45,7 @@ class PublicContentCatalog
     public function __construct(
         private readonly ChatPublicDocumentRepository $documentRepository,
         private readonly ChatPublicContentIndexer $indexer,
+        private readonly SectorTaxonomy $sectorTaxonomy = new SectorTaxonomy(),
         ?ChatOwnerRouter $ownerRouter = null,
         ?ConfidentialProjectSanitizer $confidentialProjectSanitizer = null,
     ) {
@@ -87,6 +88,101 @@ class PublicContentCatalog
             fn (array $row): array => $this->serializeDocument($row['document'], $row['score']),
             array_slice($scored, 0, $limit)
         );
+    }
+
+    public function detectSector(string $query): ?string
+    {
+        $managedSector = $this->detectManagedSector($query);
+        if ($managedSector !== null) {
+            return $managedSector;
+        }
+
+        return $this->sectorTaxonomy->detect($query);
+    }
+
+    /**
+     * @return array<int, array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}>
+     */
+    public function findSectorReferences(string $sector, string $query = '', int $limit = 3): array
+    {
+        $documents = $this->activeDocuments();
+        if ($documents === []) {
+            return [];
+        }
+
+        $sectorNeedle = $this->normalize($sector);
+        $aliases = array_map(fn (string $alias): string => $this->normalize($alias), $this->sectorTaxonomy->aliasesFor($sector));
+        $tokens = $this->expandedTokens(trim($query.' '.$sector.' '.implode(' ', $aliases)));
+        $scored = [];
+
+        foreach ($documents as $document) {
+            if ($document->getSourceType() !== 'reference') {
+                continue;
+            }
+
+            $haystack = $this->normalize($document->getSafeTitle().' '.$document->getSafeText().' '.implode(' ', $document->getKeywords()).' '.$document->getSearchText());
+            $sectorMatch = str_contains($haystack, $sectorNeedle);
+            foreach ($aliases as $alias) {
+                $sectorMatch = $sectorMatch || ($alias !== '' && str_contains($haystack, $alias));
+            }
+            if (!$sectorMatch) {
+                continue;
+            }
+
+            $score = 80;
+            foreach ($tokens as $token) {
+                if (str_contains($haystack, $token)) {
+                    $score += 4;
+                }
+            }
+
+            $scored[] = ['document' => $document, 'score' => $score];
+        }
+
+        usort($scored, static fn (array $left, array $right): int => $right['score'] <=> $left['score']);
+
+        return array_map(
+            fn (array $row): array => $this->serializeDocument($row['document'], $row['score']),
+            array_slice($scored, 0, $limit)
+        );
+    }
+
+    private function detectManagedSector(string $query): ?string
+    {
+        $normalizedQuery = $this->normalize($query);
+        if ($normalizedQuery === '') {
+            return null;
+        }
+
+        foreach ($this->activeDocuments() as $document) {
+            if ($document->getSourceType() !== 'reference') {
+                continue;
+            }
+
+            $sector = $this->extractSectorFromDocument($document);
+            if ($sector === null) {
+                continue;
+            }
+
+            $normalizedSector = $this->normalize($sector);
+            if ($normalizedSector !== '' && str_contains($normalizedQuery, $normalizedSector)) {
+                return $sector;
+            }
+        }
+
+        return null;
+    }
+
+    private function extractSectorFromDocument(ChatPublicDocument $document): ?string
+    {
+        $text = trim($document->getSafeText());
+        if (preg_match('/\bSecteur\s+([^.;\n]+)/u', $text, $matches) !== 1) {
+            return null;
+        }
+
+        $sector = trim($matches[1]);
+
+        return $sector === '' ? null : $sector;
     }
 
     /**
@@ -179,6 +275,7 @@ class PublicContentCatalog
         $isSectorIntent = $this->isSectorIntent($normalizedQuery);
         $isMethodIntent = $this->isMethodIntent($normalizedQuery);
         $expectedOwner = $this->ownerRouter->resolveOwnerUrl($normalizedQuery);
+        $detectedSector = $this->detectSector($normalizedQuery);
 
         if ($expectedOwner !== null && $document->getUrl() === $expectedOwner) {
             $score += 120;
@@ -220,6 +317,17 @@ class PublicContentCatalog
 
         if ($document->getSourceType() === 'reference' && $isSectorIntent) {
             $score += 6;
+        }
+
+        if ($detectedSector !== null) {
+            $sectorAliases = array_map(fn (string $alias): string => $this->normalize($alias), [$detectedSector, ...$this->sectorTaxonomy->aliasesFor($detectedSector)]);
+            $haystack = $title.' '.$body.' '.$keywords.' '.$search;
+            foreach ($sectorAliases as $alias) {
+                if ($alias !== '' && str_contains($haystack, $alias)) {
+                    $score += $document->getSourceType() === 'reference' ? 40 : 18;
+                    break;
+                }
+            }
         }
 
         if (in_array($document->getSourceType(), ['service', 'expertise'], true) && $isProjectIntent) {
@@ -351,7 +459,8 @@ class PublicContentCatalog
 
     private function isSectorIntent(string $normalizedQuery): bool
     {
-        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $normalizedQuery) === 1;
+        return $this->sectorTaxonomy->detect($normalizedQuery) !== null
+            || preg_match('/\b(secteur|public|services)\b/', $normalizedQuery) === 1;
     }
 
     private function isMethodIntent(string $normalizedQuery): bool

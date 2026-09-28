@@ -82,7 +82,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
                             'schema' => $this->responseSchema(),
                         ],
                     ],
-                    'max_output_tokens' => 420,
+                    'max_output_tokens' => 800,
                 ],
                 'timeout' => 20,
             ]);

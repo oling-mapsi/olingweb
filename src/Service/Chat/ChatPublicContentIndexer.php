@@ -507,7 +507,11 @@ class ChatPublicContentIndexer
             (is_string($metadataText) ? $metadataText : '')
         ));
 
-        if (str_contains($normalized, 'grand port maritime') || str_contains($normalized, 'secteur portuaire')) {
+        if (
+            str_contains($normalized, 'grand port maritime')
+            || str_contains($normalized, 'secteur portuaire')
+            || preg_match('/\bgpm[a-z0-9-]*\b/', $normalized) === 1
+        ) {
             return 'grand port maritime';
         }
         if (str_contains($normalized, 'mutuelle') || str_contains($normalized, 'assurance')) {

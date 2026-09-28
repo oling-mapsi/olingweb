@@ -10,6 +10,23 @@ use PHPUnit\Framework\TestCase;
 
 class HeuristicAiProviderTest extends TestCase
 {
+    public function testCnefErpRequestIsNotMisclassifiedAsSectorCoverage(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $provider = new HeuristicAiProvider($qualificationService);
+        $question = 'La CNEF veut remplacer son ERP pour ses services, cadrer la reprise de données et consulter un intégrateur.';
+
+        $decision = $provider->generateDecision(new ChatConversation(), $question, [[
+            'title' => 'AMOA ERP',
+            'url' => '/business-apps/erp',
+            'text' => 'Cadrage, sélection, reprise de données, recette et pilotage intégrateur.',
+            'type' => 'service',
+        ]], []);
+
+        self::assertStringContainsString('reprise de données', $decision->reply);
+        self::assertStringNotContainsString('secteurs documentés', $decision->reply);
+    }
+
     public function testShortAmoaIso27001QueryDoesNotEchoInternalContentTitles(): void
     {
         $conversation = new ChatConversation();

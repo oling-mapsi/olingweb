@@ -562,7 +562,7 @@ class HeuristicAiProvider implements AiProviderInterface
     {
         $text = $this->normalize($message);
 
-        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services)\b/', $text) === 1;
+        return preg_match('/\b(secteur|transport|transports|eau|assainissement|medico social|sante|hopital|public|collectivite|industrie|industriel|pmi|services b2b|secteur des services)\b/', $text) === 1;
     }
 
     private function asksForCadrageDeliverables(string $message): bool

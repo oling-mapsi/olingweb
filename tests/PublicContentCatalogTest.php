@@ -62,6 +62,17 @@ class PublicContentCatalogTest extends TestCase
         }
         $documents[] = (new ChatPublicDocument())
             ->setSourceType('reference')
+            ->setSafeTitle('Référence Mutuelle et assurance')
+            ->setSafeText('Secteur Mutuelle et assurance. Mission cybersécurité dans un contexte transport.')
+            ->setUrl('/projets')
+            ->setKeywords(['mutuelle', 'cyber', 'transport'])
+            ->setSearchText('reference mutuelle cyber transport continuite')
+            ->setIsActive(true)
+            ->setIsConfidentialReference(true)
+            ->setChecksum('reference-mutuelle')
+            ->setUpdatedAt(new \DateTimeImmutable());
+        $documents[] = (new ChatPublicDocument())
+            ->setSourceType('reference')
             ->setSafeTitle('Référence Transport')
             ->setSafeText('Secteur Transport. Type d’organisation: grand port maritime. Mission de PCA et continuité.')
             ->setUrl('/projets')
@@ -80,5 +91,8 @@ class PublicContentCatalogTest extends TestCase
 
         self::assertContains('reference', array_column($results, 'type'));
         self::assertContains('/projets', array_column($results, 'url'));
+        $reference = array_values(array_filter($results, static fn (array $result): bool => $result['type'] === 'reference'))[0];
+        self::assertStringContainsString('grand port maritime', $reference['text']);
+        self::assertStringContainsString('Mission de PCA', $reference['text']);
     }
 }

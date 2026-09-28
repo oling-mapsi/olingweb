@@ -345,6 +345,22 @@ class PublicContentCatalog
             }
         }
 
+        $referenceHaystack = $title.' '.$body.' '.$keywords.' '.$search;
+        if (
+            $document->getSourceType() === 'reference'
+            && preg_match('/\bgrands? ports?\b/', $normalizedQuery) === 1
+            && str_contains($referenceHaystack, 'grand port maritime')
+        ) {
+            $score += 100;
+        }
+        if (
+            $document->getSourceType() === 'reference'
+            && preg_match('/\b(continuite|resilience|pca|pra)\b/', $normalizedQuery) === 1
+            && preg_match('/\b(mission de pca|plan de continuite|continuite d activite|plan de reprise)\b/', $referenceHaystack) === 1
+        ) {
+            $score += 60;
+        }
+
         if (in_array($document->getSourceType(), ['service', 'expertise'], true) && $isProjectIntent) {
             $score += 5;
         }

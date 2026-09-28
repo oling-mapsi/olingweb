@@ -17,6 +17,12 @@ class PublicContentCatalog
 
     private const SYNONYMS = [
         'erp' => ['progiciel', 'sage x3', 'sage', 'sap', 's4hana', 'divalto', 'cegid'],
+        'progiciel' => ['erp', 'pgi', 'logiciel metier'],
+        'amoa' => ['moa', 'assistance maitrise d ouvrage', 'assistance a maitrise d ouvrage'],
+        'selection erp' => ['choix erp', 'consultation erp', 'appel d offres erp'],
+        'remplacement erp' => ['migration erp', 'refonte erp'],
+        'reprise de donnees' => ['data migration', 'migration de donnees'],
+        'recette' => ['uat', 'tests utilisateurs', 'tests metier'],
         'gmao' => ['maintenance', 'actifs', 'equipements', 'parc', 'interventions', 'stocks', 'ordres de travail'],
         'crm' => ['relation client', 'ventes', 'commercial', 'salesforce'],
         'sirh' => ['rh', 'paie', 'gestion des temps', 'ressources humaines'],
@@ -39,8 +45,15 @@ class PublicContentCatalog
     public function __construct(
         private readonly ChatPublicDocumentRepository $documentRepository,
         private readonly ChatPublicContentIndexer $indexer,
+        ?ChatOwnerRouter $ownerRouter = null,
+        ?ConfidentialProjectSanitizer $confidentialProjectSanitizer = null,
     ) {
+        $this->ownerRouter = $ownerRouter ?? new ChatOwnerRouter();
+        $this->confidentialProjectSanitizer = $confidentialProjectSanitizer ?? new ConfidentialProjectSanitizer();
     }
+
+    private readonly ChatOwnerRouter $ownerRouter;
+    private readonly ConfidentialProjectSanitizer $confidentialProjectSanitizer;
 
     /**
      * @return array<int, array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}>
@@ -71,7 +84,7 @@ class PublicContentCatalog
         usort($scored, static fn (array $left, array $right): int => $right['score'] <=> $left['score']);
 
         return array_map(
-            fn (array $row): array => $this->serializeDocument($row['document']),
+            fn (array $row): array => $this->serializeDocument($row['document'], $row['score']),
             array_slice($scored, 0, $limit)
         );
     }
@@ -165,6 +178,13 @@ class PublicContentCatalog
         $isProjectIntent = $this->isProjectIntent($normalizedQuery);
         $isSectorIntent = $this->isSectorIntent($normalizedQuery);
         $isMethodIntent = $this->isMethodIntent($normalizedQuery);
+        $expectedOwner = $this->ownerRouter->resolveOwnerUrl($normalizedQuery);
+
+        if ($expectedOwner !== null && $document->getUrl() === $expectedOwner) {
+            $score += 120;
+        } elseif ($expectedOwner !== null && $document->getSourceType() === 'reference') {
+            $score -= 8;
+        }
 
         if ($normalizedQuery !== '' && str_contains($title, $normalizedQuery)) {
             $score += 12;
@@ -228,15 +248,21 @@ class PublicContentCatalog
     /**
      * @return array{title:string,url:string,text:string,type:string,image:?string,excerpt:string}
      */
-    private function serializeDocument(ChatPublicDocument $document): array
+    private function serializeDocument(ChatPublicDocument $document, int $score): array
     {
+        $text = $document->getSafeText();
+        if ($document->isConfidentialReference()) {
+            $text = $this->confidentialProjectSanitizer->safeIndexedText($text, $document->getKeywords());
+        }
+
         return [
             'title' => $document->getSafeTitle(),
             'url' => $document->getUrl(),
-            'text' => $document->getSafeText(),
+            'text' => $text,
             'type' => $document->getSourceType(),
             'image' => $document->getImage(),
-            'excerpt' => $this->excerpt($document->getSafeText()),
+            'excerpt' => $this->excerpt($text),
+            'score' => $score,
         ];
     }
 
@@ -278,6 +304,12 @@ class PublicContentCatalog
 
     private function normalize(string $value): string
     {
+        $value = strtr($value, [
+            'à' => 'a', 'â' => 'a', 'ä' => 'a', 'ç' => 'c', 'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'î' => 'i', 'ï' => 'i', 'ô' => 'o', 'ö' => 'o', 'ù' => 'u', 'û' => 'u', 'ü' => 'u', 'ÿ' => 'y',
+            'À' => 'A', 'Â' => 'A', 'Ä' => 'A', 'Ç' => 'C', 'É' => 'E', 'È' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+            'Î' => 'I', 'Ï' => 'I', 'Ô' => 'O', 'Ö' => 'O', 'Ù' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ÿ' => 'Y',
+        ]);
         $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
         if ($normalized === false) {
             $normalized = $value;

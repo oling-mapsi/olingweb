@@ -34,6 +34,7 @@ class ChatPublicContentIndexer
         private readonly ProjetRepository $projetRepository,
         private readonly TeamRepository $teamRepository,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ConfidentialProjectSanitizer $confidentialProjectSanitizer,
     ) {
     }
 
@@ -48,6 +49,7 @@ class ChatPublicContentIndexer
         $this->entityManager->createQuery('DELETE FROM App\Entity\ChatPublicDocument d')->execute();
 
         $documents = [];
+        $organizationNames = $this->projectOrganizationNames();
 
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
@@ -140,7 +142,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project);
+            $safeSummary = $this->buildSafeProjectSummary($project, $organizationNames);
             if ($safeSummary === null) {
                 $referencesWithoutSafeSummary[] = 'project:'.($project->getId() ?? 'unknown');
                 $ignored[] = 'project:'.($project->getId() ?? 'unknown');
@@ -212,6 +214,7 @@ class ChatPublicContentIndexer
     public function buildDocumentSnapshot(): array
     {
         $snapshot = [];
+        $organizationNames = $this->projectOrganizationNames();
 
         foreach ($this->sitePageRepository->findAll() as $page) {
             $status = $page->getPublicationStatus();
@@ -299,7 +302,7 @@ class ChatPublicContentIndexer
         }
 
         foreach ($this->projetRepository->findAll() as $project) {
-            $safeSummary = $this->buildSafeProjectSummary($project);
+            $safeSummary = $this->buildSafeProjectSummary($project, $organizationNames);
             if ($safeSummary === null) {
                 continue;
             }
@@ -397,7 +400,7 @@ class ChatPublicContentIndexer
     /**
      * @return array{title:string,text:string,keywords:list<string>}|null
      */
-    private function buildSafeProjectSummary(object $project): ?array
+    private function buildSafeProjectSummary(object $project, array $organizationNames): ?array
     {
         $parts = [];
         $titleParts = [];
@@ -446,7 +449,10 @@ class ChatPublicContentIndexer
         }
 
         $description = method_exists($project, 'getDescription') ? $project->getDescription() : null;
-        $safeDescription = $this->sanitizeProjectText($this->plain(is_string($description) ? $description : null));
+        $safeDescription = $this->confidentialProjectSanitizer->sanitize(
+            $this->plain(is_string($description) ? $description : null),
+            $organizationNames
+        );
         if ($safeDescription !== '') {
             $parts[] = $safeDescription;
         }
@@ -473,10 +479,30 @@ class ChatPublicContentIndexer
         }
 
         return [
-            'title' => $title,
-            'text' => implode('. ', $parts).'.',
-            'keywords' => $this->normalizeKeywords($keywords),
+            'title' => $this->confidentialProjectSanitizer->sanitize($title, $organizationNames),
+            'text' => $this->confidentialProjectSanitizer->sanitize(implode('. ', $parts).'.', $organizationNames),
+            'keywords' => $this->normalizeKeywords([
+                ...array_map(
+                    fn (string $keyword): string => $this->confidentialProjectSanitizer->sanitize($keyword, $organizationNames),
+                    $keywords
+                ),
+                ConfidentialProjectSanitizer::SAFE_INDEX_MARKER,
+            ]),
         ];
+    }
+
+    /** @return list<string> */
+    private function projectOrganizationNames(): array
+    {
+        $names = [];
+        foreach ($this->projetRepository->findAll() as $project) {
+            $name = method_exists($project, 'getClientName') ? $project->getClientName() : null;
+            if (is_string($name) && trim($name) !== '') {
+                $names[] = trim($name);
+            }
+        }
+
+        return array_values(array_unique($names));
     }
 
     /**
@@ -520,6 +546,12 @@ class ChatPublicContentIndexer
 
     private function normalize(string $value): string
     {
+        $value = strtr($value, [
+            'à' => 'a', 'â' => 'a', 'ä' => 'a', 'ç' => 'c', 'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'î' => 'i', 'ï' => 'i', 'ô' => 'o', 'ö' => 'o', 'ù' => 'u', 'û' => 'u', 'ü' => 'u', 'ÿ' => 'y',
+            'À' => 'A', 'Â' => 'A', 'Ä' => 'A', 'Ç' => 'C', 'É' => 'E', 'È' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+            'Î' => 'I', 'Ï' => 'I', 'Ô' => 'O', 'Ö' => 'O', 'Ù' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ÿ' => 'Y',
+        ]);
         $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
         if ($normalized === false) {
             $normalized = $value;
@@ -530,21 +562,4 @@ class ChatPublicContentIndexer
         return trim(preg_replace('/[^a-z0-9]+/', ' ', $normalized) ?? $normalized);
     }
 
-    private function sanitizeProjectText(string $text): string
-    {
-        if ($text === '') {
-            return '';
-        }
-
-        $text = preg_replace('/^\s*(client|groupe|societe|société|entreprise|organisation)\s+[^:.-]{2,80}\s*[:.-]\s*/iu', '', $text) ?? $text;
-        $text = preg_replace('/\b(client|groupe|societe|société|entreprise|organisation)\s+[A-Z0-9][A-Za-z0-9&\'’\-\s]{2,80}\b/u', '$1 anonymisé', $text) ?? $text;
-        $text = preg_replace('/\b[A-Z]{3,}(?:\s+[A-Z0-9]{2,}){0,4}\s*[-:]\s*/u', '', $text, 1) ?? $text;
-        $text = trim(preg_replace('/\s+/', ' ', $text) ?? $text);
-
-        if ($text === '') {
-            return '';
-        }
-
-        return mb_strlen($text) > 420 ? rtrim(mb_substr($text, 0, 417)).'...' : $text;
-    }
 }

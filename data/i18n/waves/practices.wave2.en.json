@@ -1,0 +1,105 @@
+{
+    "entity": "PracticeTranslation",
+    "locale": "en",
+    "exportedAt": "2026-10-02T23:07:39+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "business-apps"
+            },
+            "locale": "en",
+            "slug": "business-applications",
+            "designation": "Digital Transformation & Business Software",
+            "designationShort": "Operations and Technology",
+            "h1Title": null,
+            "introduction": "Custom business applications for your organisation",
+            "introductionShort": "ERP, CRM, CMMS, HRIS, financial information systems, MES and BI advisory: requirements gathering, specifications, vendor consultation, solution selection, implementation partner management, data migration, acceptance testing and deployment.",
+            "description": "<p>OLING supports ERP, CRM, CMMS, HRIS, financial information systems, BI and business application projects from requirements gathering through to deployment, providing independent project oversight with a strong focus on processes, data and user adoption.</p>",
+            "descriptionShort": "Our experts manage the integration and development of all types of business applications (ERP, CRM, GIS, CMMS, MES, finance systems and more), enabling companies to manage their data and processes effectively.",
+            "tags": [
+                "#ERP",
+                "#CRM",
+                "#BI",
+                "#DigitalTransformation",
+                "#BusinessSoftware"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "12bd3f61d0f1005b07542f840201d8443f59521ebcbb4204fca591dfeec63857"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "consulting"
+            },
+            "locale": "en",
+            "slug": "consulting",
+            "designation": "IT Project Advisory, Governance & IT Roadmap",
+            "designationShort": "Strategy and Consulting",
+            "h1Title": null,
+            "introduction": "Let’s optimise your organisation and IT systems together",
+            "introductionShort": "IT assessments and roadmaps, governance, project portfolio management, PMO and IT project advisory services to align business priorities, investments and projects.",
+            "description": "<p>OLING provides IT project advisory services to define requirements, establish governance, manage tender processes, coordinate business teams, IT departments and systems integrators, and ensure robust acceptance testing, deployment and change management.</p>",
+            "descriptionShort": "We provide the essential skills and expertise needed to jointly develop organisational and technology strategies and solutions",
+            "tags": [
+                "#ITProjectAdvisory",
+                "#IT",
+                "#Governance",
+                "#ITRoadmap",
+                "#ProjectManagement"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "72d9af5afa3b2432a47b1de9c65c07edce05df53a4a2e1f97e3ecf7b9b582bad"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "expertises-audit"
+            },
+            "locale": "en",
+            "slug": "compliance-risk-audits",
+            "designation": "QSE Compliance, Privacy & Cybersecurity",
+            "designationShort": "Compliance & Risk",
+            "h1Title": null,
+            "introduction": "An external perspective to improve your processes",
+            "introductionShort": "GDPR and outsourced DPO services, ISO 27001/9001, NIS2, DORA and business continuity: audits, risk assessments, action plans, documentation, controls and compliance management.",
+            "description": "<p>OLING structures GDPR, ISO 27001, NIS2, DORA, internal control and business continuity programmes through audits, risk assessments, action plans, evidence frameworks and operational management.</p>",
+            "descriptionShort": "OLING provides audit and consulting services to help companies achieve their governance, control and compliance objectives (GDPR, QSE management systems, CSR, etc.).",
+            "tags": [
+                "#Compliance",
+                "#Quality",
+                "#Environment",
+                "#GDPR",
+                "#ISO27001",
+                "#Cybersecurity",
+                "#Audit"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "e6494a394d68c1c87ad67bf278f5f9612669867815916e4cbc388a9d789605d6"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "mapsi"
+            },
+            "locale": "en",
+            "slug": "mapsi-privacy-qse-platform",
+            "designation": "MAPSI – Privacy and QSE Platform",
+            "designationShort": "MAPSI",
+            "h1Title": null,
+            "introduction": "MAPSI (SaaS) digitalises your management systems (GDPR, QSE, Qualiopi, risk, audits, etc.).",
+            "introductionShort": "A GRC platform developed by OLING to centralise registers, audits, risks, action plans, incidents, compliance documents and reporting.",
+            "description": "MAPSI is a SaaS application developed and provided by OLING. With MAPSI, you can manage GDPR, QUALIOPI, ISO and business continuity compliance within a single management system.",
+            "descriptionShort": "MAPSI is a SaaS application for managing governance, risk and compliance (GDPR, QSE, Qualiopi, risk, audits, etc.).",
+            "tags": [
+                "#MAPSI",
+                "#GDPR",
+                "#Quality",
+                "#Risk",
+                "#BusinessContinuity"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "95005f86c93345df3122c3b324d65d12525a9c4ff0b36fd15f25dcf676180236"
+        }
+    ]
+}

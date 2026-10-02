@@ -1,0 +1,105 @@
+{
+    "entity": "PracticeTranslation",
+    "locale": "es",
+    "exportedAt": "2026-10-02T23:07:40+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "business-apps"
+            },
+            "locale": "es",
+            "slug": "aplicaciones-empresariales",
+            "designation": "Transformación digital y software empresarial",
+            "designationShort": "Operaciones y tecnología",
+            "h1Title": null,
+            "introduction": "Aplicaciones empresariales a medida para su organización",
+            "introductionShort": "Asesoría en proyectos ERP, CRM, GMAO, SIRH, sistemas financieros, MES y BI: definición de necesidades, elaboración de especificaciones, licitación, selección de soluciones, supervisión del integrador, migración de datos, pruebas de aceptación y despliegue.",
+            "description": "<p>OLING acompaña proyectos de ERP, CRM, GMAO, SIRH, sistemas financieros, BI y aplicaciones empresariales desde la definición de necesidades hasta el despliegue, con una gestión independiente y especial atención a los procesos, los datos y la adopción.</p>",
+            "descriptionShort": "Nuestros expertos dirigen la integración y el desarrollo de todo tipo de aplicaciones empresariales (ERP, CRM, SIG, GMAO, MES, finanzas, etc.), lo que permite a las empresas gestionar eficazmente sus datos y procesos.",
+            "tags": [
+                "#ERP",
+                "#CRM",
+                "#BI",
+                "#Transformación",
+                "#SoftwareEmpresarial"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "12bd3f61d0f1005b07542f840201d8443f59521ebcbb4204fca591dfeec63857"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "consulting"
+            },
+            "locale": "es",
+            "slug": "consultoria",
+            "designation": "Asesoría en proyectos SI, gobernanza y plan director",
+            "designationShort": "Estrategia y consultoría",
+            "h1Title": null,
+            "introduction": "Optimicemos juntos su organización y sus sistemas de información",
+            "introductionShort": "Diagnóstico y plan director de sistemas de información, gobernanza, cartera de proyectos, PMO y asesoría en proyectos SI para alinear las prioridades de negocio, las inversiones y los proyectos.",
+            "description": "<p>OLING ofrece asesoría en proyectos de sistemas de información para definir las necesidades, organizar la gobernanza, gestionar los procesos de selección, coordinar a los equipos de negocio, el departamento de TI y los integradores, y garantizar las pruebas de aceptación, el despliegue y la gestión del cambio.</p>",
+            "descriptionShort": "Aportamos las competencias y los conocimientos especializados esenciales para desarrollar conjuntamente estrategias y soluciones organizativas y tecnológicas",
+            "tags": [
+                "#AsesoriaProyectosSI",
+                "#SI",
+                "#Gobernanza",
+                "#PlanDirector",
+                "#Gestion"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "72d9af5afa3b2432a47b1de9c65c07edce05df53a4a2e1f97e3ecf7b9b582bad"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "expertises-audit"
+            },
+            "locale": "es",
+            "slug": "auditoria-conformidad-riesgos",
+            "designation": "Conformidad QSE, privacidad y ciberseguridad",
+            "designationShort": "Conformidad y riesgos",
+            "h1Title": null,
+            "introduction": "Una perspectiva externa para mejorar sus procesos",
+            "introductionShort": "RGPD y DPO externalizado, ISO 27001/9001, NIS2, DORA y continuidad de negocio: auditorías, análisis de riesgos, planes de acción, documentación, controles y gestión de la conformidad.",
+            "description": "<p>OLING estructura las iniciativas relacionadas con el RGPD, la ISO 27001, NIS2, DORA, el control interno y la continuidad de negocio mediante auditorías, análisis de riesgos, planes de acción, mecanismos de prueba y gestión operativa.</p>",
+            "descriptionShort": "OLING ofrece servicios de auditoría y asesoramiento especializado para ayudar a las empresas a alcanzar sus objetivos de gestión, control y conformidad (RGPD, sistemas de gestión QSE, RSE, etc.).",
+            "tags": [
+                "#Conformidad",
+                "#Calidad",
+                "#MedioAmbiente",
+                "#RGPD",
+                "#ISO27001",
+                "#Ciberseguridad",
+                "#Auditoria"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "e6494a394d68c1c87ad67bf278f5f9612669867815916e4cbc388a9d789605d6"
+        },
+        {
+            "source": {
+                "entity": "Practice",
+                "slug": "mapsi"
+            },
+            "locale": "es",
+            "slug": "mapsi-plataforma-privacidad-qse",
+            "designation": "MAPSI – Plataforma de privacidad y QSE",
+            "designationShort": "MAPSI",
+            "h1Title": null,
+            "introduction": "MAPSI (SaaS) digitaliza sus sistemas de gestión (RGPD, QSE, Qualiopi, riesgos, auditorías, etc.)",
+            "introductionShort": "Plataforma GRC desarrollada por OLING para centralizar registros, auditorías, riesgos, planes de acción, incidentes, documentos de cumplimiento e informes.",
+            "description": "MAPSI es una aplicación SaaS desarrollada por OLING. Con MAPSI puede gestionar el cumplimiento del RGPD, QUALIOPI, las normas ISO y el PCA desde un sistema de gestión único.",
+            "descriptionShort": "MAPSI es una aplicación SaaS para gestionar la gobernanza, los riesgos y el cumplimiento (RGPD, QSE, Qualiopi, riesgos, auditorías, etc.).",
+            "tags": [
+                "#MAPSI",
+                "#RGPD",
+                "#Calidad",
+                "#Riesgos",
+                "#Continuidad"
+            ],
+            "status": "to_review",
+            "sourceContentHash": "95005f86c93345df3122c3b324d65d12525a9c4ff0b36fd15f25dcf676180236"
+        }
+    ]
+}

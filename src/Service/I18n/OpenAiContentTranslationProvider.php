@@ -60,12 +60,22 @@ final class OpenAiContentTranslationProvider implements AiTranslationProviderInt
                             'type' => 'json_object',
                         ],
                     ],
-                    'max_output_tokens' => 8000,
+                    'max_output_tokens' => 20000,
                 ],
-                'timeout' => 60,
+                'timeout' => 180,
             ]);
 
-            $decoded = json_decode($this->extractOutputText($response->toArray()), true, 512, JSON_THROW_ON_ERROR);
+            $outputText = $this->extractOutputText($response->toArray());
+            try {
+                $decoded = json_decode($outputText, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $sanitized = (string) preg_replace('/[[:cntrl:]]/', ' ', $outputText);
+                try {
+                    $decoded = json_decode($sanitized, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw $exception;
+                }
+            }
         } catch (
             ClientException|
             DecodingExceptionInterface|
@@ -94,6 +104,7 @@ You localize OLING French source content into the requested target locale.
 Use semantic localization, not literal word-for-word translation.
 Preserve factual claims, brand names, structure, HTML tags, links, placeholders, route names, codes, emails, phone numbers, image paths, schema IDs, numeric values and technical identifiers.
 Do not translate JSON keys. Translate only linguistic values.
+For every object or array value, preserve the exact JSON shape: same keys, same order, same list length, same nesting.
 Generate a localized SEO-friendly slug for the target locale.
 Use international English for en and international Spanish for es.
 For French business terms, use understandable international terminology. Do not force literal translations of AMOA, DSI, DPO, RFE or similar acronyms.

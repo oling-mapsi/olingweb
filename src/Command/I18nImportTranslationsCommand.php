@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Service\I18n\SitePageTranslationSnapshotService;
+use App\Service\I18n\EntityTranslationSnapshotService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +17,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 final class I18nImportTranslationsCommand extends Command
 {
-    public function __construct(private readonly SitePageTranslationSnapshotService $snapshotService)
+    public function __construct(
+        private readonly SitePageTranslationSnapshotService $snapshotService,
+        private readonly EntityTranslationSnapshotService $entitySnapshotService,
+    )
     {
         parent::__construct();
     }
@@ -25,6 +29,7 @@ final class I18nImportTranslationsCommand extends Command
     {
         $this
             ->addOption('locale', null, InputOption::VALUE_REQUIRED, 'Target locale: en or es.')
+            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Entity type: SitePage, service or practice.', 'SitePage')
             ->addOption('input', null, InputOption::VALUE_REQUIRED, 'Input file. Defaults to data/i18n/reviewed/site_pages.{locale}.json.')
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Read and compare without persisting.')
             ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Overwrite existing differing translations.');
@@ -34,12 +39,10 @@ final class I18nImportTranslationsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $locale = (string) $input->getOption('locale');
-        $result = $this->snapshotService->import(
-            $locale,
-            $input->getOption('input') ?: null,
-            (bool) $input->getOption('dry-run'),
-            (bool) $input->getOption('overwrite')
-        );
+        $entity = (string) $input->getOption('entity');
+        $result = $entity === 'SitePage'
+            ? $this->snapshotService->import($locale, $input->getOption('input') ?: null, (bool) $input->getOption('dry-run'), (bool) $input->getOption('overwrite'))
+            : $this->entitySnapshotService->import($entity, $locale, $input->getOption('input') ?: null, (bool) $input->getOption('dry-run'), (bool) $input->getOption('overwrite'));
 
         foreach ($result['conflicts'] as $conflict) {
             $io->warning($conflict);

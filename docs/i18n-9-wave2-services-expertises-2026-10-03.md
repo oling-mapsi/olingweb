@@ -10,7 +10,7 @@ Eligible FR SitePages found for Wave 2: ERP, CRM, GMAO, RGPD, cyber, facturation
 
 Already existing before Wave 2: ERP published EN/ES; CRM, GMAO, RGPD, cyber, facturation, AMOA SI reviewed EN/ES.
 
-Wave 2 generated only missing SitePage translations. Service and Practice translation tables exist but are not yet supported by the executable AI translation command.
+Wave 2 generated only missing SitePage translations first. Wave 2B adds executable AI translation, export and import support for ServiceTranslation and PracticeTranslation.
 
 ## Generated SitePages
 
@@ -59,8 +59,22 @@ Snapshots:
 
 ServiceTranslation and PracticeTranslation remain a gap for a follow-up implementation batch.
 
+Wave 2B snapshots:
+
+- `data/i18n/waves/services.wave2.en.json` — 34 ServiceTranslation rows, `to_review`
+- `data/i18n/waves/services.wave2.es.json` — 34 ServiceTranslation rows, `to_review`
+- `data/i18n/waves/practices.wave2.en.json` — 4 PracticeTranslation rows, `to_review`
+- `data/i18n/waves/practices.wave2.es.json` — 4 PracticeTranslation rows, `to_review`
+
+Wave 2B import dry-run was idempotent locally:
+
+- services EN: 34 unchanged, 0 conflict
+- services ES: 34 unchanged, 0 conflict
+- practices EN: 4 unchanged, 0 conflict
+- practices ES: 4 unchanged, 0 conflict
+
 ## Result
 
-Lot result: PARTIAL.
+Lot result: COMPLETE for Wave 2B local generation and reproducible snapshots.
 
-Reason: SitePage Wave 2 generated and reproducible; Service/Practice entity generation still requires command support; no pages published yet.
+Reason: SitePage Wave 2 and Service/Practice Wave 2B generated and reproducible; no automatic publication.

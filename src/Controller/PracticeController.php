@@ -66,7 +66,7 @@ class PracticeController extends AbstractController
         );
     }
 
-    #[Route('/{_locale}', name: 'localized_homepage', requirements: ['_locale' => 'en|es'], methods: ['GET'], priority: 100, options: ["sitemap" => true])]
+    #[Route('/{_locale}', name: 'localized_homepage', requirements: ['_locale' => 'en|es'], methods: ['GET'], priority: 100)]
     public function localizedIndex(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Email;
 use App\Entity\Projet;
+use App\Entity\SitePageTranslation;
 use App\Entity\Team;
 use App\Form\EmailType;
 use App\Repository\PracticeRepository;
@@ -52,6 +53,59 @@ class PracticeController extends AbstractController
         SitePageRepository $sitePageRepository,
         Request $request
     ): Response {
+        return $this->renderHomePage(
+            $repopractice,
+            $reposervices,
+            $repoprojet,
+            $repometier,
+            $homeSectionRepository,
+            $homeAwardRepository,
+            $contentItemRepository,
+            $sitePageRepository,
+            SitePageTranslation::LOCALE_FR
+        );
+    }
+
+    #[Route('/{_locale}', name: 'localized_homepage', requirements: ['_locale' => 'en|es'], methods: ['GET'], priority: 100, options: ["sitemap" => true])]
+    public function localizedIndex(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+        ProjetRepository $repoprojet,
+        MetierRepository $repometier,
+        HomeSectionRepository $homeSectionRepository,
+        \App\Repository\HomeAwardItemRepository $homeAwardRepository,
+        ContentItemRepository $contentItemRepository,
+        SitePageRepository $sitePageRepository,
+        Request $request,
+        string $_locale
+    ): Response {
+        SitePageTranslation::assertSupportedLocale($_locale);
+        $request->setLocale($_locale);
+
+        return $this->renderHomePage(
+            $repopractice,
+            $reposervices,
+            $repoprojet,
+            $repometier,
+            $homeSectionRepository,
+            $homeAwardRepository,
+            $contentItemRepository,
+            $sitePageRepository,
+            $_locale
+        );
+    }
+
+    private function renderHomePage(
+        PracticeRepository $repopractice,
+        ServicesRepository $reposervices,
+        ProjetRepository $repoprojet,
+        MetierRepository $repometier,
+        HomeSectionRepository $homeSectionRepository,
+        \App\Repository\HomeAwardItemRepository $homeAwardRepository,
+        ContentItemRepository $contentItemRepository,
+        SitePageRepository $sitePageRepository,
+        string $locale
+    ): Response {
         $practices = $this->localizePractices($repopractice->findAll());
         $services = $this->localizeServices($reposervices->findAll());
         $projets = $repoprojet->findAll();
@@ -88,7 +142,7 @@ class PracticeController extends AbstractController
             'services' => $services,
             'projets' => $projets,
             'metiers' => $metiers,
-            'homePage' => $this->publicSitePageResolver->getHomePage(),
+            'homePage' => $this->publicSitePageResolver->getHomePage($locale),
             'homeHeroMetiers' => $homeHeroMetiers,
             'homePractices' => $homePractices,
             'homeProjects' => $homeProjects,
@@ -100,6 +154,7 @@ class PracticeController extends AbstractController
             'latestResources' => $latestResources,
             'flashInfo' => $flashInfo,
             'localizedAlternates' => $homePageEntity ? $this->localizedUrlGenerator->sitePageAlternates($homePageEntity) : null,
+            'canonicalPath' => $homePageEntity ? $this->localizedUrlGenerator->sitePagePath($homePageEntity, $locale) : ($locale === SitePageTranslation::LOCALE_FR ? '/' : '/'.$locale),
             'pract' => '',
         ]);
     }
@@ -145,16 +200,20 @@ class PracticeController extends AbstractController
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         TeamRepository $repoteam,
+        SitePageRepository $sitePageRepository,
         ): Response
     {
         $practices = $this->localizePractices($repopractice->findAll());
         $services = $this->localizeServices($reposervices->findAll());
+        $pageEntity = $sitePageRepository->findOneBy(['slug' => 'apropos']);
+
         return $this->render('about.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
             'teamPreview' => $this->buildTeamProfiles($repoteam->findAll()),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos'),
+            'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
             'pract' => '',
         ]);
     }

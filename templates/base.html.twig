@@ -4,7 +4,9 @@
 {% set currentSlug = app.request.attributes.get('slug') %}
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
 {% set currentLocale = app.request.locale|default('fr') %}
-{% set navHomePath = currentLocale == 'en' ? '/en/home' : (currentLocale == 'es' ? '/es/inicio' : path('index')) %}
+{% set navHomePath = currentLocale == 'en' ? '/en' : (currentLocale == 'es' ? '/es' : path('index')) %}
+{% set languageAlternates = localizedAlternates|default({}) %}
+{% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set isAdminPage = currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
@@ -90,6 +92,34 @@
           left: 0 !important;
           transform: none !important;
         }
+
+        .oling-language-switcher {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+      }
+
+      .oling-language-switcher__item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        padding: 0.25rem 0.35rem;
+        border-radius: 999px;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .oling-language-switcher__item.active {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .oling-language-switcher__item.disabled {
+        color: rgba(255, 255, 255, 0.34);
       }
 
       @media (max-width: 991.98px) {
@@ -171,7 +201,7 @@
     }
     </script>
 </head>
-<body class="oling-body oling-refresh{% if app.request.pathinfo == '/' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
+<body class="oling-body oling-refresh{% if app.request.pathinfo == '/' or currentRoute == 'localized_homepage' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
     {% if not isAdminPage %}
     <header id="header" class="oling-header navbar navbar-expand-lg navbar-show-hide"
             data-hs-header-options='{"fixMoment": 0, "fixEffect": "slide"}'>
@@ -228,6 +258,18 @@
                                 <img src="{{ asset('/img/logo/mapsi.png') }}" class="logo-light-mode" alt="Logo MAPSI">
                                 <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo MAPSI">
                             </a>
+                        </li>
+                        <li class="nav-item oling-language-switcher" aria-label="Changer de langue">
+                            {% for languageCode, languageLabel in languageLocales %}
+                                {% set languagePath = languageAlternates[languageCode]|default(null) %}
+                                {% if languageCode == currentLocale %}
+                                    <span class="oling-language-switcher__item active" aria-current="page" lang="{{ languageCode }}">{{ languageLabel }}</span>
+                                {% elseif languagePath %}
+                                    <a class="oling-language-switcher__item" href="{{ languagePath }}" hreflang="{{ languageCode }}" lang="{{ languageCode }}">{{ languageLabel }}</a>
+                                {% else %}
+                                    <span class="oling-language-switcher__item disabled" aria-disabled="true" lang="{{ languageCode }}">{{ languageLabel }}</span>
+                                {% endif %}
+                            {% endfor %}
                         </li>
                         <li class="nav-item oling-main-menu__cta">
                             <a class="btn btn-primary" href="{{ path('contact') }}">{{ 'nav.consultant_cta'|trans }}</a>

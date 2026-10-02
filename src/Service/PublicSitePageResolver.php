@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\SitePage;
+use App\Entity\SitePageTranslation;
 use App\Entity\Metier;
 use App\Repository\MetierRepository;
 use App\Repository\SiteGlobalContentRepository;
@@ -42,8 +43,9 @@ class PublicSitePageResolver
     ) {
     }
 
-    public function getHomePage(): array
+    public function getHomePage(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         $defaults = $this->emptyHomePage();
         $sitePage = $this->sitePageRepository->findOneBy(['slug' => self::HOME_PAGE_SLUG]);
 
@@ -51,7 +53,11 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $content = $this->localizedContentResolver->getPublicView($sitePage, $locale);
+        if ($content === null) {
+            return $defaults;
+        }
+
         $structuredData = $content->getStructuredData();
         $payload = is_array($structuredData['homePage'] ?? null)
             ? $structuredData['homePage']
@@ -91,7 +97,7 @@ class PublicSitePageResolver
         }
 
         $metierSlug = $merged['hero']['metierSlug'] ?? null;
-        if (is_string($metierSlug) && trim($metierSlug) !== '') {
+        if ($locale === SitePageTranslation::LOCALE_FR && is_string($metierSlug) && trim($metierSlug) !== '') {
             $metier = $this->metierRepository->findOneBy(['slug' => trim($metierSlug)]);
             if ($metier !== null) {
                 $merged['hero']['portraitImage'] = $metier->getImageHero() ?: $metier->getImage() ?: ($merged['hero']['portraitImage'] ?? null);

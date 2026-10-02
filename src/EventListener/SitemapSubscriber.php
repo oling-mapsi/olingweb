@@ -161,11 +161,17 @@ class SitemapSubscriber implements EventSubscriberInterface
     {
         foreach (['en', 'es'] as $locale) {
             foreach ($this->sitePageTranslationRepository->findPublishedByLocale($locale) as $translation) {
+                $page = $translation->getSitePage();
+                $route = $page?->getSlug() === 'home' ? 'localized_homepage' : 'localized_site_page_show';
+                $parameters = $route === 'localized_homepage'
+                    ? ['_locale' => $locale]
+                    : ['_locale' => $locale, 'slug' => $translation->getSlug()];
+
                 $urls->addUrl(
                     new UrlConcrete(
                         $router->generate(
-                            'localized_site_page_show',
-                            ['_locale' => $locale, 'slug' => $translation->getSlug()],
+                            $route,
+                            $parameters,
                             UrlGeneratorInterface::ABSOLUTE_URL
                         )
                     ),

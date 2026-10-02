@@ -90,10 +90,28 @@ final class I18nRoutingFoundationTest extends TestCase
 
         self::assertSame([
             'fr' => '/',
-            'en' => '/en/home',
-            'es' => '/es/inicio',
+            'en' => '/en',
+            'es' => '/es',
             'x-default' => '/',
         ], $this->urlGenerator()->sitePageAlternates($page));
+    }
+
+    public function testHomeLocalizedSlugsAreLegacyOnly(): void
+    {
+        $page = (new SitePage())->setSlug('home')->setTitle('Home');
+        foreach ([
+            $this->translation('fr', 'home', SitePageTranslation::STATUS_PUBLISHED),
+            $this->translation('en', 'home', SitePageTranslation::STATUS_PUBLISHED),
+            $this->translation('es', 'inicio', SitePageTranslation::STATUS_PUBLISHED),
+        ] as $translation) {
+            $page->addTranslation($translation);
+        }
+
+        $generator = $this->urlGenerator();
+
+        self::assertSame('/', $generator->sitePagePath($page, 'fr'));
+        self::assertSame('/en', $generator->sitePagePath($page, 'en'));
+        self::assertSame('/es', $generator->sitePagePath($page, 'es'));
     }
 
     public function testResolverReturnsOnlyPublishedLocalizedSlug(): void

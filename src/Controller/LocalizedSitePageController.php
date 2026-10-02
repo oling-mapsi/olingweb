@@ -29,6 +29,10 @@ final class LocalizedSitePageController extends AbstractController
             throw $this->createNotFoundException('Localized page not found.');
         }
 
+        if ($page->getSourcePage()->getSlug() === 'home') {
+            return $this->redirect($this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale) ?? '/'.$_locale, Response::HTTP_MOVED_PERMANENTLY);
+        }
+
         return $this->render('public/localized_site_page.html.twig', [
             'page' => $page,
             'locale' => $_locale,

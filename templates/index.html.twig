@@ -2,6 +2,7 @@
 
 {% block title %}{{ homePage.seoTitle }}{% endblock %}
 {% block meta_description %}{{ homePage.metaDescription }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="oling-home-radical">

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SitePageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -71,6 +73,17 @@ class SitePage
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $unpublishedAt = null;
+
+    /**
+     * @var Collection<int, SitePageTranslation>
+     */
+    #[ORM\OneToMany(mappedBy: 'sitePage', targetEntity: SitePageTranslation::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $translations;
+
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -303,5 +316,50 @@ class SitePage
         $this->unpublishedAt = $unpublishedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, SitePageTranslation>
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(SitePageTranslation $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations->add($translation);
+            $translation->setSitePage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(SitePageTranslation $translation): self
+    {
+        if ($this->translations->removeElement($translation) && $translation->getSitePage() === $this) {
+            $translation->setSitePage(null);
+        }
+
+        return $this;
+    }
+
+    public function getTranslation(string $locale): ?SitePageTranslation
+    {
+        foreach ($this->translations as $translation) {
+            if ($translation->getLocale() === $locale) {
+                return $translation;
+            }
+        }
+
+        return null;
+    }
+
+    public function getPublishedTranslation(string $locale): ?SitePageTranslation
+    {
+        $translation = $this->getTranslation($locale);
+
+        return $translation?->isPublished() ? $translation : null;
     }
 }

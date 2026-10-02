@@ -1,0 +1,849 @@
+{
+    "entity": "SitePageTranslation",
+    "locale": "en",
+    "exportedAt": "2026-10-02T21:19:11+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "apropos",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "about",
+            "title": "About OLING | IT Project Advisory Consultancy",
+            "seoTitle": "About OLING | IT Project Advisory Consultancy",
+            "seoDescription": "OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "About OLING",
+            "heroTitle": "IT project advisory, enterprise software and compliance",
+            "heroIntro": "Since 2012, OLING has supported public- and private-sector organisations with IT project scoping, regulatory compliance and information systems performance.",
+            "heroSideHtml": "<div class=\"d-grid gap-4\">\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-file-earmark-text fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">IT, business and compliance expertise</h5>\n      <p class=\"text-white-70\">OLING designs and manages projects involving ERP, data governance, cybersecurity, GDPR, quality standards (ISO 27001, Qualiopi), business process transformation and business-side IT project management.</p>\n    </div>\n  </div>\n\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-chat-right-dots fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">Innovation & operational excellence</h5>\n      <p class=\"text-white-70\">Our approach combines active monitoring, continuous R&D and innovative tools, including MAPSI, to anticipate regulatory and technological developments and deliver lasting efficiency for our clients.</p>\n    </div>\n  </div>\n\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-hand-thumbs-up fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">Performance and budget control</h5>\n      <p class=\"text-white-70\">Our services are designed to deliver a rapid return on investment through a modular, tailored and pragmatic approach that fully reflects each organisation’s budget constraints.</p>\n    </div>\n  </div>\n</div>",
+            "bodyHtml": "<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h2>Our mission</h2>\n    <p>To be a trusted partner for scoping, managing and securing our clients’ IT, regulatory and organisational projects, with practical, well-controlled solutions that comply with the most demanding standards.</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Our areas of expertise</h3>\n    <p>IT project advisory, ERP, CRM, CMMS, cybersecurity, GDPR, ISO audits, quality, safety and environment, DORA/NIS2 compliance, data governance, Microsoft 365, hybrid infrastructure, risk management, and business continuity and disaster recovery.</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Our approach</h3>\n    <p>A collaborative approach based on listening, close engagement with operational teams, agility and a proven methodology informed by ISO, CNIL, ITIL and DevOps best practices. Our deliverables focus on results and user adoption.</p>\n  </div>\n</div>\n\n<div class=\"row mb-5\">\n  <div class=\"col-md-9 col-lg-8 offset-md-3\">\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Our commitment to quality</h3>\n    <p>OLING is ISO 27001:2022 certified. Our internal processes are aligned with the strictest quality and security standards to maintain a high level of excellence in every project we deliver.</p>\n  </div>\n</div>\n\n<div class=\"row mt-7 mb-5\">\n  <div class=\"col-md-9 col-lg-8 offset-md-3\">\n    <figure class=\"blockquote-lg text-center\">\n      <blockquote class=\"blockquote\">Helping our clients achieve excellence by bringing technology, compliance and people together to drive sustainable performance.</blockquote>\n    </figure>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>A certified multidisciplinary team</h3>\n    <p>Certified Data Protection Officers, ISO auditors, IT project advisory managers, systems and cloud engineers, cybersecurity experts and Qualiopi trainers. OLING assigns an agile, qualified team to every engagement.</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Join us</h3>\n    <p>Would you like to contribute to IT, compliance and organisational projects that deliver real value to clients? Join OLING, a fast-growing consultancy where you can develop in a stimulating, demanding and supportive environment.</p>\n  </div>\n</div>",
+            "structuredData": {
+                "corePage": {
+                    "cta": {
+                        "text": "We can quickly assess your situation, explain where we can add value and identify when another approach would be more suitable.",
+                        "title": "Find out whether OLING is the right partner for your needs",
+                        "primaryCta": {
+                            "label": "Request a consultation",
+                            "route": "contact"
+                        }
+                    },
+                    "intro": "OLING supports small, medium-sized and mid-market companies with ERP, IT, compliance, GDPR and AI projects that require robust scoping, clear governance and consistent management.",
+                    "title": "A consultancy committed to business-critical projects",
+                    "eyebrow": "OLING consultancy",
+                    "sections": [
+                        {
+                            "items": [
+                                {
+                                    "text": "OLING works on operational and information systems transformation, as well as risk, compliance and resilience. In both areas, our work focuses on decisions, dependencies and the conditions required for successful delivery.",
+                                    "title": "Two areas, one consistent approach to control",
+                                    "kicker": "Positioning"
+                                },
+                                {
+                                    "list": [
+                                        "An integrated view of business needs, organisation, systems, data and compliance.",
+                                        "The ability to support projects from initial assessment through to operational management.",
+                                        "Controlled use of AI, treated as a governance and integration matter."
+                                    ],
+                                    "title": "A cross-functional perspective, not another silo",
+                                    "kicker": "What sets us apart"
+                                }
+                            ],
+                            "layout": "two_col"
+                        }
+                    ],
+                    "seoTitle": "Consultancy | OLING",
+                    "highlights": [
+                        "ERP transformation and implementation advisory",
+                        "Risk, compliance and resilience",
+                        "Well-governed, structured AI"
+                    ],
+                    "primaryCta": {
+                        "label": "Discuss your project",
+                        "route": "contact"
+                    },
+                    "bodySection": {
+                        "title": "A committed approach focused first on better decisions",
+                        "kicker": "Consultancy"
+                    },
+                    "teamSection": {
+                        "intro": "We have brought our team profiles back to the fore rather than leaving them accessible only through a secondary user journey.",
+                        "title": "Consulting, operational and compliance specialists already engaged in client assignments",
+                        "kicker": "Team",
+                        "primaryCta": {
+                            "label": "Meet the full team",
+                            "route": "team"
+                        },
+                        "secondaryCta": {
+                            "label": "Speak to a consultant",
+                            "route": "contact"
+                        }
+                    },
+                    "linksSection": {
+                        "links": [
+                            {
+                                "text": "Explore the profiles, expertise and backgrounds of OLING consultants.",
+                                "route": "team",
+                                "title": "Meet the team",
+                                "kicker": "Team",
+                                "moreLabel": "View the team"
+                            },
+                            {
+                                "text": "Our commitments, governance and corporate responsibility framework.",
+                                "route": "rse",
+                                "title": "CSR approach",
+                                "kicker": "Consultancy",
+                                "moreLabel": "Explore our approach"
+                            },
+                            {
+                                "url": "https://mapsi.fr/",
+                                "text": "Access the MAPSI ecosystem and the consultancy’s related product solutions.",
+                                "title": "Platform and ecosystem",
+                                "kicker": "MAPSI",
+                                "moreLabel": "Open MAPSI"
+                            }
+                        ],
+                        "title": "MAPSI, policies, team profiles and company information remain easily accessible",
+                        "kicker": "Useful links"
+                    },
+                    "secondaryCta": {
+                        "label": "Meet the team",
+                        "route": "team"
+                    },
+                    "metaDescription": "OLING is a consultancy supporting small, medium-sized and mid-market companies with IT transformation, organisation, compliance, cybersecurity and artificial intelligence."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "7646aa87caaad49f485ebc54b89db697c4a2d12157f4d414096e56ab91bc4be8",
+            "sourceUpdatedAt": "2026-10-02T21:07:09+00:00",
+            "translatedAt": "2026-10-02T21:07:09+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "expertises-index",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "consulting-expertise",
+            "title": "Expertise hub",
+            "seoTitle": "Expertise hub",
+            "seoDescription": "OLING, a consulting firm for small, medium-sized and mid-market companies: IT transformation, organisational development, compliance, cybersecurity and artificial intelligence.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "to_review",
+            "sourceContentHash": "44afc1cae75a39853b01faf92b6cfbf1ba8a4f2c6389aa8807f8ee693d6b220d",
+            "sourceUpdatedAt": "2026-10-02T21:09:14+00:00",
+            "translatedAt": "2026-10-02T21:09:14+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "metiers",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "careers",
+            "title": "Industries | IT Project Advisory - OLING",
+            "seoTitle": "Industries | IT Project Advisory - OLING",
+            "seoDescription": "Cross-industry expertise in IT project advisory, enterprise software and compliance for public- and private-sector organisations.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Industry expertise",
+            "heroTitle": "An expert partner for a transformation tailored to your industry",
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": "<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Expertise tailored to a wide range of industries</h3>\n    <p>Our cross-industry approach enables us to apply robust, standardised principles while taking account of each sector's specific characteristics and requirements. This allows us to provide our clients with bespoke solutions tailored to their challenges and objectives.</p>\n\n    <ul class=\"list-unstyled list-timeline list-py-3\">\n      <li class=\"list-timeline-item\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Public sector, major ports and airports</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>In the transport and local government sector, we helped create a service catalogue for a local authority with 2000 employees, thereby streamlining its organisation. We implemented ERP systems to improve operational and financial performance at major ports and airports. Our work also included developing IT roadmaps and digitalisation strategies, achieving compliance with ISO standards and the GDPR, and assessing information systems for business continuity.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Wholesale and distribution</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>For wholesale and distribution companies, we draw on our expertise in ERP systems such as X3, Divalto and SAP, as well as CRM, BI, management accounting, purchasing and inventory processes, sales management and finance. This expertise enables us to support clients throughout the application integration process and help them make the most of Office 365 collaboration tools. Our goal is to help businesses modernise their operations and optimise their organisation.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Water utilities</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>For water utilities, we have worked on modernising treatment and distribution infrastructure, optimising water management processes and implementing digital solutions to improve the monitoring and control of water networks. We have also helped these organisations adapt to environmental and regulatory challenges.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Social housing providers and property developers</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>For social housing providers and property developers, we have helped clients transform their business processes and implement information systems tailored to the sector's specific requirements. We have also contributed to implementing digital solutions for social housing management, building maintenance and improvements to residents' quality of life.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Vocational training</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>For apprenticeship and training organisations, we have ensured compliance with quality, safety and environment requirements, Qualiopi and the GDPR. We have implemented online training solutions, skills management tools and collaboration platforms to facilitate knowledge sharing and skills development. We have also helped these organisations comply with applicable quality standards and regulations.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n    </ul>\n  </div>\n</div>",
+            "structuredData": {
+                "corePage": {
+                    "intro": "OLING works across a wide range of environments with the same commitment: understanding business constraints, clarifying priorities and making transformation programmes manageable.",
+                    "title": "Industries supported by OLING",
+                    "eyebrow": "Industries served",
+                    "sections": [
+                        {
+                            "text": "OLING only presents industries it has genuinely served. For each one, this page highlights recurring constraints encountered during documented engagements and the most common transformation contexts.",
+                            "title": "Practical, industry-specific support",
+                            "kicker": "Approach"
+                        },
+                        {
+                            "text": "In the transport and local government sector, we helped create a service catalogue for a local authority with 2000 employees, streamlined its organisation and implemented ERP systems to improve operational and financial performance at major ports and airports. Our work also included developing IT roadmaps and digitalisation strategies, achieving compliance with ISO standards and the GDPR, and assessing information systems for business continuity.",
+                            "kicker": "Public sector, major ports and airports"
+                        },
+                        {
+                            "text": "For wholesale and distribution companies, we draw on our expertise in ERP, CRM, BI, management accounting, purchasing and inventory processes, sales management and finance. We support our clients throughout the application integration process and help them make the most of Office 365 collaboration tools.",
+                            "kicker": "Wholesale and distribution"
+                        },
+                        {
+                            "text": "For water utilities, we have worked on modernising treatment and distribution infrastructure, optimising water management processes and implementing digital solutions to improve the monitoring and control of water networks.",
+                            "kicker": "Water utilities"
+                        },
+                        {
+                            "text": "For social housing providers and property developers, we have helped clients transform their business processes and implement information systems tailored to the sector's specific requirements, including digital solutions that support management and operations.",
+                            "kicker": "Social housing providers and property developers"
+                        },
+                        {
+                            "text": "For apprenticeship and training organisations, we have ensured compliance with quality, safety and environment requirements, Qualiopi and the GDPR, deployed online training solutions, skills management tools and collaboration platforms, and supported compliance with applicable quality standards.",
+                            "kicker": "Vocational training"
+                        }
+                    ],
+                    "seoTitle": "Industries | IT Project Advisory - OLING",
+                    "highlights": [
+                        "Industries we actively serve",
+                        "Documented client references",
+                        "Business, IT and compliance constraints"
+                    ],
+                    "primaryCta": {
+                        "label": "Discuss your requirements",
+                        "route": "contact"
+                    },
+                    "secondaryCta": {
+                        "label": "View industries",
+                        "route": "sectors_index"
+                    },
+                    "metaDescription": "Cross-industry expertise in IT project advisory, enterprise software and compliance for public- and private-sector organisations."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "e4d9663bfabe13fe5e27d5d76dc5a49da12705a50a113bd979cb2454221ebfed",
+            "sourceUpdatedAt": "2026-10-02T21:07:39+00:00",
+            "translatedAt": "2026-10-02T21:07:39+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "projets",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "projects",
+            "title": "OLING projects and engagements",
+            "seoTitle": "OLING projects and engagements",
+            "seoDescription": "A selection of OLING engagements in business-side IT project management, business software, organisational transformation, compliance and governance.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "OLING projects",
+            "heroTitle": "OLING projects and engagements",
+            "heroIntro": "A selection of OLING engagements in business-side IT project management, business software, organisational transformation, compliance and governance.",
+            "heroSideHtml": null,
+            "bodyHtml": "{\n    \"highlights\": [\n        \"Business-side IT project management\",\n        \"Business software\",\n        \"Compliance and governance\"\n    ],\n    \"cards\": {\n        \"kicker\": \"Projects\",\n        \"title\": \"Engagements across a range of environments, all delivered to the same high standards\",\n        \"intro\": \"The published projects retain their detailed content and showcase real engagements delivered by OLING.\",\n        \"archiveKicker\": \"Other engagements\",\n        \"archiveTitle\": \"Explore more projects\",\n        \"emptyText\": \"No projects are available at this time.\",\n        \"fallbackDescription\": \"An OLING engagement in business-side IT project management, business software, compliance or governance.\"\n    },\n    \"mapSection\": {\n        \"kicker\": \"On-the-ground presence\",\n        \"title\": \"Engagements delivered across mainland France and the French overseas regions\",\n        \"text\": \"OLING works wherever teams, projects and operational constraints require an on-site presence or close project oversight.\",\n        \"label\": \"Mainland France and French overseas regions\"\n    }\n}",
+            "structuredData": {
+                "corePage": {
+                    "cards": {
+                        "emptyText": "No projects are available at this time.",
+                        "fallbackDescription": "Management, transformation and compliance for strategic IT projects."
+                    },
+                    "intro": "OLING supports IT transformation, compliance and resilience projects.",
+                    "title": "OLING projects and engagements",
+                    "eyebrow": "OLING client case studies",
+                    "seoTitle": "Our projects | OLING",
+                    "highlights": [
+                        "Business-side IT project management",
+                        "Business software",
+                        "Compliance and governance"
+                    ],
+                    "mapSection": {
+                        "text": "France and its overseas regions: we deploy, secure and support your programmes wherever you operate.",
+                        "label": "Mainland France and French overseas regions",
+                        "title": "Projects delivered across all our territories.",
+                        "kicker": "On-the-ground presence"
+                    },
+                    "primaryCta": {
+                        "label": "Discuss your requirements",
+                        "route": "contact"
+                    },
+                    "bodySection": {
+                        "enabled": true
+                    },
+                    "proofLibrary": {
+                        "filters": [
+                            {
+                                "id": "amoa-apps",
+                                "label": "IT project advisory and business applications"
+                            },
+                            {
+                                "id": "ia-data",
+                                "label": "AI and data"
+                            },
+                            {
+                                "id": "compliance-rgpd",
+                                "label": "Compliance and GDPR"
+                            },
+                            {
+                                "id": "cyber-resilience",
+                                "label": "Cybersecurity and resilience"
+                            },
+                            {
+                                "id": "quality-management",
+                                "label": "Quality and management"
+                            }
+                        ],
+                        "missions": [
+                            {
+                                "id": "amoa-gmao-operateur-eau",
+                                "owner": {
+                                    "href": "/gmao",
+                                    "label": "CMMS consulting and project advisory"
+                                },
+                                "scope": [
+                                    "CMMS",
+                                    "Field service IT",
+                                    "Technical IT systems",
+                                    "Customer IT systems",
+                                    "HR",
+                                    "Finance",
+                                    "GIS"
+                                ],
+                                "title": "CMMS project advisory and field service IT modernisation",
+                                "sector": "Water and wastewater",
+                                "context": "The organisation needed to modernise field service management and improve the reliability of data exchanges between maintenance operations and its existing systems.",
+                                "systems": [
+                                    "CMMS",
+                                    "ETL",
+                                    "GIS",
+                                    "Finance and HR systems"
+                                ],
+                                "category": "amoa-apps",
+                                "citations": [
+                                    "For a public water utility, OLING defined the framework for a CMMS interoperable with its technical, customer, HR and finance systems, as well as its GIS.",
+                                    "The engagement covered the assessment, target architecture, functional requirements framework, tender process, selection, testing and acceptance."
+                                ],
+                                "deliverables": [
+                                    "Assessment",
+                                    "Target architecture",
+                                    "Functional requirements framework",
+                                    "CCTP technical specifications",
+                                    "Tender documentation",
+                                    "Testing and acceptance"
+                                ],
+                                "intervention": "OLING led the assessment, workshops, target architecture, functional requirements framework, tender process, selection, testing and acceptance.",
+                                "organization": "Public water utility",
+                                "categoryLabel": "IT project advisory and business applications",
+                                "secondaryOwner": {
+                                    "href": "/amoa-si",
+                                    "label": "Business-side IT project management"
+                                }
+                            },
+                            {
+                                "id": "amoa-erp-groupe-industriel",
+                                "owner": {
+                                    "href": "/business-apps/erp",
+                                    "label": "ERP project advisory"
+                                },
+                                "scope": [
+                                    "ERP",
+                                    "IT governance",
+                                    "Project coordination",
+                                    "PMO"
+                                ],
+                                "title": "Divalto Infinity ERP project advisory and IT governance",
+                                "sector": "Industry",
+                                "context": "The group was undertaking an industrial ERP project combined with business-side project management and IT governance support.",
+                                "systems": [
+                                    "Divalto Infinity"
+                                ],
+                                "category": "amoa-apps",
+                                "citations": [
+                                    "Within an industrial group, OLING provided business-side project management for a Divalto Infinity ERP project and the associated IT governance.",
+                                    "The documented engagement combines ERP project advisory, interim CIO services and PMO support without attributing any unmeasured outcomes to the work."
+                                ],
+                                "deliverables": [
+                                    "Implementation project advisory",
+                                    "IT governance",
+                                    "Interim CIO services",
+                                    "PMO"
+                                ],
+                                "intervention": "OLING supported the implementation of Divalto Infinity through business-side project management, IT governance, interim CIO services and project oversight.",
+                                "organization": "Industrial group",
+                                "categoryLabel": "IT project advisory and business applications"
+                            },
+                            {
+                                "id": "si-finance-grand-port",
+                                "owner": {
+                                    "href": "/si-finance",
+                                    "label": "Finance IT project advisory"
+                                },
+                                "scope": [
+                                    "Finance IT",
+                                    "Budgeting processes",
+                                    "Regulatory constraints",
+                                    "Data migration"
+                                ],
+                                "title": "Transformation of a public-sector finance system",
+                                "sector": "Port transport",
+                                "context": "The finance system needed to be put back on track while meeting public-sector budgetary and accounting requirements.",
+                                "systems": [],
+                                "category": "amoa-apps",
+                                "citations": [
+                                    "For a major seaport, OLING supported the redesign of a finance system subject to public-sector financial management requirements.",
+                                    "The documented work covered project management, assessment, the strategic roadmap, functional design and data migration preparation."
+                                ],
+                                "deliverables": [
+                                    "Project plan and governance",
+                                    "Finance system assessment",
+                                    "Strategic roadmap",
+                                    "Functional requirements framework",
+                                    "Data migration preparation"
+                                ],
+                                "intervention": "OLING handled project management, the assessment, target strategy, functional design and data migration preparation.",
+                                "organization": "Major seaport",
+                                "categoryLabel": "IT project advisory and business applications"
+                            },
+                            {
+                                "id": "rfe-acteur-transport",
+                                "owner": {
+                                    "href": "/consulting/reforme-facturation-electronique-amoa",
+                                    "label": "E-invoicing project advisory"
+                                },
+                                "scope": [
+                                    "E-invoicing",
+                                    "E-reporting",
+                                    "Processes and data flows",
+                                    "IT architecture",
+                                    "Tender process"
+                                ],
+                                "title": "Project advisory for the e-invoicing reform",
+                                "sector": "Transport",
+                                "context": "The organisation needed to prepare for the reform within a heterogeneous IT environment and assess its impact on invoicing flows.",
+                                "systems": [
+                                    "Finance ERP",
+                                    "Reporting",
+                                    "Sales management",
+                                    "Chorus Pro"
+                                ],
+                                "category": "compliance-rgpd",
+                                "citations": [
+                                    "For a transport operator, OLING defined the framework for the e-invoicing reform based on use cases, processes and IT data flows.",
+                                    "The engagement produced a current-state assessment, gap analysis, target architecture and the materials required for the tender process."
+                                ],
+                                "deliverables": [
+                                    "Current-state assessment",
+                                    "Process mapping",
+                                    "Gap analysis",
+                                    "Target architecture",
+                                    "Requirements specification",
+                                    "Tender documentation"
+                                ],
+                                "intervention": "OLING defined the use cases, mapped the processes and data flows, designed the target architecture and prepared the tender process.",
+                                "organization": "Transport operator",
+                                "categoryLabel": "Compliance and GDPR"
+                            },
+                            {
+                                "id": "dpo-intercommunalite",
+                                "owner": {
+                                    "href": "/expertises/rgpd-dpo-gouvernance",
+                                    "label": "Outsourced Data Protection Officer"
+                                },
+                                "scope": [
+                                    "Outsourced DPO",
+                                    "GDPR",
+                                    "Governance",
+                                    "Shared digital services"
+                                ],
+                                "title": "Outsourced Data Protection Officer and GDPR governance",
+                                "sector": "Local public sector",
+                                "context": "Shared digital services required ongoing GDPR governance and a clearly identified point of accountability.",
+                                "systems": [],
+                                "category": "compliance-rgpd",
+                                "citations": [
+                                    "For an intermunicipal authority, OLING served as the outsourced Data Protection Officer in a shared digital services environment.",
+                                    "The documented engagement focused on GDPR governance and monitoring the organisation's compliance."
+                                ],
+                                "deliverables": [
+                                    "DPO oversight",
+                                    "GDPR governance",
+                                    "Compliance monitoring"
+                                ],
+                                "intervention": "OLING served as the outsourced Data Protection Officer and structured GDPR governance within the organisation's shared services environment.",
+                                "organization": "Intermunicipal authority",
+                                "categoryLabel": "Compliance and GDPR"
+                            },
+                            {
+                                "id": "diagnostic-rgpd-semi",
+                                "owner": {
+                                    "href": "/expertises-audit/rgpd",
+                                    "label": "GDPR compliance"
+                                },
+                                "scope": [
+                                    "GDPR",
+                                    "Customer data processing",
+                                    "Compliance assessment"
+                                ],
+                                "title": "GDPR assessment of customer data processing",
+                                "sector": "Property and local commerce",
+                                "context": "The organisation needed to assess its customer data processing activities as part of a GDPR compliance review.",
+                                "systems": [],
+                                "category": "compliance-rgpd",
+                                "citations": [
+                                    "For a semi-public company, OLING conducted a GDPR assessment focused on customer data processing.",
+                                    "The documented work covered the analysis of customer data processing activities and the delivery of a GDPR assessment."
+                                ],
+                                "deliverables": [
+                                    "GDPR assessment",
+                                    "Processing activity analysis"
+                                ],
+                                "intervention": "OLING analysed customer data processing activities and conducted the associated GDPR assessment.",
+                                "organization": "Semi-public company",
+                                "categoryLabel": "Compliance and GDPR"
+                            },
+                            {
+                                "id": "qsee-grand-port",
+                                "owner": {
+                                    "href": "/expertises-audit/qse",
+                                    "label": "QSE management"
+                                },
+                                "scope": [
+                                    "QSEE governance",
+                                    "Processes",
+                                    "Documentation",
+                                    "Indicators",
+                                    "Continuous improvement"
+                                ],
+                                "title": "Outsourced QSEE management and continuous improvement",
+                                "sector": "Port transport",
+                                "context": "The organisation needed to maintain long-term governance of quality, safety and environmental matters across its port operations.",
+                                "systems": [
+                                    "Microsoft 365",
+                                    "MAPSI"
+                                ],
+                                "category": "quality-management",
+                                "citations": [
+                                    "For a major seaport, OLING provided a documented outsourced QSEE management service over several years.",
+                                    "The engagement covered process reviews, documentation, indicators and action plan monitoring."
+                                ],
+                                "deliverables": [
+                                    "Process reviews",
+                                    "QSEE documentation",
+                                    "Indicators",
+                                    "Action plans"
+                                ],
+                                "intervention": "OLING provided outsourced QSEE management covering process reviews, documentation, indicators and action plans.",
+                                "organization": "Major seaport",
+                                "categoryLabel": "Quality and management"
+                            },
+                            {
+                                "id": "management-processus-grand-port",
+                                "owner": {
+                                    "href": "/expertises-audit/qse",
+                                    "label": "QSE management"
+                                },
+                                "scope": [
+                                    "Process management",
+                                    "Environmental management system",
+                                    "Environmental data",
+                                    "Transition plan"
+                                ],
+                                "title": "Process management and ISO 14001 transition",
+                                "sector": "Port transport",
+                                "context": "The organisation was undertaking separate initiatives involving process management and the transition of its environmental management system.",
+                                "systems": [],
+                                "category": "quality-management",
+                                "citations": [
+                                    "For a major seaport, OLING supported a documented process management initiative as part of an ISO 9001 engagement.",
+                                    "A separate engagement covered the transition of the environmental management system to ISO 14001:2015 and the associated transition plan."
+                                ],
+                                "deliverables": [
+                                    "Process management support",
+                                    "ISO 14001:2015 transition plan",
+                                    "Environmental integration work"
+                                ],
+                                "intervention": "OLING supported process management, the integration of environmental data and the preparation of the ISO 14001:2015 transition plan.",
+                                "organization": "Major seaport",
+                                "categoryLabel": "Quality and management"
+                            },
+                            {
+                                "id": "direction-qualite-groupe-formation",
+                                "owner": {
+                                    "href": "/expertises-audit/qse",
+                                    "label": "QSE management"
+                                },
+                                "scope": [
+                                    "Quality management",
+                                    "Organisation",
+                                    "Qualiopi indicators",
+                                    "DUERP"
+                                ],
+                                "title": "Quality management and Qualiopi monitoring",
+                                "sector": "Vocational training",
+                                "context": "The group required quality leadership and operational monitoring of several Qualiopi requirements.",
+                                "systems": [],
+                                "category": "quality-management",
+                                "citations": [
+                                    "For a vocational training group, OLING provided a documented outsourced quality management service.",
+                                    "The invoiced work included updating the organisation chart, monitoring Qualiopi indicators 1 to 3 and submitting a DUERP workplace risk assessment document."
+                                ],
+                                "deliverables": [
+                                    "Organisation chart update",
+                                    "Monitoring of Qualiopi indicators 1 to 3",
+                                    "DUERP workplace risk assessment document"
+                                ],
+                                "intervention": "OLING provided outsourced quality management and worked on the organisation, Qualiopi indicators and the DUERP workplace risk assessment document.",
+                                "organization": "Vocational training group",
+                                "categoryLabel": "Quality and management",
+                                "secondaryOwner": {
+                                    "href": "/expertises-audit/qualiopi",
+                                    "label": "Qualiopi support"
+                                }
+                            },
+                            {
+                                "id": "qualiopi-cfa",
+                                "owner": {
+                                    "href": "/expertises-audit/qualiopi",
+                                    "label": "Qualiopi support"
+                                },
+                                "scope": [
+                                    "Qualiopi",
+                                    "Advisory board",
+                                    "Indicators",
+                                    "Training programmes"
+                                ],
+                                "title": "Quality management and Qualiopi compliance",
+                                "sector": "Vocational training",
+                                "context": "The organisation needed to update its practices and evidence in line with changes to the Qualiopi assessment guide.",
+                                "systems": [],
+                                "category": "quality-management",
+                                "citations": [
+                                    "For a training provider and apprenticeship training centre, OLING facilitated a workshop on changes to the Qualiopi assessment guide.",
+                                    "The engagement covered the advisory board, success, employment and satisfaction indicators, as well as programme information sheets."
+                                ],
+                                "deliverables": [
+                                    "Assessment guide workshop",
+                                    "Update of success, employment and satisfaction indicators",
+                                    "Review of programme information sheets"
+                                ],
+                                "intervention": "OLING facilitated a workshop on the assessment guide, supported the advisory board and reviewed the indicators and programme information sheets.",
+                                "organization": "Training provider and apprenticeship training centre",
+                                "categoryLabel": "Quality and management",
+                                "secondaryOwner": {
+                                    "href": "/expertises-audit/qse",
+                                    "label": "QSE management"
+                                }
+                            },
+                            {
+                                "id": "dora-pca-mutuelle",
+                                "owner": {
+                                    "href": "/pca-pra-continuite-activite",
+                                    "label": "Business continuity and disaster recovery"
+                                },
+                                "scope": [
+                                    "DORA",
+                                    "ICT assets",
+                                    "Risk assessment",
+                                    "RIA",
+                                    "BIA",
+                                    "BCP"
+                                ],
+                                "title": "DORA, impact analysis and business continuity planning",
+                                "sector": "Insurance",
+                                "context": "The organisation needed to structure its digital assets and risks, then formalise its business continuity arrangements.",
+                                "systems": [],
+                                "category": "cyber-resilience",
+                                "citations": [
+                                    "For a mutual insurance provider, OLING documented ICT assets, their criticality and the risk assessment and treatment procedure as part of a DORA initiative.",
+                                    "An associated business continuity engagement produced an RIA, a BIA and business continuity plan documentation."
+                                ],
+                                "deliverables": [
+                                    "Asset register",
+                                    "Risk assessment and treatment procedure",
+                                    "RIA",
+                                    "BIA",
+                                    "BCP documentation"
+                                ],
+                                "intervention": "OLING supported the inventory and classification of ICT assets, risk assessment, impact analysis and BCP documentation.",
+                                "organization": "Mutual insurance provider / insurance organisation",
+                                "categoryLabel": "Cybersecurity and resilience",
+                                "secondaryOwner": {
+                                    "href": "/cyber-securite",
+                                    "label": "Cybersecurity"
+                                }
+                            },
+                            {
+                                "id": "pcit-grand-port",
+                                "owner": {
+                                    "href": "/pca-pra-continuite-activite",
+                                    "label": "Business continuity and disaster recovery"
+                                },
+                                "scope": [
+                                    "IT continuity",
+                                    "Telecommunications",
+                                    "Infrastructure",
+                                    "Systems",
+                                    "Applications"
+                                ],
+                                "title": "IT and telecommunications continuity plan",
+                                "sector": "Port transport",
+                                "context": "The organisation needed to structure continuity arrangements for its critical infrastructure, systems and applications.",
+                                "systems": [
+                                    "MAPSI"
+                                ],
+                                "category": "cyber-resilience",
+                                "citations": [
+                                    "For a major seaport, OLING initiated the PCIT framework covering infrastructure, systems and applications.",
+                                    "The documented engagement included scoping workshops, an IT and telecommunications continuity plan and an initial technical test."
+                                ],
+                                "deliverables": [
+                                    "PCIT component register",
+                                    "IT and telecommunications continuity plan",
+                                    "Initial technical test",
+                                    "PCIT project monitoring"
+                                ],
+                                "intervention": "OLING led the launch, initial workshops, creation of the component register and an initial technical test for the PCIT.",
+                                "organization": "Major seaport",
+                                "categoryLabel": "Cybersecurity and resilience"
+                            }
+                        ],
+                        "heroIntro": "OLING supports IT transformation, compliance and resilience projects."
+                    },
+                    "secondaryCta": {
+                        "label": "Explore our expertise",
+                        "route": "expertises_index"
+                    },
+                    "metaDescription": "Explore OLING's IT transformation, project advisory and compliance projects."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "29073f31109f1b71ee9e7c4ed5303c689a0eb6c55a38cc2b9bd5bf54d1cf8f47",
+            "sourceUpdatedAt": "2026-10-02T21:08:37+00:00",
+            "translatedAt": "2026-10-02T21:08:37+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "ressources",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "resources",
+            "title": "IT project advisory and compliance resources | Finance IT systems, GDPR, AI Act | OLING",
+            "seoTitle": "IT project advisory and compliance resources | Finance IT systems, GDPR, AI Act | OLING",
+            "seoDescription": "Practical OLING guides on IT project advisory, infrastructure, finance IT systems, e-invoicing, GDPR, the AI Act, cybersecurity, quality and internal control.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Resources",
+            "heroTitle": "Resources: guides to IT project advisory, compliance, finance IT systems and performance",
+            "heroIntro": "In-depth content to help public-sector decision-makers, SMEs and mid-sized companies scope, prioritise and deliver their IT transformations.",
+            "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Areas of expertise</h2>\n      <div class=\"row g-2\">\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/erp-progiciel\">ERP selection and implementation advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gmao\">CMMS project advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/crm\">CRM project advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/mapsi-progiciel\">MAPSI business software</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Risk management, audit and internal control</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/cabinet-conseil-paris\">Consulting firm in Paris</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/metropoles-hexagone\">Presence across major cities in mainland France</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/hexagone-drom-dom-tom\">Paris, mainland France and French overseas territories</a></div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-5 text-center\">\n      <h2>Do you have a GDPR, IT advisory, quality or cybersecurity project?</h2>\n      <p class=\"oling-lede\">Let’s discuss your priorities and constraints to build a realistic action plan.</p>\n      <div class=\"d-flex justify-content-center flex-wrap gap-2\">\n        <a class=\"btn btn-primary\" href=\"/contact\">Speak with a consultant</a>\n        <a class=\"btn btn-outline-primary\" href=\"/amoa-si\">View our IT project advisory services</a>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP2_MAILLAGE_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-maillage-v2=\"resources-index\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Explore further</h2>\n      <p class=\"mb-3\">Engage the priority IT project advisory services, then define your geographical scope.</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-7\">\n          <h3 class=\"h6 text-uppercase mb-2\">Priority areas of expertise</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/amoa-si\">IT project advisory</a>: scoping, governance and delivery management.</li>\n            <li><a class=\"link\" href=\"/si-finance\">Finance IT project advisory</a>: data flows, internal control and reporting.</li>\n            <li><a class=\"link\" href=\"/facturation-electronique-amoa\">E-invoicing project advisory</a>: PDP/PPF roadmap and deployment.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-5\">\n          <h3 class=\"h6 text-uppercase mb-2\">Service areas</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/cabinet-conseil-paris\">Paris</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-lyon\">Lyon</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-guadeloupe\">Guadeloupe</a></li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Schedule a scoping session</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP2_MAILLAGE_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"resources-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Additional MAPSI resources</h2>\n      <p class=\"mb-3\">To streamline compliance, workflows and evidence management, also explore MAPSI’s areas of expertise.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">MAPSI SaaS GRC</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/privacy-rgpd\" target=\"_blank\" rel=\"noopener\">MAPSI Privacy GDPR</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK_RESOURCES -->",
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "to_review",
+            "sourceContentHash": "c80a36ba59146f3eabe59f14c2c1390b05d4fb78be9bd3407d7b15a6171a5a2f",
+            "sourceUpdatedAt": "2026-10-02T21:09:01+00:00",
+            "translatedAt": "2026-10-02T21:09:01+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteurs-index",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "industries",
+            "title": "Industry Hub",
+            "seoTitle": "Industry Hub",
+            "seoDescription": "Explore all the industries served by OLING and the key considerations for each business environment.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "to_review",
+            "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
+            "sourceUpdatedAt": "2026-10-02T21:10:00+00:00",
+            "translatedAt": "2026-10-02T21:10:00+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "team",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "team",
+            "title": "Our Team | IT Project Advisory Experts - OLING",
+            "seoTitle": "Our Team | IT Project Advisory Experts - OLING",
+            "seoDescription": "A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Business expertise",
+            "heroTitle": "A multidisciplinary team of experts",
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": "<h4>Expert professionals to scope and manage your projects</h4><p>OLING brings together consultants specialising in IT project advisory, compliance, cybersecurity, quality and project management. Our teams work with business and IT departments to clarify requirements, structure decision-making, ensure effective delivery and facilitate adoption by operational teams.</p><blockquote class=\"blockquote m-6\">A team focused on project scoping, delivery quality and measurable results.</blockquote>",
+            "structuredData": {
+                "corePage": {
+                    "intro": "Consulting, ERP advisory, risk, compliance, cybersecurity and transformation: the profiles shown here remain linked to the admin system and retain their existing content.",
+                    "title": "A multidisciplinary team of experts",
+                    "eyebrow": "OLING Team",
+                    "seoTitle": "Our Team | IT Project Advisory Experts - OLING",
+                    "highlights": [
+                        "Senior professionals",
+                        "Hands-on delivery",
+                        "Business and IT perspective"
+                    ],
+                    "primaryCta": {
+                        "label": "Speak to a consultant",
+                        "route": "contact"
+                    },
+                    "bodySection": {
+                        "enabled": true
+                    },
+                    "secondaryCta": {
+                        "label": "About the firm",
+                        "route": "apropos"
+                    },
+                    "metaDescription": "A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "f29dd9be5d12cbaf377f70b2099417624f69b54ab3fe2f6c7986a1b853fa5254",
+            "sourceUpdatedAt": "2026-10-02T21:07:58+00:00",
+            "translatedAt": "2026-10-02T21:07:58+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        }
+    ]
+}

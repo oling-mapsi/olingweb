@@ -60,7 +60,7 @@ final class OpenAiContentTranslationProvider implements AiTranslationProviderInt
                             'type' => 'json_object',
                         ],
                     ],
-                    'max_output_tokens' => 4000,
+                    'max_output_tokens' => 8000,
                 ],
                 'timeout' => 60,
             ]);

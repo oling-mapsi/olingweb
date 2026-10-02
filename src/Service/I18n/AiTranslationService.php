@@ -180,7 +180,7 @@ final class AiTranslationService
             $normalized[$field] = $payload[$field] ?? null;
         }
         $normalized['slug'] = $this->normalizeSlug((string) $normalized['slug']);
-        if ($normalized['slug'] === '') {
+        if ($normalized['slug'] === '' || preg_match('/^[a-z0-9][a-z0-9\-]*$/', $normalized['slug']) !== 1) {
             $normalized['slug'] = $this->fallbackSlug((string) ($sourcePayload['slug'] ?? ''), $targetLocale);
         }
         $normalized['title'] = trim((string) $normalized['title']);
@@ -244,6 +244,13 @@ final class AiTranslationService
             'amoa-si' => ['en' => 'it-project-advisory', 'es' => 'asesoria-proyectos-ti'],
             'services' => ['en' => 'services', 'es' => 'servicios'],
             'contact' => ['en' => 'contact', 'es' => 'contacto'],
+            'apropos' => ['en' => 'about-us', 'es' => 'quienes-somos'],
+            'metiers' => ['en' => 'careers', 'es' => 'empleos'],
+            'team' => ['en' => 'team', 'es' => 'equipo'],
+            'projets' => ['en' => 'case-studies', 'es' => 'casos-clientes'],
+            'ressources' => ['en' => 'resources', 'es' => 'recursos'],
+            'expertises-index' => ['en' => 'expertise', 'es' => 'especialidades'],
+            'secteurs-index' => ['en' => 'industries', 'es' => 'sectores'],
         ];
 
         return $fallbacks[$sourceSlug][$targetLocale] ?? '';

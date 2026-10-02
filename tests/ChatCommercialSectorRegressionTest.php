@@ -9,6 +9,7 @@ use App\Repository\ChatPublicDocumentRepository;
 use App\Service\Chat\Ai\AiDecision;
 use App\Service\Chat\Ai\AiProviderInterface;
 use App\Service\Chat\Ai\HeuristicAiProvider;
+use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatPublicContentIndexer;
 use App\Service\Chat\ChatQualificationService;
 use App\Service\Chat\ChatResponder;
@@ -142,9 +143,10 @@ class ChatCommercialSectorRegressionTest extends TestCase
         return new ChatResponder(
             new PublicContentCatalog($repository, $this->createMock(ChatPublicContentIndexer::class)),
             $qualificationService,
-            new HeuristicAiProvider($qualificationService),
+            new HeuristicAiProvider($qualificationService, new AiConsultantContentProvider(dirname(__DIR__))),
             $providers,
             new NullLogger(),
+            new AiConsultantContentProvider(dirname(__DIR__)),
         );
     }
 

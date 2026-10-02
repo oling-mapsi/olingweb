@@ -1,26 +1,27 @@
-Nouveau lead IA OLING
+{% set c = chatContent %}
+{{ c.email.title }}
 
-Date : {{ conversation.submittedAt ? conversation.submittedAt|date('d/m/Y H:i') : '' }}
-Société : {{ lead.company }}
-Nom : {{ lead.fullName }}
-Email : {{ lead.email }}
-Téléphone : {{ lead.phone }}
-Page d'origine : {{ conversation.sourceUrl ?: conversation.sourcePath }}
+{{ c.email.date }} : {{ conversation.submittedAt ? conversation.submittedAt|date('d/m/Y H:i') : '' }}
+{{ c.email.company }} : {{ lead.company }}
+{{ c.email.name }} : {{ lead.fullName }}
+{{ c.email.email }} : {{ lead.email }}
+{{ c.email.phone }} : {{ lead.phone }}
+{{ c.email.source }} : {{ conversation.sourceUrl ?: conversation.sourcePath }}
 
-Résumé court :
+{{ c.email.short_summary }} :
 {{ conversation.summaryShort }}
 
-Qualification :
-- Besoin principal : {{ qualification.primary_need ?: 'non qualifié' }}
-- Urgence : {{ qualification.urgency_level ?: 'non qualifiée' }}
-- Maturité : {{ qualification.maturity_level ?: 'non qualifiée' }}
-- Type d'organisation : {{ qualification.organization_type ?: 'non qualifié' }}
-- Taille : {{ qualification.organization_size ?: 'non qualifiée' }}
-- Intention commerciale : {{ qualification.commercial_intent ?: 'non qualifiée' }}
-- Valeur potentielle : {{ qualification.potential_value ?: 'non qualifiée' }}
+{{ c.email.qualification }} :
+- {{ c.email.primary_need }} : {{ qualification.primary_need ?: c.labels.unqualified }}
+- {{ c.email.urgency }} : {{ qualification.urgency_level ?: c.labels.unqualified }}
+- {{ c.email.maturity }} : {{ qualification.maturity_level ?: c.labels.unqualified }}
+- {{ c.email.organization_type }} : {{ qualification.organization_type ?: c.labels.unqualified }}
+- {{ c.email.organization_size }} : {{ qualification.organization_size ?: c.labels.unqualified }}
+- {{ c.email.commercial_intent }} : {{ qualification.commercial_intent ?: c.labels.unqualified }}
+- {{ c.email.potential_value }} : {{ qualification.potential_value ?: c.labels.unqualified }}
 
-Description consolidée :
+{{ c.email.description }} :
 {{ lead.needDescription }}
 
-Consentement RGPD :
-{{ lead.rgpdConsent ? 'Oui' : 'Non' }} - {{ lead.rgpdConsentAt ? lead.rgpdConsentAt|date('d/m/Y H:i') : '' }}
+{{ c.email.consent }} :
+{{ lead.rgpdConsent ? c.email.yes : c.email.no }} - {{ lead.rgpdConsentAt ? lead.rgpdConsentAt|date('d/m/Y H:i') : '' }}

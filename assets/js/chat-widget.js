@@ -1,6 +1,7 @@
 const CHAT_STORAGE_KEY = 'oling_chat_conversation_token';
 const CHAT_OPEN_STATE_KEY = 'oling_chat_open_state';
 const CHAT_STORAGE_VERSION_KEY = 'oling_chat_storage_version';
+let CHAT_I18N = {};
 
 const parseJson = async (response) => {
   const text = await response.text();
@@ -64,9 +65,9 @@ const renderContactAssistantCard = (lines) => {
   const phone = (phoneLine.split(':').slice(1).join(':') || '').trim();
   const email = (emailLine.split(':').slice(1).join(':') || '').trim();
   const formMatch = formLine?.match(/\[([^\]]+)\]\(([^)]+)\)/);
-  const formLabel = formMatch?.[1] || 'Ouvrir la page Contact';
+  const formLabel = formMatch?.[1] || (CHAT_I18N.contactForm || 'Ouvrir la page Contact');
   const formHref = formMatch?.[2] || '/contact?chat_fallback=1';
-  const intro = lines.find((line) => !/^-\s*(Téléphone|Email|Formulaire)\s*:/i.test(line)) || 'Si vous souhaitez contacter OLING :';
+  const intro = lines.find((line) => !/^-\s*(Téléphone|Email|Formulaire)\s*:/i.test(line)) || (CHAT_I18N.contactIntro || 'Si vous souhaitez contacter OLING :');
   const phoneHref = `tel:${phone.replace(/[^+\d]/g, '')}`;
 
   return `
@@ -135,14 +136,14 @@ const formatAssistantContent = (value) => {
 
 const sourceTypeLabel = (type) => {
   const labels = {
-    page: 'Page',
-    expertise: 'Expertise',
-    service: 'Service',
-    reference: 'Référence OLING',
-    team: 'Équipe',
+    page: CHAT_I18N.sourcePage || 'Page',
+    expertise: CHAT_I18N.sourceExpertise || 'Expertise',
+    service: CHAT_I18N.sourceService || 'Service',
+    reference: CHAT_I18N.sourceReference || 'Référence OLING',
+    team: CHAT_I18N.sourceTeam || 'Équipe',
   };
 
-  return labels[type] || 'Ressource';
+  return labels[type] || CHAT_I18N.sourceResource || 'Ressource';
 };
 
 const getMessageSourceCards = (message) => (
@@ -152,7 +153,7 @@ const getMessageSourceCards = (message) => (
         url,
         title: sourceLabel(url),
         type: 'page',
-        typeLabel: 'Ressource',
+        typeLabel: CHAT_I18N.sourceResource || 'Ressource',
         image: null,
         excerpt: '',
       }))
@@ -178,12 +179,12 @@ const createMessageHtml = (message) => `
     ${message.role === 'assistant'
       ? `
         <div class="oling-chat-widget__assistant-block">
-          <div class="oling-chat-widget__message-meta">OLING</div>
+          <div class="oling-chat-widget__message-meta">${escapeHtml(CHAT_I18N.assistantMeta || 'OLING')}</div>
           <div class="oling-chat-widget__assistant-body">${formatAssistantContent(message.content)}</div>
         </div>
       `
       : `
-        <div class="oling-chat-widget__message-meta">Vous</div>
+        <div class="oling-chat-widget__message-meta">${escapeHtml(CHAT_I18N.visitorMeta || 'Vous')}</div>
         <div class="oling-chat-widget__bubble">${formatMessageContent(message.content)}</div>
       `}
     ${message.role === 'assistant' && getMessageSourceCards(message).length ? createSourceCardsHtml(getMessageSourceCards(message)) : ''}
@@ -194,12 +195,12 @@ const createTypingHtml = () => '';
 
 const createWelcomeHtml = () => `
   <div class="oling-chat-widget__welcome">
-    <div class="oling-chat-widget__welcome-badge">Assistant expert IA</div>
-    <p>L’assistant peut vous orienter sur les expertises, les expériences, l’équipe et les démarches d’accompagnement.</p>
+    <div class="oling-chat-widget__welcome-badge">${escapeHtml(CHAT_I18N.welcomeBadge || 'Assistant expert IA')}</div>
+    <p>${escapeHtml(CHAT_I18N.welcomeText || 'L’assistant peut vous orienter sur les expertises, les expériences, l’équipe et les démarches d’accompagnement.')}</p>
     <ul class="oling-chat-widget__welcome-list">
-      <li>Expertises SI, ERP, GMAO, conformité, data ou cybersécurité</li>
-      <li>Références anonymisées par secteur, mission ou technologie</li>
-      <li>Profils OLING pertinents selon votre sujet</li>
+      <li>${escapeHtml(CHAT_I18N.welcomeItem1 || 'Expertises SI, ERP, GMAO, conformité, data ou cybersécurité')}</li>
+      <li>${escapeHtml(CHAT_I18N.welcomeItem2 || 'Références anonymisées par secteur, mission ou technologie')}</li>
+      <li>${escapeHtml(CHAT_I18N.welcomeItem3 || 'Profils OLING pertinents selon votre sujet')}</li>
     </ul>
   </div>
 `;
@@ -207,6 +208,11 @@ const createWelcomeHtml = () => `
 const initChatWidget = () => {
   const root = document.getElementById('oling-chat-widget');
   if (!root) return;
+  try {
+    CHAT_I18N = JSON.parse(root.querySelector('[data-chat-i18n]')?.textContent || '{}');
+  } catch (error) {
+    CHAT_I18N = {};
+  }
 
   const launcher = root.querySelector('.oling-chat-widget__launcher');
   const panel = root.querySelector('.oling-chat-widget__panel');
@@ -214,6 +220,8 @@ const initChatWidget = () => {
   const closeButton = root.querySelector('.oling-chat-widget__close');
   const messages = root.querySelector('[data-chat-messages]');
   const leadBlock = root.querySelector('[data-chat-lead]');
+  const erpForm = root.querySelector('[data-chat-erp-form]');
+  const erpResult = root.querySelector('[data-chat-erp-result]');
   const errorBox = root.querySelector('[data-chat-error]');
   const statusBox = root.querySelector('[data-chat-status]');
   const summaryBox = root.querySelector('[data-chat-summary]');
@@ -227,7 +235,7 @@ const initChatWidget = () => {
   const contactButton = root.querySelector('.oling-chat-widget__composer-tools a[data-chat-bypass="true"]');
   const contactPath = new URL(root.dataset.contactFallbackUrl, window.location.origin).pathname;
   const defaultPlaceholder = messageInput?.getAttribute('placeholder') || '';
-  const defaultLeadLabel = leadButton?.textContent || 'Transmettre la demande';
+  const defaultLeadLabel = leadButton?.textContent || (CHAT_I18N.submitLead || 'Transmettre la demande');
   const minComposerRows = 1;
   const maxComposerRows = 5;
   const mobileBreakpoint = window.matchMedia('(max-width: 767px)');
@@ -314,10 +322,10 @@ const initChatWidget = () => {
     submitButton?.toggleAttribute('disabled', loading);
     resetButton?.toggleAttribute('disabled', loading);
     launcher?.toggleAttribute('disabled', loading && !state.open);
-    submitButton?.setAttribute('aria-label', loading ? 'Envoi en cours' : 'Envoyer');
-    submitButton?.setAttribute('title', loading ? 'Envoi en cours' : 'Envoyer');
+    submitButton?.setAttribute('aria-label', loading ? (CHAT_I18N.sending || 'Envoi en cours') : (CHAT_I18N.send || 'Envoyer'));
+    submitButton?.setAttribute('title', loading ? (CHAT_I18N.sending || 'Envoi en cours') : (CHAT_I18N.send || 'Envoyer'));
     if (leadButton) {
-      leadButton.textContent = loading ? 'En cours...' : defaultLeadLabel;
+      leadButton.textContent = loading ? `${CHAT_I18N.sending || 'En cours'}...` : defaultLeadLabel;
     }
     setStatus(loading ? message : '');
     if (!loading && state.conversation) {
@@ -439,11 +447,11 @@ const initChatWidget = () => {
     if (conversation.leadSubmitted) {
       setLeadVisible(false);
       setSummary(
-        conversation.summaryShort || 'Demande bien envoyée. Vous pouvez continuer la conversation, ajouter une précision ou poser une autre question.',
+        conversation.summaryShort || (CHAT_I18N.leadSubmitted || 'Demande bien envoyée. Vous pouvez continuer la conversation, ajouter une précision ou poser une autre question.'),
         'success'
       );
       if (messageInput) {
-        messageInput.placeholder = 'Ajouter un complément, une précision ou un autre besoin...';
+        messageInput.placeholder = CHAT_I18N.followupPlaceholder || 'Ajouter un complément, une précision ou un autre besoin...';
         resizeMessageInput();
       }
       return;
@@ -451,7 +459,7 @@ const initChatWidget = () => {
 
     setSummary(
       conversation.requestLead && !hasDirectContactDetails
-        ? 'Si vous souhaitez être recontacté, vous pouvez laisser vos coordonnées ci-dessous. Vous pouvez aussi continuer à préciser votre besoin.'
+        ? (CHAT_I18N.leadOffer || 'Si vous souhaitez être recontacté, vous pouvez laisser vos coordonnées ci-dessous. Vous pouvez aussi continuer à préciser votre besoin.')
         : '',
       'info'
     );
@@ -460,8 +468,8 @@ const initChatWidget = () => {
        resizeMessageInput();
     }
     if (submitButton) {
-      submitButton.setAttribute('aria-label', 'Envoyer');
-      submitButton.setAttribute('title', 'Envoyer');
+      submitButton.setAttribute('aria-label', CHAT_I18N.send || 'Envoyer');
+      submitButton.setAttribute('title', CHAT_I18N.send || 'Envoyer');
     }
   };
 
@@ -477,7 +485,7 @@ const initChatWidget = () => {
 
     const payload = await parseJson(response);
     if (!response.ok) {
-      throw new Error(payload.message || 'Une erreur est survenue.');
+      throw new Error(payload.message || (CHAT_I18N.genericError || 'Une erreur est survenue.'));
     }
 
     return payload;
@@ -486,6 +494,60 @@ const initChatWidget = () => {
   const showUrl = (token) => root.dataset.showUrlTemplate.replace('CHAT_TOKEN', token);
   const messageUrl = (token) => root.dataset.messageUrlTemplate.replace('CHAT_TOKEN', token);
   const leadUrl = (token) => root.dataset.leadUrlTemplate.replace('CHAT_TOKEN', token);
+  const erpQuestionnaireUrl = (token) => root.dataset.erpQuestionnaireUrlTemplate.replace('CHAT_TOKEN', token);
+
+  const setErpVisible = (visible) => {
+    erpForm?.classList.toggle('d-none', !visible);
+    if (visible) {
+      setLeadVisible(false);
+      erpResult?.classList.add('d-none');
+      composer?.classList.add('d-none');
+      scrollMessagesToBottom();
+      return;
+    }
+    composer?.classList.remove('d-none');
+  };
+
+  const summaryList = (items) => (items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+
+  const renderErpResult = (summary, pdfUrl) => {
+    if (!erpResult) return;
+    erpResult.innerHTML = `
+      <div class="oling-chat-widget__lead-head">
+        <div class="oling-chat-widget__lead-title">${escapeHtml(CHAT_I18N.erpResultTitle || 'Synthèse ERP / progiciel')}</div>
+        <p>${escapeHtml(summary.executive_summary || '')}</p>
+      </div>
+      <p><strong>${escapeHtml(CHAT_I18N.erpMaturity || 'Maturité')} :</strong> ${escapeHtml(summary.maturity || '')}</p>
+      <p><strong>${escapeHtml(CHAT_I18N.erpComplexity || 'Complexité')} :</strong> ${escapeHtml(summary.complexity || '')}</p>
+      <p><strong>${escapeHtml(CHAT_I18N.erpCharge || 'Charge AMOA')} :</strong> ${escapeHtml(summary.amoa_charge_estimate || '')}</p>
+      <p><strong>${escapeHtml(CHAT_I18N.erpBudget || 'Budget AMOA')} :</strong> ${escapeHtml(summary.amoa_budget_estimate || '')}</p>
+      <div class="oling-chat-widget__field-label">${escapeHtml(CHAT_I18N.erpDeliverables || 'Livrables recommandés')}</div>
+      <ul class="oling-chat-widget__assistant-list">${summaryList(summary.recommended_deliverables)}</ul>
+      <div class="oling-chat-widget__field-label">${escapeHtml(CHAT_I18N.erpClarifications || 'Points à clarifier')}</div>
+      <ul class="oling-chat-widget__assistant-list">${summaryList(summary.missing_information)}</ul>
+      <a class="btn btn-primary w-100" href="${escapeHtml(pdfUrl)}" data-chat-bypass="true">${escapeHtml(CHAT_I18N.erpDownloadPdf || 'Télécharger le PDF')}</a>
+      <p class="oling-chat-widget__composer-note mt-2">${escapeHtml(CHAT_I18N.erpNotice || 'À ce stade, les estimations sont indicatives et devront être confirmées après un échange de cadrage avec OLING.')}</p>
+    `;
+    erpResult.classList.remove('d-none');
+    setErpVisible(false);
+    composer?.classList.add('d-none');
+    scrollMessagesToBottom();
+  };
+
+  const collectFormPayload = (form) => {
+    const payload = {};
+    const data = new FormData(form);
+    data.forEach((value, key) => {
+      if (key.endsWith('[]')) {
+        const cleanKey = key.slice(0, -2);
+        payload[cleanKey] = payload[cleanKey] || [];
+        payload[cleanKey].push(value);
+        return;
+      }
+      payload[key] = value;
+    });
+    return payload;
+  };
 
   const createConversation = async () => {
     const payload = await request(root.dataset.createUrl, {
@@ -558,17 +620,43 @@ const initChatWidget = () => {
     if (!content || state.loading) return;
     setOpen(true);
     setError('');
-    setLoading(true, 'Ouverture du chat...');
+    setLoading(true, CHAT_I18N.openChat || 'Ouverture du chat...');
     try {
       await ensureConversation();
       renderOptimisticVisitorMessage(content);
       await sendMessage(content);
       prefillLeadDescription();
     } catch (error) {
-      setError(error.message || 'Impossible de lancer le questionnaire.');
+      setError(error.message || (CHAT_I18N.launchQuestionnaireError || 'Impossible de lancer le questionnaire.'));
     } finally {
       setLoading(false);
     }
+  };
+
+  const openErpQuestionnaire = async () => {
+    if (state.loading) return;
+    setOpen(true);
+    setError('');
+    setLoading(true, CHAT_I18N.loadingOpenErp || 'Ouverture du questionnaire ERP...');
+    try {
+      await ensureConversation();
+      setErpVisible(true);
+    } catch (error) {
+      setError(error.message || (CHAT_I18N.errorOpenErp || 'Impossible d’ouvrir le questionnaire ERP.'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitErpQuestionnaire = async () => {
+    if (!state.token || !erpForm) return;
+    const payload = await request(erpQuestionnaireUrl(state.token), {
+      method: 'POST',
+      body: JSON.stringify(collectFormPayload(erpForm)),
+    });
+    renderConversation(payload.conversation);
+    renderErpResult(payload.summary || {}, payload.pdfUrl || '');
+    setSummary(payload.message || (CHAT_I18N.erpSent || 'Qualification ERP transmise.'), 'success');
   };
 
   const renderOptimisticVisitorMessage = (content) => {
@@ -579,7 +667,7 @@ const initChatWidget = () => {
 
     state.typing = true;
     renderConversation(optimisticConversation);
-    setStatus('OLING rédige sa réponse...');
+    setStatus(CHAT_I18N.typing || 'OLING rédige sa réponse...');
   };
 
   const resetConversation = async () => {
@@ -635,12 +723,12 @@ const initChatWidget = () => {
     setOpen(true);
     setError('');
     state.typing = false;
-    setLoading(true, 'Ouverture du chat...');
+    setLoading(true, CHAT_I18N.openChat || 'Ouverture du chat...');
     try {
       await ensureConversation();
       prefillLeadDescription();
     } catch (error) {
-      setError(error.message || 'Impossible d’ouvrir le chat.');
+      setError(error.message || (CHAT_I18N.openChatError || 'Impossible d’ouvrir le chat.'));
     } finally {
       setLoading(false);
     }
@@ -701,7 +789,7 @@ const initChatWidget = () => {
     setError('');
     messageInput.value = '';
     resizeMessageInput();
-    setLoading(true, 'Envoi en cours...');
+    setLoading(true, `${CHAT_I18N.sending || 'Envoi en cours'}...`);
     const previousConversation = state.conversation ? { ...state.conversation, messages: [...(state.conversation.messages || [])] } : null;
     try {
       await ensureConversation();
@@ -714,7 +802,7 @@ const initChatWidget = () => {
       if (previousConversation) {
         renderConversation(previousConversation);
       }
-      setError(error.message || 'Impossible d’envoyer le message.');
+      setError(error.message || (CHAT_I18N.sendError || 'Impossible d’envoyer le message.'));
     } finally {
       setLoading(false);
     }
@@ -723,11 +811,25 @@ const initChatWidget = () => {
   leadButton?.addEventListener('click', async () => {
     if (state.loading) return;
     setError('');
-    setLoading(true, 'Transmission en cours...');
+    setLoading(true, CHAT_I18N.leadSending || 'Transmission en cours...');
     try {
       await submitLead();
     } catch (error) {
-      setError(error.message || 'Impossible de transmettre la demande.');
+      setError(error.message || (CHAT_I18N.leadSubmitError || 'Impossible de transmettre la demande.'));
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  erpForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (state.loading) return;
+    setError('');
+    setLoading(true, CHAT_I18N.loadingGenerateErp || 'Génération de la synthèse ERP...');
+    try {
+      await submitErpQuestionnaire();
+    } catch (error) {
+      setError(error.message || (CHAT_I18N.errorSubmitErp || 'Impossible de transmettre le questionnaire ERP.'));
     } finally {
       setLoading(false);
     }
@@ -735,11 +837,11 @@ const initChatWidget = () => {
 
   resetButton?.addEventListener('click', async () => {
     if (state.loading) return;
-    setLoading(true, 'Réinitialisation en cours...');
+    setLoading(true, CHAT_I18N.loadingReset || 'Réinitialisation en cours...');
     try {
       await resetConversation();
     } catch (error) {
-      setError(error.message || 'Impossible de réinitialiser la conversation.');
+      setError(error.message || (CHAT_I18N.resetError || 'Impossible de réinitialiser la conversation.'));
     } finally {
       setLoading(false);
     }
@@ -778,6 +880,13 @@ const initChatWidget = () => {
   });
 
   document.addEventListener('click', async (event) => {
+    const erpButton = event.target.closest('[data-chat-erp-questionnaire]');
+    if (erpButton) {
+      event.preventDefault();
+      await openErpQuestionnaire();
+      return;
+    }
+
     const prefillButton = event.target.closest('[data-chat-prefill]');
     if (prefillButton) {
       event.preventDefault();
@@ -808,12 +917,12 @@ const initChatWidget = () => {
     event.preventDefault();
     setOpen(true);
     setError('');
-    setLoading(true, 'Ouverture du chat...');
+    setLoading(true, CHAT_I18N.openChat || 'Ouverture du chat...');
     try {
       await ensureConversation();
       prefillLeadDescription();
     } catch (error) {
-      setError(error.message || 'Impossible d’ouvrir le chat.');
+      setError(error.message || (CHAT_I18N.openChatError || 'Impossible d’ouvrir le chat.'));
     } finally {
       setLoading(false);
     }

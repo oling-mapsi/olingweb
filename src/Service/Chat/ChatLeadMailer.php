@@ -13,6 +13,7 @@ class ChatLeadMailer
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly Environment $twig,
+        private readonly AiConsultantContentProvider $contentProvider,
         private readonly string $recipient = 'florestan.rouet@oling.fr',
     ) {
     }
@@ -22,17 +23,19 @@ class ChatLeadMailer
      */
     public function send(ChatConversation $conversation, ChatLead $lead, array $qualification): void
     {
+        $locale = $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE;
         $subject = sprintf(
-            '[OLING][Lead IA] %s - %s - %s',
-            $this->label($qualification['primary_need'] ?? null),
+            $this->contentProvider->text('email.subject', $locale),
+            $this->contentProvider->label($qualification['primary_need'] ?? null, $locale),
             $lead->getCompany(),
-            $this->label($qualification['urgency_level'] ?? null)
+            $this->contentProvider->label($qualification['urgency_level'] ?? null, $locale)
         );
 
         $context = [
             'conversation' => $conversation,
             'lead' => $lead,
             'qualification' => $qualification,
+            'chatContent' => $this->contentProvider->content($locale),
         ];
 
         $email = (new Email())
@@ -46,21 +49,4 @@ class ChatLeadMailer
         $this->mailer->send($email);
     }
 
-    private function label(?string $value): string
-    {
-        return match ($value) {
-            'amoa_erp' => 'AMOA ERP',
-            'rgpd' => 'RGPD',
-            'cybersecurite' => 'Cybersécurité',
-            'ia_data_automatisation' => 'IA / Data',
-            'conformite' => 'Conformité',
-            'organisation_gouvernance' => 'Organisation',
-            'transformation_si' => 'Transformation SI',
-            'immediate' => 'immediate',
-            'short_term' => 'short_term',
-            'planned' => 'planned',
-            'exploratory' => 'exploratory',
-            default => $value ?? 'besoin non qualifié',
-        };
-    }
 }

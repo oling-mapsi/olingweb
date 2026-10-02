@@ -8,8 +8,9 @@ use App\Entity\ChatPublicDocument;
 use App\Repository\ChatPublicDocumentRepository;
 use App\Service\Chat\Ai\AiDecision;
 use App\Service\Chat\Ai\AiProviderInterface;
-use App\Service\Chat\ChatPublicContentIndexer;
 use App\Service\Chat\Ai\HeuristicAiProvider;
+use App\Service\Chat\AiConsultantContentProvider;
+use App\Service\Chat\ChatPublicContentIndexer;
 use App\Service\Chat\ChatQualificationService;
 use App\Service\Chat\ChatResponder;
 use App\Service\Chat\PublicContentCatalog;
@@ -196,10 +197,10 @@ class ChatResponderTest extends TestCase
     {
         $qualificationService = new ChatQualificationService();
         $heuristicCalls = 0;
-        $heuristic = new class($qualificationService, $heuristicCalls) extends HeuristicAiProvider {
-            public function __construct(ChatQualificationService $qualificationService, private int &$calls)
+        $heuristic = new class($qualificationService, $this->contentProvider(), $heuristicCalls) extends HeuristicAiProvider {
+            public function __construct(ChatQualificationService $qualificationService, AiConsultantContentProvider $contentProvider, private int &$calls)
             {
-                parent::__construct($qualificationService);
+                parent::__construct($qualificationService, $contentProvider);
             }
 
             public function generateDecision(ChatConversation $conversation, string $visitorMessage, array $documents, array $qualification): AiDecision
@@ -234,6 +235,7 @@ class ChatResponderTest extends TestCase
             $heuristic,
             [$failingOpenAi],
             new NullLogger(),
+            $this->contentProvider(),
         );
 
         $reply = $responder->reply(new ChatConversation(), 'Je veux qualifier un besoin ERP finance avec reprise de données.');
@@ -277,10 +279,16 @@ class ChatResponderTest extends TestCase
                 $this->createMock(ChatPublicContentIndexer::class),
             ),
             $qualificationService,
-            new HeuristicAiProvider($qualificationService),
+            new HeuristicAiProvider($qualificationService, $this->contentProvider()),
             [],
             new NullLogger(),
+            $this->contentProvider(),
         );
+    }
+
+    private function contentProvider(): AiConsultantContentProvider
+    {
+        return new AiConsultantContentProvider(dirname(__DIR__));
     }
 
     private function buildDocument(string $type, string $url, string $title, ?string $text = null): ChatPublicDocument

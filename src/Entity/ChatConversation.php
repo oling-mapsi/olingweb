@@ -41,6 +41,9 @@ class ChatConversation
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $locale = 'fr';
 
+    #[ORM\Column(length: 16, options: ['default' => 'v1'])]
+    private string $promptVersion = 'v1';
+
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $ipHash = null;
 
@@ -172,6 +175,18 @@ class ChatConversation
     public function setLocale(?string $locale): self
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getPromptVersion(): string
+    {
+        return $this->promptVersion;
+    }
+
+    public function setPromptVersion(string $promptVersion): self
+    {
+        $this->promptVersion = $promptVersion;
 
         return $this;
     }

@@ -7,6 +7,10 @@ use App\Entity\ChatLead;
 
 class ChatSummaryService
 {
+    public function __construct(private readonly AiConsultantContentProvider $contentProvider)
+    {
+    }
+
     /**
      * @param array<string, string|null> $qualification
      * @return array{short:string,long:string}
@@ -21,23 +25,25 @@ class ChatSummaryService
         }
 
         $initialMessage = $visitorMessages[0] ?? $lead->getNeedDescription() ?? '';
+        $locale = $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE;
         $short = sprintf(
-            '%s a sollicité OLING pour un besoin %s avec un niveau d’urgence %s.',
+            $this->contentProvider->text('copy.summary_short', $locale),
             $lead->getCompany(),
-            $this->label($qualification['primary_need'] ?? null),
-            $this->label($qualification['urgency_level'] ?? null)
+            $this->contentProvider->label($qualification['primary_need'] ?? null, $locale),
+            $this->contentProvider->label($qualification['urgency_level'] ?? null, $locale)
         );
 
+        $lines = $this->contentProvider->map('copy.summary_lines', $locale);
         $long = trim(implode("\n", array_filter([
-            'Contexte initial : '.$initialMessage,
-            'Besoin principal : '.$this->label($qualification['primary_need'] ?? null),
-            'Urgence : '.$this->label($qualification['urgency_level'] ?? null),
-            'Maturité : '.$this->label($qualification['maturity_level'] ?? null),
-            'Type d’organisation : '.$this->label($qualification['organization_type'] ?? null),
-            'Taille estimée : '.$this->label($qualification['organization_size'] ?? null),
-            'Intention commerciale : '.$this->label($qualification['commercial_intent'] ?? null),
-            'Valeur potentielle : '.$this->label($qualification['potential_value'] ?? null),
-            'Description consolidée : '.$lead->getNeedDescription(),
+            sprintf($lines['initial_context'] ?? '%s', $initialMessage),
+            sprintf($lines['primary_need'] ?? '%s', $this->contentProvider->label($qualification['primary_need'] ?? null, $locale)),
+            sprintf($lines['urgency'] ?? '%s', $this->contentProvider->label($qualification['urgency_level'] ?? null, $locale)),
+            sprintf($lines['maturity'] ?? '%s', $this->contentProvider->label($qualification['maturity_level'] ?? null, $locale)),
+            sprintf($lines['organization_type'] ?? '%s', $this->contentProvider->label($qualification['organization_type'] ?? null, $locale)),
+            sprintf($lines['organization_size'] ?? '%s', $this->contentProvider->label($qualification['organization_size'] ?? null, $locale)),
+            sprintf($lines['commercial_intent'] ?? '%s', $this->contentProvider->label($qualification['commercial_intent'] ?? null, $locale)),
+            sprintf($lines['potential_value'] ?? '%s', $this->contentProvider->label($qualification['potential_value'] ?? null, $locale)),
+            sprintf($lines['description'] ?? '%s', $lead->getNeedDescription()),
             $this->erpAmoaSummary($conversation, $lead, $qualification),
         ])));
 
@@ -45,47 +51,6 @@ class ChatSummaryService
             'short' => $short,
             'long' => $long,
         ];
-    }
-
-    private function label(?string $value): string
-    {
-        return match ($value) {
-            'amoa_erp' => 'AMOA ERP',
-            'rgpd' => 'RGPD',
-            'cybersecurite' => 'cybersécurité',
-            'ia_data_automatisation' => 'IA / data / automatisation',
-            'conformite' => 'conformité',
-            'organisation_gouvernance' => 'organisation / gouvernance',
-            'transformation_si' => 'transformation SI',
-            'immediate' => 'immédiate',
-            'short_term' => 'court terme',
-            'planned' => 'planifiée',
-            'exploratory' => 'exploratoire',
-            'flou' => 'réflexion initiale',
-            'cadre' => 'cadrage',
-            'consultation' => 'consultation',
-            'en_cours' => 'projet en cours',
-            'bloque' => 'bloqué',
-            'pme' => 'PME',
-            'pmi' => 'PMI',
-            'eti' => 'ETI',
-            'public' => 'organisation publique',
-            'association' => 'association',
-            '1_49' => '1 à 49 personnes',
-            '50_249' => '50 à 249 personnes',
-            '250_999' => '250 à 999 personnes',
-            '1000_plus' => '1000+ personnes',
-            'diagnostic' => 'diagnostic',
-            'cadrage' => 'cadrage',
-            'assistance_projet' => 'assistance projet',
-            'mise_en_conformite' => 'mise en conformité',
-            'expertise_ponctuelle' => 'expertise ponctuelle',
-            'orientation' => 'orientation',
-            'high' => 'élevée',
-            'medium' => 'moyenne',
-            'low' => 'faible',
-            default => $value ?? 'non qualifié',
-        };
     }
 
     /**
@@ -116,12 +81,15 @@ class ChatSummaryService
             'planning / projet bloqué' => ['retard', 'bloque', 'bloquee', 'planning'],
         ]);
 
+        $locale = $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE;
+        $patterns = $this->contentProvider->list('copy.erp_summary', $locale);
+
         return trim(implode("\n", [
-            'Analyse AMOA ERP / progiciel :',
-            'Modules pressentis : '.($modules === [] ? 'à qualifier' : implode(', ', $modules)).'.',
-            'Points de vigilance : '.($risks === [] ? 'données, interfaces, sécurité, RGPD, recette et conduite du changement à qualifier' : implode(', ', $risks)).'.',
-            'Livrables AMOA à envisager : note de cadrage, expression des besoins, cahier des charges ou grille de choix, stratégie de reprise, recette, conduite du changement.',
-            'Prochaine étape OLING : échange de cadrage pour confirmer le périmètre, la maturité, le macro-planning, la charge et le budget indicatifs.',
+            $patterns[0] ?? '',
+            sprintf($patterns[1] ?? '%s', $modules === [] ? $this->contentProvider->text('copy.erp_modules_fallback', $locale) : implode(', ', $modules)),
+            sprintf($patterns[2] ?? '%s', $risks === [] ? $this->contentProvider->text('copy.erp_risks_fallback', $locale) : implode(', ', $risks)),
+            $patterns[3] ?? '',
+            $patterns[4] ?? '',
         ]));
     }
 

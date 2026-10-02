@@ -6,6 +6,7 @@ use App\Entity\ChatConversation;
 use App\Entity\ChatLead;
 use App\Entity\ChatMessage;
 use App\Service\Chat\ChatSummaryService;
+use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatQualificationService;
 use PHPUnit\Framework\TestCase;
 
@@ -85,7 +86,7 @@ class ChatQualificationServiceTest extends TestCase
             ->setRgpdConsentAt(new \DateTimeImmutable());
 
         $qualification = (new ChatQualificationService())->qualify($conversation);
-        $summary = (new ChatSummaryService())->build($conversation, $lead, $qualification);
+        $summary = (new ChatSummaryService(new AiConsultantContentProvider(dirname(__DIR__))))->build($conversation, $lead, $qualification);
 
         self::assertStringContainsString('Analyse AMOA ERP / progiciel', $summary['long']);
         self::assertStringContainsString('finance', $summary['long']);

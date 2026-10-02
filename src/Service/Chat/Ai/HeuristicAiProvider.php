@@ -3,12 +3,15 @@
 namespace App\Service\Chat\Ai;
 
 use App\Entity\ChatConversation;
+use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatQualificationService;
 
 class HeuristicAiProvider implements AiProviderInterface
 {
-    public function __construct(private readonly ChatQualificationService $qualificationService)
-    {
+    public function __construct(
+        private readonly ChatQualificationService $qualificationService,
+        private readonly AiConsultantContentProvider $contentProvider
+    ) {
         $this->sectorTaxonomy = new \App\Service\Chat\SectorTaxonomy();
     }
 
@@ -62,21 +65,17 @@ class HeuristicAiProvider implements AiProviderInterface
 
         if ($this->isDirectContactQuestion($visitorMessage)) {
             return $this->formatBulletReply(
-                'Si vous souhaitez contacter OLING :',
-                [
-                    'Appelez le 01 89 70 15 60',
-                    'Écrivez à contact@oling.fr',
-                    'Je peux aussi vous proposer un échange via le formulaire',
-                ]
+                $this->hText('contact.intro'),
+                $this->hList('contact.items')
             );
         }
 
         if ($this->looksLikeGreeting($visitorMessage) && $this->qualificationService->isTooVague($qualification)) {
-            return 'Bonjour.';
+            return $this->hText('greeting');
         }
 
         if ($this->isAmoaIso27001Blend($visitorMessage)) {
-            return 'Vous semblez croiser un sujet d’AMOA et de structuration ISO 27001. Cherchez-vous surtout à cadrer une démarche ISO 27001, à choisir ou piloter un outil, ou à articuler les deux ?';
+            return $this->hText('amoa_iso27001_blend');
         }
 
         if ($this->asksForErpQuestionnaire($visitorMessage, $qualification)) {
@@ -126,7 +125,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
             if ($this->asksForReferences($visitorMessage) && $reference !== null) {
                 $reply = $this->formatBulletReply(
-                    'Oui. OLING dispose de références anonymisées sur ce type de contexte.',
+                    $this->hText('reference.with_reference'),
                     [$this->excerptSentence($reference['text'])]
                 );
                 if ($expertise !== null) {
@@ -138,7 +137,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
             if ($this->asksForExpert($visitorMessage) && $team !== null) {
                 $reply = $this->formatBulletReply(
-                    'Le profil OLING le plus pertinent dans ce contexte est :',
+                    $this->hText('information.expert_intro'),
                     [$this->excerptSentence($team['text'])]
                 );
                 if ($expertise !== null) {
@@ -159,19 +158,10 @@ class HeuristicAiProvider implements AiProviderInterface
 
         $primaryNeed = $qualification['primary_need'] ?? null;
         if ($primaryNeed !== null) {
-            return match ($primaryNeed) {
-                'amoa_erp' => 'OLING intervient en AMOA ERP et applicatifs métiers, du cadrage jusqu’au choix de solution, à la reprise de données, aux interfaces et à la recette.',
-                'rgpd' => 'OLING intervient sur la gouvernance RGPD, le registre, les DPIA, l’organisation DPO et la mise sous contrôle opérationnelle.',
-                'cybersecurite' => 'OLING intervient sur la sécurité des SI, la résilience, les analyses de risques et les cadres comme ISO 27001, NIS2 ou DORA.',
-                'ia_data_automatisation' => 'OLING intervient sur la data, l’automatisation, le reporting et les usages de l’IA reliés aux besoins métier.',
-                'conformite' => 'OLING intervient sur les dispositifs de conformité, de contrôle, de risques et de pilotage.',
-                'organisation_gouvernance' => 'OLING intervient sur les sujets d’organisation, de gouvernance, de responsabilités et de pilotage.',
-                'transformation_si' => 'OLING intervient sur les trajectoires de transformation SI, le cadrage, les arbitrages et la sécurisation de l’exécution.',
-                default => '',
-            };
+            return $this->hMap('information.primary_need')[$primaryNeed] ?? '';
         }
 
-        return 'Je peux vous aider à identifier les expertises, expériences et ressources OLING les plus pertinentes.';
+        return $this->hText('information.default');
     }
 
     /**
@@ -180,7 +170,7 @@ class HeuristicAiProvider implements AiProviderInterface
      */
     private function buildSectorCoverageReply(string $visitorMessage, array $documents, array $qualification): string
     {
-        $sectorLabel = $this->detectSectorLabel($visitorMessage) ?? 'ce type de secteur';
+        $sectorLabel = $this->detectSectorLabel($visitorMessage) ?? $this->hText('sector.generic');
         $reference = $this->firstDocumentOfType($documents, 'reference');
         $page = $this->firstDocumentOfType($documents, 'page');
         $service = $this->firstDocumentOfTypes($documents, ['service', 'expertise']);
@@ -201,23 +191,17 @@ class HeuristicAiProvider implements AiProviderInterface
         if ($items !== []) {
             return $this->formatBulletReply(
                 ($this->asksForReferences($visitorMessage) || $reference !== null)
-                    ? sprintf('Oui. OLING dispose de références anonymisées dans %s et peut accompagner ce type de besoin.', $sectorLabel)
-                    : sprintf('Oui. OLING intervient aussi dans %s.', $sectorLabel),
+                    ? sprintf($this->hText('sector.with_references'), $sectorLabel)
+                    : sprintf($this->hText('sector.also'), $sectorLabel),
                 $items
-            )."\n\n".'Une première étape utile serait de qualifier le périmètre, les applications en place, les interfaces et la trajectoire cible.';
+            )."\n\n".$this->hText('sector.next_step');
         }
 
         if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
-            return sprintf(
-                'Oui. OLING intervient dans %s sur des sujets d’AMOA SI, ERP, CRM, GMAO ou applicatifs métiers, avec un angle cadrage, choix de solution, pilotage, recette et déploiement.',
-                $sectorLabel
-            );
+            return sprintf($this->hText('sector.amoa'), $sectorLabel);
         }
 
-        return sprintf(
-            'Oui. OLING intervient dans %s, avec des approches qui croisent selon les cas transformation SI, organisation, conformité, sécurité et pilotage de projet.',
-            $sectorLabel
-        );
+        return sprintf($this->hText('sector.default'), $sectorLabel);
     }
 
     /**
@@ -228,76 +212,7 @@ class HeuristicAiProvider implements AiProviderInterface
     {
         $track = $this->detectAmoaTrack($visitorMessage, $documents, $qualification);
 
-        return match ($track) {
-            'crm' => $this->formatBulletReply(
-                'En phase de cadrage CRM, OLING cherche surtout à sécuriser le besoin, les processus et la trajectoire projet :',
-                [
-                    'clarification des objectifs métier, des parcours, des rôles et de la gouvernance des données',
-                    'cartographie des processus, expression des besoins et backlog métier',
-                    'évaluation des scénarios de solution, critères d’arbitrage et gouvernance projet',
-                    'préparation de la reprise, de la recette et de la conduite du changement',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables mobilisables :',
-                [
-                    'note de cadrage, roadmap CRM et gouvernance projet',
-                    'cartographie des processus, expression des besoins et backlog métier',
-                    'grille de choix, matrice de scoring et dossier d’arbitrage',
-                    'plan de reprise des données, stratégie de recette et plan de conduite du changement',
-                ]
-            ),
-            'gmao' => $this->formatBulletReply(
-                'En phase de cadrage GMAO, OLING sécurise d’abord les processus maintenance, les données équipements et les interfaces terrain :',
-                [
-                    'diagnostic de l’existant, des usages réels et des limites du dispositif maintenance',
-                    'cadrage des processus maintenance, des rôles, des équipements et des données de référence',
-                    'expression des besoins, cahier des charges et scénarios de démonstration',
-                    'préparation de la reprise, de la recette, du déploiement et de l’adoption terrain',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables mobilisables :',
-                [
-                    'diagnostic de l’existant, cartographie des processus maintenance et roadmap GMAO',
-                    'expression des besoins, cahier des charges et modèle de données équipements',
-                    'grille de choix, scénarios de démonstration et dossier d’arbitrage',
-                    'stratégie de reprise, stratégie de recette, plan de déploiement et conduite du changement',
-                ]
-            ),
-            'si_finance' => $this->formatBulletReply(
-                'En phase de cadrage SI Finance, OLING cadre les processus, les données et les arbitrages entre fonctions Finance, DSI et intégrateurs :',
-                [
-                    'diagnostic de l’existant et des points de fragilité sur clôture, reporting, référentiels et interfaces',
-                    'cadrage des besoins, des processus Finance, des responsabilités et de la gouvernance cible',
-                    'évaluation des scénarios ERP ou EPM et objectivation des choix',
-                    'préparation de la reprise, de la recette et de la conduite du changement',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables mobilisables :',
-                [
-                    'diagnostic SI Finance, cartographie des processus et note de cadrage',
-                    'expression des besoins, roadmap, architecture fonctionnelle cible et gouvernance projet',
-                    'grille de choix, matrice de scoring et dossier d’arbitrage entre solutions et intégrateurs',
-                    'stratégie de reprise, stratégie de recette, plan de conduite du changement et indicateurs de pilotage',
-                ]
-            ),
-            default => $this->formatBulletReply(
-                'En phase de cadrage AMOA, OLING cherche d’abord à rendre le projet arbitrable et pilotable :',
-                [
-                    'clarification des objectifs, du périmètre, des priorités et des points de vigilance',
-                    'ateliers métier, cartographie des processus et expression des besoins',
-                    'choix du scénario cible, gouvernance projet, macro-planning et stratégie de consultation si nécessaire',
-                    'anticipation des interfaces, de la reprise, de la recette et de la conduite du changement',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables mobilisables :',
-                [
-                    'note de cadrage, macro-planning et gouvernance projet',
-                    'expression des besoins, cahier des charges et critères de choix',
-                    'cartographie des processus ou dossier de consultation selon le contexte',
-                    'stratégie de recette, plan de migration et plan de conduite du changement',
-                ]
-            ),
-        };
+        return $this->twoPartReply('cadrage.'.($this->hasHeuristicBlock('cadrage.'.$track) ? $track : 'default'));
     }
 
     /**
@@ -316,22 +231,22 @@ class HeuristicAiProvider implements AiProviderInterface
 
             if ($this->mentionsAmoaProgiciel($visitorMessage)) {
                 return $this->formatBulletReply(
-                    'Oui. OLING dispose de références anonymisées sur ce type de contexte, y compris en AMOA progiciel.',
+                    $this->hText('reference.with_amoa'),
                     [$lead]
                 );
             }
 
             return $this->formatBulletReply(
-                'Oui. OLING dispose de références anonymisées sur ce type de contexte.',
+                $this->hText('reference.with_reference'),
                 [$lead]
             );
         }
 
         if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
-            return 'OLING intervient en AMOA progiciel et peut présenter des références anonymisées par secteur, mission et contexte, sans citer de client.';
+            return $this->hText('reference.amoa_no_doc');
         }
 
-        return 'Je peux présenter des références OLING de manière anonymisée, par secteur, mission, technologie et problématique traitée.';
+        return $this->hText('reference.default_no_doc');
     }
 
     /**
@@ -342,77 +257,11 @@ class HeuristicAiProvider implements AiProviderInterface
     {
         $domain = $this->detectExpertDomain($visitorMessage, $documents, $qualification);
 
-        return match ($domain) {
-            'qse' => $this->formatBulletReply(
-                'Sur les sujets QSE, OLING intervient surtout pour structurer un dispositif pilotable et exploitable par les équipes :',
-                [
-                    'diagnostic du dispositif existant, des écarts, des responsabilités et des pratiques réellement tenues',
-                    'mise en cohérence entre exigences qualité, sécurité, environnement, organisation et outils',
-                    'préparation ou remise sous contrôle de démarches ISO 9001, ISO 14001, ISO 45001 ou Qualiopi selon le contexte',
-                    'définition d’un pilotage concret avec plans d’actions, indicateurs, revues et preuves attendues',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables typiques :',
-                [
-                    'diagnostic QSE, cartographie des écarts et feuille de route',
-                    'matrice des responsabilités, processus cibles et plan de maîtrise',
-                    'plan d’actions, indicateurs, supports de revue et dossier de preuves',
-                    'trame documentaire, politiques, procédures et supports de sensibilisation',
-                ]
-            ),
-            'cyber' => $this->formatBulletReply(
-                'Sur les sujets cybersécurité, conformité et résilience, OLING cherche d’abord à rendre le dispositif gouvernable et priorisable :',
-                [
-                    'évaluation de posture, analyse de risques et lecture des dépendances critiques',
-                    'mise en cohérence entre sécurité SI, continuité, exigences métiers, fournisseurs et gouvernance',
-                    'structuration de trajectoires ISO 27001, NIS2, DORA, PCA/PRA ou organisation de crise',
-                    'priorisation des mesures, arbitrages et preuves de pilotage attendues par la direction',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables typiques :',
-                [
-                    'diagnostic de posture, cartographie des risques et feuille de route cyber',
-                    'politique de sécurité, gouvernance, RACI et plan de traitement',
-                    'dispositif PCA/PRA, scénarios de crise et plan de tests',
-                    'tableau de bord de conformité, indicateurs et supports de comité',
-                ]
-            ),
-            'rgpd' => $this->formatBulletReply(
-                'Sur les sujets RGPD et gouvernance des données, OLING intervient pour remettre la conformité dans un cadre opérationnel :',
-                [
-                    'diagnostic du dispositif, des traitements, des rôles et des preuves disponibles',
-                    'articulation entre registre, AIPD, sous-traitants, demandes de droits et mesures de sécurité',
-                    'mise en cohérence entre RGPD, outils, pratiques métiers, DSI et gouvernance interne',
-                    'priorisation des écarts et organisation durable du pilotage DPO ou DPO externalisé',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables typiques :',
-                [
-                    'registre, cartographie des traitements et feuille de route RGPD',
-                    'AIPD, matrice de rôles, procédures et trame documentaire',
-                    'plan d’actions, support de preuves et dispositif de sensibilisation',
-                    'cadre de gouvernance DPO, calendrier de revues et suivi des écarts',
-                ]
-            ),
-            'ia_conformite' => $this->formatBulletReply(
-                'Sur la conformité IA, OLING aide à sécuriser les usages avant qu’ils ne deviennent une dette de gouvernance :',
-                [
-                    'cartographie des usages IA, des risques, des données et des dépendances fournisseurs',
-                    'alignement entre AI Act, RGPD, cybersécurité, achats et supervision humaine',
-                    'définition des rôles, contrôles, critères d’escalade et exigences de preuve',
-                    'mise sous contrôle des cas d’usage sensibles et du pilotage des agents ou assistants IA',
-                ]
-            )."\n\n".$this->formatBulletReply(
-                'Livrables typiques :',
-                [
-                    'cartographie des usages IA et matrice de risques',
-                    'politique IA, cadre de gouvernance et registre de conformité',
-                    'dossier de preuves, exigences fournisseurs et contrôles de supervision',
-                    'plan d’actions AI Act / RGPD / cyber et tableau de bord de suivi',
-                ]
-            ),
-            default => $this->buildInformationReply($visitorMessage, $documents, $qualification),
-        };
+        if (!$this->hasHeuristicBlock('domain.'.$domain)) {
+            return $this->buildInformationReply($visitorMessage, $documents, $qualification);
+        }
+
+        return $this->twoPartReply('domain.'.$domain);
     }
 
     /**
@@ -427,7 +276,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
             if ($support !== null) {
                 return $this->formatBulletReply(
-                    'Voici le point le plus pertinent pour votre sujet :',
+                    $this->hText('project_analysis.intro'),
                     [
                         $lead,
                         $this->bridgeSentence($support['text']),
@@ -440,13 +289,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
         $primaryNeed = $qualification['primary_need'] ?? null;
 
-        return match ($primaryNeed) {
-            'amoa_erp' => 'OLING intervient sur le cadrage et la sécurisation des projets ERP et applicatifs métiers.',
-            'rgpd' => 'OLING peut intervenir sur la mise sous contrôle du dispositif RGPD, la gouvernance, les preuves et le plan d’actions.',
-            'cybersecurite' => 'OLING peut intervenir sur l’analyse de risques, la gouvernance sécurité, la feuille de route et la remise sous contrôle du dispositif.',
-            'conformite' => 'OLING peut intervenir sur le diagnostic, la cartographie des écarts, les priorités et le pilotage des actions.',
-            default => 'OLING peut intervenir pour structurer le sujet, clarifier le périmètre et sécuriser la trajectoire de mise en œuvre.',
-        };
+        return $this->hMap('project_analysis.primary_need')[$primaryNeed] ?? $this->hText('project_analysis.default');
     }
 
     /**
@@ -456,11 +299,11 @@ class HeuristicAiProvider implements AiProviderInterface
     private function nextUsefulQuestion(string $visitorMessage, array $qualification, array $missingFields): string
     {
         if (($qualification['primary_need'] ?? null) === 'amoa_erp') {
-            return 'Pour avancer, quel est votre point prioritaire: clarifier le périmètre, choisir une solution, sécuriser les données et interfaces, ou reprendre un projet déjà lancé ?';
+            return $this->hText('next_question.amoa_erp');
         }
 
         if ($this->qualificationService->isTooVague($qualification)) {
-            return 'Pour bien cadrer: votre sujet porte surtout sur un outil, une organisation, une contrainte réglementaire ou un risque ?';
+            return $this->hText('next_question.too_vague');
         }
 
         if ($this->isInformationRequest($visitorMessage)) {
@@ -468,14 +311,14 @@ class HeuristicAiProvider implements AiProviderInterface
         }
 
         if (in_array('primary_need', $missingFields, true)) {
-            return 'Le point clé est-il plutôt le choix de solution, le cadrage, la conformité, la sécurité ou l’organisation cible ?';
+            return $this->hText('next_question.missing_primary_need');
         }
 
         if (preg_match('/\b(remplacer|obsolete|obsolescent|migration)\b/', $this->normalize($visitorMessage)) === 1) {
-            return 'Le point déterminant est de savoir si vous cherchez d’abord à remplacer l’outil, à remettre à plat les processus, ou à sécuriser les deux en parallèle.';
+            return $this->hText('next_question.replacement');
         }
 
-        return 'Quel est le point métier ou opérationnel le plus important à sécuriser dans votre contexte ?';
+        return $this->hText('next_question.default');
     }
 
     private function looksLikeGreeting(string $message): bool
@@ -597,16 +440,9 @@ class HeuristicAiProvider implements AiProviderInterface
     private function buildErpQuestionnaireReply(): string
     {
         return $this->formatBulletReply(
-            'Pour qualifier un besoin ERP ou progiciel, OLING commence par cadrer les points suivants :',
-            [
-                'contexte métier, irritants actuels, objectifs attendus et niveau de maturité du projet',
-                'modules concernés: finance, achats, ventes, stocks, production, maintenance, RH, reporting ou interfaces',
-                'périmètre cible, sites concernés, volumes, données à reprendre et interfaces critiques',
-                'contraintes sécurité, RGPD, habilitations, hébergement, traçabilité et continuité d’activité',
-                'livrables AMOA attendus: note de cadrage, expression de besoins, cahier des charges, grille de choix, recette, reprise et conduite du changement',
-                'macro-planning, gouvernance, risques, charge et budget indicatifs à confirmer après échange',
-            ]
-        )."\n\n".'Première question: quel progiciel ou domaine applicatif souhaitez-vous cadrer, et quel irritant métier déclenche le projet ?';
+            $this->hText('erp_questionnaire.intro'),
+            $this->hList('erp_questionnaire.items')
+        )."\n\n".$this->hText('erp_questionnaire.first_question');
     }
 
     private function isDirectContactQuestion(string $message): bool
@@ -677,17 +513,17 @@ class HeuristicAiProvider implements AiProviderInterface
         $text = $this->normalize($message);
 
         if (preg_match('/\b(client|clients)\b/', $text) === 1) {
-            return 'Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.';
+            return $this->hText('confidential.clients');
         }
 
-        return 'Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche indiquer les expériences OLING pertinentes sur ce type de contexte.';
+        return $this->hText('confidential.named');
     }
 
     private function excerptSentence(string $text): string
     {
         $clean = trim(preg_replace('/\s+/', ' ', $text) ?? $text);
         if ($clean === '') {
-            return 'OLING dispose d’un retour d’expérience pertinent sur ce type de sujet.';
+            return $this->hText('excerpt_fallback');
         }
 
         if (mb_strlen($clean) <= 220) {
@@ -730,7 +566,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
     private function bridgeSentence(string $text): string
     {
-        return 'OLING intervient aussi sur '.$this->lowercaseFirst($this->excerptSentence($text));
+        return sprintf($this->hText('bridge'), $this->lowercaseFirst($this->excerptSentence($text)));
     }
 
     /**
@@ -833,6 +669,46 @@ class HeuristicAiProvider implements AiProviderInterface
     private function bulletLine(string $text): string
     {
         return '- '.$text;
+    }
+
+    private function hText(string $path): string
+    {
+        return $this->contentProvider->text('heuristic.'.$path);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function hList(string $path): array
+    {
+        return $this->contentProvider->list('heuristic.'.$path);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function hMap(string $path): array
+    {
+        return $this->contentProvider->map('heuristic.'.$path);
+    }
+
+    private function hasHeuristicBlock(string $path): bool
+    {
+        return $this->hText($path.'.approach.intro') !== ''
+            && $this->hList($path.'.approach.items') !== []
+            && $this->hText($path.'.deliverables.intro') !== ''
+            && $this->hList($path.'.deliverables.items') !== [];
+    }
+
+    private function twoPartReply(string $path): string
+    {
+        return $this->formatBulletReply(
+            $this->hText($path.'.approach.intro'),
+            $this->hList($path.'.approach.items')
+        )."\n\n".$this->formatBulletReply(
+            $this->hText($path.'.deliverables.intro'),
+            $this->hList($path.'.deliverables.items')
+        );
     }
 
     private function lowercaseFirst(string $text): string

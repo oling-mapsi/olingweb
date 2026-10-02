@@ -18,6 +18,7 @@ class ChatConversationManager
         private readonly ChatSummaryService $summaryService,
         private readonly ChatLeadMailer $leadMailer,
         private readonly PublicContentCatalog $publicContentCatalog,
+        private readonly AiConsultantContentProvider $contentProvider,
     ) {
     }
 
@@ -29,12 +30,13 @@ class ChatConversationManager
             ->setSourcePath($sourcePath)
             ->setSourceUrl($sourceUrl)
             ->setReferrer($referrer)
-            ->setLocale($locale ?: 'fr')
+            ->setLocale(AiConsultantContentProvider::LOCALE)
+            ->setPromptVersion(AiConsultantContentProvider::VERSION)
             ->setIpHash($ip ? hash('sha256', $ip) : null)
             ->setUserAgentHash($userAgent ? hash('sha256', $userAgent) : null);
 
         $this->entityManager->persist($conversation);
-        $this->addAssistantMessage($conversation, $this->chatResponder->getWelcomeMessage(), 'welcome');
+        $this->addAssistantMessage($conversation, $this->chatResponder->getWelcomeMessage($conversation->getLocale() ?: AiConsultantContentProvider::LOCALE), 'welcome');
         $this->entityManager->flush();
 
         return $conversation;
@@ -78,15 +80,15 @@ class ChatConversationManager
         $rgpdConsent = (bool) ($payload['rgpdConsent'] ?? false);
 
         if ($fullName === '' || $email === '' || $phone === '' || $company === '' || $needDescription === '') {
-            throw new \InvalidArgumentException('Tous les champs sont obligatoires.');
+            throw new \InvalidArgumentException($this->contentProvider->text('copy.lead_required', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE));
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException('L’email n’est pas valide.');
+            throw new \InvalidArgumentException($this->contentProvider->text('copy.lead_invalid_email', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE));
         }
 
         if (!$rgpdConsent) {
-            throw new \InvalidArgumentException('Le consentement RGPD est obligatoire.');
+            throw new \InvalidArgumentException($this->contentProvider->text('copy.lead_consent_required', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE));
         }
 
         $now = new \DateTimeImmutable();
@@ -123,7 +125,7 @@ class ChatConversationManager
         $conversation->setEmailSentAt($now);
         $this->addAssistantMessage(
             $conversation,
-            'Merci, votre demande a bien été envoyée. Un consultant OLING reviendra vers vous rapidement. Si vous le souhaitez, vous pouvez aussi continuer ici et poser une autre question.',
+            $this->contentProvider->text('copy.lead_confirmation', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE),
             'confirmation'
         );
         $this->touchConversation($conversation);
@@ -221,7 +223,7 @@ class ChatConversationManager
             $content = trim($message->getContent());
 
             if (str_contains($content, 'Constat') && str_contains($content, 'Prochaine étape')) {
-                return 'Bonjour. Je peux vous aider à clarifier votre besoin. Décrivez simplement votre contexte, votre enjeu ou votre point de blocage.';
+                return $this->contentProvider->text('copy.legacy_welcome', $message->getConversation()?->getLocale() ?: AiConsultantContentProvider::LOCALE);
             }
         }
 

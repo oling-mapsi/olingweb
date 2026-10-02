@@ -5,6 +5,7 @@
   data-show-url-template="{{ path('api_chat_conversation_show', {token: 'CHAT_TOKEN'}) }}"
   data-message-url-template="{{ path('api_chat_conversation_message', {token: 'CHAT_TOKEN'}) }}"
   data-lead-url-template="{{ path('api_chat_conversation_lead', {token: 'CHAT_TOKEN'}) }}"
+  data-erp-questionnaire-url-template="{{ path('api_chat_conversation_erp_questionnaire', {token: 'CHAT_TOKEN'}) }}"
   data-csrf-token="{{ csrf_token('chat_widget') }}"
   data-contact-fallback-url="{{ path('contact', {chat_fallback: 1}) }}"
   data-privacy-url="{{ path('polrgpd') }}"
@@ -12,14 +13,61 @@
   data-contact-phone="01 89 70 15 60"
   data-contact-email="contact@oling.fr"
 >
-  <button type="button" class="oling-chat-widget__launcher" aria-controls="oling-chat-panel" aria-expanded="false" aria-label="Ouvrir le Consultant IA OLING">
+  <script type="application/json" data-chat-i18n>{{ {
+    loadingOpenErp: 'chat.loading_open_erp'|trans,
+    loadingGenerateErp: 'chat.loading_generate_erp'|trans,
+    loadingReset: 'chat.loading_reset'|trans,
+    errorOpenErp: 'chat.error_open_erp'|trans,
+    errorSubmitErp: 'chat.error_submit_erp'|trans,
+    erpSent: 'chat.erp_sent'|trans,
+    erpResultTitle: 'chat.erp.result_title'|trans,
+    erpMaturity: 'chat.erp.maturity'|trans,
+    erpComplexity: 'chat.erp.complexity'|trans,
+    erpCharge: 'chat.erp.charge'|trans,
+    erpBudget: 'chat.erp.budget_estimate'|trans,
+    erpDeliverables: 'chat.erp.deliverables'|trans,
+    erpClarifications: 'chat.erp.clarifications'|trans,
+    erpDownloadPdf: 'chat.erp.download_pdf'|trans,
+    erpNotice: 'chat.erp.notice'|trans
+    , contactForm: 'chat.contact_form'|trans,
+    contactIntro: 'chat.js.contact_intro'|trans,
+    sourcePage: 'common.page'|trans,
+    sourceExpertise: 'chat.js.source_expertise'|trans,
+    sourceService: 'chat.js.source_service'|trans,
+    sourceReference: 'chat.js.source_reference'|trans,
+    sourceTeam: 'chat.js.source_team'|trans,
+    sourceResource: 'chat.js.source_resource'|trans,
+    assistantMeta: 'chat.js.assistant_meta'|trans,
+    visitorMeta: 'chat.js.visitor_meta'|trans,
+    welcomeBadge: 'chat.js.welcome_badge'|trans,
+    welcomeText: 'chat.js.welcome_text'|trans,
+    welcomeItem1: 'chat.js.welcome_item_1'|trans,
+    welcomeItem2: 'chat.js.welcome_item_2'|trans,
+    welcomeItem3: 'chat.js.welcome_item_3'|trans,
+    submitLead: 'chat.submit_lead'|trans,
+    send: 'chat.send'|trans,
+    sending: 'chat.js.sending'|trans,
+    leadSubmitted: 'chat.js.lead_submitted'|trans,
+    followupPlaceholder: 'chat.js.followup_placeholder'|trans,
+    leadOffer: 'chat.js.lead_offer'|trans,
+    genericError: 'chat.js.generic_error'|trans,
+    openChat: 'chat.js.open_chat'|trans,
+    openChatError: 'chat.js.open_chat_error'|trans,
+    launchQuestionnaireError: 'chat.js.launch_questionnaire_error'|trans,
+    typing: 'chat.js.typing'|trans,
+    sendError: 'chat.js.send_error'|trans,
+    leadSending: 'chat.js.lead_sending'|trans,
+    leadSubmitError: 'chat.js.lead_submit_error'|trans,
+    resetError: 'chat.js.reset_error'|trans
+  }|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  <button type="button" class="oling-chat-widget__launcher" aria-controls="oling-chat-panel" aria-expanded="false" aria-label="{{ 'chat.launcher_aria'|trans }}">
     <span class="oling-chat-widget__launcher-voice" aria-hidden="true">
       <span></span><span></span><span></span>
     </span>
     <span class="oling-chat-widget__launcher-core" aria-hidden="true">
       <span class="oling-chat-widget__launcher-dot"></span>
     </span>
-    <span class="oling-chat-widget__launcher-label"><strong>Consultant IA OLING</strong><span>Une IA au service de la presentation des activites Oling.</span></span>
+    <span class="oling-chat-widget__launcher-label"><strong>{{ 'chat.title'|trans }}</strong><span>{{ 'chat.launcher_subtitle'|trans }}</span></span>
   </button>
 
   <section id="oling-chat-panel" class="oling-chat-widget__panel" aria-hidden="true">
@@ -34,9 +82,9 @@
         </span>
       </div>
       <div class="oling-chat-widget__header-copy">
-        <span class="oling-chat-widget__header-kicker text-white">Consultant IA OLING</span>
+        <span class="oling-chat-widget__header-kicker text-white">{{ 'chat.title'|trans }}</span>
       </div>
-      <button type="button" class="oling-chat-widget__close" aria-label="Fermer le chat" title="Fermer">
+      <button type="button" class="oling-chat-widget__close" aria-label="{{ 'chat.close'|trans }}" title="{{ 'chat.close_short'|trans }}">
         <span aria-hidden="true">×</span>
       </button>
     </header>
@@ -46,48 +94,101 @@
 
       <div class="oling-chat-widget__messages" data-chat-messages></div>
 
+      <form class="oling-chat-widget__lead d-none" data-chat-erp-form>
+        <div class="oling-chat-widget__lead-head">
+          <div class="oling-chat-widget__lead-title">{{ 'chat.erp.title'|trans }}</div>
+          <p>{{ 'chat.erp.intro'|trans }}</p>
+        </div>
+        <input class="d-none" tabindex="-1" autocomplete="off" name="website" value="">
+        <div class="row g-2">
+          <div class="col-12"><input class="form-control" name="fullName" maxlength="160" placeholder="{{ 'chat.full_name'|trans }} *" required></div>
+          <div class="col-12"><input type="email" class="form-control" name="email" maxlength="180" placeholder="{{ 'chat.email'|trans }} *" required></div>
+          <div class="col-12"><input class="form-control" name="phone" maxlength="50" placeholder="{{ 'chat.phone'|trans }} *" required></div>
+          <div class="col-12"><input class="form-control" name="company" maxlength="180" placeholder="{{ 'chat.erp.organization'|trans }} *" required></div>
+          <div class="col-6"><input class="form-control" name="jobTitle" maxlength="160" placeholder="{{ 'chat.erp.function'|trans }}"></div>
+          <div class="col-6"><input class="form-control" name="sector" maxlength="160" placeholder="{{ 'chat.erp.sector'|trans }}"></div>
+          <div class="col-6"><select class="form-select" name="organizationSize"><option value="">{{ 'chat.erp.organization_size'|trans }}</option><option value="1_49">1 à 49</option><option value="50_249">50 à 249</option><option value="250_999">250 à 999</option><option value="1000_plus">1000+</option></select></div>
+          <div class="col-6"><select class="form-select" name="userCount"><option value="">{{ 'chat.erp.user_count'|trans }}</option><option value="1_49">1 à 49</option><option value="50_249">50 à 249</option><option value="250_999">250 à 999</option><option value="1000_plus">1000+</option></select></div>
+          <div class="col-6"><select class="form-select" name="solutionType" required><option value="">{{ 'chat.erp.solution_type'|trans }} *</option><option value="erp">ERP</option><option value="si_finance">SI Finance</option><option value="purchasing_solution">{{ 'chat.erp.options.purchasing'|trans }}</option><option value="sales_solution">Gestion commerciale</option><option value="crm">CRM</option><option value="sirh">SIRH / Paie</option><option value="gmao">GMAO</option><option value="mes">MES / production</option><option value="bi">BI / reporting</option><option value="business_solution">Solution métier</option><option value="other">Autre</option></select></div>
+          <div class="col-6"><select class="form-select" name="projectMaturity" required><option value="">{{ 'chat.erp.maturity'|trans }} *</option><option value="idea">{{ 'chat.erp.options.reflection'|trans }}</option><option value="scoping">{{ 'chat.erp.options.scoping'|trans }}</option><option value="consultation">{{ 'chat.erp.options.consultation'|trans }}</option><option value="running">{{ 'chat.erp.options.running'|trans }}</option><option value="blocked">{{ 'chat.erp.options.blocked'|trans }}</option></select></div>
+          <div class="col-12"><textarea class="form-control" name="context" maxlength="1200" rows="2" placeholder="{{ 'chat.erp.context'|trans }} *" required></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="need" maxlength="1200" rows="2" placeholder="{{ 'chat.erp.need'|trans }} *" required></textarea></div>
+          <div class="col-12">
+            <div class="oling-chat-widget__field-label">{{ 'chat.erp.functional_scope'|trans }} *</div>
+            <div class="row g-1">
+              {% for key,label in {'finance':'chat.erp.options.finance'|trans,'budget':'Budget','purchasing':'chat.erp.options.purchasing'|trans,'sales':'chat.erp.options.sales'|trans,'crm':'CRM','stock':'chat.erp.options.stock'|trans,'production':'chat.erp.options.production'|trans,'maintenance':'GMAO','hr':'SIRH','reporting':'chat.erp.options.reporting'|trans,'ged':'GED','interfaces':'chat.erp.interfaces'|trans} %}
+                <label class="col-6 form-check"><input class="form-check-input" type="checkbox" name="functionalScope[]" value="{{ key }}"> <span class="form-check-label">{{ label }}</span></label>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-12"><textarea class="form-control" name="irritants" maxlength="1200" rows="2" placeholder="{{ 'chat.erp.irritants'|trans }} *" required></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="scope" maxlength="1200" rows="2" placeholder="{{ 'chat.erp.scope'|trans }} *" required></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="organization" maxlength="1000" rows="2" placeholder="{{ 'chat.erp.project_organization'|trans }} *" required></textarea></div>
+          <div class="col-6"><select class="form-select" name="dataMigration"><option value="unknown">{{ 'chat.erp.data_migration'|trans }}</option><option value="yes">{{ 'chat.erp.options.yes'|trans }}</option><option value="no">{{ 'chat.erp.options.no'|trans }}</option></select></div>
+          <div class="col-6"><select class="form-select" name="interfaceLevel"><option value="none">{{ 'chat.erp.no_major_interface'|trans }}</option><option value="few">{{ 'chat.erp.few_interfaces'|trans }}</option><option value="several">{{ 'chat.erp.several_systems'|trans }}</option><option value="many">{{ 'chat.erp.many_interfaces'|trans }}</option></select></div>
+          <div class="col-12"><textarea class="form-control" name="dataInterfaces" maxlength="1000" rows="2" placeholder="{{ 'chat.erp.data_interfaces'|trans }}"></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="securityRgpd" maxlength="800" rows="2" placeholder="{{ 'chat.erp.security_rgpd'|trans }}"></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="constraints" maxlength="800" rows="2" placeholder="{{ 'chat.erp.constraints'|trans }}"></textarea></div>
+          <div class="col-12"><textarea class="form-control" name="planning" maxlength="600" rows="2" placeholder="{{ 'chat.erp.expected_planning'|trans }} *" required></textarea></div>
+          <div class="col-6"><select class="form-select" name="urgency"><option value="">{{ 'chat.erp.urgency'|trans }}</option><option value="immediate">{{ 'chat.erp.options.immediate'|trans }}</option><option value="short_term">{{ 'chat.erp.options.short_term'|trans }}</option><option value="planned">{{ 'chat.erp.options.planned'|trans }}</option><option value="exploratory">{{ 'chat.erp.options.exploratory'|trans }}</option></select></div>
+          <div class="col-6"><select class="form-select" name="budgetRange"><option value="">{{ 'chat.erp.budget'|trans }}</option><option value="lt_15k">< 15 k€</option><option value="15_30k">15 à 30 k€</option><option value="30_60k">30 à 60 k€</option><option value="60k_plus">> 60 k€</option></select></div>
+          <div class="col-12">
+            <div class="oling-chat-widget__field-label">{{ 'chat.erp.expectations'|trans }} *</div>
+            <div class="row g-1">
+              {% for key,label in {'cadrage':'chat.erp.options.scoping'|trans,'requirements':'chat.erp.options.requirements'|trans,'spec':'chat.erp.options.spec'|trans,'vendor':'chat.erp.options.vendor'|trans,'planning':'Macro-planning','data':'chat.erp.options.data'|trans,'change':'chat.erp.options.change'|trans,'pilotage':'chat.erp.options.pilotage'|trans} %}
+                <label class="col-6 form-check"><input class="form-check-input" type="checkbox" name="amoaExpectations[]" value="{{ key }}"> <span class="form-check-label">{{ label }}</span></label>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-12"><label class="oling-chat-widget__consent"><input type="checkbox" name="rgpdConsent" value="1" required> <span>{{ 'chat.erp.consent'|trans }} <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span></label></div>
+          <div class="col-12"><button type="submit" class="btn btn-primary w-100">{{ 'chat.erp.submit'|trans }}</button></div>
+        </div>
+      </form>
+
+      <div class="oling-chat-widget__lead d-none" data-chat-erp-result></div>
+
       <div class="oling-chat-widget__lead d-none" data-chat-lead>
         <div class="oling-chat-widget__lead-head">
-          <div class="oling-chat-widget__lead-title">Coordonnées de contact</div>
-          <p>Ces informations servent uniquement à transmettre une synthèse exploitable à un consultant OLING.</p>
+          <div class="oling-chat-widget__lead-title">{{ 'chat.contact_title'|trans }}</div>
+          <p>{{ 'chat.contact_intro'|trans }}</p>
         </div>
         <div class="row g-2">
           <div class="col-12">
             <label class="oling-chat-widget__field-label" for="chatFullName">
-              Nom et prénom <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
+              {{ 'chat.full_name'|trans }} <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
             </label>
-            <input type="text" class="form-control" id="chatFullName" name="chatFullName" placeholder="Nom et prénom" required>
+            <input type="text" class="form-control" id="chatFullName" name="chatFullName" placeholder="{{ 'chat.full_name'|trans }}" required>
           </div>
           <div class="col-12">
             <label class="oling-chat-widget__field-label" for="chatEmail">
-              Email professionnel <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
+              {{ 'chat.email'|trans }} <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
             </label>
-            <input type="email" class="form-control" id="chatEmail" name="chatEmail" placeholder="Email professionnel" required>
+            <input type="email" class="form-control" id="chatEmail" name="chatEmail" placeholder="{{ 'chat.email'|trans }}" required>
           </div>
           <div class="col-12">
-            <label class="oling-chat-widget__field-label" for="chatPhone">Téléphone</label>
-            <input type="text" class="form-control" id="chatPhone" name="chatPhone" placeholder="Téléphone">
+            <label class="oling-chat-widget__field-label" for="chatPhone">{{ 'chat.phone'|trans }}</label>
+            <input type="text" class="form-control" id="chatPhone" name="chatPhone" placeholder="{{ 'chat.phone'|trans }}">
           </div>
           <div class="col-12">
             <label class="oling-chat-widget__field-label" for="chatCompany">
-              Société <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
+              {{ 'chat.company'|trans }} <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
             </label>
-            <input type="text" class="form-control" id="chatCompany" name="chatCompany" placeholder="Société" required>
+            <input type="text" class="form-control" id="chatCompany" name="chatCompany" placeholder="{{ 'chat.company'|trans }}" required>
           </div>
           <div class="col-12">
             <label class="oling-chat-widget__field-label" for="chatNeedDescription">
-              Description synthétique du besoin <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
+              {{ 'chat.need'|trans }} <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
             </label>
-            <textarea class="form-control" id="chatNeedDescription" name="chatNeedDescription" rows="4" placeholder="Description synthétique du besoin" required></textarea>
+            <textarea class="form-control" id="chatNeedDescription" name="chatNeedDescription" rows="4" placeholder="{{ 'chat.need'|trans }}" required></textarea>
           </div>
           <div class="col-12">
             <label class="oling-chat-widget__consent">
               <input type="checkbox" name="chatConsent">
-              <span>J’accepte que les informations transmises soient utilisées par OLING pour traiter ma demande de contact. <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">Politique RGPD</a></span>
+              <span>{{ 'chat.consent'|trans }} <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span>
             </label>
           </div>
           <div class="col-12">
-            <button type="button" class="btn btn-primary w-100" data-chat-submit-lead>Transmettre la demande</button>
+            <button type="button" class="btn btn-primary w-100" data-chat-submit-lead>{{ 'chat.submit_lead'|trans }}</button>
           </div>
         </div>
       </div>
@@ -98,16 +199,16 @@
 
     <form class="oling-chat-widget__composer" data-chat-composer>
       <div class="oling-chat-widget__composer-shell">
-        <textarea class="form-control" rows="1" placeholder="Décrivez votre contexte, enjeu ou blocage..." name="chatMessage"></textarea>
-        <button type="submit" class="oling-chat-widget__send" aria-label="Envoyer" title="Envoyer">
+        <textarea class="form-control" rows="1" placeholder="{{ 'chat.placeholder'|trans }}" name="chatMessage"></textarea>
+        <button type="submit" class="oling-chat-widget__send" aria-label="{{ 'chat.send'|trans }}" title="{{ 'chat.send'|trans }}">
           <span aria-hidden="true">➜</span>
         </button>
       </div>
       <div class="oling-chat-widget__composer-footer">
-        <p class="oling-chat-widget__composer-note">L’IA peut faire des erreurs. N’hésitez pas à nous contacter pour toute question. <a href="{{ path('contact', {chat_fallback: 1}) }}" data-chat-bypass="true">Formulaire de contact</a></p>
+        <p class="oling-chat-widget__composer-note">{{ 'chat.ai_notice'|trans }} <a href="{{ path('contact', {chat_fallback: 1}) }}" data-chat-bypass="true">{{ 'chat.contact_form'|trans }}</a></p>
         <div class="oling-chat-widget__composer-bar">
           <div class="oling-chat-widget__composer-tools">
-            <button type="button" class="oling-chat-widget__aux oling-chat-widget__aux-button d-none" data-chat-reset data-label="Réinitialiser le chat" aria-label="Réinitialiser le chat" title="Réinitialiser le chat">
+            <button type="button" class="oling-chat-widget__aux oling-chat-widget__aux-button d-none" data-chat-reset data-label="{{ 'chat.reset'|trans }}" aria-label="{{ 'chat.reset'|trans }}" title="{{ 'chat.reset'|trans }}">
               <span class="oling-chat-widget__aux-icon oling-chat-widget__aux-icon--reset" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
                   <path d="M20 11a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>

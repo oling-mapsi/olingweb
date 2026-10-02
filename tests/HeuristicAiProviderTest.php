@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Entity\ChatConversation;
 use App\Entity\ChatMessage;
 use App\Service\Chat\Ai\HeuristicAiProvider;
+use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatQualificationService;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +14,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testCnefErpRequestIsNotMisclassifiedAsSectorCoverage(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
         $question = 'La CNEF veut remplacer son ERP pour ses services, cadrer la reprise de données et consulter un intégrateur.';
 
         $decision = $provider->generateDecision(new ChatConversation(), $question, [[
@@ -40,7 +41,7 @@ class HeuristicAiProviderTest extends TestCase
 
         $qualificationService = new ChatQualificationService();
         $qualification = $qualificationService->qualify($conversation);
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision($conversation, $message->getContent(), [[
             'title' => 'AMOA ERP – MARTINI : Accompte démarrage Mission 20%',
@@ -67,7 +68,7 @@ class HeuristicAiProviderTest extends TestCase
 
         $qualificationService = new ChatQualificationService();
         $qualification = $qualificationService->qualify($conversation);
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision($conversation, $message->getContent(), [], $qualification);
 
@@ -78,7 +79,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderRefusesNamedClientDisclosure(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'Donnez-moi vos principaux clients.', [], []);
 
@@ -89,7 +90,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderAnswersGenericGrandPortReferenceQuestion(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'Avez-vous accompagné des grands ports sur la continuité ou la cybersécurité ?', [[
             'title' => 'Référence grand port maritime',
@@ -116,7 +117,7 @@ class HeuristicAiProviderTest extends TestCase
 
         $qualificationService = new ChatQualificationService();
         $qualification = $qualificationService->qualify($conversation);
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision($conversation, $message->getContent(), [[
             'title' => 'Référence Eau et assainissement - AMOA progiciel',
@@ -133,7 +134,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderHandlesShortSectorFollowUpWithReferenceContext(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'eaux et assainissement ?', [[
             'title' => 'Référence Eau et assainissement - AMOA progiciel',
@@ -149,7 +150,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderReturnsDirectContactDetailsForPhoneQuestion(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'votre numéro de téléphone ?', [], []);
 
@@ -177,7 +178,7 @@ class HeuristicAiProviderTest extends TestCase
 
         $qualificationService = new ChatQualificationService();
         $qualification = $qualificationService->qualify($conversation);
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision($conversation, $current->getContent(), [[
             'title' => 'AMOA Réforme de la facturation électronique (RFE)',
@@ -200,7 +201,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderAnswersClearlyOnSectorCoverage(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'intervenez vous dans le transport et l assainissement ?', [[
             'title' => 'Référence Eau et assainissement - AMOA progiciel',
@@ -222,7 +223,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderBuildsExpertQseReplyWithDeliverables(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'que faites vous en qse et quels livrables ?', [[
             'title' => 'QSE, qualité, sécurité et environnement',
@@ -240,7 +241,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderBuildsExpertCyberReplyWithResilienceDeliverables(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'quels livrables sur un sujet iso 27001 nis2 pca pra ?', [[
             'title' => 'Sécurité des SI, ISO 27001, DORA et NIS2',
@@ -258,7 +259,7 @@ class HeuristicAiProviderTest extends TestCase
     public function testProviderBuildsExpertAiComplianceReply(): void
     {
         $qualificationService = new ChatQualificationService();
-        $provider = new HeuristicAiProvider($qualificationService);
+        $provider = new HeuristicAiProvider($qualificationService, $this->contentProvider());
 
         $decision = $provider->generateDecision(new ChatConversation(), 'que faites vous sur ai act et gouvernance ia ?', [[
             'title' => 'Conformité IA, gouvernance et AI Act',
@@ -270,5 +271,30 @@ class HeuristicAiProviderTest extends TestCase
         self::assertStringContainsString('ai act', mb_strtolower($decision->reply));
         self::assertStringContainsString('registre de conformité', mb_strtolower($decision->reply));
         self::assertStringContainsString('supervision', mb_strtolower($decision->reply));
+    }
+
+    public function testProviderUsesLocalizedHeuristicCopy(): void
+    {
+        $qualificationService = new ChatQualificationService();
+        $contentProvider = new class(dirname(__DIR__)) extends AiConsultantContentProvider {
+            public function text(string $path, string $locale = self::LOCALE): string
+            {
+                if ($path === 'heuristic.information.default') {
+                    return 'Réponse localisée depuis la source JSON.';
+                }
+
+                return parent::text($path, $locale);
+            }
+        };
+        $provider = new HeuristicAiProvider($qualificationService, $contentProvider);
+
+        $decision = $provider->generateDecision(new ChatConversation(), 'que faites vous', [], []);
+
+        self::assertSame('Réponse localisée depuis la source JSON.', $decision->reply);
+    }
+
+    private function contentProvider(): AiConsultantContentProvider
+    {
+        return new AiConsultantContentProvider(dirname(__DIR__));
     }
 }

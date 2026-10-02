@@ -19,6 +19,7 @@ class ChatResponder
         private readonly HeuristicAiProvider $heuristicProvider,
         private readonly iterable $providers,
         private readonly LoggerInterface $logger,
+        private readonly AiConsultantContentProvider $contentProvider,
         private readonly SectorTaxonomy $sectorTaxonomy = new SectorTaxonomy(),
         ?ChatOwnerRouter $ownerRouter = null,
     ) {
@@ -27,9 +28,9 @@ class ChatResponder
 
     private readonly ChatOwnerRouter $ownerRouter;
 
-    public function getWelcomeMessage(): string
+    public function getWelcomeMessage(string $locale = AiConsultantContentProvider::LOCALE): string
     {
-        return 'Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.';
+        return $this->contentProvider->text('copy.welcome', $locale);
     }
 
     public function reply(ChatConversation $conversation, string $visitorMessage): ChatReply
@@ -195,8 +196,8 @@ class ChatResponder
     ): ChatReply {
         $contactStep = $this->resolveContactStep($conversation, $visitorMessage, $qualification, false);
         $reply = $this->qualificationService->isTooVague($qualification)
-            ? 'Je peux vous aider à cadrer le sujet. Quel est surtout votre enjeu aujourd’hui: outil, organisation, conformité ou risque ?'
-            : 'Je peux vous aider à clarifier le besoin. Quel est le point le plus important à sécuriser dans votre contexte actuel ?';
+            ? $this->contentProvider->text('copy.emergency_vague', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE)
+            : $this->contentProvider->text('copy.emergency_clarify', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE);
 
         return new ChatReply(
             $this->applyFinalSafetyGuard($this->finalizeReply($reply, $contactStep)),
@@ -413,7 +414,7 @@ class ChatResponder
 
     private function contactDetailsText(bool $includeLeadForm): string
     {
-        return "Pour contacter OLING, vous pouvez utiliser ces accès directs :\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : [Ouvrir la page Contact](/contact?chat_fallback=1)";
+        return $this->contentProvider->text('copy.contact_details');
     }
 
     private function shouldShowLeadForm(string $contactStep): bool
@@ -445,10 +446,10 @@ class ChatResponder
         $text = $this->normalize($message);
 
         if (preg_match('/\b(client|clients)\b/', $text) === 1) {
-            return 'Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche vous présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.';
+            return $this->contentProvider->text('copy.confidential_clients');
         }
 
-        return 'Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche vous indiquer les expériences OLING pertinentes sur ce type de contexte.';
+        return $this->contentProvider->text('copy.confidential_named');
     }
 
     private function applyFinalSafetyGuard(string $reply): string
@@ -456,7 +457,7 @@ class ChatResponder
         $normalized = $this->normalize($reply);
 
         if (preg_match('/\b(client|clients)\b/', $normalized) === 1 && preg_match('/\b(nom|noms|liste)\b/', $normalized) === 1) {
-            return 'Je peux décrire les contextes, missions et expertises OLING pertinentes, sans citer de nom de client.';
+            return $this->contentProvider->text('copy.safety_client_names');
         }
 
         return $reply;
@@ -476,7 +477,7 @@ class ChatResponder
 
         $reference = $this->firstDocumentOfType($documents, 'reference');
         $evidence = $reference === null ? '' : ' '.$this->shortEvidence($reference['text'] ?? '');
-        $positive = sprintf('Oui. OLING dispose de références dans le secteur %s.%s', $sector, $evidence);
+        $positive = sprintf($this->contentProvider->text('copy.sector_positive'), $sector, $evidence);
 
         if ($deniesReference) {
             return $positive;

@@ -1,0 +1,740 @@
+{
+    "entity": "SitePageTranslation",
+    "locale": "en",
+    "exportedAt": "2026-10-02T22:21:44+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "conformite-reglementaire",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "regulatory-compliance",
+            "title": "Regulatory compliance | AI Act, ISO, QSE, energy and security | OLING",
+            "seoTitle": "Regulatory compliance | AI Act, ISO, QSE, energy and security | OLING",
+            "seoDescription": "Actionable regulatory compliance: AI Act, GDPR, ISO, cybersecurity, quality, environment, energy, DORA, NIS2 and evidence frameworks.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Compliance",
+            "heroTitle": "Regulatory compliance: turning obligations into action",
+            "heroIntro": "OLING helps organisations move from document-based compliance to operational compliance through governance, audit evidence, prioritised action plans and executive oversight.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Scope covered</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/rgpd\">GDPR</a>, data governance, records of processing activities, DPIAs and evidence.</li><li>AI compliance and the AI Act: classification of AI use cases, controls and governance.</li><li><a class=\"link\" href=\"/conseil-qualite\">ISO, quality, environment and energy</a> (ISO 9001/14001/50001/27001).</li><li><a class=\"link\" href=\"/cyber-securite\">Information systems security</a>, DORA, NIS2, business continuity and disaster recovery.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Deliverables and oversight</h2><ul class=\"mb-0\"><li>Requirements and risk mapping, prioritised action plan and RACI matrix.</li><li>Compliance dashboard for the executive committee.</li><li>Audit-ready evidence package and review schedule.</li><li>Alignment with critical IT projects: <a class=\"link\" href=\"/erp-progiciel\">ERP</a>, <a class=\"link\" href=\"/crm\">CRM</a>, <a class=\"link\" href=\"/gmao\">CMMS</a>, <a class=\"link\" href=\"/si-finance\">financial information systems</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">e-invoicing project advisory</a>, <a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure</a>.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Recommended pathway</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/amoa-si\">Critical IT project advisory</a> to define the scope of IT transformation programmes.</li><li><a class=\"link\" href=\"/erp-progiciel\">ERP and enterprise software</a>, <a class=\"link\" href=\"/crm\">CRM</a>, <a class=\"link\" href=\"/gmao\">CMMS</a>, <a class=\"link\" href=\"/si-finance\">financial information systems</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">e-invoicing project advisory</a>, <a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure</a>.</li><li><a class=\"link\" href=\"/rgpd\">GDPR</a>, <a class=\"link\" href=\"/cyber-securite\">cybersecurity</a> and <a class=\"link\" href=\"/conseil-qualite\">quality consulting</a> to put compliance into practice.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>Need an actionable 12-month compliance plan?</h2><p class=\"oling-lede\">We build a realistic roadmap aligned with your obligations and business priorities.</p><a class=\"btn btn-primary\" href=\"/contact\">Speak to a compliance consultant</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"conformite-reglementaire\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client engagements and delivery examples</h2>\n      <p class=\"mb-3\">Turning obligations into actionable plans</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Unified multi-framework structures covering the AI Act, GDPR, ISO, cybersecurity, energy and quality.</li>\n              <li>Prioritisation of obligations based on criticality, effort and business impact.</li>\n              <li>Evidence-based compliance management supported by committees and progress indicators.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectors covered</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View client references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start a scoping assessment</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This expertise can be scaled with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage across France and the French overseas departments and regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"How should compliance obligations be prioritised?\",\"answer\":\"By assessing regulatory requirements alongside business risks and system criticality to define a realistic action plan.\"},{\"question\":\"How can the AI Act be incorporated into an existing programme?\",\"answer\":\"By classifying AI use cases, defining appropriate controls and incorporating evidence into the governance framework already in place.\"},{\"question\":\"What evidence should be prepared for an audit?\",\"answer\":\"Requirements mapping, action plans, governance meeting minutes, completed controls and traceability records.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "GDPR, cybersecurity, NIS2, DORA, AI or ISO obligations addressed through separate workstreams.",
+                        "Audit evidence scattered across business departments, the IT department, quality and compliance teams.",
+                        "A regulatory action plan that is difficult to prioritise or monitor at committee level.",
+                        "A critical IT project that must incorporate compliance requirements from the scoping stage."
+                    ],
+                    "showFaq": false,
+                    "heroBadge": "Compliance",
+                    "heroIntro": "GDPR, cybersecurity, NIS2, DORA, AI and ISO often involve several departments. OLING structures the obligations, responsibilities, evidence and action plans that need to be managed.",
+                    "heroTitle": "Regulatory compliance: turning obligations into action",
+                    "metaTitle": "Regulatory compliance | AI Act, ISO, QSE, energy and security | OLING",
+                    "linksTitle": "Related pages",
+                    "scopeTitle": "When this engagement is useful",
+                    "deliverables": [
+                        "Mapping of obligations, risks and responsible parties.",
+                        "Prioritised action plan.",
+                        "RACI matrix and review schedule.",
+                        "Monitoring dashboard for the executive committee."
+                    ],
+                    "finalCtaText": null,
+                    "supportLinks": [
+                        {
+                            "href": "/expertises-audit/rgpd",
+                            "label": "GDPR and Data Protection Officer"
+                        },
+                        {
+                            "href": "/cyber-securite",
+                            "label": "Cybersecurity"
+                        },
+                        {
+                            "href": "/conseil-qualite",
+                            "label": "Quality consulting"
+                        }
+                    ],
+                    "triggerTitle": "What OLING delivers",
+                    "finalCtaLabel": "Speak to a compliance consultant",
+                    "finalCtaTitle": "Identify the obligations to be managed",
+                    "missionPhases": [
+                        "Map the obligations, associated risks and responsible parties.",
+                        "Prioritise actions according to criticality, effort, deadlines and business impact.",
+                        "Structure the evidence required for internal controls, audits or management reviews.",
+                        "Connect compliance with IT projects, cybersecurity, data and quality."
+                    ],
+                    "compactLanding": true,
+                    "metaDescription": "Actionable regulatory compliance: AI Act, GDPR, ISO, cybersecurity, quality, environment, energy, DORA, NIS2 and evidence frameworks.",
+                    "showReadingPath": false,
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Documents provided",
+                    "schemaServiceType": "Regulatory compliance",
+                    "showAutomaticZones": false
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "4f6e9b981916d872a0f61968e133d1dd65b08e9bed0cff864e3aaf4b484d9a11",
+            "sourceUpdatedAt": "2026-10-02T22:15:57+00:00",
+            "translatedAt": "2026-10-02T22:15:57+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "conseil-qualite",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "quality-consulting",
+            "title": "Quality consulting | Processes, ISO and continuous improvement | OLING",
+            "seoTitle": "Quality consulting | Processes, ISO and continuous improvement | OLING",
+            "seoDescription": "Quality consulting for the public sector, SMEs and mid-sized companies: process governance, ISO initiatives, performance indicators and continuous improvement.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Quality consulting",
+            "heroTitle": "Quality consulting: strengthen process reliability and sustainable performance",
+            "heroIntro": "OLING aligns your business objectives, processes and IT tools to establish measurable, sustainable quality.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Engagement areas</h2><ul class=\"mb-0\"><li>Mapping and standardisation of critical processes.</li><li>Management of quality, risk and compliance indicators.</li><li>Change management and team adoption.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Deliverables</h2><ul class=\"mb-0\"><li>Prioritised continuous improvement plan.</li><li>Quality control and governance framework.</li><li>IT project advisory roadmap and transformation pathway.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Related guides</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/ressources/indicateurs-qualite-si\">IT quality indicators: KPIs that truly support management</a></li><li><a class=\"link\" href=\"/ressources/cadrage-projet-amoa-si\">IT project scoping: mistakes to avoid</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Regulatory compliance: GDPR, AI Act, ISO, security, QSE and energy</a></li></ul></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"conseil-qualite\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client engagements and projects</h2>\n      <p class=\"mb-3\">Outcome-focused quality systems</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Redesign of processes and quality dashboards linked to business objectives.</li>\n              <li>Preparation for internal and external audits with consistent, traceable evidence.</li>\n              <li>Management of continuous improvement plans with defined responsibilities and deadlines.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectors covered</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start the scoping process</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This expertise can be industrialised with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/management-qualite\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage in mainland France and French overseas departments and regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"What is the difference between quality and compliance?\",\"answer\":\"Quality drives process performance. Compliance verifies alignment with standards and regulatory requirements.\"},{\"question\":\"Which ISO standards are most common?\",\"answer\":\"Depending on the context: ISO 9001, ISO 14001, ISO 50001 and ISO 27001, with an integrated approach to risks and evidence.\"},{\"question\":\"How long does it take to achieve tangible results?\",\"answer\":\"Visible improvements often emerge within a few weeks when supported by a prioritised plan, indicators and regular management reviews.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "Critical processes are documented but rarely followed or applied differently across teams.",
+                        "Numerous quality indicators provide little support for decision-making.",
+                        "Internal audits, action plans or quality reviews need to be brought back under control.",
+                        "ISO or QSE initiatives need to be connected to operations and IT tools."
+                    ],
+                    "showFaq": false,
+                    "heroBadge": "Quality consulting",
+                    "heroIntro": "OLING supports processes, indicators, audits and improvement plans when quality needs to become manageable within operations.",
+                    "heroTitle": "Quality consulting: strengthen process reliability and sustainable performance",
+                    "metaTitle": "Quality consulting | Processes, ISO and continuous improvement | OLING",
+                    "linksTitle": "Related pages",
+                    "scopeTitle": "When this support is useful",
+                    "deliverables": [
+                        "Process map.",
+                        "Prioritised improvement plan.",
+                        "Quality dashboard.",
+                        "Materials for quality reviews or steering committee meetings."
+                    ],
+                    "finalCtaText": null,
+                    "supportLinks": [
+                        {
+                            "href": "/expertises-audit/qse",
+                            "label": "Quality, safety and environment (QSE)"
+                        },
+                        {
+                            "href": "/conformite-reglementaire",
+                            "label": "Regulatory compliance"
+                        }
+                    ],
+                    "triggerTitle": "What OLING delivers",
+                    "finalCtaLabel": "Discuss my QSE initiative",
+                    "finalCtaTitle": "Make your quality initiative more operational",
+                    "missionPhases": [
+                        "Map processes and relevant control points.",
+                        "Simplify quality indicators and management routines.",
+                        "Structure improvement plans, responsibilities and deadlines.",
+                        "Connect quality, compliance and risk management with IT projects."
+                    ],
+                    "compactLanding": true,
+                    "metaDescription": "Quality consulting for the public sector, SMEs and mid-sized companies: process governance, ISO initiatives, performance indicators and continuous improvement.",
+                    "showReadingPath": false,
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Documents provided",
+                    "schemaServiceType": "Quality consulting",
+                    "showAutomaticZones": false
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "954036fc3fb5551562b43d7620778fa5d3ec0318a0321a53c18998d9f4f56ef8",
+            "sourceUpdatedAt": "2026-10-02T22:15:54+00:00",
+            "translatedAt": "2026-10-02T22:15:54+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "dsi-externalisee",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "outsourced-it-management",
+            "title": "Outsourced IT management | IT governance, performance and security | OLING",
+            "seoTitle": "Outsourced IT management | IT governance, performance and security | OLING",
+            "seoDescription": "Outsourced IT management: IT roadmap, supplier governance, service quality, security and compliance for public- and private-sector organisations.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Outsourced IT management",
+            "heroTitle": "Outsourced IT management: govern, secure and transform your IT environment",
+            "heroIntro": "We provide results-driven outsourced IT management covering IT strategy, project governance, operational performance, compliance and cybersecurity.",
+            "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"oling-surface p-4\"><h2>Key deliverables</h2><ul class=\"mb-0\"><li>IT master plan and budget roadmap.</li><li>Supplier management, SLAs and internal IT controls.</li><li>Executive dashboards and risk management plan.</li></ul></div></div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"d-flex flex-wrap gap-2\"><a class=\"btn btn-primary\" href=\"/contact\">Discuss outsourced IT management</a><a class=\"btn btn-outline-primary\" href=\"/amoa-si\">IT project advisory</a><a class=\"btn btn-outline-primary\" href=\"/infrastructure-si-amoa\">IT infrastructure project advisory</a></div></div>\n</section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"dsi-externalisee\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client engagements and deliverables</h2>\n      <p class=\"mb-3\">Outsourced IT leadership with measurable impact</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Establishing clear IT governance for executives, business teams and suppliers.</li>\n              <li>Prioritising the project portfolio based on value, risk and delivery capacity.</li>\n              <li>Improving service quality through SLAs, KPIs and performance reviews.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectors covered</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View client references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start scoping your needs</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"When should you choose outsourced IT management?\",\"answer\":\"When you need to strengthen IT leadership quickly with senior governance expertise, without immediately recruiting a complete team.\"},{\"question\":\"What level of involvement do you expect from internal teams?\",\"answer\":\"Clear joint leadership, with defined decision-making routines and roles to ensure ownership and sustainable delivery.\"},{\"question\":\"Can outsourced IT management be combined with IT project advisory services?\",\"answer\":\"Yes. This is recommended to align the overall IT roadmap with the delivery of priority projects.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "No IT leadership in place, a vacant CIO role or an IT function that lacks the resources needed for current projects.",
+                        "An IT project portfolio that is difficult to prioritise with business leaders.",
+                        "Insufficient oversight of suppliers, SLAs, budgets or IT risks.",
+                        "A need for interim IT leadership before recruitment or reorganisation."
+                    ],
+                    "showFaq": false,
+                    "heroBadge": "Outsourced IT management",
+                    "heroIntro": "OLING supports IT leadership teams by defining priorities, managing suppliers, monitoring risks and providing a decision-making framework for the IT portfolio.",
+                    "heroTitle": "Outsourced IT management: govern, secure and transform your IT environment",
+                    "metaTitle": "Outsourced IT management | IT governance, performance and security | OLING",
+                    "linksTitle": "Related pages",
+                    "scopeTitle": "When this support is useful",
+                    "deliverables": [
+                        "IT roadmap and prioritised portfolio.",
+                        "IT management dashboard.",
+                        "IT risk management plan.",
+                        "Supplier governance and SLA framework."
+                    ],
+                    "finalCtaText": null,
+                    "supportLinks": [
+                        {
+                            "href": "/amoa-si",
+                            "label": "IT project advisory"
+                        },
+                        {
+                            "href": "/infrastructure-si-amoa",
+                            "label": "IT infrastructure project advisory"
+                        }
+                    ],
+                    "triggerTitle": "What OLING delivers",
+                    "finalCtaLabel": "Discuss outsourced IT management",
+                    "finalCtaTitle": "Temporarily strengthen your IT leadership",
+                    "missionPhases": [
+                        "Establish IT governance, management routines and decision-making processes.",
+                        "Prioritise the project portfolio based on criticality, cost, risk and capacity.",
+                        "Manage suppliers, contracts, service levels and action plans.",
+                        "Monitor budgets, technical debt, continuity, security and dependencies."
+                    ],
+                    "compactLanding": true,
+                    "metaDescription": "Outsourced IT management: IT roadmap, supplier governance, service quality, security and compliance for public- and private-sector organisations.",
+                    "showReadingPath": false,
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Documents provided",
+                    "schemaServiceType": "Outsourced IT management",
+                    "showAutomaticZones": false
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "4891a84bb79643dc00b1224e205a1fda20776b4794599bfec45d6f90d1216fcd",
+            "sourceUpdatedAt": "2026-10-02T22:15:50+00:00",
+            "translatedAt": "2026-10-02T22:15:50+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "expertise-amoa-erp-applications-metiers",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "erp-business-applications-advisory",
+            "title": "ERP and business applications advisory",
+            "seoTitle": "ERP and business applications advisory for SMEs and mid-sized companies | OLING",
+            "seoDescription": "OLING supports the selection, scoping, implementation and de-risking of ERP, CRM, CMMS and business application projects.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "ERP, CRM, CMMS and business applications",
+            "heroTitle": "ERP and business applications advisory",
+            "heroIntro": "OLING works at the early stages of ERP and application projects to clarify requirements, assess scenarios and manage credible roadmaps through to acceptance testing and adoption.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "expertisePage": {
+                    "nav": "ERP advisory",
+                    "intro": "OLING works at the early stages of ERP and application projects to clarify requirements, assess scenarios and manage credible roadmaps through to acceptance testing and adoption.",
+                    "title": "ERP and business applications advisory",
+                    "eyebrow": "ERP, CRM, CMMS and business applications",
+                    "seoTitle": "ERP and business applications advisory for SMEs and mid-sized companies | OLING",
+                    "situations": [
+                        "Selecting or replacing an ERP system that has become too limiting.",
+                        "A poorly scoped, specified or adopted CRM or CMMS project.",
+                        "A need for impartial guidance across business teams, software vendors, integrators and the IT department."
+                    ],
+                    "deliverables": [
+                        "Target process maps",
+                        "Request for proposal documentation",
+                        "Solution evaluation matrix",
+                        "Acceptance testing and adoption plan"
+                    ],
+                    "interventions": [
+                        "Project scoping, requirements definition and procurement strategy.",
+                        "Process analysis and target-state scenarios.",
+                        "Solution selection and integrator oversight.",
+                        "Acceptance testing, change management and go-live monitoring."
+                    ],
+                    "linkedServices": [
+                        {
+                            "service": "erp",
+                            "practice": "business-apps"
+                        }
+                    ],
+                    "metaDescription": "OLING supports the selection, scoping, implementation and de-risking of ERP, CRM, CMMS and business application projects."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "8b0a8589f9cd9d47df030131e84130ed8f01f7f60418312810e8b1bf1634ca3e",
+            "sourceUpdatedAt": "2026-10-02T22:16:27+00:00",
+            "translatedAt": "2026-10-02T22:16:27+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "expertise-cybersecurite-conformite-resilience",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "cybersecurity-compliance-resilience",
+            "title": "Cybersecurity, compliance and resilience",
+            "seoTitle": "Cybersecurity, compliance and resilience for SMEs and mid-sized companies | OLING",
+            "seoDescription": "OLING helps organisations strengthen their security through cybersecurity, ISO 27001, NIS2, DORA, business continuity and resilience.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Risk, compliance and resilience",
+            "heroTitle": "Cybersecurity, compliance and resilience",
+            "heroIntro": "OLING helps organisations align security, business continuity, governance and regulatory requirements to protect their operations and data.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "expertisePage": {
+                    "nav": "Cybersecurity and resilience",
+                    "intro": "OLING helps organisations align security, business continuity, governance and regulatory requirements to protect their operations and data.",
+                    "title": "Cybersecurity, compliance and resilience",
+                    "eyebrow": "Risk, compliance and resilience",
+                    "seoTitle": "Cybersecurity, compliance and resilience for SMEs and mid-sized companies | OLING",
+                    "situations": [
+                        "A need to establish security governance ahead of growth or transformation.",
+                        "Increasing exposure to NIS2, DORA and ISO 27001 requirements or customer demands.",
+                        "A business continuity, disaster recovery or resilience roadmap that needs to be formalised and tested."
+                    ],
+                    "deliverables": [
+                        "Cybersecurity roadmap",
+                        "Risk treatment plan",
+                        "Governance policies and framework",
+                        "Business continuity and disaster recovery framework"
+                    ],
+                    "interventions": [
+                        "Security posture assessment, roadmap development and security governance.",
+                        "Preparation and alignment of ISO 27001, NIS2 and DORA frameworks.",
+                        "Business continuity, disaster recovery, crisis management and operational continuity.",
+                        "Management of alignment across IT, operations, compliance and suppliers."
+                    ],
+                    "linkedServices": [
+                        {
+                            "service": "si",
+                            "practice": "expertises-audit"
+                        },
+                        {
+                            "service": "qse",
+                            "practice": "expertises-audit"
+                        }
+                    ],
+                    "metaDescription": "OLING helps organisations strengthen their security through cybersecurity, ISO 27001, NIS2, DORA, business continuity and resilience."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "cb49c6667436090ca8e04dadd5227fd929a819d8676abf6a6f92f239fc2b564e",
+            "sourceUpdatedAt": "2026-10-02T22:16:52+00:00",
+            "translatedAt": "2026-10-02T22:16:52+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "expertise-data-automatisation-intelligence-artificielle",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "data-automation-artificial-intelligence",
+            "title": "Data, Automation and Artificial Intelligence",
+            "seoTitle": "Data, Automation and AI Consulting | OLING",
+            "seoDescription": "OLING helps companies identify relevant AI use cases, establish governance, integrate AI agents, and manage data and automation projects.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Transforming Practices and Governance",
+            "heroTitle": "Data, Automation and Artificial Intelligence",
+            "heroIntro": "AI must be connected to processes, data, responsibilities, and risks. OLING structures valuable, controlled use cases that can be integrated into the organisation.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "expertisePage": {
+                    "nav": "Data and AI",
+                    "intro": "AI must be connected to processes, data, responsibilities, and risks. OLING structures valuable, controlled use cases that can be integrated into the organisation.",
+                    "title": "Data, Automation and Artificial Intelligence",
+                    "eyebrow": "Transforming Practices and Governance",
+                    "seoTitle": "Data, Automation and AI Consulting | OLING",
+                    "situations": [
+                        "Leadership teams seeking to identify high-value AI use cases without following the latest hype.",
+                        "Need to define a framework for AI agents connected to authorised data and tools.",
+                        "Questions about governance, confidentiality, the AI Act, and human oversight."
+                    ],
+                    "deliverables": [
+                        "AI use case mapping",
+                        "Value / feasibility / risk matrix",
+                        "AI policy and usage register",
+                        "Functional architecture and deployment plan"
+                    ],
+                    "interventions": [
+                        "Assessment of AI, automation, and data opportunities.",
+                        "AI usage policy, governance, and decision-making framework.",
+                        "Development and integration of AI agents into existing environments.",
+                        "AI project management from initial scoping through to production deployment."
+                    ],
+                    "linkedServices": [
+                        {
+                            "service": "reforme-facturation-electronique-amoa",
+                            "practice": "consulting"
+                        },
+                        {
+                            "service": "si",
+                            "practice": "expertises-audit"
+                        }
+                    ],
+                    "metaDescription": "OLING helps companies identify relevant AI use cases, establish governance, integrate AI agents, and manage data and automation projects."
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "a955df17f8f340643a813e816af4d7c61ae8fb95944553213c66338a5f2cab11",
+            "sourceUpdatedAt": "2026-10-02T22:16:32+00:00",
+            "translatedAt": "2026-10-02T22:16:32+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "expertise-rgpd-dpo-gouvernance",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "outsourced-dpo-ongoing-gdpr-governance",
+            "title": "Outsourced DPO and ongoing GDPR governance",
+            "seoTitle": "GDPR governance and outsourced DPO | OLING",
+            "seoDescription": "OLING supports GDPR compliance, data governance and outsourced DPO requirements for SMEs, mid-sized companies and regulated organisations.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Data protection and accountability",
+            "heroTitle": "Outsourced DPO and ongoing GDPR governance",
+            "heroIntro": "OLING's outsourced DPO manages GDPR compliance over the long term through independent advice, records management, action monitoring, team support and ongoing dialogue with senior management.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "expertisePage": {
+                    "nav": "GDPR and DPO",
+                    "intro": "OLING's outsourced DPO manages GDPR compliance over the long term through independent advice, records management, action monitoring, team support and ongoing dialogue with senior management.",
+                    "title": "Outsourced DPO and ongoing GDPR governance",
+                    "eyebrow": "Data protection and accountability",
+                    "seoTitle": "GDPR governance and outsourced DPO | OLING",
+                    "situations": [
+                        "An organisation, group or multi-entity structure with no internal DPO available and a need for independence and continuity.",
+                        "An existing but poorly maintained processing register, poorly assigned data subject requests or compliance actions without a designated owner.",
+                        "A need for a regular point of contact for management, business teams, the IT department, suppliers and data subjects."
+                    ],
+                    "deliverables": [
+                        "Engagement letter, governance framework and DPO schedule",
+                        "Up-to-date processing register and documented opinions",
+                        "Dashboard for monitoring requests, risks and actions",
+                        "Compliance reports and awareness materials"
+                    ],
+                    "finalCtaText": "The initial discussion helps define the scope, existing documentation, sensitive processing activities, internal points of contact and the expected level and frequency of support.",
+                    "finalCtaLabel": "Speak with an OLING DPO",
+                    "finalCtaTitle": "Establish an accessible, continuously supported DPO function",
+                    "interventions": [
+                        "Role onboarding, definition of internal points of contact, governance schedule and action plan prioritisation.",
+                        "Processing register management, advice on new processing activities, DPIAs and monitoring of relationships with data processors.",
+                        "Management of data subject requests, incidents, awareness initiatives, communications with the supervisory authority and periodic compliance reviews.",
+                        "Reporting to senior management and coordination of cross-functional matters involving personal data, cybersecurity and AI use."
+                    ],
+                    "linkedServices": [
+                        {
+                            "service": "rgpd",
+                            "practice": "expertises-audit"
+                        }
+                    ],
+                    "anonymousProofs": [
+                        {
+                            "label": "Intermunicipal authority",
+                            "sector": "Local public sector",
+                            "mission": "Outsourced DPO and GDPR governance within a shared digital services environment.",
+                            "perimeter": [
+                                "Outsourced DPO",
+                                "GDPR",
+                                "governance",
+                                "shared digital services"
+                            ]
+                        }
+                    ],
+                    "metaDescription": "OLING supports GDPR compliance, data governance and outsourced DPO requirements for SMEs, mid-sized companies and regulated organisations.",
+                    "anonymousProofsIntro": "These references remain anonymised and are limited to documented engagements.",
+                    "anonymousProofsTitle": "Related anonymised engagements"
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "fde8bf2737734cb24da1595511c2455d6b178945f9f5d8da28e47637bb7a1c0b",
+            "sourceUpdatedAt": "2026-10-02T22:16:26+00:00",
+            "translatedAt": "2026-10-02T22:16:26+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "gestion-risques-audit-controle-interne",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "risk-audit-internal-control",
+            "title": "Risk, audit and internal control | Governance and steering | OLING",
+            "seoTitle": "Risk, audit and internal control | OLING",
+            "seoDescription": null,
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": "Risk, audit and internal control",
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "to_review",
+            "sourceContentHash": "b362a6e46e50f5ca07f5001262997ca8d9472efaf108704dcd93ec2b82e71dc4",
+            "sourceUpdatedAt": "2026-10-02T22:15:51+00:00",
+            "translatedAt": "2026-10-02T22:15:51+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "infrastructure-si-amoa",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "it-infrastructure-project-advisory",
+            "title": "IT infrastructure project advisory | Cloud, resilience and security | OLING",
+            "seoTitle": "IT infrastructure project advisory | Cloud, resilience and security | OLING",
+            "seoDescription": "IT infrastructure project advisory: cloud and hybrid roadmaps, critical infrastructure modernisation, business continuity, security and compliance.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "IT infrastructure",
+            "heroTitle": "IT infrastructure project advisory: making critical platforms more reliable",
+            "heroIntro": "OLING supports IT departments and business teams in defining and managing the modernisation of critical infrastructure, covering performance, availability, cybersecurity, costs and scalability.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>What we define</h2><ul class=\"mb-0\"><li>On-premises, cloud or hybrid architecture roadmaps.</li><li>Prioritisation of modernisation and obsolescence initiatives.</li><li>Availability, performance and business continuity and disaster recovery requirements.</li><li>Integration with <a class=\"link\" href=\"/erp-progiciel\">ERP</a>, <a class=\"link\" href=\"/gmao\">CMMS</a> and <a class=\"link\" href=\"/si-finance\">finance systems</a>.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Expected outcomes</h2><ul class=\"mb-0\"><li>Reduced risk of service disruption and major incidents.</li><li>Better control of operating costs and investments.</li><li>Alignment between business, technical and compliance priorities.</li><li>Clear governance for infrastructure decisions, including RACI, trade-offs and KPIs.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Recommended pathway</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/cyber-securite\">Cybersecurity</a> to manage information security risks and NIS2/DORA compliance.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Regulatory compliance</a> to connect obligations, evidence and governance.</li><li><a class=\"link\" href=\"/facturation-electronique-amoa\">E-invoicing project advisory</a> if your infrastructure roadmap affects critical financial flows.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>Need a realistic IT infrastructure development plan?</h2><p class=\"oling-lede\">We build an actionable roadmap covering priorities, dependencies, risks and governance.</p><a class=\"btn btn-primary\" href=\"/contact\">Start an infrastructure scoping engagement</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"infrastructure-si-amoa\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client engagements and deliverables</h2>\n      <p class=\"mb-3\">More resilient IT foundations</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Scoping of infrastructure and cloud developments based on business criticality and continuity constraints.</li>\n              <li>Formalised trade-offs between capacity, security, costs and technical debt.</li>\n              <li>Migration and stabilisation management with measurable service objectives.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Industries served</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View client references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start a scoping engagement</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This expertise can be standardised with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/itsm-et-gestion-des-services-it\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage across France and its overseas regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"How should you choose between a cloud, on-premises or hybrid roadmap?\",\"answer\":\"By assessing business criticality, regulatory constraints, expected performance, available expertise and total cost of ownership.\"},{\"question\":\"How should obsolescence initiatives be prioritised?\",\"answer\":\"By ranking components according to disruption risk, business impact, migration complexity and application dependencies.\"},{\"question\":\"Why connect infrastructure, cybersecurity and compliance?\",\"answer\":\"Because technical resilience, security and regulatory obligations must be managed together to remain actionable.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "Ageing infrastructure, technical debt or obsolescence that needs to be prioritised.",
+                        "Cloud migration, hybrid architecture or hosting arrangements that must be defined before procurement.",
+                        "Availability, performance, cybersecurity or business continuity and disaster recovery requirements that need to be formalised.",
+                        "Infrastructure projects affecting ERP, finance, CMMS or critical data flows."
+                    ],
+                    "showFaq": false,
+                    "heroBadge": "IT infrastructure",
+                    "heroIntro": "OLING provides business-side advisory to define architecture choices, migrations and the modernisation of critical platforms, without taking the place of the integrator or managed service provider.",
+                    "heroTitle": "IT infrastructure project advisory: making critical platforms more reliable",
+                    "metaTitle": "IT infrastructure project advisory | Cloud, resilience and security | OLING",
+                    "linksTitle": "Related pages",
+                    "scopeTitle": "When this support is useful",
+                    "deliverables": [
+                        "Infrastructure scoping document.",
+                        "Architecture scenarios and migration roadmap.",
+                        "Risk, cost and dependency matrix.",
+                        "Availability, security and continuity requirements."
+                    ],
+                    "finalCtaText": null,
+                    "supportLinks": [
+                        {
+                            "href": "/cyber-securite",
+                            "label": "Cybersecurity"
+                        },
+                        {
+                            "href": "/dsi-externalisee",
+                            "label": "Outsourced IT management"
+                        },
+                        {
+                            "href": "/amoa-si",
+                            "label": "IT project advisory"
+                        }
+                    ],
+                    "triggerTitle": "What OLING delivers",
+                    "finalCtaLabel": "Start an infrastructure scoping engagement",
+                    "finalCtaTitle": "Define an infrastructure development plan",
+                    "missionPhases": [
+                        "Assess business needs, technical constraints and application dependencies.",
+                        "Compare architecture and migration scenarios.",
+                        "Formalise service, security, continuity and operational requirements.",
+                        "Manage trade-offs between costs, risks, timelines and internal capacity."
+                    ],
+                    "compactLanding": true,
+                    "metaDescription": "IT infrastructure project advisory: cloud and hybrid roadmaps, critical infrastructure modernisation, business continuity, security and compliance.",
+                    "showReadingPath": false,
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Documents provided",
+                    "schemaServiceType": "IT infrastructure project advisory",
+                    "showAutomaticZones": false
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "50a600e2079aa23f214a58e9f6b92864a728386a58089d2408772d1df81e74a6",
+            "sourceUpdatedAt": "2026-10-02T22:15:14+00:00",
+            "translatedAt": "2026-10-02T22:15:14+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "si-finance",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "finance-it-project-advisory",
+            "title": "Finance IT project advisory | P2P O2C R2R flows and internal control | OLING",
+            "seoTitle": "Finance IT project advisory | P2P O2C R2R flows and internal control | OLING",
+            "seoDescription": "Finance IT project advisory for finance and IT departments: P2P, O2C and R2R flow architecture, closing, internal control, reporting, e-invoicing and performance.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Finance IT project advisory",
+            "heroTitle": "Finance IT project advisory: improve flow reliability and accelerate decision-making",
+            "heroIntro": "OLING supports finance and IT departments in transforming financial processes, improving data reliability and aligning ERP and finance IT systems with compliance and performance requirements.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>What we structure</h2><ul class=\"mb-0\"><li>Architecture of Procure-to-Pay, Order-to-Cash and Record-to-Report flows.</li><li>Improved reliability of master data and financial data quality.</li><li>Governance of key controls and coordination with internal audit.</li><li>Finance IT integration with <a class=\"link\" href=\"/erp-progiciel\">ERP/business software</a>, <a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure</a> and satellite tools.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Operational outcomes</h2><ul class=\"mb-0\"><li>Shorter closing cycles and higher-quality reporting.</li><li>Faster financial decisions based on reliable data.</li><li>Better management of financial and compliance risks.</li><li>A prioritised roadmap for the highest-value finance IT initiatives.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Recommended pathway</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/facturation-electronique-amoa\">E-invoicing project advisory</a> for the e-invoicing and e-reporting roadmap.</li><li><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Risk management, audit and internal control</a> to strengthen governance.</li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure project advisory</a> to improve the availability and performance of critical flows.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Regulatory compliance</a> to align finance IT with AI, ISO, security, QSE and energy compliance.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>Need a 12-month finance IT roadmap?</h2><p class=\"oling-lede\">We define priorities, deliverables and governance to support controlled execution.</p><a class=\"btn btn-primary\" href=\"/contact\">Schedule a consultation</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"si-finance\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client engagements and project experience</h2>\n      <p class=\"mb-3\">Reliable end-to-end financial flows</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>P2P/O2C/R2R architecture with fewer points of failure between applications.</li>\n              <li>Stronger internal controls over flows and sensitive access rights.</li>\n              <li>Faster closing and more reliable reporting through data standardisation.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Industries served</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start scoping</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This area of expertise can be standardised with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/gestion-performance\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage across mainland France and the French overseas departments and regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"Which financial flow should be prioritised in a finance IT initiative?\",\"answer\":\"Generally P2P, O2C and R2R, addressing first the weaknesses that affect closing and reporting.\"},{\"question\":\"How can the financial close be accelerated?\",\"answer\":\"By improving master data reliability, automating key controls and clarifying responsibility for preparation and approval.\"},{\"question\":\"Why connect finance IT and e-invoicing?\",\"answer\":\"Because the quality of invoicing flows determines compliance, processing performance and the reliability of financial reporting.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "Describe general ledger, subsidiary ledger and management accounting processes according to the scope, together with the associated controls and responsibilities.",
+                        "Define budget preparation, commitments, actuals, forecasts and decision-making rules.",
+                        "Specify analytical dimensions, reconciliations, management control requirements and the data needed for decision-making.",
+                        "Define reporting sources, consolidation rules, closing controls and financial statement production."
+                    ],
+                    "promise": "OLING is not an EPM software vendor, financial systems integrator or accounting firm. Its finance IT project advisory service translates the Finance function's requirements into processes, master data, controls, interfaces and test scenarios that can be used by the IT department and systems integrator.",
+                    "heroBadge": "Independent finance IT project advisory firm",
+                    "heroIntro": "OLING supports Finance and IT departments in defining processes, improving data reliability, clarifying ERP or EPM tools and managing a useful, governed and deployable finance IT transformation.",
+                    "heroTitle": "Finance IT project advisory: define and manage your Finance transformation",
+                    "metaTitle": "Finance IT project advisory: transformation scoping and management | OLING",
+                    "linksIntro": "Finance IT forms part of a broader ERP environment and must incorporate e-invoicing flows without duplicating their detailed scoping.",
+                    "linksTitle": "Topics directly related to finance IT",
+                    "scopeTitle": "Financial processes and functional decisions",
+                    "clientTypes": [
+                        "Testing covers accounting, budgeting and analytical scenarios, as well as the associated profiles, rights and controls.",
+                        "Each interface is tested using its input data, expected entries, rejected items and reconciliations.",
+                        "Data migrations are validated against balances, historical data, third parties and master data before the system goes live.",
+                        "Reporting and closing are tested end to end, from source data through to statements and consistency checks."
+                    ],
+                    "deliverables": [
+                        "Finance IT assessment, process map and scoping document.",
+                        "Requirements specification, target functional architecture, business rules and project governance.",
+                        "Master data model, interface catalogue and solution decision document.",
+                        "Migration plan, testing strategy, cutover plan and stabilisation indicators."
+                    ],
+                    "finalCtaText": "The initial consultation covers the operations in scope, data, interfaces, closing issues and the functional decisions to be made.",
+                    "supportLinks": [
+                        {
+                            "href": "/amoa-si",
+                            "label": "Information systems project advisory",
+                            "description": "For cross-functional governance and overall project management."
+                        },
+                        {
+                            "href": "/business-apps/erp",
+                            "label": "ERP project advisory",
+                            "description": "For the overall ERP scope, interfaces and management of the systems integrator."
+                        },
+                        {
+                            "href": "/consulting/reforme-facturation-electronique-amoa",
+                            "label": "E-invoicing project advisory",
+                            "description": "For inbound and outbound flows, the approved platform, statuses and e-invoicing reform testing."
+                        }
+                    ],
+                    "triggerTitle": "Scoping and transformation approach",
+                    "finalCtaTitle": "Assess finance IT processes, master data and controls",
+                    "missionPhases": [
+                        "Observe actual operations, manual rework, closing times and breaks between accounting, budgeting, treasury and management control.",
+                        "Determine the target model, business rules, responsibilities, controls and the functional scope of the tools.",
+                        "Compare ERP, EPM and satellite-tool scenarios using representative financial use cases and measurable criteria.",
+                        "Manage design, interfaces, migration, testing, cutover and stabilisation with the Finance and IT departments."
+                    ],
+                    "anonymousProofs": [
+                        {
+                            "label": "Major seaport",
+                            "sector": "Port transport",
+                            "mission": "Finance IT transformation advisory: scoping, regulatory constraints and preparation for data migration.",
+                            "perimeter": [
+                                "Finance IT",
+                                "regulatory constraints",
+                                "data migration"
+                            ]
+                        }
+                    ],
+                    "metaDescription": "Independent finance IT project advisory firm: scoping, Finance processes, ERP/EPM, reporting, data, solution selection, project management, testing and change management.",
+                    "projectContexts": [
+                        "Master data requiring governance may include third parties, accounts, analytical dimensions, structures, taxes and cost centres.",
+                        "Depending on the context, interfaces connect ERP, procurement, sales, payroll, fixed assets, treasury, BI and business applications.",
+                        "The migration plan defines the historical data, balances, third parties and master data to be migrated, together with completeness and reconciliation controls.",
+                        "E-invoicing is incorporated into accounting flows and interfaces; its detailed regulatory scoping remains covered by the dedicated e-invoicing reform page."
+                    ],
+                    "showReadingPath": false,
+                    "clientTypesTitle": "Finance information system testing",
+                    "positioningTitle": "When to engage finance IT project advisory services",
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Functional and project management deliverables",
+                    "schemaServiceType": "Finance IT project advisory",
+                    "showAutomaticZones": false,
+                    "anonymousProofsIntro": "This evidence remains anonymised and is limited to the documented finance IT scope.",
+                    "anonymousProofsTitle": "Related anonymised engagement",
+                    "projectContextsTitle": "Master data, interfaces and migration"
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "8835a77fad1f150ed30c7c280b069d9cd0dc80f1e416e07a3dd68e51067df9a1",
+            "sourceUpdatedAt": "2026-10-02T22:13:51+00:00",
+            "translatedAt": "2026-10-02T22:13:51+00:00",
+            "reviewedAt": null,
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        }
+    ],
+    "count": 10
+}

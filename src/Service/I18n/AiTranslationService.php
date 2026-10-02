@@ -184,6 +184,9 @@ final class AiTranslationService
             $normalized['slug'] = $this->fallbackSlug((string) ($sourcePayload['slug'] ?? ''), $targetLocale);
         }
         $normalized['title'] = trim((string) $normalized['title']);
+        if ($normalized['title'] === '') {
+            $normalized['title'] = trim((string) ($normalized['seoTitle'] ?: $normalized['heroTitle'] ?: $sourcePayload['title'] ?? ''));
+        }
 
         return $normalized;
     }
@@ -251,6 +254,16 @@ final class AiTranslationService
             'ressources' => ['en' => 'resources', 'es' => 'recursos'],
             'expertises-index' => ['en' => 'expertise', 'es' => 'especialidades'],
             'secteurs-index' => ['en' => 'industries', 'es' => 'sectores'],
+            'si-finance' => ['en' => 'finance-it-systems', 'es' => 'sistemas-financieros'],
+            'infrastructure-si-amoa' => ['en' => 'it-infrastructure-advisory', 'es' => 'asesoria-infraestructura-ti'],
+            'dsi-externalisee' => ['en' => 'outsourced-it-management', 'es' => 'direccion-ti-externalizada'],
+            'conseil-qualite' => ['en' => 'quality-management-consulting', 'es' => 'consultoria-calidad'],
+            'conformite-reglementaire' => ['en' => 'regulatory-compliance', 'es' => 'cumplimiento-reglamentario'],
+            'gestion-risques-audit-controle-interne' => ['en' => 'risk-audit-internal-control', 'es' => 'riesgos-auditoria-control-interno'],
+            'expertise-amoa-erp-applications-metiers' => ['en' => 'erp-business-applications-advisory', 'es' => 'asesoria-erp-aplicaciones-negocio'],
+            'expertise-cybersecurite-conformite-resilience' => ['en' => 'cybersecurity-compliance-resilience', 'es' => 'ciberseguridad-cumplimiento-resiliencia'],
+            'expertise-rgpd-dpo-gouvernance' => ['en' => 'gdpr-dpo-governance', 'es' => 'rgpd-dpo-gobernanza'],
+            'expertise-data-automatisation-intelligence-artificielle' => ['en' => 'data-automation-ai', 'es' => 'datos-automatizacion-ia'],
         ];
 
         return $fallbacks[$sourceSlug][$targetLocale] ?? '';

@@ -109,5 +109,14 @@ services:
             $model: '%chat_ai_openai_model%'
         tags:
             - { name: app.chat_ai_provider, priority: 100 }
+
+    App\Service\I18n\AiTranslationProviderInterface:
+        alias: App\Service\I18n\OpenAiContentTranslationProvider
+
+    App\Service\I18n\OpenAiContentTranslationProvider:
+        arguments:
+            $apiKey: '%chat_ai_openai_api_key%'
+            $baseUrl: '%chat_ai_openai_base_url%'
+            $model: '%chat_ai_openai_model%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

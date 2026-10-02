@@ -1,0 +1,68 @@
+{
+  "OLING": {
+    "en": ["OLING"],
+    "es": ["OLING"],
+    "note": "Brand name. Never translate."
+  },
+  "MAPSI": {
+    "en": ["MAPSI"],
+    "es": ["MAPSI"],
+    "note": "Product/brand name. Never translate."
+  },
+  "ERP": {
+    "en": ["ERP", "enterprise resource planning"],
+    "es": ["ERP", "sistema de planificación de recursos empresariales"]
+  },
+  "CRM": {
+    "en": ["CRM", "customer relationship management"],
+    "es": ["CRM", "gestión de relaciones con clientes"]
+  },
+  "GMAO": {
+    "en": ["CMMS", "computerized maintenance management system"],
+    "es": ["GMAO", "sistema de gestión de mantenimiento asistido por ordenador"]
+  },
+  "AMOA": {
+    "en": ["IT project advisory", "business-side IT project management", "ERP selection and implementation advisory"],
+    "es": ["asesoría en proyectos de sistemas de información", "acompañamiento del negocio en proyectos TI"]
+  },
+  "DSI": {
+    "en": ["IT department", "CIO function", "IT management"],
+    "es": ["departamento de TI", "dirección de sistemas de información", "función CIO"]
+  },
+  "DPO": {
+    "en": ["Data Protection Officer", "DPO"],
+    "es": ["Delegado de Protección de Datos", "DPO"]
+  },
+  "RGPD": {
+    "en": ["GDPR"],
+    "es": ["RGPD", "Reglamento General de Protección de Datos"]
+  },
+  "NIS2": {
+    "en": ["NIS2"],
+    "es": ["NIS2"]
+  },
+  "DORA": {
+    "en": ["DORA"],
+    "es": ["DORA"]
+  },
+  "ISO 27001": {
+    "en": ["ISO 27001"],
+    "es": ["ISO 27001"]
+  },
+  "ISO 9001": {
+    "en": ["ISO 9001"],
+    "es": ["ISO 9001"]
+  },
+  "QSE": {
+    "en": ["quality, safety and environment", "QSE"],
+    "es": ["calidad, seguridad y medio ambiente", "QSE"]
+  },
+  "PCA/PRA": {
+    "en": ["business continuity and disaster recovery", "BCP/DRP"],
+    "es": ["continuidad de negocio y recuperación ante desastres", "PCA/PRA"]
+  },
+  "facturation électronique": {
+    "en": ["e-invoicing", "electronic invoicing"],
+    "es": ["facturación electrónica"]
+  }
+}

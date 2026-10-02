@@ -29,12 +29,17 @@ class TranslationSourceHasher
         return hash('sha256', $this->canonicalJson([
             'slug' => $translation->getSlug(),
             'title' => $translation->getTitle(),
+            'seoTitle' => $translation->getSeoTitle(),
             'seoDescription' => $translation->getSeoDescription(),
+            'ogTitle' => $translation->getOgTitle(),
+            'ogDescription' => $translation->getOgDescription(),
+            'imageAlt' => $translation->getImageAlt(),
             'heroBadge' => $translation->getHeroBadge(),
             'heroTitle' => $translation->getHeroTitle(),
             'heroIntro' => $translation->getHeroIntro(),
             'heroSideHtml' => $translation->getHeroSideHtml(),
             'bodyHtml' => $translation->getBodyHtml(),
+            'structuredData' => $translation->getStructuredData(),
         ]));
     }
 

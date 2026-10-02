@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\PracticeRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ServicesRepository;
+use App\Service\LocalizedContentResolver;
 use App\Service\PublicSitePageResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,8 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PublicSiteController extends AbstractController
 {
-    public function __construct(private readonly PublicSitePageResolver $publicSitePageResolver)
-    {
+    public function __construct(
+        private readonly PublicSitePageResolver $publicSitePageResolver,
+        private readonly LocalizedContentResolver $localizedContentResolver,
+    ) {
     }
 
     #[Route('/expertises', name: 'expertises_index', options: ['sitemap' => true])]
@@ -22,8 +25,8 @@ class PublicSiteController extends AbstractController
         ServicesRepository $servicesRepository
     ): Response {
         return $this->render('expertises/index.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $this->publicSitePageResolver->getExpertisesIndex(),
             'expertisePages' => $this->publicSitePageResolver->getExpertisePages(),
         ]);
@@ -44,9 +47,9 @@ class PublicSiteController extends AbstractController
         }
 
         return $this->render('expertises/show.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
-            'projects' => $projetRepository->findBy([], ['id' => 'DESC'], 6),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
+            'projects' => array_map(fn ($project) => $this->localizedContentResolver->getFrenchProjetView($project), $projetRepository->findBy([], ['id' => 'DESC'], 6)),
             'page' => $page,
             'pageSlug' => $slug,
             'expertisePages' => $pages,
@@ -62,8 +65,8 @@ class PublicSiteController extends AbstractController
         $sectorPages = $this->publicSitePageResolver->getSectorPages();
 
         return $this->render('sectors/index.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $page,
             'sectorPages' => $sectorPages,
             'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries(),
@@ -84,11 +87,21 @@ class PublicSiteController extends AbstractController
         }
 
         return $this->render('sectors/show.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $page,
             'pageSlug' => $slug,
             'expertisePages' => $this->publicSitePageResolver->getExpertisePages(),
         ]);
+    }
+
+    private function localizePractices(array $practices): array
+    {
+        return array_map(fn ($practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practices);
+    }
+
+    private function localizeServices(array $services): array
+    {
+        return array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $services);
     }
 }

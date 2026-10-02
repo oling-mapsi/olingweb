@@ -39,8 +39,8 @@ class SeoResourceController extends AbstractController
         $content = $this->localizedContentResolver->getFrenchPublicView($page);
 
         return $this->render('seo/resources-index.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => array_map(fn ($practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practiceRepository->findAll()),
+            'services' => array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $servicesRepository->findAll()),
             'pract' => '',
             'page' => $content,
             'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),
@@ -88,8 +88,8 @@ class SeoResourceController extends AbstractController
         $content = $this->localizedContentResolver->getFrenchPublicView($page);
 
         return $this->render('seo/resource-article.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => array_map(fn ($practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practiceRepository->findAll()),
+            'services' => array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $servicesRepository->findAll()),
             'pract' => '',
             'page' => $content,
             'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),

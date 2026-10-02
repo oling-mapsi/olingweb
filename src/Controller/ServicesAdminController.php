@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Services;
 use App\Form\ServicesType;
 use App\Repository\ServicesRepository;
+use App\Service\StructuredContentTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +29,7 @@ class ServicesAdminController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_services_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $service = new Services();
         $form = $this->createForm(ServicesType::class, $service);
@@ -70,6 +71,7 @@ class ServicesAdminController extends AbstractController
 
                 $entityManager->persist($service);
                 $entityManager->flush();
+                $translationSynchronizer->syncService($service);
 
                 $this->addFlash('success', 'Service créé.');
 
@@ -85,7 +87,7 @@ class ServicesAdminController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_services_edit', methods: ['GET', 'POST'])]
-    public function edit(int $id, ServicesRepository $repository, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function edit(int $id, ServicesRepository $repository, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $service = $repository->find($id);
         if (!$service) {
@@ -139,6 +141,7 @@ class ServicesAdminController extends AbstractController
                 }
 
                 $entityManager->flush();
+                $translationSynchronizer->syncService($service);
 
                 $this->addFlash('success', 'Service mis à jour.');
 

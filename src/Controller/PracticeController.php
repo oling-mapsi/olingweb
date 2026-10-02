@@ -52,8 +52,8 @@ class PracticeController extends AbstractController
         SitePageRepository $sitePageRepository,
         Request $request
     ): Response {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
         $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates());
@@ -66,14 +66,14 @@ class PracticeController extends AbstractController
             }
             return $rankA <=> $rankB;
         });
-        $homePractices = array_slice($featuredPractices, 0, 4);
+        $homePractices = $this->localizePractices(array_slice($featuredPractices, 0, 4));
         [$featuredHomeProjects] = $this->resolveFeaturedProjects($repoprojet);
         $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets));
 
-        $homePracticesSection = $homeSectionRepository->findOneBy(['slug' => 'practices']);
-        $homeHeroSection = $homeSectionRepository->findOneBy(['slug' => 'hero']);
-        $homeProjectsSection = $homeSectionRepository->findOneBy(['slug' => 'projects']);
-        $homeAwardsSection = $homeSectionRepository->findOneBy(['slug' => 'awards']);
+        $homePracticesSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'practices']));
+        $homeHeroSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'hero']));
+        $homeProjectsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'projects']));
+        $homeAwardsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'awards']));
         $homeAwards = $homeAwardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']);
         $flashInfo = $contentItemRepository->findOneBy([], ['id' => 'DESC']);
         $latestResources = array_values(array_filter(array_map(
@@ -112,9 +112,9 @@ class PracticeController extends AbstractController
         LegalPageRepository $legalPageRepository
         ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
-        $legalPage = $legalPageRepository->findOneBy(['slug' => 'mentions-legales']);
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'mentions-legales']));
         return $this->render('page-terms.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -131,9 +131,9 @@ class PracticeController extends AbstractController
         LegalPageRepository $legalPageRepository
     ): Response {
         return $this->render('charte-ia.html.twig', [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
-            'legalPage' => $legalPageRepository->findOneBy(['slug' => 'charte-ia']),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
+            'legalPage' => $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'charte-ia'])),
             'defaults' => \App\Service\LegalPageDefaults::defaults()['charte-ia'],
             'pract' => '',
         ]);
@@ -146,8 +146,8 @@ class PracticeController extends AbstractController
         TeamRepository $repoteam,
         ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         return $this->render('about.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -164,8 +164,8 @@ class PracticeController extends AbstractController
         ServicesRepository $reposervices,
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         return $this->render('contact.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -183,8 +183,8 @@ class PracticeController extends AbstractController
     {
         return $this->render('services-index.html.twig', [
             'controller_name' => 'PracticeController',
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => $this->localizePractices($practiceRepository->findAll()),
+            'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $this->publicSitePageResolver->getEditorialPage('services'),
             'pract' => '',
         ]);
@@ -197,8 +197,8 @@ class PracticeController extends AbstractController
         ProjetRepository $repoprojet,
         MetierRepository $repometier
     ): Response {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
 
@@ -443,15 +443,17 @@ class PracticeController extends AbstractController
         return array_map(function (Projet $project, int $position) use ($imagePool, $poolOffset): array {
             $projectService = $project->getServices()->first();
             $metadata = $project->getMetadata();
+            $projectContent = $this->localizedContentResolver->getFrenchProjetView($project);
+            $serviceContent = $projectService instanceof \App\Entity\Services ? $this->localizedContentResolver->getFrenchServiceView($projectService) : null;
 
             return [
                 'href' => $this->resolveProjectCardHref($project, $projectService),
                 'image' => $this->resolveProjectCardImage($project, $imagePool, $poolOffset + $position),
-                'title' => $this->buildProjectCardTitle($project),
+                'title' => $this->buildProjectCardTitle($projectContent),
                 'eyebrow' => $this->buildProjectCardEyebrow($project, $metadata),
-                'meta' => $project->getTerritory() ?: ($projectService ? $projectService->getDesignation() : null),
-                'period' => $project->getPeriodLabel(),
-                'excerpt' => $this->buildProjectCardExcerpt($project, $metadata),
+                'meta' => $projectContent->getTerritory() ?: ($serviceContent ? $serviceContent->getDesignation() : null),
+                'period' => $projectContent->getPeriodLabel(),
+                'excerpt' => $this->buildProjectCardExcerpt($projectContent, $metadata),
                 'index' => $project->getFeaturedProjectsRank(),
             ];
         }, $projects, array_keys($projects));
@@ -496,7 +498,7 @@ class PracticeController extends AbstractController
         return null;
     }
 
-    private function buildProjectCardTitle(Projet $project): string
+    private function buildProjectCardTitle(mixed $project): string
     {
         $designation = trim((string) $project->getDesignation());
         if ($project->getExternalId() !== null && str_contains($designation, ' – ')) {
@@ -511,7 +513,7 @@ class PracticeController extends AbstractController
     /**
      * @param array<string, mixed> $metadata
      */
-    private function buildProjectCardExcerpt(Projet $project, array $metadata): string
+    private function buildProjectCardExcerpt(mixed $project, array $metadata): string
     {
         $editorialAngle = trim((string) ($metadata['editorial_angle'] ?? ''));
         if ($editorialAngle !== '') {
@@ -626,8 +628,8 @@ class PracticeController extends AbstractController
         ServicesRepository $reposervices
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         return $this->render('metiers.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -646,8 +648,8 @@ class PracticeController extends AbstractController
         TeamRepository $repoteam,
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         $team = $this->buildTeamProfiles($repoteam->findAll());
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
@@ -666,8 +668,8 @@ class PracticeController extends AbstractController
         ServicesRepository $reposervices
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         return $this->render('client.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -683,8 +685,8 @@ class PracticeController extends AbstractController
         ServicesRepository $reposervices,
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
         return $this->render('rse.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -702,7 +704,7 @@ class PracticeController extends AbstractController
     {
         $practices = $repopractice->findAll();
         $services = $reposervices->findAll();
-        $legalPage = $legalPageRepository->findOneBy(['slug' => 'polrgpd']);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polrgpd']));
         return $this->render('polrgpd.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -719,9 +721,9 @@ class PracticeController extends AbstractController
         LegalPageRepository $legalPageRepository
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
-        $legalPage = $legalPageRepository->findOneBy(['slug' => 'polsecurite']);
+        $practices = $this->localizePractices($repopractice->findAll());
+        $services = $this->localizeServices($reposervices->findAll());
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polsecurite']));
         return $this->render('polsecu.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -820,16 +822,17 @@ class PracticeController extends AbstractController
             throw $this->createNotFoundException('Le service ne correspond pas à la practice demandée.');
         }
 
-        $practices = $practiceRepository->findAll();
-        $services = $servicesRepository->findAll();
+        $practices = $this->localizePractices($practiceRepository->findAll());
+        $services = $this->localizeServices($servicesRepository->findAll());
 
-        if (empty($service->getIntroductionShort())) {
+        $serviceContent = $this->localizedContentResolver->getFrenchServiceView($service);
+        if (empty($serviceContent->getIntroductionShort())) {
             return $this->redirectToRoute('index');
         }
 
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',
-            'service' => $service,
+            'service' => $serviceContent,
             'serviceNarrative' => $this->publicSiteConfig->getServiceNarrative($service),
             'pract' => $practice,
             'practices' => $practices,
@@ -924,8 +927,8 @@ class PracticeController extends AbstractController
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository
     ): Response {
-        $practices = $practiceRepository->findAll();
-        $services = $servicesRepository->findAll();
+        $practices = $this->localizePractices($practiceRepository->findAll());
+        $services = $this->localizeServices($servicesRepository->findAll());
 
         $teamsMap = [];
         foreach ($practice->getServices() as $service) {
@@ -944,14 +947,14 @@ class PracticeController extends AbstractController
 
         return $this->render('practice-home.html.twig', [
             'controller_name' => 'PracticeController',
-            'practice' => $practice,
+            'practice' => $this->localizedContentResolver->getFrenchPracticeView($practice),
             'practiceNarrative' => $this->publicSiteConfig->getPracticeNarrative($practice),
             'expertisePages' => $this->publicSiteConfig->getExpertisePages(),
             'pract' => $practice->getSlug(),
             'practices' => $practices,
             'services' => $services,
-            'teams' => $teams,
-            'projects' => $projects,
+            'teams' => $this->localizeTeams($teams),
+            'projects' => $this->localizeProjects($projects),
         ]);
     }
 
@@ -1069,10 +1072,11 @@ class PracticeController extends AbstractController
         $preview = [];
         foreach ($catalog as $key => $defaults) {
             $member = $index[$key] ?? null;
+            $memberView = $member ? $this->localizedContentResolver->getFrenchTeamView($member) : null;
             $preview[] = [
                 'slug' => $defaults['slug'],
                 'noncomplet' => $defaults['displayName'],
-                'titre' => $member?->getTitre() ?: ($defaults['titre'] ?? 'Équipe de direction'),
+                'titre' => $memberView?->getTitre() ?: ($defaults['titre'] ?? 'Équipe de direction'),
                 'shortcv' => $defaults['shortcv'],
                 'areas' => $defaults['areas'],
                 'organization' => $defaults['relationshipText'],
@@ -1132,6 +1136,52 @@ class PracticeController extends AbstractController
         );
 
         return preg_replace('/\s+/', ' ', $normalized) ?? $normalized;
+    }
+
+    private function localizeLegalPage(?\App\Entity\LegalPage $page): mixed
+    {
+        return $page ? $this->localizedContentResolver->getFrenchLegalPageView($page) : null;
+    }
+
+    private function localizeHomeSection(?\App\Entity\HomeSection $section): mixed
+    {
+        return $section ? $this->localizedContentResolver->getFrenchHomeSectionView($section) : null;
+    }
+
+    /**
+     * @param \App\Entity\Practice[] $practices
+     * @return array<int, mixed>
+     */
+    private function localizePractices(array $practices): array
+    {
+        return array_map(fn (\App\Entity\Practice $practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practices);
+    }
+
+    /**
+     * @param \App\Entity\Services[] $services
+     * @return array<int, mixed>
+     */
+    private function localizeServices(array $services): array
+    {
+        return array_map(fn (\App\Entity\Services $service) => $this->localizedContentResolver->getFrenchServiceView($service), $services);
+    }
+
+    /**
+     * @param Projet[] $projects
+     * @return array<int, mixed>
+     */
+    private function localizeProjects(array $projects): array
+    {
+        return array_map(fn (Projet $project) => $this->localizedContentResolver->getFrenchProjetView($project), $projects);
+    }
+
+    /**
+     * @param Team[] $teams
+     * @return array<int, mixed>
+     */
+    private function localizeTeams(array $teams): array
+    {
+        return array_map(fn (Team $team) => $this->localizedContentResolver->getFrenchTeamView($team), $teams);
     }
 
     private function isAmoaAlias(string $slug): bool

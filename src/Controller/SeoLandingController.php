@@ -213,8 +213,8 @@ class SeoLandingController extends AbstractController
         $pageFaqItems = $this->sitePageFaqParser->parse($content?->getBodyHtml());
 
         return $this->render($template, [
-            'practices' => $practiceRepository->findAll(),
-            'services' => $servicesRepository->findAll(),
+            'practices' => array_map(fn ($practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practiceRepository->findAll()),
+            'services' => array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $servicesRepository->findAll()),
             'page' => $content,
             'pageFaqItems' => $pageFaqItems,
             'zoneMaillage' => $this->seoGeoInternalLinkService->build($content?->getSlug()),

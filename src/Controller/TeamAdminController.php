@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
+use App\Service\StructuredContentTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +28,7 @@ class TeamAdminController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_teams_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
@@ -46,6 +47,7 @@ class TeamAdminController extends AbstractController
 
             $entityManager->persist($team);
             $entityManager->flush();
+            $translationSynchronizer->syncTeam($team);
 
             $this->addFlash('success', 'Membre créé.');
 
@@ -60,7 +62,7 @@ class TeamAdminController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_teams_edit', methods: ['GET', 'POST'])]
-    public function edit(Team $team, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function edit(Team $team, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $originalPhoto = $team->getPhoto();
 
@@ -80,6 +82,7 @@ class TeamAdminController extends AbstractController
             }
 
             $entityManager->flush();
+            $translationSynchronizer->syncTeam($team);
 
             $this->addFlash('success', 'Membre mis à jour.');
 

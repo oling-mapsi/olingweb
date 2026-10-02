@@ -14,6 +14,7 @@ use App\Repository\ProjetRepository;
 use App\Repository\HomeSectionRepository;
 use App\Repository\HomeAwardItemRepository;
 use App\Service\PublicSiteConfig;
+use App\Service\StructuredContentTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -133,7 +134,7 @@ class HomeSectionAdminController extends AbstractController
     }
 
     #[Route('/practices', name: 'admin_home_practices', methods: ['GET', 'POST'])]
-    public function practices(HomeSectionRepository $repository, PracticeRepository $practiceRepository, EntityManagerInterface $entityManager, Request $request): Response
+    public function practices(HomeSectionRepository $repository, PracticeRepository $practiceRepository, EntityManagerInterface $entityManager, Request $request, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $section = $repository->findOneBy(['slug' => 'practices']);
         if (!$section) {
@@ -187,6 +188,7 @@ class HomeSectionAdminController extends AbstractController
 
             $section->touchUpdatedAt();
             $entityManager->flush();
+            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Sélection des practices mise à jour.');
 
             return $this->redirectToRoute('admin_home_practices');
@@ -195,6 +197,7 @@ class HomeSectionAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
             $entityManager->flush();
+            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_practices');
         }
@@ -209,7 +212,7 @@ class HomeSectionAdminController extends AbstractController
     }
 
     #[Route('/projects', name: 'admin_home_projects', methods: ['GET', 'POST'])]
-    public function projects(HomeSectionRepository $repository, ProjetRepository $projetRepository, EntityManagerInterface $entityManager, Request $request): Response
+    public function projects(HomeSectionRepository $repository, ProjetRepository $projetRepository, EntityManagerInterface $entityManager, Request $request, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $section = $repository->findOneBy(['slug' => 'projects']);
         if (!$section) {
@@ -263,6 +266,7 @@ class HomeSectionAdminController extends AbstractController
 
             $section->touchUpdatedAt();
             $entityManager->flush();
+            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Sélection des projets mise à jour.');
 
             return $this->redirectToRoute('admin_home_projects');
@@ -271,6 +275,7 @@ class HomeSectionAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
             $entityManager->flush();
+            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_projects');
         }
@@ -285,7 +290,7 @@ class HomeSectionAdminController extends AbstractController
     }
 
     #[Route('/awards', name: 'admin_home_awards', methods: ['GET', 'POST'])]
-    public function awards(HomeSectionRepository $repository, HomeAwardItemRepository $awardRepository, EntityManagerInterface $entityManager, Request $request): Response
+    public function awards(HomeSectionRepository $repository, HomeAwardItemRepository $awardRepository, EntityManagerInterface $entityManager, Request $request, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $section = $repository->findOneBy(['slug' => 'awards']);
         if (!$section) {
@@ -300,6 +305,7 @@ class HomeSectionAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
             $entityManager->flush();
+            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_awards');
         }

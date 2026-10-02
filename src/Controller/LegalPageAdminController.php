@@ -6,6 +6,7 @@ use App\Entity\LegalPage;
 use App\Form\LegalPageType;
 use App\Repository\LegalPageRepository;
 use App\Service\LegalPageDefaults;
+use App\Service\StructuredContentTranslationSynchronizer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class LegalPageAdminController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'admin_legal_pages_edit', methods: ['GET', 'POST'])]
-    public function edit(string $slug, Request $request, EntityManagerInterface $entityManager, LegalPageRepository $repository): Response
+    public function edit(string $slug, Request $request, EntityManagerInterface $entityManager, LegalPageRepository $repository, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $defaults = LegalPageDefaults::defaults();
         if (!isset($defaults[$slug])) {
@@ -47,6 +48,9 @@ class LegalPageAdminController extends AbstractController
 
         if ($needsFlush) {
             $entityManager->flush();
+            foreach ($pages as $createdPage) {
+                $translationSynchronizer->syncLegalPage($createdPage);
+            }
         }
 
         $page = $pages[$slug];
@@ -59,6 +63,7 @@ class LegalPageAdminController extends AbstractController
             $page->touchUpdatedAt();
             $entityManager->persist($page);
             $entityManager->flush();
+            $translationSynchronizer->syncLegalPage($page);
             $this->addFlash('success', 'Page légale mise à jour.');
 
             return $this->redirectToRoute('admin_legal_pages_edit', ['slug' => $slug]);

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Projet;
 use App\Form\ProjetType;
 use App\Repository\ProjetRepository;
+use App\Service\StructuredContentTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +43,7 @@ class ProjetAdminController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_projets_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ProjetRepository $repository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ProjetRepository $repository, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $projet = new Projet();
         $form = $this->createForm(ProjetType::class, $projet);
@@ -82,6 +83,7 @@ class ProjetAdminController extends AbstractController
 
             $entityManager->persist($projet);
             $entityManager->flush();
+            $translationSynchronizer->syncProjet($projet);
 
             $this->addFlash('success', 'Projet créé.');
 
@@ -96,7 +98,7 @@ class ProjetAdminController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_projets_edit', methods: ['GET', 'POST'])]
-    public function edit(Projet $projet, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ProjetRepository $repository): Response
+    public function edit(Projet $projet, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ProjetRepository $repository, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $originalImage = $projet->getImage();
         $originalImageHero = $projet->getImageHero();
@@ -140,6 +142,7 @@ class ProjetAdminController extends AbstractController
             }
 
             $entityManager->flush();
+            $translationSynchronizer->syncProjet($projet);
 
             $this->addFlash('success', 'Projet mis à jour.');
 

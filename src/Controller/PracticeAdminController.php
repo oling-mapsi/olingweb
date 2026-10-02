@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Practice;
 use App\Form\PracticeType;
 use App\Repository\PracticeRepository;
+use App\Service\StructuredContentTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,7 +42,7 @@ class PracticeAdminController extends AbstractController
     }
 
     #[Route('/new', name: 'admin_practices_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $practice = new Practice();
         $form = $this->createForm(PracticeType::class, $practice);
@@ -69,6 +70,7 @@ class PracticeAdminController extends AbstractController
 
             $entityManager->persist($practice);
             $entityManager->flush();
+            $translationSynchronizer->syncPractice($practice);
 
             $this->addFlash('success', 'Practice créée.');
 
@@ -83,7 +85,7 @@ class PracticeAdminController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_practices_edit', methods: ['GET', 'POST'])]
-    public function edit(Practice $practice, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
+    public function edit(Practice $practice, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $originalImage1 = $practice->getImage1();
         $originalImage2 = $practice->getImage2();
@@ -114,6 +116,7 @@ class PracticeAdminController extends AbstractController
             }
 
             $entityManager->flush();
+            $translationSynchronizer->syncPractice($practice);
 
             $this->addFlash('success', 'Practice mise à jour.');
 

@@ -8,6 +8,7 @@ use App\Repository\ServicesRepository;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
 use App\Service\LocalizedContentResolver;
+use App\Service\I18n\LocalizedUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,8 @@ class SeoLandingController extends AbstractController
         private SitePageRepository $sitePageRepository,
         private SitePageFaqParser $sitePageFaqParser,
         private SeoGeoInternalLinkService $seoGeoInternalLinkService,
-        private LocalizedContentResolver $localizedContentResolver
+        private LocalizedContentResolver $localizedContentResolver,
+        private LocalizedUrlGenerator $localizedUrlGenerator
     ) {
     }
 
@@ -221,6 +223,7 @@ class SeoLandingController extends AbstractController
             'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($content?->getSlug(), 10),
             'landingNarrative' => $content?->getStructuredData()['landingNarrative'] ?? [],
             'landingPageSlug' => $pageSlug,
+            'localizedAlternates' => $page ? $this->localizedUrlGenerator->sitePageAlternates($page) : null,
             'pract' => '',
         ]);
     }

@@ -20,6 +20,7 @@ use App\Service\PublicSitePageResolver;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
 use App\Service\LocalizedContentResolver;
+use App\Service\I18n\LocalizedUrlGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,6 +35,7 @@ class PracticeController extends AbstractController
     public function __construct(
         private readonly PublicSitePageResolver $publicSitePageResolver,
         private readonly LocalizedContentResolver $localizedContentResolver,
+        private readonly LocalizedUrlGenerator $localizedUrlGenerator,
     )
     {
     }
@@ -74,6 +76,7 @@ class PracticeController extends AbstractController
         $homeAwardsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'awards']));
         $homeAwards = $homeAwardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']);
         $flashInfo = $contentItemRepository->findOneBy([], ['id' => 'DESC']);
+        $homePageEntity = $sitePageRepository->findOneBy(['slug' => 'home']);
         $latestResources = array_values(array_filter(array_map(
             fn (\App\Entity\SitePage $page): ?array => $this->buildHomeResourceCard($page),
             array_slice($sitePageRepository->findResourceArticles(), 0, 2)
@@ -96,6 +99,7 @@ class PracticeController extends AbstractController
             'homeAwards' => $homeAwards,
             'latestResources' => $latestResources,
             'flashInfo' => $flashInfo,
+            'localizedAlternates' => $homePageEntity ? $this->localizedUrlGenerator->sitePageAlternates($homePageEntity) : null,
             'pract' => '',
         ]);
     }

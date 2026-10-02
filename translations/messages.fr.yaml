@@ -7,6 +7,10 @@ common:
   illustration: "Illustration"
   project_discussion: "Parlons de votre projet"
 
+schema:
+  organization:
+    description: "Cabinet de conseil pour PME, PMI et ETI : transformation SI, ERP, organisation, conformité, cybersécurité et intelligence artificielle."
+
 nav:
   open_menu: "Ouvrir le menu"
   expertises: "Nos expertises"

@@ -1,0 +1,706 @@
+{
+    "entity": "SitePageTranslation",
+    "locale": "es",
+    "exportedAt": "2026-10-02T20:47:02+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "amoa-si",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "asesoria-proyectos-sistemas-informacion",
+            "title": "Asesoría en sistemas de información | ERP, CRM, GMAO, finanzas y cumplimiento | OLING",
+            "seoTitle": "Asesoría en sistemas de información | ERP, CRM, GMAO, finanzas y cumplimiento | OLING",
+            "seoDescription": "Consultoría y asesoría en sistemas de información para el sector público, pymes y empresas de tamaño intermedio: definición del alcance, gobernanza, gestión de programas, ERP, CRM, GMAO, sistemas financieros, facturación electrónica y cumplimiento.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Consultoría en sistemas de información",
+            "heroTitle": "Asesoría en sistemas de información: definición, gobernanza y ejecución de proyectos",
+            "heroIntro": "OLING acompaña a las áreas de negocio y de TI en la definición, la gobernanza y la gestión de proyectos de transformación: ERP, entorno de trabajo digital, datos, cumplimiento y ciberseguridad.",
+            "heroSideHtml": "<section class=\"oling-section\" id=\"offre\">\n  <div class=\"container\">\n    <div class=\"row g-5 align-items-start\">\n      <div class=\"col-lg-7\">\n        <span class=\"oling-kicker\">Nuestro valor</span>\n        <h2>Una asesoría que garantiza decisiones sólidas y acelera la ejecución</h2>\n        <p>Nuestra función: transformar sus necesidades de negocio en hojas de ruta de sistemas de información ejecutables. Estructuramos los requisitos, evaluamos objetivamente las opciones, coordinamos a los participantes y garantizamos el cumplimiento durante todo el proyecto.</p>\n        <div class=\"oling-surface p-4 mt-4\">\n          <h3 class=\"mb-3\">Nuestros entregables</h3>\n          <ul class=\"list-unstyled mb-0\">\n            <li class=\"mb-2\">Definición del alcance, identificación de necesidades y mapeo de procesos y riesgos.</li>\n            <li class=\"mb-2\">Plan director de sistemas de información, caso de negocio y hoja de ruta priorizada.</li>\n            <li>Gobernanza, gestión, pruebas de aceptación, gestión del cambio y medición de resultados.</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"col-lg-5\">\n        <div class=\"oling-surface p-4\">\n          <h3 class=\"mb-3\">Ámbitos de intervención</h3>\n          <ul class=\"list-unstyled mb-0\">\n            <li class=\"mb-2\">Asesoría en <a class=\"link\" href=\"/erp-progiciel\">ERP</a> / <a class=\"link\" href=\"/crm\">CRM</a> / <a class=\"link\" href=\"/gmao\">GMAO</a> / <a class=\"link\" href=\"/si-finance\">sistemas financieros</a> / <a class=\"link\" href=\"/infrastructure-si-amoa\">infraestructura de sistemas de información</a></li>\n            <li class=\"mb-2\">Datos, BI y gobernanza de datos</li>\n            <li class=\"mb-2\">Cumplimiento del <a class=\"link\" href=\"/rgpd\">RGPD</a>, AI Act, ISO 27001, NIS2 y DORA</li>\n            <li><a class=\"link\" href=\"/cyber-securite\">Ciberseguridad y seguridad de los sistemas de información</a>, <a class=\"link\" href=\"/conformite-reglementaire\">cumplimiento normativo</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">asesoría en facturación electrónica</a></li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section\">\n  <div class=\"container\">\n    <div class=\"oling-method\">\n      <div class=\"row g-4 align-items-start\">\n        <div class=\"col-lg-4\">\n          <span class=\"oling-kicker\">Método</span>\n          <h2>Nuestro método de asesoría en 3 etapas</h2>\n          <p class=\"oling-lede\">Estructurar, garantizar y transformar: un marco claro para proyectos de sistemas de información fiables.</p>\n        </div>\n        <div class=\"col-lg-8\">\n          <div class=\"row g-4\">\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>01</span><h4>Diagnóstico y definición</h4><p>Auditoría de sistemas de información, mapeo, objetivos de negocio y requisitos.</p></div></div>\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>02</span><h4>Gobernanza y gestión</h4><p>Asesoría operativa, PMO, presupuesto, riesgos y cumplimiento integrado.</p></div></div>\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>03</span><h4>Gestión del cambio</h4><p>Adopción, formación y medición del rendimiento.</p></div></div>\n          </div>\n          <div class=\"mt-4\"><a class=\"btn btn-primary\" href=\"/contact\">Programar una reunión</a></div>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Guías de asesoría relacionadas</h2>\n      <ul class=\"mb-0\">\n        <li><a class=\"link\" href=\"/ressources/cadrage-projet-amoa-si\">Definición de proyectos de sistemas de información: 10 errores que debe evitar</a></li>\n        <li><a class=\"link\" href=\"/ressources/choisir-cabinet-conseil-amoa-pme-eti\">Cómo elegir una consultora de sistemas de información para pymes y empresas de tamaño intermedio</a></li>\n        <li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo: RGPD, AI Act, ISO, seguridad, QSE y energía</a></li>\n        <li><a class=\"link\" href=\"/ressources\">Ver todos los recursos</a></li>\n      </ul>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"amoa-si\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Hojas de ruta de sistemas de información llevadas a la práctica</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Definición de sistemas de información con múltiples participantes, una hoja de ruta priorizada y gobernanza del programa.</li>\n              <li>Gestión de proyectos ERP/CRM/GMAO desde la perspectiva del negocio, con una reducción de los retrabajos durante las pruebas de aceptación.</li>\n              <li>Cumplimiento integrado desde la fase de definición (RGPD, AI Act, ISO y ciberseguridad) para evitar bloqueos tardíos.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI relacionadas</h2>\n      <p class=\"mb-3\">Esta área de especialización puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/gestion-des-systemes-information\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI relacionado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y los DROM</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuándo recurrir a una asesoría en sistemas de información?\",\"answer\":\"Desde la fase de definición, para garantizar la fiabilidad de las necesidades, las decisiones presupuestarias y la gobernanza del proyecto.\"},{\"question\":\"¿Cuál es la diferencia entre la asesoría del negocio y la ejecución técnica?\",\"answer\":\"La asesoría del negocio representa las necesidades empresariales y las decisiones. El equipo de ejecución técnica diseña e implementa la solución.\"},{\"question\":\"¿Qué entregables de asesoría son imprescindibles?\",\"answer\":\"Una definición clara del objetivo, una hoja de ruta priorizada, un modelo de gobernanza y un plan de pruebas de aceptación y gestión del cambio.\"}]}",
+            "structuredData": null,
+            "status": "reviewed",
+            "sourceContentHash": "e8f4e58987329c2c512a6461ca93da44e170b4648ef53ddc2260aba1a3ffc9e5",
+            "sourceUpdatedAt": "2026-10-02T20:31:50+00:00",
+            "translatedAt": "2026-10-02T20:31:50+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "contact",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "contacto",
+            "title": "Contacto",
+            "seoTitle": "Contacto",
+            "seoDescription": "Contacte con OLING para abordar necesidades de transformación de sistemas de información, ERP, organización, cumplimiento, ciberseguridad o inteligencia artificial.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "corePage": {
+                    "cta": {
+                        "text": "Puede contactar con nosotros aunque su necesidad aún no esté totalmente definida. Le ayudamos a evaluar el nivel de urgencia, los riesgos y la siguiente decisión adecuada.",
+                        "title": "Una primera orientación útil, incluso cuando el asunto aún no está completamente definido",
+                        "eyebrow": "Primer contacto",
+                        "primaryCta": {
+                            "label": "Escríbanos",
+                            "route": "contact"
+                        }
+                    },
+                    "intro": "OLING interviene en proyectos que requieren una perspectiva independiente, una hoja de ruta clara y una ejecución controlable en ámbitos como ERP, cumplimiento, ciberseguridad, RGPD o IA.",
+                    "title": "Explíquenos su contexto. Le ayudaremos a definir los siguientes pasos, las prioridades y el nivel de intervención adecuado",
+                    "eyebrow": "Contacto",
+                    "seoTitle": "Contacto | OLING",
+                    "highlights": [
+                        "Diagnóstico rápido",
+                        "Reunión para definir el alcance",
+                        "Respuesta práctica"
+                    ],
+                    "formSection": {
+                        "title": "Envíenos un mensaje",
+                        "fields": {
+                            "company": {
+                                "label": "Empresa",
+                                "placeholder": "Empresa"
+                            },
+                            "details": {
+                                "label": "Su mensaje",
+                                "placeholder": "Retos, proyecto, obstáculos, expectativas, contexto..."
+                            },
+                            "lastName": {
+                                "label": "Apellidos",
+                                "placeholder": "Apellidos"
+                            },
+                            "firstName": {
+                                "label": "Nombre",
+                                "placeholder": "Nombre"
+                            },
+                            "workEmail": {
+                                "label": "Correo electrónico profesional",
+                                "placeholder": "email@domaine.com"
+                            }
+                        },
+                        "kicker": "Contacto",
+                        "errorText": "Se ha producido un error. Inténtelo de nuevo.",
+                        "legalText": "De conformidad con el RGPD, la información recopilada mediante este formulario es necesaria para tramitar su solicitud.",
+                        "consentText": "Acepto que los datos de este formulario se recopilen para gestionar mi solicitud.",
+                        "loadingText": "Enviando...",
+                        "submitLabel": "Enviar el mensaje",
+                        "successText": "Nos pondremos en contacto con usted próximamente para mantener una reunión inicial y definir el alcance.",
+                        "legalLinkUrl": "https://v6.mapsi.fr/public-form/rgpdaccess/eyJ2IjoxLCJjIjo4LCJlIjoicmdwZGFjY2VzcyJ9.e041dfbf740ee072196f1117efc9b6cbcd69f074510a3e31216784d64f5f6965",
+                        "successTitle": "Gracias, su mensaje se ha enviado correctamente.",
+                        "legalLinkLabel": "acceder al formulario específico"
+                    },
+                    "requestSection": {
+                        "items": [
+                            "Proyecto de ERP, CRM o GMAO que necesita definir o reconducir.",
+                            "Transformación de sistemas de información, organizativa o de gobernanza que necesita estructurar.",
+                            "Cuestión relacionada con cumplimiento, ciberseguridad, RGPD, resiliencia o IA."
+                        ],
+                        "title": "Asuntos prioritarios que puede confiarnos",
+                        "kicker": "Cuándo contactar con nosotros"
+                    },
+                    "metaDescription": "Contacte con OLING para abordar necesidades de transformación de sistemas de información, ERP, organización, cumplimiento, ciberseguridad o inteligencia artificial.",
+                    "presenceSection": {
+                        "text": "Francia metropolitana y departamentos y regiones de ultramar. OLING presta sus servicios a organizaciones con múltiples sedes, pymes, pymes industriales, empresas de tamaño intermedio y organizaciones reguladas.",
+                        "title": "Presencia"
+                    }
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "0ce32019294fb0e72e8493aa7218003da788a59675c8642043067f542a3f9760",
+            "sourceUpdatedAt": "2026-10-02T20:34:41+00:00",
+            "translatedAt": "2026-10-02T20:34:41+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "crm",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "asesoria-crm",
+            "title": "Asesoría CRM | Experiencia del cliente, datos y adopción | OLING",
+            "seoTitle": "Asesoría CRM | Experiencia del cliente, datos y adopción | OLING",
+            "seoDescription": "Asesoría CRM para las áreas comercial, marketing y TI: definición del modelo objetivo, modelo de datos, gobernanza comercial, pruebas, adopción e integración con los sistemas de información.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Asesoría CRM",
+            "heroTitle": "Asesoría CRM: estructurar la experiencia del cliente y el rendimiento comercial",
+            "heroIntro": "Alineamos la estrategia CRM, los procesos de negocio y los sistemas de información: segmentación, pipeline, informes, calidad de los datos y gobernanza comercial.",
+            "heroSideHtml": "<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué definimos</h2><ul class=\"mb-0\"><li>Visión objetivo del CRM y priorización de los usos de mayor valor.</li><li>Modelo de datos, reglas de calidad y gobernanza comercial.</li><li>Backlog funcional, estrategia de pruebas y plan de despliegue.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Entregables de la asesoría</h2><ul class=\"mb-0\"><li>Hoja de ruta CRM priorizada según su impacto empresarial.</li><li>Matriz RACI de gobernanza y marco para la toma de decisiones.</li><li>Plan de adopción por parte de los usuarios y medición del rendimiento.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Áreas de especialización complementarias</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/erp-progiciel\">Asesoría en ERP y software de gestión</a></li><li><a class=\"link\" href=\"/gmao\">Asesoría en GMAO</a></li><li><a class=\"link\" href=\"/si-finance\">Asesoría en sistemas de información financieros</a></li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructuras de TI</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a></li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita un plan CRM para los próximos 90 días?</h2><p class=\"oling-lede\">Definimos las prioridades, la gobernanza y la medición de la adopción para garantizar una ejecución controlada.</p><a class=\"btn btn-primary\" href=\"/contact\">Hablar sobre su proyecto CRM</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"crm\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Experiencias del cliente más fiables gracias a los datos</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Rediseño de procesos comerciales con modelos de datos comunes para ventas, marketing y atención al cliente.</li>\n              <li>Priorización del backlog CRM según el valor empresarial y la viabilidad técnica.</li>\n              <li>Adopción acelerada por parte de los equipos mediante la gestión del cambio e indicadores de uso.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿La asesoría CRM y la configuración de la herramienta son lo mismo?\",\"answer\":\"No. La asesoría define el modelo de negocio objetivo y dirige la toma de decisiones. La configuración la realiza el integrador.\"},{\"question\":\"¿Qué indicadores deben seguirse después del despliegue?\",\"answer\":\"La calidad de los datos, la tasa de uso, la conversión del pipeline y los plazos de gestión comercial.\"},{\"question\":\"¿Cuánto dura la fase de definición de un proyecto CRM?\",\"answer\":\"Por lo general, entre 6 y 12 semanas, según el alcance, la madurez inicial y el número de entidades.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "Definir el repositorio de clientes: personas, empresas, contactos, relaciones, fuente maestra, reglas de deduplicación y responsabilidades de actualización.",
+                        "Describir los procesos realmente cubiertos: cliente potencial, oportunidad, venta, solicitud, servicio o reclamación, según el alcance establecido.",
+                        "Formalizar el pipeline comercial: etapas, criterios de cualificación, funciones, reglas de transición y método de previsión.",
+                        "Precisar los indicadores esperados sobre la actividad, el pipeline, el servicio, la calidad de los datos y la adopción."
+                    ],
+                    "promise": "OLING no es, por defecto, un proveedor, distribuidor ni integrador de CRM. Su misión consiste en traducir las necesidades comerciales y de servicio en procesos, reglas de negocio, datos, criterios de selección y escenarios de prueba verificables.",
+                    "heroBadge": "Consultora independiente de asesoría CRM",
+                    "heroIntro": "OLING trabaja junto a las áreas de negocio para definir los procesos de clientes, el repositorio, los datos, las interfaces, la selección de la solución y las pruebas del CRM.",
+                    "heroTitle": "Asesoría CRM: definir, seleccionar y ejecutar con éxito su proyecto CRM",
+                    "metaTitle": "Asesoría CRM: definición, selección y despliegue de su CRM | OLING",
+                    "linksIntro": "El CRM debe permanecer conectado con los sistemas de información transversales, las aplicaciones de gestión y las obligaciones relativas a los datos personales.",
+                    "linksTitle": "Ámbitos directamente relacionados con el CRM",
+                    "scopeTitle": "Procesos y repositorio de clientes que deben definirse",
+                    "clientTypes": [
+                        "Las pruebas cubren los procesos de negocio, los perfiles y permisos, las interfaces, la migración, los cálculos del pipeline y los informes.",
+                        "Los casos de prueba incluyen variantes y excepciones, no solo el proceso comercial estándar.",
+                        "La adopción se mide mediante la integridad y la actualización de los datos, el uso de las etapas del pipeline y la reducción de los archivos paralelos.",
+                        "Las incidencias se clasifican según su impacto empresarial y se vinculan a criterios de aceptación antes de la puesta en producción."
+                    ],
+                    "deliverables": [
+                        "Documento de definición, mapa de procesos y gobernanza del proyecto.",
+                        "Modelo de datos de clientes, reglas de negocio, especificación de necesidades y backlog de negocio.",
+                        "Pliego de consulta, escenarios de demostración, matriz de selección y documento para la toma de decisiones.",
+                        "Plan de migración, catálogo de interfaces, estrategia de pruebas y plan de despliegue."
+                    ],
+                    "finalCtaText": "La conversación inicial aborda los procesos que deben cubrirse, las fuentes de datos, las interfaces, las decisiones pendientes y los criterios de éxito del proyecto.",
+                    "supportLinks": [
+                        {
+                            "href": "/amoa-si",
+                            "label": "Asesoría en sistemas de información",
+                            "description": "Para la gobernanza transversal y la dirección global del proyecto."
+                        },
+                        {
+                            "href": "/business-apps/erp",
+                            "label": "Asesoría ERP",
+                            "description": "Para las interfaces de gestión, la facturación y los repositorios compartidos."
+                        },
+                        {
+                            "href": "/expertises-audit/rgpd",
+                            "label": "RGPD operativo",
+                            "description": "Para profundizar en la gobernanza de los tratamientos y los controles asociados."
+                        }
+                    ],
+                    "triggerTitle": "Método de definición y despliegue",
+                    "finalCtaTitle": "Precisar el alcance de negocio y los datos del CRM",
+                    "missionPhases": [
+                        "Observar los usos reales, los archivos paralelos, los datos ausentes y las etapas del proceso que quedan fuera del CRM.",
+                        "Decidir el modelo objetivo, las funciones, las reglas de negocio, el alcance funcional y la gobernanza del repositorio de clientes.",
+                        "Comparar las soluciones mediante escenarios de negocio y requisitos medibles, y documentar después las decisiones entre funcionalidades estándar, configuración y desarrollos específicos.",
+                        "Dirigir el diseño, la migración, las interfaces, las pruebas, el despliegue y el seguimiento de la adopción."
+                    ],
+                    "metaDescription": "Consultora independiente de asesoría CRM: definición de negocio, selección de la solución, coordinación del integrador, datos, migración, pruebas y gestión del cambio.",
+                    "projectContexts": [
+                        "La migración debe precisar las fuentes, el historial conservado, la depuración, el mapeo, los duplicados y el responsable de negocio de cada validación.",
+                        "Las interfaces se describen indicando su dirección, frecuencia, datos y controles: ERP, facturación, marketing, portal, BI, correo electrónico o aplicaciones de negocio.",
+                        "Los tratamientos de datos personales se definen de acuerdo con su finalidad, base jurídica, minimización, conservación, ejercicio de derechos y trazabilidad requerida.",
+                        "La fuente maestra y las reglas de sincronización deben decidirse antes de las pruebas de migración e integración."
+                    ],
+                    "showReadingPath": false,
+                    "clientTypesTitle": "Pruebas y gestión de la adopción",
+                    "positioningTitle": "Cuándo contratar asesoría CRM",
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Entregables útiles para el proyecto CRM",
+                    "schemaServiceType": "Asesoría CRM",
+                    "showAutomaticZones": false,
+                    "projectContextsTitle": "Datos, interfaces y responsabilidades"
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "9d7cfc45c81bce868ad1f10fa8477eae61028109fd1326ea07cf33e0fa3c0f6b",
+            "sourceUpdatedAt": "2026-10-02T20:33:47+00:00",
+            "translatedAt": "2026-10-02T20:33:47+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "cyber-securite",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "ciberseguridad",
+            "title": "Ciberseguridad: gobernanza, ISO 27001, NIS2 y DORA | OLING",
+            "seoTitle": "Ciberseguridad: gobernanza, ISO 27001, NIS2 y DORA | OLING",
+            "seoDescription": "OLING ayuda a las organizaciones con la gobernanza de la ciberseguridad, el análisis de riesgos, ISO 27001, NIS2, DORA, PCA/PRA y la implantación de planes de seguridad.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Ciberseguridad y gobernanza de la seguridad de los sistemas de información",
+            "heroTitle": "Consultoría de ciberseguridad: gobernanza, riesgos y cumplimiento",
+            "heroIntro": "OLING acompaña a los equipos directivos, departamentos de TI y responsables de seguridad de la información en la evaluación de riesgos, la estructuración de la gobernanza de la seguridad de los sistemas de información, el cumplimiento de ISO 27001, NIS2 y DORA, así como en la preparación y gestión de planes de acción.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n  <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Problemas abordados</h2><ul class=\"mb-0\"><li>Gobernanza de la seguridad de los sistemas de información inexistente o difícil de gestionar.</li><li>Política de seguridad, mapa de riesgos o plan de seguridad incompletos.</li><li>Preparación para ISO 27001, NIS2 o DORA sin pruebas suficientes.</li><li>PCA/PRA sin probar y dependencias de proveedores deficientemente controladas.</li><li>Responsabilidades de ciberseguridad, incidentes y planes de acción poco formalizados.</li></ul></div></div>\n  <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Posicionamiento de OLING</h2><p>OLING protege los sistemas de información y las organizaciones frente a los riesgos cibernéticos y los requisitos normativos. Su intervención se centra en la consultoría, el diagnóstico, la definición del alcance, la gobernanza, el cumplimiento, la continuidad y la gestión de planes de acción.</p><p class=\"mb-0\">OLING no se posiciona como SOC, integrador de seguridad ni proveedor de pruebas de intrusión cuando estas necesidades requieren la intervención de especialistas.</p></div></div>\n</div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-4\"><span class=\"oling-kicker\">Servicios de ciberseguridad</span><h2>Estructurar la gobernanza, los riesgos y el cumplimiento</h2><div class=\"row g-4 mt-1\">\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">Diagnóstico y riesgos</h3><p>Auditoría de madurez, análisis de brechas, mapa de riesgos, priorización y plan de remediación.</p></div>\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">Gobernanza de la seguridad de los sistemas de información</h3><p>Funciones, comités, política de seguridad, políticas específicas, indicadores, toma de decisiones y gestión del plan de acción de seguridad.</p></div>\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">ISO 27001 y SMSI</h3><p>Definición del SMSI, alcance, documentación, controles, pruebas y preparación para auditorías. OLING cuenta con la certificación ISO 27001:2022.</p></div>\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">NIS2 y DORA</h3><p>Análisis de brechas, gobernanza, gestión de riesgos, incidentes, proveedores, resiliencia y expediente de cumplimiento.</p></div>\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">Continuidad y resiliencia</h3><p>BIA, PCA, PRA, RTO, RPO, procedimientos de crisis, estrategia de recuperación, pruebas y vuelta a la normalidad.</p></div>\n  <div class=\"col-md-6 col-xl-4\"><h3 class=\"h6\">Gestión mediante herramientas</h3><p>Seguimiento de riesgos, auditorías, acciones, controles, pruebas e incidentes con MAPSI cuando la organización necesita sistematizar el modelo.</p></div>\n</div></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n  <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><span class=\"oling-kicker\">Método</span><h2>Una hoja de ruta en cinco etapas</h2><ol class=\"mb-0\"><li>Diagnosticar la postura de seguridad, los activos críticos y los requisitos aplicables.</li><li>Priorizar los riesgos, las brechas y las decisiones de la dirección.</li><li>Estructurar la gobernanza de la seguridad de los sistemas de información, el SMSI, las políticas y las responsabilidades.</li><li>Implantar el plan de tratamiento, las pruebas y los indicadores.</li><li>Gestionar, probar, corregir y preparar las revisiones o auditorías.</li></ol></div></div>\n  <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><span class=\"oling-kicker\">Entregables</span><h2>Resultados que debe generar el proyecto</h2><ul class=\"mb-0\"><li>Diagnóstico de madurez e informe de brechas.</li><li>Mapa de riesgos y plan de tratamiento.</li><li>Hoja de ruta de seguridad, política de seguridad, políticas específicas y procedimientos.</li><li>Expediente del SMSI, cuadros de mando de seguridad y pruebas de cumplimiento.</li><li>PCA/PRA, procedimientos de crisis, plan de pruebas e informe de lecciones aprendidas.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-4\"><span class=\"oling-kicker\">Experiencia y ámbitos de actuación</span><h2>Experiencia en sistemas de información, cumplimiento y resiliencia</h2><p>OLING trabaja en Francia continental y en los territorios franceses de ultramar con organismos públicos, pymes, empresas de tamaño intermedio, puertos, administraciones locales, mutuas, operadores del agua, entidades de formación y entornos multisede.</p><ul><li>Referencias publicables: gobernanza de sistemas de información, RGPD, plan director digital, telecomunicaciones, planes de acción y gestión con MAPSI.</li><li>Referencias que deben mantenerse anónimas hasta recibir autorización para citar el nombre: DORA, activos críticos, riesgos y resiliencia digital.</li><li>Perfiles disponibles: consultores sénior de sistemas de información, cumplimiento, auditoría, calidad, seguridad y medio ambiente, RGPD y gestión de transformaciones sensibles.</li></ul><p class=\"mb-0\">El valor de OLING reside en conectar las decisiones de negocio, los sistemas de información, el cumplimiento, las pruebas, la continuidad y la ejecución operativa.</p></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-4\"><span class=\"oling-kicker\">Servicios complementarios</span><h2>Conectar la ciberseguridad, el cumplimiento y la transformación de los sistemas de información</h2><div class=\"row g-4 mt-1\">\n  <div class=\"col-md-6\"><h3 class=\"h6\"><a class=\"link\" href=\"/expertises-audit/si\">Seguridad de los sistemas de información, ISO 27001, DORA y NIS2</a></h3><p>Profundizar en los servicios de auditoría, gobernanza de la seguridad y preparación para ISO 27001.</p></div>\n  <div class=\"col-md-6\"><h3 class=\"h6\"><a class=\"link\" href=\"/rgpd\">RGPD y gobernanza de datos</a></h3><p>Alinear la seguridad, el tratamiento de datos, los encargados del tratamiento y las pruebas de cumplimiento.</p></div>\n  <div class=\"col-md-6\"><h3 class=\"h6\"><a class=\"link\" href=\"/mapsi-progiciel\">MAPSI</a></h3><p>Gestionar riesgos, auditorías, planes de acción, controles y documentación desde una misma herramienta.</p></div>\n  <div class=\"col-md-6\"><h3 class=\"h6\"><a class=\"link\" href=\"/ressources\">Recursos de OLING</a></h3><p>Consultar las guías sobre ciberseguridad, NIS2/DORA, PCA/PRA, RGPD y definición de proyectos de sistemas de información.</p></div>\n</div></div></div></section>",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Por dónde se debe empezar una estrategia de ciberseguridad?\",\"answer\":\"Por un diagnóstico de madurez, un mapa de riesgos, la identificación de los requisitos aplicables y un plan de acción priorizado.\"},{\"question\":\"¿Ofrece OLING acompañamiento para ISO 27001?\",\"answer\":\"Sí. OLING ayuda a definir el SMSI, documentar las políticas, organizar las pruebas y preparar las auditorías. OLING no concede la certificación.\"},{\"question\":\"¿Cómo se pueden abordar NIS2 o DORA sin sobrecargar a los equipos?\",\"answer\":\"El proceso comienza con un análisis de brechas, seguido de la priorización de riesgos, proveedores, incidentes, continuidad, pruebas y responsabilidades.\"},{\"question\":\"¿Qué relación existe entre la ciberseguridad y el PCA/PRA?\",\"answer\":\"Los riesgos cibernéticos deben vincularse con las actividades críticas, los escenarios de crisis, los RTO/RPO, las pruebas de recuperación y la vuelta a la normalidad.\"},{\"question\":\"¿Ofrece OLING servicios de SOC o pruebas de penetración?\",\"answer\":\"No, salvo mediante una colaboración o una definición específica del alcance. OLING interviene principalmente en diagnóstico, gobernanza, cumplimiento, riesgos, continuidad y gestión.\"},{\"question\":\"¿Es útil MAPSI para gestionar la seguridad?\",\"answer\":\"MAPSI puede centralizar riesgos, auditorías, acciones, controles, documentos, incidentes y pruebas cuando el modelo requiere un seguimiento a largo plazo.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "finalCtaText": "La conversación inicial aborda los activos críticos, las responsabilidades, los requisitos aplicables, los incidentes previstos y los planes ya iniciados.",
+                    "finalCtaLabel": "Hablemos de su gobernanza de la ciberseguridad",
+                    "finalCtaTitle": "Evaluar la gobernanza, los riesgos y las prioridades de ciberseguridad",
+                    "schemaServiceType": "Consultoría en gobernanza de la ciberseguridad y resiliencia"
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "a62525a71aefa5e4180af647af2b37698222c11f58154a76ca3ee780ef128352",
+            "sourceUpdatedAt": "2026-10-02T20:32:31+00:00",
+            "translatedAt": "2026-10-02T20:32:31+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "erp-progiciel",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "asesoria-erp-software-gestion",
+            "title": "Asesoría ERP | Definición, selección de software y despliegue | OLING",
+            "seoTitle": "Asesoría ERP | Definición, selección de software y despliegue | OLING",
+            "seoDescription": "Asesoría en ERP y software de gestión: definición, selección de soluciones, gobernanza, pruebas de aceptación, gestión del cambio y despliegue para el sector público, pymes y empresas medianas.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Asesoría ERP",
+            "heroTitle": "Asesoría ERP: definir, seleccionar y desplegar sin retrabajos",
+            "heroIntro": "Acompañamos sus programas de ERP y software de gestión con una asesoría en sistemas de información orientada a resultados: necesidades del negocio, selección de soluciones, gobernanza, pruebas de aceptación y adopción operativa.",
+            "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"row g-4\">\n    <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué gestionamos</h2><ul class=\"mb-0\"><li>Definición funcional, priorización de procesos y caso de negocio.</li><li>Selección de software de gestión y evaluación de proveedores e integradores.</li><li>Hoja de ruta de despliegue, gobernanza, riesgos, presupuesto y calidad.</li></ul></div></div>\n    <div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Resultados esperados</h2><ul class=\"mb-0\"><li>Decisiones fundamentadas y alcance controlado desde la fase de definición.</li><li>Reducción de retrabajos y retrasos durante las pruebas de aceptación.</li><li>Adopción duradera por parte del negocio y mejoras de rendimiento medibles.</li></ul></div></div>\n  </div></div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Enlaces útiles</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/crm\">Asesoría CRM</a></li><li><a class=\"link\" href=\"/gmao\">Asesoría GMAO</a></li><li><a class=\"link\" href=\"/si-finance\">Asesoría en sistemas de información financieros</a></li><li><a class=\"link\" href=\"/facturation-electronique-amoa\">Asesoría en facturación electrónica</a></li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructura de sistemas de información</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a></li></ul></div></div>\n</section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita una definición realista de su proyecto ERP?</h2><p class=\"oling-lede\">Creamos una hoja de ruta viable con sus equipos de negocio, sistemas de información y finanzas.</p><a class=\"btn btn-primary\" href=\"/contact\">Hablar con un consultor ERP</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"erp-progiciel\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Despliegues ERP controlados</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Selección y definición de ERP y software de gestión a partir de necesidades del negocio documentadas y acordadas.</li>\n              <li>Plan de migración por fases con control del presupuesto, los riesgos y las dependencias.</li>\n              <li>Pruebas de aceptación del negocio estructuradas y apoyo a la adopción para estabilizar la puesta en producción.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuándo debe iniciarse la asesoría ERP?\",\"answer\":\"Lo ideal es iniciarla antes de la licitación para validar las necesidades, el presupuesto y los criterios de selección.\"},{\"question\":\"¿Qué funciones desempeñan la asesoría y el integrador?\",\"answer\":\"La asesoría representa las necesidades del negocio, facilita la toma de decisiones y garantiza la calidad funcional. El integrador se encarga de la configuración y el despliegue.\"},{\"question\":\"¿Qué entregables mínimos deben exigirse?\",\"answer\":\"Definición del modelo objetivo, backlog priorizado, estrategia de pruebas de aceptación, plan de gestión del cambio e indicadores de seguimiento.\"}]}",
+            "structuredData": null,
+            "status": "published",
+            "sourceContentHash": "6583d292ff038dc3378026f6c86359ae1ae47d626fe48231f2f18bc3dc3cb9f1",
+            "sourceUpdatedAt": "2026-10-02T20:31:06+00:00",
+            "translatedAt": "2026-10-02T20:31:06+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": "2026-10-02T22:37:20+00:00",
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "facturation-electronique-amoa",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "asesoria-facturacion-electronica",
+            "title": "Asesoría en facturación electrónica | Plataforma autorizada y despliegue | OLING",
+            "seoTitle": "Asesoría en facturación electrónica | Plataforma autorizada y despliegue | OLING",
+            "seoDescription": "Asesoría en facturación electrónica: definición de impactos operativos y en los sistemas de información, elección de plataforma autorizada, hoja de ruta de e-invoicing/e-reporting, gobernanza y despliegue.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Facturación electrónica",
+            "heroTitle": "Asesoría en facturación electrónica: convertir la obligación en ejecución",
+            "heroIntro": "Desde el 1 de septiembre de 2026, OLING acompaña a las direcciones financieras, las áreas de negocio y los equipos de TI para definir, priorizar y desplegar la facturación electrónica con una gobernanza clara, impactos anticipados y una ejecución segura.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué definimos</h2><ul class=\"mb-0\"><li>Análisis de los flujos entrantes y salientes, los datos requeridos y los niveles de calidad.</li><li>Elección de la hoja de ruta para la plataforma autorizada (PA) y coordinación con los socios.</li><li>Impactos en el ERP, los sistemas financieros, compras, ventas, contabilidad y control interno.</li><li>Plan de gestión del cambio para los equipos de negocio y soporte.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Entregables de la asesoría</h2><ul class=\"mb-0\"><li>Hoja de ruta general y plan de ejecución por lotes prioritarios.</li><li>Matriz de riesgos y controles, y criterios para superar las pruebas de aceptación.</li><li>Gobernanza del programa (RACI, órganos de seguimiento y arbitrajes).</li><li>Mecanismo de seguimiento posterior al despliegue para estabilizar el rendimiento.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Servicios relacionados</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/si-finance\">Sistemas de información financieros</a> para estructurar los procesos P2P/O2C/R2R.</li><li><a class=\"link\" href=\"/erp-progiciel\">ERP y software de gestión</a> para definir la arquitectura de aplicaciones objetivo.</li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructura de sistemas de información</a> para garantizar la disponibilidad, el rendimiento y los intercambios entre aplicaciones.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a> para alinear obligaciones, controles y evidencias.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita garantizar el éxito de su programa de facturación electrónica?</h2><p class=\"oling-lede\">Diseñamos una hoja de ruta realista con sus equipos de finanzas, TI, cumplimiento normativo y operaciones.</p><a class=\"btn btn-primary\" href=\"/contact\">Iniciar la fase de definición</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"facturation-electronique-amoa\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Hojas de ruta de facturación electrónica bajo control</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Definición de los impactos operativos y en los sistemas de información, así como de la gobernanza de la PA antes del despliegue.</li>\n              <li>Plan de transición de e-invoicing/e-reporting gestionado mediante hitos y riesgos.</li>\n              <li>Coordinación de las direcciones financiera y de TI con las áreas de negocio para cumplir los plazos normativos y garantizar la calidad de los datos.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la fase de definición</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI asociadas</h2>\n      <p class=\"mb-3\">Esta experiencia puede industrializarse con MAPSI para reforzar la trazabilidad, los workflows y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/workflow-notifications\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI asociado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y DROM</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Cómo elegir una plataforma autorizada?\",\"answer\":\"La elección depende de los volúmenes, los casos de uso, el ecosistema de socios, los formatos previstos y el nivel de integración deseado con los sistemas de información.\"},{\"question\":\"¿Cuáles son los impactos más críticos en los sistemas de información?\",\"answer\":\"La calidad de los datos, las interfaces con el ERP y los sistemas financieros, la gobernanza de los controles y la capacidad para realizar pruebas de aceptación transversales.\"},{\"question\":\"¿Cuándo debe iniciarse la fase de definición de la facturación electrónica?\",\"answer\":\"La definición debe iniciarse desde la fase correspondiente para planificar los lotes, gestionar las dependencias entre aplicaciones y evitar un cumplimiento normativo reactivo.\"}]}",
+            "structuredData": null,
+            "status": "reviewed",
+            "sourceContentHash": "1de07a26b44da60e8b83a67ac35bc1c222b4a352cceef03936aed77cb7d9ef72",
+            "sourceUpdatedAt": "2026-10-02T20:33:48+00:00",
+            "translatedAt": "2026-10-02T20:33:48+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "gmao",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "gmao-gestion-mantenimiento",
+            "title": "Asesoría GMAO | Mantenimiento, activos industriales y rendimiento | OLING",
+            "seoTitle": "Asesoría GMAO | Mantenimiento, activos industriales y rendimiento | OLING",
+            "seoDescription": "Asesoría GMAO: definición del alcance, selección de soluciones, mantenimiento preventivo y correctivo, gobierno de datos, indicadores de rendimiento y gestión del cambio.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Asesoría GMAO",
+            "heroTitle": "Asesoría GMAO: mejorar la fiabilidad del mantenimiento, los activos y el rendimiento",
+            "heroIntro": "Estructuramos sus proyectos de GMAO desde la definición del alcance hasta la puesta en producción: procesos, datos, indicadores y adopción sobre el terreno.",
+            "heroSideHtml": "<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Áreas de intervención</h2><ul class=\"mb-0\"><li>Estandarización del mantenimiento preventivo y correctivo, y programación de tareas.</li><li>Integración de la GMAO con el ERP, compras, inventarios e infraestructura de TI.</li><li>KPI de disponibilidad, MTTR, costes y calidad del servicio.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Sectores objetivo</h2><ul class=\"mb-0\"><li>Sector público e infraestructuras críticas.</li><li>Pymes y empresas industriales medianas con múltiples centros.</li><li>Organizaciones en la Francia metropolitana y los territorios franceses de ultramar.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Enlaces útiles</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/erp-progiciel\">Asesoría en ERP y software empresarial</a></li><li><a class=\"link\" href=\"/crm\">Asesoría CRM</a></li><li><a class=\"link\" href=\"/si-finance\">Asesoría en sistemas de información financieros</a></li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructura de TI</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a></li></ul></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"gmao\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Operaciones de mantenimiento mejor gestionadas</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Definición del alcance de la GMAO centrada en activos críticos, planes de mantenimiento y SLA.</li>\n              <li>Estandarización de los datos de equipos para una gestión fiable de múltiples centros.</li>\n              <li>Control de los KPI de mantenimiento: disponibilidad, mantenimiento preventivo y plazos de intervención.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del alcance</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuál es el primer bloque que debe definirse en una GMAO?\",\"answer\":\"Los activos críticos, los planes preventivos y los datos operativos mínimos.\"},{\"question\":\"¿Es necesario conectar la GMAO con el ERP?\",\"answer\":\"Sí, para mejorar la fiabilidad de las compras, los inventarios y la contabilización, y reducir la introducción duplicada de datos.\"},{\"question\":\"¿Cómo se mide el éxito de un proyecto de GMAO?\",\"answer\":\"Mediante la disponibilidad de los activos, la reducción del MTTR, el cumplimiento del mantenimiento preventivo y la disminución de los costes de mantenimiento.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "focus": [
+                        "Definir el patrimonio de activos: centros, instalaciones, equipos, ubicación, criticidad y responsabilidades de actualización.",
+                        "Crear una jerarquía técnica adaptada a los historiales, costes, intervenciones, informes y requisitos de trazabilidad.",
+                        "Describir el mantenimiento preventivo y correctivo: procedimientos, solicitudes, órdenes de trabajo, planificación, ejecución y cierre.",
+                        "Precisar los indicadores esperados sobre los activos, los plazos, los costes, las averías y la ejecución del mantenimiento preventivo."
+                    ],
+                    "promise": "OLING no es fabricante, distribuidor ni integrador de soluciones GMAO. Nuestra asesoría define los procesos de mantenimiento, los datos del patrimonio de activos, las interfaces y los escenarios de pruebas de aceptación necesarios para comparar y posteriormente implantar una solución.",
+                    "heroBadge": "Consultora independiente de GMAO",
+                    "heroIntro": "OLING acompaña a las direcciones de mantenimiento, operaciones, patrimonio y sistemas de información en la definición de procesos, la estructuración de los datos de equipos, la selección de la GMAO adecuada y la gestión de una implantación útil sobre el terreno.",
+                    "heroTitle": "Asesoría GMAO: defina, seleccione y ejecute con éxito su proyecto de mantenimiento",
+                    "metaTitle": "Asesoría GMAO: definición, selección e implantación de su GMAO | OLING",
+                    "linksIntro": "La página principal aborda el proyecto de GMAO en su conjunto; el recurso sobre agua y saneamiento profundiza en un contexto sectorial específico.",
+                    "linksTitle": "Profundizar en la definición de la GMAO",
+                    "scopeTitle": "Patrimonio de activos y procesos de mantenimiento que deben definirse",
+                    "clientTypes": [
+                        "Las pruebas de aceptación no se limitan a comprobar las pantallas: ejecutan una solicitud, una planificación, una intervención móvil, el consumo de una pieza y un cierre completo.",
+                        "Los escenarios abarcan el mantenimiento preventivo, el correctivo, los permisos, las interfaces, la migración y los casos de error.",
+                        "Los criterios de aceptación definen los resultados esperados, los datos de prueba y el tratamiento de las anomalías.",
+                        "La puesta en servicio contempla la preparación de los datos maestros, la asistencia sobre el terreno y el seguimiento de los primeros ciclos de mantenimiento."
+                    ],
+                    "deliverables": [
+                        "Diagnóstico, mapa de procesos y modelo de jerarquía técnica.",
+                        "Especificación de necesidades, documento de requisitos y modelo de datos de equipos.",
+                        "Escenarios de demostración, matriz de selección y expediente para la toma de decisiones.",
+                        "Plan de migración, catálogo de interfaces, estrategia de pruebas de aceptación y plan de implantación."
+                    ],
+                    "finalCtaText": "La conversación inicial aborda el alcance de los activos, las prácticas sobre el terreno, las interfaces, la migración y los escenarios que deberán probarse.",
+                    "supportLinks": [
+                        {
+                            "href": "/amoa-si",
+                            "label": "Asesoría en sistemas de información",
+                            "description": "Para el gobierno transversal y la gestión global del proyecto."
+                        },
+                        {
+                            "href": "/ressources/amoa-gmao-eau-et-assainissement-structurer-l-amont-pour-s-curiser-la-trajectoire",
+                            "label": "Definición de una GMAO para agua y saneamiento",
+                            "description": "Para profundizar en el patrimonio de activos, el SIG, los datos maestros y los usos sobre el terreno en este sector."
+                        },
+                        {
+                            "href": "/business-apps/erp",
+                            "label": "Asesoría ERP",
+                            "description": "Para las interfaces de compras, inventarios, finanzas y datos maestros compartidos."
+                        }
+                    ],
+                    "triggerTitle": "Método de definición y selección de soluciones",
+                    "finalCtaTitle": "Definir el patrimonio de activos, los procesos y los datos de la GMAO",
+                    "missionPhases": [
+                        "Observar las prácticas sobre el terreno, las diferencias entre centros, los archivos paralelos y la calidad de los historiales disponibles.",
+                        "Determinar la jerarquía, los datos maestros, las funciones, las reglas de gestión y el alcance de la migración.",
+                        "Evaluar las soluciones a partir de requisitos y escenarios de negocio que permitan comparar las respuestas en casos reales.",
+                        "Gestionar el diseño, las interfaces, la migración, las pruebas de aceptación, la implantación sobre el terreno y la estabilización."
+                    ],
+                    "metaDescription": "Consultora independiente de GMAO: definición del mantenimiento, selección de soluciones, datos de equipos, supervisión del integrador, pruebas de aceptación, migración y gestión del cambio.",
+                    "projectContexts": [
+                        "La movilidad debe especificar los usos sin conexión, la introducción de datos sobre el terreno, las fotografías, los archivos adjuntos y las reglas de cierre.",
+                        "La gestión de inventarios abarca las piezas, los movimientos, los umbrales, los inventarios físicos y los vínculos con compras o finanzas según el contexto.",
+                        "Las interfaces pueden incluir el ERP, el SIG, los sistemas de supervisión, el sistema de información del cliente, finanzas, recursos humanos o BI; cada una debe tener un responsable y controles definidos.",
+                        "La migración distingue entre equipos, datos maestros, historiales, procedimientos y datos que deben depurarse antes de la carga."
+                    ],
+                    "showReadingPath": false,
+                    "clientTypesTitle": "Pruebas de aceptación y puesta en servicio",
+                    "positioningTitle": "Cuándo recurrir a asesoría para un proyecto de GMAO",
+                    "showHeroSideHtml": false,
+                    "deliverablesTitle": "Entregables útiles para el proyecto de GMAO",
+                    "schemaServiceType": "Asesoría GMAO",
+                    "showAutomaticZones": false,
+                    "projectContextsTitle": "Datos, movilidad, inventarios e interfaces"
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "9525f6327055538eefae94c3f55bf90b3269f8213b91b07f6d3b55bc894646e5",
+            "sourceUpdatedAt": "2026-10-02T20:33:11+00:00",
+            "translatedAt": "2026-10-02T20:33:11+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "home",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "inicio",
+            "title": "OLING | Asesoría de SI, ERP, CRM, GMAO y cumplimiento",
+            "seoTitle": "OLING | Asesoría de SI, ERP, CRM, GMAO y cumplimiento",
+            "seoDescription": "Consultora de asesoría en sistemas de información: definición y dirección de proyectos ERP, CRM, GMAO, SIRH y sistemas financieros; plan director, RGPD, ISO 27001 y NIS2/DORA. Francia y territorios franceses de ultramar.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Consultora de asesoría en sistemas de información desde 2012",
+            "heroTitle": "Definir y dirigir|sus proyectos de SI, soluciones empresariales|y cumplimiento",
+            "heroIntro": "OLING acompaña a direcciones generales, departamentos de TI y áreas de negocio en la definición y dirección de proyectos ERP, CRM, GMAO, SIRH y sistemas financieros, así como en la gobernanza de SI, el RGPD, la gestión de riesgos y los procesos de certificación ISO.\n\nIntervenimos desde el diagnóstico y la elaboración del pliego de requisitos hasta la selección de la solución, las pruebas de aceptación, el despliegue y la gestión del cambio.",
+            "heroSideHtml": null,
+            "bodyHtml": "{\"hero\":{\"tags\":[\"Asesoría de SI\",\"ERP · CRM · GMAO\",\"RGPD · ISO 27001\",\"MAPSI\"],\"badge\":\"OLING cuenta con la certificación ISO 27001:2022\",\"signal\":{\"text\":\"\",\"title\":\"\",\"eyebrow\":\"Área de negocio atendida\"},\"statement\":{\"text\":\"Diagnóstico, definición de necesidades, licitación, selección de la solución, dirección del proyecto, pruebas de aceptación y gestión del cambio.\",\"title\":\"De la definición a la puesta en producción\",\"eyebrow\":\"Asesoría y dirección de proyectos\"},\"metierSlug\":null,\"metierIntro\":null,\"portraitAlt\":\"Proyecto de sistemas de información de negocio\",\"secondaryCta\":{\"label\":\"Descubra nuestras áreas de especialización\",\"route\":\"expertises_index\"},\"portraitImage\":\"/uploads/metiers/hero/transport-intermodal-69a3a08f1beb31.17401526.jpg\"},\"kpis\":[{\"text\":\"Creación de OLING\",\"label\":\"2012\",\"variant\":\"dark\"},{\"text\":\"Proyectos de SI y cumplimiento de referencia\",\"label\":\"150+\",\"variant\":\"blue\"},{\"text\":\"Certificación de OLING\",\"label\":\"ISO 27001:2022\",\"variant\":\"pink\"},{\"text\":\"Servicios presenciales y a distancia\",\"label\":\"Francia continental y DROM\",\"variant\":\"dark\"}],\"proof\":{\"image\":\"/img/spe/bureau.jpg\",\"items\":[{\"text\":\"Alcance, necesidades de negocio, procesos, datos, riesgos, gobernanza, planificación y criterios de éxito.\",\"title\":\"Definición y diagnóstico\"},{\"text\":\"Pliego de requisitos, licitación, análisis de ofertas, contratación, gobernanza del proyecto, dirección del integrador y toma de decisiones.\",\"title\":\"Selección y dirección\"},{\"text\":\"Migración de datos, interfaces, estrategia de pruebas, aceptación, formación, gestión del cambio y seguimiento de la puesta en marcha.\",\"title\":\"Pruebas de aceptación y despliegue\"}],\"title\":\"Un acompañamiento estructurado en torno a las decisiones y los entregables del proyecto\",\"eyebrow\":\"Metodología de intervención\",\"imageAlt\":\"Equipo de OLING trabajando\"},\"finalCta\":{\"text\":\"Podemos evaluar el alcance, los riesgos, las partes interesadas y las próximas etapas de un proyecto ERP, CRM, GMAO, SIRH, de sistemas financieros, RGPD o gobernanza de SI.\",\"title\":\"¿Tiene un proyecto que definir o que necesita volver a encauzar?\",\"eyebrow\":\"Diagnóstico\",\"primaryCta\":{\"label\":\"Solicitar un diagnóstico\",\"route\":\"contact\"}},\"projects\":{\"intro\":\"Una selección de proyectos realizados por OLING en asesoría de sistemas de información, soluciones empresariales, transformación organizativa, cumplimiento y gobernanza.\",\"title\":\"Una selección de proyectos que ilustran el contexto, el alcance y la labor de OLING\",\"eyebrow\":\"Referencias\"},\"practices\":{\"title\":\"Cuatro áreas de especialización complementarias para definir, desplegar y dirigir sus proyectos\",\"eyebrow\":\"Áreas de especialización\"},\"resources\":{\"cta\":{\"label\":\"Ver todos los recursos\",\"route\":\"seo_resources_index\"},\"intro\":\"Los recursos más recientes se actualizan de forma dinámica y aparecen más abajo en la página.\",\"title\":\"Artículos, experiencias prácticas y contenidos útiles para preparar un proyecto o un proceso de cumplimiento\",\"eyebrow\":\"Recursos\"},\"kpisSection\":{\"title\":\"Referencias útiles antes de iniciar o retomar un proyecto\",\"eyebrow\":\"Datos clave\"},\"accompaniments\":{\"items\":[{\"text\":\"Definición, pliego de requisitos, licitación, selección, integración, migración de datos, pruebas de aceptación y despliegue.\",\"route\":\"seo_erp_progiciel\",\"title\":\"Asesoría ERP\"},{\"text\":\"Necesidades de negocio, recorrido del cliente, selección de la solución, integración, datos y adopción.\",\"route\":\"seo_crm\",\"title\":\"Asesoría CRM\"},{\"text\":\"Procesos de mantenimiento, equipos, intervenciones, inventario, movilidad, selección y despliegue de la solución.\",\"route\":\"seo_gmao\",\"title\":\"Asesoría GMAO\"},{\"text\":\"Nóminas, gestión del tiempo, procesos de RR. HH., interfaces, migración y pruebas de aceptación.\",\"route\":\"service\",\"title\":\"Asesoría SIRH\",\"routeParams\":{\"slug\":\"erp\",\"practice\":\"business-apps\"}},{\"text\":\"Contabilidad, presupuestos, compromisos, facturación, informes y reforma de la facturación electrónica.\",\"route\":\"seo_si_finance\",\"title\":\"Asesoría en sistemas financieros\"},{\"text\":\"Diagnóstico, inventario, arquitectura objetivo, hoja de ruta, presupuesto y gobernanza.\",\"route\":\"service\",\"title\":\"Plan director de sistemas de información\",\"routeParams\":{\"slug\":\"plan-strategique\",\"practice\":\"consulting\"}},{\"text\":\"Auditoría, registro, EIPD, contratos, incidentes, CNIL y dirección del plan de acción.\",\"route\":\"seo_rgpd\",\"title\":\"RGPD / DPO\"},{\"text\":\"Diagnóstico, riesgos, requisitos, controles, evidencias y plan de cumplimiento.\",\"route\":\"service\",\"title\":\"ISO 27001 / NIS2 / DORA / continuidad de negocio (PCA)\",\"routeParams\":{\"slug\":\"si\",\"practice\":\"expertises-audit\"}}],\"title\":\"Nuestros principales servicios de acompañamiento\",\"eyebrow\":\"Acompañamiento\"}}",
+            "structuredData": {
+                "homePage": {
+                    "hero": {
+                        "tags": [
+                            "Asesoría de SI",
+                            "ERP · CRM · GMAO",
+                            "RGPD · ISO 27001",
+                            "MAPSI"
+                        ],
+                        "badge": "",
+                        "intro": "OLING acompaña a direcciones generales, departamentos de TI y áreas de negocio en la definición y dirección de proyectos ERP, CRM, GMAO, SIRH y sistemas financieros, así como en la gobernanza de SI, el RGPD, la gestión de riesgos y los procesos de certificación ISO.",
+                        "signal": {
+                            "text": "",
+                            "title": "",
+                            "eyebrow": "Área de negocio atendida"
+                        },
+                        "eyebrow": "Consultora de asesoría en sistemas de información desde 2012",
+                        "statement": {
+                            "text": "Diagnóstico, definición de necesidades, licitación, selección de la solución, dirección del proyecto, pruebas de aceptación y gestión del cambio.",
+                            "title": "De la definición a la puesta en producción",
+                            "eyebrow": "Asesoría y dirección de proyectos"
+                        },
+                        "metierSlug": null,
+                        "titleLines": [
+                            "Definir y dirigir",
+                            "sus proyectos de SI y soluciones empresariales",
+                            "y garantizar el cumplimiento"
+                        ],
+                        "metierIntro": null,
+                        "portraitAlt": "Proyecto de sistemas de información de negocio",
+                        "secondaryCta": {
+                            "label": "Descubra nuestras áreas de especialización",
+                            "route": "expertises_index"
+                        },
+                        "portraitImage": "/uploads/metiers/hero/transport-intermodal-69a3a08f1beb31.17401526.jpg"
+                    },
+                    "kpis": [
+                        {
+                            "text": "Creación de OLING",
+                            "label": "2012",
+                            "variant": "dark"
+                        },
+                        {
+                            "text": "Certificación de OLING",
+                            "label": "ISO 27001:2022",
+                            "variant": "blue"
+                        },
+                        {
+                            "text": "Servicios presenciales y a distancia",
+                            "label": "Francia continental y DROM",
+                            "variant": "pink"
+                        },
+                        {
+                            "alt": "Equipo de OLING",
+                            "image": "/img/spe/bureau.jpg",
+                            "variant": "image"
+                        }
+                    ],
+                    "proof": {
+                        "image": "/img/spe/bureau.jpg",
+                        "items": [],
+                        "title": "",
+                        "eyebrow": "Metodología de intervención",
+                        "imageAlt": "Equipo de OLING trabajando"
+                    },
+                    "finalCta": {
+                        "text": "",
+                        "title": "",
+                        "eyebrow": "Diagnóstico",
+                        "primaryCta": {
+                            "label": "Solicitar un diagnóstico",
+                            "route": "contact"
+                        }
+                    },
+                    "projects": {
+                        "intro": "",
+                        "title": "",
+                        "eyebrow": "Referencias"
+                    },
+                    "seoTitle": "OLING | Asesoría de SI, ERP, CRM, GMAO y cumplimiento",
+                    "practices": {
+                        "cards": [
+                            {
+                                "text": "Asesoría de SI, ERP, CRM, GMAO, sistemas financieros, datos e IA: definir las decisiones y asegurar la implantación.",
+                                "route": "services_index",
+                                "title": "Asesoría y aplicaciones de negocio",
+                                "fragment": "amoa-applications-metiers",
+                                "practiceSlug": "consulting"
+                            },
+                            {
+                                "text": "Plan director de SI, PMO, procesos, datos, infraestructuras y apoyo a la dirección de sistemas de información.",
+                                "route": "services_index",
+                                "title": "Gobernanza y rendimiento del departamento de TI",
+                                "fragment": "gouvernance-performance-dsi",
+                                "practiceSlug": "business-apps"
+                            },
+                            {
+                                "text": "RGPD, ciberseguridad, calidad, seguridad y medio ambiente, riesgos, control interno, resiliencia y cumplimiento en IA.",
+                                "route": "services_index",
+                                "title": "Cumplimiento, riesgos y resiliencia",
+                                "fragment": "conformite-risques-resilience",
+                                "practiceSlug": "expertises-audit"
+                            },
+                            {
+                                "text": "Plataforma GRC para centralizar registros, auditorías, riesgos, planes de acción, incidentes e informes.",
+                                "route": "practice_home",
+                                "title": "MAPSI – Plataforma de privacidad y QSE",
+                                "routeParams": {
+                                    "slug": "mapsi"
+                                },
+                                "practiceSlug": "mapsi"
+                            }
+                        ],
+                        "title": "Tres áreas de consultoría y una plataforma especializada",
+                        "eyebrow": "Áreas de especialización"
+                    },
+                    "resources": {
+                        "cta": {
+                            "label": "Ver todos los recursos",
+                            "route": "seo_resources_index"
+                        },
+                        "intro": "",
+                        "title": "",
+                        "eyebrow": "Recursos"
+                    },
+                    "kpisSection": {
+                        "title": "Referencias claras sobre el alcance de OLING",
+                        "eyebrow": "Datos clave"
+                    },
+                    "accompaniments": {
+                        "items": [],
+                        "title": "",
+                        "eyebrow": "Acompañamiento"
+                    },
+                    "metaDescription": "Consultora de asesoría en sistemas de información: definición y dirección de proyectos ERP, CRM, GMAO, SIRH y sistemas financieros; plan director, RGPD, ISO 27001 y NIS2/DORA. Francia y territorios franceses de ultramar."
+                }
+            },
+            "status": "published",
+            "sourceContentHash": "988ff087ba8f8318efdb5b7234f9e94df31012fc984a81bee7cf4ecb27183c27",
+            "sourceUpdatedAt": "2026-10-02T20:30:25+00:00",
+            "translatedAt": "2026-10-02T20:30:25+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": "2026-10-02T22:37:20+00:00",
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "rgpd",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "cumplimiento-rgpd",
+            "title": "Cumplimiento del RGPD | Gobernanza de datos y privacidad operativa | OLING",
+            "seoTitle": "Cumplimiento del RGPD | Gobernanza de datos y privacidad operativa | OLING",
+            "seoDescription": "Consultoría sobre el RGPD para el sector público, pymes y empresas de tamaño intermedio: auditoría, registro, gobernanza de datos, plan de cumplimiento y asesoría en proyectos de sistemas de información.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Cumplimiento",
+            "heroTitle": "Consultoría sobre el RGPD: gobernanza de datos y cumplimiento operativo",
+            "heroIntro": "OLING acompaña a organizaciones públicas, pymes y empresas de tamaño intermedio durante toda la hoja de ruta del RGPD: diagnóstico, plan de acción, coordinación, sensibilización y mejora continua.",
+            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué implementamos</h2><ul class=\"mb-0\"><li>Mapeo de las actividades de tratamiento y análisis de riesgos.</li><li>Registro del RGPD, políticas y cláusulas contractuales.</li><li>Coordinación del DPO, solicitudes de ejercicio de derechos y pruebas de cumplimiento.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Resultados esperados</h2><ul class=\"mb-0\"><li>Cumplimiento documentado y defendible en una auditoría.</li><li>Reducción de los riesgos jurídicos, reputacionales y operativos.</li><li>Gobernanza de datos alineada con la estrategia de sistemas de información.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Guías relacionadas</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/ressources/registre-traitements-rgpd\">Registro de actividades de tratamiento del RGPD: método operativo</a></li><li><a class=\"link\" href=\"/ressources/aipd-rgpd-methode\">EIPD del RGPD: cuándo iniciarla y cómo llevarla a cabo</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo: RGPD, Reglamento de IA, ISO, seguridad, QSE y energía</a></li></ul></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"rgpd\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Sistemas de cumplimiento del RGPD utilizables en auditorías</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Estructuración de registros, análisis de brechas y planes de cumplimiento.</li>\n              <li>Implantación de una gobernanza entre el DPO, el departamento de TI y las áreas de negocio, con responsabilidades claras.</li>\n              <li>Elaboración de pruebas —políticas, procedimientos y evidencias— utilizables en inspecciones.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del alcance</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI relacionadas</h2>\n      <p class=\"mb-3\">Esta especialidad puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las pruebas de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/privacy-rgpd\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI relacionado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y los DROM</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
+            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuánto tiempo se necesita para estructurar un programa de cumplimiento del RGPD?\",\"answer\":\"Puede establecerse una primera base en un plazo de 8 a 12 semanas y consolidarse después de forma continua, según la complejidad de las actividades de tratamiento.\"},{\"question\":\"¿Cuándo debe iniciarse una EIPD?\",\"answer\":\"Antes de implantar una actividad de tratamiento que pueda entrañar un riesgo elevado para los derechos y libertades de las personas.\"},{\"question\":\"¿Puede externalizarse la coordinación del RGPD?\",\"answer\":\"Sí, mediante el acompañamiento de un DPO y asesoría en proyectos de sistemas de información para coordinar la hoja de ruta, las pruebas y la mejora continua.\"}]}",
+            "structuredData": {
+                "landingNarrative": {
+                    "linksIntro": "Esta página de síntesis orienta hacia los dos servicios de referencia, en función de si la necesidad se centra en recuperar el cumplimiento o en disponer de una función de DPO continua.",
+                    "linksTitle": "Profundizar en el diagnóstico y la gestión del RGPD",
+                    "supportLinks": [
+                        {
+                            "href": "/expertises-audit/rgpd",
+                            "label": "Diagnóstico y cumplimiento del RGPD",
+                            "description": "Para mapear las actividades de tratamiento, evaluar las brechas y coordinar un plan de recuperación del cumplimiento."
+                        },
+                        {
+                            "href": "/expertises/rgpd-dpo-gouvernance",
+                            "label": "DPO externalizado",
+                            "description": "Para gestionar el registro, emitir dictámenes y supervisar el cumplimiento de forma continua."
+                        }
+                    ]
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "3d5a3c9b6b8fbcce009b7692b00113471ce5f09151a52cc0b83827544a1437b2",
+            "sourceUpdatedAt": "2026-10-02T20:32:23+00:00",
+            "translatedAt": "2026-10-02T20:32:23+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "services",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "servicios-y-ofertas",
+            "title": "Servicios y ofertas",
+            "seoTitle": "Servicios y ofertas",
+            "seoDescription": "Descubra las ofertas de OLING: asesoría en ERP, transformación de sistemas de información, organización, cumplimiento normativo, ciberseguridad, riesgos, RGPD e IA.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "corePage": {
+                    "cta": {
+                        "text": "OLING puede intervenir en una etapa concreta o gestionar todo el proyecto hasta su puesta en producción.",
+                        "title": "¿Una intervención específica o la gestión integral del proyecto?",
+                        "eyebrow": "Evaluación",
+                        "primaryCta": {
+                            "label": "Solicitar una reunión",
+                            "route": "contact"
+                        }
+                    },
+                    "intro": "Los servicios de OLING describen las intervenciones concretas que pueden activarse según el contexto, los riesgos y las decisiones que deban tomarse.",
+                    "title": "Nuestros servicios: asesoría en proyectos TI, aplicaciones de negocio, rendimiento del departamento de TI y cumplimiento normativo",
+                    "eyebrow": "Servicios y ofertas",
+                    "listing": {
+                        "moreLabel": "Ver la oferta",
+                        "defaultServiceIntro": "Consulte los detalles de esta oferta.",
+                        "defaultPracticeIntro": "Ofertas relacionadas con esta área.",
+                        "defaultPracticeLabel": "Área"
+                    },
+                    "seoTitle": "Servicios | OLING",
+                    "highlights": [
+                        "Asesoría en ERP y aplicaciones",
+                        "Cumplimiento normativo, riesgos y resiliencia",
+                        "Datos, automatización e IA"
+                    ],
+                    "primaryCta": {
+                        "label": "Hablemos de su proyecto",
+                        "route": "contact"
+                    },
+                    "bodySection": {
+                        "enabled": true
+                    },
+                    "secondaryCta": {
+                        "label": "Ver las áreas de especialización",
+                        "route": "expertises_index"
+                    },
+                    "metaDescription": "Descubra las ofertas de OLING: asesoría en ERP, transformación de sistemas de información, organización, cumplimiento normativo, ciberseguridad, riesgos, RGPD e IA."
+                }
+            },
+            "status": "reviewed",
+            "sourceContentHash": "17032e42b60e0db4630cdbc487604ba1aa780f4f4f1e9b4b18b274a446fcc3fe",
+            "sourceUpdatedAt": "2026-10-02T20:34:10+00:00",
+            "translatedAt": "2026-10-02T20:34:10+00:00",
+            "reviewedAt": "2026-10-02T22:37:10+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        }
+    ]
+}

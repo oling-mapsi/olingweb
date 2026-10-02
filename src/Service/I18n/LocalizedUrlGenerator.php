@@ -24,6 +24,10 @@ final class LocalizedUrlGenerator
         }
 
         $slug = trim($translation->getSlug(), '/');
+        if ($locale === SitePageTranslation::LOCALE_FR && $slug === 'home') {
+            return '/';
+        }
+
         if ($slug === '') {
             return $locale === SitePageTranslation::LOCALE_FR ? '/' : $this->localeRouteContext->prefixForLocale($locale);
         }

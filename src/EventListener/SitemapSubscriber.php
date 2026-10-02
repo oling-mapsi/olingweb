@@ -169,7 +169,7 @@ class SitemapSubscriber implements EventSubscriberInterface
                             UrlGeneratorInterface::ABSOLUTE_URL
                         )
                     ),
-                    'sitemap-'.$locale
+                    $locale
                 );
             }
         }

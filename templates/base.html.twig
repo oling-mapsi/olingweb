@@ -3,6 +3,8 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 {% set currentSlug = app.request.attributes.get('slug') %}
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
+{% set currentLocale = app.request.locale|default('fr') %}
+{% set navHomePath = currentLocale == 'en' ? '/en/home' : (currentLocale == 'es' ? '/es/inicio' : path('index')) %}
 {% set isAdminPage = currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
@@ -140,7 +142,7 @@
       "url": "https://oling.fr",
       "mainEntityOfPage": "https://oling.fr/",
       "logo": "https://oling.fr/img/logo/logoling.png",
-      "description": "Cabinet de conseil pour PME, PMI et ETI : transformation SI, ERP, organisation, conformité, cybersécurité et intelligence artificielle.",
+      "description": "{{ 'schema.organization.description'|trans|e('js') }}",
       "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane", "Réunion", "Saint-Pierre-et-Miquelon"],
       "email": "contact@oling.fr",
       "contactPoint": {
@@ -148,7 +150,7 @@
         "contactType": "customer support",
         "email": "contact@oling.fr",
         "url": "https://oling.fr/contact",
-        "availableLanguage": ["fr-FR"]
+        "availableLanguage": ["{{ currentLocale == 'en' ? 'en-US' : (currentLocale == 'es' ? 'es-ES' : 'fr-FR') }}"]
       },
       "address": [
         {% for agency in agencies %}
@@ -175,7 +177,7 @@
             data-hs-header-options='{"fixMoment": 0, "fixEffect": "slide"}'>
         <div class="container">
             <nav class="js-mega-menu navbar-nav-wrap oling-topbar">
-                <a class="navbar-brand oling-brand" href="{{ path('index') }}" aria-label="OLING">
+                <a class="navbar-brand oling-brand" href="{{ navHomePath }}" aria-label="OLING">
                     <img src="{{ asset('/img/logo/logoling.png') }}" alt="Logo OLING">
                 </a>
 
@@ -191,7 +193,7 @@
                             <a id="expertisesMegaMenu"
                                class="hs-mega-menu-invoker hs-mega-menu__invoker nav-link {% if expertisesActive %}active{% endif %}"
                                href="{{ path('expertises_index') }}"
-                               aria-expanded="false">Expertises</a>
+                               aria-expanded="false">{{ 'nav.expertises'|trans }}</a>
                             <div class="oling-mobile-mega d-lg-none">
                                 {% for universe in navigationUniverses %}
                                     <a class="oling-mobile-mega__group" href="{{ universe.href }}">{{ universe.title|trans }}</a>

@@ -77,6 +77,25 @@ final class I18nRoutingFoundationTest extends TestCase
         ], $this->urlGenerator()->sitePageAlternates($page));
     }
 
+    public function testHomeFrenchCanonicalPathUsesRootWithLocalizedAlternates(): void
+    {
+        $page = (new SitePage())->setSlug('home')->setTitle('Home');
+        foreach ([
+            $this->translation('fr', 'home', SitePageTranslation::STATUS_PUBLISHED),
+            $this->translation('en', 'home', SitePageTranslation::STATUS_PUBLISHED),
+            $this->translation('es', 'inicio', SitePageTranslation::STATUS_PUBLISHED),
+        ] as $translation) {
+            $page->addTranslation($translation);
+        }
+
+        self::assertSame([
+            'fr' => '/',
+            'en' => '/en/home',
+            'es' => '/es/inicio',
+            'x-default' => '/',
+        ], $this->urlGenerator()->sitePageAlternates($page));
+    }
+
     public function testResolverReturnsOnlyPublishedLocalizedSlug(): void
     {
         $published = $this->translation('en', 'erp-software', SitePageTranslation::STATUS_PUBLISHED);

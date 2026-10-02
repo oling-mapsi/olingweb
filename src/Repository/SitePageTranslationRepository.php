@@ -41,4 +41,16 @@ class SitePageTranslationRepository extends ServiceEntityRepository
             'unpublishedAt' => null,
         ]);
     }
+
+    /**
+     * @return SitePageTranslation[]
+     */
+    public function findPublishedByLocale(string $locale): array
+    {
+        return $this->findBy([
+            'locale' => $locale,
+            'translationStatus' => SitePageTranslation::STATUS_PUBLISHED,
+            'unpublishedAt' => null,
+        ]);
+    }
 }

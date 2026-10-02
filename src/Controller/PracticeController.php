@@ -782,7 +782,7 @@ class PracticeController extends AbstractController
 
 
 
-    #[Route('/{practice}/{slug}', name: 'service', requirements: ['practice' => '(?!admin$|login$|logout$|uploads$)[a-z0-9\\-]+'], priority: -10)]
+    #[Route('/{practice}/{slug}', name: 'service', requirements: ['practice' => '(?!admin(?:/|$)|login(?:/|$)|logout(?:/|$)|uploads(?:/|$)|fr(?:/|$)|en(?:/|$)|es(?:/|$))[a-z0-9\\-]+'], priority: -10)]
     public function services(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
@@ -881,7 +881,7 @@ class PracticeController extends AbstractController
         return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
     }
 
-    #[Route('/practice/{slug}', name: 'practice_home', requirements: ['slug' => '(?!login$|logout$|admin$|uploads$)[a-z0-9\\-]+'], priority: 0)]
+    #[Route('/practice/{slug}', name: 'practice_home', requirements: ['slug' => '(?!login$|logout$|admin$|uploads$|fr$|en$|es$)[a-z0-9\\-]+'], priority: 0)]
     public function practiceHome(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
@@ -900,7 +900,7 @@ class PracticeController extends AbstractController
         return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
     }
 
-    #[Route('/{slug}', name: 'practice', requirements: ['slug' => '(?!login$|logout$|admin$|uploads$)[a-z0-9\\-]+'], priority: -10)]
+    #[Route('/{slug}', name: 'practice', requirements: ['slug' => '(?!login$|logout$|admin$|uploads$|fr$|en$|es$)[a-z0-9\\-]+'], priority: -10)]
     public function practices(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,

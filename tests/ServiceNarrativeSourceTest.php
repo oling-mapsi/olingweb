@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\Services;
+use App\Repository\LocalizedSlugHistoryRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Service\LocalizedContentResolver;
 use Doctrine\DBAL\Connection;
@@ -30,6 +31,7 @@ class ServiceNarrativeSourceTest extends TestCase
 
         $resolver = new LocalizedContentResolver(
             $this->createMock(SitePageTranslationRepository::class),
+            $this->createMock(LocalizedSlugHistoryRepository::class),
             $connection
         );
 

@@ -12,6 +12,7 @@ use App\Entity\Services;
 use App\Entity\SitePage;
 use App\Entity\SitePageTranslation;
 use App\Entity\Team;
+use App\Repository\LocalizedSlugHistoryRepository;
 use App\Repository\SitePageTranslationRepository;
 use Doctrine\DBAL\Connection;
 
@@ -19,6 +20,7 @@ class LocalizedContentResolver
 {
     public function __construct(
         private readonly SitePageTranslationRepository $sitePageTranslationRepository,
+        private readonly LocalizedSlugHistoryRepository $localizedSlugHistoryRepository,
         private readonly Connection $connection,
     ) {
     }
@@ -41,12 +43,36 @@ class LocalizedContentResolver
 
     public function getFrenchPublicView(SitePage $page): SitePagePublicView
     {
-        $translation = $this->getTranslation($page, SitePageTranslation::LOCALE_FR);
+        $translation = $this->getPublishedTranslation($page, SitePageTranslation::LOCALE_FR);
         if (!$translation instanceof SitePageTranslation) {
             throw new \LogicException(sprintf('Missing FR translation for SitePage #%s.', $page->getId() ?? 'new'));
         }
 
         return new SitePagePublicView($page, $translation);
+    }
+
+    public function getPublicView(SitePage $page, string $locale): ?SitePagePublicView
+    {
+        $translation = $this->getPublishedTranslation($page, $locale);
+
+        return $translation instanceof SitePageTranslation ? new SitePagePublicView($page, $translation) : null;
+    }
+
+    public function getPublishedPublicViewByLocalizedSlug(string $locale, string $slug): ?SitePagePublicView
+    {
+        SitePageTranslation::assertSupportedLocale($locale);
+        $translation = $this->sitePageTranslationRepository->findOnePublishedByLocaleAndSlug($locale, $slug);
+        $page = $translation?->getSitePage();
+
+        return $page instanceof SitePage ? new SitePagePublicView($page, $translation) : null;
+    }
+
+    public function getCurrentSlugFromHistory(string $resourceType, int $resourceId, string $locale, string $oldSlug): ?string
+    {
+        SitePageTranslation::assertSupportedLocale($locale);
+        $history = $this->localizedSlugHistoryRepository->findOneByResourceLocaleAndOldSlug($resourceType, $resourceId, $locale, $oldSlug);
+
+        return $history?->getNewSlug();
     }
 
     public function getFrenchPracticeView(Practice $practice): TranslatedEntityPublicView

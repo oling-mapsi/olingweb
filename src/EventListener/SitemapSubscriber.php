@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Repository\PracticeRepository;
 use App\Repository\SitePageRepository;
+use App\Repository\SitePageTranslationRepository;
 use App\Repository\ServicesRepository;
 use App\Service\PublicSitePageResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,17 +18,20 @@ class SitemapSubscriber implements EventSubscriberInterface
     private PracticeRepository $practiceRepository;
     private ServicesRepository $servicesRepository;
     private SitePageRepository $sitePageRepository;
+    private SitePageTranslationRepository $sitePageTranslationRepository;
     private PublicSitePageResolver $publicSitePageResolver;
 
     public function __construct(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
         SitePageRepository $sitePageRepository,
+        SitePageTranslationRepository $sitePageTranslationRepository,
         PublicSitePageResolver $publicSitePageResolver
     ) {
         $this->practiceRepository = $practiceRepository;
         $this->servicesRepository = $servicesRepository;
         $this->sitePageRepository = $sitePageRepository;
+        $this->sitePageTranslationRepository = $sitePageTranslationRepository;
         $this->publicSitePageResolver = $publicSitePageResolver;
     }
 
@@ -44,6 +48,7 @@ class SitemapSubscriber implements EventSubscriberInterface
         $this->registerServicesUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerPublicSiteUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerSeoResourceUrls($event->getUrlContainer(), $event->getUrlGenerator());
+        $this->registerLocalizedSitePageUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
     public function registerPracticeUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
@@ -149,6 +154,24 @@ class SitemapSubscriber implements EventSubscriberInterface
                 ),
                 'default'
             );
+        }
+    }
+
+    public function registerLocalizedSitePageUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    {
+        foreach (['en', 'es'] as $locale) {
+            foreach ($this->sitePageTranslationRepository->findPublishedByLocale($locale) as $translation) {
+                $urls->addUrl(
+                    new UrlConcrete(
+                        $router->generate(
+                            'localized_site_page_show',
+                            ['_locale' => $locale, 'slug' => $translation->getSlug()],
+                            UrlGeneratorInterface::ABSOLUTE_URL
+                        )
+                    ),
+                    'sitemap-'.$locale
+                );
+            }
         }
     }
 }

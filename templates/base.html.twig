@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app.request.locale|default('fr') }}">
 {% set currentRoute = app.request.attributes.get('_route') %}
 {% set currentSlug = app.request.attributes.get('slug') %}
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
@@ -57,8 +57,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="canonical" href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}{% endblock %}" />
-    <link rel="alternate" hreflang="fr-FR" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
-    <link rel="alternate" hreflang="x-default" href="{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}" />
+    {% set hreflangAlternates = localizedAlternates|default({'fr': app.request.pathInfo, 'x-default': app.request.pathInfo}) %}
+    {% for hreflangLocale, hreflangPath in hreflangAlternates %}
+      <link rel="alternate" hreflang="{{ hreflangLocale }}" href="{{ app.request.schemeAndHttpHost ~ hreflangPath }}" />
+    {% endfor %}
     <meta property="og:title" content="{{ block('title')|striptags|trim }}">
     <meta property="og:description" content="{{ meta_description|striptags|trim }}">
     <meta property="og:type" content="website">

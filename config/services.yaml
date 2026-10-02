@@ -51,6 +51,7 @@ services:
             - '@App\Repository\PracticeRepository'
             - '@App\Repository\ServicesRepository'
             - '@App\Repository\SitePageRepository'
+            - '@App\Repository\SitePageTranslationRepository'
             - '@App\Service\PublicSitePageResolver'
         tags:
             - { name: 'kernel.event_subscriber', priority: 100 }

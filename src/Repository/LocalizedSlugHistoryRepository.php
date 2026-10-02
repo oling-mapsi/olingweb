@@ -15,4 +15,14 @@ class LocalizedSlugHistoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, LocalizedSlugHistory::class);
     }
+
+    public function findOneByResourceLocaleAndOldSlug(string $resourceType, int $resourceId, string $locale, string $oldSlug): ?LocalizedSlugHistory
+    {
+        return $this->findOneBy([
+            'resourceType' => $resourceType,
+            'resourceId' => $resourceId,
+            'locale' => $locale,
+            'oldSlug' => $oldSlug,
+        ]);
+    }
 }

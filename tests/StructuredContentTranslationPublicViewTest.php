@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\Practice;
+use App\Repository\LocalizedSlugHistoryRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Service\LocalizedContentResolver;
 use App\Service\StructuredContentTranslationSynchronizer;
@@ -39,7 +40,7 @@ final class StructuredContentTranslationPublicViewTest extends TestCase
             'tags' => '["#FR"]',
         ]);
 
-        $resolver = new LocalizedContentResolver($this->createMock(SitePageTranslationRepository::class), $connection);
+        $resolver = new LocalizedContentResolver($this->createMock(SitePageTranslationRepository::class), $this->createMock(LocalizedSlugHistoryRepository::class), $connection);
         $view = $resolver->getFrenchPracticeView($practice);
 
         self::assertSame('TRANSLATED FR TITLE', $view->getDesignation());

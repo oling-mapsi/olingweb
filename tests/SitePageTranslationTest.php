@@ -76,6 +76,25 @@ class SitePageTranslationTest extends TestCase
         self::assertTrue($translation->isOutdated($hasher->hashSitePage($page)));
     }
 
+    public function testStructuredDataCanCarryLandingNarrative(): void
+    {
+        $translation = (new SitePageTranslation())
+            ->setLocale('fr')
+            ->setSlug('erp-progiciel')
+            ->setTitle('ERP')
+            ->setStructuredData([
+                'landingNarrative' => [
+                    'heroTitle' => 'DATABASE VALUE',
+                    'supportLinks' => [
+                        ['href' => '/amoa-si', 'label' => 'AMOA SI'],
+                    ],
+                ],
+            ]);
+
+        self::assertSame('DATABASE VALUE', $translation->getStructuredData()['landingNarrative']['heroTitle']);
+        self::assertSame('/amoa-si', $translation->getStructuredData()['landingNarrative']['supportLinks'][0]['href']);
+    }
+
     private function createPage(): SitePage
     {
         return (new SitePage())

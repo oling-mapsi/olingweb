@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\SitePage;
 use App\Entity\Metier;
 use App\Repository\MetierRepository;
+use App\Repository\SiteGlobalContentRepository;
+use App\Repository\SiteGlobalContentTranslationRepository;
 use App\Repository\SitePageRepository;
 
 class PublicSitePageResolver
@@ -32,16 +34,17 @@ class PublicSitePageResolver
     ];
 
     public function __construct(
-        private readonly PublicSiteConfig $publicSiteConfig,
         private readonly SitePageRepository $sitePageRepository,
         private readonly MetierRepository $metierRepository,
         private readonly LocalizedContentResolver $localizedContentResolver,
+        private readonly SiteGlobalContentRepository $siteGlobalContentRepository,
+        private readonly SiteGlobalContentTranslationRepository $siteGlobalContentTranslationRepository,
     ) {
     }
 
     public function getHomePage(): array
     {
-        $defaults = $this->publicSiteConfig->getHome();
+        $defaults = $this->emptyHomePage();
         $sitePage = $this->sitePageRepository->findOneBy(['slug' => self::HOME_PAGE_SLUG]);
 
         if ($sitePage === null) {
@@ -49,7 +52,10 @@ class PublicSitePageResolver
         }
 
         $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
-        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
+        $structuredData = $content->getStructuredData();
+        $payload = is_array($structuredData['homePage'] ?? null)
+            ? $structuredData['homePage']
+            : $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
 
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
@@ -102,9 +108,36 @@ class PublicSitePageResolver
         return $merged;
     }
 
+    private function emptyHomePage(): array
+    {
+        return [
+            'seoTitle' => '',
+            'metaDescription' => '',
+            'hero' => [
+                'eyebrow' => '',
+                'titleLines' => [],
+                'intro' => '',
+                'secondaryCta' => [],
+                'tags' => [],
+                'portraitImage' => '',
+                'portraitAlt' => '',
+                'statement' => ['eyebrow' => '', 'title' => '', 'text' => ''],
+                'signal' => ['eyebrow' => '', 'title' => '', 'text' => ''],
+            ],
+            'kpisSection' => ['eyebrow' => '', 'title' => ''],
+            'kpis' => [],
+            'practices' => ['eyebrow' => '', 'title' => '', 'intro' => '', 'cards' => []],
+            'accompaniments' => ['eyebrow' => '', 'title' => '', 'items' => []],
+            'proof' => ['eyebrow' => '', 'title' => '', 'items' => [], 'image' => '', 'imageAlt' => ''],
+            'projects' => ['eyebrow' => '', 'title' => '', 'intro' => ''],
+            'resources' => ['eyebrow' => '', 'title' => '', 'intro' => '', 'cta' => []],
+            'finalCta' => ['eyebrow' => '', 'title' => '', 'text' => '', 'primaryCta' => []],
+        ];
+    }
+
     public function getEditorialPage(string $slug): array
     {
-        $defaults = $this->publicSiteConfig->getEditorialPages()[$slug] ?? [];
+        $defaults = [];
         $sitePage = $this->sitePageRepository->findOneBy(['slug' => $slug]);
 
         if ($sitePage === null) {
@@ -112,7 +145,10 @@ class PublicSitePageResolver
         }
 
         $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
-        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
+        $structuredData = $content->getStructuredData();
+        $payload = is_array($structuredData['corePage'] ?? null)
+            ? $structuredData['corePage']
+            : $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
 
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? '');
@@ -162,16 +198,16 @@ class PublicSitePageResolver
 
     public function getExpertisePages(): array
     {
-        $defaults = $this->publicSiteConfig->getExpertisePages();
+        $pages = [];
 
-        foreach ($defaults as $slug => $page) {
-            $defaults[$slug] = $this->mergeStructuredPage(
-                $this->sitePageRepository->findOneBy(['slug' => self::EXPERTISE_PAGE_SLUGS[$slug] ?? null]),
-                $page
-            );
+        foreach (self::EXPERTISE_PAGE_SLUGS as $slug => $sitePageSlug) {
+            $page = $this->resolveStructuredPage($this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]), 'expertisePage');
+            if ($page !== null) {
+                $pages[$slug] = $page;
+            }
         }
 
-        return $defaults;
+        return $pages;
     }
 
     public function getSectorsIndex(): array
@@ -203,16 +239,39 @@ class PublicSitePageResolver
 
     public function getSectorPages(): array
     {
-        $defaults = $this->publicSiteConfig->getSectorPages();
+        $pages = [];
 
-        foreach ($defaults as $slug => $page) {
-            $defaults[$slug] = $this->mergeStructuredPage(
-                $this->sitePageRepository->findOneBy(['slug' => self::SECTOR_PAGE_SLUGS[$slug] ?? null]),
-                $page
-            );
+        foreach (self::SECTOR_PAGE_SLUGS as $slug => $sitePageSlug) {
+            $page = $this->resolveStructuredPage($this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]), 'sectorPage');
+            if ($page !== null) {
+                $pages[$slug] = $page;
+            }
         }
 
-        return $defaults;
+        return $pages;
+    }
+
+    public function getPracticeNarrative(\App\Entity\Practice $practice): array
+    {
+        $slug = (string) $practice->getSlug();
+        if ($slug === '') {
+            return [];
+        }
+
+        $content = $this->siteGlobalContentRepository->findOneBy(['identifier' => 'practice_narrative_' . $slug]);
+        if ($content === null || !$content->isEnabled()) {
+            return [];
+        }
+
+        $translation = $this->siteGlobalContentTranslationRepository->findOneBy([
+            'siteGlobalContent' => $content,
+            'locale' => \App\Entity\SitePageTranslation::LOCALE_FR,
+        ]);
+        if ($translation === null) {
+            return [];
+        }
+
+        return $this->decodeStructuredPayload($translation->getBodyHtml());
     }
 
     /**
@@ -303,6 +362,31 @@ class PublicSitePageResolver
         }
 
         return $merged;
+    }
+
+    private function resolveStructuredPage(?SitePage $sitePage, string $payloadKey): ?array
+    {
+        if ($sitePage === null) {
+            return null;
+        }
+
+        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $structuredData = $content->getStructuredData();
+        $payload = is_array($structuredData[$payloadKey] ?? null)
+            ? $structuredData[$payloadKey]
+            : $this->decodeStructuredPayload($content->getBodyHtml());
+        if ($payload === []) {
+            return null;
+        }
+
+        $payload['title'] = $content->getHeroTitle() ?: ($payload['title'] ?? '');
+        $payload['seoTitle'] = $content->getTitle() ?: ($payload['seoTitle'] ?? $payload['title']);
+        $payload['metaDescription'] = $content->getMetaDescription() ?: ($payload['metaDescription'] ?? '');
+        $payload['eyebrow'] = $content->getHeroBadge() ?: ($payload['eyebrow'] ?? '');
+        $payload['intro'] = $this->plainText($content->getHeroIntro()) ?: ($payload['intro'] ?? '');
+        $payload['heroImage'] = $sitePage->getHeroImage() ?: ($payload['heroImage'] ?? null);
+
+        return $payload;
     }
 
     private function decodeStructuredPayload(?string $raw): array

@@ -14,59 +14,13 @@
     <div class="card card-lg card-shadow oling-legal-card">
       <!-- Header -->
       <div class="card-header bg-dark">
-        <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage and legalPage.title ? legalPage.title : "Politique de Sécurité de l'Information" }}</h1>
+        <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage.title }}</h1>
       </div>
       <!-- End Header -->
 
       <!-- Card Body -->
       <div class="card-body">
-        {% if legalPage and legalPage.body %}
-          {{ legalPage.body|raw }}
-        {% else %}
-        <div class="mb-7">
-          <p>Depuis plus de 10 ans, nous nous engageons à fournir des services de qualité tout en établissant un climat de confiance. Cette politique dédiée à la sécurité de l’information vise à définir les principes, règles et engagements de sécurité de l'information au sein de <strong>OLING Management et Technologie</strong>.</p>
-        </div>
-
-        <div class="mb-7">
-          <p>Son objectif est de protéger les données contre toutes les menaces, qu'elles soient internes ou externes, intentionnelles ou accidentelles afin de garantir la <strong>confidentialité</strong>, l’<strong>intégrité</strong> et la <strong>disponibilité</strong> des données. Cela nous permet d'assurer la continuité des opérations, de réduire les dommages et d'optimiser nos investissements et opportunités.</p>
-        </div>
-
-        <div class="mb-7">
-          <p>Pour renforcer et objectiver ces notions, notre système de management de la sécurité de l’information est basé sur la norme <strong>ISO/CEI 27001:2022</strong> et couvre les domaines suivants :</p>
-          <ul>
-            <li>Services d'Assistance à Maîtrise d'Ouvrage en Système d'Information et organisation</li>
-            <li>Services de Délégué à la Protection des Données et projets RGPD</li>
-          </ul>
-        </div>
-
-        <div class="mb-7">
-          <p>La sécurité des informations est essentielle pour notre entreprise et repose sur la formation et l’implication de nos équipes :</p>
-          <ul>
-            <li>Dans les questions organisationnelles, comportementales et techniques</li>
-            <li>Dans le suivi permanent des actions et incidents</li>
-            <li>Dans l’établissement d’une méthodologie structurée, coordonnée, ainsi que de règles et procédures à mettre en œuvre</li>
-          </ul>
-        </div>
-
-        <div class="mb-7">
-          <p>Ainsi, nous nous engageons auprès des membres de notre écosystème (utilisateurs, clients, salariés, partenaires, actionnaires, sous-traitants) à :</p>
-          <ul>
-            <li>Respecter les lois et réglementations, en particulier en matière de protection des données personnelles</li>
-            <li>Identifier et gérer les risques liés à la sécurité de l'information</li>
-            <li>Suivre et appliquer les meilleures pratiques de sécurité de l'information tout au long de nos projets</li>
-            <li>Améliorer continuellement notre système de management de la sécurité de l'information</li>
-          </ul>
-        </div>
-
-        <div class="mb-7">
-          <p>Notre politique de sécurité est révisée chaque année ou en cas de changements significatifs, afin de garantir sa pertinence et son efficacité.</p>
-        </div>
-
-        <div class="mb-7">
-          <p><em>Fait le 15 septembre 2025 à Baie Mahault</em></p>
-          <p><strong>Florestan Rouet</strong></p>
-        </div>
-        {% endif %}
+        {{ legalPage.body|raw }}
       </div>
       <!-- End Card Body -->
     </div>

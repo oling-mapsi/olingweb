@@ -14,102 +14,13 @@
       <div class="card card-lg card-shadow oling-legal-card">
         <!-- Header -->
         <div class="card-header bg-dark">
-          <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage and legalPage.title ? legalPage.title : 'Charte de Protection des Données à Caractère Personnel' }}</h1>
+          <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage.title }}</h1>
         </div>
         <!-- End Header -->
 
         <!-- Card Body -->
         <div class="card-body">
-          {% if legalPage and legalPage.body %}
-            {{ legalPage.body|raw }}
-          {% else %}
-          <div class="mb-7">
-            <p>La société OLING MANAGEMENT & TECHNOLOGIE est consciente des enjeux de la protection des données personnelles sur son site internet. À ce titre, elle s’engage à assurer un niveau de protection des données personnelles en conformité avec le Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l’égard du traitement des données à caractère personnel et à la libre circulation de ces données (RGPD) applicable depuis le 25 mai 2018 ainsi que la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés modifiée par la loi n°2018-493 du 20 juin 2018 promulguée le 21 juin 2018.</p>
-
-            <p>Pour toute information complémentaire sur la protection des données personnelles en France et en Europe, vous pouvez consulter le site de la Commission Nationale Informatique et Libertés (CNIL) en vous rendant à la page suivante : <a href="https://www.cnil.fr">https://www.cnil.fr</a>.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Quelques définitions</h4>
-            <ul>
-              <li><strong>Donnée à caractère personnel :</strong> désigne toute information permettant d’identifier directement ou indirectement une personne physique. Il peut s’agir d’un nom, d’un numéro de téléphone, d’une adresse postale, d’un mail, etc.</li>
-              <li><strong>Traitement de données à caractère personnel :</strong> désigne toute opération ou ensemble d’opérations effectuées, automatisées ou non, sur des données personnelles. Exemple : collecte, enregistrement, conservation.</li>
-              <li><strong>Responsable de traitement :</strong> toute personne physique ou morale qui détermine les finalités et les moyens du traitement.</li>
-              <li><strong>Sous-traitant :</strong> toute personne qui traite des données pour le compte du responsable de traitement.</li>
-              <li><strong>Destinataire :</strong> toute personne qui reçoit des données personnelles.</li>
-            </ul>
-          </div>
-
-          <div class="mb-7">
-            <h4>Responsable de traitement des données personnelles</h4>
-            <p>Le responsable de traitement est OLING MANAGEMENT & TECHNOLOGIE. Pour contacter notre Délégué à la Protection des Données :</p>
-            <ul>
-              <li>Par courrier : OLING - rue René RABAT - 97122 Baie-Mahault</li>
-              <li>Par mail : <a href="mailto:dpo@oling.fr">dpo@oling.fr</a></li>
-            </ul>
-          </div>
-
-          <div class="mb-7">
-            <h4>Hébergement des données</h4>
-            <ul>
-              <li>Identité de l’hébergeur : PlanetCloud SA</li>
-              <li>Adresse : 4416 Louis-B.-Mayer, Laval, QC H7P 0G1, Canada</li>
-            </ul>
-          </div>
-
-          <div class="mb-7">
-            <h4>Données personnelles collectées et finalités</h4>
-            <p>Les formulaires disponibles sur notre site collectent les données suivantes :</p>
-            <ul>
-              <li>Nom</li>
-              <li>Prénom</li>
-              <li>Société</li>
-              <li>Adresse mail</li>
-              <li>Numéro de téléphone</li>
-            </ul>
-            <p>OLING MANAGEMENT & TECHNOLOGIE collecte vos données pour gérer vos demandes. Les données sont traitées uniquement pour des finalités légitimes et spécifiques.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Conservation des données personnelles</h4>
-            <p>OLING MANAGEMENT & TECHNOLOGIE ASM se doit de conserver certaines données personnelles pour un bon suivi. La durée de conservation dépendra du besoin et de la finalité du traitement. Nous nous engageons à ne pas conserver vos données indéfiniment.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Destinataires des données personnelles</h4>
-            <p>Les données collectées sont destinées au personnel traitant les demandes. Dans certains cas, des données peuvent être transférées à des tiers si nécessaire. Aucune donnée ne sera transférée hors de l'Union Européenne sans votre consentement.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Base juridique du traitement</h4>
-            <p>Nous traitons les données personnelles uniquement si nous avons une base juridique valable, comme le consentement, l’exécution d’un contrat, une obligation légale ou la poursuite d’intérêts légitimes.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Vos droits</h4>
-            <ul>
-              <li>Droit d’accès à vos données</li>
-              <li>Droit de rectification</li>
-              <li>Droit à l’effacement</li>
-              <li>Droit à la portabilité</li>
-              <li>Droit d’opposition</li>
-              <li>Droit à la limitation du traitement</li>
-              <li>Droit de retrait du consentement</li>
-              <li>Droit d’introduire une réclamation auprès de la CNIL</li>
-            </ul>
-            <p>Vous pouvez exercer vos droits en nous contactant. Une réponse vous sera apportée dans les 30 jours.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Mesures pour la protection de vos données</h4>
-            <p>Des mesures organisationnelles et techniques sont mises en place pour garantir la sécurité et l’intégrité de vos données. Nos équipes s’engagent à respecter la confidentialité des données personnelles traitées.</p>
-          </div>
-
-          <div class="mb-7">
-            <h4>Mise à jour de la charte</h4>
-            <p>Nous nous réservons le droit de modifier cette charte à tout moment. Toute modification sera publiée sur notre site web et prendra effet immédiatement.</p>
-          </div>
-          {% endif %}
+          {{ legalPage.body|raw }}
         </div>
         <!-- End Card Body -->
       </div>

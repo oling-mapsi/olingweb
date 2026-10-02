@@ -7,43 +7,43 @@
 {% set serviceUniverses = [
   {
     slug: 'amoa-applications-metiers',
-    title: 'AMOA & Applications métiers',
-    intro: 'ERP, CRM, GMAO, SI Finance, SIRH, data et IA : cadrage, choix d’outils, recette, migration et mise en production.',
+    title: 'nav.universes.amoa.title',
+    intro: 'services_index.amoa.intro',
     items: [
-      {label: 'AMOA SI', href: path('amoa_si'), text: 'Cadrer le besoin, organiser la consultation, piloter la recette et sécuriser la mise en production.'},
-      {label: 'ERP', href: '/business-apps/erp', text: 'Choisir le progiciel, cadrer les processus, préparer la reprise de données et piloter l’intégrateur.'},
-      {label: 'CRM', href: '/crm', text: 'Structurer les processus commerciaux, les données client, l’adoption et le reporting.'},
-      {label: 'GMAO', href: '/gmao', text: 'Cadrer la maintenance, les actifs, les données équipements, la mobilité terrain et la recette.'},
-      {label: 'SI Finance', href: '/si-finance', text: 'Relier processus finance, ERP/EPM, reporting, contrôle interne et interfaces.'},
-      {label: 'Facturation électronique', href: '/consulting/reforme-facturation-electronique-amoa', text: 'Cadrer les flux, formats, plateformes agréées (PA), impacts SI et conduite du changement.'},
-      {label: 'Data / BI', href: '/business-apps/bi-et-analytique', text: 'Définir les indicateurs, modèles de données, dashboards et usages de pilotage.'},
-      {label: 'IA & automatisation', href: '/business-apps/transformation-digitale-automatisation-et-ia-utile', text: 'Identifier les usages utiles, automatiser les processus et intégrer les agents métier.'}
+      {label: 'nav.universes.amoa.items.amoa_si', href: path('amoa_si'), text: 'services_index.amoa.items.amoa_si'},
+      {label: 'nav.universes.amoa.items.erp', href: '/business-apps/erp', text: 'services_index.amoa.items.erp'},
+      {label: 'nav.universes.amoa.items.crm', href: '/crm', text: 'services_index.amoa.items.crm'},
+      {label: 'nav.universes.amoa.items.gmao', href: '/gmao', text: 'services_index.amoa.items.gmao'},
+      {label: 'nav.universes.amoa.items.finance', href: '/si-finance', text: 'services_index.amoa.items.finance'},
+      {label: 'nav.universes.amoa.items.e_invoice', href: '/consulting/reforme-facturation-electronique-amoa', text: 'services_index.amoa.items.e_invoice'},
+      {label: 'nav.universes.amoa.items.data_bi', href: '/business-apps/bi-et-analytique', text: 'services_index.amoa.items.data_bi'},
+      {label: 'nav.universes.amoa.items.ai_automation', href: '/business-apps/transformation-digitale-automatisation-et-ia-utile', text: 'services_index.amoa.items.ai_automation'}
     ]
   },
   {
     slug: 'gouvernance-performance-dsi',
-    title: 'Gouvernance & Performance DSI',
-    intro: 'Missions pour organiser le SI, arbitrer les priorités et tenir l’exécution.',
+    title: 'nav.universes.governance.title',
+    intro: 'services_index.governance.intro',
     items: [
-      {label: 'Schéma directeur SI', href: '/consulting/plan-strategique', text: 'Établir la cible, la trajectoire, les priorités, le budget et la feuille de route.'},
-      {label: 'Pilotage de projets / PMO', href: '/consulting/pilotage-des-plans', text: 'Tenir planning, budget, risques, fournisseurs, comités et décisions projet.'},
-      {label: 'Organisation & processus', href: '/consulting/management-des-processus', text: 'Clarifier les responsabilités, processus, irritants et modes de fonctionnement.'},
-      {label: 'Gouvernance des données', href: '/consulting/gouvernance-des-donnees', text: 'Structurer référentiels, qualité des données, règles de gestion et responsabilités.'},
-      {label: 'Infrastructure & modernisation SI', href: '/infrastructure-si-amoa', text: 'Cadrer les scénarios techniques, risques, planning et gouvernance de transition.'},
-      {label: 'DSI externalisée', href: '/dsi-externalisee', text: 'Appuyer la direction SI sur priorités, fournisseurs, budget et continuité opérationnelle.'}
+      {label: 'nav.universes.governance.items.strategy', href: '/consulting/plan-strategique', text: 'services_index.governance.items.strategy'},
+      {label: 'nav.universes.governance.items.pmo', href: '/consulting/pilotage-des-plans', text: 'services_index.governance.items.pmo'},
+      {label: 'nav.universes.governance.items.process', href: '/consulting/management-des-processus', text: 'services_index.governance.items.process'},
+      {label: 'nav.universes.governance.items.data_governance', href: '/consulting/gouvernance-des-donnees', text: 'services_index.governance.items.data_governance'},
+      {label: 'nav.universes.governance.items.infrastructure', href: '/infrastructure-si-amoa', text: 'services_index.governance.items.infrastructure'},
+      {label: 'nav.universes.governance.items.dsi', href: '/dsi-externalisee', text: 'services_index.governance.items.dsi'}
     ]
   },
   {
     slug: 'conformite-risques-resilience',
-    title: 'Conformité, Risques & Résilience',
-    intro: 'RGPD, cyber, QSE, PCA/PRA, risques, contrôle interne et IA : obligations, contrôles, preuves et plans d’action.',
+    title: 'nav.universes.risk.title',
+    intro: 'services_index.risk.intro',
     items: [
-      {label: 'RGPD / DPO', href: '/expertises-audit/rgpd', text: 'Tenir registre, DPIA, contrats, droits, gouvernance et dispositif DPO.'},
-      {label: 'Cybersécurité / ISO 27001', href: '/cyber-securite', text: 'Structurer gouvernance sécurité, risques, PSSI, ISO 27001, NIS2 et DORA.'},
-      {label: 'PCA / PRA / ISO 22301', href: '/pca-pra-continuite-activite', text: 'Identifier les activités critiques, fixer RTO/RPO, formaliser les plans et organiser les tests.'},
-      {label: 'ISO 9001 / QSE', href: '/expertises-audit/qse', text: 'Structurer processus, audits, non-conformités, revue de direction et préparation à la certification.'},
-      {label: 'Risques & contrôle interne', href: '/gestion-risques-audit-controle-interne', text: 'Cartographier les risques, tester les contrôles et suivre les plans de maîtrise.'},
-      {label: 'Conformité IA / AI Act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act', text: 'Cadrer usages IA, responsabilités, registres, risques, supervision humaine et preuves.'}
+      {label: 'nav.universes.risk.items.rgpd', href: '/expertises-audit/rgpd', text: 'services_index.risk.items.rgpd'},
+      {label: 'nav.universes.risk.items.cyber', href: '/cyber-securite', text: 'services_index.risk.items.cyber'},
+      {label: 'nav.universes.risk.items.pca', href: '/pca-pra-continuite-activite', text: 'services_index.risk.items.pca'},
+      {label: 'nav.universes.risk.items.qse', href: '/expertises-audit/qse', text: 'services_index.risk.items.qse'},
+      {label: 'nav.universes.risk.items.risk_control', href: '/gestion-risques-audit-controle-interne', text: 'services_index.risk.items.risk_control'},
+      {label: 'nav.universes.risk.items.ai_act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act', text: 'services_index.risk.items.ai_act'}
     ]
   }
 ] %}
@@ -64,15 +64,15 @@
         {% for universe in serviceUniverses %}
           <div id="{{ universe.slug }}" aria-labelledby="services-universe-{{ loop.index }}">
             <div class="oling-section-head">
-              <h2 id="services-universe-{{ loop.index }}">{{ universe.title }}</h2>
-              <p>{{ universe.intro }}</p>
+              <h2 id="services-universe-{{ loop.index }}">{{ universe.title|trans }}</h2>
+              <p>{{ universe.intro|trans }}</p>
             </div>
             <div class="row g-4">
               {% for item in universe.items %}
                 <div class="col-md-6 col-xl-4">
                   <div class="border-top pt-3 h-100">
-                    <h3 class="h5 mb-2"><a class="link" href="{{ item.href }}">{{ item.label }}</a></h3>
-                    <p class="mb-0">{{ item.text }}</p>
+                    <h3 class="h5 mb-2"><a class="link" href="{{ item.href }}">{{ item.label|trans }}</a></h3>
+                    <p class="mb-0">{{ item.text|trans }}</p>
                   </div>
                 </div>
               {% endfor %}
@@ -87,11 +87,11 @@
     <div class="container">
       <div class="oling-section-head">
         <h2>MAPSI</h2>
-        <p>Plateforme GRC développée par OLING pour outiller registres, risques, audits, plans d’action, incidents et reporting.</p>
+        <p>{{ 'services_index.mapsi.intro'|trans }}</p>
       </div>
       <div class="d-flex flex-wrap gap-3">
-        <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">Accéder à mapsi.fr</a>
-        <a class="link" href="/mapsi-progiciel">Voir la page OLING MAPSI</a>
+        <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">{{ 'services_index.mapsi.external'|trans }}</a>
+        <a class="link" href="/mapsi-progiciel">{{ 'services_index.mapsi.internal'|trans }}</a>
       </div>
     </div>
   </section>

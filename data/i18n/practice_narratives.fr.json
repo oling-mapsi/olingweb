@@ -1,0 +1,159 @@
+{
+    "locale": "fr",
+    "narratives": {
+        "business-apps": {
+            "eyebrow": "Opérations et technologie",
+            "headline": null,
+            "intro": "",
+            "promise": "Faire des applications metiers un levier de performance plutot qu'une source de friction.",
+            "focus": [
+                "Assistance au déploiement Progiciel (ERP, CRM, GMAO, SI Finance, SIRH)",
+                "Business Intelligence et analytique décisionnelle",
+                "Systèmes d’information géographique (SIG)",
+                "Microsoft 365 et productivité collaborative"
+            ]
+        },
+        "consulting": {
+            "eyebrow": "AMOA SI et pilotage de transformation",
+            "headline": "AMOA SI, cadrage et pilotage de projets de transformation",
+            "metaTitle": "AMOA SI et pilotage de projets de transformation | OLING",
+            "metaDescription": "Cabinet AMOA SI indépendant : cadrage, expression des besoins, choix de solution, pilotage projet, recette, migration et conduite du changement.",
+            "intro": "OLING accompagne les directions métier, DSI et sponsors de projet pour cadrer, arbitrer et piloter les transformations SI, depuis l’expression des besoins jusqu’au déploiement.",
+            "promise": "Cabinet indépendant, OLING intervient en AMOA SI pour structurer les décisions, sécuriser les choix de solution, piloter les parties prenantes et organiser l’exécution du projet.",
+            "focus": [
+                "Cadrage, expression des besoins et cahier des charges",
+                "Choix de solution, consultation et pilotage fournisseurs",
+                "Recette, migration, déploiement et conduite du changement",
+                "Schéma directeur, gouvernance SI et PMO de transformation"
+            ],
+            "missionPhases": [
+                "Cadrage stratégique, schéma directeur et priorisation des chantiers",
+                "Expression des besoins, ateliers métier et formalisation du cahier des charges",
+                "Consultation, aide au choix de solution et pilotage des intégrateurs",
+                "Recette, migration, conduite du changement et déploiement"
+            ],
+            "projectContexts": [
+                "Refonte d’un SI métier, d’un ERP, d’un CRM ou d’une GMAO",
+                "Programme de transformation impliquant plusieurs directions et prestataires",
+                "Projet de secteur public, PME, ETI ou groupe avec enjeux de gouvernance",
+                "Mise sous contrôle d’un projet en dérive, d’une migration ou d’un lot sensible"
+            ],
+            "deliverables": [
+                "Note de cadrage, macro-planning et gouvernance projet",
+                "Expression des besoins, cahier des charges et critères de choix",
+                "RACI, dispositifs de pilotage, supports de comité et plan d’actions",
+                "Stratégie de recette, plan de migration et plan de conduite du changement"
+            ],
+            "clientTypes": [
+                "Directions générales et directions métier",
+                "DSI, responsables applicatifs et PMO",
+                "PME, ETI, grands comptes et organisations du secteur public",
+                "Contextes multi-sites, multi-outils ou multi-prestataires"
+            ],
+            "anonymousProofsTitle": "Missions anonymisees associees",
+            "anonymousProofsIntro": "Quelques contextes de mission, anonymises et limites au perimetre documente.",
+            "anonymousProofs": [
+                {
+                    "label": "Operateur public de l'eau",
+                    "sector": "Eau et assainissement",
+                    "mission": "AMOA GMAO et modernisation du SI interventions, avec interoperabilite entre SI technique, client, RH, finance et SIG.",
+                    "perimeter": [
+                        "GMAO",
+                        "SI interventions",
+                        "SI technique",
+                        "client",
+                        "RH",
+                        "finance",
+                        "SIG"
+                    ]
+                },
+                {
+                    "label": "Intercommunalite",
+                    "sector": "Secteur public local",
+                    "mission": "Gouvernance SI et Microsoft 365 dans un environnement de services mutualises.",
+                    "perimeter": [
+                        "Gouvernance SI",
+                        "Microsoft 365",
+                        "services mutualises"
+                    ]
+                },
+                {
+                    "label": "Organisme consulaire",
+                    "sector": "Services aux entreprises",
+                    "mission": "AMOA de digitalisation de processus metier et integration d'applications.",
+                    "perimeter": [
+                        "Digitalisation",
+                        "applications metier",
+                        "interfaces"
+                    ]
+                }
+            ],
+            "supportLinks": [
+                {
+                    "href": "/business-apps/erp",
+                    "label": "AMOA ERP et choix de progiciel",
+                    "description": "Pour les projets ERP, interfaces, reprise de données et pilotage intégrateur."
+                },
+                {
+                    "href": "/crm",
+                    "label": "AMOA CRM",
+                    "description": "Pour les projets CRM, processus commerciaux, données et adoption."
+                },
+                {
+                    "href": "/gmao",
+                    "label": "Conseil et AMOA GMAO",
+                    "description": "Pour les projets maintenance, actifs, mobilité et processus de terrain."
+                },
+                {
+                    "href": "/si-finance",
+                    "label": "AMOA SI Finance",
+                    "description": "Pour le reporting, la clôture, le contrôle de gestion et les interfaces finance."
+                },
+                {
+                    "href": "/expertises-audit/rgpd",
+                    "label": "RGPD et gouvernance des données",
+                    "description": "Pour articuler transformation SI, conformité et responsabilité."
+                },
+                {
+                    "href": "/consulting/assistance-a-maitrise-douvrage",
+                    "label": "Assistance à maîtrise d’ouvrage",
+                    "description": "Page complémentaire pour détailler le cadrage AMOA SI et ses livrables."
+                },
+                {
+                    "href": "/ressources/cadrage-projet-amoa-si",
+                    "label": "Ressource cadrage projet AMOA SI",
+                    "description": "Contenu support pour structurer un cadrage utile avant consultation."
+                },
+                {
+                    "href": "/projets",
+                    "label": "Cas clients et projets",
+                    "description": "Preuves, contextes d’intervention et réalisations publiées."
+                },
+                {
+                    "href": "/a-propos/team",
+                    "label": "Experts OLING",
+                    "description": "Profils mobilisables sur les projets de transformation et de gouvernance SI."
+                }
+            ]
+        },
+        "expertises-audit": {
+            "eyebrow": "Conformité & Risques",
+            "headline": null,
+            "intro": "",
+            "promise": "Faire converger exigences reglementaires, securite, donnees et pilotage.",
+            "focus": [
+                "Audit de conformité réglementaire",
+                "Contrôle de gestion et évaluation des risques",
+                "Conformité RGPD DPO, registre, DPIA",
+                "Sécurité des SI ISO 27001, DORA, NIS2"
+            ]
+        },
+        "mapsi": {
+            "eyebrow": "Domaine OLING",
+            "headline": null,
+            "intro": "",
+            "promise": "Une pratique structuree pour relier enjeux operationnels, outils et execution.",
+            "focus": []
+        }
+    }
+}

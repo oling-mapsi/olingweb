@@ -11,8 +11,8 @@
         <a class="oling-service-link-card" href="{{ path('service', {practice: linkedService.practice.slug, slug: linkedService.slug}) }}">
           <span class="oling-kicker">{{ linkedService.practice.designationShort ?: linkedService.practice.designation }}</span>
           <h3>{{ linkedService.designation }}</h3>
-          <p>{{ linkedService.introductionShort ?: linkedService.descriptionShort ?: 'Voir le detail de cette offre.' }}</p>
-          <span class="oling-service-link-card__more">Voir l'offre</span>
+          <p>{{ linkedService.introductionShort ?: linkedService.descriptionShort ?: 'service.card.default_intro'|trans }}</p>
+          <span class="oling-service-link-card__more">{{ 'service.card.view_offer'|trans }}</span>
         </a>
       {% endif %}
     {% endfor %}

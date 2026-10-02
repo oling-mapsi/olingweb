@@ -68,6 +68,11 @@ class SitePagePublicView
         return $this->translation->getBodyHtml();
     }
 
+    public function getStructuredData(): array
+    {
+        return $this->translation->getStructuredData() ?? [];
+    }
+
     public function getHeroImage(): ?string
     {
         return $this->page->getHeroImage();

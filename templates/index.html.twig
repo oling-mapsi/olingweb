@@ -25,7 +25,7 @@
           <div class="oling-home-hero__actions">
             {% set secondaryHeroCta = homePage.hero.secondaryCta|default({}) %}
             {% set secondaryHeroHref = secondaryHeroCta.url|default(secondaryHeroCta.route is defined ? path(secondaryHeroCta.route, secondaryHeroCta.routeParams|default({})) : '#') %}
-            <a class="btn btn-primary" href="{{ secondaryHeroHref }}">{{ secondaryHeroCta.label|default('Voir les expertises') }}</a>
+            <a class="btn btn-primary" href="{{ secondaryHeroHref }}">{{ secondaryHeroCta.label|default('home.hero.default_secondary_cta'|trans) }}</a>
           </div>
           <div class="oling-home-hero__tags">
             {% for tag in homePage.hero.tags %}
@@ -80,7 +80,7 @@
           <article class="oling-home-kpi oling-home-kpi--{{ item.variant }}"{% if isTerritoryKpi %} style="container-type: inline-size;"{% endif %}>
             {% if item.variant == 'image' %}
               {% set kpiImage = item.image %}
-              <img src="{{ kpiImage starts with 'http://' or kpiImage starts with 'https://' or kpiImage starts with '/' ? kpiImage : asset(kpiImage) }}" alt="{{ item.alt|default('Illustration') }}">
+              <img src="{{ kpiImage starts with 'http://' or kpiImage starts with 'https://' or kpiImage starts with '/' ? kpiImage : asset(kpiImage) }}" alt="{{ item.alt|default('common.illustration'|trans) }}">
             {% else %}
               {% if isTerritoryKpi %}
                 <strong style="font-size: min(4.65rem, 20cqw) !important; white-space: nowrap;">Hexagone<br>&amp; DROM</strong>
@@ -98,34 +98,9 @@
   <section class="oling-home-expertises">
     <div class="container">
       {% set practicesEyebrow = homePracticesSection and homePracticesSection.eyebrow ? homePracticesSection.eyebrow : homePage.practices.eyebrow %}
-      {% set practicesTitle = 'Trois univers de conseil, une plateforme métier' %}
+      {% set practicesTitle = homePracticesSection and homePracticesSection.title ? homePracticesSection.title : homePage.practices.title %}
       {% set practicesIntro = homePracticesSection and homePracticesSection.intro ? homePracticesSection.intro : null %}
-      {% set homeUniverseCards = [
-        {
-          practiceSlug: 'consulting',
-          title: 'AMOA & Applications métiers',
-          text: 'AMOA SI, ERP, CRM, GMAO, SI Finance, data et IA : cadrer les choix et sécuriser la mise en œuvre.',
-          href: path('services_index') ~ '#amoa-applications-metiers'
-        },
-        {
-          practiceSlug: 'business-apps',
-          title: 'Gouvernance & Performance DSI',
-          text: 'Schéma directeur SI, PMO, processus, données, infrastructures et appui à la direction SI.',
-          href: path('services_index') ~ '#gouvernance-performance-dsi'
-        },
-        {
-          practiceSlug: 'expertises-audit',
-          title: 'Conformité, Risques & Résilience',
-          text: 'RGPD, cybersécurité, QSE, risques, contrôle interne, résilience et conformité IA.',
-          href: path('services_index') ~ '#conformite-risques-resilience'
-        },
-        {
-          practiceSlug: 'mapsi',
-          title: 'MAPSI – Plateforme Privacy, QSE',
-          text: 'Plateforme GRC pour centraliser registres, audits, risques, plans d’action, incidents et reporting.',
-          href: path('practice_home', {slug: 'mapsi'})
-        }
-      ] %}
+      {% set homeUniverseCards = homePage.practices.cards|default([]) %}
       <div class="oling-home-section-head">
         <span>{{ practicesEyebrow }}</span>
         <div>
@@ -138,8 +113,9 @@
 
       <div class="oling-home-expertises__stack">
         {% for card in homeUniverseCards|slice(0, 1) %}
+          {% set cardHref = card.url|default(card.route is defined ? path(card.route, card.routeParams|default({})) ~ (card.fragment is defined and card.fragment ? '#' ~ card.fragment : '') : '#') %}
           {% for practice in homePractices|filter(item => item.slug == card.practiceSlug) %}
-            <a class="oling-home-panel oling-home-panel--wide oling-home-panel--dark" href="{{ card.href }}">
+            <a class="oling-home-panel oling-home-panel--wide oling-home-panel--dark" href="{{ cardHref }}">
               <div class="oling-home-panel__media">
                 {% set leadImage = practice.image1 ?: practice.image2 %}
                 {% if leadImage %}
@@ -157,9 +133,10 @@
 
         <div class="oling-home-panel-grid">
           {% for card in homeUniverseCards|slice(1) %}
+            {% set cardHref = card.url|default(card.route is defined ? path(card.route, card.routeParams|default({})) ~ (card.fragment is defined and card.fragment ? '#' ~ card.fragment : '') : '#') %}
             {% set cardVariant = loop.last ? 'image' : (loop.index is even ? 'blue' : 'pink') %}
             {% for practice in homePractices|filter(item => item.slug == card.practiceSlug) %}
-              <a class="oling-home-panel oling-home-panel--{{ cardVariant }}" href="{{ card.href }}">
+              <a class="oling-home-panel oling-home-panel--{{ cardVariant }}" href="{{ cardHref }}">
                 {% if cardVariant == 'image' %}
                   <div class="oling-home-panel__media">
                     {% set panelImage = practice.image1 ?: practice.image2 %}

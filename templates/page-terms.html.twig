@@ -15,62 +15,16 @@
         <div class="card card-lg card-shadow oling-legal-card">
           <!-- Header -->
           <div class="card-header bg-dark">
-            <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage and legalPage.title ? legalPage.title : 'Mentions légales et conditions générales du site oling.fr' }}</h1>
+            <h1 class="card-title h2 text-white" style="color: #fff !important;">{{ legalPage.title }}</h1>
             {% if legalPage and legalPage.updatedAt %}
               <p class="card-text text-white">Dernière mise à jour : {{ legalPage.updatedAt|date('d/m/Y') }}</p>
-            {% else %}
-              <p class="card-text text-white">Dernière mise à jour : Jeudi 3 juillet 2025</p>
             {% endif %}
           </div>
           <!-- End Header -->
 
           <!-- Card Body -->
           <div class="card-body">
-            {% if legalPage and legalPage.body %}
-              {{ legalPage.body|raw }}
-            {% else %}
-            <div class="mb-7">
-              <h4>Éditeur du site</h4>
-
-              <p><strong>OLING Management et Technologie</strong><br />40 rue Alexandre DUMAS 75011, Paris, FRANCE<br />
-              Téléphone : 01 89 70 15 60<br />
-              Email : contact@oling.fr</p>
-
-              <p>Société par actions simplifiée au capital de 8000 euros.<br>
-              Numéro d'immatriculation RCS : 792 014 482<br>
-              Numéro de TVA intracommunautaire : FR 52911666121 </p>
-
-              <p>Directeur de la publication : Monsieur Florestan ROUET</p>
-
-            </div>
-
-            <div class="mb-7">
-              <h4>Propriété intellectuelle</h4>
-              <p>L'ensemble des éléments constituant le site oling.fr (textes, images, logos, vidéos, icônes, mise en page, charte graphique, base de données, etc.) est la propriété exclusive d'OLING ou de ses partenaires, et est protégé par les lois françaises et internationales relatives aux droits d'auteur et à la propriété intellectuelle. Toute reproduction, représentation, modification, publication, adaptation ou exploitation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans l'autorisation écrite préalable d'OLING.</p>
-            </div>
-
-            <div class="mb-7">
-              <h4>Données personnelles</h4>
-              <p>OLING s'engage à protéger la vie privée des utilisateurs de son site et à respecter les dispositions légales en vigueur relatives à la protection des données personnelles. Les données personnelles recueillies sur le site oling.fr sont traitées conformément à notre politique de confidentialité, accessible à l'adresse suivante :
-              <a class="link" href={{ path('polrgpd')}}>politique générale RGPD OLING</a></p>
-            </div>
-
-            <div class="mb-7">
-              <h4>Limitation de responsabilité</h4>
-              <p>OLING ne saurait être tenu responsable des dommages directs ou indirects résultant de l'accès ou de l'utilisation du site oling.fr, y compris l'inaccessibilité, les pertes de données, détériorations, destructions ou virus qui pourraient affecter l'équipement informatique de l'utilisateur. OLING se réserve le droit de modifier, suspendre ou interrompre la diffusion de tout ou partie du site oling.fr à tout moment et sans préavis.</p>
-            </div>
-
-            <div class="mb-7">
-              <h4>Liens hypertextes</h4>
-              <p>Le site oling.fr peut contenir des liens vers d'autres sites internet. OLING n'est pas responsable des contenus, de la disponibilité, du fonctionnement ou des éventuels dommages causés par ces sites.</p>
-            </div>
-
-            <div class="mb-7">
-              <h4>Loi applicable</h4>
-              <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
-              <p>Dernière mise à jour le jeudi 13 avril 2023</p>
-            </div>
-            {% endif %}
+            {{ legalPage.body|raw }}
 
           </div>
           <!-- End Card Body -->

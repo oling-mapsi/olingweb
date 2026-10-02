@@ -1,0 +1,130 @@
+{
+    "locale": "fr",
+    "profiles": [
+        {
+            "name": "florestan rouet",
+            "slug": "florestan-rouet",
+            "displayName": "Florestan Rouet",
+            "photo": "/img/people/florestan-oling.png",
+            "shortcv": "Florestan Rouet accompagne les organisations dans le cadrage et la gouvernance de leurs projets SI. Il publie également sur la GRC et le pilotage avec MAPSI.",
+            "areas": [
+                {
+                    "label": "AMOA SI",
+                    "href": "/amoa-si"
+                },
+                {
+                    "label": "Gouvernance SI"
+                },
+                {
+                    "label": "GRC / MAPSI"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/florestanrouet/",
+            "publicationsUrl": "https://mapsi.fr/fr/auteurs/florestan-rouet",
+            "relationSchema": "worksFor",
+            "relationshipText": "OLING Management et Technologie"
+        },
+        {
+            "name": "dorothee maitrias",
+            "slug": "dorothee-maitrias",
+            "displayName": "Dorothée Maitrias",
+            "photo": "/img/people/dorothee-oling.jpg",
+            "shortcv": "Dorothée Maitrias accompagne les démarches qualité, QSE et d’amélioration continue, de leur structuration à leur pilotage opérationnel.",
+            "areas": [
+                {
+                    "label": "Qualité / QSE",
+                    "href": "/expertises-audit/qse"
+                },
+                {
+                    "label": "Systèmes de management"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/dorothee-maitrias-0584b196/",
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        },
+        {
+            "name": "manuel feuillard",
+            "slug": "manuel-feuillard",
+            "displayName": "Manuel Feuillard",
+            "photo": "/img/people/manuel-oling.png",
+            "shortcv": "Manuel Feuillard intervient sur les systèmes de management QSE et leur digitalisation, avec une approche adaptée aux processus et au contexte de chaque organisation.",
+            "areas": [
+                {
+                    "label": "QSE",
+                    "href": "/expertises-audit/qse"
+                },
+                {
+                    "label": "Systèmes de management"
+                },
+                {
+                    "label": "Digitalisation"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/manuel-feuillard-a10b84248/",
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        },
+        {
+            "name": "hanna badan",
+            "slug": "hanna-badan",
+            "displayName": "Hanna Badan",
+            "photo": "/img/people/hanna-oling.jpg",
+            "shortcv": "Hanna Badan contribue au cadrage des transformations SI et des projets ERP ou progiciels, en reliant besoins métier, exploitation et pilotage.",
+            "areas": [
+                {
+                    "label": "ERP et progiciels",
+                    "href": "/business-apps/erp"
+                },
+                {
+                    "label": "Transformation SI"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/hannabadan/",
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        },
+        {
+            "name": "julien pujol",
+            "slug": "julien-pujol",
+            "displayName": "Julien Pujol",
+            "photo": "/img/people/julien-oling.png",
+            "shortcv": "Julien Pujol intervient sur l’intégration d’ERP et les enjeux associés de finance et de décisionnel.",
+            "areas": [
+                {
+                    "label": "ERP",
+                    "href": "/business-apps/erp"
+                },
+                {
+                    "label": "SI Finance",
+                    "href": "/si-finance"
+                },
+                {
+                    "label": "BI"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/julien-pujol-752a364/",
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        },
+        {
+            "name": "jean claude vati",
+            "slug": "jean-claude-vati",
+            "displayName": "Jean-Claude Vati",
+            "photo": "https://oling.fr/uploads/teams/photos/1767729618943-69d0310ed53909.71845746.jpg",
+            "shortcv": "Jean-Claude Vati accompagne les projets d’infrastructure SI et l’évolution des environnements Microsoft 365.",
+            "areas": [
+                {
+                    "label": "Infrastructure SI",
+                    "href": "/infrastructure-si-amoa"
+                },
+                {
+                    "label": "Microsoft 365"
+                }
+            ],
+            "linkedin": "https://www.linkedin.com/in/jean-claude-vati-415ba33a3/",
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        }
+    ]
+}

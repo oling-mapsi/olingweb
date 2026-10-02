@@ -1,0 +1,56 @@
+{
+    "locale": "fr",
+    "pages": {
+        "industrie": {
+            "title": "Conseil en transformation pour l'industrie et les PMI",
+            "seoTitle": "Conseil industrie, PMI, ERP, GMAO et resilience | OLING",
+            "metaDescription": "OLING accompagne les industriels et PMI sur les enjeux ERP, GMAO, processus, donnees, continuite et conformite.",
+            "eyebrow": "Secteurs",
+            "intro": "OLING accompagne les industriels qui doivent faire evoluer leurs processus, leurs outils et leur gouvernance sans fragiliser leur production ni leurs obligations.",
+            "issues": [
+                "ERP, GMAO, flux atelier et supply chain",
+                "Continuité d'activite, cyber et dependances fournisseurs",
+                "Structuration des responsabilites entre production, qualite, DSI et direction"
+            ],
+            "linkedExpertises": [
+                "amoa-erp-applications-metiers",
+                "organisation-processus-conduite-du-changement",
+                "cybersecurite-conformite-resilience"
+            ]
+        },
+        "services": {
+            "title": "Conseil en transformation pour les entreprises de services",
+            "seoTitle": "Conseil organisation, CRM, data et gouvernance pour services B2B | OLING",
+            "metaDescription": "OLING aide les entreprises de services a structurer leurs processus, leur CRM, leur gouvernance data, leur conformite et leurs usages IA.",
+            "eyebrow": "Secteurs",
+            "intro": "Pour les entreprises de services, la performance depend de la qualite des processus, de la circulation de l'information, de la relation client et de l'adoption des outils.",
+            "issues": [
+                "Structuration du CRM et du pilotage commercial",
+                "Gouvernance des donnees, automatisation et IA",
+                "Harmonisation des processus entre fonctions support et operationnelles"
+            ],
+            "linkedExpertises": [
+                "transformation-si-pme-eti",
+                "organisation-processus-conduite-du-changement",
+                "data-automatisation-intelligence-artificielle"
+            ]
+        },
+        "secteur-public": {
+            "title": "Conseil en conformite, gouvernance et resilience pour organisations regulees",
+            "seoTitle": "Conseil conformite, cybersecurite et gouvernance pour organisations regulees | OLING",
+            "metaDescription": "OLING accompagne les organisations regulees et les environnements publics sur les enjeux de conformite, cybersecurite, gouvernance et resilience.",
+            "eyebrow": "Secteurs",
+            "intro": "OLING intervient aupres des structures exposees a des exigences fortes de responsabilite, de tracabilite, de conformite et de continuite.",
+            "issues": [
+                "Cadres reglementaires et attentes de preuve",
+                "Gouvernance de securite, protection des donnees et resilience",
+                "Coordination entre metiers, directions, DSI et prestataires"
+            ],
+            "linkedExpertises": [
+                "rgpd-dpo-gouvernance",
+                "cybersecurite-conformite-resilience",
+                "data-automatisation-intelligence-artificielle"
+            ]
+        }
+    }
+}

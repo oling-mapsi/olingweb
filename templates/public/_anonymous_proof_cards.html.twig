@@ -3,8 +3,8 @@
   <section class="{{ sectionClass|default('oling-shell-section') }}">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">{{ eyebrow|default('Preuves') }}</span>
-        <h2>{{ title|default('Missions anonymisees') }}</h2>
+        <span class="oling-kicker">{{ eyebrow|default('proofs.kicker'|trans) }}</span>
+        <h2>{{ title|default('proofs.default_title'|trans) }}</h2>
         {% if intro is defined and intro %}
           <p>{{ intro }}</p>
         {% endif %}
@@ -16,7 +16,7 @@
             <h3>{{ proof.label }}</h3>
             <p>{{ proof.mission }}</p>
             {% if proof.perimeter is defined and proof.perimeter is not empty %}
-              <p class="mb-0"><strong>Perimetre :</strong> {{ proof.perimeter|join(' · ') }}</p>
+              <p class="mb-0"><strong>{{ 'proofs.scope_label'|trans }} :</strong> {{ proof.perimeter|join(' · ') }}</p>
             {% endif %}
           </article>
         {% endfor %}

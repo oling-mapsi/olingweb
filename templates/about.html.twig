@@ -81,7 +81,7 @@
             </div>
             <div class="oling-about-team-head__meta" aria-hidden="true">
               <span class="oling-about-team-head__count">{{ '%02d'|format(teamPreview|length) }}</span>
-              <span class="oling-about-team-head__label">Équipe</span>
+              <span class="oling-about-team-head__label">{{ 'team.section_label'|trans }}</span>
             </div>
           </div>
 
@@ -99,10 +99,10 @@
                   {% if member.shortcv %}
                     <p class="oling-about-team-card__text">{{ member.shortcv|striptags|slice(0, 180) ~ '…' }}</p>
                   {% else %}
-                    <p class="oling-about-team-card__text">Direction engagée sur les sujets de transformation, de gouvernance et d’exécution portés par le cabinet.</p>
+                    <p class="oling-about-team-card__text">{{ 'team.generic_profile'|trans }}</p>
                   {% endif %}
                   {% if member.linkedin %}
-                    <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener">Voir sur LinkedIn</a>
+                    <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener">{{ 'team.linkedin'|trans }}</a>
                   {% endif %}
                 </div>
               </article>

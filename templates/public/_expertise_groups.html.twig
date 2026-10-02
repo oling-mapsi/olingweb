@@ -1,15 +1,15 @@
 <div class="oling-mega-head">
-  <h3>Nos expertises</h3>
-  <a class="oling-mega-head-link" href="{{ path('projets') }}">Nos réalisations →</a>
+  <h3>{{ 'nav.expertises'|trans }}</h3>
+  <a class="oling-mega-head-link" href="{{ path('projets') }}">{{ 'nav.achievements'|trans }}</a>
 </div>
 
 <div class="oling-mega-grid">
   {% for universe in navigationUniverses %}
     <div class="oling-mega-col">
-      <a class="oling-mega-col-title" href="{{ universe.href }}">{{ universe.title }}</a>
+      <a class="oling-mega-col-title" href="{{ universe.href }}">{{ universe.title|trans }}</a>
       <ul class="oling-mega-links">
         {% for item in universe.items %}
-          <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+          <li><a href="{{ item.href }}">{{ item.label|trans }}</a></li>
         {% endfor %}
       </ul>
     </div>

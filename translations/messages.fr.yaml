@@ -1,0 +1,261 @@
+common:
+  home: "Accueil"
+  page: "Page"
+  faq: "FAQ"
+  project: "Projet"
+  view_page: "Voir la page"
+  illustration: "Illustration"
+  project_discussion: "Parlons de votre projet"
+
+nav:
+  open_menu: "Ouvrir le menu"
+  expertises: "Nos expertises"
+  all_expertises: "Voir toutes les expertises"
+  achievements: "Nos réalisations"
+  sectors: "Secteurs"
+  case_studies: "Cas clients"
+  about: "Qui sommes nous ?"
+  resources: "Ressources"
+  mapsi_access: "Accéder à MAPSI"
+  consultant_cta: "Parler à un consultant"
+  universes:
+    amoa:
+      title: "AMOA & Applications métiers"
+      items:
+        amoa_si: "AMOA SI"
+        erp: "ERP"
+        crm: "CRM"
+        gmao: "GMAO"
+        finance: "SI Finance"
+        e_invoice: "Facturation électronique"
+        data_bi: "Data / BI"
+        ai_automation: "IA & automatisation"
+    governance:
+      title: "Gouvernance & Performance DSI"
+      items:
+        strategy: "Schéma directeur SI"
+        pmo: "Pilotage de projets / PMO"
+        process: "Organisation & processus"
+        data_governance: "Gouvernance des données"
+        infrastructure: "Infrastructure & modernisation SI"
+        dsi: "DSI externalisée"
+    risk:
+      title: "Conformité, Risques & Résilience"
+      items:
+        rgpd: "RGPD / DPO"
+        cyber: "Cybersécurité / ISO 27001"
+        pca: "PCA / PRA / ISO 22301"
+        qse: "ISO 9001 / QSE"
+        risk_control: "Risques & contrôle interne"
+        ai_act: "Conformité IA / AI Act"
+
+footer:
+  baseline: "Cabinet de conseil pour transformations métier, SI, conformité et résilience."
+  exchange_cta: "Demander un échange"
+  universes: "Nos univers"
+  all_expertises: "Toutes les expertises"
+  all_services: "Tous les services"
+  sectors: "Secteurs"
+  all_sectors: "Tous les secteurs"
+  company: "Cabinet"
+  team: "Équipe"
+  jobs: "Nos métiers"
+  rse: "Démarche RSE"
+  contact_details: "Coordonnées"
+  contact_form: "Formulaire de contact"
+  presence: "Présence Hexagone et DROM."
+  rgpd_policy: "Politique RGPD"
+  security_policy: "Politique de sécurité"
+  legal_notice: "Mentions légales"
+  ai_charter: "Charte IA"
+  manage_cookies: "Gérer mes cookies"
+
+cookies:
+  aria_label: "Gestion des cookies"
+  title: "Gestion des cookies"
+  intro: "Nous utilisons des cookies essentiels au fonctionnement du site. Vous pouvez accepter la mesure d’audience ou refuser tout sauf le minimum nécessaire."
+  details: "Voir les cookies"
+  accept_all: "Accepter tout"
+  refuse_all: "Refuser tout (minimum)"
+  essential_title: "Cookies essentiels (obligatoires)"
+  essential_choice: "Essentiels (toujours actifs)"
+  consent_cookie: "mémorise votre choix."
+  session_cookie: "cookie de session."
+  analytics_title: "Cookies de mesure d’audience"
+  analytics_choice: "Mesure d’audience (Google Analytics)"
+  ga_cookie: "identifiant Google Analytics."
+  ga4_cookie: "cookie GA4 lié à la propriété."
+  gid_cookie: "mesure d’audience."
+  save: "Enregistrer mes choix"
+
+team:
+  areas_label: "Domaines d’intervention"
+  publications: "Voir ses publications"
+  section_label: "Équipe"
+  generic_profile: "Direction engagée sur les sujets de transformation, de gouvernance et d’exécution portés par le cabinet."
+  linkedin: "Voir sur LinkedIn"
+
+proofs:
+  kicker: "Preuves"
+  default_title: "Missions anonymisees"
+  scope_label: "Perimetre"
+
+home:
+  hero:
+    default_secondary_cta: "Voir les expertises"
+
+practice:
+  default_domain: "Domaine OLING"
+  amoa_role_title: "Quel rôle joue OLING dans un projet d’AMOA SI ?"
+  key_services: "Services clés"
+  amoa_expertise_title: "Quelles expertises OLING peut mobiliser autour de l’AMOA SI ?"
+  available_interventions: "Les interventions mobilisables"
+  amoa_si: "AMOA SI"
+  amoa_scope_title: "Que couvre une mission d’AMOA SI chez OLING ?"
+  amoa_scope_intro: "Nous intervenons comme tiers indépendant pour rendre le projet lisible, arbitrable et pilotable, sans posture d’éditeur ni de revendeur."
+  project_contexts_title: "Dans quels projets OLING intervient-il ?"
+  deliverables_title: "Quels livrables et dispositifs sont mobilisables ?"
+  client_types_title: "Pour quels types d’organisation et de gouvernance ?"
+  offers: "Offres"
+  services_pending: "Services en cours de publication."
+  cases_contexts: "Cas et contextes"
+  default_project_description: "Projet pilote avec une logique de clarté, d’exécution et de sécurisation."
+  available_experts: "Experts mobilisables"
+  support_links_title: "Pages liées pour approfondir l’AMOA SI"
+  support_links_intro: "Chaque lien ci-dessous renvoie vers une page utile pour approfondir un projet, une expertise ou un contexte d’intervention."
+  open_related_page: "Ouvrir la page liée"
+  final_cta:
+    title: "Remettre de la clarté et de la maîtrise dans vos transformations"
+    text: "OLING peut intervenir en renfort ponctuel ou sur la durée pour structurer les décisions, piloter et fiabiliser l’exécution du projet."
+  schema:
+    name: "AMOA SI et pilotage de projets de transformation"
+    service_type: "Assistance à maîtrise d’ouvrage SI"
+    description: "Cadrage, expression des besoins, consultation, aide au choix, pilotage fournisseurs, recette, migration et conduite du changement sur les projets SI."
+  services:
+    default_title: "Services OLING"
+    default_intro: "Les offres ci-dessous décrivent les interventions concrètes, livrables et dispositifs activables selon votre contexte."
+
+services_index:
+  amoa:
+    intro: "ERP, CRM, GMAO, SI Finance, SIRH, data et IA : cadrage, choix d’outils, recette, migration et mise en production."
+    items:
+      amoa_si: "Cadrer le besoin, organiser la consultation, piloter la recette et sécuriser la mise en production."
+      erp: "Choisir le progiciel, cadrer les processus, préparer la reprise de données et piloter l’intégrateur."
+      crm: "Structurer les processus commerciaux, les données client, l’adoption et le reporting."
+      gmao: "Cadrer la maintenance, les actifs, les données équipements, la mobilité terrain et la recette."
+      finance: "Relier processus finance, ERP/EPM, reporting, contrôle interne et interfaces."
+      e_invoice: "Cadrer les flux, formats, plateformes agréées (PA), impacts SI et conduite du changement."
+      data_bi: "Définir les indicateurs, modèles de données, dashboards et usages de pilotage."
+      ai_automation: "Identifier les usages utiles, automatiser les processus et intégrer les agents métier."
+  governance:
+    intro: "Missions pour organiser le SI, arbitrer les priorités et tenir l’exécution."
+    items:
+      strategy: "Établir la cible, la trajectoire, les priorités, le budget et la feuille de route."
+      pmo: "Tenir planning, budget, risques, fournisseurs, comités et décisions projet."
+      process: "Clarifier les responsabilités, processus, irritants et modes de fonctionnement."
+      data_governance: "Structurer référentiels, qualité des données, règles de gestion et responsabilités."
+      infrastructure: "Cadrer les scénarios techniques, risques, planning et gouvernance de transition."
+      dsi: "Appuyer la direction SI sur priorités, fournisseurs, budget et continuité opérationnelle."
+  risk:
+    intro: "RGPD, cyber, QSE, PCA/PRA, risques, contrôle interne et IA : obligations, contrôles, preuves et plans d’action."
+    items:
+      rgpd: "Tenir registre, DPIA, contrats, droits, gouvernance et dispositif DPO."
+      cyber: "Structurer gouvernance sécurité, risques, PSSI, ISO 27001, NIS2 et DORA."
+      pca: "Identifier les activités critiques, fixer RTO/RPO, formaliser les plans et organiser les tests."
+      qse: "Structurer processus, audits, non-conformités, revue de direction et préparation à la certification."
+      risk_control: "Cartographier les risques, tester les contrôles et suivre les plans de maîtrise."
+      ai_act: "Cadrer usages IA, responsabilités, registres, risques, supervision humaine et preuves."
+  mapsi:
+    intro: "Plateforme GRC développée par OLING pour outiller registres, risques, audits, plans d’action, incidents et reporting."
+    external: "Accéder à mapsi.fr"
+    internal: "Voir la page OLING MAPSI"
+
+service:
+  hero:
+    primary_cta: "Parler de votre projet"
+  coverage:
+    kicker: "Ce que couvre l'offre"
+  outcomes:
+    kicker: "Résultats attendus"
+    title: "Ce que cette intervention doit rendre possible"
+    default_deliverable: "Des livrables utilisables pour arbitrer, piloter et faire adopter."
+  promise:
+    kicker: "Positionnement"
+    default_title: "Pourquoi OLING intervient sur un projet ERP"
+  focus:
+    kicker: "Périmètre"
+    default_title: "Ce que couvre une mission AMOA ERP"
+  mission_phases:
+    kicker: "Phases projet"
+    default_title: "Quand lancer une mission ERP avec OLING"
+  deliverables:
+    kicker: "Livrables"
+    default_title: "Livrables utiles pour cadrer, choisir et piloter"
+  project_contexts:
+    kicker: "Contextes"
+    default_title: "Situations ou OLING apporte le plus de valeur"
+  client_types:
+    kicker: "Interlocuteurs"
+    default_title: "Equipes et organisations concernées"
+  citable:
+    kicker: "Questions de cadrage"
+  support_links:
+    kicker: "Pages liées"
+    default_title: "Explorer les sujets liés à un projet ERP"
+    default_intro: "Ces pages complètent le cadrage ERP avec des contenus liés aux transformations SI, aux applications connexes et aux contextes de mission."
+    card_kicker: "Ressource liée"
+  proofs:
+    default_title: "Missions anonymisees associees"
+    default_intro: "Ces exemples de missions sont anonymises et limites au perimetre documente."
+  related_cases:
+    kicker: "Cas liés"
+    title: "Exemples de contextes d'intervention"
+    default_description: "Intervention structurée pour mieux piloter un projet et ses risques."
+  experts:
+    kicker: "Experts"
+    title: "Intervenants associés"
+  final_cta:
+    eyebrow: "Passage à l'action"
+    default_title: "Vérifier rapidement si cette offre est le bon niveau d'intervention"
+    default_text: "OLING peut qualifier votre contexte, confirmer le bon angle d'attaque et engager un cadrage utile sans surdimensionner le dispositif."
+    default_label: "Parler de votre sujet"
+  card:
+    default_kicker: "Offre OLING"
+    default_intro: "Voir le détail de cette offre."
+    view_offer: "Voir l'offre"
+
+expertise:
+  final_cta:
+    default_title: "Obtenir une vision claire des priorités, des risques et des décisions à prendre"
+    default_text: "OLING peut intervenir rapidement pour recadrer un projet, arbitrer une trajectoire ou remettre un sujet ERP, conformité, cyber ou IA sous contrôle."
+    default_label: "Demander un diagnostic"
+
+seo:
+  landing:
+    default_meta_description: "Cabinet de conseil AMOA SI et conformite."
+    default_positioning_title: "Pourquoi OLING intervient sur ce projet"
+    default_scope_title: "Ce que couvre cette mission"
+    project_phases: "Phases projet"
+    default_mission_phases_title: "Quand lancer ce projet"
+    deliverables: "Livrables"
+    default_deliverables_title: "Livrables utiles pour cadrer, choisir et deployer"
+    complementary_expertise: "Expertises complémentaires"
+    default_links_title: "Explorer les sujets liés à ce projet"
+    default_links_intro: "Ces pages prolongent le cadrage avec les expertises, les références et les services mobilisables selon votre contexte."
+    reading_path: "Parcours de lecture"
+    reading_path_title: "Cette page oriente vers le bon niveau de réponse"
+    reading_path_text: "Cette page sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable."
+    framing_exchange: "Échange de cadrage"
+    default_final_cta_title: "Clarifier votre besoin et les prochaines décisions"
+    default_final_cta_text: "Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d’accompagnement."
+    default_service_type: "Conseil AMOA SI"
+    default_schema_description: "Conseil AMOA SI, transformation et conformite."
+    cta:
+      erp: "Échanger sur mon projet ERP"
+      crm: "Échanger sur mon projet CRM"
+      gmao: "Cadrer mon projet GMAO"
+      finance: "Parler de mon SI Finance"
+      e_invoice: "Sécuriser mon projet de facturation électronique"
+      rgpd: "Échanger avec un DPO"
+      cyber: "Évaluer mon projet cybersécurité"
+      qse: "Échanger sur ma démarche QSE"

@@ -6,9 +6,10 @@ use App\Dto\SitePagePublicView;
 use App\Entity\SitePage;
 use App\Entity\SitePageTranslation;
 use App\Repository\MetierRepository;
+use App\Repository\SiteGlobalContentRepository;
+use App\Repository\SiteGlobalContentTranslationRepository;
 use App\Repository\SitePageRepository;
 use App\Service\LocalizedContentResolver;
-use App\Service\PublicSiteConfig;
 use App\Service\PublicSitePageResolver;
 use PHPUnit\Framework\TestCase;
 
@@ -44,10 +45,11 @@ class PublicSitePageResolverTranslationTest extends TestCase
             ->willReturn(new SitePagePublicView($page, $translation));
 
         $resolver = new PublicSitePageResolver(
-            new PublicSiteConfig(),
             $sitePageRepository,
             $this->createMock(MetierRepository::class),
-            $localizedContentResolver
+            $localizedContentResolver,
+            $this->createMock(SiteGlobalContentRepository::class),
+            $this->createMock(SiteGlobalContentTranslationRepository::class)
         );
 
         $resolved = $resolver->getEditorialPage('contact');

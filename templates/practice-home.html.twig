@@ -9,9 +9,9 @@
     eyebrow: practiceNarrative.eyebrow,
     title: practiceNarrative.headline,
     intro: practiceNarrative.intro,
-    primaryCta: {route: 'contact', label: 'Parler de votre projet'},
-    secondaryCta: {route: 'expertises_index', label: 'Voir les expertises'},
-    externalCta: practice.slug == 'mapsi' ? {href: 'https://mapsi.fr', label: 'Accéder au site MAPSI'} : null,
+    primaryCta: {route: 'contact', label: 'service.hero.primary_cta'|trans},
+    secondaryCta: {route: 'expertises_index', label: 'home.hero.default_secondary_cta'|trans},
+    externalCta: practice.slug == 'mapsi' ? {href: 'https://mapsi.fr', label: 'nav.mapsi_access'|trans} : null,
     highlights: practiceNarrative.focus|slice(0, 3)
   } %}
 
@@ -19,16 +19,16 @@
     <div class="container">
       <div class="oling-two-col">
         <article class="oling-surface oling-surface--light">
-          <span class="oling-kicker">{{ practice.designationShort ?: 'Domaine OLING' }}</span>
-          <h2>{% if practice.slug == 'consulting' %}Quel rôle joue OLING dans un projet d’AMOA SI ?{% else %}{{ practice.designation }}{% endif %}</h2>
+          <span class="oling-kicker">{{ practice.designationShort ?: 'practice.default_domain'|trans }}</span>
+          <h2>{% if practice.slug == 'consulting' %}{{ 'practice.amoa_role_title'|trans }}{% else %}{{ practice.designation }}{% endif %}</h2>
           <p>{{ practiceNarrative.promise }}</p>
           {% if practice.description %}
             <div class="oling-richtext">{{ practice.description|raw }}</div>
           {% endif %}
         </article>
         <article class="oling-surface oling-surface--light">
-          <span class="oling-kicker">Services clés</span>
-          <h2>{% if practice.slug == 'consulting' %}Quelles expertises OLING peut mobiliser autour de l’AMOA SI ?{% else %}Les interventions mobilisables{% endif %}</h2>
+          <span class="oling-kicker">{{ 'practice.key_services'|trans }}</span>
+          <h2>{% if practice.slug == 'consulting' %}{{ 'practice.amoa_expertise_title'|trans }}{% else %}{{ 'practice.available_interventions'|trans }}{% endif %}</h2>
           <ul class="oling-check-list">
             {% for item in practiceNarrative.focus %}
               <li>{{ item }}</li>
@@ -43,9 +43,9 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">AMOA SI</span>
-          <h2>Que couvre une mission d’AMOA SI chez OLING ?</h2>
-          <p>Nous intervenons comme tiers indépendant pour rendre le projet lisible, arbitrable et pilotable, sans posture d’éditeur ni de revendeur.</p>
+          <span class="oling-kicker">{{ 'practice.amoa_si'|trans }}</span>
+          <h2>{{ 'practice.amoa_scope_title'|trans }}</h2>
+          <p>{{ 'practice.amoa_scope_intro'|trans }}</p>
         </div>
         <div class="oling-service-link-grid">
           {% for item in practiceNarrative.missionPhases %}
@@ -63,8 +63,8 @@
       <div class="container">
         <div class="oling-two-col">
           <article class="oling-surface oling-surface--light">
-            <span class="oling-kicker">Projets</span>
-            <h2>Dans quels projets OLING intervient-il ?</h2>
+            <span class="oling-kicker">{{ 'common.project'|trans }}</span>
+            <h2>{{ 'practice.project_contexts_title'|trans }}</h2>
             <ul class="oling-check-list">
               {% for item in practiceNarrative.projectContexts %}
                 <li>{{ item }}</li>
@@ -72,8 +72,8 @@
             </ul>
           </article>
           <article class="oling-surface oling-surface--light">
-            <span class="oling-kicker">Livrables</span>
-            <h2>Quels livrables et dispositifs sont mobilisables ?</h2>
+            <span class="oling-kicker">{{ 'service.deliverables.kicker'|trans }}</span>
+            <h2>{{ 'practice.deliverables_title'|trans }}</h2>
             <ul class="oling-check-list">
               {% for item in practiceNarrative.deliverables|default([]) %}
                 <li>{{ item }}</li>
@@ -89,8 +89,8 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Contextes</span>
-          <h2>Pour quels types d’organisation et de gouvernance ?</h2>
+          <span class="oling-kicker">{{ 'service.project_contexts.kicker'|trans }}</span>
+          <h2>{{ 'practice.client_types_title'|trans }}</h2>
         </div>
         <div class="oling-service-link-grid">
           {% for item in practiceNarrative.clientTypes %}
@@ -106,21 +106,21 @@
   <section class="oling-shell-section oling-shell-section--tint">
     <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Offres</span>
-          <h2>{{ practice.designationShort ?: 'Services OLING' }}</h2>
-          <p>{{ practice.introductionShort ?: 'Les offres ci-dessous décrivent les interventions concrètes, livrables et dispositifs activables selon votre contexte.' }}</p>
+          <span class="oling-kicker">{{ 'practice.offers'|trans }}</span>
+          <h2>{{ practice.designationShort ?: 'practice.services.default_title'|trans }}</h2>
+          <p>{{ practice.introductionShort ?: 'practice.services.default_intro'|trans }}</p>
       </div>
       <div class="oling-service-link-grid">
         {% for service in practice.services %}
           <a class="oling-service-link-card" href="{{ path('service', {practice: service.practice.slug, slug: service.slug}) }}">
-            <span class="oling-kicker">{{ service.designationShort ?: 'Offre OLING' }}</span>
+            <span class="oling-kicker">{{ service.designationShort ?: 'service.card.default_kicker'|trans }}</span>
             <h3>{{ service.designation }}</h3>
-            <p>{{ service.introductionShort ?: service.descriptionShort ?: 'Voir le détail de cette offre.' }}</p>
-            <span class="oling-service-link-card__more">Voir l'offre</span>
+            <p>{{ service.introductionShort ?: service.descriptionShort ?: 'service.card.default_intro'|trans }}</p>
+            <span class="oling-service-link-card__more">{{ 'service.card.view_offer'|trans }}</span>
           </a>
         {% else %}
           <article class="oling-surface oling-surface--light">
-            <p>Services en cours de publication.</p>
+            <p>{{ 'practice.services_pending'|trans }}</p>
           </article>
         {% endfor %}
       </div>
@@ -131,22 +131,22 @@
     {% include 'public/_anonymous_proof_cards.html.twig' with {
       proofs: practiceNarrative.anonymousProofs,
       sectionClass: 'oling-shell-section',
-      title: practiceNarrative.anonymousProofsTitle|default('Missions anonymisees associees'),
-      intro: practiceNarrative.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+      title: practiceNarrative.anonymousProofsTitle|default('service.proofs.default_title'|trans),
+      intro: practiceNarrative.anonymousProofsIntro|default('service.proofs.default_intro'|trans)
     } %}
   {% elseif projects|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Cas et contextes</span>
-          <h2>Réalisations</h2>
+          <span class="oling-kicker">{{ 'practice.cases_contexts'|trans }}</span>
+          <h2>{{ 'nav.achievements'|trans }}</h2>
         </div>
         <div class="oling-project-proof-grid">
           {% for project in projects|slice(0, 3) %}
             <article class="oling-proof-card">
-              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'Projet' }}</span>
+              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'common.project'|trans }}</span>
               <h3>{{ project.designation }}</h3>
-              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'Projet pilote avec une logique de clarté, d\'exécution et de sécurisation.' }}</p>
+              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'practice.default_project_description'|trans }}</p>
             </article>
           {% endfor %}
         </div>
@@ -158,8 +158,8 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Équipe</span>
-          <h2>Experts mobilisables</h2>
+          <span class="oling-kicker">{{ 'team.section_label'|trans }}</span>
+          <h2>{{ 'practice.available_experts'|trans }}</h2>
         </div>
         <div class="oling-team-mini-list">
           {% for team in teams %}
@@ -185,17 +185,17 @@
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Pages liées</span>
-          <h2>Pages liées pour approfondir l’AMOA SI</h2>
-          <p>Chaque lien ci-dessous renvoie vers une page utile pour approfondir un projet, une expertise ou un contexte d’intervention.</p>
+          <span class="oling-kicker">{{ 'service.support_links.kicker'|trans }}</span>
+          <h2>{{ 'practice.support_links_title'|trans }}</h2>
+          <p>{{ 'practice.support_links_intro'|trans }}</p>
         </div>
         <div class="oling-service-link-grid">
           {% for item in practiceNarrative.supportLinks %}
             <a class="oling-service-link-card" href="{{ item.href }}">
-              <span class="oling-kicker">Page liée</span>
+              <span class="oling-kicker">{{ 'service.support_links.card_kicker'|trans }}</span>
               <h3>{{ item.label }}</h3>
               <p>{{ item.description }}</p>
-              <span class="oling-service-link-card__more">Ouvrir la page liée</span>
+              <span class="oling-service-link-card__more">{{ 'practice.open_related_page'|trans }}</span>
             </a>
           {% endfor %}
         </div>
@@ -204,9 +204,9 @@
   {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
-    title: 'Remettre de la clarté et de la maîtrise dans vos transformations',
-    text: 'OLING peut intervenir en renfort ponctuel ou sur la durée pour structurer les décisions, piloter et fiabiliser l\'exécution du projet.',
-    primaryCta: {route: 'contact', label: 'Demander un échange'},
+    title: 'practice.final_cta.title'|trans,
+    text: 'practice.final_cta.text'|trans,
+    primaryCta: {route: 'contact', label: 'footer.exchange_cta'|trans},
     phoneCta: app.request.pathInfo == '/amoa-si'
   } %}
 </main>
@@ -216,8 +216,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "AMOA SI et pilotage de projets de transformation",
-    "serviceType": "Assistance à maîtrise d’ouvrage SI",
+    "name": "{{ 'practice.schema.name'|trans|e('js') }}",
+    "serviceType": "{{ 'practice.schema.service_type'|trans|e('js') }}",
     "provider": {
       "@type": "ProfessionalService",
       "name": "OLING Management et Technologie",
@@ -225,7 +225,7 @@
     },
     "url": "https://oling.fr/amoa-si",
     "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane", "Réunion", "Saint-Pierre-et-Miquelon"],
-    "description": "Cadrage, expression des besoins, consultation, aide au choix, pilotage fournisseurs, recette, migration et conduite du changement sur les projets SI."
+    "description": "{{ 'practice.schema.description'|trans|e('js') }}"
   }
   </script>
 {% endif %}

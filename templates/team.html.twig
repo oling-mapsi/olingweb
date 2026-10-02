@@ -60,7 +60,7 @@
                   <p class="oling-team-card__organization">{{ people.organization }}</p>
                 </div>
               </div>
-              <ul class="oling-team-card__areas" aria-label="Domaines d’intervention">
+              <ul class="oling-team-card__areas" aria-label="{{ 'team.areas_label'|trans }}">
                 {% for area in people.areas %}
                   <li>
                     {% if area.href is defined %}<a href="{{ area.href }}">{{ area.label }}</a>{% else %}{{ area.label }}{% endif %}
@@ -75,7 +75,7 @@
                   <a class="oling-team-card__link" href="{{ people.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
                 {% endif %}
                 {% if people.publicationsUrl %}
-                  <a class="oling-team-card__link" href="{{ people.publicationsUrl }}" target="_blank" rel="noopener">Voir ses publications</a>
+                  <a class="oling-team-card__link" href="{{ people.publicationsUrl }}" target="_blank" rel="noopener">{{ 'team.publications'|trans }}</a>
                 {% endif %}
               </div>
             </div>

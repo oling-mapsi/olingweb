@@ -75,6 +75,7 @@ class LocalizedContentResolver
             'introductionShort' => 'introduction_short',
             'description',
             'descriptionShort' => 'description_short',
+            'publicNarrative' => 'public_narrative',
         ]), [
             'getPractice' => fn () => $service->getPractice() ? $this->getFrenchPracticeView($service->getPractice()) : null,
             'getProjets' => fn () => array_map(fn (Projet $project) => $this->getFrenchProjetView($project), $service->getProjets()->toArray()),
@@ -103,6 +104,7 @@ class LocalizedContentResolver
         return new TranslatedEntityPublicView($team, $this->fetchTranslation('team_translation', 'team_id', $team->getId(), [
             'titre',
             'shortcv',
+            'publicProfile' => 'public_profile',
         ]), [
             'getServices' => fn () => array_map(fn (Services $service) => $this->getFrenchServiceView($service), $team->getServices()->toArray()),
             'getProjets' => fn () => array_map(fn (Projet $project) => $this->getFrenchProjetView($project), $team->getProjets()->toArray()),
@@ -156,7 +158,7 @@ class LocalizedContentResolver
                 $property = $column;
             }
             $value = $row[$column] ?? null;
-            if ($column === 'tags' && is_string($value)) {
+            if (in_array($column, ['tags', 'public_profile', 'public_narrative'], true) && is_string($value)) {
                 $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             }
             $data[(string) $property] = $value;

@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Entity\SitePage;
 use App\Repository\SitePageRepository;
-use App\Service\PublicSiteConfig;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +20,6 @@ class SeedPublicSitePagesCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly SitePageRepository $sitePageRepository,
-        private readonly PublicSiteConfig $publicSiteConfig,
     ) {
         parent::__construct();
     }
@@ -91,38 +89,6 @@ class SeedPublicSitePagesCommand extends Command
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ],
         ];
-
-        foreach ($this->publicSiteConfig->getExpertisePages() as $slug => $page) {
-            $definitions[] = [
-                'slug' => 'expertise-' . $slug,
-                'title' => $page['seoTitle'],
-                'metaDescription' => $page['metaDescription'],
-                'heroBadge' => $page['eyebrow'],
-                'heroTitle' => $page['title'],
-                'heroIntro' => $page['intro'],
-                'bodyHtml' => json_encode([
-                    'situations' => $page['situations'] ?? [],
-                    'interventions' => $page['interventions'] ?? [],
-                    'deliverables' => $page['deliverables'] ?? [],
-                    'linkedServices' => $page['linkedServices'] ?? [],
-                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-            ];
-        }
-
-        foreach ($this->publicSiteConfig->getSectorPages() as $slug => $page) {
-            $definitions[] = [
-                'slug' => 'secteur-' . $slug,
-                'title' => $page['seoTitle'],
-                'metaDescription' => $page['metaDescription'],
-                'heroBadge' => $page['eyebrow'],
-                'heroTitle' => $page['title'],
-                'heroIntro' => $page['intro'],
-                'bodyHtml' => json_encode([
-                    'issues' => $page['issues'] ?? [],
-                    'linkedExpertises' => $page['linkedExpertises'] ?? [],
-                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-            ];
-        }
 
         return $definitions;
     }

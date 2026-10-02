@@ -1,0 +1,957 @@
+{
+    "locale": "fr",
+    "narratives": {
+        "business-apps/bi-et-analytique": {
+            "eyebrow": "Offre OLING",
+            "headline": "Business Intelligence et analytique décisionnelle",
+            "intro": "Business Intelligence & analytique : cadrage des besoins, data models, dashboards et pilotage de la performance.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "business-apps/developpements-specifiques": {
+            "eyebrow": "Offre OLING",
+            "headline": "Développements applicatifs sur mesure",
+            "intro": "Développements applicatifs sur mesure : conception, UX, intégration SI, sécurité et maintenance évolutive.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "business-apps/erp": {
+            "metaTitle": "AMOA ERP : cadrage, choix et pilotage de projet ERP | OLING",
+            "metaDescription": "Cabinet AMOA ERP indépendant : cadrage, choix de solution, pilotage intégrateur, reprise de données, recette, migration et conduite du changement.",
+            "eyebrow": "Cabinet AMOA ERP independant",
+            "headline": "AMOA ERP : cadrage, choix et pilotage de votre projet ERP",
+            "intro": "OLING accompagne les directions metier, DSI et sponsors de projet pour cadrer, choisir et piloter un projet ERP, depuis l'expression des besoins jusqu'a la recette, la migration et le deploiement.",
+            "promise": "OLING n'est ni editeur, ni revendeur, ni integrateur ERP. Le cabinet intervient en AMOA pour structurer les decisions, tenir la gouvernance projet, objectiver les choix et securiser l'execution.",
+            "outcomes": [
+                "Cadrage ERP plus clair et decisions mieux arbitrees",
+                "Choix de solution et pilotage integrateur objectivés",
+                "Recette, migration et adoption mieux maitrisées"
+            ],
+            "focus": [
+                "Cadrage strategique et diagnostic de l'existant",
+                "Expression des besoins, processus et cahier des charges",
+                "Aide au choix ERP, consultation et comparaison des solutions",
+                "Arbitrage entre ERP generaliste et progiciel metier selon le perimetre fonctionnel",
+                "Pilotage integrateur, recette, reprise de donnees et conduite du changement"
+            ],
+            "missionPhases": [
+                "Cadrage du projet ERP, objectifs, perimetre, priorites et gouvernance",
+                "Cartographie des processus, ateliers metier et expression des besoins",
+                "Consultation, analyse des offres, evaluation des solutions et alignement des parties prenantes",
+                "Pilotage de l'integrateur, interfaces, reprise de donnees, recette, formation, mise en production et hypercare"
+            ],
+            "deliverables": [
+                "Note de cadrage, macro-planning et gouvernance projet",
+                "Cartographie des processus, expression des besoins et cahier des charges",
+                "Grille d'evaluation, matrice de choix, dossier de consultation et synthese d'analyse des offres",
+                "Strategie de recette, interfaces, strategie de reprise, plan de formation, conduite du changement, hypercare et suivi des risques"
+            ],
+            "citablePassagesTitle": "Réponses courtes sur l’AMOA ERP",
+            "citablePassages": [
+                {
+                    "question": "Pourquoi une AMOA ERP indépendante ?",
+                    "answer": "L’AMOA représente les intérêts du commanditaire, structure les décisions et contrôle l’exécution sans dépendre de l’éditeur ou de l’intégrateur."
+                },
+                {
+                    "question": "Comment choisir entre ERP et progiciel métier ?",
+                    "answer": "Le choix dépend du périmètre fonctionnel, des processus différenciants, des interfaces, des données à reprendre et de la capacité à maintenir la solution."
+                },
+                {
+                    "question": "Que couvre un choix de solution ?",
+                    "answer": "Le cadrage couvre les besoins, le cahier des charges, la consultation, la comparaison des offres, les démonstrations et la matrice de décision."
+                },
+                {
+                    "question": "Comment sécuriser les données et interfaces ?",
+                    "answer": "Le projet doit inventorier les données, définir les règles de reprise, qualifier les interfaces, tester les flux et organiser les contrôles de recette."
+                },
+                {
+                    "question": "Jusqu’où intervient OLING ?",
+                    "answer": "OLING peut piloter le projet depuis le cadrage et la sélection jusqu’à la recette, la mise en production et l’hypercare."
+                }
+            ],
+            "projectContexts": [
+                "Refonte ou remplacement d'un ERP devenu limitant pour les operations",
+                "Projet ERP multi-metiers avec enjeux finance, achats, approvisionnement, stocks, production, maintenance ou RH",
+                "Pilotage d'un integrateur dans un contexte PME, ETI, industrie, services ou secteur public",
+                "Projet en derive, migration sensible ou besoin de remettre la trajectoire sous controle"
+            ],
+            "clientTypes": [
+                "Directions generales, directions metier et DSI",
+                "PME, ETI et organisations multi-sites",
+                "Equipes finance, achats, supply chain, production et maintenance",
+                "Sponsors de projet ayant besoin d'un tiers independant pour arbitrer et piloter l'execution"
+            ],
+            "anonymousProofsTitle": "Missions anonymisees associees",
+            "anonymousProofsIntro": "Deux contextes ERP anonymises, sans nom client ni resultat non documente.",
+            "anonymousProofs": [
+                {
+                    "label": "Operateur public de l'eau",
+                    "sector": "Eau et assainissement",
+                    "mission": "AMOA ERP autour de la gestion des interventions et des echanges avec les SI metier.",
+                    "perimeter": [
+                        "ERP",
+                        "gestion des interventions",
+                        "interfaces SI metier"
+                    ]
+                },
+                {
+                    "label": "Groupe industriel",
+                    "sector": "Industrie",
+                    "mission": "AMOA ERP Divalto Infinity, gouvernance SI, interim DSI et PMO.",
+                    "perimeter": [
+                        "Divalto Infinity",
+                        "gouvernance SI",
+                        "interim DSI",
+                        "PMO"
+                    ]
+                }
+            ],
+            "supportLinks": [
+                {
+                    "href": "/amoa-si",
+                    "label": "AMOA des systemes d'information",
+                    "description": "Pour le cadrage transverse, la gouvernance SI et le pilotage des transformations."
+                },
+                {
+                    "href": "/crm",
+                    "label": "Projet CRM",
+                    "description": "Pour les enjeux relation client, processus commerciaux, donnees et adoption."
+                },
+                {
+                    "href": "/gmao",
+                    "label": "Projet GMAO",
+                    "description": "Pour la maintenance, les actifs, les interventions terrain et la performance operationnelle."
+                },
+                {
+                    "href": "/si-finance",
+                    "label": "SI Finance",
+                    "description": "Pour les interfaces finance, le reporting, le controle de gestion et la cloture."
+                },
+                {
+                    "href": "/projets",
+                    "label": "Nos projets",
+                    "description": "Pour voir des contextes publies de transformation SI, ERP et AMOA."
+                },
+                {
+                    "href": "/a-propos/team",
+                    "label": "Nos consultants",
+                    "description": "Pour identifier les profils OLING mobilisables sur un projet ERP."
+                },
+                {
+                    "href": "/ressources",
+                    "label": "Ressources AMOA et ERP",
+                    "description": "Pour approfondir le cadrage, les risques et les points de vigilance de transformation."
+                }
+            ],
+            "schemaServiceType": "AMOA ERP"
+        },
+        "business-apps/ms365": {
+            "eyebrow": "Offre OLING",
+            "headline": "Microsoft 365 et productivité collaborative",
+            "intro": "Microsoft 365 & collaboration : audit des usages, gouvernance, déploiement Teams/SharePoint et adoption.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "business-apps/msbi": {
+            "eyebrow": "Offre OLING",
+            "headline": "Power BI, automatisation et reporting dynamique",
+            "intro": "Power BI & automatisation : modèles, rapports dynamiques, RPA légère et diffusion de KPIs décisionnels.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "business-apps/systeme-dinformation-geographique": {
+            "eyebrow": "Offre OLING",
+            "headline": "Systèmes d'information géographique (SIG)",
+            "intro": "Systèmes d’information géographique : conseil, intégration SIG, cartographie, données spatiales et usages métiers.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "business-apps/transformation-digitale-automatisation-et-ia-utile": {
+            "eyebrow": "Transformation digitale et IA",
+            "headline": "Moderniser les operations avec des automatisations et usages IA cibles",
+            "intro": "OLING relie automatisation et IA à des gains concrets, avec des dispositifs adaptés aux moyens et contraintes des PME et PMI.",
+            "outcomes": [
+                "Feuille de route digitale pragmatique",
+                "Processus simplifiés et mieux outillés",
+                "Automatisations et agents utiles aux équipes"
+            ],
+            "supportLinksTitle": "Passer de l’opportunité au projet gouverné",
+            "supportLinksIntro": "Cette offre identifie et met en œuvre des automatisations utiles. Les projets IA structurants et leur conformité disposent de pages owner distinctes.",
+            "supportLinks": [
+                {
+                    "href": "/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier",
+                    "label": "AMOA IA",
+                    "description": "Pour cadrer, arbitrer et piloter un projet IA de bout en bout."
+                },
+                {
+                    "href": "/expertises-audit/conformite-ia-gouvernance-et-ai-act",
+                    "label": "Conformité IA et AI Act",
+                    "description": "Pour classifier les usages et organiser obligations, contrôles et preuves."
+                }
+            ]
+        },
+        "consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier": {
+            "eyebrow": "AMOA IA et programmes structurants",
+            "headline": "Cadrer, piloter et déployer un projet IA ou un dispositif d’agents",
+            "intro": "OLING intervient en AMOA IA pour transformer une intention en programme pilotable, du chantier transverse jusqu’aux agents métier adaptés aux TPE et PME.",
+            "hideLegacyDescription": true,
+            "coverageTitle": "Quand engager une AMOA IA",
+            "coverageText": "L’AMOA IA intervient lorsqu’une direction doit passer d’idées ou de prototypes dispersés à un projet décidé, financé, gouverné et déployable. Elle pilote le cycle de vie du projet ; la page AI Act traite le dispositif de conformité.",
+            "coverageItems": [
+                "Qualifier le problème métier, les utilisateurs, les décisions assistées et la valeur attendue avant de choisir une solution.",
+                "Vérifier les données, les intégrations, les contraintes de sécurité et les responsabilités nécessaires au cas d’usage.",
+                "Comparer les options de réalisation, les fournisseurs et les conditions de passage du prototype à la production.",
+                "Organiser la recette, l’adoption, la supervision humaine et la mesure des résultats après déploiement."
+            ],
+            "outcomes": [
+                "Programme IA cadré et loti",
+                "Décisions clarifiées entre métiers, DSI et partenaires",
+                "Agents et usages intégrés dans un cadre tenable"
+            ],
+            "promiseTitle": "Piloter le projet, sans confondre AMOA et conformité",
+            "promise": "L’AMOA porte le besoin, les arbitrages, le backlog, la coordination des acteurs, la recette et le déploiement. Les obligations AI Act, RGPD et cyber sont intégrées comme exigences du projet, puis approfondies avec les experts concernés.",
+            "focusTitle": "Cas d’usage, données et intégration",
+            "focus": [
+                "Processus cible, irritants, volumes, fréquence, utilisateurs et niveau d’autonomie attendu de l’IA.",
+                "Sources de données, qualité, droits d’accès, confidentialité, conservation et dépendances aux outils existants.",
+                "Architecture fonctionnelle, interfaces, modèles ou fournisseurs mobilisés et modalités de supervision.",
+                "Critères de qualité, coût, délai, explicabilité, sécurité et acceptation par les utilisateurs."
+            ],
+            "missionPhasesTitle": "Conduire le cycle de vie du projet IA",
+            "missionPhases": [
+                "Cadrer les objectifs, la gouvernance, les risques et les critères permettant de décider de poursuivre.",
+                "Prioriser les cas d’usage et construire un lot pilote avec des données, utilisateurs et scénarios représentatifs.",
+                "Piloter la conception, les intégrations, les fournisseurs, la recette métier et les contrôles requis.",
+                "Préparer le déploiement, l’assistance, la mesure d’usage et la décision de généralisation ou d’arrêt."
+            ],
+            "deliverablesTitle": "Livrables de pilotage IA",
+            "deliverables": [
+                "Note de cadrage, matrice valeur-faisabilité-risques et décision de lancement.",
+                "Backlog priorisé, architecture fonctionnelle, exigences de données et d’intégration.",
+                "Gouvernance, RACI, planning, budget, registre des décisions et suivi des risques.",
+                "Stratégie de recette, critères de passage en production et tableau de mesure des usages."
+            ],
+            "projectContextsTitle": "Décisions à prendre avant le déploiement",
+            "projectContexts": [
+                "Choisir les cas d’usage qui justifient un pilote et ceux qui doivent rester hors périmètre.",
+                "Arbitrer entre achat, paramétrage, développement, agent spécialisé ou automatisation classique.",
+                "Définir les limites d’autonomie, les validations humaines et les conditions d’escalade.",
+                "Fixer les seuils de qualité, coût, délai et adoption qui autorisent la généralisation."
+            ],
+            "clientTypesTitle": "Acteurs du projet IA",
+            "clientTypes": [
+                "Sponsor et direction métier pour la valeur, le périmètre et les arbitrages.",
+                "DSI, data et sécurité pour les données, intégrations, environnements et contrôles.",
+                "Utilisateurs pilotes pour les scénarios, la recette et l’adoption.",
+                "Juridique, DPO, achats et conformité pour les exigences applicables et les fournisseurs."
+            ],
+            "supportLinksTitle": "Compléter le cadrage IA",
+            "supportLinksIntro": "Le projet IA doit rester relié à la conformité, à la protection des données et aux automatisations opérationnelles.",
+            "supportLinks": [
+                {
+                    "href": "/expertises-audit/conformite-ia-gouvernance-et-ai-act",
+                    "label": "Conformité IA et AI Act",
+                    "description": "Pour classifier les usages, définir les obligations, les contrôles et les preuves."
+                },
+                {
+                    "href": "/expertises-audit/rgpd",
+                    "label": "Conformité RGPD",
+                    "description": "Pour les traitements de données personnelles, les AIPD et les relations de sous-traitance."
+                },
+                {
+                    "href": "/business-apps/transformation-digitale-automatisation-et-ia-utile",
+                    "label": "Automatisation et IA utile",
+                    "description": "Pour identifier des gains opérationnels et articuler IA, outils et processus."
+                }
+            ],
+            "schemaServiceType": "AMOA IA et pilotage de projets IA",
+            "finalCtaTitle": "Qualifier le cas d’usage et la décision de lancement",
+            "finalCtaText": "L’échange initial porte sur le problème métier, les utilisateurs, les données, les intégrations, les risques et les critères de réussite du premier lot.",
+            "finalCtaLabel": "Échanger sur votre projet IA"
+        },
+        "consulting/assistance-a-maitrise-douvrage": {
+            "eyebrow": "Offre OLING",
+            "headline": "Assistance à maîtrise d’ouvrage ERP et métiers",
+            "intro": "Assistance à maîtrise d’ouvrage ERP et SI : cadrage, expression des besoins, choix solution, conduite de projet et recette.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "consulting/gouvernance-des-donnees": {
+            "eyebrow": "Offre OLING",
+            "headline": "Gouvernance des données et conformité SI",
+            "intro": "Gouvernance des données et conformité SI : cartographie, règles de gestion, qualité, sécurité et alignement RGPD.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "consulting/management-des-processus": {
+            "eyebrow": "Offre OLING",
+            "headline": "Management et amélioration des processus métiers",
+            "intro": "Optimisation des processus métiers : diagnostic, modélisation, simplification et automatisation pour gains opérationnels.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "consulting/pilotage-des-plans": {
+            "eyebrow": "Offre OLING",
+            "headline": "Pilotage de projets informatiques complexes",
+            "intro": "Pilotage de projets SI complexes : PMO, planning, risques, budget, gouvernance et coordination multi-acteurs.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "consulting/plan-strategique": {
+            "eyebrow": "Offre OLING",
+            "headline": "Schéma directeur et plan stratégique numérique",
+            "intro": "Schéma directeur SI et plan numérique : trajectoire cible, priorisation, budget et feuille de route alignée à la stratégie.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "consulting/reforme-facturation-electronique-amoa": {
+            "eyebrow": "AMOA facturation electronique",
+            "headline": "AMOA Réforme de la facturation électronique (RFE)",
+            "intro": "AMOA réforme de la facturation électronique : cadrage, conformité, choix de solutions, conduite du changement et mise en œuvre.",
+            "hideLegacyDescription": true,
+            "showHeroCta": false,
+            "coverageTitle": "Quand engager une AMOA facturation électronique",
+            "coverageText": "Un projet de facturation électronique ne se limite pas au choix d’une plateforme agréée (PA) : les données clients et fournisseurs, les règles de facturation, les statuts, les flux ERP et les scénarios d’exception doivent être qualifiés avant les tests de bout en bout.",
+            "coverageItems": [
+                "Cartographier les flux entrants et sortants, leurs volumes, leurs statuts et leurs responsables.",
+                "Qualifier les référentiels, les interfaces ERP et les contrôles nécessaires au routage.",
+                "Préparer la consultation d’une plateforme agréée et les critères d’arbitrage.",
+                "Organiser la recette, la bascule et le traitement des rejets avant la mise en production."
+            ],
+            "outcomes": [
+                "Flux entrants et sortants documentés avec leurs cas d’exception",
+                "Données de routage et référentiels contrôlés avant les échanges",
+                "Recette de bout en bout préparée avec les métiers et la DSI"
+            ],
+            "promiseTitle": "Cadrer les flux entrants et sortants",
+            "promise": "Pour les factures entrantes, le cadrage décrit la réception, les pièces jointes, les statuts, le rapprochement, l’intégration comptable, les rejets et leur correction. Pour les factures sortantes, il précise la génération depuis le SI, les données obligatoires, le format retenu, la transmission à la PA et le retour des statuts dans l’ERP.",
+            "focusTitle": "Référentiels, routage et interfaces SI",
+            "focus": [
+                "Contrôler les identifiants des clients et fournisseurs, les adresses, les données de facturation et les informations utiles au routage.",
+                "Qualifier les articles ou prestations, les règles de TVA et les données portées par chaque scénario de facture.",
+                "Définir le mapping entre ERP, comptabilité, applications métier et plateforme agréée, y compris les statuts et les écritures attendues.",
+                "Documenter les données manquantes, les erreurs de destination et les contrôles qui bloquent ou autorisent la transmission."
+            ],
+            "missionPhasesTitle": "Préparer une recette de bout en bout",
+            "missionPhases": [
+                "Tester séparément la génération, la réception, les transformations et chaque interface avant les scénarios intégrés.",
+                "Exécuter des tests de bout en bout sur les flux nominaux, les rejets, les corrections et le suivi des statuts.",
+                "Vérifier l’intégration comptable, le rapprochement, les pièces jointes et les contrôles de cohérence dans les systèmes cibles.",
+                "Définir les critères d’acceptation, les preuves attendues, la gestion des anomalies et les conditions de bascule."
+            ],
+            "deliverablesTitle": "Livrables de cadrage et de mise en œuvre",
+            "deliverables": [
+                "Cartographie des flux entrants et sortants, avec statuts, acteurs et cas d’exception.",
+                "Matrice de données et mapping entre référentiels, ERP, comptabilité et plateforme agréée.",
+                "Cahier des exigences, dossier de consultation et grille de choix.",
+                "Matrice de tests, stratégie de recette, plan de bascule et gouvernance projet."
+            ],
+            "projectContextsTitle": "Décisions à prendre avant la bascule",
+            "projectContexts": [
+                "Choisir le périmètre des flux, le rôle de la PA et les responsabilités entre métiers, Finance et DSI.",
+                "Arbitrer les corrections de référentiels et d’interfaces qui doivent précéder les premiers échanges.",
+                "Définir le traitement des factures rejetées, des statuts incohérents et des exceptions non automatisables.",
+                "Organiser le support, la supervision et les contrôles après mise en production."
+            ],
+            "clientTypesTitle": "Préparer les équipes concernées",
+            "clientTypes": [
+                "La comptabilité contrôle l’intégration, les rapprochements, les rejets et les écritures.",
+                "L’ADV et les équipes de vente vérifient la qualité des données et les scénarios de facturation sortante.",
+                "Les achats et les métiers valident les circuits de réception, de contrôle et de traitement des écarts.",
+                "Les équipes fournisseurs et clients reçoivent les consignes nécessaires sur les données, statuts et corrections attendus."
+            ],
+            "anonymousProofsTitle": "Missions anonymisees associees",
+            "anonymousProofsIntro": "Deux contextes RFE anonymises, sans nom client ni resultat extrapole.",
+            "anonymousProofs": [
+                {
+                    "label": "Acteur du transport",
+                    "sector": "Transport",
+                    "mission": "AMOA facturation electronique : cadrage des flux, preparation de la consultation et analyse des impacts SI.",
+                    "perimeter": [
+                        "Facturation electronique",
+                        "flux",
+                        "SI"
+                    ]
+                },
+                {
+                    "label": "Etablissement de recherche",
+                    "sector": "Sante / recherche",
+                    "mission": "Analyse et preparation des referentiels necessaires a la facturation electronique dans un environnement Sage X3.",
+                    "perimeter": [
+                        "Facturation electronique",
+                        "referentiels",
+                        "Sage X3"
+                    ]
+                }
+            ],
+            "supportLinksTitle": "Sujets directement liés",
+            "supportLinksIntro": "La facturation électronique doit rester reliée au SI Finance et aux interfaces ERP qui portent les données et les écritures.",
+            "supportLinks": [
+                {
+                    "href": "/si-finance",
+                    "label": "AMOA SI Finance",
+                    "description": "Pour les processus comptables, les référentiels, les contrôles et le reporting financier."
+                },
+                {
+                    "href": "/business-apps/erp",
+                    "label": "AMOA ERP",
+                    "description": "Pour les interfaces, le mapping, les reprises de données et le pilotage de l’intégrateur."
+                }
+            ],
+            "finalCtaTitle": "Cadrer les flux et les décisions avant la consultation",
+            "finalCtaText": "Un échange de cadrage permet de qualifier les flux, les systèmes concernés, les données à corriger et le niveau de préparation attendu avant les tests.",
+            "finalCtaLabel": "Échanger sur le projet RFE"
+        },
+        "consulting/tech-refresh": {
+            "eyebrow": "Offre OLING",
+            "headline": "Tech Refresh et mise à niveau des infrastructures IT",
+            "intro": "Tech refresh et mise à niveau IT : audit, rationalisation, migrations, sécurité et modernisation des infrastructures.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/achats-marches": {
+            "eyebrow": "Offre OLING",
+            "headline": "Conformité marchés publics et achats",
+            "intro": "Conformité achats & marchés publics : procédures, sécurisation juridique et optimisation des circuits d’achats.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/conformite-ia-gouvernance-et-ai-act": {
+            "eyebrow": "Conformité IA et gouvernance",
+            "headline": "Mettre l’IA sous preuve, sous contrôle et sous responsabilité",
+            "intro": "OLING aide à aligner AI Act, RGPD, sécurité et gouvernance interne pour déployer des usages IA sans angle mort de conformité.",
+            "hideLegacyDescription": true,
+            "coverageTitle": "Quand structurer la conformité des usages IA",
+            "coverageText": "La mission commence par un inventaire des systèmes et usages IA, puis distingue les rôles, les niveaux de risque et les obligations applicables. Elle ne remplace pas le pilotage du projet IA : elle construit le cadre de contrôle et de preuve.",
+            "coverageItems": [
+                "Recenser les systèmes, modèles, fonctions assistées, utilisateurs, données et fournisseurs concernés.",
+                "Identifier le rôle de l’organisation dans la chaîne de valeur et classifier chaque usage selon son niveau de risque.",
+                "Relier les obligations AI Act aux exigences RGPD, cyber, achats, qualité et contrôle interne.",
+                "Définir les contrôles, validations humaines, documents et preuves à conserver pendant le cycle de vie."
+            ],
+            "outcomes": [
+                "Usages IA cartographiés et priorisés",
+                "Contrôles, rôles et preuves définis",
+                "Cadre de conformité exploitable par les équipes"
+            ],
+            "promiseTitle": "Construire le cadre de conformité, pas le backlog projet",
+            "promise": "L’accompagnement AI Act qualifie les obligations, les responsabilités, les risques, les contrôles et la documentation. L’AMOA IA reste responsable du cadrage fonctionnel, du pilotage, de la recette et du déploiement du cas d’usage.",
+            "focusTitle": "Inventaire et classification des usages IA",
+            "focus": [
+                "IA développée en interne, solution achetée, fonctionnalité embarquée, agent, modèle généraliste ou service fourni à un client.",
+                "Finalité, population exposée, données traitées, décisions influencées et conséquences d’une erreur.",
+                "Rôle de fournisseur, déployeur, importateur ou distributeur et partage des obligations avec les partenaires.",
+                "Usages interdits, systèmes à haut risque, obligations de transparence et usages à risque limité."
+            ],
+            "missionPhasesTitle": "Mettre les usages IA sous contrôle",
+            "missionPhases": [
+                "Collecter les cas d’usage réels et rapprocher les déclarations des contrats, outils, flux et pratiques métier.",
+                "Classifier les systèmes, documenter les rôles et analyser les exigences applicables avec le juridique, le DPO et la sécurité.",
+                "Définir les contrôles de données, performance, supervision humaine, incidents, fournisseurs et information des personnes.",
+                "Installer le registre, les validations, la collecte des preuves, les revues périodiques et le suivi des actions."
+            ],
+            "deliverablesTitle": "Livrables de gouvernance AI Act",
+            "deliverables": [
+                "Inventaire des usages IA, rôles et classification des risques.",
+                "Matrice des obligations, écarts, responsables et échéances.",
+                "Politique IA, processus de validation et règles de supervision humaine.",
+                "Registre des contrôles, fournisseurs, incidents, décisions et preuves."
+            ],
+            "projectContextsTitle": "Décisions de gouvernance attendues",
+            "projectContexts": [
+                "Autoriser, conditionner, suspendre ou interdire un usage selon son risque et les preuves disponibles.",
+                "Attribuer les responsabilités entre métier, DSI, data, sécurité, DPO, juridique, achats et fournisseur.",
+                "Fixer les exigences minimales avant un pilote, une mise en production ou une évolution significative.",
+                "Organiser la surveillance, le signalement des incidents et la réévaluation du système dans la durée."
+            ],
+            "clientTypesTitle": "Fonctions impliquées",
+            "clientTypes": [
+                "Direction et responsables métier pour les usages autorisés, les impacts et les arbitrages.",
+                "Juridique, conformité et DPO pour les rôles, obligations, données personnelles et droits.",
+                "DSI, data et cybersécurité pour les modèles, intégrations, contrôles techniques et incidents.",
+                "Achats et fournisseurs pour la documentation, les engagements, les changements et la répartition des responsabilités."
+            ],
+            "supportLinksTitle": "Relier conformité et exécution",
+            "supportLinksIntro": "Le cadre AI Act complète le pilotage du projet, la conformité RGPD et la gouvernance cyber sans se substituer à ces disciplines.",
+            "supportLinks": [
+                {
+                    "href": "/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier",
+                    "label": "AMOA IA",
+                    "description": "Pour cadrer le besoin, piloter le projet, organiser la recette et le déploiement."
+                },
+                {
+                    "href": "/expertises-audit/rgpd",
+                    "label": "Conformité RGPD",
+                    "description": "Pour les traitements de données personnelles, les AIPD et les droits des personnes."
+                },
+                {
+                    "href": "/cyber-securite",
+                    "label": "Gouvernance cyber",
+                    "description": "Pour les risques SSI, la résilience, les fournisseurs et les contrôles de sécurité."
+                }
+            ],
+            "schemaServiceType": "Conformité IA et accompagnement AI Act",
+            "finalCtaTitle": "Qualifier les usages IA, les rôles et les obligations",
+            "finalCtaText": "L’échange initial porte sur les usages déjà actifs ou prévus, les fournisseurs, les données, les populations concernées et les contrôles existants.",
+            "finalCtaLabel": "Faire le point sur vos usages IA et votre conformité"
+        },
+        "expertises-audit/controle-de-gestion": {
+            "eyebrow": "Offre OLING",
+            "headline": "Contrôle de gestion et évaluation des risques",
+            "intro": "Contrôle de gestion & risques : KPIs, pilotage financier, cartographie des risques et recommandations d’optimisation.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/controle-interne": {
+            "eyebrow": "Offre OLING",
+            "headline": "Audit de contrôle interne\n\n",
+            "intro": "Audit de contrôle interne : cartographie, tests, efficience des procédures et sécurisation des processus critiques.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/finance": {
+            "eyebrow": "Offre OLING",
+            "headline": "Conformité réglementaire et dispositifs de contrôle",
+            "intro": "Diagnostic de conformité, cartographie des écarts, plan d’actions et accompagnement sur les obligations réglementaires et les contrôles associés.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/qse": {
+            "metaTitle": "ISO 9001 et QSE : système qualité, audits et préparation à la certification | OLING",
+            "metaDescription": "Conseil ISO 9001 et QSE : diagnostic, processus, indicateurs, audits internes, non-conformités, revue de direction et préparation à la certification.",
+            "eyebrow": "Management de la qualité et QSE",
+            "headline": "ISO 9001 et QSE : construire un système de management pilotable",
+            "intro": "OLING aide les organisations à structurer ou remettre sous contrôle leur système qualité, puis à intégrer les volets sécurité et environnement lorsque le périmètre QSE le justifie.",
+            "hideLegacyDescription": true,
+            "coverageTitle": "Du diagnostic au fonctionnement réel du système",
+            "coverageText": "L’accompagnement porte sur le système de management et sa préparation à l’audit. OLING peut diagnostiquer les écarts, structurer les processus et les preuves, préparer les équipes et suivre les actions ; la décision de certification appartient à un organisme certificateur indépendant.",
+            "coverageItems": [
+                "Contexte, parties intéressées, périmètre, processus, responsabilités et risques ou opportunités à traiter.",
+                "Objectifs, indicateurs, maîtrise documentaire, compétences et contrôles nécessaires au fonctionnement du système.",
+                "Audits internes, non-conformités, causes, actions correctives, revue de direction et amélioration continue.",
+                "Intégration des exigences qualité, sécurité et environnement dans un système QSE cohérent lorsque plusieurs référentiels sont visés."
+            ],
+            "outcomes": [
+                "Processus, responsabilités et preuves clarifiés",
+                "Écarts priorisés avant l’audit",
+                "Pilotage qualité ou QSE utilisable par les équipes"
+            ],
+            "promiseTitle": "ISO 9001 et QSE ne désignent pas la même chose",
+            "promise": "ISO 9001 définit des exigences pour le management de la qualité. QSE désigne une approche intégrée couvrant la qualité, la sécurité et l’environnement ; ce n’est pas une norme unique. Le périmètre doit donc préciser les référentiels applicables, les responsabilités communes et les exigences propres à chaque discipline.",
+            "focusTitle": "Éléments à mettre sous contrôle",
+            "focus": [
+                "Cartographie des processus, pilotes, entrées, sorties, interfaces, critères de performance et points de contrôle.",
+                "Risques, opportunités, exigences clients et réglementaires, objectifs mesurables et plans associés.",
+                "Documents et enregistrements utiles, règles de validation, versions, diffusion, conservation et preuves d’application.",
+                "Écarts d’audit, non-conformités, analyse des causes, actions correctives, délais, responsables et vérification d’efficacité."
+            ],
+            "missionPhasesTitle": "Préparer l’organisation sans produire une documentation de façade",
+            "missionPhases": [
+                "Cadrer le périmètre et réaliser un diagnostic fondé sur les pratiques, les documents, les indicateurs et les entretiens.",
+                "Prioriser les écarts selon leur impact, leur récurrence, leur criticité et l’échéance éventuelle d’audit.",
+                "Mettre à jour les processus, responsabilités, contrôles et preuves avec les équipes qui les appliquent.",
+                "Conduire les audits internes, préparer la revue de direction, suivre les actions et vérifier leur efficacité."
+            ],
+            "deliverablesTitle": "Livrables de management qualité et QSE",
+            "deliverables": [
+                "Diagnostic d’écarts et feuille de route priorisée par processus, exigence, responsable et échéance.",
+                "Cartographie des processus, fiches utiles, matrice des responsabilités et architecture documentaire.",
+                "Programme et rapports d’audits internes, registre des non-conformités et plan d’actions correctives.",
+                "Tableau de bord, trame de revue de direction et dossier de préparation à l’audit de certification."
+            ],
+            "projectContextsTitle": "Décisions à prendre avant un audit",
+            "projectContexts": [
+                "Définir si l’objectif porte sur ISO 9001 seul ou sur un système intégré avec ISO 14001, ISO 45001 ou d’autres exigences.",
+                "Choisir un périmètre cohérent avec les activités, sites, produits, services et responsabilités réellement maîtrisés.",
+                "Arbitrer les écarts bloquants, les ressources disponibles et un calendrier compatible avec la maturité du système.",
+                "Distinguer la préparation, les audits internes et l’accompagnement des décisions prises par l’organisme certificateur."
+            ],
+            "clientTypesTitle": "Acteurs du système de management",
+            "clientTypes": [
+                "Direction pour la politique, les objectifs, les ressources, les arbitrages et la revue de direction.",
+                "Responsable qualité ou QSE pour la méthode, la coordination, les audits, les preuves et le suivi des actions.",
+                "Pilotes de processus et équipes opérationnelles pour l’application des contrôles et la mesure des résultats.",
+                "Auditeurs internes et organisme certificateur pour évaluer séparément la conformité et l’efficacité du système."
+            ],
+            "citablePassagesTitle": "Repères pour structurer ISO 9001 et le QSE",
+            "citablePassages": [
+                {
+                    "title": "Comment préparer une organisation à ISO 9001 ?",
+                    "text": "La préparation commence par définir le périmètre et les processus, puis par comparer les pratiques aux exigences applicables. L’organisation priorise les écarts, attribue les responsabilités, met les documents et preuves sous contrôle, réalise des audits internes et tient une revue de direction avant l’audit externe."
+                },
+                {
+                    "title": "Quelle différence entre ISO 9001 et QSE ?",
+                    "text": "ISO 9001 est une norme de système de management de la qualité. QSE est une organisation intégrée de la qualité, de la sécurité et de l’environnement, souvent fondée sur plusieurs référentiels. Une démarche QSE doit conserver les exigences propres à chaque domaine tout en mutualisant la gouvernance, les audits et le suivi des actions."
+                },
+                {
+                    "title": "Comment traiter une non-conformité ?",
+                    "text": "Traiter une non-conformité ne consiste pas seulement à corriger l’effet observé. Il faut contenir le problème, rechercher ses causes, décider d’une action proportionnée, désigner un responsable et une échéance, puis vérifier que l’action empêche réellement la réapparition de l’écart."
+                },
+                {
+                    "title": "À quoi sert la revue de direction ?",
+                    "text": "La revue de direction vérifie si le système reste pertinent, doté des ressources nécessaires et capable d’atteindre ses objectifs. Elle examine notamment les indicateurs, audits, retours clients, non-conformités, risques, changements et actions en retard afin de consigner des décisions et des responsabilités."
+                }
+            ],
+            "supportLinksTitle": "Faire fonctionner le système dans la durée",
+            "supportLinksIntro": "La construction ou l’amélioration du système qualité reste distincte de son animation opérationnelle continue et du pilotage transverse des risques.",
+            "supportLinks": [
+                {
+                    "href": "/pca-pra-continuite-activite",
+                    "label": "PCA, PRA et continuité d’activité",
+                    "description": "Pour structurer le BIA, les objectifs de reprise, les plans et les exercices dans une trajectoire distincte du système QSE."
+                },
+                {
+                    "href": "/direction-qualite-deleguee",
+                    "label": "Direction qualité déléguée",
+                    "description": "Pour animer durablement les rituels, audits, indicateurs et plans d’actions."
+                },
+                {
+                    "href": "/conseil-qualite",
+                    "label": "Conseil qualité",
+                    "description": "Pour relier qualité, processus, indicateurs et performance opérationnelle."
+                },
+                {
+                    "href": "/gestion-risques-audit-controle-interne",
+                    "label": "Risques et contrôle interne",
+                    "description": "Pour articuler cartographie des risques, contrôles, audits et plans de maîtrise."
+                },
+                {
+                    "href": "/mapsi-progiciel",
+                    "label": "Pilotage des plans d’actions",
+                    "description": "Pour suivre les écarts, responsables, échéances, preuves et décisions lorsque l’outillage devient nécessaire."
+                }
+            ],
+            "schemaServiceType": "Conseil ISO 9001 et management QSE",
+            "schemaName": "Conseil ISO 9001 et management QSE",
+            "finalCtaTitle": "Qualifier le système, les écarts et l’échéance d’audit",
+            "finalCtaText": "L’échange initial porte sur le périmètre, les référentiels visés, les audits déjà menés, les écarts ouverts et les responsabilités internes.",
+            "finalCtaLabel": "Faire le point sur votre système QSE"
+        },
+        "expertises-audit/qualiopi": {
+            "eyebrow": "Offre OLING",
+            "headline": "Certification Qualiopi",
+            "intro": "Certification Qualiopi : audit initial, indicateurs, preuves, plan d’actions et préparation aux audits.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/rgpd": {
+            "eyebrow": "Protection des données et gouvernance",
+            "headline": "Rendre la conformité RGPD opérationnelle et pilotable",
+            "intro": "OLING reprend les situations RGPD complexes pour cartographier les traitements, qualifier les risques, remettre les preuves en ordre et construire un plan de conformité pilotable.",
+            "hideLegacyDescription": true,
+            "coverageTitle": "Quand engager une mission RGPD structurée",
+            "coverageText": "Cette mission traite un besoin de diagnostic, de remise en conformité ou de transformation qui dépasse l'animation courante d'une fonction DPO. Elle relie traitements, responsabilités, contrats, sécurité et décisions de direction.",
+            "coverageItems": [
+                "Reconstituer le registre d'une organisation simple ou multi-entités et identifier traitements, données, finalités, bases légales et durées de conservation.",
+                "Qualifier les écarts, les risques pour les personnes et les traitements qui nécessitent une AIPD.",
+                "Vérifier les rôles de responsable de traitement, sous-traitant et responsables conjoints dans les contrats.",
+                "Prioriser les mesures juridiques, organisationnelles et techniques avec des responsables et des preuves attendues."
+            ],
+            "outcomes": [
+                "Vision claire des traitements et des risques",
+                "Écarts priorisés et plan d'actions attribué",
+                "Preuves de conformité organisées et contrôlables"
+            ],
+            "promiseTitle": "Distinguer diagnostic RGPD et fonction DPO",
+            "promise": "La mission RGPD produit un état des lieux et une trajectoire de mise en conformité sur un périmètre défini. Le DPO externalisé prend ensuite en charge l'animation continue, les avis, le suivi des demandes et le contrôle du dispositif.",
+            "focusTitle": "Traitements et risques à documenter",
+            "focus": [
+                "Données clients, usagers, salariés, candidats, prospects et contacts fournisseurs.",
+                "Flux entre applications, hébergeurs, prestataires, partenaires, destinataires hors de l'organisation et transferts hors Espace économique européen.",
+                "Droits d'accès, conservation, suppression, violations de données et mesures de sécurité associées.",
+                "Usages IA, profilage, surveillance ou données sensibles qui imposent une analyse renforcée."
+            ],
+            "missionPhasesTitle": "Conduire le diagnostic jusqu'au plan pilote",
+            "missionPhases": [
+                "Collecter les documents, interroger les responsables métier et rapprocher les pratiques réelles du registre existant.",
+                "Évaluer la licéité, la minimisation, la conservation, l'information, les droits, le privacy by design et les relations de sous-traitance.",
+                "Coter les écarts selon leur exposition, leur impact et les dépendances techniques ou contractuelles.",
+                "Arbitrer la feuille de route, nommer les responsables et définir les éléments de preuve pour chaque action."
+            ],
+            "deliverablesTitle": "Livrables de conformité exploitables",
+            "deliverables": [
+                "Cartographie des traitements et registre consolidé.",
+                "Matrice des écarts, risques et bases légales.",
+                "AIPD ou planification des analyses à conduire.",
+                "Feuille de route priorisée, RACI et dossier de preuves."
+            ],
+            "projectContextsTitle": "Décisions attendues de la direction",
+            "projectContexts": [
+                "Valider les traitements à maintenir, corriger, encadrer ou arrêter.",
+                "Arbitrer les durées de conservation, les habilitations et les moyens de sécurisation.",
+                "Exiger les clauses, garanties et preuves nécessaires des fournisseurs.",
+                "Choisir le mode d'animation futur : relais interne, DPO mutualisé ou DPO externalisé."
+            ],
+            "clientTypesTitle": "Équipes mobilisées",
+            "clientTypes": [
+                "Direction et responsables métier pour les finalités, arbitrages et responsabilités.",
+                "DSI et sécurité pour les flux, habilitations, journaux, incidents et mesures techniques.",
+                "Juridique, achats et RH pour les contrats, informations, procédures et traitements sensibles.",
+                "DPO ou référent données pour la reprise et l'animation du dispositif."
+            ],
+            "anonymousProofsTitle": "Mission anonymisée associée",
+            "anonymousProofsIntro": "Cette preuve reste limitée au diagnostic et aux traitements documentés.",
+            "anonymousProofs": [
+                {
+                    "label": "Société d'économie mixte",
+                    "sector": "Immobilier / commerce local",
+                    "mission": "Diagnostic RGPD et analyse des traitements de données clients.",
+                    "perimeter": [
+                        "RGPD",
+                        "traitements de données clients",
+                        "diagnostic"
+                    ]
+                }
+            ],
+            "supportLinksTitle": "Poursuivre avec le bon dispositif",
+            "supportLinksIntro": "Le diagnostic RGPD peut conduire vers une fonction DPO continue, un chantier cyber ou une gouvernance spécifique des usages IA.",
+            "supportLinks": [
+                {
+                    "href": "/expertises/rgpd-dpo-gouvernance",
+                    "label": "DPO externalisé",
+                    "description": "Pour animer la conformité, rendre les avis et suivre les actions dans la durée."
+                },
+                {
+                    "href": "/cyber-securite",
+                    "label": "Gouvernance cyber",
+                    "description": "Pour traiter les risques de sécurité, la résilience et les responsabilités SSI."
+                },
+                {
+                    "href": "/expertises-audit/conformite-ia-gouvernance-et-ai-act",
+                    "label": "Conformité IA et AI Act",
+                    "description": "Pour cartographier les usages IA, leurs obligations, leurs contrôles et leurs preuves."
+                }
+            ],
+            "finalCtaTitle": "Qualifier les traitements, les écarts et les priorités",
+            "finalCtaText": "L'échange initial porte sur le périmètre, les traitements sensibles, les incidents ou contrôles déclencheurs et les preuves déjà disponibles.",
+            "finalCtaLabel": "Faire le point sur votre conformité RGPD"
+        },
+        "expertises-audit/rse": {
+            "eyebrow": "Offre OLING",
+            "headline": "Certification RSE",
+            "intro": "Certification RSE : diagnostic, plan d’amélioration, reporting extra-financier et alignement des engagements.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "expertises-audit/si": {
+            "eyebrow": "SMSI et trajectoire ISO 27001",
+            "headline": "Structurer un SMSI et préparer la certification ISO 27001",
+            "intro": "OLING accompagne la construction ou la remise sous contrôle d’un système de management de la sécurité de l’information, depuis le périmètre et l’analyse de risques jusqu’à l’audit de certification.",
+            "hideLegacyDescription": true,
+            "coverageTitle": "Quand engager une trajectoire ISO 27001",
+            "coverageText": "Cette page couvre un programme SMSI avec un objectif de certification ou de maintien. Les sujets généraux de gouvernance cyber, NIS2, DORA, PCA ou PRA sont traités sur la page Cybersécurité.",
+            "coverageItems": [
+                "Définir le périmètre du SMSI, ses parties intéressées, ses actifs, ses interfaces et ses exclusions justifiées.",
+                "Évaluer les risques de sécurité de l’information et relier leur traitement aux contrôles applicables.",
+                "Organiser la documentation, les responsabilités, les indicateurs et le cycle d’amélioration continue.",
+                "Préparer les audits internes, la revue de direction et les preuves attendues par l’organisme certificateur."
+            ],
+            "outcomes": [
+                "Périmètre et gouvernance du SMSI validés",
+                "Risques, contrôles et preuves reliés",
+                "Préparation aux audits ISO 27001 pilotée"
+            ],
+            "promiseTitle": "Passer d’un empilement de mesures à un SMSI auditable",
+            "promise": "La certification ISO 27001 ne repose pas sur une liste de documents. Le SMSI doit démontrer comment l’organisation décide, traite ses risques, applique ses contrôles, mesure leur fonctionnement et corrige les écarts.",
+            "focusTitle": "Périmètre, risques et contrôles",
+            "focus": [
+                "Contexte, parties intéressées, sites, processus, applications, infrastructures et fournisseurs inclus dans le SMSI.",
+                "Méthode d’appréciation des risques, critères d’acceptation et propriétaires des risques.",
+                "Déclaration d’applicabilité, contrôles retenus, justifications et preuves de mise en œuvre.",
+                "Articulation avec la gestion des incidents, la continuité, les achats, les RH et la sécurité des projets."
+            ],
+            "missionPhasesTitle": "Construire la trajectoire de certification",
+            "missionPhases": [
+                "Réaliser l’état des lieux, confirmer le périmètre et mesurer les écarts par rapport aux exigences du SMSI.",
+                "Conduire l’analyse de risques et arbitrer le plan de traitement avec les responsables concernés.",
+                "Formaliser les processus, mettre les contrôles en fonctionnement et organiser la collecte des preuves.",
+                "Exécuter l’audit interne, tenir la revue de direction et suivre les corrections avant les audits de certification."
+            ],
+            "deliverablesTitle": "Livrables du SMSI",
+            "deliverables": [
+                "Diagnostic d’écart, périmètre et feuille de route ISO 27001.",
+                "Analyse de risques et plan de traitement.",
+                "Déclaration d’applicabilité et référentiel documentaire.",
+                "Programme d’audit, revue de direction et suivi des non-conformités."
+            ],
+            "projectContextsTitle": "Arbitrages qui conditionnent la trajectoire",
+            "projectContexts": [
+                "Fixer un périmètre cohérent avec les engagements clients et les dépendances opérationnelles.",
+                "Nommer les propriétaires des risques, contrôles, processus et preuves.",
+                "Prioriser les écarts bloquants avant l’audit plutôt que produire une documentation de façade.",
+                "Choisir le calendrier de certification selon la maturité réelle et la capacité des équipes."
+            ],
+            "clientTypesTitle": "Équipes impliquées dans le SMSI",
+            "clientTypes": [
+                "Direction pour le périmètre, les ressources, l’acceptation des risques et la revue du SMSI.",
+                "RSSI et DSI pour la méthode, les contrôles techniques, les incidents et les preuves.",
+                "Métiers, achats, RH, juridique et qualité pour les contrôles dont ils sont propriétaires.",
+                "Auditeurs internes et organisme certificateur pour vérifier l’efficacité du dispositif."
+            ],
+            "supportLinksTitle": "Relier ISO 27001 aux autres obligations",
+            "supportLinksIntro": "Le SMSI s’inscrit dans une gouvernance cyber plus large et doit rester cohérent avec la protection des données et la continuité.",
+            "supportLinks": [
+                {
+                    "href": "/cyber-securite",
+                    "label": "Gouvernance cyber",
+                    "description": "Pour la stratégie SSI, les risques, NIS2, DORA et la résilience au-delà du seul objectif ISO."
+                },
+                {
+                    "href": "/expertises-audit/rgpd",
+                    "label": "Conformité RGPD",
+                    "description": "Pour les traitements de données personnelles, les responsabilités et les preuves associées."
+                },
+                {
+                    "href": "/mapsi-progiciel",
+                    "label": "Pilotage des plans d’actions",
+                    "description": "Pour suivre les écarts, les contrôles et les actions issus des audits."
+                }
+            ],
+            "schemaServiceType": "Accompagnement SMSI et préparation à la certification ISO 27001",
+            "finalCtaTitle": "Qualifier la maturité du SMSI et le chemin vers l’audit",
+            "finalCtaText": "L’échange initial porte sur le périmètre visé, l’analyse de risques, les contrôles déjà actifs, les preuves disponibles et l’échéance de certification.",
+            "finalCtaLabel": "Évaluer votre trajectoire ISO 27001"
+        },
+        "mapsi/arborescence": {
+            "eyebrow": "Offre OLING",
+            "headline": "Conformité RGPD, registre et pilotage DPO",
+            "intro": "Registre, cartographie des traitements, DPIA, contrats, droits des personnes, incidents et pilotage opérationnel de la conformité RGPD.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/automatisation-et-workflow": {
+            "eyebrow": "Offre OLING",
+            "headline": "QSE, qualité, sécurité et amélioration continue",
+            "intro": "Structurer les référentiels QSE, les audits, les écarts, les plans d’actions et les indicateurs pour un pilotage exploitable par les équipes.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/integration-progiciel": {
+            "eyebrow": "Offre OLING",
+            "headline": "Gouvernance, risques et contrôle interne",
+            "intro": "Cartographie des risques, plans de traitement, gouvernance, contrôles et suivi des actions pour sécuriser les décisions et l’exécution.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-audit": {
+            "eyebrow": "Offre OLING",
+            "headline": "Audit interne, contrôle et plans d’actions",
+            "intro": "Préparer, conduire et suivre des audits internes avec une traçabilité claire des constats, écarts, recommandations et actions.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-pca": {
+            "eyebrow": "Offre OLING",
+            "headline": "Continuité d’activité, PCA et PRA",
+            "intro": "Analyser les activités critiques, structurer les scénarios, documenter les plans de continuité et organiser les tests.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-portfolio": {
+            "eyebrow": "Offre OLING",
+            "headline": "Pilotage de portefeuille projets et PMO",
+            "intro": "Prioriser, arbitrer et suivre plusieurs projets avec une gouvernance lisible, des indicateurs consolidés et une charge maîtrisée.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-qualiopi": {
+            "eyebrow": "Offre OLING",
+            "headline": "Conformité Qualiopi et pilotage des preuves",
+            "intro": "Préparer les audits Qualiopi, structurer les preuves, suivre les actions et fiabiliser la documentation de conformité.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-risques": {
+            "eyebrow": "Offre OLING",
+            "headline": "Cartographie des risques et plans de traitement",
+            "intro": "Identifier, qualifier et piloter les risques métier, SI, conformité ou opérationnels avec des arbitrages et plans d’actions exploitables.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        },
+        "mapsi/mapsi-secu": {
+            "eyebrow": "Offre OLING",
+            "headline": "Sécurité des SI, audit et gouvernance ISO 27001",
+            "intro": "Structurer la sécurité des SI, les audits, le SMSI, les plans d’actions et la conformité ISO 27001, NIS2 et DORA.",
+            "outcomes": [
+                "Des decisions plus claires",
+                "Un dispositif plus robuste",
+                "Une mise en oeuvre mieux pilotee"
+            ]
+        }
+    }
+}

@@ -1,0 +1,329 @@
+{
+    "locale": "fr",
+    "pages": {
+        "transformation-si-pme-eti": {
+            "nav": "Transformation SI",
+            "title": "Conseil en transformation des operations et des systemes d'information",
+            "seoTitle": "Conseil en transformation SI pour PME, PMI et ETI | OLING",
+            "metaDescription": "OLING cadre, securise et pilote les transformations SI des PME, PMI et ETI : gouvernance, trajectoire, projets structurants et execution.",
+            "eyebrow": "Transformation des operations et des SI",
+            "intro": "OLING accompagne les directions qui doivent faire evoluer leurs systemes, leur organisation et leurs modes de pilotage sans perdre la maitrise des risques, des delais et des arbitrages.",
+            "situations": [
+                "Projet de transformation disperse entre plusieurs chantiers et plusieurs fournisseurs.",
+                "Direction generale qui a besoin d'une vue independante avant de relancer un projet sensible.",
+                "DSI ou direction de programme qui doit remettre de la lisibilite, de la gouvernance et des decisions."
+            ],
+            "interventions": [
+                "Diagnostic de transformation et schema directeur pragmatique.",
+                "Cadrage de programme, gouvernance et trajectoire cible.",
+                "Direction de projet, PMO, AMOA et redressement de projets en difficulte.",
+                "Arbitrage entre outillage, organisation, data, cybersecurite et conformite."
+            ],
+            "deliverables": [
+                "Note de cadrage",
+                "Feuille de route priorisee",
+                "Gouvernance et RACI",
+                "Plan de risques et indicateurs"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "consulting",
+                    "service": "tech-refresh"
+                },
+                {
+                    "practice": "business-apps",
+                    "service": "erp"
+                }
+            ]
+        },
+        "amoa-erp-applications-metiers": {
+            "nav": "AMOA ERP",
+            "title": "AMOA ERP et applications metiers",
+            "seoTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
+            "metaDescription": "OLING accompagne le choix, le cadrage, la mise en oeuvre et la securisation des projets ERP, CRM, GMAO et applications metiers.",
+            "eyebrow": "ERP, CRM, GMAO et applications metiers",
+            "intro": "OLING intervient en amont des projets ERP et applicatifs pour clarifier les besoins, arbitrer les scenarios et piloter des trajectoires credibles jusqu'a la recette et l'adoption.",
+            "situations": [
+                "Choix ou remplacement d'un ERP devenu limitant.",
+                "Projet CRM ou GMAO mal cadre, mal specifie ou mal approprie.",
+                "Besoin de neutralite entre les metiers, les editeurs, les integrateurs et la DSI."
+            ],
+            "interventions": [
+                "Cadrage AMOA, expression de besoin et strategie de consultation.",
+                "Analyse des processus et scenarios de cible.",
+                "Selection de solutions et pilotage des integrateurs.",
+                "Recette, conduite du changement et suivi de mise en production."
+            ],
+            "deliverables": [
+                "Cartographie des processus cibles",
+                "Dossier de consultation",
+                "Grille de choix solution",
+                "Plan de recette et d'adoption"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "business-apps",
+                    "service": "erp"
+                }
+            ]
+        },
+        "organisation-processus-conduite-du-changement": {
+            "nav": "Organisation",
+            "title": "Organisation, processus et conduite du changement",
+            "seoTitle": "Conseil en organisation, processus et conduite du changement | OLING",
+            "metaDescription": "OLING aide les PME, PMI et ETI a repenser leurs processus, structurer leurs responsabilites et conduire les changements lies aux transformations SI.",
+            "eyebrow": "Organisation et changement",
+            "intro": "La transformation reussit quand les decisions, les roles, les processus et les usages sont clarifies. OLING traite les outils comme une consequence d'une organisation mieux tenue.",
+            "situations": [
+                "Processus heterogenes entre sites, filiales ou equipes.",
+                "Projet SI bloque par des responsabilites floues ou des arbitrages non tenus.",
+                "Besoin de faire adopter une nouvelle facon de travailler sans rupture brutale."
+            ],
+            "interventions": [
+                "Diagnostic des processus et des interfaces entre fonctions.",
+                "Redefinition des responsabilites, flux et points de controle.",
+                "Plan de conduite du changement, support managers et adoption.",
+                "Synchronisation entre projet, metiers et direction."
+            ],
+            "deliverables": [
+                "Cartographie de processus",
+                "RACI cible",
+                "Plan d'adoption",
+                "Supports d'animation et de decision"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "consulting",
+                    "service": "tech-refresh"
+                }
+            ]
+        },
+        "data-automatisation-intelligence-artificielle": {
+            "nav": "Data et IA",
+            "title": "Donnees, automatisation et intelligence artificielle",
+            "seoTitle": "Conseil en data, automatisation et intelligence artificielle | OLING",
+            "metaDescription": "OLING aide les entreprises a identifier des cas d’usage IA pertinents, structurer leur gouvernance, integrer des agents et piloter des projets data et automatisation.",
+            "eyebrow": "Transformation des usages et de la gouvernance",
+            "intro": "L'IA doit etre reliee aux processus, aux donnees, aux responsabilites et aux risques. OLING structure des usages utiles, controles et integrables dans l'organisation.",
+            "situations": [
+                "Direction qui veut identifier les cas d'usage IA a forte valeur sans effet de mode.",
+                "Besoin de cadrer des agents IA relies aux donnees et outils autorises.",
+                "Questionnement sur la gouvernance, la confidentialite, l'AI Act et la validation humaine."
+            ],
+            "interventions": [
+                "Diagnostic des opportunites IA, automatisation et donnees.",
+                "Politique d'usage IA, gouvernance et cadre de decision.",
+                "Construction et integration d'agents IA dans les environnements existants.",
+                "Pilotage de projet IA du cadrage au passage en production."
+            ],
+            "deliverables": [
+                "Cartographie des cas d'usage",
+                "Matrice valeur / faisabilite / risques",
+                "Politique IA et registre d'usage",
+                "Architecture fonctionnelle et plan de deploiement"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "consulting",
+                    "service": "reforme-facturation-electronique-amoa"
+                },
+                {
+                    "practice": "expertises-audit",
+                    "service": "si"
+                }
+            ]
+        },
+        "cybersecurite-conformite-resilience": {
+            "nav": "Cyber et resilience",
+            "title": "Cybers securite, conformite et resilience",
+            "seoTitle": "Cybers securite, conformite et resilience pour PME et ETI | OLING",
+            "metaDescription": "OLING accompagne la securisation des organisations : cybersecurite, ISO 27001, NIS2, DORA, continuite et resilience.",
+            "eyebrow": "Risques, conformite et resilience",
+            "intro": "OLING aide les organisations a mettre en coherence securite, continuite, gouvernance et exigences reglementaires pour proteger leur activite et leurs donnees.",
+            "situations": [
+                "Besoin de structurer la gouvernance de securite avant une croissance ou une transformation.",
+                "Exposition croissante aux exigences NIS2, DORA, ISO 27001 ou aux demandes clients.",
+                "PCA/PRA ou trajectoire de resilience a formaliser et tester."
+            ],
+            "interventions": [
+                "Evaluation de posture, feuille de route et gouvernance securite.",
+                "Preparation et mise en coherence de dispositifs ISO, NIS2, DORA.",
+                "PCA, PRA, organisation de crise et continuite d'activite.",
+                "Pilotage de la convergence entre SI, operationnel, conformite et fournisseurs."
+            ],
+            "deliverables": [
+                "Feuille de route cyber",
+                "Plan de traitement des risques",
+                "Politique et dispositifs de gouvernance",
+                "Dispositif PCA / PRA"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "expertises-audit",
+                    "service": "si"
+                },
+                {
+                    "practice": "expertises-audit",
+                    "service": "qse"
+                }
+            ]
+        },
+        "rgpd-dpo-gouvernance": {
+            "nav": "RGPD et DPO",
+            "title": "DPO externalisé et gouvernance RGPD continue",
+            "seoTitle": "RGPD, gouvernance et DPO externalise | OLING",
+            "metaDescription": "OLING accompagne la conformite RGPD, la gouvernance des donnees et les besoins de DPO externalise pour PME, ETI et organisations regulees.",
+            "eyebrow": "Protection des données et responsabilités",
+            "intro": "Le DPO externalisé OLING anime la conformité RGPD dans la durée : conseil indépendant, suivi du registre, contrôle des actions, accompagnement des équipes et dialogue avec la direction.",
+            "situations": [
+                "Organisation, groupe ou structure multi-entités sans DPO interne disponible, avec un besoin d'indépendance et de continuité.",
+                "Registre existant mais peu animé, demandes de droits mal distribuées ou actions de conformité sans responsable.",
+                "Besoin d'un interlocuteur régulier pour les directions, les métiers, la DSI, les fournisseurs et les personnes concernées."
+            ],
+            "interventions": [
+                "Prise de fonction, définition des relais, calendrier de gouvernance et priorisation du plan d'actions.",
+                "Tenue du registre, avis sur les nouveaux traitements, AIPD et suivi des relations avec les sous-traitants.",
+                "Organisation des demandes de droits, incidents, sensibilisations, échanges avec l'autorité de contrôle et points de contrôle périodiques.",
+                "Reporting à la direction et coordination des sujets croisés entre données personnelles, cybersécurité et usages IA."
+            ],
+            "deliverables": [
+                "Lettre de mission, gouvernance et calendrier DPO",
+                "Registre tenu et avis documentés",
+                "Tableau de suivi des demandes, risques et actions",
+                "Reporting de conformité et supports de sensibilisation"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "expertises-audit",
+                    "service": "rgpd"
+                }
+            ],
+            "anonymousProofsTitle": "Missions anonymisées associées",
+            "anonymousProofsIntro": "Ces preuves restent anonymisées et limitées aux missions documentées.",
+            "anonymousProofs": [
+                {
+                    "label": "Intercommunalité",
+                    "sector": "Secteur public local",
+                    "mission": "DPO externalisé et gouvernance RGPD dans un contexte de services numériques mutualisés.",
+                    "perimeter": [
+                        "DPO externalisé",
+                        "RGPD",
+                        "gouvernance",
+                        "services numériques mutualisés"
+                    ]
+                }
+            ],
+            "finalCtaTitle": "Installer une fonction DPO suivie et accessible",
+            "finalCtaText": "Le premier échange permet de qualifier le périmètre, l'existant documentaire, les traitements sensibles, les relais internes et le rythme d'accompagnement attendu.",
+            "finalCtaLabel": "Échanger avec un DPO OLING"
+        },
+        "amoa-ia-pilotage-projets-agents": {
+            "nav": "AMOA IA",
+            "title": "AMOA IA, pilotage de programmes et agents metier",
+            "seoTitle": "AMOA IA, pilotage de projets IA et agents metier | OLING",
+            "metaDescription": "OLING cadre, co-construit et pilote les projets IA: AMOA IA, grands chantiers de transformation, agents adaptes aux TPE, PME et ETI.",
+            "eyebrow": "AMOA IA et execution terrain",
+            "intro": "OLING accompagne les directions et equipes projet dans le cadrage, le pilotage et le deploiement de programmes IA, du chantier structurant aux agents metier integres aux processus existants.",
+            "heroImage": "/img/spe/projet.png",
+            "situations": [
+                "Programme IA lance sans cadrage robuste entre metiers, DSI, data, securite et direction.",
+                "Besoin d'une AMOA independante pour transformer une intention IA en feuille de route, lots et decisions pilotables.",
+                "Entreprise qui veut deployer des agents metier concrets sans passer par un dispositif trop lourd ou trop experimental."
+            ],
+            "interventions": [
+                "Cadrage AMOA IA, priorisation des cas d'usage et construction de la trajectoire.",
+                "Co-construction avec les metiers, la DSI et les partenaires pour tenir valeur, delais et responsabilites.",
+                "Pilotage de grands chantiers IA: gouvernance, lots, arbitrages, dependances et recettes.",
+                "Conception et integration d'agents adaptes aux TPE, PME et ETI sur leurs processus cibles."
+            ],
+            "deliverables": [
+                "Cadrage de programme IA",
+                "Backlog priorise de cas d'usage",
+                "Dispositif de gouvernance et RACI",
+                "Architecture d'agents et plan de deploiement"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "consulting",
+                    "service": "pilotage-des-plans"
+                },
+                {
+                    "practice": "business-apps",
+                    "service": "developpements-specifiques"
+                }
+            ]
+        },
+        "conformite-ia-gouvernance-ai-act": {
+            "nav": "Conformite IA",
+            "title": "Conformite IA, gouvernance et AI Act",
+            "seoTitle": "Conformite IA, AI Act et gouvernance des usages | OLING",
+            "metaDescription": "OLING structure la conformite IA, la gouvernance des usages, les controles et les preuves pour des projets IA robustes et auditable.",
+            "eyebrow": "Conformite, preuves et responsabilites",
+            "intro": "Nous aidons les organisations a deployer l'IA sans angle mort de responsabilite: AI Act, protection des donnees, supervision humaine, gestion des fournisseurs et preuves de conformite.",
+            "heroImage": "/img/spe/rgpd.png",
+            "situations": [
+                "Direction qui veut deployer des usages IA sans exposer l'entreprise a des risques juridiques, contractuels ou reputionnels.",
+                "Projet IA avec donnees sensibles, exigences de tracabilite ou demandes de preuve croissantes.",
+                "Besoin d'aligner AI Act, RGPD, cybers securite, achats et gouvernance interne."
+            ],
+            "interventions": [
+                "Diagnostic de conformite IA et cartographie des usages, risques et obligations.",
+                "Definition du cadre de gouvernance, des roles, des controles et des principes d'escalade.",
+                "Structuration des preuves: registre d'usage, evaluation, supervision humaine et documentation fournisseur.",
+                "Mise en coherence des politiques IA avec RGPD, securite, qualite et controle interne."
+            ],
+            "deliverables": [
+                "Cartographie des usages IA et risques",
+                "Politique IA et cadre de gouvernance",
+                "Registre de conformite et controles",
+                "Plan d'actions AI Act / RGPD / cyber"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "expertises-audit",
+                    "service": "rgpd"
+                },
+                {
+                    "practice": "expertises-audit",
+                    "service": "si"
+                }
+            ]
+        },
+        "transformation-digitale-ia-pme-pmi": {
+            "nav": "Transformation digitale",
+            "title": "Transformation digitale, automatisation et IA",
+            "seoTitle": "Transformation digitale, automatisation et IA pour TPE, PME et PMI | OLING",
+            "metaDescription": "OLING cadre les projets d’automatisation et d’IA des TPE, PME et PMI avec des usages cibles et des agents integres aux operations.",
+            "eyebrow": "Transformation digitale et performance",
+            "intro": "OLING relie automatisation et intelligence artificielle a la realite des operations: gains concrets, adoption, outillage tenable et agents integres aux usages quotidiens.",
+            "heroImage": "/img/spe/transition-digitale-1200x710.jpg",
+            "situations": [
+                "PME ou PMI qui veut moderniser ses processus sans empiler les outils ni casser les habitudes de travail.",
+                "Direction qui cherche des gains rapides par l'automatisation, le reporting et des assistants ou agents metier.",
+                "Besoin d'une trajectoire pragmatique pour faire converger applications, donnees, collaboration et IA."
+            ],
+            "interventions": [
+                "Diagnostic de maturite digitale et selection des chantiers prioritaires.",
+                "Refonte de processus, automatisation et simplification des circuits d'information.",
+                "Integration d'agents, copilotes et outils IA dans les environnements deja en place.",
+                "Pilotage de transformation, conduite du changement et mesure des gains reels."
+            ],
+            "deliverables": [
+                "Feuille de route automatisation et IA",
+                "Cartographie des flux et irritants",
+                "Plan d'automatisation et d'adoption",
+                "Tableau de bord de gains et de priorites"
+            ],
+            "linkedServices": [
+                {
+                    "practice": "business-apps",
+                    "service": "ms365"
+                },
+                {
+                    "practice": "business-apps",
+                    "service": "msbi"
+                }
+            ]
+        }
+    }
+}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ landingNarrative.metaTitle ?? (page and page.title ? page.title : 'OLING') }}{% endblock %}
-{% block meta_description %}{{ landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'Cabinet de conseil AMOA SI et conformite.') }}{% endblock %}
+{% block meta_description %}{{ landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'seo.landing.default_meta_description'|trans) }}{% endblock %}
 
 {% block body %}
 {% set pageSlug = page and page.slug ? page.slug : landingPageSlug|default('') %}
@@ -13,17 +13,18 @@
 {% set showAutomaticZones = landingNarrative.showAutomaticZones is defined ? landingNarrative.showAutomaticZones : true %}
 {% set faqItems = showFaq and pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 {% set conversionCtas = {
-  'erp-progiciel': 'Échanger sur mon projet ERP',
-  'crm': 'Échanger sur mon projet CRM',
-  'gmao': 'Cadrer mon projet GMAO',
-  'si-finance': 'Parler de mon SI Finance',
-  'facturation-electronique-amoa': 'Sécuriser mon projet de facturation électronique',
-  'rgpd': 'Échanger avec un DPO',
-  'cyber-securite': 'Évaluer mon projet cybersécurité',
-  'conseil-qualite': 'Échanger sur ma démarche QSE'
+  'erp-progiciel': 'seo.landing.cta.erp',
+  'crm': 'seo.landing.cta.crm',
+  'gmao': 'seo.landing.cta.gmao',
+  'si-finance': 'seo.landing.cta.finance',
+  'facturation-electronique-amoa': 'seo.landing.cta.e_invoice',
+  'rgpd': 'seo.landing.cta.rgpd',
+  'cyber-securite': 'seo.landing.cta.cyber',
+  'conseil-qualite': 'seo.landing.cta.qse'
 } %}
-{% set conversionCtaLabel = landingNarrative.finalCtaLabel|default(conversionCtas[pageSlug]|default(null)) %}
-{% set conversionCtaText = landingNarrative.finalCtaText is defined ? landingNarrative.finalCtaText : 'Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d’accompagnement.' %}
+{% set conversionCtaKey = conversionCtas[pageSlug]|default(null) %}
+{% set conversionCtaLabel = landingNarrative.finalCtaLabel|default(conversionCtaKey ? conversionCtaKey|trans : null) %}
+{% set conversionCtaText = landingNarrative.finalCtaText is defined ? landingNarrative.finalCtaText : 'seo.landing.default_final_cta_text'|trans %}
 {% set hasHeroImage = showHeroImage and page and page.heroImage %}
 {% if hasHeroImage %}
   {% set heroImageRaw = page.heroImage|trim %}
@@ -36,8 +37,8 @@
         <div class="oling-seo-cabinet__hero-copy">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
-              <li class="breadcrumb-item active" aria-current="page">{{ landingNarrative.heroTitle is defined ? landingNarrative.heroTitle|striptags : (page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'Page')) }}</li>
+              <li class="breadcrumb-item"><a href="{{ path('index') }}">{{ 'common.home'|trans }}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ landingNarrative.heroTitle is defined ? landingNarrative.heroTitle|striptags : (page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'common.page'|trans)) }}</li>
             </ol>
           </nav>
           {% if landingNarrative.heroBadge is defined or (page and page.heroBadge) %}
@@ -75,7 +76,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">Positionnement</span>
-                <h2>{{ landingNarrative.positioningTitle ?? 'Pourquoi OLING intervient sur ce projet' }}</h2>
+                <h2>{{ landingNarrative.positioningTitle ?? 'seo.landing.default_positioning_title'|trans }}</h2>
                 <p class="mb-0">{{ landingNarrative.promise }}</p>
               </div>
             </div>
@@ -84,7 +85,7 @@
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
                 <span class="oling-kicker">{{ compactLanding ? 'Périmètre' : 'Perimetre' }}</span>
-                <h2>{{ landingNarrative.scopeTitle ?? 'Ce que couvre cette mission' }}</h2>
+                <h2>{{ landingNarrative.scopeTitle ?? 'seo.landing.default_scope_title'|trans }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.focus %}
                     <li>{{ item }}</li>
@@ -105,8 +106,8 @@
           {% if landingNarrative.missionPhases is defined %}
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
-                <span class="oling-kicker">Phases projet</span>
-                <h2>{{ landingNarrative.missionPhasesTitle ?? landingNarrative.triggerTitle ?? 'Quand lancer ce projet' }}</h2>
+                <span class="oling-kicker">{{ 'seo.landing.project_phases'|trans }}</span>
+                <h2>{{ landingNarrative.missionPhasesTitle ?? landingNarrative.triggerTitle ?? 'seo.landing.default_mission_phases_title'|trans }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.missionPhases %}
                     <li>{{ item }}</li>
@@ -118,8 +119,8 @@
           {% if landingNarrative.deliverables is defined %}
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
-                <span class="oling-kicker">Livrables</span>
-                <h2>{{ landingNarrative.deliverablesTitle|default('Livrables utiles pour cadrer, choisir et deployer') }}</h2>
+                <span class="oling-kicker">{{ 'seo.landing.deliverables'|trans }}</span>
+                <h2>{{ landingNarrative.deliverablesTitle|default('seo.landing.default_deliverables_title'|trans) }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.deliverables %}
                     <li>{{ item }}</li>
@@ -140,8 +141,8 @@
           {% if landingNarrative.projectContexts is defined %}
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
-                <span class="oling-kicker">Contextes</span>
-                <h2>{{ landingNarrative.projectContextsTitle|default('Situations ou OLING apporte le plus de valeur') }}</h2>
+                <span class="oling-kicker">{{ 'service.project_contexts.kicker'|trans }}</span>
+                <h2>{{ landingNarrative.projectContextsTitle|default('service.project_contexts.default_title'|trans) }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.projectContexts %}
                     <li>{{ item }}</li>
@@ -153,8 +154,8 @@
           {% if landingNarrative.clientTypes is defined %}
             <div class="col-lg-6">
               <div class="oling-surface p-4 h-100">
-                <span class="oling-kicker">Interlocuteurs</span>
-                <h2>{{ landingNarrative.clientTypesTitle|default('Equipes et organisations concernees') }}</h2>
+                <span class="oling-kicker">{{ 'service.client_types.kicker'|trans }}</span>
+                <h2>{{ landingNarrative.clientTypesTitle|default('service.client_types.default_title'|trans) }}</h2>
                 <ul class="mb-0">
                   {% for item in landingNarrative.clientTypes %}
                     <li>{{ item }}</li>
@@ -172,7 +173,7 @@
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Questions de cadrage</span>
+          <span class="oling-kicker">{{ 'service.citable.kicker'|trans }}</span>
           <h2>{{ landingNarrative.citablePassagesTitle }}</h2>
         </div>
         <div class="row g-4">
@@ -191,10 +192,10 @@
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">
-          <span class="oling-kicker">Expertises complémentaires</span>
-          <h2>{{ landingNarrative.linksTitle ?? 'Explorer les sujets liés à ce projet' }}</h2>
+          <span class="oling-kicker">{{ 'seo.landing.complementary_expertise'|trans }}</span>
+          <h2>{{ landingNarrative.linksTitle ?? 'seo.landing.default_links_title'|trans }}</h2>
           {% if not compactLanding %}
-            <p>{{ landingNarrative.linksIntro ?? 'Ces pages prolongent le cadrage avec les expertises, les références et les services mobilisables selon votre contexte.' }}</p>
+            <p>{{ landingNarrative.linksIntro ?? 'seo.landing.default_links_intro'|trans }}</p>
           {% endif %}
           {% if compactLanding %}
             <ul class="mb-0">
@@ -223,8 +224,8 @@
     {% include 'public/_anonymous_proof_cards.html.twig' with {
       proofs: landingNarrative.anonymousProofs,
       sectionClass: 'oling-section oling-section--tight',
-      title: landingNarrative.anonymousProofsTitle|default('Missions anonymisees associees'),
-      intro: landingNarrative.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+      title: landingNarrative.anonymousProofsTitle|default('service.proofs.default_title'|trans),
+      intro: landingNarrative.anonymousProofsIntro|default('service.proofs.default_intro'|trans)
     } %}
   {% endif %}
 
@@ -238,9 +239,9 @@
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">
-          <span class="oling-kicker">Parcours de lecture</span>
-          <h2 class="h4">Cette page oriente vers le bon niveau de réponse</h2>
-          <p class="mb-0">Cette page sert de point d’entrée par contexte géographique ou thématique. Elle renvoie ensuite vers les expertises pour qualifier le sujet, puis vers les services pour préciser l’intervention mobilisable.</p>
+          <span class="oling-kicker">{{ 'seo.landing.reading_path'|trans }}</span>
+          <h2 class="h4">{{ 'seo.landing.reading_path_title'|trans }}</h2>
+          <p class="mb-0">{{ 'seo.landing.reading_path_text'|trans }}</p>
         </div>
       </div>
     </section>
@@ -251,8 +252,8 @@
       <div class="container">
         <div class="oling-surface p-4 d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between">
           <div>
-            <span class="oling-kicker">Échange de cadrage</span>
-            <h2 class="h4 mb-2">{{ landingNarrative.finalCtaTitle|default('Clarifier votre besoin et les prochaines décisions') }}</h2>
+            <span class="oling-kicker">{{ 'seo.landing.framing_exchange'|trans }}</span>
+            <h2 class="h4 mb-2">{{ landingNarrative.finalCtaTitle|default('seo.landing.default_final_cta_title'|trans) }}</h2>
             {% if conversionCtaText %}
               <p class="mb-0">{{ conversionCtaText }}</p>
             {% endif %}
@@ -332,7 +333,7 @@
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">
-          <h2 class="h4">FAQ</h2>
+          <h2 class="h4">{{ 'common.faq'|trans }}</h2>
           <ul class="mb-0">
             {% for item in faqItems %}
               <li><strong>{{ item.question }}</strong> {{ item.answer }}</li>
@@ -428,11 +429,11 @@
   '@context': 'https://schema.org',
   '@type': 'Service',
   'name': landingNarrative.heroTitle is defined ? landingNarrative.heroTitle|striptags : (page and page.heroTitle ? page.heroTitle|striptags : (page and page.title ? page.title|striptags : 'OLING')),
-  'serviceType': landingNarrative.schemaServiceType ?? (page and page.heroBadge ? page.heroBadge|striptags : 'Conseil AMOA SI'),
+  'serviceType': landingNarrative.schemaServiceType ?? (page and page.heroBadge ? page.heroBadge|striptags : 'seo.landing.default_service_type'|trans),
   'provider': {'@id': globalProfessionalServiceId},
   'url': currentUrl,
   'mainEntityOfPage': currentUrl,
-  'description': landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'Conseil AMOA SI, transformation et conformite.'),
+  'description': landingNarrative.metaDescription ?? (page and page.metaDescription ? page.metaDescription : 'seo.landing.default_schema_description'|trans),
   'areaServed': schemaAreaServedNames,
   'serviceArea': schemaAreaServedObjects,
   'contactPoint': schemaContactPoint,

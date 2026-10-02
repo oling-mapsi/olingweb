@@ -19,7 +19,7 @@
     eyebrow: serviceNarrative.eyebrow,
     title: serviceNarrative.headline,
     intro: serviceNarrative.intro,
-    primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: 'Parler de votre projet'},
+    primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: 'service.hero.primary_cta'|trans},
     secondaryCta: null,
     highlights: serviceNarrative.outcomes|slice(0, 3)
   } %}
@@ -28,7 +28,7 @@
     <div class="container">
       <div class="oling-two-col">
         <article class="oling-surface oling-surface--light">
-          <span class="oling-kicker">Ce que couvre l'offre</span>
+          <span class="oling-kicker">{{ 'service.coverage.kicker'|trans }}</span>
           <h2>{{ serviceNarrative.coverageTitle|default(service.designation) }}</h2>
           {% if serviceNarrative.hideLegacyDescription|default(false) %}
             {% if serviceNarrative.coverageText is defined %}
@@ -46,13 +46,13 @@
           {% endif %}
         </article>
         <article class="oling-surface oling-surface--light">
-          <span class="oling-kicker">Résultats attendus</span>
-          <h2>Ce que cette intervention doit rendre possible</h2>
+          <span class="oling-kicker">{{ 'service.outcomes.kicker'|trans }}</span>
+          <h2>{{ 'service.outcomes.title'|trans }}</h2>
           <ul class="oling-check-list">
             {% for item in serviceNarrative.outcomes %}
               <li>{{ item }}</li>
             {% endfor %}
-            <li>Des livrables utilisables pour arbitrer, piloter et faire adopter.</li>
+            <li>{{ 'service.outcomes.default_deliverable'|trans }}</li>
           </ul>
         </article>
       </div>
@@ -71,15 +71,15 @@
         <div class="oling-two-col">
           {% if serviceNarrative.promise is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Positionnement</span>
-              <h2>{{ serviceNarrative.promiseTitle|default('Pourquoi OLING intervient sur un projet ERP') }}</h2>
+              <span class="oling-kicker">{{ 'service.promise.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.promiseTitle|default('service.promise.default_title'|trans) }}</h2>
               <p>{{ serviceNarrative.promise }}</p>
             </article>
           {% endif %}
           {% if serviceNarrative.focus is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Périmètre</span>
-              <h2>{{ serviceNarrative.focusTitle|default('Ce que couvre une mission AMOA ERP') }}</h2>
+              <span class="oling-kicker">{{ 'service.focus.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.focusTitle|default('service.focus.default_title'|trans) }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.focus %}
                   <li>{{ item }}</li>
@@ -98,8 +98,8 @@
         <div class="oling-two-col">
           {% if serviceNarrative.missionPhases is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Phases projet</span>
-              <h2>{{ serviceNarrative.missionPhasesTitle|default('Quand lancer une mission ERP avec OLING') }}</h2>
+              <span class="oling-kicker">{{ 'service.mission_phases.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.missionPhasesTitle|default('service.mission_phases.default_title'|trans) }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.missionPhases %}
                   <li>{{ item }}</li>
@@ -109,8 +109,8 @@
           {% endif %}
           {% if serviceNarrative.deliverables is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Livrables</span>
-              <h2>{{ serviceNarrative.deliverablesTitle|default('Livrables utiles pour cadrer, choisir et piloter') }}</h2>
+              <span class="oling-kicker">{{ 'service.deliverables.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.deliverablesTitle|default('service.deliverables.default_title'|trans) }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.deliverables %}
                   <li>{{ item }}</li>
@@ -129,8 +129,8 @@
         <div class="oling-two-col">
           {% if serviceNarrative.projectContexts is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Contextes</span>
-              <h2>{{ serviceNarrative.projectContextsTitle|default('Situations ou OLING apporte le plus de valeur') }}</h2>
+              <span class="oling-kicker">{{ 'service.project_contexts.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.projectContextsTitle|default('service.project_contexts.default_title'|trans) }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.projectContexts %}
                   <li>{{ item }}</li>
@@ -140,8 +140,8 @@
           {% endif %}
           {% if serviceNarrative.clientTypes is defined %}
             <article class="oling-surface oling-surface--light">
-              <span class="oling-kicker">Interlocuteurs</span>
-              <h2>{{ serviceNarrative.clientTypesTitle|default('Equipes et organisations concernées') }}</h2>
+              <span class="oling-kicker">{{ 'service.client_types.kicker'|trans }}</span>
+              <h2>{{ serviceNarrative.clientTypesTitle|default('service.client_types.default_title'|trans) }}</h2>
               <ul class="oling-check-list">
                 {% for item in serviceNarrative.clientTypes %}
                   <li>{{ item }}</li>
@@ -158,7 +158,7 @@
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Questions de cadrage</span>
+          <span class="oling-kicker">{{ 'service.citable.kicker'|trans }}</span>
           <h2>{{ serviceNarrative.citablePassagesTitle }}</h2>
         </div>
         <div class="row g-4">
@@ -177,17 +177,17 @@
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Pages liées</span>
-          <h2>{{ serviceNarrative.supportLinksTitle|default('Explorer les sujets liés à un projet ERP') }}</h2>
-          <p>{{ serviceNarrative.supportLinksIntro|default('Ces pages complètent le cadrage ERP avec des contenus liés aux transformations SI, aux applications connexes et aux contextes de mission.') }}</p>
+          <span class="oling-kicker">{{ 'service.support_links.kicker'|trans }}</span>
+          <h2>{{ serviceNarrative.supportLinksTitle|default('service.support_links.default_title'|trans) }}</h2>
+          <p>{{ serviceNarrative.supportLinksIntro|default('service.support_links.default_intro'|trans) }}</p>
         </div>
         <div class="oling-service-link-grid">
           {% for link in serviceNarrative.supportLinks %}
             <a class="oling-service-link-card" href="{{ link.href }}">
-              <span class="oling-kicker">Ressource liée</span>
+              <span class="oling-kicker">{{ 'service.support_links.card_kicker'|trans }}</span>
               <h3>{{ link.label }}</h3>
               <p>{{ link.description }}</p>
-              <span class="oling-service-link-card__more">Voir la page</span>
+              <span class="oling-service-link-card__more">{{ 'common.view_page'|trans }}</span>
             </a>
           {% endfor %}
         </div>
@@ -199,22 +199,22 @@
     {% include 'public/_anonymous_proof_cards.html.twig' with {
       proofs: serviceNarrative.anonymousProofs,
       sectionClass: 'oling-shell-section oling-shell-section--tint',
-      title: serviceNarrative.anonymousProofsTitle|default('Missions anonymisees associees'),
-      intro: serviceNarrative.anonymousProofsIntro|default('Ces exemples de missions sont anonymises et limites au perimetre documente.')
+      title: serviceNarrative.anonymousProofsTitle|default('service.proofs.default_title'|trans),
+      intro: serviceNarrative.anonymousProofsIntro|default('service.proofs.default_intro'|trans)
     } %}
   {% elseif service.projets|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Cas liés</span>
-          <h2>Exemples de contextes d'intervention</h2>
+          <span class="oling-kicker">{{ 'service.related_cases.kicker'|trans }}</span>
+          <h2>{{ 'service.related_cases.title'|trans }}</h2>
         </div>
         <div class="oling-project-proof-grid">
           {% for project in service.projets|slice(0, 3) %}
             <article class="oling-proof-card">
-              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'Projet' }}</span>
+              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'common.project'|trans }}</span>
               <h3>{{ project.designation }}</h3>
-              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'Intervention structurée pour mieux piloter un projet et ses risques.' }}</p>
+              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'service.related_cases.default_description'|trans }}</p>
             </article>
           {% endfor %}
         </div>
@@ -226,8 +226,8 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Experts</span>
-          <h2>Intervenants associés</h2>
+          <span class="oling-kicker">{{ 'service.experts.kicker'|trans }}</span>
+          <h2>{{ 'service.experts.title'|trans }}</h2>
         </div>
         <div class="oling-team-mini-list">
           {% for team in service.teams %}
@@ -250,10 +250,10 @@
   {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
-    eyebrow: 'Passage à l\'action',
-    title: serviceNarrative.finalCtaTitle|default('Vérifier rapidement si cette offre est le bon niveau d\'intervention'),
-    text: serviceNarrative.finalCtaText|default('OLING peut qualifier votre contexte, confirmer le bon angle d\'attaque et engager un cadrage utile sans surdimensionner le dispositif.'),
-    primaryCta: {route: 'contact', label: serviceNarrative.finalCtaLabel|default('Parler de votre sujet')},
+    eyebrow: 'service.final_cta.eyebrow'|trans,
+    title: serviceNarrative.finalCtaTitle|default('service.final_cta.default_title'|trans),
+    text: serviceNarrative.finalCtaText|default('service.final_cta.default_text'|trans),
+    primaryCta: {route: 'contact', label: serviceNarrative.finalCtaLabel|default('service.final_cta.default_label'|trans)},
     phoneCta: app.request.pathInfo in phoneOwnerPaths
   } %}
 </main>

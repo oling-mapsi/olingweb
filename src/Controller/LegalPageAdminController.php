@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LegalPage;
+use App\Dto\StructuredContentAdminFormData;
 use App\Form\LegalPageType;
 use App\Repository\LegalPageRepository;
 use App\Service\LegalPageDefaults;
@@ -54,7 +55,9 @@ class LegalPageAdminController extends AbstractController
         }
 
         $page = $pages[$slug];
-        $form = $this->createForm(LegalPageType::class, $page, [
+        $formData = $translationSynchronizer->legalPageFormData($page);
+        $form = $this->createForm(LegalPageType::class, $formData, [
+            'data_class' => StructuredContentAdminFormData::class,
             'attr' => ['class' => 'admin-legal-form'],
         ]);
         $form->handleRequest($request);
@@ -62,8 +65,8 @@ class LegalPageAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $page->touchUpdatedAt();
             $entityManager->persist($page);
+            $translationSynchronizer->saveLegalPageFromForm($page, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncLegalPage($page);
             $this->addFlash('success', 'Page légale mise à jour.');
 
             return $this->redirectToRoute('admin_legal_pages_edit', ['slug' => $slug]);

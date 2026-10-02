@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HomeSection;
 use App\Entity\SitePage;
+use App\Dto\StructuredContentAdminFormData;
 use App\Form\HomeHeroType;
 use App\Form\HomeAwardsSectionType;
 use App\Form\HomeSectionType;
@@ -156,7 +157,8 @@ class HomeSectionAdminController extends AbstractController
             return $rankA <=> $rankB;
         });
 
-        $form = $this->createForm(HomeSectionType::class, $section);
+        $formData = $translationSynchronizer->homeSectionFormData($section);
+        $form = $this->createForm(HomeSectionType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $request->request->get('featured_form') === 'practices') {
@@ -187,8 +189,8 @@ class HomeSectionAdminController extends AbstractController
             }
 
             $section->touchUpdatedAt();
+            $translationSynchronizer->saveHomeSectionFromForm($section, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Sélection des practices mise à jour.');
 
             return $this->redirectToRoute('admin_home_practices');
@@ -196,8 +198,8 @@ class HomeSectionAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
+            $translationSynchronizer->saveHomeSectionFromForm($section, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_practices');
         }
@@ -234,7 +236,8 @@ class HomeSectionAdminController extends AbstractController
             return $rankA <=> $rankB;
         });
 
-        $form = $this->createForm(HomeSectionType::class, $section);
+        $formData = $translationSynchronizer->homeSectionFormData($section);
+        $form = $this->createForm(HomeSectionType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $request->request->get('featured_form') === 'projects') {
@@ -265,8 +268,8 @@ class HomeSectionAdminController extends AbstractController
             }
 
             $section->touchUpdatedAt();
+            $translationSynchronizer->saveHomeSectionFromForm($section, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Sélection des projets mise à jour.');
 
             return $this->redirectToRoute('admin_home_projects');
@@ -274,8 +277,8 @@ class HomeSectionAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
+            $translationSynchronizer->saveHomeSectionFromForm($section, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_projects');
         }
@@ -299,13 +302,14 @@ class HomeSectionAdminController extends AbstractController
             $entityManager->persist($section);
         }
 
-        $form = $this->createForm(HomeAwardsSectionType::class, $section);
+        $formData = $translationSynchronizer->homeSectionFormData($section);
+        $form = $this->createForm(HomeAwardsSectionType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $section->touchUpdatedAt();
+            $translationSynchronizer->saveHomeSectionFromForm($section, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncHomeSection($section);
             $this->addFlash('success', 'Section mise à jour.');
             return $this->redirectToRoute('admin_home_awards');
         }

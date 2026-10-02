@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Practice;
+use App\Dto\StructuredContentAdminFormData;
 use App\Form\PracticeType;
 use App\Repository\PracticeRepository;
 use App\Service\StructuredContentTranslationSynchronizer;
@@ -45,16 +46,18 @@ class PracticeAdminController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $practice = new Practice();
-        $form = $this->createForm(PracticeType::class, $practice);
+        $formData = new StructuredContentAdminFormData();
+        $form = $this->createForm(PracticeType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $practice->setDesignation((string) $formData->getDesignation());
             $image1File = $form->get('image1File')->getData();
             $image2File = $form->get('image2File')->getData();
 
             if ($image1File) {
                 try {
-                    $practice->setImage1($uploadManager->upload($image1File, 'practices/images'));
+                    $formData->setImage1($uploadManager->upload($image1File, 'practices/images'));
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 1.");
                 }
@@ -62,7 +65,7 @@ class PracticeAdminController extends AbstractController
 
             if ($image2File) {
                 try {
-                    $practice->setImage2($uploadManager->upload($image2File, 'practices/images'));
+                    $formData->setImage2($uploadManager->upload($image2File, 'practices/images'));
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 2.");
                 }
@@ -70,7 +73,8 @@ class PracticeAdminController extends AbstractController
 
             $entityManager->persist($practice);
             $entityManager->flush();
-            $translationSynchronizer->syncPractice($practice);
+            $translationSynchronizer->savePracticeFromForm($practice, $formData);
+            $entityManager->flush();
 
             $this->addFlash('success', 'Practice créée.');
 
@@ -90,7 +94,8 @@ class PracticeAdminController extends AbstractController
         $originalImage1 = $practice->getImage1();
         $originalImage2 = $practice->getImage2();
 
-        $form = $this->createForm(PracticeType::class, $practice);
+        $formData = $translationSynchronizer->practiceFormData($practice);
+        $form = $this->createForm(PracticeType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,7 +104,7 @@ class PracticeAdminController extends AbstractController
 
             if ($image1File) {
                 try {
-                    $practice->setImage1($uploadManager->upload($image1File, 'practices/images'));
+                    $formData->setImage1($uploadManager->upload($image1File, 'practices/images'));
                     $uploadManager->remove($originalImage1);
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 1.");
@@ -108,15 +113,15 @@ class PracticeAdminController extends AbstractController
 
             if ($image2File) {
                 try {
-                    $practice->setImage2($uploadManager->upload($image2File, 'practices/images'));
+                    $formData->setImage2($uploadManager->upload($image2File, 'practices/images'));
                     $uploadManager->remove($originalImage2);
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 2.");
                 }
             }
 
+            $translationSynchronizer->savePracticeFromForm($practice, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncPractice($practice);
 
             $this->addFlash('success', 'Practice mise à jour.');
 

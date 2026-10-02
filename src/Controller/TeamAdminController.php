@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Team;
+use App\Dto\StructuredContentAdminFormData;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use App\Service\StructuredContentTranslationSynchronizer;
@@ -31,7 +32,8 @@ class TeamAdminController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $team = new Team();
-        $form = $this->createForm(TeamType::class, $team);
+        $formData = new StructuredContentAdminFormData();
+        $form = $this->createForm(TeamType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,15 +41,17 @@ class TeamAdminController extends AbstractController
 
             if ($photoFile) {
                 try {
-                    $team->setPhoto($uploadManager->upload($photoFile, 'teams/photos'));
+                    $formData->setPhoto($uploadManager->upload($photoFile, 'teams/photos'));
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer la photo.");
                 }
             }
 
+            $team->setNoncomplet((string) $formData->getNoncomplet());
             $entityManager->persist($team);
             $entityManager->flush();
-            $translationSynchronizer->syncTeam($team);
+            $translationSynchronizer->saveTeamFromForm($team, $formData);
+            $entityManager->flush();
 
             $this->addFlash('success', 'Membre créé.');
 
@@ -66,7 +70,8 @@ class TeamAdminController extends AbstractController
     {
         $originalPhoto = $team->getPhoto();
 
-        $form = $this->createForm(TeamType::class, $team);
+        $formData = $translationSynchronizer->teamFormData($team);
+        $form = $this->createForm(TeamType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,15 +79,15 @@ class TeamAdminController extends AbstractController
 
             if ($photoFile) {
                 try {
-                    $team->setPhoto($uploadManager->upload($photoFile, 'teams/photos'));
+                    $formData->setPhoto($uploadManager->upload($photoFile, 'teams/photos'));
                     $uploadManager->remove($originalPhoto);
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer la photo.");
                 }
             }
 
+            $translationSynchronizer->saveTeamFromForm($team, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncTeam($team);
 
             $this->addFlash('success', 'Membre mis à jour.');
 

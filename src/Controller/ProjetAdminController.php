@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Projet;
+use App\Dto\StructuredContentAdminFormData;
 use App\Form\ProjetType;
 use App\Repository\ProjetRepository;
 use App\Service\StructuredContentTranslationSynchronizer;
@@ -46,7 +47,8 @@ class ProjetAdminController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, ProjetRepository $repository, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $projet = new Projet();
-        $form = $this->createForm(ProjetType::class, $projet);
+        $formData = new StructuredContentAdminFormData();
+        $form = $this->createForm(ProjetType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,7 +57,7 @@ class ProjetAdminController extends AbstractController
 
             if ($imageFile) {
                 try {
-                    $projet->setImage($uploadManager->upload($imageFile, 'projets/images'));
+                    $formData->setImage($uploadManager->upload($imageFile, 'projets/images'));
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image.");
                 }
@@ -63,12 +65,14 @@ class ProjetAdminController extends AbstractController
 
             if ($imageHeroFile) {
                 try {
-                    $projet->setImageHero($uploadManager->upload($imageHeroFile, 'projets/hero'));
+                    $formData->setImageHero($uploadManager->upload($imageHeroFile, 'projets/hero'));
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image hero.");
                 }
             }
 
+            $projet->setDesignation((string) $formData->getDesignation());
+            $projet->setFeaturedProjects($formData->isFeaturedProjects());
             if ($projet->isFeaturedProjects()) {
                 $featuredCount = $repository->count(['featuredProjects' => true]);
                 if ($featuredCount >= 6) {
@@ -83,7 +87,8 @@ class ProjetAdminController extends AbstractController
 
             $entityManager->persist($projet);
             $entityManager->flush();
-            $translationSynchronizer->syncProjet($projet);
+            $translationSynchronizer->saveProjetFromForm($projet, $formData);
+            $entityManager->flush();
 
             $this->addFlash('success', 'Projet créé.');
 
@@ -104,7 +109,8 @@ class ProjetAdminController extends AbstractController
         $originalImageHero = $projet->getImageHero();
         $wasFeatured = $projet->isFeaturedProjects();
 
-        $form = $this->createForm(ProjetType::class, $projet);
+        $formData = $translationSynchronizer->projetFormData($projet);
+        $form = $this->createForm(ProjetType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,7 +119,7 @@ class ProjetAdminController extends AbstractController
 
             if ($imageFile) {
                 try {
-                    $projet->setImage($uploadManager->upload($imageFile, 'projets/images'));
+                    $formData->setImage($uploadManager->upload($imageFile, 'projets/images'));
                     $uploadManager->remove($originalImage);
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image.");
@@ -122,13 +128,14 @@ class ProjetAdminController extends AbstractController
 
             if ($imageHeroFile) {
                 try {
-                    $projet->setImageHero($uploadManager->upload($imageHeroFile, 'projets/hero'));
+                    $formData->setImageHero($uploadManager->upload($imageHeroFile, 'projets/hero'));
                     $uploadManager->remove($originalImageHero);
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image hero.");
                 }
             }
 
+            $projet->setFeaturedProjects($formData->isFeaturedProjects());
             if ($projet->isFeaturedProjects() && !$wasFeatured) {
                 $featuredCount = $repository->count(['featuredProjects' => true]);
                 if ($featuredCount >= 6) {
@@ -141,8 +148,8 @@ class ProjetAdminController extends AbstractController
                 $projet->setFeaturedProjectsRank(null);
             }
 
+            $translationSynchronizer->saveProjetFromForm($projet, $formData);
             $entityManager->flush();
-            $translationSynchronizer->syncProjet($projet);
 
             $this->addFlash('success', 'Projet mis à jour.');
 

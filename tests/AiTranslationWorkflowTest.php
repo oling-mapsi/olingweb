@@ -65,6 +65,18 @@ final class AiTranslationWorkflowTest extends TestCase
         self::assertFalse($translation->isPublished());
     }
 
+    public function testEmptyAiSlugFallsBackToControlledLocalizedSlug(): void
+    {
+        $page = $this->pageWithFrenchSource();
+        $payload = $this->validPayload();
+        $payload['slug'] = '';
+
+        $translation = $this->service(new ArrayTranslationProvider($payload))->translateSitePage($page, 'es');
+
+        self::assertSame('software-erp', $translation->getSlug());
+        self::assertSame(SitePageTranslation::STATUS_AI_TRANSLATED, $translation->getTranslationStatus());
+    }
+
     public function testOnlyHumanReviewWorkflowCanPublish(): void
     {
         $workflow = new TranslationReviewWorkflow();

@@ -7,6 +7,7 @@ use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -56,10 +57,7 @@ final class OpenAiContentTranslationProvider implements AiTranslationProviderInt
                     ],
                     'text' => [
                         'format' => [
-                            'type' => 'json_schema',
-                            'name' => 'localized_content_translation',
-                            'strict' => true,
-                            'schema' => $this->responseSchema(),
+                            'type' => 'json_object',
                         ],
                     ],
                     'max_output_tokens' => 4000,
@@ -78,7 +76,7 @@ final class OpenAiContentTranslationProvider implements AiTranslationProviderInt
             \JsonException|
             \RuntimeException $exception
         ) {
-            throw new \RuntimeException('AI translation provider failed: '.$exception->getMessage(), 0, $exception);
+            throw new \RuntimeException('AI translation provider failed: '.$this->formatProviderError($exception), 0, $exception);
         }
 
         if (!is_array($decoded)) {
@@ -103,31 +101,16 @@ Never mark content as reviewed or published.
 PROMPT;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    private function responseSchema(): array
+    private function formatProviderError(\Throwable $exception): string
     {
-        return [
-            'type' => 'object',
-            'additionalProperties' => false,
-            'required' => ['slug', 'title', 'seoTitle', 'seoDescription', 'ogTitle', 'ogDescription', 'imageAlt', 'heroBadge', 'heroTitle', 'heroIntro', 'heroSideHtml', 'bodyHtml', 'structuredData'],
-            'properties' => [
-                'slug' => ['type' => 'string'],
-                'title' => ['type' => 'string'],
-                'seoTitle' => ['type' => ['string', 'null']],
-                'seoDescription' => ['type' => ['string', 'null']],
-                'ogTitle' => ['type' => ['string', 'null']],
-                'ogDescription' => ['type' => ['string', 'null']],
-                'imageAlt' => ['type' => ['string', 'null']],
-                'heroBadge' => ['type' => ['string', 'null']],
-                'heroTitle' => ['type' => ['string', 'null']],
-                'heroIntro' => ['type' => ['string', 'null']],
-                'heroSideHtml' => ['type' => ['string', 'null']],
-                'bodyHtml' => ['type' => ['string', 'null']],
-                'structuredData' => ['type' => ['object', 'array', 'null']],
-            ],
-        ];
+        if ($exception instanceof HttpExceptionInterface) {
+            $body = $exception->getResponse()->getContent(false);
+            if ($body !== '') {
+                return $body;
+            }
+        }
+
+        return $exception->getMessage();
     }
 
     /**

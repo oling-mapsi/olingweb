@@ -91,7 +91,7 @@ final class AiTranslationService
         $sourcePayload = $this->payloadFromTranslation($source);
         $sourceHash = $this->sourceHasher->hashSitePageTranslation($source);
         $result = $this->provider->translate($sourcePayload, $targetLocale, $this->glossary());
-        $payload = $this->normalizePayload($result->payload);
+        $payload = $this->normalizePayload($result->payload, $sourcePayload, $targetLocale);
         $this->validatePayload($sourcePayload, $payload);
         $this->assertSlugAvailable($page, $targetLocale, $payload['slug']);
 
@@ -173,13 +173,16 @@ final class AiTranslationService
      * @param array<string, mixed> $payload
      * @return array<string, mixed>
      */
-    private function normalizePayload(array $payload): array
+    private function normalizePayload(array $payload, array $sourcePayload, string $targetLocale): array
     {
         $normalized = [];
         foreach (self::SITE_PAGE_FIELDS as $field) {
             $normalized[$field] = $payload[$field] ?? null;
         }
         $normalized['slug'] = $this->normalizeSlug((string) $normalized['slug']);
+        if ($normalized['slug'] === '') {
+            $normalized['slug'] = $this->fallbackSlug((string) ($sourcePayload['slug'] ?? ''), $targetLocale);
+        }
         $normalized['title'] = trim((string) $normalized['title']);
 
         return $normalized;
@@ -226,6 +229,24 @@ final class AiTranslationService
         $slug = preg_replace('/[^a-z0-9]+/', '-', $slug) ?? $slug;
 
         return trim($slug, '-');
+    }
+
+    private function fallbackSlug(string $sourceSlug, string $targetLocale): string
+    {
+        $fallbacks = [
+            'home' => ['en' => 'home', 'es' => 'inicio'],
+            'erp-progiciel' => ['en' => 'erp-software', 'es' => 'software-erp'],
+            'rgpd' => ['en' => 'gdpr', 'es' => 'rgpd'],
+            'gmao' => ['en' => 'cmms', 'es' => 'gmao'],
+            'crm' => ['en' => 'crm', 'es' => 'crm'],
+            'cyber-securite' => ['en' => 'cybersecurity', 'es' => 'ciberseguridad'],
+            'facturation-electronique-amoa' => ['en' => 'e-invoicing-advisory', 'es' => 'asesoria-facturacion-electronica'],
+            'amoa-si' => ['en' => 'it-project-advisory', 'es' => 'asesoria-proyectos-ti'],
+            'services' => ['en' => 'services', 'es' => 'servicios'],
+            'contact' => ['en' => 'contact', 'es' => 'contacto'],
+        ];
+
+        return $fallbacks[$sourceSlug][$targetLocale] ?? '';
     }
 
     private function assertSameJsonShape(mixed $source, mixed $target, string $path): void

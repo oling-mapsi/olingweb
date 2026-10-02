@@ -3534,17 +3534,22 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
   box-shadow: 0 0 0 0.2rem rgba(11, 119, 184, 0.12);
 }
 
-.admin .btn-primary {
+.admin .btn-primary,
+.admin a.btn-primary,
+.admin a.btn-primary:visited {
   background: var(--admin-accent);
   border-color: var(--admin-accent);
-  color: #ffffff;
+  color: #ffffff !important;
   box-shadow: none;
 }
 
 .admin .btn-primary:hover,
-.admin .btn-primary:focus {
+.admin .btn-primary:focus,
+.admin a.btn-primary:hover,
+.admin a.btn-primary:focus {
   background: #075c8f;
   border-color: #075c8f;
+  color: #ffffff !important;
 }
 
 .admin .btn-outline-secondary {

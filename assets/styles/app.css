@@ -3166,12 +3166,20 @@ a {
   --admin-surface-alt: #f8fafc;
   --admin-ink: #14212b;
   --admin-ink-soft: #445564;
-  --admin-ink-muted: #6b7a88;
+  --admin-ink-muted: #526171;
   --admin-border: #d8e0e8;
   --admin-border-strong: #c7d1dc;
-  --admin-accent: #0b77b8;
+  --admin-accent: #075c8f;
   --admin-accent-soft: #e8f4fb;
   --admin-shadow: 0 18px 42px -30px rgba(15, 23, 42, 0.22);
+  --bs-body-bg: var(--admin-bg);
+  --bs-body-color: var(--admin-ink);
+  --bs-emphasis-color: var(--admin-ink);
+  --bs-secondary-color: var(--admin-ink-soft);
+  --bs-tertiary-color: var(--admin-ink-muted);
+  --bs-link-color: var(--admin-accent);
+  --bs-link-hover-color: #075c8f;
+  --bs-border-color: var(--admin-border);
   color: var(--admin-ink);
   background: var(--admin-bg);
 }
@@ -3210,7 +3218,8 @@ body.oling-body.admin main a:not(.btn):not(.nav-link):not(.dropdown-item) {
 .admin .text-muted,
 .admin .form-text,
 .admin .breadcrumb-item.active,
-.admin small {
+.admin small,
+.admin .small {
   color: var(--admin-ink-muted) !important;
 }
 
@@ -3340,7 +3349,8 @@ body.oling-body.admin main a:not(.btn):not(.nav-link):not(.dropdown-item) {
 .admin .card li,
 .admin .card strong,
 .admin .card dt,
-.admin .card dd {
+.admin .card dd,
+.admin .card label {
   color: inherit;
 }
 
@@ -3498,6 +3508,9 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
 
 .admin .form-control,
 .admin .form-select {
+  --bs-form-control-bg: #ffffff;
+  --bs-body-bg: #ffffff;
+  --bs-body-color: var(--admin-ink);
   background: #ffffff;
   color: var(--admin-ink);
   border: 1px solid var(--admin-border-strong);
@@ -3524,6 +3537,8 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
 .admin .btn-primary {
   background: var(--admin-accent);
   border-color: var(--admin-accent);
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .admin .btn-primary:hover,
@@ -3619,6 +3634,42 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
   color: var(--admin-ink);
 }
 
+.admin .badge.bg-success,
+.admin .badge.text-bg-success,
+.admin .bg-success:not(.btn):not(.dropdown-item),
+.admin .text-bg-success:not(.btn):not(.dropdown-item) {
+  background: #dff5e7 !important;
+  color: #135c2f !important;
+  border-color: #a8ddb9 !important;
+}
+
+.admin .badge.bg-primary,
+.admin .badge.text-bg-primary,
+.admin .bg-primary:not(.btn):not(.dropdown-item),
+.admin .text-bg-primary:not(.btn):not(.dropdown-item) {
+  background: #dceeff !important;
+  color: #075c8f !important;
+  border-color: #afd4f3 !important;
+}
+
+.admin .badge.bg-warning,
+.admin .badge.text-bg-warning,
+.admin .bg-warning:not(.btn):not(.dropdown-item),
+.admin .text-bg-warning:not(.btn):not(.dropdown-item) {
+  background: #fff0c7 !important;
+  color: #6f4400 !important;
+  border-color: #efcc7b !important;
+}
+
+.admin .badge.bg-danger,
+.admin .badge.text-bg-danger,
+.admin .bg-danger:not(.btn):not(.dropdown-item),
+.admin .text-bg-danger:not(.btn):not(.dropdown-item) {
+  background: #ffe1e5 !important;
+  color: #842029 !important;
+  border-color: #f1aeb5 !important;
+}
+
 .admin .badge.bg-dark,
 .admin .badge.text-bg-dark,
 .admin .bg-dark:not(.btn):not(.dropdown-item),
@@ -3629,7 +3680,8 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
 }
 
 .admin .bg-light,
-.admin .text-bg-light {
+.admin .text-bg-light,
+.admin .table-light {
   background: #eef3f7 !important;
   color: var(--admin-ink) !important;
   border-color: var(--admin-border) !important;
@@ -3638,7 +3690,8 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
 .admin .text-white,
 .admin .text-white-50,
 .admin .text-white-70,
-.admin .text-light {
+.admin .text-light,
+.admin .link-light {
   color: var(--admin-ink) !important;
 }
 
@@ -3688,6 +3741,34 @@ body.oling-body:not(.admin) .list-group-item-action:focus {
 
 .admin .dropdown-item {
   color: var(--admin-ink);
+}
+
+.admin .admin-nav-dropdown {
+  position: relative;
+}
+
+.admin .admin-nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 30;
+  display: none;
+  min-width: 220px;
+  padding: 0.45rem;
+  background: #ffffff;
+  color: var(--admin-ink);
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+}
+
+.admin .admin-nav-dropdown:hover .admin-nav-dropdown-menu,
+.admin .admin-nav-dropdown:focus-within .admin-nav-dropdown-menu {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.admin .admin-nav-dropdown-menu .nav-link {
+  color: var(--admin-ink-soft);
 }
 
 .admin .dropdown-item:hover,
@@ -14099,4 +14180,107 @@ body.oling-body.oling-home .oling-home-kpi--image img {
   body.oling-body.oling-home .oling-home-radical {
     overflow-x: clip;
   }
+}
+
+/* Admin contrast guard: keep the backoffice out of the public dark refresh skin. */
+body.oling-body.admin.oling-refresh {
+  background: var(--admin-bg) !important;
+  color: var(--admin-ink) !important;
+}
+
+body.oling-body.admin.oling-refresh main,
+body.oling-body.admin.oling-refresh .content-space-2,
+body.oling-body.admin.oling-refresh .content-space-lg-3 {
+  background: var(--admin-bg) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(h1, h2, h3, h4, h5, h6, strong, label, .form-check-label) {
+  color: var(--admin-ink) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(p, li, dt, dd, .card-text) {
+  color: var(--admin-ink-soft) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.text-muted, .form-text, .small, small, .home-order-handle, .admin-cropper__hint, .admin-cropper__label, .admin-icon-picker__label) {
+  color: var(--admin-ink-muted) !important;
+}
+
+body.oling-body.admin.oling-refresh a:not(.btn):not(.nav-link):not(.dropdown-item),
+body.oling-body.admin.oling-refresh a:not(.btn):not(.nav-link):not(.dropdown-item):visited {
+  color: var(--admin-accent) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(
+  .card,
+  .admin-form-card,
+  .admin-info-panel,
+  .admin-danger-zone,
+  .admin-media-card,
+  .table-responsive,
+  .list-group-item,
+  .dropdown-menu,
+  .admin-nav-dropdown-menu,
+  .modal-content,
+  .offcanvas,
+  .popover,
+  .oling-wysiwyg
+) {
+  background: var(--admin-surface) !important;
+  color: var(--admin-ink) !important;
+  border-color: var(--admin-border) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.card-body, .card-header, .card-footer) {
+  background: transparent !important;
+  color: var(--admin-ink) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.card-header, .card-footer, .modal-header, .modal-footer) {
+  background: var(--admin-surface-alt) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.form-control, .form-select, .input-group-text, .select2-selection, .select2-dropdown) {
+  background: #ffffff !important;
+  color: var(--admin-ink) !important;
+  border-color: var(--admin-border-strong) !important;
+}
+
+body.oling-body.admin.oling-refresh .nav-pills .nav-link.active,
+body.oling-body.admin.oling-refresh .nav-pills .nav-link:hover,
+body.oling-body.admin.oling-refresh .nav-pills .nav-link:focus,
+body.oling-body.admin.oling-refresh .oling-wysiwyg-tab.is-active {
+  color: var(--admin-accent) !important;
+  background: var(--admin-accent-soft) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.nav-tabs .nav-link, .nav-tabs .nav-link.active, .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus) {
+  color: var(--admin-accent) !important;
+}
+
+body.oling-body.admin.oling-refresh .oling-wysiwyg-tab:not(.is-active) {
+  color: var(--admin-ink-muted) !important;
+  background: #ffffff !important;
+}
+
+body.oling-body.admin.oling-refresh .btn-primary {
+  background: var(--admin-accent) !important;
+  border-color: var(--admin-accent) !important;
+  color: #ffffff !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.btn-outline-secondary, .btn-outline-primary) {
+  background: #ffffff !important;
+  color: var(--admin-accent) !important;
+  border-color: var(--admin-border-strong) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.table, .table td, .table th) {
+  color: var(--admin-ink) !important;
+  border-color: var(--admin-border) !important;
+}
+
+body.oling-body.admin.oling-refresh :is(.badge.bg-secondary, .badge.text-bg-secondary) {
+  background: #51596c !important;
+  color: #ffffff !important;
 }

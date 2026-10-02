@@ -41,7 +41,7 @@ Les pages pilotes `services` et `contact` etaient deja `reviewed` en EN/ES et n'
 | --- | --- | --- | --- | --- |
 | apropos | about | published | quienes-somos | published |
 | metiers | industries-served | reviewed | sectores-de-actividad | reviewed |
-| team | team | published | equipo | published |
+| team | team | reviewed | equipo | reviewed |
 | projets | projects | reviewed | proyectos | reviewed |
 | ressources | resources | published | recursos | published |
 | expertises-index | areas-of-expertise | reviewed | areas-de-especializacion | reviewed |
@@ -74,8 +74,8 @@ Base commit de revue : `31142924`.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | apropos | en | about | about | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
 | apropos | es | quienes-somos | quienes-somos | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
-| team | en | team | team | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
-| team | es | equipo | equipo | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| team | en | team | team | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED - publication blocked by FR `/team` 404 hreflang target |
+| team | es | equipo | equipo | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED - publication blocked by FR `/team` 404 hreflang target |
 | ressources | en | resources | resources | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
 | ressources | es | recursos | recursos | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
 | expertises-index | en | consulting-expertise | areas-of-expertise | EDIT | APPROVE | APPROVE | EDIT | REVIEWED |
@@ -97,7 +97,8 @@ Decision log :
 
 Publication progressive :
 
-- Batch 1 publie : `about`, `team`, `resources` en EN ; `quienes-somos`, `equipo`, `recursos` en ES.
+- Batch 1 publie : `about`, `resources` en EN ; `quienes-somos`, `recursos` en ES.
+- `team` / `equipo` sont valides editorialement mais restent en `reviewed` car le hreflang FR genere actuellement `/team`, qui retourne 404 en production. Publication reportee jusqu'a correction de la route FR canonique.
 - Les autres pages Wave 1 sont validees en `reviewed` mais restent non publiques.
 
 Glossaire :

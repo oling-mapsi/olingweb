@@ -11,9 +11,45 @@
                 <h1 class="h3 mb-1">Modifier la page</h1>
                 <p class="text-muted mb-0">Slug : {{ page.slug }}</p>
             </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_pages_preview', {id: page.id, locale: 'fr'}) }}" target="_blank" rel="noopener">Preview FR</a>
+                {% if enTranslation %}
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_pages_preview', {id: page.id, locale: 'en'}) }}" target="_blank" rel="noopener">Preview EN</a>
+                {% endif %}
+                {% if esTranslation %}
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_pages_preview', {id: page.id, locale: 'es'}) }}" target="_blank" rel="noopener">Preview ES</a>
+                {% endif %}
+            </div>
         </div>
 
         {% include 'admin/_nav.html.twig' %}
+
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" type="button">FR ✓</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link disabled" type="button">EN {{ enTranslation ? '✓' : '—' }}</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link disabled" type="button">ES {{ esTranslation ? '✓' : '—' }}</button>
+            </li>
+        </ul>
+
+        {% if not enTranslation or not esTranslation %}
+            <div class="row g-3 mb-4">
+                {% if not enTranslation %}
+                    <div class="col-md-6">
+                        <div class="alert alert-secondary mb-0">EN · Translation missing</div>
+                    </div>
+                {% endif %}
+                {% if not esTranslation %}
+                    <div class="col-md-6">
+                        <div class="alert alert-secondary mb-0">ES · Translation missing</div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
 
         {{ form_start(form) }}
             {% if editorMode == 'home' %}
@@ -84,14 +120,19 @@
                     <div class="card admin-form-card h-100">
                         <div class="card-body">
                     <div class="mb-3">
+                        {{ form_label(form.translationStatus) }}
+                        {{ form_widget(form.translationStatus) }}
+                        {{ form_errors(form.translationStatus) }}
+                    </div>
+                    <div class="mb-3">
                         {{ form_label(form.title) }}
                         {{ form_widget(form.title) }}
                         {{ form_errors(form.title) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.metaDescription) }}
-                        {{ form_widget(form.metaDescription) }}
-                        {{ form_errors(form.metaDescription) }}
+                        {{ form_label(form.seoDescription) }}
+                        {{ form_widget(form.seoDescription) }}
+                        {{ form_errors(form.seoDescription) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.heroTitle) }}
@@ -138,6 +179,16 @@
                         {{ form_label(form.heroImageFile) }}
                         {{ form_widget(form.heroImageFile) }}
                         {{ form_errors(form.heroImageFile) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.publishedAt) }}
+                        {{ form_widget(form.publishedAt) }}
+                        {{ form_errors(form.publishedAt) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.unpublishedAt) }}
+                        {{ form_widget(form.unpublishedAt) }}
+                        {{ form_errors(form.unpublishedAt) }}
                     </div>
                         </div>
                     </div>

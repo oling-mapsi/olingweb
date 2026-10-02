@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\SitePage;
+use App\Entity\SitePageTranslation;
 
 class TranslationSourceHasher
 {
@@ -20,6 +21,20 @@ class TranslationSourceHasher
             'canonicalUrl' => $page->getCanonicalUrl(),
             'categories' => $page->getCategories(),
             'tags' => $page->getTags(),
+        ]));
+    }
+
+    public function hashSitePageTranslation(SitePageTranslation $translation): string
+    {
+        return hash('sha256', $this->canonicalJson([
+            'slug' => $translation->getSlug(),
+            'title' => $translation->getTitle(),
+            'seoDescription' => $translation->getSeoDescription(),
+            'heroBadge' => $translation->getHeroBadge(),
+            'heroTitle' => $translation->getHeroTitle(),
+            'heroIntro' => $translation->getHeroIntro(),
+            'heroSideHtml' => $translation->getHeroSideHtml(),
+            'bodyHtml' => $translation->getBodyHtml(),
         ]));
     }
 

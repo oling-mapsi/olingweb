@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Preview {{ locale|upper }} - {{ page.title }}{% endblock %}
+{% block meta_robots %}noindex,nofollow{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="oling-seo-cabinet">
+    <section class="oling-section oling-section--tight oling-seo-cabinet__hero">
+        <div class="container">
+            <div class="alert alert-warning mb-4">
+                Preview interne {{ locale|upper }} · statut {{ translation.translationStatus }}
+            </div>
+            <div class="oling-seo-cabinet__hero-shell">
+                <div class="oling-seo-cabinet__hero-copy">
+                    {% if page.heroBadge %}
+                        <span class="oling-kicker">{{ page.heroBadge }}</span>
+                    {% endif %}
+                    <h1>{{ page.heroTitle ?: page.title }}</h1>
+                    {% if page.heroIntro %}
+                        <p class="oling-lede">{{ page.heroIntro|raw }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if page.heroSideHtml %}
+        <div class="oling-seo-cabinet__content">
+            {{ page.heroSideHtml|raw }}
+        </div>
+    {% endif %}
+
+    {% if page.bodyHtml %}
+        <section class="oling-section oling-section--tight">
+            <div class="container">
+                <div class="oling-surface p-4">
+                    <pre class="mb-0 text-wrap">{{ page.bodyHtml }}</pre>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}

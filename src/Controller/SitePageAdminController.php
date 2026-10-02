@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\SitePage;
-use App\Form\SitePageType;
+use App\Entity\SitePageTranslation;
+use App\Entity\User;
+use App\Form\SitePageTranslationType;
 use App\Repository\SitePageRepository;
+use App\Repository\SitePageTranslationRepository;
+use App\Service\SitePageTranslationSynchronizer;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,11 +101,18 @@ class SitePageAdminController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'admin_pages_edit', methods: ['GET', 'POST'])]
-    public function edit(SitePage $page, Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
-    {
+    public function edit(
+        SitePage $page,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UploadManager $uploadManager,
+        SitePageTranslationSynchronizer $translationSynchronizer
+    ): Response {
+        $frTranslation = $translationSynchronizer->ensureFrenchTranslation($page);
         $editorMode = $this->getEditorMode($page->getSlug());
-        $form = $this->createForm(SitePageType::class, $page, [
+        $form = $this->createForm(SitePageTranslationType::class, $frTranslation, [
             'editor_mode' => $editorMode,
+            'hero_image' => $page->getHeroImage(),
         ]);
         $form->handleRequest($request);
 
@@ -115,8 +126,12 @@ class SitePageAdminController extends AbstractController
                 } catch (FileException $exception) {
                     $this->addFlash('danger', 'Impossible d\'envoyer l\'image hero.');
                 }
+            } else {
+                $page->setHeroImage($form->get('heroImage')->getData());
             }
 
+            $user = $this->getUser();
+            $translationSynchronizer->syncFrenchTranslationToLegacyFields($page, $user instanceof User ? $user : null);
             $entityManager->flush();
             $this->addFlash('success', 'Page mise à jour.');
             return $this->redirectToRoute('admin_pages_index');
@@ -125,9 +140,41 @@ class SitePageAdminController extends AbstractController
         return $this->render('admin/pages/edit.html.twig', [
             'form' => $form,
             'page' => $page,
+            'frTranslation' => $frTranslation,
+            'enTranslation' => $page->getTranslation(SitePageTranslation::LOCALE_EN),
+            'esTranslation' => $page->getTranslation(SitePageTranslation::LOCALE_ES),
             'editorMode' => $editorMode,
             'practices' => [],
         ]);
+    }
+
+    #[Route('/{id}/preview/{locale}', name: 'admin_pages_preview', methods: ['GET'])]
+    public function preview(
+        SitePage $page,
+        string $locale,
+        SitePageTranslationRepository $translationRepository,
+        SitePageTranslationSynchronizer $translationSynchronizer
+    ): Response {
+        SitePageTranslation::assertSupportedLocale($locale);
+        $translation = $locale === SitePageTranslation::LOCALE_FR
+            ? $translationSynchronizer->ensureFrenchTranslation($page)
+            : $translationRepository->findOneByPageAndLocale($page, $locale);
+
+        if (!$translation instanceof SitePageTranslation) {
+            throw $this->createNotFoundException('Traduction introuvable.');
+        }
+
+        $previewPage = $this->buildPreviewPage($page, $translation);
+        $response = $this->render('admin/pages/preview.html.twig', [
+            'page' => $previewPage,
+            'sourcePage' => $page,
+            'translation' => $translation,
+            'locale' => $locale,
+            'practices' => [],
+        ]);
+        $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+
+        return $response;
     }
 
     private function ensureManagedPages(SitePageRepository $repository, EntityManagerInterface $entityManager): void
@@ -149,6 +196,15 @@ class SitePageAdminController extends AbstractController
             $page->setSlug($slug);
             $page->setTitle($title);
             $entityManager->persist($page);
+            $translation = (new SitePageTranslation())
+                ->setLocale(SitePageTranslation::LOCALE_FR)
+                ->setSlug($slug)
+                ->setTitle($title)
+                ->setSeoTitle($title)
+                ->setTranslationStatus(SitePageTranslation::STATUS_PUBLISHED)
+                ->setPublishedAt(new \DateTimeImmutable());
+            $page->addTranslation($translation);
+            $entityManager->persist($translation);
             $needsFlush = true;
         }
 
@@ -239,5 +295,28 @@ class SitePageAdminController extends AbstractController
         }
 
         return 'default';
+    }
+
+    private function buildPreviewPage(SitePage $sourcePage, SitePageTranslation $translation): SitePage
+    {
+        $previewPage = new SitePage();
+        $previewPage
+            ->setSlug($translation->getSlug())
+            ->setTitle($translation->getSeoTitle() ?: $translation->getTitle())
+            ->setMetaDescription($translation->getSeoDescription())
+            ->setHeroBadge($translation->getHeroBadge())
+            ->setHeroTitle($translation->getHeroTitle())
+            ->setHeroIntro($translation->getHeroIntro())
+            ->setHeroSideHtml($translation->getHeroSideHtml())
+            ->setBodyHtml($translation->getBodyHtml())
+            ->setHeroImage($sourcePage->getHeroImage())
+            ->setCanonicalUrl($sourcePage->getCanonicalUrl())
+            ->setCategories($sourcePage->getCategories())
+            ->setTags($sourcePage->getTags())
+            ->setPublicationStatus($translation->getTranslationStatus())
+            ->setPublishedAt($translation->getPublishedAt())
+            ->setUnpublishedAt($translation->getUnpublishedAt());
+
+        return $previewPage;
     }
 }

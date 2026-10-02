@@ -24,6 +24,9 @@
                         <tr>
                             <th>Slug</th>
                             <th>Titre</th>
+                            <th>FR</th>
+                            <th>EN</th>
+                            <th>ES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +36,9 @@
                                     <a href="{{ path('admin_pages_edit', {id: page.id}) }}">{{ page.slug }}</a>
                                 </td>
                                 <td>{{ page.title }}</td>
+                                <td>{{ page.translation('fr') ? '✓' : '—' }}</td>
+                                <td>{{ page.translation('en') ? '✓' : '—' }}</td>
+                                <td>{{ page.translation('es') ? '✓' : '—' }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

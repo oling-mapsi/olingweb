@@ -117,12 +117,12 @@
                     "metaDescription": "OLING, consultora para pymes y empresas de tamaño intermedio: transformación de sistemas de información, organización, cumplimiento normativo, ciberseguridad e inteligencia artificial."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "7646aa87caaad49f485ebc54b89db697c4a2d12157f4d414096e56ab91bc4be8",
             "sourceUpdatedAt": "2026-10-02T21:10:37+00:00",
             "translatedAt": "2026-10-02T21:10:37+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -146,11 +146,11 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "44afc1cae75a39853b01faf92b6cfbf1ba8a4f2c6389aa8807f8ee693d6b220d",
             "sourceUpdatedAt": "2026-10-02T21:17:06+00:00",
             "translatedAt": "2026-10-02T21:17:06+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -223,11 +223,11 @@
                     "metaDescription": "Experiencia multisectorial en asesoría para proyectos de sistemas de información, software empresarial y cumplimiento para entidades públicas y privadas."
                 }
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e4d9663bfabe13fe5e27d5d76dc5a49da12705a50a113bd979cb2454221ebfed",
             "sourceUpdatedAt": "2026-10-02T21:11:10+00:00",
             "translatedAt": "2026-10-02T21:11:10+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -725,11 +725,11 @@
                     "metaDescription": "Proyectos de transformación de sistemas de información, asesoría y cumplimiento realizados por OLING."
                 }
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "29073f31109f1b71ee9e7c4ed5303c689a0eb6c55a38cc2b9bd5bf54d1cf8f47",
             "sourceUpdatedAt": "2026-10-02T21:16:23+00:00",
             "translatedAt": "2026-10-02T21:16:23+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -754,12 +754,12 @@
             "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Áreas de especialización más demandadas</h2>\n      <div class=\"row g-2\">\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/erp-progiciel\">Asesoría para ERP y software empresarial</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gmao\">Asesoría para GMAO</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/crm\">Asesoría para CRM</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/mapsi-progiciel\">Software MAPSI</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Gestión de riesgos, auditoría y control interno</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/cabinet-conseil-paris\">Consultora en París</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/metropoles-hexagone\">Presencia en las principales ciudades de la Francia metropolitana</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/hexagone-drom-dom-tom\">París, Francia metropolitana, DROM DOM TOM</a></div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-5 text-center\">\n      <h2>¿Tiene un proyecto de RGPD, sistemas de información, calidad o ciberseguridad?</h2>\n      <p class=\"oling-lede\">Hablemos de sus prioridades y limitaciones para elaborar un plan de acción realista.</p>\n      <div class=\"d-flex justify-content-center flex-wrap gap-2\">\n        <a class=\"btn btn-primary\" href=\"/contact\">Hablar con un consultor</a>\n        <a class=\"btn btn-outline-primary\" href=\"/amoa-si\">Ver la oferta de asesoría en sistemas de información</a>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP2_MAILLAGE_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-maillage-v2=\"resources-index\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Para saber más</h2>\n      <p class=\"mb-3\">Active las áreas prioritarias de asesoría y, a continuación, defina su ámbito territorial.</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-7\">\n          <h3 class=\"h6 text-uppercase mb-2\">Áreas prioritarias</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/amoa-si\">Asesoría en sistemas de información</a>: definición del alcance, gobernanza y supervisión de la ejecución.</li>\n            <li><a class=\"link\" href=\"/si-finance\">Asesoría en sistemas de información financieros</a>: flujos, control interno e informes.</li>\n            <li><a class=\"link\" href=\"/facturation-electronique-amoa\">Asesoría en facturación electrónica</a>: hoja de ruta PDP/PPF e implantación.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-5\">\n          <h3 class=\"h6 text-uppercase mb-2\">Zonas de intervención</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/cabinet-conseil-paris\">París</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-lyon\">Lyon</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-guadeloupe\">Guadalupe</a></li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Planificar la definición del alcance</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP2_MAILLAGE_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"resources-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Recursos complementarios de MAPSI</h2>\n      <p class=\"mb-3\">Para sistematizar el cumplimiento, los flujos de trabajo y la gestión de evidencias, consulte también las áreas de especialización de MAPSI.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">MAPSI SaaS GRC</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/privacy-rgpd\" target=\"_blank\" rel=\"noopener\">MAPSI Privacy RGPD</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK_RESOURCES -->",
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "c80a36ba59146f3eabe59f14c2c1390b05d4fb78be9bd3407d7b15a6171a5a2f",
             "sourceUpdatedAt": "2026-10-02T21:16:53+00:00",
             "translatedAt": "2026-10-02T21:16:53+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -783,11 +783,11 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
             "sourceUpdatedAt": "2026-10-02T21:17:18+00:00",
             "translatedAt": "2026-10-02T21:17:18+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -836,12 +836,12 @@
                     "metaDescription": "Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "f29dd9be5d12cbaf377f70b2099417624f69b54ab3fe2f6c7986a1b853fa5254",
             "sourceUpdatedAt": "2026-10-02T21:11:56+00:00",
             "translatedAt": "2026-10-02T21:11:56+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         }

@@ -117,12 +117,12 @@
                     "metaDescription": "OLING is a consultancy supporting small, medium-sized and mid-market companies with IT transformation, organisation, compliance, cybersecurity and artificial intelligence."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "7646aa87caaad49f485ebc54b89db697c4a2d12157f4d414096e56ab91bc4be8",
             "sourceUpdatedAt": "2026-10-02T21:07:09+00:00",
             "translatedAt": "2026-10-02T21:07:09+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -133,9 +133,9 @@
                 "externalId": null
             },
             "locale": "en",
-            "slug": "consulting-expertise",
-            "title": "Expertise hub",
-            "seoTitle": "Expertise hub",
+            "slug": "areas-of-expertise",
+            "title": "Areas of expertise",
+            "seoTitle": "Areas of expertise",
             "seoDescription": "OLING, a consulting firm for small, medium-sized and mid-market companies: IT transformation, organisational development, compliance, cybersecurity and artificial intelligence.",
             "ogTitle": null,
             "ogDescription": null,
@@ -146,11 +146,11 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "44afc1cae75a39853b01faf92b6cfbf1ba8a4f2c6389aa8807f8ee693d6b220d",
             "sourceUpdatedAt": "2026-10-02T21:09:14+00:00",
             "translatedAt": "2026-10-02T21:09:14+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -162,7 +162,7 @@
                 "externalId": null
             },
             "locale": "en",
-            "slug": "careers",
+            "slug": "industries-served",
             "title": "Industries | IT Project Advisory - OLING",
             "seoTitle": "Industries | IT Project Advisory - OLING",
             "seoDescription": "Cross-industry expertise in IT project advisory, enterprise software and compliance for public- and private-sector organisations.",
@@ -223,11 +223,11 @@
                     "metaDescription": "Cross-industry expertise in IT project advisory, enterprise software and compliance for public- and private-sector organisations."
                 }
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e4d9663bfabe13fe5e27d5d76dc5a49da12705a50a113bd979cb2454221ebfed",
             "sourceUpdatedAt": "2026-10-02T21:07:39+00:00",
             "translatedAt": "2026-10-02T21:07:39+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -725,11 +725,11 @@
                     "metaDescription": "Explore OLING's IT transformation, project advisory and compliance projects."
                 }
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "29073f31109f1b71ee9e7c4ed5303c689a0eb6c55a38cc2b9bd5bf54d1cf8f47",
             "sourceUpdatedAt": "2026-10-02T21:08:37+00:00",
             "translatedAt": "2026-10-02T21:08:37+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -754,12 +754,12 @@
             "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Areas of expertise</h2>\n      <div class=\"row g-2\">\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/erp-progiciel\">ERP selection and implementation advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gmao\">CMMS project advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/crm\">CRM project advisory</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/mapsi-progiciel\">MAPSI business software</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Risk management, audit and internal control</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/cabinet-conseil-paris\">Consulting firm in Paris</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/metropoles-hexagone\">Presence across major cities in mainland France</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/hexagone-drom-dom-tom\">Paris, mainland France and French overseas territories</a></div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-5 text-center\">\n      <h2>Do you have a GDPR, IT advisory, quality or cybersecurity project?</h2>\n      <p class=\"oling-lede\">Let’s discuss your priorities and constraints to build a realistic action plan.</p>\n      <div class=\"d-flex justify-content-center flex-wrap gap-2\">\n        <a class=\"btn btn-primary\" href=\"/contact\">Speak with a consultant</a>\n        <a class=\"btn btn-outline-primary\" href=\"/amoa-si\">View our IT project advisory services</a>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP2_MAILLAGE_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-maillage-v2=\"resources-index\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Explore further</h2>\n      <p class=\"mb-3\">Engage the priority IT project advisory services, then define your geographical scope.</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-7\">\n          <h3 class=\"h6 text-uppercase mb-2\">Priority areas of expertise</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/amoa-si\">IT project advisory</a>: scoping, governance and delivery management.</li>\n            <li><a class=\"link\" href=\"/si-finance\">Finance IT project advisory</a>: data flows, internal control and reporting.</li>\n            <li><a class=\"link\" href=\"/facturation-electronique-amoa\">E-invoicing project advisory</a>: PDP/PPF roadmap and deployment.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-5\">\n          <h3 class=\"h6 text-uppercase mb-2\">Service areas</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/cabinet-conseil-paris\">Paris</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-lyon\">Lyon</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-guadeloupe\">Guadeloupe</a></li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Schedule a scoping session</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP2_MAILLAGE_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"resources-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Additional MAPSI resources</h2>\n      <p class=\"mb-3\">To streamline compliance, workflows and evidence management, also explore MAPSI’s areas of expertise.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">MAPSI SaaS GRC</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/privacy-rgpd\" target=\"_blank\" rel=\"noopener\">MAPSI Privacy GDPR</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK_RESOURCES -->",
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "c80a36ba59146f3eabe59f14c2c1390b05d4fb78be9bd3407d7b15a6171a5a2f",
             "sourceUpdatedAt": "2026-10-02T21:09:01+00:00",
             "translatedAt": "2026-10-02T21:09:01+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -783,11 +783,11 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
             "sourceUpdatedAt": "2026-10-02T21:10:00+00:00",
             "translatedAt": "2026-10-02T21:10:00+00:00",
-            "reviewedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
@@ -836,12 +836,12 @@
                     "metaDescription": "A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "f29dd9be5d12cbaf377f70b2099417624f69b54ab3fe2f6c7986a1b853fa5254",
             "sourceUpdatedAt": "2026-10-02T21:07:58+00:00",
             "translatedAt": "2026-10-02T21:07:58+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": "2026-10-02T22:00:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         }

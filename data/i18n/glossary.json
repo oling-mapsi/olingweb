@@ -64,5 +64,20 @@
   "facturation électronique": {
     "en": ["e-invoicing", "electronic invoicing"],
     "es": ["facturación electrónica"]
+  },
+  "métiers": {
+    "en": ["industries served", "industry expertise"],
+    "es": ["sectores de actividad"],
+    "note": "For OLING core pages, this refers to sectors/industries served, not jobs or careers."
+  },
+  "expertises": {
+    "en": ["areas of expertise", "consulting expertise"],
+    "es": ["áreas de especialización"],
+    "note": "Avoid literal English 'expertises'."
+  },
+  "projets": {
+    "en": ["projects", "engagements", "client case studies"],
+    "es": ["proyectos", "misiones", "casos de clientes"],
+    "note": "Use 'case studies/casos de éxito' only when success claims are explicit in the source."
   }
 }

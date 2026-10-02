@@ -39,13 +39,13 @@ Les pages pilotes `services` et `contact` etaient deja `reviewed` en EN/ES et n'
 
 | FR slug | EN slug | EN status | ES slug | ES status |
 | --- | --- | --- | --- | --- |
-| apropos | about | to_review | quienes-somos | to_review |
-| metiers | careers | to_review | sectores-de-actividad | to_review |
-| team | team | to_review | equipo | to_review |
-| projets | projects | to_review | proyectos | to_review |
-| ressources | resources | to_review | recursos | to_review |
-| expertises-index | consulting-expertise | to_review | areas-de-especializacion | to_review |
-| secteurs-index | industries | to_review | sectores | to_review |
+| apropos | about | published | quienes-somos | published |
+| metiers | industries-served | reviewed | sectores-de-actividad | reviewed |
+| team | team | published | equipo | published |
+| projets | projects | reviewed | proyectos | reviewed |
+| ressources | resources | published | recursos | published |
+| expertises-index | areas-of-expertise | reviewed | areas-de-especializacion | reviewed |
+| secteurs-index | industries | reviewed | sectores | reviewed |
 | services | services | reviewed | servicios-y-ofertas | reviewed |
 | contact | contact | reviewed | contacto | reviewed |
 
@@ -65,3 +65,48 @@ Les pages pilotes `services` et `contact` etaient deja `reviewed` en EN/ES et n'
 - `metiers` ES a produit `sectores-de-actividad`; a valider ou remplacer par `empleos`/`carreras` selon l'intention editorial exacte de la page.
 - `projets` EN/ES a produit `projects`/`proyectos`; a valider contre l'intention "case studies / references".
 - Les entites hors `SitePageTranslation` ne disposent pas encore d'un batch IA complet ; elles restent a traiter par vagues dediees.
+
+## I18N-9R - revue humaine Wave 1
+
+Base commit de revue : `31142924`.
+
+| FR source | Locale | Current slug | Proposed slug | Title | Meta | Content | Terminology | Decision |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| apropos | en | about | about | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| apropos | es | quienes-somos | quienes-somos | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| team | en | team | team | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| team | es | equipo | equipo | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| ressources | en | resources | resources | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| ressources | es | recursos | recursos | APPROVE | APPROVE | APPROVE | APPROVE | APPROVE + PUBLISH batch 1 |
+| expertises-index | en | consulting-expertise | areas-of-expertise | EDIT | APPROVE | APPROVE | EDIT | REVIEWED |
+| expertises-index | es | areas-de-especializacion | areas-de-especializacion | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+| metiers | en | careers | industries-served | APPROVE | APPROVE | APPROVE | EDIT | REVIEWED |
+| metiers | es | sectores-de-actividad | sectores-de-actividad | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+| secteurs-index | en | industries | industries | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+| secteurs-index | es | sectores | sectores | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+| projets | en | projects | projects | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+| projets | es | proyectos | proyectos | APPROVE | APPROVE | APPROVE | APPROVE | REVIEWED |
+
+Decision log :
+
+- `metiers` EN : source lue comme secteurs/domaines clients servis, pas emplois/carrieres. Slug corrige de `careers` vers `industries-served`.
+- `metiers` ES : `sectores-de-actividad` valide, intention sectorielle.
+- `projets` EN : `projects` conserve ; la page combine projets, missions et references, sans imposer un claim "case studies" sur toutes les cartes.
+- `projets` ES : `proyectos` conserve ; `casos-de-exito` ecarte car il ajouterait une notion de succes non systematiquement portee par la source.
+- `expertises-index` EN : `consulting-expertise` remplace par `areas-of-expertise`, plus naturel et non calque.
+
+Publication progressive :
+
+- Batch 1 publie : `about`, `team`, `resources` en EN ; `quienes-somos`, `equipo`, `recursos` en ES.
+- Les autres pages Wave 1 sont validees en `reviewed` mais restent non publiques.
+
+Glossaire :
+
+- Ajouts : `metiers`, `expertises`, `projets`.
+
+Controles attendus post-deploiement :
+
+- Slug collision : 0.
+- `isOutdated` : false sur les 14 traductions.
+- Fuite FR inattendue : 0 hors noms propres, institutions et URLs.
+- Sitemaps EN/ES : uniquement pages publiees.

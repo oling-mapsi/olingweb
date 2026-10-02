@@ -52,6 +52,12 @@ class ErpQuestionnaireSubmission
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $budgetRange = null;
 
+    #[ORM\Column(length: 5, options: ['default' => 'fr'])]
+    private string $locale = 'fr';
+
+    #[ORM\Column(length: 16, options: ['default' => 'v1'])]
+    private string $questionnaireVersion = 'v1';
+
     #[ORM\Column(type: Types::JSON)]
     private array $answers = [];
 
@@ -229,6 +235,30 @@ class ErpQuestionnaireSubmission
     public function setBudgetRange(?string $budgetRange): self
     {
         $this->budgetRange = $budgetRange;
+
+        return $this;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getQuestionnaireVersion(): string
+    {
+        return $this->questionnaireVersion;
+    }
+
+    public function setQuestionnaireVersion(string $questionnaireVersion): self
+    {
+        $this->questionnaireVersion = $questionnaireVersion;
 
         return $this;
     }

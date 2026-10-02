@@ -13,6 +13,7 @@ class ErpQuestionnaireMailer
         private readonly MailerInterface $mailer,
         private readonly Environment $twig,
         private readonly ErpQuestionnairePdfGenerator $pdfGenerator,
+        private readonly ErpQuestionnaireContentProvider $contentProvider,
         private readonly string $recipient = 'florestan.rouet@oling.fr',
     ) {
     }
@@ -21,17 +22,19 @@ class ErpQuestionnaireMailer
     {
         $pdf = $this->pdfGenerator->generate($submission);
         $filename = $this->pdfGenerator->filename($submission);
+        $content = $this->contentProvider->content($submission->getLocale());
         $context = [
             'submission' => $submission,
             'summary' => $submission->getSummary(),
             'answers' => $submission->getAnswers(),
             'scoring' => $submission->getScoring(),
+            'erpContent' => $content,
         ];
 
         $prospect = (new Email())
             ->from('contact@oling.fr')
             ->to($submission->getEmail())
-            ->subject('Votre synthèse de qualification ERP / progiciel - OLING')
+            ->subject($content['email']['prospect_subject'])
             ->text($this->twig->render('emails/erp_questionnaire_prospect.txt.twig', $context))
             ->html($this->twig->render('emails/erp_questionnaire_prospect.html.twig', $context))
             ->attach($pdf, $filename, 'application/pdf');
@@ -40,7 +43,7 @@ class ErpQuestionnaireMailer
             ->from('contact@oling.fr')
             ->to($this->recipient)
             ->replyTo($submission->getEmail())
-            ->subject(sprintf('[OLING][Questionnaire ERP] %s - %s', $submission->getCompany(), $submission->getUrgency() ?: 'urgence à qualifier'))
+            ->subject(sprintf($content['email']['internal_subject'], $submission->getCompany(), $submission->getUrgency() ?: $content['email']['internal_urgency_fallback']))
             ->text($this->twig->render('emails/erp_questionnaire_internal.txt.twig', $context))
             ->html($this->twig->render('emails/erp_questionnaire_internal.html.twig', $context))
             ->attach($pdf, $filename, 'application/pdf');

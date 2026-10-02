@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Synthèse ERP / progiciel | OLING{% endblock %}
+{% set c = erpContent %}
+{% block title %}{{ c.ui.result_title }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="oling-seo-cabinet">
   <section class="oling-section oling-section--tight">
     <div class="container">
       <div class="oling-surface p-4 p-lg-5">
-        <span class="oling-kicker">Synthèse IA OLING</span>
-        <h1 class="h2">Qualification ERP / progiciel</h1>
-        <h2 class="h5 mt-4">Synthèse exécutive</h2>
+        <span class="oling-kicker">{{ c.ui.result_kicker }}</span>
+        <h1 class="h2">{{ c.ui.result_h1 }}</h1>
+        <h2 class="h5 mt-4">{{ c.ui.executive_summary }}</h2>
         <p>{{ summary.executive_summary }}</p>
-        <a class="btn btn-primary" href="{{ path('erp_questionnaire_pdf', {token: submission.publicToken}) }}">Télécharger le PDF</a>
+        <a class="btn btn-primary" href="{{ path('erp_questionnaire_pdf', {token: submission.publicToken}) }}">{{ c.ui.download_pdf }}</a>
       </div>
     </div>
   </section>
@@ -19,35 +20,14 @@
   <section class="oling-section oling-section--tight">
     <div class="container">
       <div class="oling-surface p-4">
-        {% for title, key in {
-          'Contexte':'context',
-          'Besoin exprimé':'expressed_need',
-          'Maturité projet':'maturity',
-          'Complexité':'complexity',
-          'Charge AMOA indicative':'amoa_charge_estimate',
-          'Budget AMOA indicatif':'amoa_budget_estimate',
-          'Prochaine étape commerciale OLING':'recommended_commercial_next_step'
-        } %}
+        {% for key in ['context','expressed_need','maturity','complexity','amoa_charge_estimate','amoa_budget_estimate','recommended_commercial_next_step'] %}
+          {% set title = c.summary_titles[key] %}
           <h2 class="h5 mt-3">{{ title }}</h2>
           <p>{{ summary[key] }}</p>
         {% endfor %}
 
-        {% for title, key in {
-          'Situation actuelle':'current_situation',
-          'Périmètre fonctionnel pressenti':'functional_scope',
-          'Irritants':'irritants',
-          'Risques':'risks',
-          'Contraintes':'constraints',
-          'Données et interfaces':'data_interfaces',
-          'Sécurité / RGPD':'security_rgpd',
-          'Organisation projet':'project_organization',
-          'Livrables AMOA recommandés':'recommended_deliverables',
-          'Macro-démarche proposée':'macro_approach',
-          'Macro-planning indicatif':'macro_planning',
-          'Hypothèses utilisées':'estimation_assumptions',
-          'Informations manquantes':'missing_information',
-          'Questions prioritaires en rendez-vous':'priority_meeting_questions'
-        } %}
+        {% for key in ['current_situation','functional_scope','irritants','risks','constraints','data_interfaces','security_rgpd','project_organization','recommended_deliverables','macro_approach','macro_planning','estimation_assumptions','missing_information','priority_meeting_questions'] %}
+          {% set title = c.summary_titles[key] %}
           <h2 class="h5 mt-4">{{ title }}</h2>
           <ul>
             {% for item in summary[key] %}
@@ -56,7 +36,7 @@
           </ul>
         {% endfor %}
 
-        <p class="small text-muted mt-4">À ce stade, les estimations sont indicatives et devront être confirmées après un échange de cadrage avec OLING.</p>
+        <p class="small text-muted mt-4">{{ c.ui.notice }}</p>
       </div>
     </div>
   </section>

@@ -4,6 +4,10 @@ namespace App\Service\ErpQuestionnaire;
 
 class ErpQuestionnaireSummaryService
 {
+    public function __construct(private readonly ErpQuestionnaireContentProvider $contentProvider)
+    {
+    }
+
     /**
      * @param array<string, mixed> $answers
      * @return array<string, mixed>
@@ -25,25 +29,25 @@ class ErpQuestionnaireSummaryService
 
         return [
             'executive_summary' => sprintf(
-                '%s souhaite qualifier un besoin %s dans un contexte %s. Le périmètre pressenti couvre %s. À ce stade, la maturité est évaluée comme %s et la complexité comme %s.',
-                $answers['company'] ?? 'L’organisation',
-                $this->label($answers['solutionType'] ?? 'progiciel'),
-                mb_strtolower($this->value($answers['context'] ?? 'à préciser')),
-                $modules === [] ? 'un périmètre à préciser' : implode(', ', array_slice($modules, 0, 6)),
+                $this->text('executive'),
+                $answers['company'] ?? $this->text('organization_fallback'),
+                $this->label($answers['solutionType'] ?? $this->text('software_fallback')),
+                mb_strtolower($this->value($answers['context'] ?? $this->text('clarify'))),
+                $modules === [] ? $this->text('scope_fallback') : implode(', ', array_slice($modules, 0, 6)),
                 mb_strtolower($maturity),
                 mb_strtolower($complexity)
             ),
-            'context' => $this->value($answers['context'] ?? '') ?: 'Contexte à préciser en échange de cadrage.',
+            'context' => $this->value($answers['context'] ?? '') ?: $this->text('context_fallback'),
             'current_situation' => $this->currentSituation($answers),
-            'expressed_need' => $this->value($answers['need'] ?? '') ?: 'Besoin à préciser.',
-            'functional_scope' => $modules === [] ? ['Périmètre fonctionnel à préciser'] : $modules,
-            'irritants' => $irritants === [] ? ['Irritants à préciser en échange de cadrage'] : $irritants,
+            'expressed_need' => $this->value($answers['need'] ?? '') ?: $this->text('need_fallback'),
+            'functional_scope' => $modules === [] ? [$this->text('functional_scope_fallback')] : $modules,
+            'irritants' => $irritants === [] ? [$this->text('irritants_fallback')] : $irritants,
             'maturity' => $maturity,
             'complexity' => $complexity,
             'risks' => $this->risks($answers, $modules, $complexity),
-            'constraints' => $constraints === [] ? ['Contraintes à confirmer'] : $constraints,
+            'constraints' => $constraints === [] ? [$this->text('constraints_fallback')] : $constraints,
             'data_interfaces' => $dataInterfaces,
-            'security_rgpd' => $securityRgpd === [] ? ['Habilitations, données personnelles, RGPD et traçabilité à confirmer selon le périmètre.'] : $securityRgpd,
+            'security_rgpd' => $securityRgpd === [] ? [$this->text('security_rgpd_fallback')] : $securityRgpd,
             'project_organization' => $this->projectOrganization($answers),
             'recommended_deliverables' => $deliverables,
             'macro_approach' => $this->macroApproach($answers, $complexity),
@@ -57,9 +61,9 @@ class ErpQuestionnaireSummaryService
             'oling_next_step' => $nextStep,
             'clarification_points' => $clarifications,
             'short_summary' => sprintf(
-                'Besoin %s pour %s, maturité %s, complexité %s, estimation AMOA %s.',
-                $this->label($answers['solutionType'] ?? 'progiciel'),
-                $answers['company'] ?? 'organisation à qualifier',
+                $this->text('short'),
+                $this->label($answers['solutionType'] ?? $this->text('software_fallback')),
+                $answers['company'] ?? $this->text('organization_fallback'),
                 mb_strtolower($maturity),
                 mb_strtolower($complexity),
                 $budget
@@ -85,14 +89,14 @@ class ErpQuestionnaireSummaryService
             'urgency' => $urgency,
             'oling_potential' => $potential,
             'justification' => sprintf(
-                'Périmètre %s, %s utilisateurs, maturité %s, urgence %s.',
-                count($modules) >= 5 ? 'large' : (count($modules) >= 3 ? 'intermédiaire' : 'ciblé'),
-                $this->label($answers['userCount'] ?? 'à préciser'),
+                $this->text('scoring_justification'),
+                count($modules) >= 5 ? $this->text('scope_large') : (count($modules) >= 3 ? $this->text('scope_medium') : $this->text('scope_targeted')),
+                $this->label($answers['userCount'] ?? $this->text('clarify')),
                 mb_strtolower((string) $maturity),
                 mb_strtolower($urgency)
             ),
-            'next_action' => $potential === 'A' ? 'Appel de qualification prioritaire' : ($potential === 'B' ? 'Proposer un rendez-vous de cadrage' : 'Nurturing ou qualification courte'),
-            'recommended_contact_delay' => $potential === 'A' ? '24h' : ($potential === 'B' ? '3 jours ouvrés' : '7 à 10 jours ouvrés'),
+            'next_action' => $potential === 'A' ? $this->text('next_action_a') : ($potential === 'B' ? $this->text('next_action_b') : $this->text('next_action_c')),
+            'recommended_contact_delay' => $potential === 'A' ? $this->text('delay_a') : ($potential === 'B' ? $this->text('delay_b') : $this->text('delay_c')),
         ];
     }
 
@@ -102,11 +106,11 @@ class ErpQuestionnaireSummaryService
     private function maturity(array $answers): string
     {
         return match ((string) ($answers['projectMaturity'] ?? '')) {
-            'idea' => 'Faible',
-            'scoping' => 'Moyenne',
-            'consultation', 'running' => 'Forte',
-            'blocked' => 'Moyenne',
-            default => 'Moyenne',
+            'idea' => $this->scale('low'),
+            'scoping' => $this->scale('medium'),
+            'consultation', 'running' => $this->scale('high'),
+            'blocked' => $this->scale('medium'),
+            default => $this->scale('medium'),
         };
     }
 
@@ -134,10 +138,10 @@ class ErpQuestionnaireSummaryService
         }
 
         return match (true) {
-            $score >= 7 => 'Très forte',
-            $score >= 5 => 'Forte',
-            $score >= 3 => 'Moyenne',
-            default => 'Faible',
+            $score >= 7 => $this->scale('very_high'),
+            $score >= 5 => $this->scale('high'),
+            $score >= 3 => $this->scale('medium'),
+            default => $this->scale('low'),
         };
     }
 
@@ -149,12 +153,12 @@ class ErpQuestionnaireSummaryService
     {
         $items = [];
         if (($answers['hasExistingSolution'] ?? '') === 'yes') {
-            $items[] = 'Solution existante : '.($this->value($answers['existingSolution'] ?? '') ?: 'à préciser');
-            $items[] = 'Ancienneté / hébergement : '.trim(($this->label($answers['existingSolutionAge'] ?? '') ?: 'ancienneté à préciser').' / '.($this->label($answers['existingSolutionHosting'] ?? '') ?: 'hébergement à préciser'));
+            $items[] = sprintf($this->text('current_existing_solution'), $this->value($answers['existingSolution'] ?? '') ?: $this->text('current_existing_solution_fallback'));
+            $items[] = sprintf($this->text('current_age_hosting'), $this->label($answers['existingSolutionAge'] ?? '') ?: $this->text('current_age_fallback'), $this->label($answers['existingSolutionHosting'] ?? '') ?: $this->text('current_hosting_fallback'));
         } else {
-            $items[] = 'Aucune solution existante structurante déclarée ou information non stabilisée.';
+            $items[] = $this->text('current_no_solution');
         }
-        $items[] = 'Nature du projet : '.$this->label($answers['projectNature'] ?? 'à préciser');
+        $items[] = sprintf($this->text('current_project_nature'), $this->label($answers['projectNature'] ?? $this->text('clarify')));
 
         return $items;
     }
@@ -168,25 +172,25 @@ class ErpQuestionnaireSummaryService
     {
         $risks = [];
         if (($answers['projectMaturity'] ?? null) === 'blocked') {
-            $risks[] = 'Projet bloqué ou trajectoire à reprendre avant relance.';
+            $risks[] = $this->text('risk_blocked');
         }
         if (count($modules) >= 5) {
-            $risks[] = 'Périmètre fonctionnel large nécessitant priorisation et arbitrages.';
+            $risks[] = $this->text('risk_wide_scope');
         }
         if (in_array(($answers['interfaceLevel'] ?? null), ['several', 'many'], true) || ($answers['dataMigration'] ?? null) === 'yes') {
-            $risks[] = 'Reprise de données, qualité des référentiels et interfaces à cadrer finement.';
+            $risks[] = $this->text('risk_data');
         }
         if ($this->value($answers['securityRgpd'] ?? '') !== '') {
-            $risks[] = 'Sécurité, habilitations et conformité RGPD à intégrer dès le cadrage.';
+            $risks[] = $this->text('risk_security');
         }
         if ($this->value($answers['financeSpecific'] ?? '') !== '') {
-            $risks[] = 'Contraintes finance, budget, engagements ou clôture à sécuriser avec les métiers concernés.';
+            $risks[] = $this->text('risk_finance');
         }
-        if (in_array($complexity, ['Forte', 'Très forte'], true)) {
-            $risks[] = 'Charge AMOA, gouvernance et disponibilité métier à sécuriser avant engagement.';
+        if (in_array($complexity, [$this->scale('high'), $this->scale('very_high')], true)) {
+            $risks[] = $this->text('risk_amoa');
         }
 
-        return $risks === [] ? ['Risques projet à qualifier lors du cadrage.'] : $risks;
+        return $risks === [] ? [$this->text('risk_fallback')] : $risks;
     }
 
     /**
@@ -195,23 +199,18 @@ class ErpQuestionnaireSummaryService
      */
     private function deliverables(array $answers, string $complexity): array
     {
-        $deliverables = [
-            'Note de cadrage AMOA ERP / progiciel',
-            'Expression structurée des besoins et périmètre fonctionnel cible',
-            'Cartographie des processus, irritants et priorités',
-            'Macro-planning, gouvernance et points d’arbitrage',
-        ];
+        $deliverables = $this->summaryList('deliverables');
         if (in_array(($answers['projectMaturity'] ?? null), ['consultation', 'scoping'], true)) {
-            $deliverables[] = 'Cahier des charges, grille de choix et scénarios de démonstration';
+            $deliverables[] = $this->text('deliverable_consultation');
         }
         if ($this->value($answers['financeSpecific'] ?? '') !== '') {
-            $deliverables[] = 'Atelier Finance dédié : comptabilité, budget, engagements, facturation, reporting et contrôles';
+            $deliverables[] = $this->text('deliverable_finance');
         }
         if (($answers['dataMigration'] ?? null) === 'yes' || in_array(($answers['interfaceLevel'] ?? null), ['several', 'many'], true)) {
-            $deliverables[] = 'Stratégie de reprise de données et cadrage des interfaces';
+            $deliverables[] = $this->text('deliverable_data');
         }
-        if (in_array($complexity, ['Forte', 'Très forte'], true)) {
-            $deliverables[] = 'Stratégie de recette, conduite du changement et dispositif de pilotage';
+        if (in_array($complexity, [$this->scale('high'), $this->scale('very_high')], true)) {
+            $deliverables[] = $this->text('deliverable_steering');
         }
 
         return $deliverables;
@@ -225,11 +224,11 @@ class ErpQuestionnaireSummaryService
     {
         $items = [];
         if (($answers['dataMigration'] ?? '') === 'yes') {
-            $items[] = 'Migration de données prévue : '.($this->value($answers['migrationDetails'] ?? '') ?: 'volumétrie et objets à préciser.');
+            $items[] = sprintf($this->text('data_migration_yes'), $this->value($answers['migrationDetails'] ?? '') ?: $this->text('data_migration_details_fallback'));
         } else {
-            $items[] = 'Migration de données non confirmée à ce stade.';
+            $items[] = $this->text('data_migration_no');
         }
-        $items[] = 'Niveau d’interfaces : '.$this->label($answers['interfaceLevel'] ?? 'à préciser');
+        $items[] = sprintf($this->text('interfaces_level'), $this->label($answers['interfaceLevel'] ?? $this->text('clarify')));
         foreach ($this->splitText($answers['dataInterfaces'] ?? '') as $item) {
             $items[] = $item;
         }
@@ -244,12 +243,12 @@ class ErpQuestionnaireSummaryService
     private function projectOrganization(array $answers): array
     {
         return array_values(array_filter([
-            'Sponsor : '.($this->value($answers['sponsor'] ?? '') ?: 'à confirmer'),
-            'Équipe projet : '.($this->value($answers['projectTeam'] ?? '') ?: $this->value($answers['organization'] ?? 'à confirmer')),
-            'Spécification existante : '.$this->label($answers['hasSpecification'] ?? 'à préciser'),
-            'Éditeur/intégrateur identifié : '.$this->label($answers['hasEditorIdentified'] ?? 'à préciser'),
-            'Éditeur/intégrateur pressenti : '.($this->value($answers['editorDetails'] ?? '') ?: 'à confirmer'),
-            'Consultation : '.$this->label($answers['consultationStatus'] ?? 'à préciser'),
+            sprintf($this->text('project_sponsor'), $this->value($answers['sponsor'] ?? '') ?: $this->text('confirm')),
+            sprintf($this->text('project_team'), $this->value($answers['projectTeam'] ?? '') ?: $this->value($answers['organization'] ?? $this->text('confirm'))),
+            sprintf($this->text('project_specification'), $this->label($answers['hasSpecification'] ?? $this->text('clarify'))),
+            sprintf($this->text('project_editor_identified'), $this->label($answers['hasEditorIdentified'] ?? $this->text('clarify'))),
+            sprintf($this->text('project_editor'), $this->value($answers['editorDetails'] ?? '') ?: $this->text('confirm')),
+            sprintf($this->text('project_consultation'), $this->label($answers['consultationStatus'] ?? $this->text('clarify'))),
         ]));
     }
 
@@ -259,12 +258,10 @@ class ErpQuestionnaireSummaryService
      */
     private function macroApproach(array $answers, string $complexity): array
     {
-        $approach = ['Cadrage flash du besoin, des parties prenantes et des hypothèses clés.'];
-        $approach[] = 'Ateliers métiers ciblés sur le périmètre prioritaire et les irritants.';
-        if (in_array($complexity, ['Forte', 'Très forte'], true)) {
-            $approach[] = 'Séquence dédiée données, interfaces, sécurité, gouvernance et trajectoire de consultation.';
+        $approach = $this->summaryList('approach');
+        if (in_array($complexity, [$this->scale('high'), $this->scale('very_high')], true)) {
+            array_splice($approach, 2, 0, [$this->text('approach_complex')]);
         }
-        $approach[] = 'Restitution OLING avec livrables AMOA, risques, charge et budget indicatifs.';
 
         return $approach;
     }
@@ -275,41 +272,29 @@ class ErpQuestionnaireSummaryService
     private function macroPlanning(string $complexity): array
     {
         return match ($complexity) {
-            'Très forte', 'Forte' => [
-                '2 à 4 semaines : cadrage, ateliers et collecte documentaire',
-                '3 à 6 semaines : expression de besoins, périmètre, risques, données et interfaces',
-                '2 à 4 semaines : dossier de choix, macro-planning, budget et trajectoire projet',
-            ],
-            'Moyenne' => [
-                '1 à 2 semaines : cadrage et ateliers clés',
-                '2 à 4 semaines : expression de besoins, périmètre et risques',
-                '1 à 2 semaines : synthèse, trajectoire, charge et budget indicatifs',
-            ],
-            default => [
-                '1 semaine : qualification et cadrage rapide',
-                '1 à 2 semaines : expression synthétique du besoin et périmètre',
-                '1 semaine : trajectoire, livrables et estimation indicative',
-            ],
+            $this->scale('very_high'), $this->scale('high') => $this->summaryList('planning.high'),
+            $this->scale('medium') => $this->summaryList('planning.medium'),
+            default => $this->summaryList('planning.low'),
         };
     }
 
     private function chargeEstimate(string $complexity): string
     {
         return match ($complexity) {
-            'Très forte' => '30 à 60 jours AMOA indicatifs',
-            'Forte' => '20 à 45 jours AMOA indicatifs',
-            'Moyenne' => '10 à 25 jours AMOA indicatifs',
-            default => '5 à 12 jours AMOA indicatifs',
+            $this->scale('very_high') => $this->text('charge.very_high'),
+            $this->scale('high') => $this->text('charge.high'),
+            $this->scale('medium') => $this->text('charge.medium'),
+            default => $this->text('charge.low'),
         };
     }
 
     private function budgetEstimate(string $complexity): string
     {
         return match ($complexity) {
-            'Très forte' => '36 000 à 78 000 € HT indicatifs',
-            'Forte' => '24 000 à 58 000 € HT indicatifs',
-            'Moyenne' => '12 000 à 32 000 € HT indicatifs',
-            default => '6 000 à 15 000 € HT indicatifs',
+            $this->scale('very_high') => $this->text('budget.very_high'),
+            $this->scale('high') => $this->text('budget.high'),
+            $this->scale('medium') => $this->text('budget.medium'),
+            default => $this->text('budget.low'),
         };
     }
 
@@ -320,11 +305,13 @@ class ErpQuestionnaireSummaryService
      */
     private function estimationAssumptions(array $answers, array $modules): array
     {
+        $patterns = $this->summaryList('assumptions');
+
         return [
-            'Estimation fondée sur '.max(1, count($modules)).' module(s) fonctionnel(s) déclaré(s).',
-            'Nombre d’utilisateurs retenu : '.$this->label($answers['userCount'] ?? 'à préciser').'.',
-            'Budget prospect déclaré : '.$this->label($answers['budgetStatus'] ?? 'à préciser').' / '.$this->label($answers['budgetRange'] ?? 'à confirmer').'.',
-            'Les estimations excluent les coûts licence, intégration éditeur et développements spécifiques.',
+            sprintf($patterns[0] ?? '', max(1, count($modules))),
+            sprintf($patterns[1] ?? '', $this->label($answers['userCount'] ?? $this->text('clarify'))),
+            sprintf($patterns[2] ?? '', $this->label($answers['budgetStatus'] ?? $this->text('clarify')), $this->label($answers['budgetRange'] ?? $this->text('confirm'))),
+            $patterns[3] ?? '',
         ];
     }
 
@@ -337,20 +324,15 @@ class ErpQuestionnaireSummaryService
     {
         $points = [];
         if ($modules === []) {
-            $points[] = 'Modules fonctionnels réellement prioritaires.';
+            $points[] = $this->text('clarification_modules');
         }
-        foreach ([
-            'Périmètre exact et sites concernés.' => 'scope',
-            'Données à reprendre et interfaces critiques.' => 'dataInterfaces',
-            'Contraintes sécurité, RGPD et habilitations.' => 'securityRgpd',
-            'Budget et fenêtre de décision.' => 'budgetRange',
-        ] as $label => $field) {
+        foreach ($this->summaryMap('clarification_fields') as $field => $label) {
             if ($this->value($answers[$field] ?? '') === '') {
                 $points[] = $label;
             }
         }
 
-        return $points === [] ? ['Valider les hypothèses de charge, budget et planning en rendez-vous.'] : $points;
+        return $points === [] ? [$this->text('clarification_fallback')] : $points;
     }
 
     /**
@@ -360,12 +342,7 @@ class ErpQuestionnaireSummaryService
      */
     private function priorityMeetingQuestions(array $answers, array $modules): array
     {
-        return [
-            'Quels processus et modules sont réellement prioritaires dans les 3 à 6 prochains mois ?',
-            'Quels arbitrages sont déjà actés côté sponsor, DSI et métiers ?',
-            'Quelles données, interfaces et contraintes réglementaires peuvent bloquer le planning ?',
-            'Quel niveau de livrable OLING est attendu : cadrage, cahier des charges, consultation, pilotage ?',
-        ];
+        return $this->summaryList('meeting_questions');
     }
 
     /**
@@ -373,11 +350,11 @@ class ErpQuestionnaireSummaryService
      */
     private function commercialNextStep(array $answers, string $complexity): string
     {
-        if (in_array(($answers['urgency'] ?? null), ['immediate', 'short_term'], true) || in_array($complexity, ['Forte', 'Très forte'], true)) {
-            return 'Proposer un rendez-vous de qualification OLING sous 24 à 48h pour sécuriser le périmètre, les risques et la trajectoire AMOA.';
+        if (in_array(($answers['urgency'] ?? null), ['immediate', 'short_term'], true) || in_array($complexity, [$this->scale('high'), $this->scale('very_high')], true)) {
+            return $this->text('next_step_priority');
         }
 
-        return 'Proposer un échange de cadrage OLING pour confirmer le besoin, les livrables attendus, la charge et le budget indicatifs.';
+        return $this->text('next_step_standard');
     }
 
     /**
@@ -386,9 +363,9 @@ class ErpQuestionnaireSummaryService
     private function urgencyScore(array $answers): string
     {
         return match ((string) ($answers['urgency'] ?? '')) {
-            'immediate', 'short_term' => 'Forte',
-            'planned' => 'Moyenne',
-            default => 'Faible',
+            'immediate', 'short_term' => $this->scale('high'),
+            'planned' => $this->scale('medium'),
+            default => $this->scale('low'),
         };
     }
 
@@ -398,32 +375,32 @@ class ErpQuestionnaireSummaryService
     private function commercialMaturity(array $answers): string
     {
         return match ((string) ($answers['projectMaturity'] ?? '')) {
-            'idea' => 'Faible',
-            'scoping', 'blocked' => 'Moyenne',
-            'consultation', 'running' => 'Forte',
-            default => 'Faible',
+            'idea' => $this->scale('low'),
+            'scoping', 'blocked' => $this->scale('medium'),
+            'consultation', 'running' => $this->scale('high'),
+            default => $this->scale('low'),
         };
     }
 
     private function commercialComplexity(string $complexity): string
     {
         return match ($complexity) {
-            'Très forte' => 'Très forte',
-            'Forte' => 'Forte',
-            'Moyenne' => 'Moyenne',
-            default => 'Faible',
+            $this->scale('very_high') => $this->scale('very_high'),
+            $this->scale('high') => $this->scale('high'),
+            $this->scale('medium') => $this->scale('medium'),
+            default => $this->scale('low'),
         };
     }
 
     private function olingPotential(array $answers, string $complexity, string $urgency): string
     {
         $score = 0;
-        if (in_array($complexity, ['Forte', 'Très forte'], true)) {
+        if (in_array($complexity, [$this->scale('high'), $this->scale('very_high')], true)) {
             $score += 2;
-        } elseif ($complexity === 'Moyenne') {
+        } elseif ($complexity === $this->scale('medium')) {
             ++$score;
         }
-        if ($urgency === 'Forte') {
+        if ($urgency === $this->scale('high')) {
             $score += 2;
         }
         if (in_array(($answers['budgetStatus'] ?? null), ['known', 'approx', 'confidential'], true)) {
@@ -471,70 +448,57 @@ class ErpQuestionnaireSummaryService
 
     private function label(mixed $value): string
     {
-        return match ((string) $value) {
-            'erp' => 'ERP',
-            'si_finance' => 'SI Finance',
-            'purchasing_solution' => 'Solution achats',
-            'sales_solution' => 'Gestion commerciale',
-            'crm' => 'CRM',
-            'gmao' => 'GMAO',
-            'sirh' => 'SIRH / paie',
-            'mes' => 'MES / production',
-            'bi' => 'BI / reporting',
-            'ged' => 'GED',
-            'business_solution' => 'Solution métier spécialisée',
-            'other' => 'Autre progiciel',
-            'replacement' => 'Remplacement',
-            'first_equipment' => 'Premier équipement',
-            'extension' => 'Extension de périmètre',
-            'rescue' => 'Reprise de projet',
-            'yes' => 'Oui',
-            'no' => 'Non',
-            'unknown' => 'À préciser',
-            'recent' => 'Moins de 3 ans',
-            'mid' => '3 à 8 ans',
-            'old' => 'Plus de 8 ans',
-            'cloud' => 'Cloud / SaaS',
-            'on_premise' => 'On premise',
-            'hybrid' => 'Hybride',
-            'idea' => 'Réflexion initiale',
-            'scoping' => 'Cadrage',
-            'consultation' => 'Consultation / choix de solution',
-            'running' => 'Projet en cours',
-            'blocked' => 'Projet bloqué ou à reprendre',
-            'none' => 'Aucune interface majeure',
-            'few' => 'Quelques interfaces',
-            'several' => 'Plusieurs systèmes',
-            'many' => 'SI fortement interfacé',
-            'draft' => 'Brouillon',
-            'formalized' => 'Formalisée',
-            'not_started' => 'Non démarrée',
-            'started' => 'Démarrée',
-            'ongoing' => 'En cours',
-            'immediate' => 'Immédiate',
-            'short_term' => 'Court terme',
-            'planned' => 'Planifiée',
-            'exploratory' => 'Exploratoire',
-            'known' => 'Budget connu',
-            'approx' => 'Ordre de grandeur',
-            'confidential' => 'Budget confidentiel',
-            'finance' => 'Finance / comptabilité',
-            'budget' => 'Budget / engagements',
-            'purchasing' => 'Achats / approvisionnements',
-            'sales' => 'Ventes / gestion commerciale',
-            'stock' => 'Stocks / logistique',
-            'production' => 'MES / production',
-            'maintenance' => 'Maintenance / GMAO',
-            'hr' => 'SIRH / paie',
-            'reporting' => 'Reporting / BI',
-            'interfaces' => 'Interfaces',
-            'business' => 'Solution métier spécialisée',
-            'lt_15k' => '< 15 k€',
-            '15_30k' => '15 à 30 k€',
-            '30_60k' => '30 à 60 k€',
-            '60k_plus' => '> 60 k€',
-            '100k_plus' => '> 100 k€',
-            default => $this->value($value),
-        };
+        return $this->contentProvider->label((string) $value);
+    }
+
+    private function scale(string $level): string
+    {
+        $content = $this->contentProvider->content();
+        $value = $content['scale'][$level] ?? null;
+
+        return is_string($value) ? $value : $level;
+    }
+
+    private function text(string $key): string
+    {
+        return $this->contentProvider->text('summary.'.$key);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function summaryList(string $key): array
+    {
+        $content = $this->contentProvider->content();
+        $value = $this->path($content['summary'] ?? [], $key);
+
+        return is_array($value) ? array_values(array_filter($value, 'is_string')) : [];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function summaryMap(string $key): array
+    {
+        $content = $this->contentProvider->content();
+        $value = $this->path($content['summary'] ?? [], $key);
+
+        return is_array($value) ? array_filter($value, 'is_string') : [];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function path(array $data, string $path): mixed
+    {
+        $value = $data;
+        foreach (explode('.', $path) as $part) {
+            if (!is_array($value) || !array_key_exists($part, $value)) {
+                return null;
+            }
+            $value = $value[$part];
+        }
+
+        return $value;
     }
 }

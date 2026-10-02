@@ -12,6 +12,7 @@ class ErpQuestionnairePdfGenerator
     public function __construct(
         private readonly Environment $twig,
         private readonly string $projectDir,
+        private readonly ErpQuestionnaireContentProvider $contentProvider,
     ) {
     }
 
@@ -21,6 +22,7 @@ class ErpQuestionnairePdfGenerator
             'submission' => $submission,
             'summary' => $submission->getSummary(),
             'answers' => $submission->getAnswers(),
+            'erpContent' => $this->contentProvider->content($submission->getLocale()),
             'logoDataUri' => $this->logoDataUri(),
         ]);
 

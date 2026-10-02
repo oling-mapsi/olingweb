@@ -1,0 +1,63 @@
+{
+  "version": "v1",
+  "default_locale": "fr",
+  "supported_locales": ["fr"],
+  "required_fields": [
+    "fullName",
+    "email",
+    "phone",
+    "company",
+    "context",
+    "need",
+    "solutionType",
+    "projectMaturity",
+    "irritants",
+    "scope",
+    "organization",
+    "planning"
+  ],
+  "array_required_fields": ["functionalScope", "amoaExpectations"],
+  "boolean_required_fields": ["rgpdConsent"],
+  "option_groups": {
+    "functionalScope": [
+      "finance",
+      "budget",
+      "purchasing",
+      "sales",
+      "crm",
+      "stock",
+      "production",
+      "maintenance",
+      "hr",
+      "reporting",
+      "ged",
+      "business",
+      "interfaces",
+      "other"
+    ],
+    "solutionType": [
+      "erp",
+      "si_finance",
+      "purchasing_solution",
+      "sales_solution",
+      "crm",
+      "sirh",
+      "gmao",
+      "mes",
+      "bi",
+      "ged",
+      "business_solution",
+      "other"
+    ],
+    "amoaExpectations": [
+      "cadrage",
+      "requirements",
+      "spec",
+      "vendor",
+      "planning",
+      "data",
+      "change",
+      "pilotage"
+    ]
+  }
+}

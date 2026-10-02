@@ -75,6 +75,10 @@ services:
         arguments:
             $projectDir: '%kernel.project_dir%'
 
+    App\Service\ErpQuestionnaire\ErpQuestionnaireContentProvider:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     App\Service\ErpQuestionnaire\ErpQuestionnaireMailer:
         arguments:
             $recipient: '%chat_lead_recipient%'

@@ -8,7 +8,10 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class ErpQuestionnairePayloadMapper
 {
-    public function __construct(private readonly CsrfTokenManagerInterface $csrfTokenManager)
+    public function __construct(
+        private readonly CsrfTokenManagerInterface $csrfTokenManager,
+        private readonly ErpQuestionnaireContentProvider $contentProvider
+    )
     {
     }
 
@@ -20,51 +23,62 @@ class ErpQuestionnairePayloadMapper
     {
         $errors = [];
         if (trim((string) ($values['website'] ?? '')) !== '') {
-            $errors[] = 'La soumission n’a pas pu être validée.';
+            $errors[] = $this->contentProvider->text('validation.spam');
         }
 
         if (!$this->csrfTokenManager->isTokenValid(new CsrfToken('erp_questionnaire', $token))) {
-            $errors[] = 'Jeton de sécurité invalide.';
+            $errors[] = $this->contentProvider->text('validation.csrf');
         }
 
-        foreach ([
-            'fullName' => 'Nom et prénom',
-            'email' => 'Email professionnel',
-            'phone' => 'Téléphone',
-            'company' => 'Organisation',
-            'context' => 'Contexte',
-            'need' => 'Besoin exprimé',
-            'solutionType' => 'Type de solution',
-            'projectMaturity' => 'Maturité projet',
-            'irritants' => 'Irritants',
-            'scope' => 'Périmètre',
-            'organization' => 'Organisation projet',
-            'planning' => 'Planning',
-        ] as $field => $label) {
+        return array_values(array_unique(array_merge($errors, $this->validateBusinessFields($values))));
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return string[]
+     */
+    public function validatePromptAiPayload(array $values): array
+    {
+        if (trim((string) ($values['website'] ?? '')) !== '') {
+            return [$this->contentProvider->text('validation.spam')];
+        }
+
+        return $this->validateBusinessFields($values);
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return string[]
+     */
+    private function validateBusinessFields(array $values): array
+    {
+        $errors = [];
+
+        foreach ($this->contentProvider->definition()['required_fields'] ?? [] as $field) {
             if (trim((string) ($values[$field] ?? '')) === '') {
-                $errors[] = $label.' est obligatoire.';
+                $errors[] = sprintf($this->contentProvider->text('validation.required'), $this->contentProvider->fieldLabel((string) $field));
             }
         }
 
         if (!filter_var((string) ($values['email'] ?? ''), FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Email professionnel invalide.';
+            $errors[] = $this->contentProvider->text('validation.email');
         }
 
         if (empty($values['functionalScope']) || !is_array($values['functionalScope'])) {
-            $errors[] = 'Au moins un module fonctionnel doit être sélectionné.';
+            $errors[] = $this->contentProvider->text('validation.functionalScope');
         }
 
         if (empty($values['amoaExpectations']) || !is_array($values['amoaExpectations'])) {
-            $errors[] = 'Au moins une attente AMOA doit être sélectionnée.';
+            $errors[] = $this->contentProvider->text('validation.amoaExpectations');
         }
 
         if (empty($values['rgpdConsent'])) {
-            $errors[] = 'Le consentement RGPD est obligatoire.';
+            $errors[] = $this->contentProvider->text('validation.rgpdConsent');
         }
 
         foreach ($this->lengthLimits() as $field => $limit) {
             if (mb_strlen((string) ($values[$field] ?? '')) > $limit) {
-                $errors[] = sprintf('%s dépasse la limite de %d caractères.', $field, $limit);
+                $errors[] = sprintf($this->contentProvider->text('validation.length'), $this->contentProvider->fieldLabel($field), $limit);
             }
         }
 
@@ -123,6 +137,8 @@ class ErpQuestionnairePayloadMapper
             ->setSolutionType($answers['solutionType'] ?: null)
             ->setUrgency($answers['urgency'] ?: null)
             ->setBudgetRange($answers['budgetRange'] ?: null)
+            ->setLocale(ErpQuestionnaireContentProvider::LOCALE)
+            ->setQuestionnaireVersion(ErpQuestionnaireContentProvider::VERSION)
             ->setAnswers($answers)
             ->setSummary($summary);
     }
@@ -132,22 +148,7 @@ class ErpQuestionnairePayloadMapper
      */
     public function functionalOptions(): array
     {
-        return [
-            'finance' => 'Finance / comptabilité',
-            'budget' => 'Budget / engagements',
-            'purchasing' => 'Achats / approvisionnements',
-            'sales' => 'Ventes / gestion commerciale',
-            'crm' => 'CRM / relation client',
-            'stock' => 'Stocks / logistique',
-            'production' => 'MES / production',
-            'maintenance' => 'Maintenance / GMAO',
-            'hr' => 'SIRH / paie',
-            'reporting' => 'Reporting / BI',
-            'ged' => 'GED / documents',
-            'business' => 'Solution métier spécialisée',
-            'interfaces' => 'Interfaces',
-            'other' => 'Autre périmètre',
-        ];
+        return $this->contentProvider->options('functionalScope');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Service\ErpQuestionnaire\ErpQuestionnaireMailer;
+use App\Service\ErpQuestionnaire\ErpQuestionnaireContentProvider;
 use App\Service\ErpQuestionnaire\ErpQuestionnairePayloadMapper;
 use App\Service\ErpQuestionnaire\ErpQuestionnairePdfGenerator;
 use App\Service\ErpQuestionnaire\ErpQuestionnaireRateLimitGuard;
@@ -22,9 +23,9 @@ class ErpQuestionnaireTest extends TestCase
 {
     public function testPayloadValidationAndSubmissionMapping(): void
     {
-        $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true));
+        $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true), $this->contentProvider());
         $answers = $mapper->answers($this->validPayload());
-        $summaryService = new ErpQuestionnaireSummaryService();
+        $summaryService = new ErpQuestionnaireSummaryService($this->contentProvider());
         $summary = $summaryService->build($answers);
         $submission = $mapper->submission($answers, $summary);
         $submission->setScoring($summaryService->scoring($answers, $summary));
@@ -32,6 +33,8 @@ class ErpQuestionnaireTest extends TestCase
         self::assertSame([], $mapper->validate($this->validPayload(), 'valid'));
         self::assertSame('Acme', $submission->getCompany());
         self::assertSame('erp', $submission->getSolutionType());
+        self::assertSame('fr', $submission->getLocale());
+        self::assertSame('v1', $submission->getQuestionnaireVersion());
         self::assertContains('finance', $submission->getAnswers()['functionalScope']);
         self::assertStringContainsString('Acme', $submission->getSummary()['executive_summary']);
         self::assertSame('A', $submission->getScoring()['oling_potential']);
@@ -39,7 +42,7 @@ class ErpQuestionnaireTest extends TestCase
 
     public function testPayloadValidationRejectsMissingFields(): void
     {
-        $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true));
+        $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true), $this->contentProvider());
         $payload = $this->validPayload();
         $payload['email'] = 'bad-email';
         unset($payload['functionalScope'], $payload['rgpdConsent']);
@@ -53,7 +56,7 @@ class ErpQuestionnaireTest extends TestCase
 
     public function testSummaryFallbackBuildsExpectedStructuredSections(): void
     {
-        $summary = (new ErpQuestionnaireSummaryService())->build($this->validPayload());
+        $summary = (new ErpQuestionnaireSummaryService($this->contentProvider()))->build($this->validPayload());
 
         foreach ([
             'executive_summary', 'context', 'current_situation', 'expressed_need',
@@ -69,10 +72,49 @@ class ErpQuestionnaireTest extends TestCase
         self::assertNotEmpty($summary['risks']);
     }
 
+    public function testLabelsCanChangeWithoutChangingTechnicalValues(): void
+    {
+        $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true), $this->contentProvider());
+        $payload = $this->validPayload();
+        $answers = $mapper->answers($payload);
+
+        self::assertSame(['finance', 'purchasing', 'interfaces'], $answers['functionalScope']);
+        self::assertSame('Finance / comptabilité', $mapper->functionalOptions()['finance']);
+    }
+
+    public function testConditionalScoringScenariosRemainStable(): void
+    {
+        $service = new ErpQuestionnaireSummaryService($this->contentProvider());
+        $scenarioA = $this->validPayload();
+        $summaryA = $service->build($scenarioA);
+        self::assertSame('A', $service->scoring($scenarioA, $summaryA)['oling_potential']);
+
+        $scenarioB = $this->validPayload();
+        $scenarioB['functionalScope'] = ['crm', 'reporting'];
+        $scenarioB['userCount'] = '50_249';
+        $scenarioB['interfaceLevel'] = 'several';
+        $scenarioB['dataMigration'] = 'no';
+        $scenarioB['urgency'] = 'planned';
+        $scenarioB['budgetStatus'] = 'approx';
+        $summaryB = $service->build($scenarioB);
+        self::assertSame('B', $service->scoring($scenarioB, $summaryB)['oling_potential']);
+
+        $scenarioC = $this->validPayload();
+        $scenarioC['functionalScope'] = ['crm'];
+        $scenarioC['userCount'] = '1_49';
+        $scenarioC['interfaceLevel'] = 'none';
+        $scenarioC['dataMigration'] = 'no';
+        $scenarioC['urgency'] = 'exploratory';
+        $scenarioC['budgetStatus'] = 'unknown';
+        $scenarioC['projectMaturity'] = 'idea';
+        $summaryC = $service->build($scenarioC);
+        self::assertSame('C', $service->scoring($scenarioC, $summaryC)['oling_potential']);
+    }
+
     public function testPdfGenerationReturnsPdfBinary(): void
     {
         $submission = $this->submission();
-        $pdf = (new ErpQuestionnairePdfGenerator($this->twig(), dirname(__DIR__)))->generate($submission);
+        $pdf = (new ErpQuestionnairePdfGenerator($this->twig(), dirname(__DIR__), $this->contentProvider()))->generate($submission);
 
         self::assertStringStartsWith('%PDF', $pdf);
         self::assertStringContainsString('%%EOF', $pdf);
@@ -92,7 +134,8 @@ class ErpQuestionnaireTest extends TestCase
         $service = new ErpQuestionnaireMailer(
             $mailer,
             $this->twig(),
-            new ErpQuestionnairePdfGenerator($this->twig(), dirname(__DIR__)),
+            new ErpQuestionnairePdfGenerator($this->twig(), dirname(__DIR__), $this->contentProvider()),
+            $this->contentProvider(),
             'interne@example.test'
         );
         $service->sendProspectAndInternal($this->submission());
@@ -172,10 +215,10 @@ class ErpQuestionnaireTest extends TestCase
     private function submission()
     {
         $answers = $this->validPayload();
-        $summaryService = new ErpQuestionnaireSummaryService();
+        $summaryService = new ErpQuestionnaireSummaryService($this->contentProvider());
         $summary = $summaryService->build($answers);
 
-        return (new ErpQuestionnairePayloadMapper($this->csrf(true)))
+        return (new ErpQuestionnairePayloadMapper($this->csrf(true), $this->contentProvider()))
             ->submission($answers, $summary)
             ->setScoring($summaryService->scoring($answers, $summary));
     }
@@ -193,5 +236,10 @@ class ErpQuestionnaireTest extends TestCase
             ->willReturnCallback(static fn (CsrfToken $token): bool => $valid && $token->getValue() === 'valid');
 
         return $manager;
+    }
+
+    private function contentProvider(): ErpQuestionnaireContentProvider
+    {
+        return new ErpQuestionnaireContentProvider(dirname(__DIR__));
     }
 }

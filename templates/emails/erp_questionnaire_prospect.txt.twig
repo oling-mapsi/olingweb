@@ -1,12 +1,13 @@
-Bonjour {{ submission.fullName }},
+{% set c = erpContent %}
+{{ c.email.hello|format(submission.fullName) }}
 
-Merci pour votre questionnaire ERP / progiciel.
+{{ c.email.thanks }}
 
-Synthèse courte :
+{{ c.email.short_summary }} :
 {{ summary.short_summary }}
 
-Votre PDF de synthèse est joint à cet email. OLING pourra vous proposer un échange de cadrage pour confirmer le périmètre, les risques, la charge, le budget et les prochaines étapes.
+{{ c.email.pdf_attached }}
 
-Les informations transmises restent confidentielles et sont utilisées uniquement pour traiter votre demande.
+{{ c.email.confidential }}
 
-OLING
+{{ c.email.signature }}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ErpQuestionnaireSubmissionRepository;
 use App\Service\ErpQuestionnaire\ErpQuestionnaireMailer;
+use App\Service\ErpQuestionnaire\ErpQuestionnaireContentProvider;
 use App\Service\ErpQuestionnaire\ErpQuestionnairePayloadMapper;
 use App\Service\ErpQuestionnaire\ErpQuestionnairePdfGenerator;
 use App\Service\ErpQuestionnaire\ErpQuestionnaireRateLimitGuard;
@@ -21,6 +22,7 @@ class ErpQuestionnaireController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         ErpQuestionnairePayloadMapper $payloadMapper,
+        ErpQuestionnaireContentProvider $contentProvider,
         ErpQuestionnaireSummaryService $summaryService,
         ErpQuestionnaireRateLimitGuard $rateLimitGuard,
         ErpQuestionnaireMailer $mailer
@@ -31,12 +33,13 @@ class ErpQuestionnaireController extends AbstractController
         if ($request->isMethod('POST')) {
             $values = $request->request->all();
             if (!$rateLimitGuard->isAccepted($request)) {
-                $errors[] = 'Trop de soumissions ont été envoyées depuis cette connexion. Merci de réessayer dans quelques minutes.';
+                $errors[] = $contentProvider->text('validation.rate_limit');
 
                 return $this->render('erp_questionnaire/form.html.twig', [
                     'values' => $values,
                     'errors' => $errors,
                     'functionalOptions' => $payloadMapper->functionalOptions(),
+                    'erpContent' => $contentProvider->content(),
                 ], new Response(status: Response::HTTP_TOO_MANY_REQUESTS));
             }
 
@@ -55,6 +58,7 @@ class ErpQuestionnaireController extends AbstractController
                 return $this->render('erp_questionnaire/result.html.twig', [
                     'submission' => $submission,
                     'summary' => $submission->getSummary(),
+                    'erpContent' => $contentProvider->content($submission->getLocale()),
                 ]);
             }
         }
@@ -63,6 +67,7 @@ class ErpQuestionnaireController extends AbstractController
             'values' => $values,
             'errors' => $errors,
             'functionalOptions' => $payloadMapper->functionalOptions(),
+            'erpContent' => $contentProvider->content(),
         ]);
     }
 
@@ -70,11 +75,12 @@ class ErpQuestionnaireController extends AbstractController
     public function downloadPdf(
         string $token,
         ErpQuestionnaireSubmissionRepository $repository,
-        ErpQuestionnairePdfGenerator $pdfGenerator
+        ErpQuestionnairePdfGenerator $pdfGenerator,
+        ErpQuestionnaireContentProvider $contentProvider
     ): Response {
         $submission = $repository->findOneByPublicToken($token);
         if (!$submission) {
-            throw $this->createNotFoundException('Questionnaire introuvable.');
+            throw $this->createNotFoundException($contentProvider->text('validation.not_found'));
         }
 
         return new Response($pdfGenerator->generate($submission), Response::HTTP_OK, [

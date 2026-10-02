@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\SitePagePublicView;
 use App\Entity\SitePage;
 use App\Entity\SitePageTranslation;
 use App\Repository\SitePageTranslationRepository;
@@ -26,5 +27,15 @@ class LocalizedContentResolver
         $translation = $page->getPublishedTranslation($locale);
 
         return $translation ?? $this->sitePageTranslationRepository->findOnePublishedByPageAndLocale($page, $locale);
+    }
+
+    public function getFrenchPublicView(SitePage $page): SitePagePublicView
+    {
+        $translation = $this->getTranslation($page, SitePageTranslation::LOCALE_FR);
+        if (!$translation instanceof SitePageTranslation) {
+            throw new \LogicException(sprintf('Missing FR translation for SitePage #%s.', $page->getId() ?? 'new'));
+        }
+
+        return new SitePagePublicView($page, $translation);
     }
 }

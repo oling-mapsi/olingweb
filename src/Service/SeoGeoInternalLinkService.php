@@ -57,7 +57,10 @@ class SeoGeoInternalLinkService
         'public-pme-eti',
     ];
 
-    public function __construct(private SitePageRepository $sitePageRepository)
+    public function __construct(
+        private SitePageRepository $sitePageRepository,
+        private LocalizedContentResolver $localizedContentResolver
+    )
     {
     }
 
@@ -71,15 +74,16 @@ class SeoGeoInternalLinkService
         $pagesBySlug = [];
 
         foreach ($pages as $page) {
-            $slug = $page->getSlug();
+            $content = $this->localizedContentResolver->getFrenchPublicView($page);
+            $slug = $content->getSlug();
             if ($slug === null) {
                 continue;
             }
 
             $pagesBySlug[$slug] = [
                 'url' => '/' . $slug,
-                'label' => $this->resolvePageLabel($page->getHeroBadge(), $page->getHeroTitle(), $page->getTitle(), $slug),
-                'title' => (string) $page->getTitle(),
+                'label' => $this->resolvePageLabel($content->getHeroBadge(), $content->getHeroTitle(), $content->getTitle(), $slug),
+                'title' => $content->getTitle(),
             ];
         }
 
@@ -103,15 +107,16 @@ class SeoGeoInternalLinkService
         $pagesBySlug = [];
 
         foreach ($pages as $page) {
-            $slug = $page->getSlug();
+            $content = $this->localizedContentResolver->getFrenchPublicView($page);
+            $slug = $content->getSlug();
             if ($slug === null) {
                 continue;
             }
 
             $pagesBySlug[$slug] = [
                 'url' => '/' . $slug,
-                'label' => $this->resolvePageLabel($page->getHeroBadge(), $page->getHeroTitle(), $page->getTitle(), $slug),
-                'title' => (string) $page->getTitle(),
+                'label' => $this->resolvePageLabel($content->getHeroBadge(), $content->getHeroTitle(), $content->getTitle(), $slug),
+                'title' => $content->getTitle(),
             ];
         }
 

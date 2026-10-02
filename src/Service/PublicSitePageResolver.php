@@ -35,6 +35,7 @@ class PublicSitePageResolver
         private readonly PublicSiteConfig $publicSiteConfig,
         private readonly SitePageRepository $sitePageRepository,
         private readonly MetierRepository $metierRepository,
+        private readonly LocalizedContentResolver $localizedContentResolver,
     ) {
     }
 
@@ -47,25 +48,26 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $payload = $this->decodeStructuredPayload($sitePage->getBodyHtml());
+        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
 
-        $merged['seoTitle'] = $sitePage->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
-        $merged['metaDescription'] = $sitePage->getMetaDescription() ?: ($merged['metaDescription'] ?? $defaults['metaDescription']);
+        $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
+        $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? $defaults['metaDescription']);
 
-        if ($sitePage->getHeroBadge() !== null) {
-            $merged['hero']['eyebrow'] = trim(strip_tags($sitePage->getHeroBadge()));
+        if ($content->getHeroBadge() !== null) {
+            $merged['hero']['eyebrow'] = trim(strip_tags($content->getHeroBadge()));
         } else {
             $merged['hero']['eyebrow'] = $merged['hero']['eyebrow'] ?? $defaults['hero']['eyebrow'];
         }
 
-        if ($sitePage->getHeroIntro() !== null) {
-            $merged['hero']['intro'] = trim(strip_tags($sitePage->getHeroIntro()));
+        if ($content->getHeroIntro() !== null) {
+            $merged['hero']['intro'] = trim(strip_tags($content->getHeroIntro()));
         } else {
             $merged['hero']['intro'] = $merged['hero']['intro'] ?? $defaults['hero']['intro'];
         }
 
-        $titleOverride = $sitePage->getHeroTitle();
+        $titleOverride = $content->getHeroTitle();
         if ($titleOverride !== null) {
             $lines = array_values(array_filter(array_map(
                 static fn (string $line): string => trim(strip_tags($line)),
@@ -74,7 +76,7 @@ class PublicSitePageResolver
             $merged['hero']['titleLines'] = $lines;
         }
 
-        if ($sitePage->getHeroImage()) {
+        if ($content->getHeroImage()) {
             $merged['hero']['portraitImage'] = $sitePage->getHeroImage();
         }
 
@@ -109,22 +111,23 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $payload = $this->decodeStructuredPayload($sitePage->getBodyHtml());
+        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
 
-        $merged['seoTitle'] = $sitePage->getTitle() ?: ($merged['seoTitle'] ?? '');
-        $merged['metaDescription'] = $sitePage->getMetaDescription() ?: ($merged['metaDescription'] ?? '');
-        $merged['eyebrow'] = $sitePage->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
-        $merged['title'] = $sitePage->getHeroTitle() ?: ($merged['title'] ?? '');
-        $merged['intro'] = $this->plainText($sitePage->getHeroIntro()) ?: ($merged['intro'] ?? '');
+        $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? '');
+        $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? '');
+        $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
+        $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? '');
+        $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? '');
         $merged['heroImage'] = $sitePage->getHeroImage() ?: ($merged['heroImage'] ?? null);
 
-        if ($sitePage->getHeroSideHtml()) {
-            $merged['legacySideHtml'] = $sitePage->getHeroSideHtml();
+        if ($content->getHeroSideHtml()) {
+            $merged['legacySideHtml'] = $content->getHeroSideHtml();
         }
 
-        if ($sitePage->getBodyHtml() && $payload === []) {
-            $merged['legacyBodyHtml'] = $sitePage->getBodyHtml();
+        if ($content->getBodyHtml() && $payload === []) {
+            $merged['legacyBodyHtml'] = $content->getBodyHtml();
         }
 
         return $merged;
@@ -253,13 +256,14 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $payload = $this->decodeStructuredPayload($sitePage->getBodyHtml());
+        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
-        $merged['seoTitle'] = $sitePage->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
-        $merged['metaDescription'] = $sitePage->getMetaDescription() ?: ($merged['metaDescription'] ?? $defaults['metaDescription']);
-        $merged['eyebrow'] = $sitePage->getHeroBadge() ?: ($merged['eyebrow'] ?? $defaults['eyebrow']);
-        $merged['title'] = $sitePage->getHeroTitle() ?: ($merged['title'] ?? $defaults['title']);
-        $merged['intro'] = $this->plainText($sitePage->getHeroIntro()) ?: ($merged['intro'] ?? $defaults['intro']);
+        $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
+        $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? $defaults['metaDescription']);
+        $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? $defaults['eyebrow']);
+        $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $defaults['title']);
+        $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? $defaults['intro']);
 
         if (array_key_exists('highlights', $defaults)) {
             $merged['highlights'] = $this->normalizeStringList($payload['highlights'] ?? null, $merged['highlights'] ?? $defaults['highlights']);
@@ -274,14 +278,15 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $payload = $this->decodeStructuredPayload($sitePage->getBodyHtml());
+        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $payload = $this->decodeStructuredPayload($content->getBodyHtml());
 
         $merged = $defaults;
-        $merged['title'] = $sitePage->getHeroTitle() ?: ($payload['title'] ?? $defaults['title']);
-        $merged['seoTitle'] = $sitePage->getTitle() ?: ($payload['seoTitle'] ?? $defaults['seoTitle']);
-        $merged['metaDescription'] = $sitePage->getMetaDescription() ?: ($payload['metaDescription'] ?? $defaults['metaDescription']);
-        $merged['eyebrow'] = $sitePage->getHeroBadge() ?: ($payload['eyebrow'] ?? $defaults['eyebrow']);
-        $merged['intro'] = $this->plainText($sitePage->getHeroIntro()) ?: ($payload['intro'] ?? $defaults['intro']);
+        $merged['title'] = $content->getHeroTitle() ?: ($payload['title'] ?? $defaults['title']);
+        $merged['seoTitle'] = $content->getTitle() ?: ($payload['seoTitle'] ?? $defaults['seoTitle']);
+        $merged['metaDescription'] = $content->getMetaDescription() ?: ($payload['metaDescription'] ?? $defaults['metaDescription']);
+        $merged['eyebrow'] = $content->getHeroBadge() ?: ($payload['eyebrow'] ?? $defaults['eyebrow']);
+        $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($payload['intro'] ?? $defaults['intro']);
         $merged['heroImage'] = $sitePage->getHeroImage() ?: ($payload['heroImage'] ?? ($defaults['heroImage'] ?? null));
 
         foreach (['situations', 'interventions', 'deliverables', 'issues', 'linkedExpertises'] as $field) {

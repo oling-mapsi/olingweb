@@ -7,6 +7,7 @@ use App\Repository\PracticeRepository;
 use App\Repository\SitePageRepository;
 use App\Repository\ServicesRepository;
 use App\Service\SitePageFaqParser;
+use App\Service\LocalizedContentResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,8 @@ class SeoResourceController extends AbstractController
 
     public function __construct(
         private SitePageRepository $sitePageRepository,
-        private SitePageFaqParser $sitePageFaqParser
+        private SitePageFaqParser $sitePageFaqParser,
+        private LocalizedContentResolver $localizedContentResolver
     ) {
     }
 
@@ -34,12 +36,14 @@ class SeoResourceController extends AbstractController
             $this->sitePageRepository->findResourceArticles()
         )));
 
+        $content = $this->localizedContentResolver->getFrenchPublicView($page);
+
         return $this->render('seo/resources-index.html.twig', [
             'practices' => $practiceRepository->findAll(),
             'services' => $servicesRepository->findAll(),
             'pract' => '',
-            'page' => $page,
-            'pageFaqItems' => $this->sitePageFaqParser->parse($page->getBodyHtml()),
+            'page' => $content,
+            'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),
             'articles' => $articles,
         ]);
     }
@@ -81,12 +85,14 @@ class SeoResourceController extends AbstractController
             $this->sitePageRepository->findRelatedResourceArticles((string) $page->getSlug(), 4)
         )));
 
+        $content = $this->localizedContentResolver->getFrenchPublicView($page);
+
         return $this->render('seo/resource-article.html.twig', [
             'practices' => $practiceRepository->findAll(),
             'services' => $servicesRepository->findAll(),
             'pract' => '',
-            'page' => $page,
-            'pageFaqItems' => $this->sitePageFaqParser->parse($page->getBodyHtml()),
+            'page' => $content,
+            'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),
             'publicSlug' => $slug,
             'related' => $related,
         ]);
@@ -97,7 +103,8 @@ class SeoResourceController extends AbstractController
      */
     private function buildResourceCard(SitePage $page): ?array
     {
-        $storedSlug = (string) $page->getSlug();
+        $content = $this->localizedContentResolver->getFrenchPublicView($page);
+        $storedSlug = $content->getSlug();
         if (!str_starts_with($storedSlug, self::RESOURCE_ARTICLE_PREFIX)) {
             return null;
         }
@@ -109,9 +116,9 @@ class SeoResourceController extends AbstractController
 
         return [
             'slug' => $publicSlug,
-            'title' => (string) $page->getTitle(),
-            'h1' => (string) ($page->getHeroTitle() ?: $page->getTitle()),
-            'intro' => (string) ($page->getHeroIntro() ?: ''),
+            'title' => $content->getTitle(),
+            'h1' => (string) ($content->getHeroTitle() ?: $content->getTitle()),
+            'intro' => (string) ($content->getHeroIntro() ?: ''),
         ];
     }
 
@@ -126,7 +133,8 @@ class SeoResourceController extends AbstractController
             return null;
         }
 
-        $summary = $page->getHeroIntro() ?: $page->getMetaDescription() ?: $card['h1'];
+        $content = $this->localizedContentResolver->getFrenchPublicView($page);
+        $summary = $content->getHeroIntro() ?: $content->getMetaDescription() ?: $card['h1'];
         $summary = html_entity_decode(strip_tags($summary), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $summary = trim((string) preg_replace('/\s+/u', ' ', $summary));
 

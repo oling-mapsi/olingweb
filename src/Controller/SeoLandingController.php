@@ -7,6 +7,7 @@ use App\Repository\PracticeRepository;
 use App\Repository\ServicesRepository;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
+use App\Service\LocalizedContentResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +17,8 @@ class SeoLandingController extends AbstractController
     public function __construct(
         private SitePageRepository $sitePageRepository,
         private SitePageFaqParser $sitePageFaqParser,
-        private SeoGeoInternalLinkService $seoGeoInternalLinkService
+        private SeoGeoInternalLinkService $seoGeoInternalLinkService,
+        private LocalizedContentResolver $localizedContentResolver
     ) {
     }
 
@@ -207,15 +209,16 @@ class SeoLandingController extends AbstractController
         ServicesRepository $servicesRepository
     ): Response {
         $page = $this->sitePageRepository->findOneBy(['slug' => $pageSlug]);
-        $pageFaqItems = $this->sitePageFaqParser->parse($page?->getBodyHtml());
+        $content = $page ? $this->localizedContentResolver->getFrenchPublicView($page) : null;
+        $pageFaqItems = $this->sitePageFaqParser->parse($content?->getBodyHtml());
 
         return $this->render($template, [
             'practices' => $practiceRepository->findAll(),
             'services' => $servicesRepository->findAll(),
-            'page' => $page,
+            'page' => $content,
             'pageFaqItems' => $pageFaqItems,
-            'zoneMaillage' => $this->seoGeoInternalLinkService->build($page?->getSlug()),
-            'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($page?->getSlug(), 10),
+            'zoneMaillage' => $this->seoGeoInternalLinkService->build($content?->getSlug()),
+            'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($content?->getSlug(), 10),
             'landingNarrative' => $this->getLandingNarrative($pageSlug),
             'landingPageSlug' => $pageSlug,
             'pract' => '',

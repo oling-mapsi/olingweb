@@ -20,6 +20,7 @@ use App\Service\PublicSiteConfig;
 use App\Service\PublicSitePageResolver;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
+use App\Service\LocalizedContentResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,6 +35,7 @@ class PracticeController extends AbstractController
     public function __construct(
         private readonly PublicSiteConfig $publicSiteConfig,
         private readonly PublicSitePageResolver $publicSitePageResolver,
+        private readonly LocalizedContentResolver $localizedContentResolver,
     )
     {
     }
@@ -551,7 +553,8 @@ class PracticeController extends AbstractController
 
     private function buildHomeResourceCard(\App\Entity\SitePage $page): ?array
     {
-        $storedSlug = (string) $page->getSlug();
+        $content = $this->localizedContentResolver->getFrenchPublicView($page);
+        $storedSlug = $content->getSlug();
         if (!str_starts_with($storedSlug, 'ressource-')) {
             return null;
         }
@@ -563,9 +566,9 @@ class PracticeController extends AbstractController
 
         return [
             'slug' => $publicSlug,
-            'title' => (string) ($page->getHeroTitle() ?: $page->getTitle()),
-            'intro' => trim((string) ($page->getHeroIntro() ?: '')),
-            'publicationDate' => $page->getPublicationDate(),
+            'title' => (string) ($content->getHeroTitle() ?: $content->getTitle()),
+            'intro' => trim((string) ($content->getHeroIntro() ?: '')),
+            'publicationDate' => $content->getPublicationDate(),
         ];
     }
 

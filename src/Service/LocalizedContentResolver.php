@@ -115,7 +115,7 @@ class LocalizedContentResolver
         ], $locale), [
             'getPractice' => fn () => $service->getPractice() ? $this->getPracticeView($service->getPractice(), $locale) : null,
             'getProjets' => fn () => array_map(fn (Projet $project) => $this->getProjetView($project, $locale), $service->getProjets()->toArray()),
-            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $service->getTeams()->toArray()),
+            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $this->publishedTeams($service->getTeams()->toArray())),
         ]);
     }
 
@@ -136,7 +136,7 @@ class LocalizedContentResolver
             'periodLabel' => 'period_label',
         ], $locale), [
             'getServices' => fn () => array_map(fn (Services $service) => $this->getServiceView($service, $locale), $project->getServices()->toArray()),
-            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $project->getTeams()->toArray()),
+            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $this->publishedTeams($project->getTeams()->toArray())),
         ]);
     }
 
@@ -244,5 +244,17 @@ class LocalizedContentResolver
         }
 
         return $data;
+    }
+
+    /**
+     * @param Team[] $teams
+     * @return Team[]
+     */
+    private function publishedTeams(array $teams): array
+    {
+        $published = array_values(array_filter($teams, static fn (Team $team): bool => $team->isPublic()));
+        usort($published, static fn (Team $first, Team $second): int => [$first->getDisplayOrder() ?? 9999, $first->getId() ?? 0] <=> [$second->getDisplayOrder() ?? 9999, $second->getId() ?? 0]);
+
+        return $published;
     }
 }

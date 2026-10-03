@@ -142,7 +142,7 @@ class ChatResponderTest extends TestCase
     public function testReferenceQuestionDoesNotExposeTeamCardWhenExpertWasNotAsked(): void
     {
         $reply = $this->buildResponderWithDocuments([
-            $this->buildDocument('team', '/equipe/jean-claude-vati', 'Jean Claude VATI Consultant SI Senior'),
+            $this->buildDocument('team', '/equipe/jean-claude-vati', 'Jean-Claude Vati Consultant SI Senior'),
             $this->buildDocument('reference', '/projets', 'Référence Eau et assainissement'),
             $this->buildDocument('expertise', '/expertises/amoa-erp', 'AMOA ERP et applicatifs métiers'),
         ])->reply(new ChatConversation(), 'avez vous des références eaux et assainissement');
@@ -155,7 +155,7 @@ class ChatResponderTest extends TestCase
     public function testExpertQuestionCanReturnTeamCardFirst(): void
     {
         $reply = $this->buildResponderWithDocuments([
-            $this->buildDocument('team', '/equipe/jean-claude-vati', 'Jean Claude VATI Consultant SI Senior'),
+            $this->buildDocument('team', '/equipe/jean-claude-vati', 'Jean-Claude Vati Consultant SI Senior'),
             $this->buildDocument('expertise', '/expertises/amoa-erp', 'AMOA ERP et applicatifs métiers'),
         ])->reply(new ChatConversation(), 'quel expert oling pour mon projet erp');
 

@@ -39,6 +39,28 @@ class TeamRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Team[]
+     */
+    public function findPublishedOrderedForLocale(string $locale): array
+    {
+        $ids = $this->getEntityManager()->getConnection()->fetchFirstColumn(
+            'SELECT team.id
+             FROM team
+             INNER JOIN team_translation translation ON translation.team_id = team.id AND translation.locale = :locale
+             WHERE team.is_public = 1
+               AND translation.translation_status = :status
+               AND translation.public_profile IS NOT NULL
+             ORDER BY team.display_order ASC, team.id ASC',
+            ['locale' => $locale, 'status' => 'published']
+        );
+
+        return array_values(array_filter(array_map(
+            fn (mixed $id): ?Team => $this->find((int) $id),
+            $ids
+        )));
+    }
+
 //    /**
 //     * @return Team[] Returns an array of Team objects
 //     */

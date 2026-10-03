@@ -249,7 +249,7 @@ team:
   publications: "Ver sus publicaciones"
   section_label: "Equipo"
   generic_profile: "Perfil directivo implicado en los temas de transformacion, gobernanza y ejecucion que aborda la consultora."
-  linkedin: "Ver en LinkedIn"
+  linkedin: "Ver el perfil de LinkedIn de %name%"
 
 proofs:
   kicker: "Pruebas"

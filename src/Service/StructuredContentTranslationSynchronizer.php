@@ -254,6 +254,8 @@ final class StructuredContentTranslationSynchronizer
         $data->setShortcv($row['shortcv'] ?? $team->getShortcv());
         $data->setLinkedin($team->getLinkedin());
         $data->setPhoto($team->getPhoto());
+        $data->setIsPublic($team->isPublic());
+        $data->setDisplayOrder($team->getDisplayOrder());
         $data->setServices($team->getServices());
 
         return $data;
@@ -264,6 +266,8 @@ final class StructuredContentTranslationSynchronizer
         $team->setNoncomplet((string) $data->getNoncomplet());
         $team->setLinkedin($data->getLinkedin());
         $team->setPhoto($data->getPhoto());
+        $team->setIsPublic($data->isPublic());
+        $team->setDisplayOrder($data->getDisplayOrder());
         foreach ($team->getServices()->toArray() as $service) {
             $team->removeService($service);
         }

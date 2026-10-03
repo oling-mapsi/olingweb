@@ -141,21 +141,8 @@
         {
             "source": {
                 "entity": "Team",
-                "slug": "gilbert-rinaldo",
-                "name": "Gilbert Rinaldo"
-            },
-            "locale": "es",
-            "titre": "Consultor de proyectos de sistemas de información",
-            "shortcv": "Gilbert Rinaldo, jefe de proyectos sénior, cuenta con 30 años de experiencia trabajando con grandes empresas. Su amplia trayectoria permite a OLING llevar a buen término proyectos complejos y garantizar la satisfacción de sus clientes.",
-            "publicProfile": null,
-            "status": "published",
-            "sourceContentHash": "d721e2fe5faf58afe202d42853d5780acd3e6b4157c2e9114a0713d4eb890a98"
-        },
-        {
-            "source": {
-                "entity": "Team",
                 "slug": "hanna-badan",
-                "name": "Hanna BADAN"
+                "name": "Hanna Badan"
             },
             "locale": "es",
             "titre": "Consultora de sistemas de información",
@@ -185,8 +172,31 @@
         {
             "source": {
                 "entity": "Team",
+                "slug": "claire-tillion",
+                "name": "Claire Tillion"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "",
+            "publicProfile": {
+                "name": "claire tillion",
+                "slug": "claire-tillion",
+                "areas": [],
+                "photo": "/img/people/claire-oling.png",
+                "shortcv": "",
+                "linkedin": null,
+                "displayName": "Claire Tillion",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "published",
+            "sourceContentHash": ""
+        },
+        {
+            "source": {
+                "entity": "Team",
                 "slug": "jean-claude-vati",
-                "name": "Jean Claude VATI"
+                "name": "Jean-Claude Vati"
             },
             "locale": "es",
             "titre": null,

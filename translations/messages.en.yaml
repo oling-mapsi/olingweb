@@ -249,7 +249,7 @@ team:
   publications: "View publications"
   section_label: "Team"
   generic_profile: "Leadership profile involved in the firm's transformation, governance and execution topics."
-  linkedin: "View on LinkedIn"
+  linkedin: "View %name%'s LinkedIn profile"
 
 proofs:
   kicker: "Evidence"

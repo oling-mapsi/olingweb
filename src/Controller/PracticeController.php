@@ -33,16 +33,6 @@ use App\Middleware\XRobotsTagMiddleware;
 
 class PracticeController extends AbstractController
 {
-    private const PUBLIC_TEAM_ORDER = [
-        'florestan rouet',
-        'dorothee maitrias',
-        'manuel feuillard',
-        'hanna badan',
-        'julien pujol',
-        'claire tillion',
-        'jean claude vati',
-    ];
-
     public function __construct(
         private readonly PublicSitePageResolver $publicSitePageResolver,
         private readonly LocalizedContentResolver $localizedContentResolver,
@@ -236,7 +226,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => $this->buildTeamProfiles($repoteam->findAll(), $locale),
+            'teamPreview' => $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos', $locale),
             'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
             'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
@@ -778,7 +768,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $team = $this->buildTeamProfiles($repoteam->findAll(), $locale);
+        $team = $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale);
         $pageEntity = $sitePageRepository->findOneBy(['slug' => 'team']);
 
         return $this->render('team.html.twig', [
@@ -1161,13 +1151,7 @@ class PracticeController extends AbstractController
             if (!is_array($profile) || $profile === []) {
                 continue;
             }
-            $teamKey = $this->normalizeTeamName((string) ($profile['displayName'] ?? $member->getNoncomplet()));
-            $teamOrder = array_search($teamKey, self::PUBLIC_TEAM_ORDER, true);
-            if ($teamOrder === false) {
-                continue;
-            }
-
-            $preview[$teamOrder] = [
+            $preview[] = [
                 'slug' => $profile['slug'] ?? $this->normalizeTeamName((string) $member->getNoncomplet()),
                 'noncomplet' => $profile['displayName'] ?? $member->getNoncomplet(),
                 'titre' => $memberView->getTitre() ?: ($profile['titre'] ?? ''),
@@ -1181,7 +1165,6 @@ class PracticeController extends AbstractController
             ];
         }
 
-        ksort($preview);
         return $preview;
     }
 
@@ -1294,7 +1277,10 @@ class PracticeController extends AbstractController
      */
     private function localizeTeams(array $teams, string $locale = SitePageTranslation::LOCALE_FR): array
     {
-        return array_map(fn (Team $team) => $this->localizedContentResolver->getTeamView($team, $locale), $teams);
+        return array_map(
+            fn (Team $team) => $this->localizedContentResolver->getTeamView($team, $locale),
+            array_values(array_filter($teams, static fn (Team $team): bool => $team->isPublic()))
+        );
     }
 
     private function isAmoaAlias(string $slug): bool

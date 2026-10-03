@@ -108,6 +108,17 @@
             "relationshipText": "Intervient avec OLING Management et Technologie"
         },
         {
+            "name": "claire tillion",
+            "slug": "claire-tillion",
+            "displayName": "Claire Tillion",
+            "photo": "/img/people/claire-oling.png",
+            "shortcv": "",
+            "areas": [],
+            "linkedin": null,
+            "relationSchema": "affiliation",
+            "relationshipText": "Intervient avec OLING Management et Technologie"
+        },
+        {
             "name": "jean claude vati",
             "slug": "jean-claude-vati",
             "displayName": "Jean-Claude Vati",

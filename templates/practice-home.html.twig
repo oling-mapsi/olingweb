@@ -171,7 +171,9 @@
                   <div class="oling-team-mini__title">{{ team.titre }}</div>
                 {% endif %}
                 {% if team.linkedin %}
-                  <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                  <a class="oling-team-mini__link" href="{{ team.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'team.linkedin'|trans({'%name%': team.noncomplet}) }}">
+                    <i class="bi-linkedin" aria-hidden="true"></i>
+                  </a>
                 {% endif %}
               </div>
             </div>

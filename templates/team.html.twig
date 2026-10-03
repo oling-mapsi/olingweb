@@ -16,6 +16,9 @@
     .oling-team-card__head h2 { font-size: 1.28rem; line-height: 0.98; max-width: 13ch; }
     .oling-team-card__title { margin-top: 0.22rem; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .oling-team-card__link { font-size: 0.66rem; letter-spacing: 0.12em; }
+    .oling-team-card__social { width: 1.85rem; height: 1.85rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; color: #244968; background: rgba(36, 73, 104, 0.08); transition: color .2s ease, background-color .2s ease; }
+    .oling-team-card__social:hover { color: #0a66c2; background: rgba(10, 102, 194, 0.12); }
+    .oling-team-card__social [class^="bi-"] { font-size: 0.95rem; line-height: 1; }
     .oling-team-card__organization { margin: 0.25rem 0 0; color: #52616d; font-size: 0.75rem; }
     .oling-team-card__areas { display: flex; flex-wrap: wrap; gap: 0.35rem 0.75rem; margin: 0 0 0.65rem; padding: 0; list-style: none; }
     .oling-team-card__areas li, .oling-team-card__areas a { color: #244968; font-size: 0.76rem; font-weight: 700; }
@@ -73,7 +76,9 @@
               {% endif %}
               <div class="oling-team-card__actions">
                 {% if people.linkedin %}
-                  <a class="oling-team-card__link" href="{{ people.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                  <a class="oling-team-card__social" href="{{ people.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'team.linkedin'|trans({'%name%': people.noncomplet}) }}">
+                    <i class="bi-linkedin" aria-hidden="true"></i>
+                  </a>
                 {% endif %}
                 {% if people.publicationsUrl %}
                   <a class="oling-team-card__link" href="{{ people.publicationsUrl }}" target="_blank" rel="noopener">{{ 'team.publications'|trans }}</a>

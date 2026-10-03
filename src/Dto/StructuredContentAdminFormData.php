@@ -36,6 +36,8 @@ class StructuredContentAdminFormData
     public ?string $shortcv = null;
     public ?string $linkedin = null;
     public ?string $photo = null;
+    public bool $isPublic = false;
+    public ?int $displayOrder = null;
     public ?string $title = null;
     public ?string $body = null;
     public ?string $eyebrow = null;

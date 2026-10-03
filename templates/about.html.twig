@@ -103,7 +103,9 @@
                     <p class="oling-about-team-card__text">{{ 'team.generic_profile'|trans }}</p>
                   {% endif %}
                   {% if member.linkedin %}
-                    <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener">{{ 'team.linkedin'|trans }}</a>
+                    <a class="oling-about-team-card__link" href="{{ member.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'team.linkedin'|trans({'%name%': member.noncomplet}) }}">
+                      <i class="bi-linkedin" aria-hidden="true"></i>
+                    </a>
                   {% endif %}
                 </div>
               </article>

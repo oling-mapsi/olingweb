@@ -250,7 +250,7 @@ team:
   publications: "Voir ses publications"
   section_label: "Équipe"
   generic_profile: "Direction engagée sur les sujets de transformation, de gouvernance et d’exécution portés par le cabinet."
-  linkedin: "Voir sur LinkedIn"
+  linkedin: "Voir le profil LinkedIn de %name%"
 
 proofs:
   kicker: "Preuves"

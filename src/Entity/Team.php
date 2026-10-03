@@ -37,6 +37,12 @@ class Team
     #[ORM\ManyToMany(targetEntity: Projet::class, mappedBy: 'teams')]
     private Collection $projets;
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isPublic = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $displayOrder = null;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
@@ -158,6 +164,30 @@ class Team
         if ($this->projets->removeElement($projet)) {
             $projet->removeTeam($this);
         }
+
+        return $this;
+    }
+
+    public function isPublic(): bool
+    {
+        return $this->isPublic;
+    }
+
+    public function setIsPublic(bool $isPublic): self
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    public function getDisplayOrder(): ?int
+    {
+        return $this->displayOrder;
+    }
+
+    public function setDisplayOrder(?int $displayOrder): self
+    {
+        $this->displayOrder = $displayOrder;
 
         return $this;
     }

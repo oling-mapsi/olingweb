@@ -31,6 +31,8 @@
                         <tr>
                             <th>Nom</th>
                             <th>Titre</th>
+                            <th>Publié</th>
+                            <th>Ordre</th>
                             <th>Photo</th>
                             <th>LinkedIn</th>
                             
@@ -43,6 +45,8 @@
                                     <a href="{{ path('admin_teams_edit', {id: team.id}) }}">{{ team.noncomplet }}</a>
                                 </td>
                                 <td>{{ team.titre ?: '-' }}</td>
+                                <td>{{ team.public ? 'Oui' : 'Non' }}</td>
+                                <td>{{ team.displayOrder ?? '-' }}</td>
                                 <td>
                                     {% if team.photo %}
                                         <img src="{{ asset(team.photo) }}" alt="Photo" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">

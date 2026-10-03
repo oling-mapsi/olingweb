@@ -33,6 +33,16 @@ use App\Middleware\XRobotsTagMiddleware;
 
 class PracticeController extends AbstractController
 {
+    private const PUBLIC_TEAM_ORDER = [
+        'florestan rouet',
+        'dorothee maitrias',
+        'manuel feuillard',
+        'hanna badan',
+        'julien pujol',
+        'claire tillion',
+        'jean claude vati',
+    ];
+
     public function __construct(
         private readonly PublicSitePageResolver $publicSitePageResolver,
         private readonly LocalizedContentResolver $localizedContentResolver,
@@ -917,6 +927,54 @@ class PracticeController extends AbstractController
 
 
 
+    #[Route('/expertise-amoa-erp-applications-metiers', name: 'legacy_expertise_amoa_erp_redirect', methods: ['GET'], priority: 20)]
+    public function legacyExpertiseAmoaErpRedirect(): Response
+    {
+        return $this->redirect('/expertises/amoa-erp-applications-metiers', 301);
+    }
+
+    #[Route('/expertise-cybersecurite-conformite-resilience', name: 'legacy_expertise_cyber_redirect', methods: ['GET'], priority: 20)]
+    public function legacyExpertiseCyberRedirect(): Response
+    {
+        return $this->redirect('/expertises/cybersecurite-conformite-resilience', 301);
+    }
+
+    #[Route('/expertise-data-automatisation-intelligence-artificielle', name: 'legacy_expertise_data_redirect', methods: ['GET'], priority: 20)]
+    public function legacyExpertiseDataRedirect(): Response
+    {
+        return $this->redirect('/expertises/data-automatisation-intelligence-artificielle', 301);
+    }
+
+    #[Route('/expertise-rgpd-dpo-gouvernance', name: 'legacy_expertise_rgpd_redirect', methods: ['GET'], priority: 20)]
+    public function legacyExpertiseRgpdRedirect(): Response
+    {
+        return $this->redirect('/expertises/rgpd-dpo-gouvernance', 301);
+    }
+
+    #[Route('/metiers', name: 'legacy_metiers_redirect', methods: ['GET'], priority: 20)]
+    public function legacyMetiersRedirect(): Response
+    {
+        return $this->redirect('/a-propos/metiers', 301);
+    }
+
+    #[Route('/secteurs/secteur-industrie', name: 'legacy_sector_industry_redirect', methods: ['GET'], priority: 20)]
+    public function legacySectorIndustryRedirect(): Response
+    {
+        return $this->redirect('/secteurs/industrie', 301);
+    }
+
+    #[Route('/secteurs/secteur-secteur-public', name: 'legacy_sector_public_redirect', methods: ['GET'], priority: 20)]
+    public function legacySectorPublicRedirect(): Response
+    {
+        return $this->redirect('/secteurs/secteur-public', 301);
+    }
+
+    #[Route('/secteurs/secteur-services', name: 'legacy_sector_services_redirect', methods: ['GET'], priority: 20)]
+    public function legacySectorServicesRedirect(): Response
+    {
+        return $this->redirect('/secteurs/services', 301);
+    }
+
     #[Route('/{practice}/{slug}', name: 'service', requirements: ['practice' => '(?!admin(?:/|$)|login(?:/|$)|logout(?:/|$)|uploads(?:/|$)|fr(?:/|$)|en(?:/|$)|es(?:/|$))[a-z0-9\\-]+'], priority: -10)]
     public function services(
         PracticeRepository $practiceRepository,
@@ -1103,8 +1161,13 @@ class PracticeController extends AbstractController
             if (!is_array($profile) || $profile === []) {
                 continue;
             }
+            $teamKey = $this->normalizeTeamName((string) ($profile['displayName'] ?? $member->getNoncomplet()));
+            $teamOrder = array_search($teamKey, self::PUBLIC_TEAM_ORDER, true);
+            if ($teamOrder === false) {
+                continue;
+            }
 
-            $preview[] = [
+            $preview[$teamOrder] = [
                 'slug' => $profile['slug'] ?? $this->normalizeTeamName((string) $member->getNoncomplet()),
                 'noncomplet' => $profile['displayName'] ?? $member->getNoncomplet(),
                 'titre' => $memberView->getTitre() ?: ($profile['titre'] ?? ''),
@@ -1118,6 +1181,7 @@ class PracticeController extends AbstractController
             ];
         }
 
+        ksort($preview);
         return $preview;
     }
 
@@ -1128,8 +1192,11 @@ class PracticeController extends AbstractController
     private function buildTeamSchemas(array $profiles): array
     {
         return array_map(static function (array $profile): array {
-            $sameAs = [$profile['linkedin']];
-            if ($profile['publicationsUrl']) {
+            $sameAs = [];
+            if (!empty($profile['linkedin'])) {
+                $sameAs[] = $profile['linkedin'];
+            }
+            if (!empty($profile['publicationsUrl'])) {
                 $sameAs[] = $profile['publicationsUrl'];
             }
 
@@ -1139,9 +1206,11 @@ class PracticeController extends AbstractController
                 'name' => $profile['noncomplet'],
                 'jobTitle' => $profile['titre'],
                 'url' => sprintf('https://oling.fr/a-propos/team#%s', $profile['slug']),
-                'sameAs' => $sameAs,
                 'knowsAbout' => array_column($profile['areas'], 'label'),
             ];
+            if ($sameAs !== []) {
+                $schema['sameAs'] = $sameAs;
+            }
 
             $schema[$profile['relationSchema']] = [
                 '@type' => 'Organization',
@@ -1166,7 +1235,7 @@ class PracticeController extends AbstractController
             $normalized
         );
 
-        return preg_replace('/\s+/', ' ', $normalized) ?? $normalized;
+        return trim(preg_replace('/[^a-z0-9]+/', ' ', $normalized) ?? $normalized);
     }
 
     private function localizeLegalPage(?\App\Entity\LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): mixed

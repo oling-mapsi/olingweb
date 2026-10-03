@@ -20,6 +20,21 @@ final class TranslatedEntityPublicView
         return $this->entity;
     }
 
+    public function getSlug(): mixed
+    {
+        return $this->resolveGetter('slug', 'getSlug');
+    }
+
+    public function getTitle(): mixed
+    {
+        return $this->resolveGetter('title', 'getTitle');
+    }
+
+    public function getBody(): mixed
+    {
+        return $this->resolveGetter('body', 'getBody');
+    }
+
     public function __call(string $name, array $arguments): mixed
     {
         if (isset($this->relationResolvers[$name])) {
@@ -45,5 +60,18 @@ final class TranslatedEntityPublicView
         }
 
         throw new \BadMethodCallException(sprintf('Method "%s" is not available on translated view for "%s".', $name, $this->entity::class));
+    }
+
+    private function resolveGetter(string $field, string $method): mixed
+    {
+        if (array_key_exists($field, $this->translatedFields)) {
+            return $this->translatedFields[$field];
+        }
+
+        if (method_exists($this->entity, $method)) {
+            return $this->entity->{$method}();
+        }
+
+        return null;
     }
 }

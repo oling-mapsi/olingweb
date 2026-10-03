@@ -1,7 +1,7 @@
 {
     "entity": "SitePageTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-03T14:31:29+00:00",
+    "exportedAt": "2026-10-03T14:54:35+00:00",
     "translations": [
         {
             "source": {
@@ -1298,13 +1298,13 @@
                 }
             },
             "status": "published",
-            "sourceContentHash": "988ff087ba8f8318efdb5b7234f9e94df31012fc984a81bee7cf4ecb27183c27",
+            "sourceContentHash": "910883717d702807f0096acf366e25938e7c27d6e98b0aec4a19ce4001c21efb",
             "sourceUpdatedAt": "2026-10-02T20:29:40+00:00",
             "translatedAt": "2026-10-02T20:29:40+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
             "publishedAt": "2026-10-02T22:37:20+00:00",
             "unpublishedAt": null,
-            "isOutdated": true
+            "isOutdated": false
         },
         {
             "source": {

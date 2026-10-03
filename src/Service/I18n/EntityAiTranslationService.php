@@ -12,10 +12,12 @@ final class EntityAiTranslationService
     public function __construct(
         ServiceTranslationAdapter $serviceAdapter,
         PracticeTranslationAdapter $practiceAdapter,
+        ProjectTranslationAdapter $projectAdapter,
+        TeamTranslationAdapter $teamAdapter,
         private readonly AiTranslationProviderInterface $provider,
         private readonly KernelInterface $kernel,
     ) {
-        foreach ([$serviceAdapter, $practiceAdapter] as $adapter) {
+        foreach ([$serviceAdapter, $practiceAdapter, $projectAdapter, $teamAdapter] as $adapter) {
             $this->adapters[$adapter->entityName()] = $adapter;
         }
     }
@@ -111,6 +113,8 @@ final class EntityAiTranslationService
         return match ($entity) {
             'service', 'services' => 'service',
             'practice', 'practices' => 'practice',
+            'project', 'projects', 'projet', 'projets' => 'project',
+            'team', 'teams' => 'team',
             default => $entity,
         };
     }

@@ -13,9 +13,11 @@ final class EntityTranslationSnapshotService
     public function __construct(
         ServiceTranslationAdapter $serviceAdapter,
         PracticeTranslationAdapter $practiceAdapter,
+        ProjectTranslationAdapter $projectAdapter,
+        TeamTranslationAdapter $teamAdapter,
         private readonly KernelInterface $kernel,
     ) {
-        foreach ([$serviceAdapter, $practiceAdapter] as $adapter) {
+        foreach ([$serviceAdapter, $practiceAdapter, $projectAdapter, $teamAdapter] as $adapter) {
             $this->adapters[$adapter->entityName()] = $adapter;
         }
     }
@@ -74,7 +76,14 @@ final class EntityTranslationSnapshotService
 
     public function defaultPath(string $entity, string $locale): string
     {
-        $name = $this->adapter($entity)->entityName() === 'service' ? 'services' : 'practices';
+        $entityName = $this->adapter($entity)->entityName();
+        $name = match ($entityName) {
+            'service' => 'services',
+            'practice' => 'practices',
+            'project' => 'projects',
+            'team' => 'team',
+            default => $entityName,
+        };
 
         return $this->kernel->getProjectDir().'/data/i18n/reviewed/'.$name.'.'.$locale.'.json';
     }
@@ -96,6 +105,8 @@ final class EntityTranslationSnapshotService
         return match ($entity) {
             'service', 'services' => 'service',
             'practice', 'practices' => 'practice',
+            'project', 'projects', 'projet', 'projets' => 'project',
+            'team', 'teams' => 'team',
             default => $entity,
         };
     }

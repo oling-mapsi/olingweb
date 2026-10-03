@@ -29,7 +29,7 @@ final class I18nExportTranslationsCommand extends Command
     {
         $this
             ->addOption('locale', null, InputOption::VALUE_REQUIRED, 'Target locale: en or es.')
-            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Entity type: SitePage, service or practice.', 'SitePage')
+            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Entity type: SitePage, service, practice, project or team.', 'SitePage')
             ->addOption('status', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Export only this status. Repeatable.')
             ->addOption('output', null, InputOption::VALUE_REQUIRED, 'Output file. Defaults to data/i18n/reviewed/site_pages.{locale}.json.');
     }

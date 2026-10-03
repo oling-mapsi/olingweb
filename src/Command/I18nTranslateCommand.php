@@ -34,7 +34,7 @@ final class I18nTranslateCommand extends Command
     {
         $this
             ->addOption('locale', null, InputOption::VALUE_REQUIRED, 'Target locale: en or es.')
-            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Entity type: SitePage, service or practice.', 'SitePage')
+            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Entity type: SitePage, service, practice, project or team.', 'SitePage')
             ->addOption('id', null, InputOption::VALUE_REQUIRED, 'Filter by entity id.')
             ->addOption('slug', null, InputOption::VALUE_REQUIRED, 'Filter by source FR slug.')
             ->addOption('status', null, InputOption::VALUE_REQUIRED, 'Filter by existing target translation status.')
@@ -123,7 +123,7 @@ final class I18nTranslateCommand extends Command
     private function executeDbEntity(InputInterface $input, SymfonyStyle $io, string $entity, string $locale, int $limit, bool $dryRun, bool $overwrite, bool $onlyMissing, bool $onlyOutdated): int
     {
         if (!$this->entityTranslationService->supports($entity)) {
-            $io->error('Use --entity=SitePage, --entity=service or --entity=practice.');
+            $io->error('Use --entity=SitePage, --entity=service, --entity=practice, --entity=project or --entity=team.');
             return Command::FAILURE;
         }
 

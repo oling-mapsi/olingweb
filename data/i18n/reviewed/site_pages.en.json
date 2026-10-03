@@ -1,7 +1,7 @@
 {
     "entity": "SitePageTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-03T13:59:29+00:00",
+    "exportedAt": "2026-10-03T14:31:29+00:00",
     "translations": [
         {
             "source": {
@@ -23,12 +23,12 @@
             "heroSideHtml": "<section class=\"oling-section\" id=\"offre\">\n  <div class=\"container\">\n    <div class=\"row g-5 align-items-start\">\n      <div class=\"col-lg-7\">\n        <span class=\"oling-kicker\">Our value</span>\n        <h2>Business-side IT project advisory that strengthens decision-making and accelerates delivery</h2>\n        <p>Our role is to turn your business needs into actionable IT roadmaps. We structure requirements, support evidence-based decisions, coordinate stakeholders and ensure compliance throughout the project.</p>\n        <div class=\"oling-surface p-4 mt-4\">\n          <h3 class=\"mb-3\">What we deliver</h3>\n          <ul class=\"list-unstyled mb-0\">\n            <li class=\"mb-2\">Scoping, requirements definition, and process and risk mapping.</li>\n            <li class=\"mb-2\">IT strategy, business case and prioritised roadmap.</li>\n            <li>Governance, project management, acceptance testing, change management and results measurement.</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"col-lg-5\">\n        <div class=\"oling-surface p-4\">\n          <h3 class=\"mb-3\">Areas of expertise</h3>\n          <ul class=\"list-unstyled mb-0\">\n            <li class=\"mb-2\"><a class=\"link\" href=\"/erp-progiciel\">ERP</a> / <a class=\"link\" href=\"/crm\">CRM</a> / <a class=\"link\" href=\"/gmao\">CMMS</a> / <a class=\"link\" href=\"/si-finance\">financial systems</a> / <a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure</a> project advisory</li>\n            <li class=\"mb-2\">Data, BI and data governance</li>\n            <li class=\"mb-2\"><a class=\"link\" href=\"/rgpd\">GDPR</a>, AI Act, ISO 27001, NIS2 and DORA compliance</li>\n            <li><a class=\"link\" href=\"/cyber-securite\">Cybersecurity and IT security</a>, <a class=\"link\" href=\"/conformite-reglementaire\">regulatory compliance</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">e-invoicing advisory</a></li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section\">\n  <div class=\"container\">\n    <div class=\"oling-method\">\n      <div class=\"row g-4 align-items-start\">\n        <div class=\"col-lg-4\">\n          <span class=\"oling-kicker\">Method</span>\n          <h2>Our three-step IT project advisory method</h2>\n          <p class=\"oling-lede\">Structure, secure, transform: a clear framework for reliable IT projects.</p>\n        </div>\n        <div class=\"col-lg-8\">\n          <div class=\"row g-4\">\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>01</span><h4>Assessment and scoping</h4><p>IT audit, mapping, business objectives and requirements.</p></div></div>\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>02</span><h4>Governance and management</h4><p>Operational business-side advisory, PMO, budget, risks and integrated compliance.</p></div></div>\n            <div class=\"col-md-4\"><div class=\"oling-method-step\"><span>03</span><h4>Change management</h4><p>Adoption, training and performance measurement.</p></div></div>\n          </div>\n          <div class=\"mt-4\"><a class=\"btn btn-primary\" href=\"/contact\">Schedule a consultation</a></div>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Related IT project advisory guides</h2>\n      <ul class=\"mb-0\">\n        <li><a class=\"link\" href=\"/ressources/cadrage-projet-amoa-si\">Business-side IT project scoping: 10 mistakes to avoid</a></li>\n        <li><a class=\"link\" href=\"/ressources/choisir-cabinet-conseil-amoa-pme-eti\">Choosing an IT project advisory firm for SMEs and mid-sized companies</a></li>\n        <li><a class=\"link\" href=\"/conformite-reglementaire\">Regulatory compliance: GDPR, AI Act, ISO, security, QSE and energy</a></li>\n        <li><a class=\"link\" href=\"/ressources\">View all resources</a></li>\n      </ul>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"amoa-si\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client cases and projects</h2>\n      <p class=\"mb-3\">IT roadmaps successfully put into action</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Multi-stakeholder IT scoping with a prioritised roadmap and programme governance.</li>\n              <li>Business-side ERP/CRM/CMMS project management with reduced rework during acceptance testing.</li>\n              <li>Compliance integrated from the scoping stage onwards—GDPR, AI Act, ISO and cybersecurity—to prevent late-stage roadblocks.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectors covered</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start the scoping process</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This expertise can be standardised with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/gestion-des-systemes-information\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage across France and the French overseas departments and regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
             "bodyHtml": "{\"items\":[{\"question\":\"When should you engage a business-side IT project adviser?\",\"answer\":\"From the scoping stage onwards, to establish reliable requirements, support budget decisions and strengthen project governance.\"},{\"question\":\"What is the difference between business-side IT project management and technical delivery?\",\"answer\":\"Business-side IT project management represents business requirements and decisions. The technical delivery team designs and implements the technical solution.\"},{\"question\":\"Which IT project advisory deliverables are essential?\",\"answer\":\"A target scope, a prioritised roadmap, a governance framework, an acceptance testing plan and a change management plan.\"}]}",
             "structuredData": null,
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "e8f4e58987329c2c512a6461ca93da44e170b4648ef53ddc2260aba1a3ffc9e5",
             "sourceUpdatedAt": "2026-10-02T20:31:49+00:00",
             "translatedAt": "2026-10-02T20:31:49+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -504,12 +504,12 @@
                     "projectContextsTitle": "Data, interfaces and responsibilities"
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "9d7cfc45c81bce868ad1f10fa8477eae61028109fd1326ea07cf33e0fa3c0f6b",
             "sourceUpdatedAt": "2026-10-02T20:33:10+00:00",
             "translatedAt": "2026-10-02T20:33:10+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -540,12 +540,12 @@
                     "schemaServiceType": "Cybersecurity governance and resilience consulting"
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "a62525a71aefa5e4180af647af2b37698222c11f58154a76ca3ee780ef128352",
             "sourceUpdatedAt": "2026-10-02T20:32:24+00:00",
             "translatedAt": "2026-10-02T20:32:24+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -618,12 +618,12 @@
                     "showAutomaticZones": false
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "4891a84bb79643dc00b1224e205a1fda20776b4794599bfec45d6f90d1216fcd",
             "sourceUpdatedAt": "2026-10-02T22:15:50+00:00",
             "translatedAt": "2026-10-02T22:15:50+00:00",
             "reviewedAt": "2026-10-03T09:17:52+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -838,12 +838,12 @@
                     "metaDescription": "OLING helps companies identify relevant AI use cases, establish governance, integrate AI agents, and manage data and automation projects."
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "a955df17f8f340643a813e816af4d7c61ae8fb95944553213c66338a5f2cab11",
             "sourceUpdatedAt": "2026-10-02T22:16:32+00:00",
             "translatedAt": "2026-10-02T22:16:32+00:00",
             "reviewedAt": "2026-10-03T09:17:52+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -975,12 +975,12 @@
             "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>What we assess</h2><ul class=\"mb-0\"><li>Analysis of inbound and outbound flows, required data and quality levels.</li><li>Selection of an approved platform (PA) roadmap and coordination with partners.</li><li>Impacts on ERP, finance systems, procurement, sales, accounting and internal controls.</li><li>Change management plan for business and support teams.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Advisory deliverables</h2><ul class=\"mb-0\"><li>High-level roadmap followed by an implementation plan organised into priority work packages.</li><li>Risk and control matrix, with acceptance testing success criteria.</li><li>Programme governance framework (RACI, committees and decision-making).</li><li>Post-deployment monitoring framework to stabilise performance.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Related services</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/si-finance\">Finance systems</a> for P2P/O2C/R2R process architecture.</li><li><a class=\"link\" href=\"/erp-progiciel\">ERP and business software</a> for the target application roadmap.</li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">IT infrastructure advisory</a> to secure availability, performance and application-to-application exchanges.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Regulatory compliance</a> to align obligations, controls and evidence.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>Do you need to secure your e-invoicing programme?</h2><p class=\"oling-lede\">We build a realistic roadmap with your finance, IT, compliance and operational teams.</p><a class=\"btn btn-primary\" href=\"/contact\">Start project scoping</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"facturation-electronique-amoa\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Client cases and project outcomes</h2>\n      <p class=\"mb-3\">Controlled e-invoicing roadmaps</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Example engagements</h3>\n          <ul class=\"mb-0\">\n              <li>Assessment of business and IT impacts, plus approved platform governance, before deployment.</li>\n              <li>E-invoicing/e-reporting transition plan managed through milestones and risks.</li>\n              <li>Coordination between finance, IT and business teams to meet regulatory deadlines and data quality requirements.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectors covered</h3>\n          <ul class=\"mb-0\">\n            <li>Public sector</li>\n            <li>Infrastructure and services</li>\n            <li>Finance and support functions</li>\n            <li>Energy and the environment</li>\n            <li>Quality and operational performance</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">View references</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Start project scoping</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Related MAPSI tools</h2>\n      <p class=\"mb-3\">This expertise can be scaled with MAPSI to strengthen traceability, workflows and audit evidence.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/workflow-notifications\" target=\"_blank\" rel=\"noopener\">View the related MAPSI module</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Coverage across France and its overseas departments and regions</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
             "bodyHtml": "{\"items\":[{\"question\":\"How should you choose an approved platform?\",\"answer\":\"The choice depends on transaction volumes, use cases, the partner ecosystem, required formats and the desired level of integration with your IT systems.\"},{\"question\":\"What are the most critical IT impacts?\",\"answer\":\"Data quality, ERP and finance interfaces, control governance and the ability to conduct cross-functional acceptance testing.\"},{\"question\":\"When should e-invoicing project scoping begin?\",\"answer\":\"Scoping should begin as soon as the applicable phase starts so that work packages can be planned, application dependencies addressed and rushed compliance avoided.\"}]}",
             "structuredData": null,
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "1de07a26b44da60e8b83a67ac35bc1c222b4a352cceef03936aed77cb7d9ef72",
             "sourceUpdatedAt": "2026-10-02T20:33:45+00:00",
             "translatedAt": "2026-10-02T20:33:45+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1004,12 +1004,12 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "b362a6e46e50f5ca07f5001262997ca8d9472efaf108704dcd93ec2b82e71dc4",
             "sourceUpdatedAt": "2026-10-02T22:15:51+00:00",
             "translatedAt": "2026-10-02T22:15:51+00:00",
             "reviewedAt": "2026-10-03T09:17:52+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1103,12 +1103,12 @@
                     "projectContextsTitle": "Data, mobile working, inventory and interfaces"
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "9525f6327055538eefae94c3f55bf90b3269f8213b91b07f6d3b55bc894646e5",
             "sourceUpdatedAt": "2026-10-02T20:33:06+00:00",
             "translatedAt": "2026-10-02T20:33:06+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1379,12 +1379,12 @@
                     "showAutomaticZones": false
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "50a600e2079aa23f214a58e9f6b92864a728386a58089d2408772d1df81e74a6",
             "sourceUpdatedAt": "2026-10-02T22:15:14+00:00",
             "translatedAt": "2026-10-02T22:15:14+00:00",
             "reviewedAt": "2026-10-03T09:17:52+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1456,12 +1456,12 @@
                     "metaDescription": "Cross-industry expertise in IT project advisory, enterprise software and compliance for public- and private-sector organisations."
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "e4d9663bfabe13fe5e27d5d76dc5a49da12705a50a113bd979cb2454221ebfed",
             "sourceUpdatedAt": "2026-10-02T21:07:39+00:00",
             "translatedAt": "2026-10-02T21:07:39+00:00",
             "reviewedAt": "2026-10-02T22:00:00+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -2497,12 +2497,12 @@
                     ]
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "3d5a3c9b6b8fbcce009b7692b00113471ce5f09151a52cc0b83827544a1437b2",
             "sourceUpdatedAt": "2026-10-02T20:31:45+00:00",
             "translatedAt": "2026-10-02T20:31:45+00:00",
             "reviewedAt": "2026-10-02T22:37:10+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -2848,12 +2848,12 @@
                     "projectContextsTitle": "Master data, interfaces and migration"
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "8835a77fad1f150ed30c7c280b069d9cd0dc80f1e416e07a3dd68e51067df9a1",
             "sourceUpdatedAt": "2026-10-02T22:13:51+00:00",
             "translatedAt": "2026-10-02T22:13:51+00:00",
             "reviewedAt": "2026-10-03T09:17:52+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T16:11:28+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },

@@ -37,7 +37,7 @@ final class AiConsultantLocalizationTest extends TestCase
         self::assertStringContainsString('Bonjour', $rendered);
     }
 
-    public function testChatConversationStoresFrenchLocaleAndPromptVersion(): void
+    public function testChatConversationStoresRequestedLocaleAndPromptVersion(): void
     {
         $conversation = null;
         $entityManager = $this->createMock(EntityManagerInterface::class);
@@ -61,12 +61,52 @@ final class AiConsultantLocalizationTest extends TestCase
         $manager->createConversation('/test', 'https://oling.fr/test', null, 'en', '127.0.0.1', 'Test');
 
         self::assertInstanceOf(ChatConversation::class, $conversation);
-        self::assertSame('fr', $conversation->getLocale());
+        self::assertSame('en', $conversation->getLocale());
         self::assertSame('v1', $conversation->getPromptVersion());
+    }
+
+    public function testLocalizedJsonContractsMatchFrenchSource(): void
+    {
+        $this->assertSameJsonShape('ai_consultant', ['en', 'es']);
     }
 
     private function contentProvider(): AiConsultantContentProvider
     {
         return new AiConsultantContentProvider(dirname(__DIR__));
+    }
+
+    /**
+     * @param string[] $locales
+     */
+    private function assertSameJsonShape(string $name, array $locales): void
+    {
+        $base = dirname(__DIR__).'/data/i18n/'.$name;
+        $source = $this->jsonPaths(json_decode((string) file_get_contents($base.'.fr.json'), true, 512, JSON_THROW_ON_ERROR));
+        foreach ($locales as $locale) {
+            self::assertSame(
+                $source,
+                $this->jsonPaths(json_decode((string) file_get_contents($base.'.'.$locale.'.json'), true, 512, JSON_THROW_ON_ERROR)),
+                $name.'.'.$locale.' keys must match FR'
+            );
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function jsonPaths(mixed $value, string $prefix = ''): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $paths = [];
+        foreach ($value as $key => $child) {
+            $path = $prefix === '' ? (string) $key : $prefix.'.'.$key;
+            $paths[] = $path;
+            array_push($paths, ...$this->jsonPaths($child, $path));
+        }
+
+        return $paths;
     }
 }

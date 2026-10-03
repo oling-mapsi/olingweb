@@ -1,3 +1,6 @@
+{% set chatLocale = app.request.locale|default('fr') %}
+{% set privacyRoutes = {fr: 'polrgpd', en: 'polrgpd_en', es: 'polrgpd_es'} %}
+{% set privacyRoute = privacyRoutes[chatLocale]|default('polrgpd') %}
 <div
   id="oling-chat-widget"
   class="oling-chat-widget"
@@ -8,7 +11,7 @@
   data-erp-questionnaire-url-template="{{ path('api_chat_conversation_erp_questionnaire', {token: 'CHAT_TOKEN'}) }}"
   data-csrf-token="{{ csrf_token('chat_widget') }}"
   data-contact-fallback-url="{{ path('contact', {chat_fallback: 1}) }}"
-  data-privacy-url="{{ path('polrgpd') }}"
+  data-privacy-url="{{ path(privacyRoute) }}"
   data-storage-version="2026-08-25-chat-format-v1"
   data-contact-phone="01 89 70 15 60"
   data-contact-email="contact@oling.fr"
@@ -140,7 +143,7 @@
               {% endfor %}
             </div>
           </div>
-          <div class="col-12"><label class="oling-chat-widget__consent"><input type="checkbox" name="rgpdConsent" value="1" required> <span>{{ 'chat.erp.consent'|trans }} <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span></label></div>
+          <div class="col-12"><label class="oling-chat-widget__consent"><input type="checkbox" name="rgpdConsent" value="1" required> <span>{{ 'chat.erp.consent'|trans }} <a href="{{ path(privacyRoute) }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span></label></div>
           <div class="col-12"><button type="submit" class="btn btn-primary w-100">{{ 'chat.erp.submit'|trans }}</button></div>
         </div>
       </form>
@@ -184,7 +187,7 @@
           <div class="col-12">
             <label class="oling-chat-widget__consent">
               <input type="checkbox" name="chatConsent">
-              <span>{{ 'chat.consent'|trans }} <a href="{{ path('polrgpd') }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span>
+              <span>{{ 'chat.consent'|trans }} <a href="{{ path(privacyRoute) }}" target="_blank" rel="noopener" data-chat-bypass="true">{{ 'chat.privacy'|trans }}</a></span>
             </label>
           </div>
           <div class="col-12">

@@ -65,7 +65,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
                             'role' => 'developer',
                             'content' => [[
                                 'type' => 'input_text',
-                                'text' => $this->developerPrompt(),
+                                'text' => $this->developerPrompt($conversation->getLocale() ?: AiConsultantContentProvider::LOCALE),
                             ]],
                         ],
                         [
@@ -140,9 +140,9 @@ class OpenAiResponsesProvider implements AiProviderInterface
         );
     }
 
-    private function developerPrompt(): string
+    private function developerPrompt(string $locale): string
     {
-        return $this->contentProvider->prompt('chat.system');
+        return $this->contentProvider->prompt('chat.system', $locale);
     }
 
     /**

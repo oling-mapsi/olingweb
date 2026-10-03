@@ -4,6 +4,8 @@ namespace App\Service\ErpQuestionnaire;
 
 class ErpQuestionnaireSummaryService
 {
+    private string $locale = ErpQuestionnaireContentProvider::LOCALE;
+
     public function __construct(private readonly ErpQuestionnaireContentProvider $contentProvider)
     {
     }
@@ -12,8 +14,9 @@ class ErpQuestionnaireSummaryService
      * @param array<string, mixed> $answers
      * @return array<string, mixed>
      */
-    public function build(array $answers): array
+    public function build(array $answers, string $locale = ErpQuestionnaireContentProvider::LOCALE): array
     {
+        $this->locale = $locale;
         $modules = $this->cleanList($answers['functionalScope'] ?? []);
         $irritants = $this->splitText($answers['irritants'] ?? '');
         $constraints = $this->splitText($answers['constraints'] ?? '');
@@ -75,8 +78,9 @@ class ErpQuestionnaireSummaryService
      * @param array<string, mixed> $answers
      * @return array<string, mixed>
      */
-    public function scoring(array $answers, ?array $summary = null): array
+    public function scoring(array $answers, ?array $summary = null, string $locale = ErpQuestionnaireContentProvider::LOCALE): array
     {
+        $this->locale = $locale;
         $modules = $this->cleanList($answers['functionalScope'] ?? []);
         $complexity = $summary['complexity'] ?? $this->complexity($answers, $modules);
         $maturity = $summary['maturity'] ?? $this->maturity($answers);
@@ -448,12 +452,12 @@ class ErpQuestionnaireSummaryService
 
     private function label(mixed $value): string
     {
-        return $this->contentProvider->label((string) $value);
+        return $this->contentProvider->label((string) $value, $this->locale);
     }
 
     private function scale(string $level): string
     {
-        $content = $this->contentProvider->content();
+        $content = $this->contentProvider->content($this->locale);
         $value = $content['scale'][$level] ?? null;
 
         return is_string($value) ? $value : $level;
@@ -461,7 +465,7 @@ class ErpQuestionnaireSummaryService
 
     private function text(string $key): string
     {
-        return $this->contentProvider->text('summary.'.$key);
+        return $this->contentProvider->text('summary.'.$key, $this->locale);
     }
 
     /**
@@ -469,7 +473,7 @@ class ErpQuestionnaireSummaryService
      */
     private function summaryList(string $key): array
     {
-        $content = $this->contentProvider->content();
+        $content = $this->contentProvider->content($this->locale);
         $value = $this->path($content['summary'] ?? [], $key);
 
         return is_array($value) ? array_values(array_filter($value, 'is_string')) : [];
@@ -480,7 +484,7 @@ class ErpQuestionnaireSummaryService
      */
     private function summaryMap(string $key): array
     {
-        $content = $this->contentProvider->content();
+        $content = $this->contentProvider->content($this->locale);
         $value = $this->path($content['summary'] ?? [], $key);
 
         return is_array($value) ? array_filter($value, 'is_string') : [];

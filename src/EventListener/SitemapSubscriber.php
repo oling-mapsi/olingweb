@@ -50,6 +50,7 @@ class SitemapSubscriber implements EventSubscriberInterface
         $this->registerPublicSiteUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerSeoResourceUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerLocalizedSitePageUrls($event->getUrlContainer(), $event->getUrlGenerator());
+        $this->registerWave5StaticUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
     public function registerPracticeUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
@@ -188,6 +189,27 @@ class SitemapSubscriber implements EventSubscriberInterface
                     $locale
                 );
             }
+        }
+    }
+
+    private function registerWave5StaticUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    {
+        foreach ([
+            'erp_questionnaire_en',
+            'erp_questionnaire_es',
+            'discloser_en',
+            'discloser_es',
+            'charte_ia_en',
+            'charte_ia_es',
+            'polrgpd_en',
+            'polrgpd_es',
+            'polsecurite_en',
+            'polsecurite_es',
+        ] as $route) {
+            $urls->addUrl(
+                new UrlConcrete($router->generate($route, [], UrlGeneratorInterface::ABSOLUTE_URL)),
+                'wave5'
+            );
         }
     }
 }

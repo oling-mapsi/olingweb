@@ -159,11 +159,16 @@ class LocalizedContentResolver
 
     public function getFrenchLegalPageView(LegalPage $page): TranslatedEntityPublicView
     {
+        return $this->getLegalPageView($page, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getLegalPageView(LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): TranslatedEntityPublicView
+    {
         return new TranslatedEntityPublicView($page, $this->fetchTranslation('legal_page_translation', 'legal_page_id', $page->getId(), [
             'slug',
             'title',
             'body',
-        ]));
+        ], $locale));
     }
 
     public function getFrenchHomeSectionView(HomeSection $section): TranslatedEntityPublicView

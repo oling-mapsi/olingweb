@@ -18,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ErpQuestionnaireController extends AbstractController
 {
     #[Route('/erp-progiciel/questionnaire', name: 'erp_questionnaire', methods: ['GET', 'POST'])]
+    #[Route('/en/erp-software/questionnaire', name: 'erp_questionnaire_en', methods: ['GET', 'POST'])]
+    #[Route('/es/software-erp/cuestionario', name: 'erp_questionnaire_es', methods: ['GET', 'POST'])]
     public function questionnaire(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -27,29 +29,31 @@ class ErpQuestionnaireController extends AbstractController
         ErpQuestionnaireRateLimitGuard $rateLimitGuard,
         ErpQuestionnaireMailer $mailer
     ): Response {
+        $locale = $this->resolveLocale($request);
+        $request->setLocale($locale);
         $errors = [];
         $values = [];
 
         if ($request->isMethod('POST')) {
             $values = $request->request->all();
             if (!$rateLimitGuard->isAccepted($request)) {
-                $errors[] = $contentProvider->text('validation.rate_limit');
+                $errors[] = $contentProvider->text('validation.rate_limit', $locale);
 
                 return $this->render('erp_questionnaire/form.html.twig', [
                     'values' => $values,
                     'errors' => $errors,
-                    'functionalOptions' => $payloadMapper->functionalOptions(),
-                    'erpContent' => $contentProvider->content(),
+                    'functionalOptions' => $payloadMapper->functionalOptions($locale),
+                    'erpContent' => $contentProvider->content($locale),
                 ], new Response(status: Response::HTTP_TOO_MANY_REQUESTS));
             }
 
-            $errors = $payloadMapper->validate($values, (string) $request->request->get('_token'));
+            $errors = $payloadMapper->validate($values, (string) $request->request->get('_token'), $locale);
 
             if ($errors === []) {
                 $answers = $payloadMapper->answers($values);
-                $summary = $summaryService->build($answers);
-                $submission = $payloadMapper->submission($answers, $summary)
-                    ->setScoring($summaryService->scoring($answers, $summary));
+                $summary = $summaryService->build($answers, $locale);
+                $submission = $payloadMapper->submission($answers, $summary, $locale)
+                    ->setScoring($summaryService->scoring($answers, $summary, $locale));
                 $entityManager->persist($submission);
                 $mailer->sendProspectAndInternal($submission);
                 $submission->setEmailedAt(new \DateTimeImmutable());
@@ -66,8 +70,8 @@ class ErpQuestionnaireController extends AbstractController
         return $this->render('erp_questionnaire/form.html.twig', [
             'values' => $values,
             'errors' => $errors,
-            'functionalOptions' => $payloadMapper->functionalOptions(),
-            'erpContent' => $contentProvider->content(),
+            'functionalOptions' => $payloadMapper->functionalOptions($locale),
+            'erpContent' => $contentProvider->content($locale),
         ]);
     }
 
@@ -82,11 +86,22 @@ class ErpQuestionnaireController extends AbstractController
         if (!$submission) {
             throw $this->createNotFoundException($contentProvider->text('validation.not_found'));
         }
+        $requestLocale = $submission->getLocale();
 
         return new Response($pdfGenerator->generate($submission), Response::HTTP_OK, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="'.$pdfGenerator->filename($submission).'"',
+            'Content-Language' => $requestLocale,
         ]);
+    }
+
+    private function resolveLocale(Request $request): string
+    {
+        return match ($request->attributes->get('_route')) {
+            'erp_questionnaire_en' => 'en',
+            'erp_questionnaire_es' => 'es',
+            default => 'fr',
+        };
     }
 
 }

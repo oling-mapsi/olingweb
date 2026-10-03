@@ -24,13 +24,14 @@ class ChatConversationManager
 
     public function createConversation(?string $sourcePath, ?string $sourceUrl, ?string $referrer, ?string $locale, ?string $ip, ?string $userAgent): ChatConversation
     {
+        $locale = in_array($locale, ['fr', 'en', 'es'], true) ? $locale : AiConsultantContentProvider::LOCALE;
         $conversation = (new ChatConversation())
             ->setPublicToken(bin2hex(random_bytes(24)))
             ->setStatus(ChatConversation::STATUS_ACTIVE)
             ->setSourcePath($sourcePath)
             ->setSourceUrl($sourceUrl)
             ->setReferrer($referrer)
-            ->setLocale(AiConsultantContentProvider::LOCALE)
+            ->setLocale($locale)
             ->setPromptVersion(AiConsultantContentProvider::VERSION)
             ->setIpHash($ip ? hash('sha256', $ip) : null)
             ->setUserAgentHash($userAgent ? hash('sha256', $userAgent) : null);

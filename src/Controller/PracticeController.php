@@ -163,15 +163,20 @@ class PracticeController extends AbstractController
 
 
     #[Route('/mentions-legales', name: 'discloser')]
+    #[Route('/en/legal-notice', name: 'discloser_en', methods: ['GET'])]
+    #[Route('/es/aviso-legal', name: 'discloser_es', methods: ['GET'])]
     public function discloser(
+        Request $request,
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         LegalPageRepository $legalPageRepository
         ): Response
     {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'mentions-legales']));
+        $locale = $this->resolveLegalLocale($request);
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'mentions-legales']), $locale);
         return $this->render('page-terms.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -182,15 +187,20 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/charte-ia', name: 'charte_ia', methods: ['GET'])]
+    #[Route('/en/ai-charter', name: 'charte_ia_en', methods: ['GET'])]
+    #[Route('/es/carta-ia', name: 'charte_ia_es', methods: ['GET'])]
     public function charteIa(
+        Request $request,
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
         LegalPageRepository $legalPageRepository
     ): Response {
+        $locale = $this->resolveLegalLocale($request);
+        $request->setLocale($locale);
         return $this->render('charte-ia.html.twig', [
-            'practices' => $this->localizePractices($practiceRepository->findAll()),
-            'services' => $this->localizeServices($servicesRepository->findAll()),
-            'legalPage' => $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'charte-ia'])),
+            'practices' => $this->localizePractices($practiceRepository->findAll(), $locale),
+            'services' => $this->localizeServices($servicesRepository->findAll(), $locale),
+            'legalPage' => $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'charte-ia']), $locale),
             'pract' => '',
         ]);
     }
@@ -808,15 +818,20 @@ class PracticeController extends AbstractController
         ]);
     }
     #[Route('/a-propos/politiquergpd', name: 'polrgpd')]
+    #[Route('/en/privacy-policy', name: 'polrgpd_en', methods: ['GET'])]
+    #[Route('/es/politica-rgpd', name: 'polrgpd_es', methods: ['GET'])]
     public function polrgpd(
+        Request $request,
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         LegalPageRepository $legalPageRepository
     ): Response
     {
-        $practices = $repopractice->findAll();
-        $services = $reposervices->findAll();
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polrgpd']));
+        $locale = $this->resolveLegalLocale($request);
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polrgpd']), $locale);
         return $this->render('polrgpd.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -827,15 +842,20 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/a-propos/politiquesecurite', name: 'polsecurite')]
+    #[Route('/en/information-security-policy', name: 'polsecurite_en', methods: ['GET'])]
+    #[Route('/es/politica-seguridad-informacion', name: 'polsecurite_es', methods: ['GET'])]
     public function polsecurite(
+        Request $request,
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         LegalPageRepository $legalPageRepository
     ): Response
     {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polsecurite']));
+        $locale = $this->resolveLegalLocale($request);
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polsecurite']), $locale);
         return $this->render('polsecu.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -1149,9 +1169,22 @@ class PracticeController extends AbstractController
         return preg_replace('/\s+/', ' ', $normalized) ?? $normalized;
     }
 
-    private function localizeLegalPage(?\App\Entity\LegalPage $page): mixed
+    private function localizeLegalPage(?\App\Entity\LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): mixed
     {
-        return $page ? $this->localizedContentResolver->getFrenchLegalPageView($page) : null;
+        return $page ? $this->localizedContentResolver->getLegalPageView($page, $locale) : null;
+    }
+
+    private function resolveLegalLocale(Request $request): string
+    {
+        $route = (string) $request->attributes->get('_route');
+        if (str_ends_with($route, '_en')) {
+            return SitePageTranslation::LOCALE_EN;
+        }
+        if (str_ends_with($route, '_es')) {
+            return SitePageTranslation::LOCALE_ES;
+        }
+
+        return SitePageTranslation::LOCALE_FR;
     }
 
     private function localizeHomeSection(?\App\Entity\HomeSection $section, string $locale = SitePageTranslation::LOCALE_FR): mixed

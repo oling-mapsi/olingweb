@@ -16,6 +16,7 @@ class HeuristicAiProvider implements AiProviderInterface
     }
 
     private readonly \App\Service\Chat\SectorTaxonomy $sectorTaxonomy;
+    private string $locale = AiConsultantContentProvider::LOCALE;
 
     public function getName(): string
     {
@@ -33,6 +34,7 @@ class HeuristicAiProvider implements AiProviderInterface
         array $documents,
         array $qualification
     ): AiDecision {
+        $this->locale = $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE;
         $missingFields = $qualification['missing_fields'] ?? [];
         if (!is_array($missingFields)) {
             $missingFields = [];
@@ -673,7 +675,7 @@ class HeuristicAiProvider implements AiProviderInterface
 
     private function hText(string $path): string
     {
-        return $this->contentProvider->text('heuristic.'.$path);
+        return $this->contentProvider->text('heuristic.'.$path, $this->locale);
     }
 
     /**
@@ -681,7 +683,7 @@ class HeuristicAiProvider implements AiProviderInterface
      */
     private function hList(string $path): array
     {
-        return $this->contentProvider->list('heuristic.'.$path);
+        return $this->contentProvider->list('heuristic.'.$path, $this->locale);
     }
 
     /**
@@ -689,7 +691,7 @@ class HeuristicAiProvider implements AiProviderInterface
      */
     private function hMap(string $path): array
     {
-        return $this->contentProvider->map('heuristic.'.$path);
+        return $this->contentProvider->map('heuristic.'.$path, $this->locale);
     }
 
     private function hasHeuristicBlock(string $path): bool

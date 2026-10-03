@@ -19,66 +19,66 @@ class ErpQuestionnairePayloadMapper
      * @param array<string, mixed> $values
      * @return string[]
      */
-    public function validate(array $values, string $token): array
+    public function validate(array $values, string $token, string $locale = ErpQuestionnaireContentProvider::LOCALE): array
     {
         $errors = [];
         if (trim((string) ($values['website'] ?? '')) !== '') {
-            $errors[] = $this->contentProvider->text('validation.spam');
+            $errors[] = $this->contentProvider->text('validation.spam', $locale);
         }
 
         if (!$this->csrfTokenManager->isTokenValid(new CsrfToken('erp_questionnaire', $token))) {
-            $errors[] = $this->contentProvider->text('validation.csrf');
+            $errors[] = $this->contentProvider->text('validation.csrf', $locale);
         }
 
-        return array_values(array_unique(array_merge($errors, $this->validateBusinessFields($values))));
+        return array_values(array_unique(array_merge($errors, $this->validateBusinessFields($values, $locale))));
     }
 
     /**
      * @param array<string, mixed> $values
      * @return string[]
      */
-    public function validatePromptAiPayload(array $values): array
+    public function validatePromptAiPayload(array $values, string $locale = ErpQuestionnaireContentProvider::LOCALE): array
     {
         if (trim((string) ($values['website'] ?? '')) !== '') {
-            return [$this->contentProvider->text('validation.spam')];
+            return [$this->contentProvider->text('validation.spam', $locale)];
         }
 
-        return $this->validateBusinessFields($values);
+        return $this->validateBusinessFields($values, $locale);
     }
 
     /**
      * @param array<string, mixed> $values
      * @return string[]
      */
-    private function validateBusinessFields(array $values): array
+    private function validateBusinessFields(array $values, string $locale): array
     {
         $errors = [];
 
         foreach ($this->contentProvider->definition()['required_fields'] ?? [] as $field) {
             if (trim((string) ($values[$field] ?? '')) === '') {
-                $errors[] = sprintf($this->contentProvider->text('validation.required'), $this->contentProvider->fieldLabel((string) $field));
+                $errors[] = sprintf($this->contentProvider->text('validation.required', $locale), $this->contentProvider->fieldLabel((string) $field, $locale));
             }
         }
 
         if (!filter_var((string) ($values['email'] ?? ''), FILTER_VALIDATE_EMAIL)) {
-            $errors[] = $this->contentProvider->text('validation.email');
+            $errors[] = $this->contentProvider->text('validation.email', $locale);
         }
 
         if (empty($values['functionalScope']) || !is_array($values['functionalScope'])) {
-            $errors[] = $this->contentProvider->text('validation.functionalScope');
+            $errors[] = $this->contentProvider->text('validation.functionalScope', $locale);
         }
 
         if (empty($values['amoaExpectations']) || !is_array($values['amoaExpectations'])) {
-            $errors[] = $this->contentProvider->text('validation.amoaExpectations');
+            $errors[] = $this->contentProvider->text('validation.amoaExpectations', $locale);
         }
 
         if (empty($values['rgpdConsent'])) {
-            $errors[] = $this->contentProvider->text('validation.rgpdConsent');
+            $errors[] = $this->contentProvider->text('validation.rgpdConsent', $locale);
         }
 
         foreach ($this->lengthLimits() as $field => $limit) {
             if (mb_strlen((string) ($values[$field] ?? '')) > $limit) {
-                $errors[] = sprintf($this->contentProvider->text('validation.length'), $this->contentProvider->fieldLabel($field), $limit);
+                $errors[] = sprintf($this->contentProvider->text('validation.length', $locale), $this->contentProvider->fieldLabel($field, $locale), $limit);
             }
         }
 
@@ -122,7 +122,7 @@ class ErpQuestionnairePayloadMapper
      * @param array<string, mixed> $answers
      * @param array<string, mixed> $summary
      */
-    public function submission(array $answers, array $summary): ErpQuestionnaireSubmission
+    public function submission(array $answers, array $summary, string $locale = ErpQuestionnaireContentProvider::LOCALE): ErpQuestionnaireSubmission
     {
         return (new ErpQuestionnaireSubmission())
             ->setPublicToken(bin2hex(random_bytes(24)))
@@ -137,7 +137,7 @@ class ErpQuestionnairePayloadMapper
             ->setSolutionType($answers['solutionType'] ?: null)
             ->setUrgency($answers['urgency'] ?: null)
             ->setBudgetRange($answers['budgetRange'] ?: null)
-            ->setLocale(ErpQuestionnaireContentProvider::LOCALE)
+            ->setLocale($locale)
             ->setQuestionnaireVersion(ErpQuestionnaireContentProvider::VERSION)
             ->setAnswers($answers)
             ->setSummary($summary);
@@ -146,9 +146,9 @@ class ErpQuestionnairePayloadMapper
     /**
      * @return array<string, string>
      */
-    public function functionalOptions(): array
+    public function functionalOptions(string $locale = ErpQuestionnaireContentProvider::LOCALE): array
     {
-        return $this->contentProvider->options('functionalScope');
+        return $this->contentProvider->options('functionalScope', $locale);
     }
 
     /**

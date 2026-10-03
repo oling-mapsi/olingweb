@@ -129,7 +129,8 @@ class ChatApiController extends AbstractController
             ], Response::HTTP_TOO_MANY_REQUESTS);
         }
 
-        $errors = $payloadMapper->validatePromptAiPayload($payload);
+        $locale = $conversation->getLocale() ?: ErpQuestionnaireContentProvider::LOCALE;
+        $errors = $payloadMapper->validatePromptAiPayload($payload, $locale);
         if ($errors !== []) {
             return $this->json([
                 'success' => false,
@@ -139,9 +140,9 @@ class ChatApiController extends AbstractController
         }
 
         $answers = $payloadMapper->answers($payload);
-        $summary = $summaryService->build($answers);
-        $submission = $payloadMapper->submission($answers, $summary)
-            ->setScoring($summaryService->scoring($answers, $summary));
+        $summary = $summaryService->build($answers, $locale);
+        $submission = $payloadMapper->submission($answers, $summary, $locale)
+            ->setScoring($summaryService->scoring($answers, $summary, $locale));
 
         $entityManager->persist($submission);
         $mailer->sendProspectAndInternal($submission);

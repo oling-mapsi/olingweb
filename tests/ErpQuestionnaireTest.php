@@ -40,6 +40,31 @@ class ErpQuestionnaireTest extends TestCase
         self::assertSame('A', $submission->getScoring()['oling_potential']);
     }
 
+    public function testLocalizedJsonContractsMatchFrenchSource(): void
+    {
+        $base = dirname(__DIR__).'/data/i18n/erp_questionnaire';
+        $source = $this->jsonPaths(json_decode((string) file_get_contents($base.'.fr.json'), true, 512, JSON_THROW_ON_ERROR));
+        foreach (['en', 'es'] as $locale) {
+            self::assertSame(
+                $source,
+                $this->jsonPaths(json_decode((string) file_get_contents($base.'.'.$locale.'.json'), true, 512, JSON_THROW_ON_ERROR)),
+                'erp_questionnaire.'.$locale.' keys must match FR'
+            );
+        }
+    }
+
+    public function testEnglishAndSpanishSummariesUseLocalizedContent(): void
+    {
+        $service = new ErpQuestionnaireSummaryService($this->contentProvider());
+        $summaryEn = $service->build($this->validPayload(), 'en');
+        $summaryEs = $service->build($this->validPayload(), 'es');
+
+        self::assertStringContainsString('Acme', $summaryEn['executive_summary']);
+        self::assertStringContainsString('Acme', $summaryEs['executive_summary']);
+        self::assertNotSame($summaryEn['maturity'], $summaryEs['maturity']);
+        self::assertSame('fr', $this->submission()->getLocale());
+    }
+
     public function testPayloadValidationRejectsMissingFields(): void
     {
         $mapper = new ErpQuestionnairePayloadMapper($this->csrf(true), $this->contentProvider());
@@ -241,5 +266,24 @@ class ErpQuestionnaireTest extends TestCase
     private function contentProvider(): ErpQuestionnaireContentProvider
     {
         return new ErpQuestionnaireContentProvider(dirname(__DIR__));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function jsonPaths(mixed $value, string $prefix = ''): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $paths = [];
+        foreach ($value as $key => $child) {
+            $path = $prefix === '' ? (string) $key : $prefix.'.'.$key;
+            $paths[] = $path;
+            array_push($paths, ...$this->jsonPaths($child, $path));
+        }
+
+        return $paths;
     }
 }

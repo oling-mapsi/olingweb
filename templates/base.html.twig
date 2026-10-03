@@ -465,10 +465,16 @@
                                 </li>
                             {% endfor %}
                         {% endif %}
-                        <li><a href="{{ path('polrgpd') }}">{{ 'footer.rgpd_policy'|trans }}</a></li>
-                        <li><a href="{{ path('polsecurite') }}">{{ 'footer.security_policy'|trans }}</a></li>
-                        <li><a href="{{ path('discloser') }}">{{ 'footer.legal_notice'|trans }}</a></li>
-                        <li><a href="{{ path('charte_ia') }}">{{ 'footer.ai_charter'|trans }}</a></li>
+                        {% set legalRoutes = {
+                            fr: {privacy: 'polrgpd', security: 'polsecurite', notice: 'discloser', ai: 'charte_ia'},
+                            en: {privacy: 'polrgpd_en', security: 'polsecurite_en', notice: 'discloser_en', ai: 'charte_ia_en'},
+                            es: {privacy: 'polrgpd_es', security: 'polsecurite_es', notice: 'discloser_es', ai: 'charte_ia_es'}
+                        } %}
+                        {% set legalRouteSet = legalRoutes[currentLocale]|default(legalRoutes.fr) %}
+                        <li><a href="{{ path(legalRouteSet.privacy) }}">{{ 'footer.rgpd_policy'|trans }}</a></li>
+                        <li><a href="{{ path(legalRouteSet.security) }}">{{ 'footer.security_policy'|trans }}</a></li>
+                        <li><a href="{{ path(legalRouteSet.notice) }}">{{ 'footer.legal_notice'|trans }}</a></li>
+                        <li><a href="{{ path(legalRouteSet.ai) }}">{{ 'footer.ai_charter'|trans }}</a></li>
                         <li><a href="javascript:;" class="js-cookie-manage">{{ 'footer.manage_cookies'|trans }}</a></li>
                     </ul>
                 </div>

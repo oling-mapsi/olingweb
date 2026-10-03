@@ -1,0 +1,356 @@
+{
+    "meta": {
+        "locale": "en",
+        "version": "v1"
+    },
+    "prompts": {
+        "chat.system": {
+            "version": "v1",
+            "system": "Return strict JSON only.\nYou are OLING's expert assistant.\n\nYou respond to visitors about OLING's expertise, services, methods, consultants, software packages, sectors and experience.\n\nYour priority is to answer the question asked accurately.\n\nUse only the OLING information provided in the context.\nYou may reason, synthesise, compare and connect multiple sources.\nWhen the context contains a relevant OLING practice, service, project reference or profile, cite it explicitly in the response using its OLING title.\nDo not remain generic when specific OLING information is available in the context.\n\nYou are the commercial AI consultant for OLING Management & Technologie: expert, practical, reassuring, project-oriented and focused on opportunity qualification.\nWhen a business sector can be identified, prioritise the canonical sector provided by the context and its associated references.\nIf at least one reference exists in the snippets for this sector, clearly state that OLING has experience or references in this sector and connect this evidence to the stated need.\nNever say that OLING has no references, or that the references do not document a sector, simply because an initial excerpt does not contain this evidence.\nIf specific evidence remains unavailable, say instead: \"I do not currently have enough information in the available context to cite a specific reference.\"\n\nNever invent expertise, technology, a project, a result, a certification, a price or a timeframe.\n\nYou may mention OLING team members when the Team data supports it.\nNever mention the name of an OLING client and never confirm or deny a relationship with a named organisation.\nThe word \"client\" may be used in the generic business sense. The restriction applies only to the identity of a named client or named organisation.\n\nWhen describing references, discuss the documented sectors, contexts, assignments, technologies, processes, deliverables and results without naming clients.\nDo not automatically interpret \"customer information system\" as \"CRM\".\nOnly discuss CRM if the context explicitly mentions CRM, customer relationships, sales, sales teams or a CRM tool.\n\nAnswer the question first.\nOnly ask a question if it is genuinely necessary to provide a useful answer.\nDo not turn an information request into a commercial questionnaire.\nAlmost always structure the response with actual line breaks.\nUse no more than 2 to 5 short sections.\nWhen listing points, use simple bullets beginning with \"-\".\nWhen useful, add a short heading on its own line, ending with a colon.\nUse short paragraphs. Avoid dense blocks of text.\n\nIf the visitor asks how to contact OLING, or requests the telephone number, begin the response with:\n- Telephone: 01 89 70 15 60\n- Email: contact@oling.fr\n\nOnly suggest making contact when the visitor requests it or when a concrete project has been clearly expressed.\n\nTone: senior consultant, precise, natural and factual.\n\nThe visitor's original question always remains the primary signal.\nQualification fields are secondary metadata.\n\nIf the visitor asks whether OLING operates in a sector, answer clearly yes or no in the first sentence, then specify the documented contexts, assignment types and expertise.\nDo not begin with a limitation when the need is clear. Address the need first, then provide no more than 1 to 3 pieces of evidence and a natural next step.\nIf the visitor asks about a project phase, scoping, deliverables, acceptance testing, data migration or governance, answer at senior consultant level: steps, deliverables, key considerations and project structure.\nWhen a previous exchange has already established the business or application context, retain that context instead of switching to another, less relevant service.\n\nFor an ERP, software package or business application requirement, use the existing OLING AMOA framework.\nQualify without inventing:\n- ERP / software package requirement and business context\n- project maturity: unclear, scoping, consultation, ongoing or blocked\n- relevant functional modules: finance, procurement, sales, inventory, production, maintenance, HR, reporting or interfaces\n- target scope, pain points, risks, data, interfaces, security and GDPR\n- expected AMOA deliverables: scoping document, requirements specification, specifications, selection matrix, migration strategy, acceptance testing and change management\n- indicative high-level schedule by major phase\n- workload and budget only as indicative orders of magnitude, to be confirmed after discussion\n- OLING commercial next steps: scoping discussion, qualification and support proposal\nIf the visitor requests an ERP questionnaire, ask structured, progressive questions instead of redirecting them to another module."
+        },
+        "chat.user": {
+            "version": "v1",
+            "template": "Produce a valid json object that matches the schema.\n\nCurrent page: {{ sourceUrl }}\nCurrent source path: {{ sourcePath }}\n\nQualification metadata only:\n{{ qualification }}\n\nRecent conversation:\n{{ history }}\n\nLatest visitor message:\n{{ visitorMessage }}\n\nRelevant public OLING snippets:\n{{ snippets }}\n\nPriority:\n- answer the latest visitor question first\n- use the snippets as evidence\n- mention the most relevant OLING practice, service, project reference, or team member when the context supports it\n- keep qualification as secondary metadata only\n- if information is sufficient, do not ask a follow-up question\n- use short paragraphs and bullets when the answer contains several distinct points\n\nAllowed taxonomy:\n- primary_need: transformation_si, amoa_erp, organisation_gouvernance, conformite, rgpd, cybersecurite, ia_data_automatisation, autre\n- urgency_level: immediate, short_term, planned, exploratory\n- maturity_level: flou, cadre, consultation, en_cours, bloque\n- organization_type: pme, pmi, eti, public, association, autre\n- organization_size: 1_49, 50_249, 250_999, 1000_plus, unknown\n- commercial_intent: diagnostic, cadrage, assistance_projet, audit, mise_en_conformite, expertise_ponctuelle, orientation\n- potential_value: low, medium, high"
+        }
+    },
+    "labels": {
+        "amoa_erp": "ERP AMOA",
+        "rgpd": "GDPR",
+        "cybersecurite": "cybersecurity",
+        "ia_data_automatisation": "AI / data / automation",
+        "conformite": "compliance",
+        "organisation_gouvernance": "organisation / governance",
+        "transformation_si": "information systems transformation",
+        "immediate": "immediate",
+        "short_term": "short term",
+        "planned": "planned",
+        "exploratory": "exploratory",
+        "flou": "initial consideration",
+        "cadre": "scoping",
+        "consultation": "consultation",
+        "en_cours": "ongoing project",
+        "bloque": "blocked",
+        "pme": "SME",
+        "pmi": "industrial SME",
+        "eti": "mid-sized company",
+        "public": "public organisation",
+        "association": "association",
+        "1_49": "1 to 49 people",
+        "50_249": "50 to 249 people",
+        "250_999": "250 to 999 people",
+        "1000_plus": "1000+ people",
+        "diagnostic": "assessment",
+        "cadrage": "scoping",
+        "assistance_projet": "project support",
+        "mise_en_conformite": "compliance implementation",
+        "expertise_ponctuelle": "ad hoc expertise",
+        "orientation": "guidance",
+        "high": "high",
+        "medium": "medium",
+        "low": "low",
+        "unqualified_need": "unqualified need",
+        "unqualified": "unqualified"
+    },
+    "copy": {
+        "welcome": "Hello. I am OLING's expert assistant. Ask a question about our expertise, experience, team or your project.",
+        "empty_message": "The message is empty.",
+        "conversation_not_found": "Conversation not found.",
+        "invalid_csrf": "Invalid token.",
+        "lead_confirmation": "Thank you, your request has been sent successfully. An OLING consultant will get back to you shortly. If you wish, you can also continue here and ask another question.",
+        "lead_api_confirmation": "Thank you, your request has been sent successfully. An OLING consultant will get back to you shortly. You can also continue here and ask another question.",
+        "erp_api_confirmation": "ERP / software package qualification submitted. The summary is available below.",
+        "emergency_vague": "I can help you scope the subject. What is your main concern today: tools, organisation, compliance or risk?",
+        "emergency_clarify": "I can help you clarify the requirement. What is the most important point to secure in your current context?",
+        "contact_details": "To contact OLING, you can use these direct options:\n- Telephone: 01 89 70 15 60\n- Email: contact@oling.fr\n- Form: [Open the Contact page](/contact?chat_fallback=1)",
+        "confidential_clients": "I do not mention client names in my responses. However, I can present the types of assignments, relevant sectors, technologies used and issues addressed.",
+        "confidential_named": "I neither confirm nor provide details about relationships with named organisations. However, I can outline relevant OLING experience in this type of context.",
+        "safety_client_names": "I can describe the relevant OLING contexts, assignments and expertise without mentioning client names.",
+        "sector_positive": "Yes. OLING has references in the %s sector.%s",
+        "legacy_welcome": "Hello. I can help you clarify your requirement. Simply describe your context, challenge or obstacle.",
+        "lead_required": "All fields are required.",
+        "lead_invalid_email": "The email address is invalid.",
+        "lead_consent_required": "GDPR consent is required.",
+        "summary_short": "%s contacted OLING about a %s requirement with a %s urgency level.",
+        "summary_lines": {
+            "initial_context": "Initial context: %s",
+            "primary_need": "Primary need: %s",
+            "urgency": "Urgency: %s",
+            "maturity": "Maturity: %s",
+            "organization_type": "Organisation type: %s",
+            "organization_size": "Estimated size: %s",
+            "commercial_intent": "Commercial intent: %s",
+            "potential_value": "Potential value: %s",
+            "description": "Consolidated description: %s"
+        },
+        "erp_summary": [
+            "ERP / software package AMOA analysis:",
+            "Likely modules: %s.",
+            "Key considerations: %s.",
+            "AMOA deliverables to consider: scoping document, requirements specification, specifications or selection matrix, migration strategy, acceptance testing and change management.",
+            "Next OLING step: a scoping discussion to confirm the scope, maturity, high-level schedule, workload and indicative budget."
+        ],
+        "erp_modules_fallback": "to be qualified",
+        "erp_risks_fallback": "data, interfaces, security, GDPR, acceptance testing and change management to be qualified"
+    },
+    "heuristic": {
+        "contact": {
+            "intro": "If you would like to contact OLING:",
+            "items": [
+                "Call 01 89 70 15 60",
+                "Email contact@oling.fr",
+                "I can also suggest a discussion via the form"
+            ]
+        },
+        "greeting": "Hello.",
+        "amoa_iso27001_blend": "Your requirement appears to combine AMOA and ISO 27001 structuring. Are you primarily seeking to scope an ISO 27001 programme, select or manage a tool, or coordinate both?",
+        "information": {
+            "expert_intro": "The most relevant OLING profile in this context is:",
+            "default": "I can help you identify the most relevant OLING expertise, experience and resources.",
+            "primary_need": {
+                "amoa_erp": "OLING provides AMOA support for ERP and business applications, from scoping through solution selection, data migration, interfaces and acceptance testing.",
+                "rgpd": "OLING works on GDPR governance, records of processing activities, DPIAs, DPO organisation and establishing operational control.",
+                "cybersecurite": "OLING works on information systems security, resilience, risk analysis and frameworks such as ISO 27001, NIS2 or DORA.",
+                "ia_data_automatisation": "OLING works on data, automation, reporting and AI uses connected to business requirements.",
+                "conformite": "OLING works on compliance, control, risk and management frameworks.",
+                "organisation_gouvernance": "OLING works on organisation, governance, responsibilities and management.",
+                "transformation_si": "OLING works on information systems transformation roadmaps, scoping, trade-offs and securing execution."
+            }
+        },
+        "sector": {
+            "generic": "this type of sector",
+            "with_references": "Yes. OLING has anonymised references in %s and can support this type of requirement.",
+            "also": "Yes. OLING also operates in %s.",
+            "next_step": "A useful first step would be to qualify the scope, existing applications, interfaces and target roadmap.",
+            "amoa": "Yes. OLING operates in %s on information systems AMOA, ERP, CRM, CMMS or business application matters, focusing on scoping, solution selection, management, acceptance testing and deployment.",
+            "default": "Yes. OLING operates in %s, with approaches that may combine information systems transformation, organisation, compliance, security and project management."
+        },
+        "cadrage": {
+            "crm": {
+                "approach": {
+                    "intro": "During the CRM scoping phase, OLING primarily seeks to secure the requirement, processes and project roadmap:",
+                    "items": [
+                        "clarification of business objectives, journeys, roles and data governance",
+                        "process mapping, requirements definition and business backlog",
+                        "assessment of solution scenarios, decision criteria and project governance",
+                        "preparation for migration, acceptance testing and change management"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Available deliverables:",
+                    "items": [
+                        "scoping document, CRM roadmap and project governance",
+                        "process mapping, requirements definition and business backlog",
+                        "selection matrix, scoring matrix and decision file",
+                        "data migration plan, acceptance testing strategy and change management plan"
+                    ]
+                }
+            },
+            "gmao": {
+                "approach": {
+                    "intro": "During the CMMS scoping phase, OLING first secures maintenance processes, equipment data and field interfaces:",
+                    "items": [
+                        "assessment of the current environment, actual practices and limitations of the maintenance system",
+                        "scoping of maintenance processes, roles, equipment and reference data",
+                        "requirements definition, specifications and demonstration scenarios",
+                        "preparation for migration, acceptance testing, deployment and field adoption"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Available deliverables:",
+                    "items": [
+                        "current-state assessment, maintenance process mapping and CMMS roadmap",
+                        "requirements definition, specifications and equipment data model",
+                        "selection matrix, demonstration scenarios and decision file",
+                        "migration strategy, acceptance testing strategy, deployment plan and change management"
+                    ]
+                }
+            },
+            "si_finance": {
+                "approach": {
+                    "intro": "During the Finance information systems scoping phase, OLING defines the processes, data and trade-offs between Finance, IT departments and integrators:",
+                    "items": [
+                        "assessment of the current environment and weaknesses affecting closing, reporting, master data and interfaces",
+                        "scoping of requirements, Finance processes, responsibilities and target governance",
+                        "assessment of ERP or EPM scenarios and objective comparison of options",
+                        "preparation for migration, acceptance testing and change management"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Available deliverables:",
+                    "items": [
+                        "Finance information systems assessment, process mapping and scoping document",
+                        "requirements definition, roadmap, target functional architecture and project governance",
+                        "selection matrix, scoring matrix and decision file covering solutions and integrators",
+                        "migration strategy, acceptance testing strategy, change management plan and management indicators"
+                    ]
+                }
+            },
+            "default": {
+                "approach": {
+                    "intro": "During the AMOA scoping phase, OLING first seeks to make the project ready for decisions and manageable:",
+                    "items": [
+                        "clarification of objectives, scope, priorities and key considerations",
+                        "business workshops, process mapping and requirements definition",
+                        "selection of the target scenario, project governance, high-level schedule and consultation strategy if necessary",
+                        "anticipation of interfaces, migration, acceptance testing and change management"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Available deliverables:",
+                    "items": [
+                        "scoping document, high-level schedule and project governance",
+                        "requirements definition, specifications and selection criteria",
+                        "process mapping or consultation file, depending on the context",
+                        "acceptance testing strategy, migration plan and change management plan"
+                    ]
+                }
+            }
+        },
+        "reference": {
+            "with_amoa": "Yes. OLING has anonymised references in this type of context, including software package AMOA.",
+            "with_reference": "Yes. OLING has anonymised references in this type of context.",
+            "amoa_no_doc": "OLING provides software package AMOA and can present anonymised references by sector, assignment and context, without naming clients.",
+            "default_no_doc": "I can present OLING references anonymously, by sector, assignment, technology and issue addressed."
+        },
+        "domain": {
+            "qse": {
+                "approach": {
+                    "intro": "For QSE matters, OLING primarily works to structure a manageable framework that teams can use:",
+                    "items": [
+                        "assessment of the existing framework, gaps, responsibilities and practices actually followed",
+                        "alignment of quality, safety, environmental, organisational and tooling requirements",
+                        "preparation or restoration of control for ISO 9001, ISO 14001, ISO 45001 or Qualiopi programmes, depending on the context",
+                        "definition of practical management arrangements with action plans, indicators, reviews and expected evidence"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Typical deliverables:",
+                    "items": [
+                        "QSE assessment, gap mapping and roadmap",
+                        "responsibility matrix, target processes and control plan",
+                        "action plan, indicators, review materials and evidence file",
+                        "document templates, policies, procedures and awareness materials"
+                    ]
+                }
+            },
+            "cyber": {
+                "approach": {
+                    "intro": "For cybersecurity, compliance and resilience matters, OLING first seeks to make the framework governable and prioritised:",
+                    "items": [
+                        "posture assessment, risk analysis and review of critical dependencies",
+                        "alignment of information systems security, continuity, business requirements, suppliers and governance",
+                        "structuring of ISO 27001, NIS2, DORA, business continuity/disaster recovery or crisis organisation roadmaps",
+                        "prioritisation of measures, trade-offs and management evidence expected by senior management"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Typical deliverables:",
+                    "items": [
+                        "posture assessment, risk mapping and cyber roadmap",
+                        "security policy, governance, RACI and treatment plan",
+                        "business continuity/disaster recovery framework, crisis scenarios and test plan",
+                        "compliance dashboard, indicators and committee materials"
+                    ]
+                }
+            },
+            "rgpd": {
+                "approach": {
+                    "intro": "For GDPR and data governance matters, OLING works to restore compliance within an operational framework:",
+                    "items": [
+                        "assessment of the framework, processing activities, roles and available evidence",
+                        "coordination of the record of processing activities, DPIAs, processors, data subject requests and security measures",
+                        "alignment of GDPR, tools, business practices, IT departments and internal governance",
+                        "prioritisation of gaps and sustainable organisation of DPO or outsourced DPO management"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Typical deliverables:",
+                    "items": [
+                        "record of processing activities, processing map and GDPR roadmap",
+                        "DPIAs, role matrix, procedures and document templates",
+                        "action plan, supporting evidence and awareness programme",
+                        "DPO governance framework, review schedule and gap monitoring"
+                    ]
+                }
+            },
+            "ia_conformite": {
+                "approach": {
+                    "intro": "For AI compliance, OLING helps secure uses before they become governance debt:",
+                    "items": [
+                        "mapping of AI uses, risks, data and supplier dependencies",
+                        "alignment of the AI Act, GDPR, cybersecurity, procurement and human oversight",
+                        "definition of roles, controls, escalation criteria and evidence requirements",
+                        "establishing control over sensitive use cases and the management of AI agents or assistants"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Typical deliverables:",
+                    "items": [
+                        "AI use map and risk matrix",
+                        "AI policy, governance framework and compliance register",
+                        "evidence file, supplier requirements and oversight controls",
+                        "AI Act / GDPR / cyber action plan and monitoring dashboard"
+                    ]
+                }
+            }
+        },
+        "project_analysis": {
+            "intro": "Here is the most relevant point for your requirement:",
+            "primary_need": {
+                "amoa_erp": "OLING works on scoping and securing ERP and business application projects.",
+                "rgpd": "OLING can help establish control over the GDPR framework, governance, evidence and action plan.",
+                "cybersecurite": "OLING can support risk analysis, security governance, the roadmap and restoring control over the framework.",
+                "conformite": "OLING can support assessment, gap mapping, priorities and action management."
+            },
+            "default": "OLING can help structure the subject, clarify the scope and secure the implementation roadmap."
+        },
+        "next_question": {
+            "amoa_erp": "To move forward, what is your priority: clarifying the scope, selecting a solution, securing data and interfaces, or recovering a project that has already started?",
+            "too_vague": "To scope this properly, is your subject primarily about a tool, an organisation, a regulatory constraint or a risk?",
+            "missing_primary_need": "Is the key issue solution selection, scoping, compliance, security or the target organisation?",
+            "replacement": "The determining factor is whether you first want to replace the tool, redesign the processes, or secure both in parallel.",
+            "default": "What is the most important business or operational point to secure in your context?"
+        },
+        "erp_questionnaire": {
+            "intro": "To qualify an ERP or software package requirement, OLING begins by scoping the following points:",
+            "items": [
+                "business context, current pain points, expected objectives and project maturity level",
+                "relevant modules: finance, procurement, sales, inventory, production, maintenance, HR, reporting or interfaces",
+                "target scope, relevant sites, volumes, data to migrate and critical interfaces",
+                "security, GDPR, access rights, hosting, traceability and business continuity constraints",
+                "expected AMOA deliverables: scoping document, requirements definition, specifications, selection matrix, acceptance testing, migration and change management",
+                "high-level schedule, governance, risks, workload and indicative budget to be confirmed after discussion"
+            ],
+            "first_question": "First question: which software package or application area do you want to scope, and what business pain point is driving the project?"
+        },
+        "confidential": {
+            "clients": "I do not mention client names in my responses. However, I can present the types of assignments, relevant sectors, technologies used and issues addressed.",
+            "named": "I neither confirm nor provide details about relationships with named organisations. However, I can outline relevant OLING experience in this type of context."
+        },
+        "excerpt_fallback": "OLING has relevant experience with this type of subject.",
+        "bridge": "OLING also works on %s"
+    },
+    "email": {
+        "subject": "[OLING][AI Lead] %s - %s - %s",
+        "title": "New OLING AI lead",
+        "date": "Date",
+        "company": "Company",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Telephone",
+        "source": "Source page",
+        "short_summary": "Short summary",
+        "qualification": "Qualification",
+        "primary_need": "Primary need",
+        "urgency": "Urgency",
+        "maturity": "Maturity",
+        "organization_type": "Organisation type",
+        "organization_size": "Size",
+        "commercial_intent": "Commercial intent",
+        "potential_value": "Potential value",
+        "description": "Consolidated description",
+        "consent": "GDPR consent",
+        "yes": "Yes",
+        "no": "No"
+    }
+}

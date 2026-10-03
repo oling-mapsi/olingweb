@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class AiTranslationService
 {
+    private const SLUG_MAX_LENGTH = 100;
+
     private const SITE_PAGE_FIELDS = [
         'slug',
         'title',
@@ -183,6 +185,7 @@ final class AiTranslationService
         if ($normalized['slug'] === '' || preg_match('/^[a-z0-9][a-z0-9\-]*$/', $normalized['slug']) !== 1) {
             $normalized['slug'] = $this->fallbackSlug((string) ($sourcePayload['slug'] ?? ''), $targetLocale);
         }
+        $normalized['slug'] = $this->shortenSlug($normalized['slug']);
         $normalized['title'] = trim((string) $normalized['title']);
         if ($normalized['title'] === '') {
             $normalized['title'] = trim((string) ($normalized['seoTitle'] ?: $normalized['heroTitle'] ?: $sourcePayload['title'] ?? ''));
@@ -232,6 +235,21 @@ final class AiTranslationService
         $slug = preg_replace('/[^a-z0-9]+/', '-', $slug) ?? $slug;
 
         return trim($slug, '-');
+    }
+
+    private function shortenSlug(string $slug): string
+    {
+        if (strlen($slug) <= self::SLUG_MAX_LENGTH) {
+            return $slug;
+        }
+
+        $short = substr($slug, 0, self::SLUG_MAX_LENGTH);
+        $dashPosition = strrpos($short, '-');
+        if ($dashPosition !== false && $dashPosition >= 40) {
+            $short = substr($short, 0, $dashPosition);
+        }
+
+        return trim($short, '-');
     }
 
     private function fallbackSlug(string $sourceSlug, string $targetLocale): string

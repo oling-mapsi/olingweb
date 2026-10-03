@@ -24,4 +24,17 @@ final class SeoQuickWinsSourceTest extends TestCase
         self::assertNotNull($row);
         self::assertContains('/facturation-electronique-amoa', array_column($row['narrative']['supportLinks'], 'href'));
     }
+
+    public function testDataBiNarrativeMatchesGscIntentAndQseLinksQualityResource(): void
+    {
+        $source = json_decode((string) file_get_contents(dirname(__DIR__).'/data/i18n/service_narratives.fr.json'), true, 512, JSON_THROW_ON_ERROR);
+        $dataBi = $source['narratives']['business-apps/bi-et-analytique'];
+        $qse = $source['narratives']['expertises-audit/qse'];
+
+        self::assertStringContainsString('Business Intelligence', $dataBi['metaTitle']);
+        self::assertStringContainsString('BI PME', $dataBi['headline']);
+        self::assertContains('/consulting/gouvernance-des-donnees', array_column($dataBi['supportLinks'], 'href'));
+        self::assertContains('/business-apps/msbi', array_column($dataBi['supportLinks'], 'href'));
+        self::assertContains('/ressources/indicateurs-qualite-si', array_column($qse['supportLinks'], 'href'));
+    }
 }

@@ -2,14 +2,69 @@
     "locale": "fr",
     "narratives": {
         "business-apps/bi-et-analytique": {
-            "eyebrow": "Offre OLING",
-            "headline": "Business Intelligence et analytique décisionnelle",
-            "intro": "Business Intelligence & analytique : cadrage des besoins, data models, dashboards et pilotage de la performance.",
+            "metaTitle": "Cabinet conseil Business Intelligence et BI PME | OLING",
+            "metaDescription": "Conseil Business Intelligence pour PME, ETI et secteur public : cadrage BI, reporting, tableaux de bord, modèles de données, gouvernance et pilotage.",
+            "eyebrow": "Data / BI",
+            "headline": "Business Intelligence et BI PME : cadrer le reporting utile",
+            "intro": "OLING accompagne les projets Business Intelligence lorsque les indicateurs, tableaux de bord et modèles de données doivent répondre à des décisions métier concrètes.",
+            "coverageTitle": "De la demande de reporting au dispositif BI gouverné",
+            "coverageText": "L’accompagnement porte sur le besoin décisionnel, les sources de données, les règles de calcul, les responsabilités, les tableaux de bord et les conditions d’adoption. OLING intervient côté métier et gouvernance projet, sans se limiter à l’outil.",
+            "coverageItems": [
+                "Cadrage des indicateurs, usages, populations utilisatrices et décisions à éclairer.",
+                "Cartographie des sources, référentiels, règles de gestion et points de qualité des données.",
+                "Conception fonctionnelle des tableaux de bord, parcours de validation et recette métier.",
+                "Gouvernance BI : propriétaires de données, règles de diffusion, contrôles et évolution du dispositif."
+            ],
             "outcomes": [
-                "Des decisions plus claires",
-                "Un dispositif plus robuste",
-                "Une mise en oeuvre mieux pilotee"
-            ]
+                "Indicateurs alignés avec les décisions à prendre",
+                "Reporting plus fiable et mieux gouverné",
+                "Recette BI cadrée avant industrialisation"
+            ],
+            "focusTitle": "Intentions couvertes",
+            "focus": [
+                "Cabinet conseil BI pour cadrer les besoins, arbitrer les priorités et sécuriser le projet.",
+                "BI PME / ETI pour transformer fichiers, extractions et reporting dispersé en tableaux de bord pilotables.",
+                "Data governance pour clarifier responsabilités, qualité, référentiels et règles de calcul.",
+                "Analytics et tableaux de bord pour suivre activité, performance, finance, opérations ou conformité."
+            ],
+            "missionPhasesTitle": "Sécuriser la BI avant l’outil",
+            "missionPhases": [
+                "Qualifier les décisions à soutenir, les utilisateurs et les irritants de reporting existants.",
+                "Inventorier les sources, définitions, contrôles et ruptures de qualité de données.",
+                "Définir les tableaux de bord, règles de calcul, droits d’accès et critères de recette.",
+                "Piloter la mise en œuvre avec les métiers, la DSI, l’intégrateur ou l’équipe data."
+            ],
+            "deliverablesTitle": "Livrables BI et data",
+            "deliverables": [
+                "Expression des besoins BI, glossaire d’indicateurs et règles de calcul.",
+                "Cartographie des sources et matrice qualité / responsabilité des données.",
+                "Maquettes fonctionnelles de tableaux de bord et scénarios de recette.",
+                "Feuille de route BI, gouvernance et backlog priorisé."
+            ],
+            "supportLinksTitle": "Relier BI, données et pilotage",
+            "supportLinksIntro": "La BI doit rester reliée à la gouvernance des données, aux outils de restitution et aux processus métier qui produisent les données.",
+            "supportLinks": [
+                {
+                    "href": "/consulting/gouvernance-des-donnees",
+                    "label": "Gouvernance des données",
+                    "description": "Pour cadrer référentiels, règles de gestion, responsabilités et qualité des données."
+                },
+                {
+                    "href": "/business-apps/msbi",
+                    "label": "Power BI et reporting dynamique",
+                    "description": "Pour outiller les modèles, rapports et KPI décisionnels lorsque le socle Microsoft est retenu."
+                },
+                {
+                    "href": "/si-finance",
+                    "label": "SI Finance",
+                    "description": "Pour les besoins de reporting financier, clôture, contrôle et pilotage des flux."
+                }
+            ],
+            "schemaServiceType": "Conseil Business Intelligence et data",
+            "schemaName": "Cabinet conseil Business Intelligence et BI PME",
+            "finalCtaTitle": "Qualifier les décisions, les données et les tableaux de bord",
+            "finalCtaText": "L’échange initial porte sur les usages de reporting, les sources disponibles, les définitions d’indicateurs, les outils en place et les décisions à fiabiliser.",
+            "finalCtaLabel": "Cadrer un projet BI"
         },
         "business-apps/developpements-specifiques": {
             "eyebrow": "Offre OLING",
@@ -661,6 +716,11 @@
                     "href": "/conseil-qualite",
                     "label": "Conseil qualité",
                     "description": "Pour relier qualité, processus, indicateurs et performance opérationnelle."
+                },
+                {
+                    "href": "/ressources/indicateurs-qualite-si",
+                    "label": "Indicateurs qualité SI",
+                    "description": "Pour distinguer les KPI utiles au pilotage des indicateurs qui n’aident pas la décision."
                 },
                 {
                     "href": "/gestion-risques-audit-controle-interne",

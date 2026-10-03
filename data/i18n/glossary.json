@@ -79,5 +79,24 @@
     "en": ["projects", "engagements", "client case studies"],
     "es": ["proyectos", "misiones", "casos de clientes"],
     "note": "Use 'case studies/casos de éxito' only when success claims are explicit in the source."
+  },
+  "collectivité territoriale": {
+    "en": ["local authority", "public authority"],
+    "es": ["administración local", "entidad territorial"],
+    "note": "Choose according to context; do not invent a specific institutional level."
+  },
+  "bailleur social": {
+    "en": ["social housing provider"],
+    "es": ["proveedor de vivienda social"]
+  },
+  "Outre-mer": {
+    "en": ["French overseas territories", "French overseas regions"],
+    "es": ["territorios franceses de ultramar", "regiones francesas de ultramar"],
+    "note": "Use regions when the source refers to DROM/regions; otherwise use territories."
+  },
+  "Grand Port Maritime": {
+    "en": ["Grand Port Maritime"],
+    "es": ["Grand Port Maritime"],
+    "note": "Official organisation names are not translated arbitrarily."
   }
 }

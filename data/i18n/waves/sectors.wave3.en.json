@@ -1,0 +1,177 @@
+{
+    "entity": "SitePageTranslation",
+    "locale": "en",
+    "exportedAt": "2026-10-03T08:04:20+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-industrie",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "industry-transformation-consulting",
+            "title": "Transformation consulting for industry and manufacturing SMEs",
+            "seoTitle": "Industry consulting, SMEs, ERP, CMMS and resilience | OLING",
+            "seoDescription": "OLING supports industrial companies and SMEs with ERP, CMMS, processes, data, continuity and compliance.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Industries",
+            "heroTitle": "Transformation consulting for industry and manufacturing SMEs",
+            "heroIntro": "OLING supports industrial companies in evolving their processes, tools and governance without putting their production or obligations at risk.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "OLING supports industrial companies in evolving their processes, tools and governance without putting their production or obligations at risk.",
+                    "title": "Transformation consulting for industry and manufacturing SMEs",
+                    "issues": [
+                        "ERP, CMMS, shop-floor workflows and supply chains",
+                        "Business continuity, cybersecurity and supplier dependencies",
+                        "Defining responsibilities across production, quality, the IT department and senior management"
+                    ],
+                    "eyebrow": "Industries",
+                    "seoTitle": "Industry consulting, SMEs, ERP, CMMS and resilience | OLING",
+                    "metaDescription": "OLING supports industrial companies and SMEs with ERP, CMMS, processes, data, continuity and compliance.",
+                    "linkedExpertises": [
+                        "amoa-erp-applications-metiers",
+                        "organisation-processus-conduite-du-changement",
+                        "cybersecurite-conformite-resilience"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "14b1d89542e9c831ae1170c76ab9d8a068525dfa6ff4337021d3c4a942d3a227",
+            "sourceUpdatedAt": "2026-10-03T08:03:29+00:00",
+            "translatedAt": "2026-10-03T08:03:29+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-secteur-public",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "regulated-organisations-public-sector",
+            "title": "Compliance, governance and resilience consulting for regulated organisations",
+            "seoTitle": "Compliance, cybersecurity and governance consulting for regulated organisations | OLING",
+            "seoDescription": "OLING supports regulated organisations and public-sector environments with compliance, cybersecurity, governance and resilience challenges.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Sectors",
+            "heroTitle": "Compliance, governance and resilience consulting for regulated organisations",
+            "heroIntro": "OLING works with organisations facing stringent accountability, traceability, compliance and continuity requirements.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "OLING works with organisations facing stringent accountability, traceability, compliance and continuity requirements.",
+                    "title": "Compliance, governance and resilience consulting for regulated organisations",
+                    "issues": [
+                        "Regulatory frameworks and evidence requirements",
+                        "Security governance, data protection and resilience",
+                        "Coordination between business teams, management, IT departments and service providers"
+                    ],
+                    "eyebrow": "Sectors",
+                    "seoTitle": "Compliance, cybersecurity and governance consulting for regulated organisations | OLING",
+                    "metaDescription": "OLING supports regulated organisations and public-sector environments with compliance, cybersecurity, governance and resilience challenges.",
+                    "linkedExpertises": [
+                        "rgpd-dpo-gouvernance",
+                        "cybersecurite-conformite-resilience",
+                        "data-automatisation-intelligence-artificielle"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "138aaf2614bb3fb5f53eec6b2fc9cab1e5bae5a108bdb1f2d8cefeb690763938",
+            "sourceUpdatedAt": "2026-10-03T07:58:43+00:00",
+            "translatedAt": "2026-10-03T07:58:43+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-services",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "business-services",
+            "title": "Transformation consulting for service businesses",
+            "seoTitle": "Organisation, CRM, data and governance consulting for B2B services | OLING",
+            "seoDescription": "OLING helps service businesses structure their processes, CRM, data governance, compliance and use of AI.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Industries",
+            "heroTitle": "Transformation consulting for service businesses",
+            "heroIntro": "For service businesses, performance depends on the quality of their processes, the flow of information, customer relationships and technology adoption.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "For service businesses, performance depends on the quality of their processes, the flow of information, customer relationships and technology adoption.",
+                    "title": "Transformation consulting for service businesses",
+                    "issues": [
+                        "CRM structuring and sales performance management",
+                        "Data governance, automation and AI",
+                        "Process harmonisation across support and operational functions"
+                    ],
+                    "eyebrow": "Industries",
+                    "seoTitle": "Organisation, CRM, data and governance consulting for B2B services | OLING",
+                    "metaDescription": "OLING helps service businesses structure their processes, CRM, data governance, compliance and use of AI.",
+                    "linkedExpertises": [
+                        "transformation-si-pme-eti",
+                        "organisation-processus-conduite-du-changement",
+                        "data-automatisation-intelligence-artificielle"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "8f98f885d73939a2bafa23aa834aa05a0955964970701d091619834b50709283",
+            "sourceUpdatedAt": "2026-10-03T07:58:35+00:00",
+            "translatedAt": "2026-10-03T07:58:35+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteurs-index",
+                "externalId": null
+            },
+            "locale": "en",
+            "slug": "industries",
+            "title": "Industry Hub",
+            "seoTitle": "Industry Hub",
+            "seoDescription": "Explore all the industries served by OLING and the key considerations for each business environment.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "reviewed",
+            "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
+            "sourceUpdatedAt": "2026-10-02T21:10:00+00:00",
+            "translatedAt": "2026-10-02T21:10:00+00:00",
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        }
+    ]
+}

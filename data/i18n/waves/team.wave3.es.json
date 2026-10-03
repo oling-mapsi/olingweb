@@ -1,0 +1,217 @@
+{
+    "entity": "TeamTranslation",
+    "locale": "es",
+    "exportedAt": "2026-10-03T08:04:22+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "florestan-rouet",
+                "name": "Florestan Rouet"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Florestan Rouet acompaña a las organizaciones en la definición del alcance y la gobernanza de sus proyectos de sistemas de información. También publica contenidos sobre GRC y gestión con MAPSI.",
+            "publicProfile": {
+                "name": "florestan rouet",
+                "slug": "florestan-rouet",
+                "areas": [
+                    {
+                        "href": "/amoa-si",
+                        "label": "Asesoría en proyectos de sistemas de información"
+                    },
+                    {
+                        "label": "Gobernanza de sistemas de información"
+                    },
+                    {
+                        "label": "GRC / MAPSI"
+                    }
+                ],
+                "photo": "/img/people/florestan-oling.png",
+                "shortcv": "Florestan Rouet acompaña a las organizaciones en la definición del alcance y la gobernanza de sus proyectos de sistemas de información. También publica contenidos sobre GRC y gestión con MAPSI.",
+                "linkedin": "https://www.linkedin.com/in/florestanrouet/",
+                "displayName": "Florestan Rouet",
+                "relationSchema": "worksFor",
+                "publicationsUrl": "https://mapsi.fr/fr/auteurs/florestan-rouet",
+                "relationshipText": "OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "025857077bd1d79534be87b1fff5d29917cbcbf6d7c31e8ce5732592651f1eb7"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "dorothée-maitrias",
+                "name": "Dorothée Maitrias"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Dorothée Maitrias acompaña iniciativas de calidad, QSE y mejora continua, desde su estructuración hasta su gestión operativa.",
+            "publicProfile": {
+                "name": "dorothee maitrias",
+                "slug": "dorothee-maitrias",
+                "areas": [
+                    {
+                        "href": "/expertises-audit/qse",
+                        "label": "Calidad / QSE"
+                    },
+                    {
+                        "label": "Sistemas de gestión"
+                    }
+                ],
+                "photo": "/img/people/dorothee-oling.jpg",
+                "shortcv": "Dorothée Maitrias acompaña iniciativas de calidad, QSE y mejora continua, desde su estructuración hasta su gestión operativa.",
+                "linkedin": "https://www.linkedin.com/in/dorothee-maitrias-0584b196/",
+                "displayName": "Dorothée Maitrias",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "81b2c964f7e3cfb86acb8ee57e343d4b0f1ebcb508864a412829dd5577b75f62"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "manuel-feuillard",
+                "name": "Manuel Feuillard"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Manuel Feuillard trabaja en sistemas de gestión de calidad, seguridad y medio ambiente (QSE) y en su digitalización, con un enfoque adaptado a los procesos y al contexto de cada organización.",
+            "publicProfile": {
+                "name": "manuel feuillard",
+                "slug": "manuel-feuillard",
+                "areas": [
+                    {
+                        "href": "/expertises-audit/qse",
+                        "label": "QSE"
+                    },
+                    {
+                        "label": "Sistemas de gestión"
+                    },
+                    {
+                        "label": "Digitalización"
+                    }
+                ],
+                "photo": "/img/people/manuel-oling.png",
+                "shortcv": "Manuel Feuillard trabaja en sistemas de gestión de calidad, seguridad y medio ambiente (QSE) y en su digitalización, con un enfoque adaptado a los procesos y al contexto de cada organización.",
+                "linkedin": "https://www.linkedin.com/in/manuel-feuillard-a10b84248/",
+                "displayName": "Manuel Feuillard",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "b2def0b4139c0bbb1f43ff4d028ce8778e0092636e485dbb0487d5cca479e200"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "julien-pujol",
+                "name": "Julien Pujol"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Julien Pujol trabaja en la integración de sistemas ERP y en los retos asociados de finanzas e inteligencia empresarial.",
+            "publicProfile": {
+                "name": "julien pujol",
+                "slug": "julien-pujol",
+                "areas": [
+                    {
+                        "href": "/business-apps/erp",
+                        "label": "ERP"
+                    },
+                    {
+                        "href": "/si-finance",
+                        "label": "Sistemas de información financieros"
+                    },
+                    {
+                        "label": "BI"
+                    }
+                ],
+                "photo": "/img/people/julien-oling.png",
+                "shortcv": "Julien Pujol trabaja en la integración de sistemas ERP y en los retos asociados de finanzas e inteligencia empresarial.",
+                "linkedin": "https://www.linkedin.com/in/julien-pujol-752a364/",
+                "displayName": "Julien Pujol",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "74aaae58ff7d67df7cd5ff6fed4a175bf9772c6f55ac7424471ad9925b0b3fb8"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "gilbert-rinaldo",
+                "name": "Gilbert Rinaldo"
+            },
+            "locale": "es",
+            "titre": "Consultor de proyectos de sistemas de información",
+            "shortcv": "Gilbert Rinaldo, jefe de proyectos sénior, cuenta con 30 años de experiencia trabajando con grandes empresas. Su amplia trayectoria permite a OLING llevar a buen término proyectos complejos y garantizar la satisfacción de sus clientes.",
+            "publicProfile": null,
+            "status": "to_review",
+            "sourceContentHash": "d721e2fe5faf58afe202d42853d5780acd3e6b4157c2e9114a0713d4eb890a98"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "hanna-badan",
+                "name": "Hanna BADAN"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Hanna Badan contribuye a definir las transformaciones de los sistemas de información y los proyectos de ERP o software empresarial, conectando las necesidades del negocio, las operaciones y la gestión.",
+            "publicProfile": {
+                "name": "hanna badan",
+                "slug": "hanna-badan",
+                "areas": [
+                    {
+                        "href": "/business-apps/erp",
+                        "label": "ERP y software empresarial"
+                    },
+                    {
+                        "label": "Transformación de los sistemas de información"
+                    }
+                ],
+                "photo": "/img/people/hanna-oling.jpg",
+                "shortcv": "Hanna Badan contribuye a definir las transformaciones de los sistemas de información y los proyectos de ERP o software empresarial, conectando las necesidades del negocio, las operaciones y la gestión.",
+                "linkedin": "https://www.linkedin.com/in/hannabadan/",
+                "displayName": "Hanna Badan",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "4921dce8f0ddc280443a5612c4b348834785e3fcf9e14f622fb270bbe2718b0a"
+        },
+        {
+            "source": {
+                "entity": "Team",
+                "slug": "jean-claude-vati",
+                "name": "Jean Claude VATI"
+            },
+            "locale": "es",
+            "titre": null,
+            "shortcv": "Jean-Claude Vati acompaña proyectos de infraestructura de TI y la evolución de entornos Microsoft 365.",
+            "publicProfile": {
+                "name": "jean claude vati",
+                "slug": "jean-claude-vati",
+                "areas": [
+                    {
+                        "href": "/infrastructure-si-amoa",
+                        "label": "Infraestructura de TI"
+                    },
+                    {
+                        "label": "Microsoft 365"
+                    }
+                ],
+                "photo": "https://oling.fr/uploads/teams/photos/1767729618943-69d0310ed53909.71845746.jpg",
+                "shortcv": "Jean-Claude Vati acompaña proyectos de infraestructura de TI y la evolución de entornos Microsoft 365.",
+                "linkedin": "https://www.linkedin.com/in/jean-claude-vati-415ba33a3/",
+                "displayName": "Jean-Claude Vati",
+                "relationSchema": "affiliation",
+                "relationshipText": "Colabora con OLING Management et Technologie"
+            },
+            "status": "to_review",
+            "sourceContentHash": "f03837a188e0aa01e7fa37f3c9eafff76c810084f114b226681646bfe3eda705"
+        }
+    ]
+}

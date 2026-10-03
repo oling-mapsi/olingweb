@@ -1,0 +1,167 @@
+{
+    "entity": "ProjectTranslation",
+    "locale": "es",
+    "exportedAt": "2026-10-03T08:04:21+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "ville-de-fort-de-france-amoa-remplacement-gmao-as400"
+            },
+            "locale": "es",
+            "slug": "ville-de-fort-de-france-asesoria-sustitucion-gmao-as400",
+            "designation": "Ville de Fort-de-France – Asesoría para la sustitución de la GMAO AS400",
+            "description": "Sustituir una GMAO histórica basada en AS400 y asegurar todo el ciclo de asesoría en sistemas de información, desde el diagnóstico hasta el despliegue. Para Ville de Fort-de-France, OLING llevó a cabo una misión de asesoría en sistemas de información financieros / GBCP / INFINOE en el sector de las administraciones territoriales / entidades públicas de cooperación intermunicipal. El objetivo documentado era sustituir una GMAO histórica basada en AS400 y estructurar la gestión del patrimonio, las intervenciones, los inventarios, los costes, las interfaces y los datos. El alcance de OLING incluye análisis de la situación existente; recopilación de necesidades; marco de requisitos; CCTP/DCE; proceso de licitación; apoyo durante el despliegue y las pruebas de aceptación. Elementos de ejecución disponibles: 15 talleres operativos + 2 talleres con el departamento de TI previstos; fases estructuradas de selección y despliegue. Herramientas y soluciones asociadas: AS/400, AS400, GMAO, SIG, SI Finance. Esta referencia documenta la experiencia operativa de OLING en asesoría para sistemas de información financieros, GBCP, INFINOE, ERP financiero y procesos presupuestarios.",
+            "shortDescription": "Sustituir una GMAO histórica basada en AS400 y asegurar todo el ciclo de asesoría en sistemas de información, desde el diagnóstico hasta el despliegue.",
+            "clientName": "Ville de Fort-de-France",
+            "territory": "Martinique",
+            "periodLabel": "2026 → en curso",
+            "status": "to_review",
+            "sourceContentHash": "a79ca6be2e343eaaeb155bf42d84de063524e4dd284f74760f52ce5a3b9cd24f"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "ConformiteRGPDdusyndicatmixtedutransport."
+            },
+            "locale": "es",
+            "slug": "cumplimiento-rgpd-consorcio-transporte",
+            "designation": "Cumplimiento del RGPD del consorcio de transporte.",
+            "description": null,
+            "shortDescription": null,
+            "clientName": null,
+            "territory": null,
+            "periodLabel": null,
+            "status": "to_review",
+            "sourceContentHash": "0871bc00608f34b4a4919218d2dc65cc73e4ff87103cd5ee32e90df495181b01"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "grand-port-maritime-de-la-guadeloupe-dpo-externalise-et-pilotage-rgpd-avec-mapsi"
+            },
+            "locale": "es",
+            "slug": "grand-port-maritime-guadeloupe-dpo-externalizado-gestion-rgpd-mapsi",
+            "designation": "Grand Port Maritime de la Guadeloupe – DPO externalizado y gestión del RGPD con MAPSI",
+            "description": "DPO externalizado operativo para un gran puerto: registro, gobernanza, sensibilización y plan de acción gestionado en MAPSI. Para Grand Port Maritime de la Guadeloupe, OLING llevó a cabo una misión de RGPD, DPO externalizado y privacidad en el sector portuario y del transporte marítimo. Cumplimiento del RGPD en las operaciones del puerto. Los servicios documentados incluyen, en particular, el contrato de gestión y soporte del RGPD y DPO delegado: subcontratación de OLING para actividades de seguimiento y aplicación del RGPD y servicios de DPO delegado para el GPMG; mantenimiento operativo de los registros; seguimiento de las solicitudes relacionadas con el RGPD; dinamización de un taller sobre el seguimiento del contrato; taller para el futuro DPO del GPMG; contrato de gestión y soporte del RGPD y DPO delegado: subcontratación de OLING para actividades de seguimiento y aplicación del RGPD y servicios de DPO delegado para el GPMG; reuniones de sensibilización; envío del boletín mensual sobre el RGPD; respuesta a correos electrónicos y solicitudes; actualización de…; contrato de gestión y soporte del RGPD y DPO delegado: subcontratación de OLING para actividades de seguimiento y aplicación del RGPD y servicios de DPO delegado para el GPMG; preparación del material de sensibilización; envío del boletín mensual sobre el RGPD; respuesta a correos electrónicos y solicitudes…. Herramientas y soluciones asociadas: MAPSI, Microsoft 365, M365 OLING. Normativas y marcos asociados: RGPD. Esta referencia documenta la experiencia operativa de OLING en DPO externalizado, RGPD, registro de actividades de tratamiento, DPIA y AIPD.",
+            "shortDescription": "DPO externalizado operativo para un gran puerto: registro, gobernanza, sensibilización y plan de acción gestionado en MAPSI.",
+            "clientName": "Grand Port Maritime de la Guadeloupe",
+            "territory": "Guadeloupe",
+            "periodLabel": "2024 → 2025, con seguimiento continuo",
+            "status": "to_review",
+            "sourceContentHash": "375d9a80203d96c1774b609a93f4f47cc6840526147233824178efd8cc15d935"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "ConformiteQSEd'unnouveaucentredeformation"
+            },
+            "locale": "es",
+            "slug": "conformidad-qse-nuevo-centro-formacion",
+            "designation": "Conformidad QSE de un nuevo centro de formación",
+            "description": null,
+            "shortDescription": null,
+            "clientName": null,
+            "territory": null,
+            "periodLabel": null,
+            "status": "to_review",
+            "sourceContentHash": "66e17a16a16f34a753a92e6e6d3fccbbf515f5300e51b0ab0ba4c9821e865f17"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "roannaise-de-leau-amoa-gmao-et-modernisation-du-si-interventions"
+            },
+            "locale": "es",
+            "slug": "roannaise-de-leau-asesoria-gmao-modernizacion-si-intervenciones",
+            "designation": "Roannaise de l’Eau – Asesoría en GMAO y modernización del SI de intervenciones",
+            "description": "Diseñar una GMAO interoperable con el ecosistema operativo de una empresa pública de aguas. Para Roannaise de l’Eau, OLING llevó a cabo una misión de asesoría en sistemas de información financieros / GBCP / INFINOE en el sector del agua y el saneamiento. El reto documentado consistía en modernizar la gestión de las intervenciones y garantizar la fiabilidad de los intercambios con los sistemas de información técnicos, de clientes, RR. HH., finanzas y SIG. El alcance de OLING abarca diagnóstico; talleres; arquitectura objetivo; marco funcional de referencia; pliego de prescripciones técnicas (CCTP); licitación; selección; configuración; pruebas; validación; gestión del cambio. Elementos disponibles sobre la ejecución: hasta 20 talleres funcionales y técnicos; hoja de ruta de implantación multisistema. Herramientas y soluciones asociadas: GMAO, ETL, SIG, SI de Finanzas/RR. HH. Esta referencia documenta la experiencia operativa de OLING en asesoría para sistemas de información financieros, GBCP, INFINOE, ERP financiero y procesos presupuestarios.",
+            "shortDescription": "Diseñar una GMAO interoperable con el ecosistema operativo de una empresa pública de aguas.",
+            "clientName": "Roannaise de l’Eau",
+            "territory": "Auvergne-Rhône-Alpes",
+            "periodLabel": "2023 → 2026 (trayectoria documentada)",
+            "status": "to_review",
+            "sourceContentHash": "4c9fc6f870c58d0f88e9fed89012b913b1b5746a96e874b896affbabf4911ced"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "DPODeleguepourlecomptedel'aeroportdelaGuadeloupe"
+            },
+            "locale": "es",
+            "slug": "dpodeleguepourlecomptedel-aeroportdelaguadeloupe",
+            "designation": "DPO Délégué pour le compte de l'aéroport de la Guadeloupe",
+            "description": null,
+            "shortDescription": null,
+            "clientName": null,
+            "territory": null,
+            "periodLabel": null,
+            "status": "to_review",
+            "sourceContentHash": "c964e7a050b5e627944566ae200f5fa24449d23f2ca77c7f43bce879bb922d23"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "aeroport-montpellier-mediterranee-amoa-reforme-de-la-facturation-electronique"
+            },
+            "locale": "es",
+            "slug": "aeropuerto-montpellier-mediterranee-asesoria-reforma-facturacion-electronica",
+            "designation": "Aéroport Montpellier Méditerranée – Asesoría para la reforma de la facturación electrónica",
+            "description": "Adaptar un sistema de información aeroportuario heterogéneo a la facturación electrónica y al e-reporting. Para Aéroport Montpellier Méditerranée, OLING llevó a cabo una misión de asesoría en proyectos de sistemas de información para la reforma de la facturación electrónica en el sector aeroportuario y del transporte aéreo. Definición, selección y despliegue de la hoja de ruta de la RFE. Los servicios documentados incluyen, entre otros, asistencia para la facturación de AMM, fase 1: definición del alcance, análisis de la situación actual, casos de uso, arquitectura objetivo y flujos; plan de gestión del proyecto y matriz RACI; organización de talleres funcionales; talleres de sistemas de información; actas de los talleres funcionales y técnicos; mapeo de los procesos actuales e identificación de las brechas de cumplimiento normativo; mapeo de los procesos objetivo que integran la facturación electrónica y sus requisitos previos. Herramientas y soluciones asociadas: Chorus Pro, Advantage Finance, PDP / PA, PA/PDP, PPF. Marcos y estándares asociados: RFE. Esta referencia documenta la experiencia operativa de OLING en asesoría para proyectos de facturación electrónica, reforma de la facturación electrónica, RFE, PDP y e-reporting.",
+            "shortDescription": "Adaptar un sistema de información aeroportuario heterogéneo a la facturación electrónica y al e-reporting.",
+            "clientName": "Aéroport Montpellier Méditerranée",
+            "territory": "Occitanie",
+            "periodLabel": "2025 → 2027 (trayectoria de facturación electrónica)",
+            "status": "to_review",
+            "sourceContentHash": "cd865a2d681fa8f9082f2a96b6d88075368a0a576f65f939be82fc05e1f8a869"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "gouvsi"
+            },
+            "locale": "es",
+            "slug": "catalogo-servicios-si-dtnsi",
+            "designation": "Diseño de un catálogo de servicios de SI para la DTNSI, 2000 agentes",
+            "description": null,
+            "shortDescription": null,
+            "clientName": null,
+            "territory": null,
+            "periodLabel": null,
+            "status": "to_review",
+            "sourceContentHash": "c6eb8877de4c85712c7aef8d8f68101d1d9edbfc60acb629a365864ddd493edf"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "ville-de-goyave-amoa-dematerialisation-gec-ged-sae-parapheur-et-voip"
+            },
+            "locale": "es",
+            "slug": "ville-de-goyave-asesoria-digitalizacion-gec-ged-sae-portafirmas-voip",
+            "designation": "Ville de Goyave – Asesoría para la digitalización de GEC, GED, SAE, portafirmas y VoIP",
+            "description": "Digitalizar los circuitos administrativos y modernizar las herramientas colaborativas de un municipio. Para Ville de Goyave, OLING llevó a cabo una misión de digitalización, GED, GEC y archivo electrónico en el sector de las administraciones locales y los organismos públicos de cooperación intermunicipal. El reto documentado consistía en pasar de circuitos basados en gran medida en papel a servicios digitales estructurados, trazables y seguros. El alcance de OLING abarca 3 lotes: GEC + convocatorias + portafirmas; GED + SAE + cartelería digital; migración de la telefonía analógica a IP. Diagnóstico, pliego técnico y documentación de licitación (CCTP/DCE), selección, despliegue, pruebas de aceptación y gestión del cambio. Elementos disponibles sobre la ejecución: inicio el 10/09/2025; 3 lotes; talleres funcionales y técnicos, y hoja de ruta hasta la verificación de servicio regular (VSR). Herramientas y soluciones asociadas: GEC, GED, SAE, portafirmas, VOIP. Esta referencia documenta la experiencia operativa de OLING en GED, GEC, SAE, digitalización y portafirmas electrónico.",
+            "shortDescription": "Digitalizar los circuitos administrativos y modernizar las herramientas colaborativas de un municipio.",
+            "clientName": "Ville de Goyave",
+            "territory": "Guadeloupe",
+            "periodLabel": "2025 → 2026",
+            "status": "to_review",
+            "sourceContentHash": "871c287befbba7f898e79d9e579c14a71fe4a61ee9d20a2150235ac417e51826"
+        },
+        {
+            "source": {
+                "entity": "Project",
+                "slug": "pilotage-de-la-conformite-qse-pour-un-grand-port-maritime"
+            },
+            "locale": "es",
+            "slug": "gestion-de-la-conformidad-qse-para-un-gran-puerto-maritimo",
+            "designation": "Gestión de la conformidad QSE para un gran puerto marítimo",
+            "description": null,
+            "shortDescription": null,
+            "clientName": null,
+            "territory": null,
+            "periodLabel": null,
+            "status": "to_review",
+            "sourceContentHash": "e87d7fa3233dfa1b7be28ecbb69a1d5607bbf0d36bf368d4f5836409b32f89fe"
+        }
+    ]
+}

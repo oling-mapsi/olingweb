@@ -91,7 +91,7 @@ final class ProjectTranslationAdapter extends AbstractDbTranslationAdapter
             $normalized['slug'] = $this->normalizeSlug((string) ($sourcePayload['slug'] ?? ''));
         }
         $normalized['designation'] = trim((string) ($normalized['designation'] ?: ($sourcePayload['designation'] ?? '')));
-        foreach (['clientName', 'territory', 'periodLabel'] as $field) {
+        foreach (['clientName', 'territory'] as $field) {
             $normalized[$field] = $sourcePayload[$field] ?? null;
         }
 
@@ -114,7 +114,7 @@ final class ProjectTranslationAdapter extends AbstractDbTranslationAdapter
         foreach (['description', 'shortDescription'] as $field) {
             $this->assertPlaceholdersPreserved((string) ($sourcePayload[$field] ?? ''), (string) ($payload[$field] ?? ''), $field);
         }
-        foreach (['clientName', 'territory', 'periodLabel'] as $field) {
+        foreach (['clientName', 'territory'] as $field) {
             if (($sourcePayload[$field] ?? null) !== ($payload[$field] ?? null)) {
                 throw new AiTranslationValidationException(sprintf('Non-linguistic project field "%s" must not change.', $field));
             }

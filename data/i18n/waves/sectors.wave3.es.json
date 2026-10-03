@@ -1,0 +1,177 @@
+{
+    "entity": "SitePageTranslation",
+    "locale": "es",
+    "exportedAt": "2026-10-03T08:04:21+00:00",
+    "translations": [
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-industrie",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "sector-industria",
+            "title": "Consultoría de transformación para la industria y las pymes",
+            "seoTitle": "Consultoría para industria, pymes, ERP, GMAO y resiliencia | OLING",
+            "seoDescription": "OLING acompaña a empresas industriales y pymes en sus retos de ERP, GMAO, procesos, datos, continuidad y cumplimiento.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Sectores",
+            "heroTitle": "Consultoría de transformación para la industria y las pymes",
+            "heroIntro": "OLING acompaña a las empresas industriales que necesitan evolucionar sus procesos, herramientas y gobernanza sin poner en riesgo su producción ni el cumplimiento de sus obligaciones.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "OLING acompaña a las empresas industriales que necesitan evolucionar sus procesos, herramientas y gobernanza sin poner en riesgo su producción ni el cumplimiento de sus obligaciones.",
+                    "title": "Consultoría de transformación para la industria y las pymes",
+                    "issues": [
+                        "ERP, GMAO, flujos de planta y cadena de suministro",
+                        "Continuidad de negocio, ciberseguridad y dependencias de proveedores",
+                        "Definición de responsabilidades entre producción, calidad, departamento de TI y dirección"
+                    ],
+                    "eyebrow": "Sectores",
+                    "seoTitle": "Consultoría para industria, pymes, ERP, GMAO y resiliencia | OLING",
+                    "metaDescription": "OLING acompaña a empresas industriales y pymes en sus retos de ERP, GMAO, procesos, datos, continuidad y cumplimiento.",
+                    "linkedExpertises": [
+                        "amoa-erp-applications-metiers",
+                        "organisation-processus-conduite-du-changement",
+                        "cybersecurite-conformite-resilience"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "14b1d89542e9c831ae1170c76ab9d8a068525dfa6ff4337021d3c4a942d3a227",
+            "sourceUpdatedAt": "2026-10-03T07:58:24+00:00",
+            "translatedAt": "2026-10-03T07:58:24+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-secteur-public",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "sector-publico",
+            "title": "Consultoría en cumplimiento, gobernanza y resiliencia para organizaciones reguladas",
+            "seoTitle": "Consultoría en cumplimiento, ciberseguridad y gobernanza para organizaciones reguladas | OLING",
+            "seoDescription": "OLING acompaña a organizaciones reguladas y entornos públicos en materia de cumplimiento, ciberseguridad, gobernanza y resiliencia.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Sectores",
+            "heroTitle": "Consultoría en cumplimiento, gobernanza y resiliencia para organizaciones reguladas",
+            "heroIntro": "OLING trabaja con organizaciones sujetas a estrictos requisitos de responsabilidad, trazabilidad, cumplimiento y continuidad.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "OLING trabaja con organizaciones sujetas a estrictos requisitos de responsabilidad, trazabilidad, cumplimiento y continuidad.",
+                    "title": "Consultoría en cumplimiento, gobernanza y resiliencia para organizaciones reguladas",
+                    "issues": [
+                        "Marcos normativos y requisitos de acreditación",
+                        "Gobernanza de la seguridad, protección de datos y resiliencia",
+                        "Coordinación entre áreas de negocio, departamentos, equipos de TI y proveedores"
+                    ],
+                    "eyebrow": "Sectores",
+                    "seoTitle": "Consultoría en cumplimiento, ciberseguridad y gobernanza para organizaciones reguladas | OLING",
+                    "metaDescription": "OLING acompaña a organizaciones reguladas y entornos públicos en materia de cumplimiento, ciberseguridad, gobernanza y resiliencia.",
+                    "linkedExpertises": [
+                        "rgpd-dpo-gouvernance",
+                        "cybersecurite-conformite-resilience",
+                        "data-automatisation-intelligence-artificielle"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "138aaf2614bb3fb5f53eec6b2fc9cab1e5bae5a108bdb1f2d8cefeb690763938",
+            "sourceUpdatedAt": "2026-10-03T07:58:44+00:00",
+            "translatedAt": "2026-10-03T07:58:44+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteur-services",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "sector-servicios",
+            "title": "Consultoría de transformación para empresas de servicios",
+            "seoTitle": "Consultoría en organización, CRM, datos y gobernanza para servicios B2B | OLING",
+            "seoDescription": "OLING ayuda a las empresas de servicios a estructurar sus procesos, su CRM, la gobernanza de datos, el cumplimiento normativo y el uso de la IA.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": "Sectores",
+            "heroTitle": "Consultoría de transformación para empresas de servicios",
+            "heroIntro": "Para las empresas de servicios, el rendimiento depende de la calidad de los procesos, del flujo de la información, de la relación con los clientes y de la adopción de herramientas.",
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": {
+                "sectorPage": {
+                    "intro": "Para las empresas de servicios, el rendimiento depende de la calidad de los procesos, del flujo de la información, de la relación con los clientes y de la adopción de herramientas.",
+                    "title": "Consultoría de transformación para empresas de servicios",
+                    "issues": [
+                        "Estructuración del CRM y de la gestión comercial",
+                        "Gobernanza de datos, automatización e IA",
+                        "Armonización de los procesos entre las funciones de soporte y operativas"
+                    ],
+                    "eyebrow": "Sectores",
+                    "seoTitle": "Consultoría en organización, CRM, datos y gobernanza para servicios B2B | OLING",
+                    "metaDescription": "OLING ayuda a las empresas de servicios a estructurar sus procesos, su CRM, la gobernanza de datos, el cumplimiento normativo y el uso de la IA.",
+                    "linkedExpertises": [
+                        "transformation-si-pme-eti",
+                        "organisation-processus-conduite-du-changement",
+                        "data-automatisation-intelligence-artificielle"
+                    ]
+                }
+            },
+            "status": "to_review",
+            "sourceContentHash": "8f98f885d73939a2bafa23aa834aa05a0955964970701d091619834b50709283",
+            "sourceUpdatedAt": "2026-10-03T07:58:30+00:00",
+            "translatedAt": "2026-10-03T07:58:30+00:00",
+            "reviewedAt": "2026-10-03T10:03:58+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        },
+        {
+            "source": {
+                "entity": "SitePage",
+                "slug": "secteurs-index",
+                "externalId": null
+            },
+            "locale": "es",
+            "slug": "sectores",
+            "title": "Sectores de actividad",
+            "seoTitle": "Sectores de actividad",
+            "seoDescription": "Descubra todos los sectores a los que presta servicio OLING y los aspectos clave que deben tenerse en cuenta en cada entorno empresarial.",
+            "ogTitle": null,
+            "ogDescription": null,
+            "imageAlt": null,
+            "heroBadge": null,
+            "heroTitle": null,
+            "heroIntro": null,
+            "heroSideHtml": null,
+            "bodyHtml": null,
+            "structuredData": null,
+            "status": "reviewed",
+            "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
+            "sourceUpdatedAt": "2026-10-02T21:17:18+00:00",
+            "translatedAt": "2026-10-02T21:17:18+00:00",
+            "reviewedAt": "2026-10-02T22:00:00+00:00",
+            "publishedAt": null,
+            "unpublishedAt": null,
+            "isOutdated": false
+        }
+    ]
+}

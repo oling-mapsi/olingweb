@@ -38,4 +38,40 @@ class CorePagesSourceTest extends TestCase
             }
         }
     }
+
+    public function testMapsiPracticeLinksToInternalMapsiServicePages(): void
+    {
+        $source = json_decode((string) file_get_contents(dirname(__DIR__) . '/data/i18n/practice_narratives.fr.json'), true, 512, JSON_THROW_ON_ERROR);
+        $hrefs = array_column($source['narratives']['mapsi']['supportLinks'], 'href');
+
+        self::assertContains('/mapsi/automatisation-et-workflow', $hrefs);
+        self::assertContains('/mapsi/mapsi-audit', $hrefs);
+        self::assertContains('/mapsi/mapsi-risques', $hrefs);
+        self::assertContains('/mapsi/mapsi-secu', $hrefs);
+    }
+
+    public function testServiceAndExpertiseIndexesExposeSpecializedIndexablePages(): void
+    {
+        $services = (string) file_get_contents(dirname(__DIR__) . '/templates/services-index.html.twig');
+        $expertises = (string) file_get_contents(dirname(__DIR__) . '/templates/expertises/index.html.twig');
+
+        foreach ([
+            '/business-apps/systeme-dinformation-geographique',
+            '/business-apps/ms365',
+            '/business-apps/developpements-specifiques',
+            '/consulting/tech-refresh',
+        ] as $href) {
+            self::assertStringContainsString($href, $services);
+        }
+
+        foreach ([
+            '/expertises-audit/achats-marches',
+            '/expertises-audit/controle-interne',
+            '/expertises-audit/controle-de-gestion',
+            '/expertises-audit/finance',
+            '/expertises-audit/rse',
+        ] as $href) {
+            self::assertStringContainsString($href, $expertises);
+        }
+    }
 }

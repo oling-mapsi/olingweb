@@ -159,7 +159,49 @@
             "metaDescription": "MAPSI relie pilotage, conformité, workflows, preuves et tableaux de bord pour industrialiser les dispositifs de gouvernance.",
             "intro": "MAPSI complète les accompagnements OLING lorsque les processus, preuves, plans d’action et indicateurs doivent être outillés durablement.",
             "promise": "Une pratique structuree pour relier enjeux operationnels, outils et execution.",
-            "focus": []
+            "focus": [],
+            "supportLinks": [
+                {
+                    "href": "/mapsi/automatisation-et-workflow",
+                    "label": "Automatisation et workflow MAPSI",
+                    "description": "Pour piloter circuits de validation, tâches, alertes et plans d’actions."
+                },
+                {
+                    "href": "/mapsi/integration-progiciel",
+                    "label": "Intégration progiciel MAPSI",
+                    "description": "Pour raccorder MAPSI aux référentiels et outils existants."
+                },
+                {
+                    "href": "/mapsi/mapsi-audit",
+                    "label": "MAPSI Audit",
+                    "description": "Pour organiser audits, constats, preuves et actions correctives."
+                },
+                {
+                    "href": "/mapsi/mapsi-risques",
+                    "label": "MAPSI Risques",
+                    "description": "Pour suivre cartographies, contrôles et plans de traitement."
+                },
+                {
+                    "href": "/mapsi/mapsi-qualiopi",
+                    "label": "MAPSI Qualiopi",
+                    "description": "Pour structurer preuves, indicateurs et préparation des audits."
+                },
+                {
+                    "href": "/mapsi/mapsi-pca",
+                    "label": "MAPSI PCA",
+                    "description": "Pour documenter continuité, plans, exercices et responsabilités."
+                },
+                {
+                    "href": "/mapsi/mapsi-portfolio",
+                    "label": "MAPSI Portfolio",
+                    "description": "Pour suivre portefeuille, priorités, décisions et avancement."
+                },
+                {
+                    "href": "/mapsi/mapsi-secu",
+                    "label": "MAPSI Sécurité SI",
+                    "description": "Pour piloter actions sécurité, preuves et conformité."
+                }
+            ]
         }
     }
 }

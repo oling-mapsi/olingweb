@@ -33,7 +33,8 @@ class BackfillLandingNarrativesCommand extends Command
     {
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Valide et affiche les actions sans ecrire en base.')
-            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace une narrative existante differente.');
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace une narrative existante differente.')
+            ->addOption('slug', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Limite le backfill a un ou plusieurs slugs.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -41,6 +42,7 @@ class BackfillLandingNarrativesCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $dryRun = (bool) $input->getOption('dry-run');
         $overwrite = (bool) $input->getOption('overwrite');
+        $onlySlugs = array_filter(array_map('strval', (array) $input->getOption('slug')));
         $rows = $this->loadRows();
         $summary = [
             'created' => 0,
@@ -53,6 +55,9 @@ class BackfillLandingNarrativesCommand extends Command
 
         foreach ($rows as $row) {
             $slug = (string) $row['slug'];
+            if ($onlySlugs !== [] && !in_array($slug, $onlySlugs, true)) {
+                continue;
+            }
             $page = $this->sitePageRepository->findOneBy(['slug' => $slug]);
             if ($page === null) {
                 ++$summary['missing_page'];

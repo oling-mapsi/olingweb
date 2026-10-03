@@ -645,7 +645,7 @@
                             "La mission a produit un état des lieux, une analyse des écarts, une architecture cible et les éléments nécessaires à la consultation."
                         ],
                         "owner": {
-                            "href": "/consulting/reforme-facturation-electronique-amoa",
+                            "href": "/facturation-electronique-amoa",
                             "label": "AMOA facturation électronique"
                         }
                     },

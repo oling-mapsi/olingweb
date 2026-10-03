@@ -9,7 +9,7 @@ final class ChatOwnerRouter
     public const FINANCE = '/si-finance';
     public const CRM = '/crm';
     public const GMAO = '/gmao';
-    public const RFE = '/consulting/reforme-facturation-electronique-amoa';
+    public const RFE = '/facturation-electronique-amoa';
 
     public function resolveOwnerUrl(string $query): ?string
     {

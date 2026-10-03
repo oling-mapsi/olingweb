@@ -31,7 +31,8 @@ class BackfillServiceNarrativesCommand extends Command
     {
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Valide sans ecrire.')
-            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un payload different.');
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un payload different.')
+            ->addOption('slug', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Limite le backfill a une ou plusieurs cles practice/service.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -39,11 +40,15 @@ class BackfillServiceNarrativesCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $dryRun = (bool) $input->getOption('dry-run');
         $overwrite = (bool) $input->getOption('overwrite');
+        $onlySlugs = array_filter(array_map('strval', (array) $input->getOption('slug')));
         $narratives = $this->loadNarratives();
         $counts = ['write' => 0, 'unchanged' => 0, 'conflict' => 0, 'missing' => 0];
         $report = [];
 
         foreach ($narratives as $key => $payload) {
+            if ($onlySlugs !== [] && !in_array((string) $key, $onlySlugs, true)) {
+                continue;
+            }
             [$practiceSlug, $serviceSlug] = explode('/', $key, 2);
             $row = $this->connection->fetchAssociative(
                 'SELECT st.id, st.public_narrative FROM service_translation st INNER JOIN services s ON s.id = st.service_id INNER JOIN practice p ON p.id = s.practice_id WHERE st.locale = :locale AND p.slug = :practice AND s.slug = :service',

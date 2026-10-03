@@ -542,7 +542,7 @@
                     "description": "Pour le périmètre ERP global, les interfaces et le pilotage de l’intégrateur."
                 },
                 {
-                    "href": "/consulting/reforme-facturation-electronique-amoa",
+                    "href": "/facturation-electronique-amoa",
                     "label": "AMOA facturation électronique",
                     "description": "Pour les flux entrants et sortants, la plateforme agréée, les statuts et la recette RFE."
                 }

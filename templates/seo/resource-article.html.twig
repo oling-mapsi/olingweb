@@ -137,6 +137,7 @@
   {% set resourceUrl = page and page.canonicalUrl ? page.canonicalUrl : app.request.schemeAndHttpHost ~ canonicalPath|default(path('seo_resource', {slug: publicSlug})) %}
   {% set resourceHeadline = page and page.heroTitle ? page.heroTitle|striptags|trim : (page and page.title ? page.title|striptags|trim : '') %}
   {% set resourceDescription = page and page.heroIntro ? page.heroIntro|striptags|trim : (page and page.metaDescription ? page.metaDescription|striptags|trim : '') %}
+  {% set resourceAuthor = page and page.authorDisplayName ? page.authorDisplayName|striptags|trim : 'OLING' %}
   {% set resourceBreadcrumbName = page and page.heroTitle ? page.heroTitle|striptags : 'Article' %}
   {% set structuredDataGraph = [{
     '@type': 'BreadcrumbList',
@@ -147,7 +148,7 @@
     ]
   }] %}
 
-  {% if page and page.publicationDate and page.authorDisplayName and resourceHeadline and resourceDescription %}
+  {% if page and page.publicationDate and resourceHeadline and resourceDescription %}
     {% set articleSchema = {
       '@type': 'Article',
       'headline': resourceHeadline,
@@ -156,7 +157,7 @@
       'dateModified': (page.publishedAt ?: page.publicationDate)|date('c'),
       'author': {
         '@type': 'Organization',
-        'name': page.authorDisplayName|striptags|trim
+        'name': resourceAuthor
       },
       'publisher': {'@id': site_base_url ~ '/#professional-service'},
       'mainEntityOfPage': {'@type': 'WebPage', '@id': resourceUrl}

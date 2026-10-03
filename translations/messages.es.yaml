@@ -243,3 +243,15 @@ projects:
   cta_title: "Hablemos de su proyecto"
   cta_text: "Presentenos el alcance, los sistemas implicados y las decisiones que debe preparar."
   cta_label: "Solicitar una conversacion"
+
+team:
+  areas_label: "Ambitos de intervencion"
+  publications: "Ver sus publicaciones"
+  section_label: "Equipo"
+  generic_profile: "Perfil directivo implicado en los temas de transformacion, gobernanza y ejecucion que aborda la consultora."
+  linkedin: "Ver en LinkedIn"
+
+proofs:
+  kicker: "Pruebas"
+  default_title: "Misiones anonimizadas"
+  scope_label: "Alcance"

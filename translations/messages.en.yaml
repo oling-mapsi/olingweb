@@ -243,3 +243,15 @@ projects:
   cta_title: "Discuss your project"
   cta_text: "Tell us about the scope, systems involved and decisions to prepare."
   cta_label: "Request a conversation"
+
+team:
+  areas_label: "Areas of work"
+  publications: "View publications"
+  section_label: "Team"
+  generic_profile: "Leadership profile involved in the firm's transformation, governance and execution topics."
+  linkedin: "View on LinkedIn"
+
+proofs:
+  kicker: "Evidence"
+  default_title: "Anonymized assignments"
+  scope_label: "Scope"

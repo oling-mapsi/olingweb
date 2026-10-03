@@ -164,7 +164,7 @@ class PublicSitePageResolver
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? '');
         $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? '');
         $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
-        $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? '');
+        $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $content->getTitle() ?: '');
         $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? '');
         $merged['heroImage'] = $sitePage->getHeroImage() ?: ($merged['heroImage'] ?? null);
 

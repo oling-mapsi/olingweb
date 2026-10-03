@@ -1,7 +1,7 @@
 {
     "entity": "SitePageTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-03T08:04:20+00:00",
+    "exportedAt": "2026-10-03T08:15:00+00:00",
     "translations": [
         {
             "source": {
@@ -41,12 +41,12 @@
                     ]
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "14b1d89542e9c831ae1170c76ab9d8a068525dfa6ff4337021d3c4a942d3a227",
             "sourceUpdatedAt": "2026-10-03T08:03:29+00:00",
             "translatedAt": "2026-10-03T08:03:29+00:00",
             "reviewedAt": "2026-10-03T10:03:58+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -88,12 +88,12 @@
                     ]
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "138aaf2614bb3fb5f53eec6b2fc9cab1e5bae5a108bdb1f2d8cefeb690763938",
             "sourceUpdatedAt": "2026-10-03T07:58:43+00:00",
             "translatedAt": "2026-10-03T07:58:43+00:00",
             "reviewedAt": "2026-10-03T10:03:58+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -135,12 +135,12 @@
                     ]
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "8f98f885d73939a2bafa23aa834aa05a0955964970701d091619834b50709283",
             "sourceUpdatedAt": "2026-10-03T07:58:35+00:00",
             "translatedAt": "2026-10-03T07:58:35+00:00",
             "reviewedAt": "2026-10-03T10:03:58+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -164,12 +164,12 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "76181577fb90332db4f5e775d69d80f7b66131c78ea47acba649cff4e433df5c",
             "sourceUpdatedAt": "2026-10-02T21:10:00+00:00",
             "translatedAt": "2026-10-02T21:10:00+00:00",
             "reviewedAt": "2026-10-02T22:00:00+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         }

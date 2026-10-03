@@ -1,7 +1,7 @@
 {
     "entity": "ProjectTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-03T08:04:21+00:00",
+    "exportedAt": "2026-10-03T08:15:00+00:00",
     "translations": [
         {
             "source": {
@@ -16,7 +16,7 @@
             "clientName": "Ville de Fort-de-France",
             "territory": "Martinique",
             "periodLabel": "2026 → ongoing",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "a79ca6be2e343eaaeb155bf42d84de063524e4dd284f74760f52ce5a3b9cd24f"
         },
         {
@@ -32,7 +32,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "0871bc00608f34b4a4919218d2dc65cc73e4ff87103cd5ee32e90df495181b01"
         },
         {
@@ -43,12 +43,12 @@
             "locale": "en",
             "slug": "grand-port-maritime-guadeloupe-outsourced-dpo-gdpr-management-mapsi",
             "designation": "Grand Port Maritime de la Guadeloupe – Outsourced DPO and GDPR management with MAPSI",
-            "description": "Operational outsourced DPO services for a major port: records of processing activities, governance, awareness training and an action plan managed in MAPSI. For Grand Port Maritime de la Guadeloupe, OLING delivered a GDPR, outsourced DPO and data privacy engagement in the port and maritime transport sector. GDPR compliance for port operations. The documented services notably cover a GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Maintenance of records of processing activities in operational condition Monitoring of GDPR requests; facilitation of a workshop on contract monitoring Facilitation of a workshop for the future GPMG DPO; GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Awareness meetings Distribution of the monthly GDPR newsletter Responses to emails and requests Updates to…; GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Preparation of awareness materials Distribution of the monthly GDPR newsletter Responses to emails and requests…. Associated tools and solutions: MAPSI, Microsoft 365, M365 OLING. Associated standards and frameworks: GDPR. This case study documents OLING’s operational experience in outsourced DPO services, GDPR, records of processing activities and DPIAs.",
+            "description": "Operational outsourced DPO services for a major port: records of processing activities, governance, awareness training and an action plan managed in MAPSI. For Grand Port Maritime de la Guadeloupe, OLING delivered a GDPR, outsourced DPO and data privacy engagement in the port and maritime transport sector. GDPR compliance for port operations. The documented services notably cover a GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Maintenance of records of processing activities in operational condition Monitoring of GDPR requests; facilitation of a workshop on contract monitoring Facilitation of a workshop for the future GPMG DPO; GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Awareness meetings Distribution of the monthly GDPR newsletter Responses to emails and requests Updates to…; GDPR management support and outsourced DPO contract: OLING subcontracting services involving GDPR monitoring and implementation activities and outsourced DPO services for GPMG Preparation of awareness materials Distribution of the monthly GDPR newsletter Responses to emails and requests…. Associated tools and solutions: MAPSI, Microsoft 365, M365 OLING. Associated standards and frameworks: GDPR. This reference documents OLING’s operational experience in outsourced DPO services, GDPR, records of processing activities and DPIAs.",
             "shortDescription": "Operational outsourced DPO services for a major port: records of processing activities, governance, awareness training and an action plan managed in MAPSI.",
             "clientName": "Grand Port Maritime de la Guadeloupe",
             "territory": "Guadeloupe",
             "periodLabel": "2024 → 2025, with ongoing follow-up",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "375d9a80203d96c1774b609a93f4f47cc6840526147233824178efd8cc15d935"
         },
         {
@@ -64,7 +64,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "66e17a16a16f34a753a92e6e6d3fccbbf515f5300e51b0ab0ba4c9821e865f17"
         },
         {
@@ -75,12 +75,12 @@
             "locale": "en",
             "slug": "roannaise-de-leau-cmms-advisory-field-service-system-modernisation",
             "designation": "Roannaise de l’Eau – CMMS advisory and field service system modernisation",
-            "description": "Design a CMMS that interoperates with the business ecosystem of a public water utility. For Roannaise de l’Eau, OLING delivered an IT project advisory engagement covering finance information systems / GBCP / INFINOE in the water and sanitation sector. The documented objective was to modernise field service management and improve the reliability of data exchanges with technical, customer, HR, finance and GIS systems. OLING’s scope covered assessment; workshops; target architecture; functional requirements framework; technical specifications; tender process; selection; configuration; testing; user acceptance testing; change management. Available delivery details: Up to 20 functional and technical workshops; multi-system deployment roadmap. Associated tools and solutions: CMMS, ETL, GIS, finance/HR information systems. This case documents OLING’s operational experience in finance information system advisory, GBCP, INFINOE, finance ERP systems and budget processes.",
+            "description": "Design a CMMS that interoperates with the business ecosystem of a public water utility. For Roannaise de l’Eau, OLING delivered an IT project advisory engagement covering finance information systems / GBCP / INFINOE in the water and sanitation sector. The documented objective was to modernise field service management and improve the reliability of data exchanges with technical, customer, HR, finance and GIS systems. OLING’s scope covered assessment; workshops; target architecture; functional requirements framework; technical specifications; tender process; selection; configuration; testing; user acceptance testing; change management. Available delivery details: Up to 20 functional and technical workshops; multi-system deployment roadmap. Associated tools and solutions: CMMS, ETL, GIS, finance/HR information systems. This reference documents OLING’s operational experience in finance information system advisory, GBCP, INFINOE, finance ERP systems and budget processes.",
             "shortDescription": "Design a CMMS that interoperates with the business ecosystem of a public water utility.",
             "clientName": "Roannaise de l’Eau",
             "territory": "Auvergne-Rhône-Alpes",
             "periodLabel": "2023 → 2026 (documented roadmap)",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "4c9fc6f870c58d0f88e9fed89012b913b1b5746a96e874b896affbabf4911ced"
         },
         {
@@ -96,7 +96,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c964e7a050b5e627944566ae200f5fa24449d23f2ca77c7f43bce879bb922d23"
         },
         {
@@ -112,7 +112,7 @@
             "clientName": "Aéroport Montpellier Méditerranée",
             "territory": "Occitanie",
             "periodLabel": "2025 → 2027 (e-invoicing roadmap)",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "cd865a2d681fa8f9082f2a96b6d88075368a0a576f65f939be82fc05e1f8a869"
         },
         {
@@ -128,7 +128,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c6eb8877de4c85712c7aef8d8f68101d1d9edbfc60acb629a365864ddd493edf"
         },
         {
@@ -144,7 +144,7 @@
             "clientName": "Ville de Goyave",
             "territory": "Guadeloupe",
             "periodLabel": "2025 → 2026",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "871c287befbba7f898e79d9e579c14a71fe4a61ee9d20a2150235ac417e51826"
         },
         {
@@ -160,7 +160,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e87d7fa3233dfa1b7be28ecbb69a1d5607bbf0d36bf368d4f5836409b32f89fe"
         }
     ]

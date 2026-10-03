@@ -1,7 +1,7 @@
 {
     "entity": "ProjectTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-03T08:04:21+00:00",
+    "exportedAt": "2026-10-03T08:15:00+00:00",
     "translations": [
         {
             "source": {
@@ -16,7 +16,7 @@
             "clientName": "Ville de Fort-de-France",
             "territory": "Martinique",
             "periodLabel": "2026 → en curso",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "a79ca6be2e343eaaeb155bf42d84de063524e4dd284f74760f52ce5a3b9cd24f"
         },
         {
@@ -32,7 +32,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "0871bc00608f34b4a4919218d2dc65cc73e4ff87103cd5ee32e90df495181b01"
         },
         {
@@ -48,7 +48,7 @@
             "clientName": "Grand Port Maritime de la Guadeloupe",
             "territory": "Guadeloupe",
             "periodLabel": "2024 → 2025, con seguimiento continuo",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "375d9a80203d96c1774b609a93f4f47cc6840526147233824178efd8cc15d935"
         },
         {
@@ -64,7 +64,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "66e17a16a16f34a753a92e6e6d3fccbbf515f5300e51b0ab0ba4c9821e865f17"
         },
         {
@@ -80,7 +80,7 @@
             "clientName": "Roannaise de l’Eau",
             "territory": "Auvergne-Rhône-Alpes",
             "periodLabel": "2023 → 2026 (trayectoria documentada)",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "4c9fc6f870c58d0f88e9fed89012b913b1b5746a96e874b896affbabf4911ced"
         },
         {
@@ -89,14 +89,14 @@
                 "slug": "DPODeleguepourlecomptedel'aeroportdelaGuadeloupe"
             },
             "locale": "es",
-            "slug": "dpodeleguepourlecomptedel-aeroportdelaguadeloupe",
-            "designation": "DPO Délégué pour le compte de l'aéroport de la Guadeloupe",
+            "slug": "delegado-proteccion-datos-aeropuerto-guadeloupe",
+            "designation": "Delegado de protección de datos para el aeropuerto de Guadeloupe",
             "description": null,
             "shortDescription": null,
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c964e7a050b5e627944566ae200f5fa24449d23f2ca77c7f43bce879bb922d23"
         },
         {
@@ -112,7 +112,7 @@
             "clientName": "Aéroport Montpellier Méditerranée",
             "territory": "Occitanie",
             "periodLabel": "2025 → 2027 (trayectoria de facturación electrónica)",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "cd865a2d681fa8f9082f2a96b6d88075368a0a576f65f939be82fc05e1f8a869"
         },
         {
@@ -128,7 +128,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c6eb8877de4c85712c7aef8d8f68101d1d9edbfc60acb629a365864ddd493edf"
         },
         {
@@ -144,7 +144,7 @@
             "clientName": "Ville de Goyave",
             "territory": "Guadeloupe",
             "periodLabel": "2025 → 2026",
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "871c287befbba7f898e79d9e579c14a71fe4a61ee9d20a2150235ac417e51826"
         },
         {
@@ -160,7 +160,7 @@
             "clientName": null,
             "territory": null,
             "periodLabel": null,
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e87d7fa3233dfa1b7be28ecbb69a1d5607bbf0d36bf368d4f5836409b32f89fe"
         }
     ]

@@ -1,7 +1,7 @@
 {
     "entity": "TeamTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-03T08:04:22+00:00",
+    "exportedAt": "2026-10-03T08:15:00+00:00",
     "translations": [
         {
             "source": {
@@ -35,7 +35,7 @@
                 "publicationsUrl": "https://mapsi.fr/fr/auteurs/florestan-rouet",
                 "relationshipText": "OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "025857077bd1d79534be87b1fff5d29917cbcbf6d7c31e8ce5732592651f1eb7"
         },
         {
@@ -66,7 +66,7 @@
                 "relationSchema": "affiliation",
                 "relationshipText": "Colabora con OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "81b2c964f7e3cfb86acb8ee57e343d4b0f1ebcb508864a412829dd5577b75f62"
         },
         {
@@ -100,7 +100,7 @@
                 "relationSchema": "affiliation",
                 "relationshipText": "Colabora con OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "b2def0b4139c0bbb1f43ff4d028ce8778e0092636e485dbb0487d5cca479e200"
         },
         {
@@ -135,7 +135,7 @@
                 "relationSchema": "affiliation",
                 "relationshipText": "Colabora con OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "74aaae58ff7d67df7cd5ff6fed4a175bf9772c6f55ac7424471ad9925b0b3fb8"
         },
         {
@@ -148,7 +148,7 @@
             "titre": "Consultor de proyectos de sistemas de información",
             "shortcv": "Gilbert Rinaldo, jefe de proyectos sénior, cuenta con 30 años de experiencia trabajando con grandes empresas. Su amplia trayectoria permite a OLING llevar a buen término proyectos complejos y garantizar la satisfacción de sus clientes.",
             "publicProfile": null,
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "d721e2fe5faf58afe202d42853d5780acd3e6b4157c2e9114a0713d4eb890a98"
         },
         {
@@ -158,7 +158,7 @@
                 "name": "Hanna BADAN"
             },
             "locale": "es",
-            "titre": null,
+            "titre": "Consultora de sistemas de información",
             "shortcv": "Hanna Badan contribuye a definir las transformaciones de los sistemas de información y los proyectos de ERP o software empresarial, conectando las necesidades del negocio, las operaciones y la gestión.",
             "publicProfile": {
                 "name": "hanna badan",
@@ -179,7 +179,7 @@
                 "relationSchema": "affiliation",
                 "relationshipText": "Colabora con OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "4921dce8f0ddc280443a5612c4b348834785e3fcf9e14f622fb270bbe2718b0a"
         },
         {
@@ -210,7 +210,7 @@
                 "relationSchema": "affiliation",
                 "relationshipText": "Colabora con OLING Management et Technologie"
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "f03837a188e0aa01e7fa37f3c9eafff76c810084f114b226681646bfe3eda705"
         }
     ]

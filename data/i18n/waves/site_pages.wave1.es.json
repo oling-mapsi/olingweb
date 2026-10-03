@@ -1,7 +1,7 @@
 {
     "entity": "SitePageTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-02T21:19:13+00:00",
+    "exportedAt": "2026-10-03T08:15:00+00:00",
     "translations": [
         {
             "source": {
@@ -725,12 +725,12 @@
                     "metaDescription": "Proyectos de transformación de sistemas de información, asesoría y cumplimiento realizados por OLING."
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "29073f31109f1b71ee9e7c4ed5303c689a0eb6c55a38cc2b9bd5bf54d1cf8f47",
             "sourceUpdatedAt": "2026-10-02T21:16:23+00:00",
             "translatedAt": "2026-10-02T21:16:23+00:00",
             "reviewedAt": "2026-10-02T22:00:00+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -836,12 +836,12 @@
                     "metaDescription": "Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos."
                 }
             },
-            "status": "reviewed",
+            "status": "published",
             "sourceContentHash": "f29dd9be5d12cbaf377f70b2099417624f69b54ab3fe2f6c7986a1b853fa5254",
             "sourceUpdatedAt": "2026-10-02T21:11:56+00:00",
             "translatedAt": "2026-10-02T21:11:56+00:00",
             "reviewedAt": "2026-10-02T22:00:00+00:00",
-            "publishedAt": null,
+            "publishedAt": "2026-10-03T08:15:00+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         }

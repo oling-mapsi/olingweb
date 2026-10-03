@@ -83,6 +83,17 @@ class HomePageSourceTest extends TestCase
         }
     }
 
+    public function testLegalPageFallbackWorksWithoutPersistedDatabaseRow(): void
+    {
+        $method = new \ReflectionMethod(PracticeController::class, 'localizeLegalPage');
+        $method->setAccessible(true);
+
+        $view = $method->invoke($this->controller(), null, SitePageTranslation::LOCALE_EN, 'mentions-legales');
+
+        self::assertSame('Legal notices and general terms and conditions for the oling.fr website', $view->getTitle());
+        self::assertStringContainsString('Website publisher', $view->getBody());
+    }
+
     public function testCookieCriticalLabelsAreLocalized(): void
     {
         foreach ([

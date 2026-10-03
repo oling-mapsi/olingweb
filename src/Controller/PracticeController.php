@@ -179,7 +179,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'mentions-legales']), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'mentions-legales']), $locale, 'mentions-legales');
         return $this->render('page-terms.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -203,7 +203,7 @@ class PracticeController extends AbstractController
         return $this->render('charte-ia.html.twig', [
             'practices' => $this->localizePractices($practiceRepository->findAll(), $locale),
             'services' => $this->localizeServices($servicesRepository->findAll(), $locale),
-            'legalPage' => $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'charte-ia']), $locale),
+            'legalPage' => $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'charte-ia']), $locale, 'charte-ia'),
             'pract' => '',
         ]);
     }
@@ -877,7 +877,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polrgpd']), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polrgpd']), $locale, 'polrgpd');
         return $this->render('polrgpd.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -901,7 +901,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polsecurite']), $locale);
+        $legalPage = $this->localizeLegalPage($legalPageRepository->findOneBy(['slug' => 'polsecurite']), $locale, 'polsecurite');
         return $this->render('polsecu.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
@@ -1267,19 +1267,27 @@ class PracticeController extends AbstractController
         return trim(preg_replace('/[^a-z0-9]+/', ' ', $normalized) ?? $normalized);
     }
 
-    private function localizeLegalPage(?LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): mixed
+    private function localizeLegalPage(?LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR, ?string $slug = null): mixed
     {
+        $slug ??= $page?->getSlug();
+        $hasPersistedPage = $page?->getId() !== null;
         if (!$page) {
-            return null;
+            if (!$slug) {
+                return null;
+            }
+
+            $page = (new LegalPage())->setSlug($slug);
         }
 
-        $view = $this->localizedContentResolver->getLegalPageView($page, $locale);
-        if (trim((string) $view->getTitle()) !== '' && trim((string) $view->getBody()) !== '') {
-            return $view;
+        if ($hasPersistedPage) {
+            $view = $this->localizedContentResolver->getLegalPageView($page, $locale);
+            if (trim((string) $view->getTitle()) !== '' && trim((string) $view->getBody()) !== '') {
+                return $view;
+            }
         }
 
         $defaults = $this->legalPageDefaultsForLocale($locale);
-        $slug = (string) $page->getSlug();
+        $slug = (string) $slug;
 
         return new TranslatedEntityPublicView($page, [
             'slug' => $slug,

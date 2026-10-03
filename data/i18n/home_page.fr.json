@@ -50,18 +50,18 @@
             },
             {
                 "variant": "blue",
+                "label": "150+",
+                "text": "Projets menés"
+            },
+            {
+                "variant": "pink",
                 "label": "ISO 27001:2022",
                 "text": "Certification OLING"
             },
             {
-                "variant": "pink",
+                "variant": "dark",
                 "label": "Hexagone & DROM",
                 "text": "Interventions sur site et à distance"
-            },
-            {
-                "variant": "image",
-                "image": "/img/spe/bureau.jpg",
-                "alt": "Equipe OLING"
             }
         ],
         "practices": {

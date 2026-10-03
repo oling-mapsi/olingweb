@@ -46,22 +46,22 @@
             {
                 "variant": "dark",
                 "label": "2012",
-                "text": "OLING founded"
+                "text": "Création d’OLING"
             },
             {
                 "variant": "blue",
-                "label": "ISO 27001:2022",
-                "text": "OLING certification"
+                "label": "150+",
+                "text": "Projets menés"
             },
             {
                 "variant": "pink",
-                "label": "Mainland France & overseas regions",
-                "text": "On-site and remote services"
+                "label": "ISO 27001:2022",
+                "text": "Certification OLING"
             },
             {
-                "variant": "image",
-                "image": "/img/spe/bureau.jpg",
-                "alt": "OLING team"
+                "variant": "dark",
+                "label": "Hexagone & DROM",
+                "text": "Interventions sur site et à distance"
             }
         ],
         "practices": {

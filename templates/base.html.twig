@@ -5,9 +5,13 @@
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
 {% set currentLocale = app.request.locale|default('fr') %}
 {% set navHomePath = currentLocale == 'en' ? '/en' : (currentLocale == 'es' ? '/es' : path('index')) %}
+{% set navAboutPath = currentLocale == 'en' ? '/en/about' : (currentLocale == 'es' ? '/es/quienes-somos' : path('apropos')) %}
+{% set navExpertisesPath = currentLocale == 'en' ? '/en/consulting-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')) %}
+{% set navServicesPath = currentLocale == 'en' ? '/en/services' : (currentLocale == 'es' ? '/es/servicios-y-ofertas' : path('services_index')) %}
 {% set navSectorsPath = currentLocale == 'en' ? '/en/industries' : (currentLocale == 'es' ? '/es/sectores' : path('sectors_index')) %}
 {% set navProjectsPath = currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')) %}
 {% set navTeamPath = currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')) %}
+{% set navContactPath = currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')) %}
 {% set navResourcesPath = currentLocale == 'en' ? '/en/resources' : (currentLocale == 'es' ? '/es/recursos' : path('seo_resources_index')) %}
 {% set languageAlternates = localizedAlternates|default({}) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
@@ -16,7 +20,7 @@
 {% set navigationUniverses = [
     {
         title: 'nav.universes.amoa.title',
-        href: path('services_index') ~ '#amoa-applications-metiers',
+        href: navServicesPath ~ '#amoa-applications-metiers',
         items: [
             {label: 'nav.universes.amoa.items.amoa_si', href: path('amoa_si')},
             {label: 'nav.universes.amoa.items.erp', href: '/business-apps/erp'},
@@ -30,7 +34,7 @@
     },
     {
         title: 'nav.universes.governance.title',
-        href: path('services_index') ~ '#gouvernance-performance-dsi',
+        href: navServicesPath ~ '#gouvernance-performance-dsi',
         items: [
             {label: 'nav.universes.governance.items.strategy', href: '/consulting/plan-strategique'},
             {label: 'nav.universes.governance.items.pmo', href: '/consulting/pilotage-des-plans'},
@@ -42,7 +46,7 @@
     },
     {
         title: 'nav.universes.risk.title',
-        href: path('services_index') ~ '#conformite-risques-resilience',
+        href: navServicesPath ~ '#conformite-risques-resilience',
         items: [
             {label: 'nav.universes.risk.items.rgpd', href: '/expertises-audit/rgpd'},
             {label: 'nav.universes.risk.items.cyber', href: '/cyber-securite'},
@@ -268,7 +272,7 @@
                             data-hs-mega-menu-item-options='{"desktop":{"position":"left"}}'>
                             <a id="expertisesMegaMenu"
                                class="hs-mega-menu-invoker hs-mega-menu__invoker nav-link {% if expertisesActive %}active{% endif %}"
-                               href="{{ path('expertises_index') }}"
+                               href="{{ navExpertisesPath }}"
                                aria-expanded="false">{{ 'nav.expertises'|trans }}</a>
                             <div class="oling-mobile-mega d-lg-none">
                                 {% for universe in navigationUniverses %}
@@ -279,7 +283,7 @@
                                         {% endfor %}
                                     </div>
                                 {% endfor %}
-                                <a class="oling-mobile-mega__all" href="{{ path('expertises_index') }}">{{ 'nav.all_expertises'|trans }}</a>
+                                <a class="oling-mobile-mega__all" href="{{ navExpertisesPath }}">{{ 'nav.all_expertises'|trans }}</a>
                             </div>
                             {% if practices is defined and services is defined %}
                                 <div class="hs-mega-menu oling-mega-menu oling-mega-menu--needs" aria-labelledby="expertisesMegaMenu">
@@ -294,7 +298,7 @@
                             <a class="nav-link {% if currentRoute in ['projets', 'projets_more'] or (currentRoute == 'localized_site_page' and currentSlug == 'projets') %}active{% endif %}" href="{{ navProjectsPath }}">{{ 'nav.projects'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if currentRoute == 'apropos' %}active{% endif %}" href="{{ path('apropos') }}">{{ 'nav.about'|trans }}</a>
+                            <a class="nav-link {% if currentRoute in ['apropos', 'localized_apropos'] %}active{% endif %}" href="{{ navAboutPath }}">{{ 'nav.about'|trans }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if currentRoute in ['seo_resources_index', 'localized_resources_index', 'seo_resource', 'localized_resource'] %}active{% endif %}" href="{{ navResourcesPath }}">{{ 'nav.resources'|trans }}</a>
@@ -318,7 +322,7 @@
                             {% endfor %}
                         </li>
                         <li class="nav-item oling-main-menu__cta">
-                            <a class="btn btn-primary" href="{{ path('contact') }}">{{ 'nav.consultant_cta'|trans }}</a>
+                            <a class="btn btn-primary" href="{{ navContactPath }}">{{ 'nav.consultant_cta'|trans }}</a>
                         </li>
                     </ul>
                 </div>
@@ -388,7 +392,7 @@
                     <h2>{{ 'footer.baseline'|trans }}</h2>
                 </div>
                 <div class="oling-footer__cta">
-                    <a class="btn btn-primary" href="{{ path('contact') }}">{{ 'footer.exchange_cta'|trans }}</a>
+                    <a class="btn btn-primary" href="{{ navContactPath }}">{{ 'footer.exchange_cta'|trans }}</a>
                 </div>
             </div>
 
@@ -399,8 +403,8 @@
                         {% for universe in navigationUniverses %}
                             <li><a href="{{ universe.href }}">{{ universe.title|trans }}</a></li>
                         {% endfor %}
-                        <li><a href="{{ path('expertises_index') }}">{{ 'footer.all_expertises'|trans }}</a></li>
-                        <li><a href="{{ path('services_index') }}">{{ 'footer.all_services'|trans }}</a></li>
+                        <li><a href="{{ navExpertisesPath }}">{{ 'footer.all_expertises'|trans }}</a></li>
+                        <li><a href="{{ navServicesPath }}">{{ 'footer.all_services'|trans }}</a></li>
                     </ul>
                 </div>
                 <div>
@@ -417,7 +421,7 @@
                 <div>
                     <span class="oling-footer__title">{{ 'footer.company'|trans }}</span>
                     <ul>
-                        <li><a href="{{ path('apropos') }}">{{ 'nav.about'|trans }}</a></li>
+                        <li><a href="{{ navAboutPath }}">{{ 'nav.about'|trans }}</a></li>
                         <li><a href="{{ navTeamPath }}">{{ 'footer.team'|trans }}</a></li>
                         <li><a href="{{ path('metiers') }}">{{ 'footer.jobs'|trans }}</a></li>
                         <li><a href="{{ path('rse') }}">{{ 'footer.rse'|trans }}</a></li>
@@ -429,7 +433,7 @@
                 <div>
                     <span class="oling-footer__title">{{ 'footer.contact_details'|trans }}</span>
                     <ul>
-                        <li><a href="{{ path('contact') }}">{{ 'footer.contact_form'|trans }}</a></li>
+                        <li><a href="{{ navContactPath }}">{{ 'footer.contact_form'|trans }}</a></li>
                         {% if agencies is empty %}
                             <li>{{ 'footer.presence'|trans }}</li>
                         {% else %}

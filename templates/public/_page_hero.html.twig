@@ -1,4 +1,12 @@
 <section class="oling-shell-hero{% if variant is defined and variant %} oling-shell-hero--{{ variant }}{% endif %}">
+  {% set currentLocale = app.request.locale|default('fr') %}
+  {% set localizedRoutePaths = {
+    contact: currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')),
+    projets: currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')),
+    team: currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')),
+    expertises_index: currentLocale == 'en' ? '/en/consulting-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')),
+    services_index: currentLocale == 'en' ? '/en/services' : (currentLocale == 'es' ? '/es/servicios-y-ofertas' : path('services_index'))
+  } %}
   <div class="container">
     <div class="oling-shell-hero__inner">
       <div class="oling-shell-hero__copy">
@@ -12,10 +20,12 @@
         {% if primaryCta is defined or secondaryCta is defined or externalCta is defined %}
           <div class="oling-shell-hero__actions">
             {% if primaryCta is defined and primaryCta %}
-              <a class="btn btn-primary" href="{{ path(primaryCta.route, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+              {% set primaryRoute = primaryCta.route ?? 'contact' %}
+              <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
             {% endif %}
             {% if secondaryCta is defined and secondaryCta %}
-              <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+              {% set secondaryRoute = secondaryCta.route ?? 'contact' %}
+              <a class="btn btn-outline-dark" href="{{ localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
             {% endif %}
             {% if externalCta is defined and externalCta %}
               <a class="btn btn-outline-dark" href="{{ externalCta.href }}" target="_blank" rel="noopener">{{ externalCta.label }}</a>

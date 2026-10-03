@@ -6,6 +6,7 @@ common:
   view_page: "Ver pagina"
   illustration: "Ilustracion"
   project_discussion: "Hablemos de su proyecto"
+  call_us: "O llamenos al +33 1 89 70 15 60"
 
 schema:
   organization:
@@ -123,3 +124,7 @@ chat:
   ai_notice: "La IA puede cometer errores. Contactenos si necesita confirmacion."
   contact_form: "Formulario de contacto"
   reset: "Reiniciar chat"
+
+contact_page:
+  exchange_title: "Hablar con OLING"
+  privacy_prefix: "Para solicitudes RGPD:"

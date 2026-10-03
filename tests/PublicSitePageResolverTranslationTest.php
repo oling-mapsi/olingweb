@@ -40,8 +40,8 @@ class PublicSitePageResolverTranslationTest extends TestCase
 
         $localizedContentResolver = $this->createMock(LocalizedContentResolver::class);
         $localizedContentResolver
-            ->method('getFrenchPublicView')
-            ->with($page)
+            ->method('getPublicView')
+            ->with($page, SitePageTranslation::LOCALE_FR)
             ->willReturn(new SitePagePublicView($page, $translation));
 
         $resolver = new PublicSitePageResolver(

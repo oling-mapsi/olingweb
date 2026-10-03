@@ -6,6 +6,7 @@ common:
   view_page: "Voir la page"
   illustration: "Illustration"
   project_discussion: "Parlons de votre projet"
+  call_us: "Ou appelez-nous au 01 89 70 15 60"
 
 schema:
   organization:
@@ -123,6 +124,7 @@ chat:
   ai_notice: "L’IA peut faire des erreurs. N’hésitez pas à nous contacter pour toute question."
   contact_form: "Formulaire de contact"
   reset: "Réinitialiser le chat"
+
   loading_open_erp: "Ouverture du questionnaire ERP..."
   loading_generate_erp: "Génération de la synthèse ERP..."
   loading_reset: "Réinitialisation en cours..."
@@ -219,6 +221,10 @@ chat:
     lead_sending: "Transmission en cours..."
     lead_submit_error: "Impossible de transmettre la demande."
     reset_error: "Impossible de réinitialiser la conversation."
+
+contact_page:
+  exchange_title: "Échanger avec OLING"
+  privacy_prefix: "Pour les demandes RGPD :"
 
 team:
   areas_label: "Domaines d’intervention"

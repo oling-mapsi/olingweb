@@ -88,6 +88,10 @@ final class LocalizedUrlGenerator
     private function fixedFrenchPath(string $sourceSlug): ?string
     {
         return match ($sourceSlug) {
+            'apropos' => '/a-propos',
+            'contact' => '/contact',
+            'expertises-index' => '/expertises',
+            'services' => '/services',
             'team' => '/a-propos/team',
             'projets' => '/projets',
             'secteurs-index' => '/secteurs',

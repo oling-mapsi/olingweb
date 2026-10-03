@@ -6,6 +6,7 @@ common:
   view_page: "View page"
   illustration: "Illustration"
   project_discussion: "Discuss your project"
+  call_us: "Or call us at +33 1 89 70 15 60"
 
 schema:
   organization:
@@ -123,3 +124,7 @@ chat:
   ai_notice: "AI can make mistakes. Contact us if you need confirmation."
   contact_form: "Contact form"
   reset: "Reset chat"
+
+contact_page:
+  exchange_title: "Talk to OLING"
+  privacy_prefix: "For GDPR requests:"

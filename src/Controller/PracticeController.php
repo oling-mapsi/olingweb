@@ -106,8 +106,8 @@ class PracticeController extends AbstractController
         SitePageRepository $sitePageRepository,
         string $locale
     ): Response {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
         $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates());
@@ -120,14 +120,14 @@ class PracticeController extends AbstractController
             }
             return $rankA <=> $rankB;
         });
-        $homePractices = $this->localizePractices(array_slice($featuredPractices, 0, 4));
+        $homePractices = $this->localizePractices(array_slice($featuredPractices, 0, 4), $locale);
         [$featuredHomeProjects] = $this->resolveFeaturedProjects($repoprojet);
-        $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets));
+        $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets), $locale);
 
-        $homePracticesSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'practices']));
-        $homeHeroSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'hero']));
-        $homeProjectsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'projects']));
-        $homeAwardsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'awards']));
+        $homePracticesSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'practices']), $locale);
+        $homeHeroSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'hero']), $locale);
+        $homeProjectsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'projects']), $locale);
+        $homeAwardsSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'awards']), $locale);
         $homeAwards = $homeAwardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']);
         $flashInfo = $contentItemRepository->findOneBy([], ['id' => 'DESC']);
         $homePageEntity = $sitePageRepository->findOneBy(['slug' => 'home']);
@@ -195,42 +195,58 @@ class PracticeController extends AbstractController
         ]);
     }
 
+    #[Route('/{_locale}/{localizedSlug}', name: 'localized_apropos', requirements: ['_locale' => 'en|es', 'localizedSlug' => 'about|about-us|quienes-somos'], methods: ['GET'], priority: 80)]
     #[Route('/a-propos', name: 'apropos', options: ["sitemap" => true])]
     public function apropos(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         TeamRepository $repoteam,
         SitePageRepository $sitePageRepository,
+        Request $request,
+        ?string $_locale = SitePageTranslation::LOCALE_FR,
         ): Response
     {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
+        $locale = $_locale ?: SitePageTranslation::LOCALE_FR;
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
         $pageEntity = $sitePageRepository->findOneBy(['slug' => 'apropos']);
 
         return $this->render('about.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => $this->buildTeamProfiles($repoteam->findAll()),
-            'page' => $this->publicSitePageResolver->getEditorialPage('apropos'),
+            'teamPreview' => $this->buildTeamProfiles($repoteam->findAll(), $locale),
+            'page' => $this->publicSitePageResolver->getEditorialPage('apropos', $locale),
             'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
+            'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
             'pract' => '',
         ]);
     }
 
+    #[Route('/{_locale}/{localizedSlug}', name: 'localized_contact', requirements: ['_locale' => 'en|es', 'localizedSlug' => 'contact|contacto'], methods: ['GET'], priority: 80)]
     #[Route('/contact', name: 'contact', options: ["sitemap" => true])]
     public function contact(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
+        SitePageRepository $sitePageRepository,
+        Request $request,
+        ?string $_locale = SitePageTranslation::LOCALE_FR,
     ): Response
     {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
+        $locale = $_locale ?: SitePageTranslation::LOCALE_FR;
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
+        $pageEntity = $sitePageRepository->findOneBy(['slug' => 'contact']);
+
         return $this->render('contact.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'page' => $this->publicSitePageResolver->getEditorialPage('contact'),
+            'page' => $this->publicSitePageResolver->getEditorialPage('contact', $locale),
+            'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
+            'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
             'pract' => '',
         ]);
     }
@@ -250,17 +266,24 @@ class PracticeController extends AbstractController
         ]);
     }
 
+    #[Route('/{_locale}/{localizedSlug}', name: 'localized_projets', requirements: ['_locale' => 'en|es', 'localizedSlug' => 'projects|proyectos'], methods: ['GET'], priority: 80)]
     #[Route('/projets', name: 'projets', options: ["sitemap" => true])]
     public function projets(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         ProjetRepository $repoprojet,
-        MetierRepository $repometier
+        MetierRepository $repometier,
+        SitePageRepository $sitePageRepository,
+        Request $request,
+        ?string $_locale = SitePageTranslation::LOCALE_FR,
     ): Response {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
+        $locale = $_locale ?: SitePageTranslation::LOCALE_FR;
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
+        $pageEntity = $sitePageRepository->findOneBy(['slug' => 'projets']);
 
         $importedProjects = array_values(array_filter($projets, static fn (Projet $projet) => $projet->getExternalId() !== null));
         $historicalProjects = array_values(array_filter($projets, static fn (Projet $projet) => $projet->getExternalId() === null));
@@ -280,12 +303,14 @@ class PracticeController extends AbstractController
             'practices' => $practices,
             'services' => $services,
             'projets' => $projets,
-            'page' => $this->publicSitePageResolver->getEditorialPage('projets'),
-            'featuredProjects' => $this->buildProjectCards($featuredProjects, $imagePool),
-            'miniProjects' => $this->buildProjectCards($miniProjects, $imagePool),
+            'page' => $this->publicSitePageResolver->getEditorialPage('projets', $locale),
+            'featuredProjects' => $this->buildProjectCards($featuredProjects, $imagePool, $locale),
+            'miniProjects' => $this->buildProjectCards($miniProjects, $imagePool, $locale),
             'miniHasMore' => $hasMoreMini,
             'miniNextPage' => 2,
             'metiers' => $metiers,
+            'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
+            'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
             'pract' => '',
         ]);
     }
@@ -492,7 +517,7 @@ class PracticeController extends AbstractController
      * @param string[] $imagePool
      * @return array<int, array<string, mixed>>
      */
-    private function buildProjectCards(array $projects, array $imagePool): array
+    private function buildProjectCards(array $projects, array $imagePool, string $locale = SitePageTranslation::LOCALE_FR): array
     {
         $poolOffset = 0;
         if ($projects !== [] && $imagePool !== []) {
@@ -500,11 +525,11 @@ class PracticeController extends AbstractController
             $poolOffset = abs(crc32($firstKey)) % count($imagePool);
         }
 
-        return array_map(function (Projet $project, int $position) use ($imagePool, $poolOffset): array {
+        return array_map(function (Projet $project, int $position) use ($imagePool, $poolOffset, $locale): array {
             $projectService = $project->getServices()->first();
             $metadata = $project->getMetadata();
-            $projectContent = $this->localizedContentResolver->getFrenchProjetView($project);
-            $serviceContent = $projectService instanceof \App\Entity\Services ? $this->localizedContentResolver->getFrenchServiceView($projectService) : null;
+            $projectContent = $this->localizedContentResolver->getProjetView($project, $locale);
+            $serviceContent = $projectService instanceof \App\Entity\Services ? $this->localizedContentResolver->getServiceView($projectService, $locale) : null;
 
             return [
                 'href' => $this->resolveProjectCardHref($project, $projectService),
@@ -701,23 +726,33 @@ class PracticeController extends AbstractController
         ]);
     }
 
+    #[Route('/{_locale}/{localizedSlug}', name: 'localized_team', requirements: ['_locale' => 'en|es', 'localizedSlug' => 'team|equipo'], methods: ['GET'], priority: 80)]
     #[Route('/a-propos/team', name: 'team', options: ["sitemap" => true])]
     public function team(
         PracticeRepository $repopractice,
         ServicesRepository $reposervices,
         TeamRepository $repoteam,
+        SitePageRepository $sitePageRepository,
+        Request $request,
+        ?string $_locale = SitePageTranslation::LOCALE_FR,
     ): Response
     {
-        $practices = $this->localizePractices($repopractice->findAll());
-        $services = $this->localizeServices($reposervices->findAll());
-        $team = $this->buildTeamProfiles($repoteam->findAll());
+        $locale = $_locale ?: SitePageTranslation::LOCALE_FR;
+        $request->setLocale($locale);
+        $practices = $this->localizePractices($repopractice->findAll(), $locale);
+        $services = $this->localizeServices($reposervices->findAll(), $locale);
+        $team = $this->buildTeamProfiles($repoteam->findAll(), $locale);
+        $pageEntity = $sitePageRepository->findOneBy(['slug' => 'team']);
+
         return $this->render('team.html.twig', [
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
             'team' => $team,
             'teamSchemas' => $this->buildTeamSchemas($team),
-            'page' => $this->publicSitePageResolver->getEditorialPage('team'),
+            'page' => $this->publicSitePageResolver->getEditorialPage('team', $locale),
+            'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
+            'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
             'pract' => '',
         ]);
     }
@@ -1022,11 +1057,11 @@ class PracticeController extends AbstractController
      * @param Team[] $members
      * @return array<int, array<string, mixed>>
      */
-    private function buildTeamProfiles(array $members): array
+    private function buildTeamProfiles(array $members, string $locale = SitePageTranslation::LOCALE_FR): array
     {
         $preview = [];
         foreach ($members as $member) {
-            $memberView = $this->localizedContentResolver->getFrenchTeamView($member);
+            $memberView = $this->localizedContentResolver->getTeamView($member, $locale);
             $profile = $memberView->getPublicProfile();
             if (!is_array($profile) || $profile === []) {
                 continue;
@@ -1102,45 +1137,45 @@ class PracticeController extends AbstractController
         return $page ? $this->localizedContentResolver->getFrenchLegalPageView($page) : null;
     }
 
-    private function localizeHomeSection(?\App\Entity\HomeSection $section): mixed
+    private function localizeHomeSection(?\App\Entity\HomeSection $section, string $locale = SitePageTranslation::LOCALE_FR): mixed
     {
-        return $section ? $this->localizedContentResolver->getFrenchHomeSectionView($section) : null;
+        return $section ? $this->localizedContentResolver->getHomeSectionView($section, $locale) : null;
     }
 
     /**
      * @param \App\Entity\Practice[] $practices
      * @return array<int, mixed>
      */
-    private function localizePractices(array $practices): array
+    private function localizePractices(array $practices, string $locale = SitePageTranslation::LOCALE_FR): array
     {
-        return array_map(fn (\App\Entity\Practice $practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practices);
+        return array_map(fn (\App\Entity\Practice $practice) => $this->localizedContentResolver->getPracticeView($practice, $locale), $practices);
     }
 
     /**
      * @param \App\Entity\Services[] $services
      * @return array<int, mixed>
      */
-    private function localizeServices(array $services): array
+    private function localizeServices(array $services, string $locale = SitePageTranslation::LOCALE_FR): array
     {
-        return array_map(fn (\App\Entity\Services $service) => $this->localizedContentResolver->getFrenchServiceView($service), $services);
+        return array_map(fn (\App\Entity\Services $service) => $this->localizedContentResolver->getServiceView($service, $locale), $services);
     }
 
     /**
      * @param Projet[] $projects
      * @return array<int, mixed>
      */
-    private function localizeProjects(array $projects): array
+    private function localizeProjects(array $projects, string $locale = SitePageTranslation::LOCALE_FR): array
     {
-        return array_map(fn (Projet $project) => $this->localizedContentResolver->getFrenchProjetView($project), $projects);
+        return array_map(fn (Projet $project) => $this->localizedContentResolver->getProjetView($project, $locale), $projects);
     }
 
     /**
      * @param Team[] $teams
      * @return array<int, mixed>
      */
-    private function localizeTeams(array $teams): array
+    private function localizeTeams(array $teams, string $locale = SitePageTranslation::LOCALE_FR): array
     {
-        return array_map(fn (Team $team) => $this->localizedContentResolver->getFrenchTeamView($team), $teams);
+        return array_map(fn (Team $team) => $this->localizedContentResolver->getTeamView($team, $locale), $teams);
     }
 
     private function isAmoaAlias(string $slug): bool

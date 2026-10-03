@@ -2,6 +2,7 @@
 
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main">
@@ -32,7 +33,7 @@
             <h3>{{ page.presenceSection.title }}</h3>
             <p>{{ page.presenceSection.text }}</p>
             <p class="mb-3">
-              <strong>Échanger avec OLING</strong><br>
+              <strong>{{ 'contact_page.exchange_title'|trans }}</strong><br>
               <a href="tel:+33189701560" data-demand-phone="contact">01 89 70 15 60</a>
             </p>
             {% if agencies is not empty %}
@@ -109,7 +110,7 @@
 
             <p class="small text-muted mb-4 oling-contact-form__legal">
               {{ page.formSection.legalText }}
-              Pour les demandes RGPD :
+              {{ 'contact_page.privacy_prefix'|trans }}
               <a href="{{ page.formSection.legalLinkUrl }}" target="_blank" rel="noopener">{{ page.formSection.legalLinkLabel }}</a>.
             </p>
 
@@ -126,7 +127,10 @@
     eyebrow: page.cta.eyebrow,
     title: page.cta.title,
     text: page.legacyBodyHtml is defined and page.legacyBodyHtml ? page.legacyBodyHtml|striptags : page.cta.text,
-    primaryCta: page.cta.primaryCta
+    primaryCta: {
+      route: page.cta.primaryCta.route ?? 'contact',
+      label: page.cta.primaryCta.label ?? page.formSection.submitLabel|default('Contact')
+    }
   } %}
 </main>
 {% endblock %}

@@ -1,6 +1,6 @@
 <div class="oling-mega-head">
   <h3>{{ 'nav.expertises'|trans }}</h3>
-  <a class="oling-mega-head-link" href="{{ path('projets') }}">{{ 'nav.achievements'|trans }}</a>
+  <a class="oling-mega-head-link" href="{{ navProjectsPath|default(path('projets')) }}">{{ 'nav.achievements'|trans }}</a>
 </div>
 
 <div class="oling-mega-grid">

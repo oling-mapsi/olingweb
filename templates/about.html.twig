@@ -2,6 +2,7 @@
 
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main">
@@ -110,8 +111,11 @@
           </div>
         </div>
         <div class="oling-section-actions oling-about-team__actions mt-4">
-          <a class="btn btn-primary" href="{{ path(page.teamSection.primaryCta.route, page.teamSection.primaryCta.routeParams|default({})) }}">{{ page.teamSection.primaryCta.label }}</a>
-          <a class="btn btn-outline-dark" href="{{ path(page.teamSection.secondaryCta.route, page.teamSection.secondaryCta.routeParams|default({})) }}">{{ page.teamSection.secondaryCta.label }}</a>
+          {% set currentLocale = app.request.locale|default('fr') %}
+          {% set teamPath = currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')) %}
+          {% set contactPath = currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')) %}
+          <a class="btn btn-primary" href="{{ (page.teamSection.primaryCta.route ?? 'team') == 'team' ? teamPath : path(page.teamSection.primaryCta.route ?? 'team', page.teamSection.primaryCta.routeParams|default({})) }}">{{ page.teamSection.primaryCta.label }}</a>
+          <a class="btn btn-outline-dark" href="{{ (page.teamSection.secondaryCta.route ?? 'contact') == 'contact' ? contactPath : path(page.teamSection.secondaryCta.route ?? 'contact', page.teamSection.secondaryCta.routeParams|default({})) }}">{{ page.teamSection.secondaryCta.label }}</a>
         </div>
       </div>
     </section>
@@ -153,7 +157,10 @@
   {% include 'public/_cta_band.html.twig' with {
     title: page.cta.title,
     text: page.cta.text,
-    primaryCta: page.cta.primaryCta
+    primaryCta: {
+      route: page.cta.primaryCta.route ?? 'contact',
+      label: page.cta.primaryCta.label ?? 'Contact'
+    }
   } %}
 </main>
 {% endblock %}

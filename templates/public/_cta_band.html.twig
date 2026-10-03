@@ -1,4 +1,12 @@
 <section class="oling-cta-band">
+  {% set currentLocale = app.request.locale|default('fr') %}
+  {% set localizedRoutePaths = {
+    contact: currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')),
+    projets: currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')),
+    team: currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')),
+    expertises_index: currentLocale == 'en' ? '/en/consulting-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')),
+    services_index: currentLocale == 'en' ? '/en/services' : (currentLocale == 'es' ? '/es/servicios-y-ofertas' : path('services_index'))
+  } %}
   <div class="container">
     <div class="oling-cta-band__inner">
       <div>
@@ -7,12 +15,14 @@
         <p>{{ text }}</p>
       </div>
       <div class="oling-cta-band__actions">
-        <a class="btn btn-primary" href="{{ path(primaryCta.route, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+        {% set primaryRoute = primaryCta.route ?? 'contact' %}
+        <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
         {% if secondaryCta is defined and secondaryCta %}
-          <a class="btn btn-outline-dark" href="{{ path(secondaryCta.route, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+          {% set secondaryRoute = secondaryCta.route ?? 'contact' %}
+          <a class="btn btn-outline-dark" href="{{ localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
         {% endif %}
         {% if phoneCta is defined and phoneCta %}
-          <a class="btn btn-outline-light" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">Ou appelez-nous au 01 89 70 15 60</a>
+          <a class="btn btn-outline-light" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">{{ 'common.call_us'|trans }}</a>
         {% endif %}
       </div>
     </div>

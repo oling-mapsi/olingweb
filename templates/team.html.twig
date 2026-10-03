@@ -2,6 +2,7 @@
 
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main">

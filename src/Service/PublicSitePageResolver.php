@@ -55,7 +55,7 @@ class PublicSitePageResolver
 
         $content = $this->localizedContentResolver->getPublicView($sitePage, $locale);
         if ($content === null) {
-            return $defaults;
+            $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
         }
 
         $structuredData = $content->getStructuredData();
@@ -141,8 +141,9 @@ class PublicSitePageResolver
         ];
     }
 
-    public function getEditorialPage(string $slug): array
+    public function getEditorialPage(string $slug, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         $defaults = [];
         $sitePage = $this->sitePageRepository->findOneBy(['slug' => $slug]);
 
@@ -150,7 +151,10 @@ class PublicSitePageResolver
             return $defaults;
         }
 
-        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $content = $this->localizedContentResolver->getPublicView($sitePage, $locale);
+        if ($content === null) {
+            return $defaults;
+        }
         $structuredData = $content->getStructuredData();
         $payload = is_array($structuredData['corePage'] ?? null)
             ? $structuredData['corePage']

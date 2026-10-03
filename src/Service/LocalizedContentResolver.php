@@ -77,6 +77,11 @@ class LocalizedContentResolver
 
     public function getFrenchPracticeView(Practice $practice): TranslatedEntityPublicView
     {
+        return $this->getPracticeView($practice, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getPracticeView(Practice $practice, string $locale): TranslatedEntityPublicView
+    {
         return new TranslatedEntityPublicView($practice, $this->fetchTranslation('practice_translation', 'practice_id', $practice->getId(), [
             'designation',
             'slug',
@@ -87,12 +92,17 @@ class LocalizedContentResolver
             'description',
             'descriptionShort' => 'description_short',
             'tags',
-        ]), [
-            'getServices' => fn () => array_map(fn (Services $service) => $this->getFrenchServiceView($service), $practice->getServices()->toArray()),
+        ], $locale), [
+            'getServices' => fn () => array_map(fn (Services $service) => $this->getServiceView($service, $locale), $practice->getServices()->toArray()),
         ]);
     }
 
     public function getFrenchServiceView(Services $service): TranslatedEntityPublicView
+    {
+        return $this->getServiceView($service, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getServiceView(Services $service, string $locale): TranslatedEntityPublicView
     {
         return new TranslatedEntityPublicView($service, $this->fetchTranslation('service_translation', 'service_id', $service->getId(), [
             'designation',
@@ -102,14 +112,19 @@ class LocalizedContentResolver
             'description',
             'descriptionShort' => 'description_short',
             'publicNarrative' => 'public_narrative',
-        ]), [
-            'getPractice' => fn () => $service->getPractice() ? $this->getFrenchPracticeView($service->getPractice()) : null,
-            'getProjets' => fn () => array_map(fn (Projet $project) => $this->getFrenchProjetView($project), $service->getProjets()->toArray()),
-            'getTeams' => fn () => array_map(fn (Team $team) => $this->getFrenchTeamView($team), $service->getTeams()->toArray()),
+        ], $locale), [
+            'getPractice' => fn () => $service->getPractice() ? $this->getPracticeView($service->getPractice(), $locale) : null,
+            'getProjets' => fn () => array_map(fn (Projet $project) => $this->getProjetView($project, $locale), $service->getProjets()->toArray()),
+            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $service->getTeams()->toArray()),
         ]);
     }
 
     public function getFrenchProjetView(Projet $project): TranslatedEntityPublicView
+    {
+        return $this->getProjetView($project, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getProjetView(Projet $project, string $locale): TranslatedEntityPublicView
     {
         return new TranslatedEntityPublicView($project, $this->fetchTranslation('projet_translation', 'projet_id', $project->getId(), [
             'designation',
@@ -119,21 +134,26 @@ class LocalizedContentResolver
             'clientName' => 'client_name',
             'territory',
             'periodLabel' => 'period_label',
-        ]), [
-            'getServices' => fn () => array_map(fn (Services $service) => $this->getFrenchServiceView($service), $project->getServices()->toArray()),
-            'getTeams' => fn () => array_map(fn (Team $team) => $this->getFrenchTeamView($team), $project->getTeams()->toArray()),
+        ], $locale), [
+            'getServices' => fn () => array_map(fn (Services $service) => $this->getServiceView($service, $locale), $project->getServices()->toArray()),
+            'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $project->getTeams()->toArray()),
         ]);
     }
 
     public function getFrenchTeamView(Team $team): TranslatedEntityPublicView
     {
+        return $this->getTeamView($team, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getTeamView(Team $team, string $locale): TranslatedEntityPublicView
+    {
         return new TranslatedEntityPublicView($team, $this->fetchTranslation('team_translation', 'team_id', $team->getId(), [
             'titre',
             'shortcv',
             'publicProfile' => 'public_profile',
-        ]), [
-            'getServices' => fn () => array_map(fn (Services $service) => $this->getFrenchServiceView($service), $team->getServices()->toArray()),
-            'getProjets' => fn () => array_map(fn (Projet $project) => $this->getFrenchProjetView($project), $team->getProjets()->toArray()),
+        ], $locale), [
+            'getServices' => fn () => array_map(fn (Services $service) => $this->getServiceView($service, $locale), $team->getServices()->toArray()),
+            'getProjets' => fn () => array_map(fn (Projet $project) => $this->getProjetView($project, $locale), $team->getProjets()->toArray()),
         ]);
     }
 
@@ -148,6 +168,11 @@ class LocalizedContentResolver
 
     public function getFrenchHomeSectionView(HomeSection $section): TranslatedEntityPublicView
     {
+        return $this->getHomeSectionView($section, SitePageTranslation::LOCALE_FR);
+    }
+
+    public function getHomeSectionView(HomeSection $section, string $locale): TranslatedEntityPublicView
+    {
         return new TranslatedEntityPublicView($section, $this->fetchTranslation('home_section_translation', 'home_section_id', $section->getId(), [
             'slug',
             'title',
@@ -155,7 +180,7 @@ class LocalizedContentResolver
             'intro',
             'ctaLabel' => 'cta_label',
             'ctaLabelSecondary' => 'cta_label_secondary',
-        ]));
+        ], $locale));
     }
 
     /**
@@ -163,19 +188,27 @@ class LocalizedContentResolver
      *
      * @return array<string, mixed>
      */
-    private function fetchTranslation(string $table, string $ownerColumn, ?int $ownerId, array $fields): array
+    private function fetchTranslation(string $table, string $ownerColumn, ?int $ownerId, array $fields, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         if ($ownerId === null) {
-            throw new \LogicException(sprintf('Missing owner id for "%s" FR translation.', $table));
+            throw new \LogicException(sprintf('Missing owner id for "%s" %s translation.', $table, $locale));
         }
 
         $row = $this->connection->fetchAssociative(sprintf('SELECT * FROM %s WHERE %s = :id AND locale = :locale', $table, $ownerColumn), [
             'id' => $ownerId,
-            'locale' => SitePageTranslation::LOCALE_FR,
+            'locale' => $locale,
         ]);
 
+        if (!is_array($row) && $locale !== SitePageTranslation::LOCALE_FR) {
+            $row = $this->connection->fetchAssociative(sprintf('SELECT * FROM %s WHERE %s = :id AND locale = :locale', $table, $ownerColumn), [
+                'id' => $ownerId,
+                'locale' => SitePageTranslation::LOCALE_FR,
+            ]);
+        }
+
         if (!is_array($row)) {
-            throw new \LogicException(sprintf('Missing FR translation in "%s" for owner #%d.', $table, $ownerId));
+            throw new \LogicException(sprintf('Missing %s translation in "%s" for owner #%d.', $locale, $table, $ownerId));
         }
 
         $data = [];

@@ -54,6 +54,15 @@ nav:
         risk_control: "Riesgos y control interno"
         ai_act: "Cumplimiento AI Act"
 
+resources:
+  library_kicker: "Biblioteca"
+  resource_kicker: "Recurso"
+  read_article: "Leer articulo"
+  faq_title: "Preguntas frecuentes"
+  related_axes: "Temas relacionados"
+  next_kicker: "Continuar"
+  related_articles: "Articulos relacionados"
+
 footer:
   baseline: "Consultora para transformaciones de negocio, SI, cumplimiento y resiliencia."
   exchange_cta: "Solicitar una conversacion"

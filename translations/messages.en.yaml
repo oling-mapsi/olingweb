@@ -54,6 +54,15 @@ nav:
         risk_control: "Risk & internal control"
         ai_act: "AI Act compliance"
 
+resources:
+  library_kicker: "Library"
+  resource_kicker: "Resource"
+  read_article: "Read article"
+  faq_title: "Frequently asked questions"
+  related_axes: "Related topics"
+  next_kicker: "Next"
+  related_articles: "Related articles"
+
 footer:
   baseline: "Consulting firm for business, IT, compliance and resilience transformations."
   exchange_cta: "Request a conversation"

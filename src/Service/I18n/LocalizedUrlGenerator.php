@@ -27,6 +27,14 @@ final class LocalizedUrlGenerator
             return $locale === SitePageTranslation::LOCALE_FR ? '/' : $this->localeRouteContext->prefixForLocale($locale);
         }
 
+        if ($page->getSlug() === 'ressources') {
+            return $this->resourceIndexPath($locale);
+        }
+
+        if (str_starts_with((string) $page->getSlug(), 'ressource-')) {
+            return $this->resourceArticlePath($page, $locale);
+        }
+
         if ($locale === SitePageTranslation::LOCALE_FR) {
             $fixedPath = $this->fixedFrenchPath($page->getSlug());
             if ($fixedPath !== null) {
@@ -44,6 +52,37 @@ final class LocalizedUrlGenerator
         }
 
         return $this->localeRouteContext->prefixForLocale($locale).'/'.$slug;
+    }
+
+    public function resourceIndexPath(string $locale): string
+    {
+        SitePageTranslation::assertSupportedLocale($locale);
+
+        return match ($locale) {
+            SitePageTranslation::LOCALE_EN => '/en/resources',
+            SitePageTranslation::LOCALE_ES => '/es/recursos',
+            default => '/ressources',
+        };
+    }
+
+    public function resourceArticlePath(SitePage $page, string $locale): ?string
+    {
+        SitePageTranslation::assertSupportedLocale($locale);
+
+        $translation = $this->localizedContentResolver->getPublishedTranslation($page, $locale);
+        if (!$translation instanceof SitePageTranslation) {
+            return null;
+        }
+
+        $slug = trim($translation->getSlug(), '/');
+        if ($locale === SitePageTranslation::LOCALE_FR) {
+            if (!str_starts_with($slug, 'ressource-')) {
+                return null;
+            }
+            $slug = substr($slug, strlen('ressource-'));
+        }
+
+        return $slug === '' ? null : $this->resourceIndexPath($locale).'/'.$slug;
     }
 
     private function fixedFrenchPath(string $sourceSlug): ?string

@@ -33,6 +33,10 @@ final class LocalizedSitePageController extends AbstractController
             return $this->redirect($this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale) ?? '/'.$_locale, Response::HTTP_MOVED_PERMANENTLY);
         }
 
+        if ($page->getSourcePage()->getSlug() === 'ressources' || str_starts_with((string) $page->getSourcePage()->getSlug(), 'ressource-')) {
+            return $this->redirect($this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale) ?? '/'.$_locale, Response::HTTP_MOVED_PERMANENTLY);
+        }
+
         return $this->render('public/localized_site_page.html.twig', [
             'page' => $page,
             'locale' => $_locale,

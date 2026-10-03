@@ -6,6 +6,7 @@ use App\Repository\PracticeRepository;
 use App\Repository\SitePageRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Repository\ServicesRepository;
+use App\Entity\SitePageTranslation;
 use App\Service\PublicSitePageResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -162,10 +163,19 @@ class SitemapSubscriber implements EventSubscriberInterface
         foreach (['en', 'es'] as $locale) {
             foreach ($this->sitePageTranslationRepository->findPublishedByLocale($locale) as $translation) {
                 $page = $translation->getSitePage();
-                $route = $page?->getSlug() === 'home' ? 'localized_homepage' : 'localized_site_page_show';
-                $parameters = $route === 'localized_homepage'
-                    ? ['_locale' => $locale]
-                    : ['_locale' => $locale, 'slug' => $translation->getSlug()];
+                if ($page?->getSlug() === 'home') {
+                    $route = 'localized_homepage';
+                    $parameters = ['_locale' => $locale];
+                } elseif ($page?->getSlug() === 'ressources') {
+                    $route = 'localized_resources_index';
+                    $parameters = ['_locale' => $locale, 'resourceIndexSlug' => $locale === SitePageTranslation::LOCALE_EN ? 'resources' : 'recursos'];
+                } elseif (str_starts_with((string) $page?->getSlug(), 'ressource-')) {
+                    $route = 'localized_resource';
+                    $parameters = ['_locale' => $locale, 'resourceIndexSlug' => $locale === SitePageTranslation::LOCALE_EN ? 'resources' : 'recursos', 'slug' => $translation->getSlug()];
+                } else {
+                    $route = 'localized_site_page_show';
+                    $parameters = ['_locale' => $locale, 'slug' => $translation->getSlug()];
+                }
 
                 $urls->addUrl(
                     new UrlConcrete(

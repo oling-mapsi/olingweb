@@ -2,6 +2,7 @@
 
 {% block title %}{{ page and page.title ? page.title : 'Ressources | OLING' }}{% endblock %}
 {% block meta_description %}{{ page and page.metaDescription ? page.metaDescription : 'Ressources OLING.' }}{% endblock %}
+{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ canonicalPath|default(app.request.pathInfo) }}{% endblock %}
 {% block stylesheets %}
   {{ parent() }}
   <link rel="alternate" type="application/rss+xml" title="Ressources OLING" href="{{ site_base_url ~ path('seo_resources_rss') }}">
@@ -23,19 +24,19 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Bibliothèque</span>
+          <span class="oling-kicker">{{ 'resources.library_kicker'|trans }}</span>
           <h2>Contenus de cadrage, retours terrain et points de vigilance</h2>
           <p>Les ressources complètent les expertises et les services avec un format plus pédagogique : méthode, vigilance, arbitrages et retours d’expérience.</p>
         </div>
         <div class="oling-editorial-grid">
           {% for article in articles %}
             <article class="oling-editorial-card">
-              <span class="oling-kicker">Ressource</span>
-              <h2><a class="link" href="{{ path('seo_resource', {slug: article.slug}) }}">{{ article.h1 }}</a></h2>
+              <span class="oling-kicker">{{ 'resources.resource_kicker'|trans }}</span>
+              <h2><a class="link" href="{{ article.href }}">{{ article.h1 }}</a></h2>
               {% if article.intro is not empty %}
                 <p>{{ article.intro }}</p>
               {% endif %}
-              <a class="oling-editorial-card__more" href="{{ path('seo_resource', {slug: article.slug}) }}">Lire l'article</a>
+              <a class="oling-editorial-card__more" href="{{ article.href }}">{{ 'resources.read_article'|trans }}</a>
             </article>
           {% endfor %}
         </div>
@@ -58,7 +59,7 @@
       <div class="container">
         <div class="oling-surface oling-surface--light">
           <span class="oling-kicker">FAQ</span>
-          <h2>Questions fréquentes</h2>
+          <h2>{{ 'resources.faq_title'|trans }}</h2>
           <ul class="oling-check-list mb-0">
             {% for item in faqItems %}
               <li><strong>{{ item.question }}</strong> {{ item.answer }}</li>

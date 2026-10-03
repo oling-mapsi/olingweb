@@ -54,6 +54,15 @@ nav:
         risk_control: "Risques & contrôle interne"
         ai_act: "Conformité IA / AI Act"
 
+resources:
+  library_kicker: "Bibliothèque"
+  resource_kicker: "Ressource"
+  read_article: "Lire l'article"
+  faq_title: "Questions fréquentes"
+  related_axes: "Axes reliés"
+  next_kicker: "Suite"
+  related_articles: "Articles connexes"
+
 footer:
   baseline: "Cabinet de conseil pour transformations métier, SI, conformité et résilience."
   exchange_cta: "Demander un échange"

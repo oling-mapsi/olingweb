@@ -27,6 +27,13 @@ final class LocalizedUrlGenerator
             return $locale === SitePageTranslation::LOCALE_FR ? '/' : $this->localeRouteContext->prefixForLocale($locale);
         }
 
+        if ($locale === SitePageTranslation::LOCALE_FR) {
+            $fixedPath = $this->fixedFrenchPath($page->getSlug());
+            if ($fixedPath !== null) {
+                return $fixedPath;
+            }
+        }
+
         $slug = trim($translation->getSlug(), '/');
         if ($locale === SitePageTranslation::LOCALE_FR && $slug === 'home') {
             return '/';
@@ -37,6 +44,16 @@ final class LocalizedUrlGenerator
         }
 
         return $this->localeRouteContext->prefixForLocale($locale).'/'.$slug;
+    }
+
+    private function fixedFrenchPath(string $sourceSlug): ?string
+    {
+        return match ($sourceSlug) {
+            'team' => '/a-propos/team',
+            'projets' => '/projets',
+            'secteurs-index' => '/secteurs',
+            default => str_starts_with($sourceSlug, 'secteur-') ? '/secteurs/'.$sourceSlug : null,
+        };
     }
 
     /**

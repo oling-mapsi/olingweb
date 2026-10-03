@@ -5,6 +5,8 @@
 {% set currentPracticeSlug = app.request.attributes.get('practice') %}
 {% set currentLocale = app.request.locale|default('fr') %}
 {% set navHomePath = currentLocale == 'en' ? '/en' : (currentLocale == 'es' ? '/es' : path('index')) %}
+{% set navSectorsPath = currentLocale == 'en' ? '/en/industries' : (currentLocale == 'es' ? '/es/sectores' : path('sectors_index')) %}
+{% set navProjectsPath = currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')) %}
 {% set languageAlternates = localizedAlternates|default({}) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set isAdminPage = currentRoute starts with 'admin_' or currentRoute == 'login' or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' %}
@@ -242,10 +244,10 @@
                             {% endif %}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if currentRoute in ['sectors_index', 'sectors_show', 'metiers'] %}active{% endif %}" href="{{ path('sectors_index') }}">{{ 'nav.sectors'|trans }}</a>
+                            <a class="nav-link {% if currentRoute in ['sectors_index', 'sectors_show', 'metiers', 'localized_site_page'] and currentSlug starts with 'secteur' %}active{% endif %}" href="{{ navSectorsPath }}">{{ 'nav.sectors'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if currentRoute in ['projets', 'projets_more'] %}active{% endif %}" href="{{ path('projets') }}">{{ 'nav.case_studies'|trans }}</a>
+                            <a class="nav-link {% if currentRoute in ['projets', 'projets_more'] or (currentRoute == 'localized_site_page' and currentSlug == 'projets') %}active{% endif %}" href="{{ navProjectsPath }}">{{ 'nav.projects'|trans }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if currentRoute == 'apropos' %}active{% endif %}" href="{{ path('apropos') }}">{{ 'nav.about'|trans }}</a>

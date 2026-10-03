@@ -99,6 +99,24 @@ class HomePageSourceTest extends TestCase
         }
     }
 
+    public function testLocalizedLegalRoutesDeclareLocaleDefaults(): void
+    {
+        $controller = (string) file_get_contents(dirname(__DIR__).'/src/Controller/PracticeController.php');
+
+        foreach ([
+            "name: 'discloser_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN]",
+            "name: 'discloser_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES]",
+            "name: 'charte_ia_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN]",
+            "name: 'charte_ia_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES]",
+            "name: 'polrgpd_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN]",
+            "name: 'polrgpd_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES]",
+            "name: 'polsecurite_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN]",
+            "name: 'polsecurite_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES]",
+        ] as $needle) {
+            self::assertStringContainsString($needle, $controller);
+        }
+    }
+
     private function controller(): PracticeController
     {
         $localizedResolver = new LocalizedContentResolver(

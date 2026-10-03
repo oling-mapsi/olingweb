@@ -166,8 +166,8 @@ class PracticeController extends AbstractController
 
 
     #[Route('/mentions-legales', name: 'discloser')]
-    #[Route('/en/legal-notice', name: 'discloser_en', methods: ['GET'], priority: 100)]
-    #[Route('/es/aviso-legal', name: 'discloser_es', methods: ['GET'], priority: 100)]
+    #[Route('/en/legal-notice', name: 'discloser_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN], methods: ['GET'], priority: 100)]
+    #[Route('/es/aviso-legal', name: 'discloser_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES], methods: ['GET'], priority: 100)]
     public function discloser(
         Request $request,
         PracticeRepository $repopractice,
@@ -190,8 +190,8 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/charte-ia', name: 'charte_ia', methods: ['GET'])]
-    #[Route('/en/ai-charter', name: 'charte_ia_en', methods: ['GET'], priority: 100)]
-    #[Route('/es/carta-ia', name: 'charte_ia_es', methods: ['GET'], priority: 100)]
+    #[Route('/en/ai-charter', name: 'charte_ia_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN], methods: ['GET'], priority: 100)]
+    #[Route('/es/carta-ia', name: 'charte_ia_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES], methods: ['GET'], priority: 100)]
     public function charteIa(
         Request $request,
         PracticeRepository $practiceRepository,
@@ -864,8 +864,8 @@ class PracticeController extends AbstractController
         ]);
     }
     #[Route('/a-propos/politiquergpd', name: 'polrgpd')]
-    #[Route('/en/privacy-policy', name: 'polrgpd_en', methods: ['GET'], priority: 100)]
-    #[Route('/es/politica-rgpd', name: 'polrgpd_es', methods: ['GET'], priority: 100)]
+    #[Route('/en/privacy-policy', name: 'polrgpd_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN], methods: ['GET'], priority: 100)]
+    #[Route('/es/politica-rgpd', name: 'polrgpd_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES], methods: ['GET'], priority: 100)]
     public function polrgpd(
         Request $request,
         PracticeRepository $repopractice,
@@ -888,8 +888,8 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/a-propos/politiquesecurite', name: 'polsecurite')]
-    #[Route('/en/information-security-policy', name: 'polsecurite_en', methods: ['GET'], priority: 100)]
-    #[Route('/es/politica-seguridad-informacion', name: 'polsecurite_es', methods: ['GET'], priority: 100)]
+    #[Route('/en/information-security-policy', name: 'polsecurite_en', defaults: ['_locale' => SitePageTranslation::LOCALE_EN], methods: ['GET'], priority: 100)]
+    #[Route('/es/politica-seguridad-informacion', name: 'polsecurite_es', defaults: ['_locale' => SitePageTranslation::LOCALE_ES], methods: ['GET'], priority: 100)]
     public function polsecurite(
         Request $request,
         PracticeRepository $repopractice,

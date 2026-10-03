@@ -1,0 +1,79 @@
+# OLING Management & Technologie
+
+OLING Management & Technologie is an independent consulting firm based in France. OLING supports public organisations, SMEs and mid-sized companies with business-side IT project advisory, ERP/CRM/CMMS projects, IT governance, data, cybersecurity, compliance and risk management.
+
+## Main Expertise
+
+- Business-side IT project advisory (AMOA SI)
+- ERP project advisory
+- CRM project advisory
+- CMMS / GMAO project advisory
+- Financial information systems
+- E-invoicing advisory
+- IT governance and CIO office performance
+- Data, BI and useful AI
+- GDPR / DPO / privacy governance
+- ISO 27001 / NIS2 / DORA / cybersecurity
+- ISO 9001 / QSE
+- Risk management and internal control
+- Business continuity / disaster recovery (PCA / PRA)
+- AI governance / AI Act compliance
+
+## Main French URLs
+
+- https://oling.fr/
+- https://oling.fr/amoa-si
+- https://oling.fr/erp-progiciel
+- https://oling.fr/crm
+- https://oling.fr/gmao
+- https://oling.fr/si-finance
+- https://oling.fr/facturation-electronique-amoa
+- https://oling.fr/rgpd
+- https://oling.fr/cyber-securite
+- https://oling.fr/gestion-risques-audit-controle-interne
+- https://oling.fr/pca-pra-continuite-activite
+- https://oling.fr/conseil-qualite
+- https://oling.fr/ressources
+- https://oling.fr/contact
+
+## Main English URLs
+
+- https://oling.fr/en
+- https://oling.fr/en/business-side-it-project-advisory
+- https://oling.fr/en/erp-software
+- https://oling.fr/en/crm-advisory
+- https://oling.fr/en/cmms
+- https://oling.fr/en/finance-it-project-advisory
+- https://oling.fr/en/e-invoicing-project-advisory
+- https://oling.fr/en/gdpr-compliance
+- https://oling.fr/en/cybersecurity
+- https://oling.fr/en/resources
+- https://oling.fr/en/contact
+
+## Main Spanish URLs
+
+- https://oling.fr/es
+- https://oling.fr/es/asesoria-proyectos-sistemas-informacion
+- https://oling.fr/es/asesoria-erp-software-gestion
+- https://oling.fr/es/asesoria-crm
+- https://oling.fr/es/gmao-gestion-mantenimiento
+- https://oling.fr/es/asesoria-si-finanzas
+- https://oling.fr/es/asesoria-facturacion-electronica
+- https://oling.fr/es/cumplimiento-rgpd
+- https://oling.fr/es/ciberseguridad
+- https://oling.fr/es/recursos
+- https://oling.fr/es/contacto
+
+## Editorial Resources
+
+- https://oling.fr/ressources/choisir-cabinet-conseil-amoa-pme-eti
+- https://oling.fr/ressources/transformation-si-secteur-public
+- https://oling.fr/ressources/nis2-dora-par-ou-commencer
+- https://oling.fr/ressources/feuille-route-cyber-pme-eti
+- https://oling.fr/ressources/aipd-rgpd-methode
+- https://oling.fr/ressources/cadrage-projet-amoa-si
+- https://oling.fr/ressources/registre-traitements-rgpd
+
+## Sitemap
+
+https://oling.fr/sitemap.xml

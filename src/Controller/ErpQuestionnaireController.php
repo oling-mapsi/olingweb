@@ -18,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ErpQuestionnaireController extends AbstractController
 {
     #[Route('/erp-progiciel/questionnaire', name: 'erp_questionnaire', methods: ['GET', 'POST'])]
-    #[Route('/en/erp-software/questionnaire', name: 'erp_questionnaire_en', methods: ['GET', 'POST'])]
-    #[Route('/es/software-erp/cuestionario', name: 'erp_questionnaire_es', methods: ['GET', 'POST'])]
+    #[Route('/en/erp-software/questionnaire', name: 'erp_questionnaire_en', methods: ['GET', 'POST'], priority: 100)]
+    #[Route('/es/software-erp/cuestionario', name: 'erp_questionnaire_es', methods: ['GET', 'POST'], priority: 100)]
     public function questionnaire(
         Request $request,
         EntityManagerInterface $entityManager,

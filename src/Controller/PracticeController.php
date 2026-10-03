@@ -163,8 +163,8 @@ class PracticeController extends AbstractController
 
 
     #[Route('/mentions-legales', name: 'discloser')]
-    #[Route('/en/legal-notice', name: 'discloser_en', methods: ['GET'])]
-    #[Route('/es/aviso-legal', name: 'discloser_es', methods: ['GET'])]
+    #[Route('/en/legal-notice', name: 'discloser_en', methods: ['GET'], priority: 100)]
+    #[Route('/es/aviso-legal', name: 'discloser_es', methods: ['GET'], priority: 100)]
     public function discloser(
         Request $request,
         PracticeRepository $repopractice,
@@ -187,8 +187,8 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/charte-ia', name: 'charte_ia', methods: ['GET'])]
-    #[Route('/en/ai-charter', name: 'charte_ia_en', methods: ['GET'])]
-    #[Route('/es/carta-ia', name: 'charte_ia_es', methods: ['GET'])]
+    #[Route('/en/ai-charter', name: 'charte_ia_en', methods: ['GET'], priority: 100)]
+    #[Route('/es/carta-ia', name: 'charte_ia_es', methods: ['GET'], priority: 100)]
     public function charteIa(
         Request $request,
         PracticeRepository $practiceRepository,
@@ -818,8 +818,8 @@ class PracticeController extends AbstractController
         ]);
     }
     #[Route('/a-propos/politiquergpd', name: 'polrgpd')]
-    #[Route('/en/privacy-policy', name: 'polrgpd_en', methods: ['GET'])]
-    #[Route('/es/politica-rgpd', name: 'polrgpd_es', methods: ['GET'])]
+    #[Route('/en/privacy-policy', name: 'polrgpd_en', methods: ['GET'], priority: 100)]
+    #[Route('/es/politica-rgpd', name: 'polrgpd_es', methods: ['GET'], priority: 100)]
     public function polrgpd(
         Request $request,
         PracticeRepository $repopractice,
@@ -842,8 +842,8 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/a-propos/politiquesecurite', name: 'polsecurite')]
-    #[Route('/en/information-security-policy', name: 'polsecurite_en', methods: ['GET'])]
-    #[Route('/es/politica-seguridad-informacion', name: 'polsecurite_es', methods: ['GET'])]
+    #[Route('/en/information-security-policy', name: 'polsecurite_en', methods: ['GET'], priority: 100)]
+    #[Route('/es/politica-seguridad-informacion', name: 'polsecurite_es', methods: ['GET'], priority: 100)]
     public function polsecurite(
         Request $request,
         PracticeRepository $repopractice,

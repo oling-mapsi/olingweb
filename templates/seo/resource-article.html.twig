@@ -138,6 +138,7 @@
   {% set resourceHeadline = page and page.heroTitle ? page.heroTitle|striptags|trim : (page and page.title ? page.title|striptags|trim : '') %}
   {% set resourceDescription = page and page.heroIntro ? page.heroIntro|striptags|trim : (page and page.metaDescription ? page.metaDescription|striptags|trim : '') %}
   {% set resourceAuthor = page and page.authorDisplayName ? page.authorDisplayName|striptags|trim : 'OLING' %}
+  {% set resourcePublishedAt = page ? (page.publicationDate ?: page.publishedAt) : null %}
   {% set resourceBreadcrumbName = page and page.heroTitle ? page.heroTitle|striptags : 'Article' %}
   {% set structuredDataGraph = [{
     '@type': 'BreadcrumbList',
@@ -148,13 +149,13 @@
     ]
   }] %}
 
-  {% if page and page.publicationDate and resourceHeadline and resourceDescription %}
+  {% if page and resourcePublishedAt and resourceHeadline and resourceDescription %}
     {% set articleSchema = {
       '@type': 'Article',
       'headline': resourceHeadline,
       'description': resourceDescription,
-      'datePublished': page.publicationDate|date('c'),
-      'dateModified': (page.publishedAt ?: page.publicationDate)|date('c'),
+      'datePublished': resourcePublishedAt|date('c'),
+      'dateModified': (page.publishedAt ?: resourcePublishedAt)|date('c'),
       'author': {
         '@type': 'Organization',
         'name': resourceAuthor

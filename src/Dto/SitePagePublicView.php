@@ -98,6 +98,11 @@ class SitePagePublicView
         return $this->page->getPublicationDate();
     }
 
+    public function getAuthorDisplayName(): ?string
+    {
+        return $this->page->getAuthorDisplayName();
+    }
+
     public function getPublishedAt(): ?\DateTimeImmutable
     {
         return $this->translation->getPublishedAt() ?? $this->page->getPublishedAt();

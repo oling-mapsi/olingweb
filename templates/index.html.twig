@@ -119,12 +119,17 @@
         ['Registres', 'Audits', 'Incidents', 'Reporting']
       ] %}
       {% set expertiseIcons = ['bi-graph-up-arrow', 'bi-diagram-3', 'bi-shield-check', 'bi-layers'] %}
+      {% set expertiseImages = [
+        'images/home/expertise-amoa-applications.webp',
+        'images/home/expertise-gouvernance-dsi.webp',
+        'images/home/expertise-conformite-resilience.webp',
+        'images/home/expertise-mapsi-platform.webp'
+      ] %}
 
       <div class="oling-home-expertises__stack oling-home-expertise-mosaic">
         {% for card in homeUniverseCards|slice(0, 4) %}
           {% set cardHref = card.url|default(card.route is defined ? path(card.route, card.routeParams|default({})) ~ (card.fragment is defined and card.fragment ? '#' ~ card.fragment : '') : '#') %}
-          {% set practice = (homePractices|filter(item => item.slug == card.practiceSlug)|first)|default(null) %}
-          {% set panelImage = practice ? (practice.image1 ?: practice.image2) : null %}
+          {% set panelImage = expertiseImages[loop.index0] %}
           <a class="oling-home-expertise-card oling-home-expertise-card--{{ loop.index }}" href="{{ cardHref }}">
             {% if panelImage %}
               <img class="oling-home-expertise-card__image" src="{{ asset(panelImage) }}" alt="">

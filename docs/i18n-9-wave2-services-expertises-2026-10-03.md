@@ -48,7 +48,31 @@ Manual correction applied: EN/ES title fields for `gestion-risques-audit-control
 
 FR leakage scan: no blocking unexpected French leak detected in text fields. Accepted terms: `QSE`, `SI` in Spanish context.
 
-Decision: keep all Wave 2 generated pages in `to_review`. No publication in this batch.
+Wave 2C human review:
+
+- SitePages reviewed: 10 EN + 10 ES.
+- Published batch 1: 5 EN + 5 ES.
+- Rejected pages: 0.
+- Slug changes after generation: 0.
+- Terminology correction: EN `QSE` normalized to `QHSE`; ES `QSE` kept.
+
+Published EN:
+
+- `/en/regulatory-compliance`
+- `/en/quality-consulting`
+- `/en/cybersecurity-compliance-resilience`
+- `/en/outsourced-dpo-ongoing-gdpr-governance`
+- `/en/erp-business-applications-advisory`
+
+Published ES:
+
+- `/es/cumplimiento-normativo`
+- `/es/consultoria-calidad`
+- `/es/ciberseguridad-cumplimiento-resiliencia`
+- `/es/dpo-externo-gobernanza-rgpd-continua`
+- `/es/asesoria-erp-aplicaciones-empresariales`
+
+Remaining reviewed, not published yet: 5 EN + 5 ES.
 
 ## Reproducibility
 
@@ -73,8 +97,24 @@ Wave 2B import dry-run was idempotent locally:
 - practices EN: 4 unchanged, 0 conflict
 - practices ES: 4 unchanged, 0 conflict
 
+Wave 2C snapshots after prod review:
+
+- SitePages EN: 10 rows, 5 published, 5 reviewed, 0 outdated.
+- SitePages ES: 10 rows, 5 published, 5 reviewed, 0 outdated.
+- Services EN: 34 rows, 12 reviewed, 22 to_review.
+- Services ES: 34 rows, 12 reviewed, 22 to_review.
+- Practices EN: 4 rows, 3 reviewed, 1 to_review.
+- Practices ES: 4 rows, 3 reviewed, 1 to_review.
+
+Prod smoke after publication:
+
+- Published EN/ES Wave 2C routes: HTTP 200, indexable robots header.
+- Non-published controls: `/en/finance-it-project-advisory` and `/es/asesoria-si-finanzas` remain HTTP 404.
+- FR regression controls: `/`, `/services`, `/erp-progiciel`, `/rgpd`, `/gmao`, `/crm`, `/contact` return HTTP 200.
+- Sitemap regenerated in prod.
+
 ## Result
 
-Lot result: COMPLETE for Wave 2B local generation and reproducible snapshots.
+Lot result: COMPLETE for Wave 2C review and progressive publication.
 
-Reason: SitePage Wave 2 and Service/Practice Wave 2B generated and reproducible; no automatic publication.
+Reason: SitePage Wave 2 reviewed, first EN/ES batch published, services/practices partially reviewed, snapshots reproducible.

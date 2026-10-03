@@ -1,7 +1,7 @@
 {
     "entity": "PracticeTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-02T23:07:39+00:00",
+    "exportedAt": "2026-10-03T07:21:02+00:00",
     "translations": [
         {
             "source": {
@@ -24,7 +24,7 @@
                 "#DigitalTransformation",
                 "#BusinessSoftware"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "12bd3f61d0f1005b07542f840201d8443f59521ebcbb4204fca591dfeec63857"
         },
         {
@@ -58,13 +58,13 @@
             },
             "locale": "en",
             "slug": "compliance-risk-audits",
-            "designation": "QSE Compliance, Privacy & Cybersecurity",
+            "designation": "QHSE Compliance, Privacy & Cybersecurity",
             "designationShort": "Compliance & Risk",
             "h1Title": null,
             "introduction": "An external perspective to improve your processes",
             "introductionShort": "GDPR and outsourced DPO services, ISO 27001/9001, NIS2, DORA and business continuity: audits, risk assessments, action plans, documentation, controls and compliance management.",
             "description": "<p>OLING structures GDPR, ISO 27001, NIS2, DORA, internal control and business continuity programmes through audits, risk assessments, action plans, evidence frameworks and operational management.</p>",
-            "descriptionShort": "OLING provides audit and consulting services to help companies achieve their governance, control and compliance objectives (GDPR, QSE management systems, CSR, etc.).",
+            "descriptionShort": "OLING provides audit and consulting services to help companies achieve their governance, control and compliance objectives (GDPR, QHSE management systems, CSR, etc.).",
             "tags": [
                 "#Compliance",
                 "#Quality",
@@ -74,7 +74,7 @@
                 "#Cybersecurity",
                 "#Audit"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e6494a394d68c1c87ad67bf278f5f9612669867815916e4cbc388a9d789605d6"
         },
         {
@@ -84,13 +84,13 @@
             },
             "locale": "en",
             "slug": "mapsi-privacy-qse-platform",
-            "designation": "MAPSI – Privacy and QSE Platform",
+            "designation": "MAPSI – Privacy and QHSE Platform",
             "designationShort": "MAPSI",
             "h1Title": null,
-            "introduction": "MAPSI (SaaS) digitalises your management systems (GDPR, QSE, Qualiopi, risk, audits, etc.).",
+            "introduction": "MAPSI (SaaS) digitalises your management systems (GDPR, QHSE, Qualiopi, risk, audits, etc.).",
             "introductionShort": "A GRC platform developed by OLING to centralise registers, audits, risks, action plans, incidents, compliance documents and reporting.",
             "description": "MAPSI is a SaaS application developed and provided by OLING. With MAPSI, you can manage GDPR, QUALIOPI, ISO and business continuity compliance within a single management system.",
-            "descriptionShort": "MAPSI is a SaaS application for managing governance, risk and compliance (GDPR, QSE, Qualiopi, risk, audits, etc.).",
+            "descriptionShort": "MAPSI is a SaaS application for managing governance, risk and compliance (GDPR, QHSE, Qualiopi, risk, audits, etc.).",
             "tags": [
                 "#MAPSI",
                 "#GDPR",
@@ -98,7 +98,7 @@
                 "#Risk",
                 "#BusinessContinuity"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "95005f86c93345df3122c3b324d65d12525a9c4ff0b36fd15f25dcf676180236"
         }
     ]

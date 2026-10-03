@@ -1,7 +1,7 @@
 {
     "entity": "ServiceTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-02T23:07:39+00:00",
+    "exportedAt": "2026-10-03T07:21:02+00:00",
     "translations": [
         {
             "source": {
@@ -52,7 +52,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c3a5fe380054d3dd0e43acbb8d7745755c896d208b001c26b7c6dcbcc38598df"
         },
         {
@@ -198,7 +198,7 @@
                 "anonymousProofsTitle": "Proyectos anonimizados relacionados",
                 "citablePassagesTitle": "Respuestas breves sobre la asesoría ERP"
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "dacfef39cde10158673f3dbdf579ed0f9e15e0aa01ee800559b47b25fc47c0c7"
         },
         {
@@ -802,7 +802,7 @@
                 "projectContextsTitle": "Decisiones de gobernanza previstas",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "45bfae8073f095efce1a412255b17da0c3b564e5709790d9383b18c730b20e35"
         },
         {
@@ -854,7 +854,7 @@
                     "Una implantación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "193ac32c091fde1ef07b074ca6caa52aeedf5696c59463cdfb832bcb93e3a9cb"
         },
         {
@@ -1007,7 +1007,7 @@
                 "projectContextsTitle": "Decisiones que deben tomarse antes de una auditoría",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9828ea53d8966ac585652e7c740805a248af4c870a7225edddfddda2508fa313"
         },
         {
@@ -1033,7 +1033,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "fad72d57b17a28695c882d9f42ee0c45d1630aaa6ad1501102a25a2616a81c6c"
         },
         {
@@ -1141,7 +1141,7 @@
                 "projectContextsTitle": "Decisiones que debe tomar la dirección",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9b48904a139e0d20c73c2576e25e6cb0cfb9dda3515dd019455930d390b3f3ca"
         },
         {
@@ -1262,7 +1262,7 @@
                 "projectContextsTitle": "Decisiones que determinan la hoja de ruta",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "aba4f989c1ea22c1483258329b5bd55305b5372ae9d73a43d003fb2e1c9275b5"
         },
         {
@@ -1340,7 +1340,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "8c53a00d7fbdee4ad5f92a7e89d8d2d8e4786736214261f3a56e3ade2e595c94"
         },
         {
@@ -1444,7 +1444,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "a2d81d780281b2526fe2c63c268a4014125ed8a225009b704dd740055b9b4c73"
         },
         {
@@ -1470,7 +1470,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "fe3638a37b21fa3e0829a4d8b179e30c36c7f1d1a769465df14adf611693a9c7"
         },
         {
@@ -1496,7 +1496,7 @@
                     "Una implementación mejor gestionada"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9e7b7bd0cb1a86eeae63094ee23577051554b36d338a83ec8bad1df22ae50ba1"
         }
     ]

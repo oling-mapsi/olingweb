@@ -1,7 +1,7 @@
 {
     "entity": "ServiceTranslation",
     "locale": "en",
-    "exportedAt": "2026-10-02T23:07:37+00:00",
+    "exportedAt": "2026-10-03T07:21:02+00:00",
     "translations": [
         {
             "source": {
@@ -52,7 +52,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "c3a5fe380054d3dd0e43acbb8d7745755c896d208b001c26b7c6dcbcc38598df"
         },
         {
@@ -198,7 +198,7 @@
                 "anonymousProofsTitle": "Related anonymised engagements",
                 "citablePassagesTitle": "Brief answers about ERP advisory"
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "dacfef39cde10158673f3dbdf579ed0f9e15e0aa01ee800559b47b25fc47c0c7"
         },
         {
@@ -802,7 +802,7 @@
                 "projectContextsTitle": "Required governance decisions",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "45bfae8073f095efce1a412255b17da0c3b564e5709790d9383b18c730b20e35"
         },
         {
@@ -854,7 +854,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "193ac32c091fde1ef07b074ca6caa52aeedf5696c59463cdfb832bcb93e3a9cb"
         },
         {
@@ -891,10 +891,10 @@
             },
             "locale": "en",
             "slug": "quality-safety-environment-qse",
-            "designation": "QSE / ISO Certification",
-            "designationShort": "QSE / ISO",
-            "introductionShort": "QSE / ISO certification: audits, documentation, compliance and preparation for certification audits.",
-            "description": "\n\n  <h2 class=\"mb-5 text-center\">QSE Expertise – Outsourced Quality Management & Complex Audits</h2>\n\n  <div class=\"mb-5\">\n    <p>\n      OLING supports companies, public authorities and major projects in structuring, managing and strengthening their QSE (Quality, Safety and Environment) frameworks through a rigorous, operational and certification-ready approach. Our experienced consultants deliver <strong>outsourced quality management</strong>, QSE audits, ISO management system coordination and certification support.\n    </p>\n  </div>\n\n  <div class=\"row mb-5\">\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our areas of expertise</h3>\n      <ul>\n        <li><strong>Outsourced QSE management</strong> for multi-site organisations or strategic projects</li>\n        <li><strong>Preparation and support for certification</strong> to ISO 9001, 14001, 45001 and 50001</li>\n        <li><strong>Integrated QSE systems</strong>: quality, environment and safety</li>\n        <li><strong>QSE audits</strong> against ISO or industry-specific standards</li>\n        <li><strong>Indicators and action plans</strong> using MAPSI, Power BI and other tools</li>\n        <li><strong>Documentation frameworks</strong>: manuals, procedures and regulatory monitoring plans</li>\n      </ul>\n    </div>\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our outsourced QSE management engagements</h3>\n      <p>We take responsibility for quality or HSE functions on complex projects or during periods of transformation:</p>\n      <ul>\n        <li>Management review facilitation and strategic reporting</li>\n        <li>Cross-functional coordination across HR, technical, CSR and other teams</li>\n        <li>Relations with certification bodies (AFNOR, Dekra, Veritas...)</li>\n        <li>Deployment of tailored management tools and indicators</li>\n        <li>Digitalisation of the QSE system with MAPSI</li>\n      </ul>\n    </div>\n  </div>\n\n  <div class=\"mb-5\">\n    <h3 class=\"mb-4\">Our delivery models</h3>\n\n    <ul class=\"nav nav-tabs\" id=\"interventionTabs\" role=\"tablist\">\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link active\" id=\"dir-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#dir\" type=\"button\" role=\"tab\">Outsourced management</button>\n      </li>\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link\" id=\"at-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#at\" type=\"button\" role=\"tab\">Technical assistance</button>\n      </li>\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link\" id=\"audit-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#audit\" type=\"button\" role=\"tab\">Auditing</button>\n      </li>\n    </ul>\n\n    <div class=\"tab-content border border-top-0 rounded-bottom shadow-sm p-4 bg-light\" id=\"interventionTabsContent\">\n      <div class=\"tab-pane fade show active\" id=\"dir\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Outsourced management</h4>\n        <p>We assume full responsibility for the quality, cybersecurity or compliance function under an outsourced management model:</p>\n        <ul>\n          <li>Strategic and operational responsibility for the function</li>\n          <li>Management of internal teams and coordination with partners</li>\n          <li>Engagement with stakeholders (executive management, CNIL, certification bodies...)</li>\n          <li>Consolidated reporting and monitoring of improvement plans</li>\n        </ul>\n      </div>\n      <div class=\"tab-pane fade\" id=\"at\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Technical and project advisory support</h4>\n        <p>We support business teams in structuring, equipping and delivering compliance projects:</p>\n        <ul>\n          <li>Initial assessments, practical guides and compliance matrices</li>\n          <li>Workshop facilitation, documentation and dashboards</li>\n          <li>Support with tool configuration (MAPSI, Office 365, document management systems...)</li>\n        </ul>\n      </div>\n      <div class=\"tab-pane fade\" id=\"audit\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Auditing (quality, safety and compliance)</h4>\n        <p>We conduct high-value audits to identify gaps and strengthen your initiatives:</p>\n        <ul>\n          <li>Internal audits against ISO 9001, 14001, 45001 and 27001</li>\n          <li>GDPR, cybersecurity and documentation compliance audits</li>\n          <li>Certification preparation and review support</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">The value of our services</h3>\n      <ul>\n        <li>Senior consultants with 5 to 30 years of experience</li>\n        <li>Combined expertise in QSE, GDPR and information security</li>\n        <li>Collaborative management tools (MAPSI, Power BI)</li>\n        <li>A structured, operational and certification-ready approach</li>\n        <li>Experience with major public-sector and industrial organisations</li>\n      </ul>\n    </div>\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our complementary services</h3>\n      <ul>\n        <li>ISO certification support</li>\n        <li>Structuring and coordination of CSR programmes</li>\n        <li>Documentation and on-site audits, plus strategic reviews</li>\n        <li>Training, awareness kits and dashboards</li>\n      </ul>\n    </div>\n  </div>\n\n  <div class=\"mt-5\">\n    <h3 class=\"mb-3\">Our MAPSI QSE platform</h3>\n    <p>MAPSI enables the complete and secure digitalisation of your QSE approach:</p>\n    <ul>\n      <li>Recording and management of audits, nonconformities and action plans</li>\n      <li>Centralised document management with complete version history</li>\n      <li>Custom indicators, dashboards and alerts</li>\n      <li>Multi-site, multi-standard and multi-user support</li>\n    </ul>\n  </div>\n\n  <div class=\"mt-5\">\n    <h3 class=\"mb-3\">Security and compliance of our engagements</h3>\n    <ul>\n      <li>ISO 27001 certifications and ICA-certified auditors</li>\n      <li>Strict compliance with CNIL, ISO and ANSSI standards</li>\n      <li>Contractual confidentiality and segregated access controls</li>\n      <li>Full auditability of deliverables and actions</li>\n    </ul>\n  </div>\n\n  <div class=\"text-center mt-5\">\n    <p class=\"lead\"><strong>With OLING, give your QSE approach the structure, tools and direction required for certification readiness and sustainable performance.</strong></p>\n  </div>",
+            "designation": "QHSE / ISO Certification",
+            "designationShort": "QHSE / ISO",
+            "introductionShort": "QHSE / ISO certification: audits, documentation, compliance and preparation for certification audits.",
+            "description": "\n\n  <h2 class=\"mb-5 text-center\">QHSE Expertise – Outsourced Quality Management & Complex Audits</h2>\n\n  <div class=\"mb-5\">\n    <p>\n      OLING supports companies, public authorities and major projects in structuring, managing and strengthening their QHSE (Quality, Safety and Environment) frameworks through a rigorous, operational and certification-ready approach. Our experienced consultants deliver <strong>outsourced quality management</strong>, QHSE audits, ISO management system coordination and certification support.\n    </p>\n  </div>\n\n  <div class=\"row mb-5\">\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our areas of expertise</h3>\n      <ul>\n        <li><strong>Outsourced QHSE management</strong> for multi-site organisations or strategic projects</li>\n        <li><strong>Preparation and support for certification</strong> to ISO 9001, 14001, 45001 and 50001</li>\n        <li><strong>Integrated QHSE systems</strong>: quality, environment and safety</li>\n        <li><strong>QHSE audits</strong> against ISO or industry-specific standards</li>\n        <li><strong>Indicators and action plans</strong> using MAPSI, Power BI and other tools</li>\n        <li><strong>Documentation frameworks</strong>: manuals, procedures and regulatory monitoring plans</li>\n      </ul>\n    </div>\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our outsourced QHSE management engagements</h3>\n      <p>We take responsibility for quality or HSE functions on complex projects or during periods of transformation:</p>\n      <ul>\n        <li>Management review facilitation and strategic reporting</li>\n        <li>Cross-functional coordination across HR, technical, CSR and other teams</li>\n        <li>Relations with certification bodies (AFNOR, Dekra, Veritas...)</li>\n        <li>Deployment of tailored management tools and indicators</li>\n        <li>Digitalisation of the QHSE system with MAPSI</li>\n      </ul>\n    </div>\n  </div>\n\n  <div class=\"mb-5\">\n    <h3 class=\"mb-4\">Our delivery models</h3>\n\n    <ul class=\"nav nav-tabs\" id=\"interventionTabs\" role=\"tablist\">\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link active\" id=\"dir-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#dir\" type=\"button\" role=\"tab\">Outsourced management</button>\n      </li>\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link\" id=\"at-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#at\" type=\"button\" role=\"tab\">Technical assistance</button>\n      </li>\n      <li class=\"nav-item\" role=\"presentation\">\n        <button class=\"nav-link\" id=\"audit-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#audit\" type=\"button\" role=\"tab\">Auditing</button>\n      </li>\n    </ul>\n\n    <div class=\"tab-content border border-top-0 rounded-bottom shadow-sm p-4 bg-light\" id=\"interventionTabsContent\">\n      <div class=\"tab-pane fade show active\" id=\"dir\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Outsourced management</h4>\n        <p>We assume full responsibility for the quality, cybersecurity or compliance function under an outsourced management model:</p>\n        <ul>\n          <li>Strategic and operational responsibility for the function</li>\n          <li>Management of internal teams and coordination with partners</li>\n          <li>Engagement with stakeholders (executive management, CNIL, certification bodies...)</li>\n          <li>Consolidated reporting and monitoring of improvement plans</li>\n        </ul>\n      </div>\n      <div class=\"tab-pane fade\" id=\"at\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Technical and project advisory support</h4>\n        <p>We support business teams in structuring, equipping and delivering compliance projects:</p>\n        <ul>\n          <li>Initial assessments, practical guides and compliance matrices</li>\n          <li>Workshop facilitation, documentation and dashboards</li>\n          <li>Support with tool configuration (MAPSI, Office 365, document management systems...)</li>\n        </ul>\n      </div>\n      <div class=\"tab-pane fade\" id=\"audit\" role=\"tabpanel\">\n        <h4 class=\"mb-3\">Auditing (quality, safety and compliance)</h4>\n        <p>We conduct high-value audits to identify gaps and strengthen your initiatives:</p>\n        <ul>\n          <li>Internal audits against ISO 9001, 14001, 45001 and 27001</li>\n          <li>GDPR, cybersecurity and documentation compliance audits</li>\n          <li>Certification preparation and review support</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">The value of our services</h3>\n      <ul>\n        <li>Senior consultants with 5 to 30 years of experience</li>\n        <li>Combined expertise in QHSE, GDPR and information security</li>\n        <li>Collaborative management tools (MAPSI, Power BI)</li>\n        <li>A structured, operational and certification-ready approach</li>\n        <li>Experience with major public-sector and industrial organisations</li>\n      </ul>\n    </div>\n    <div class=\"col-md-6\">\n      <h3 class=\"mb-3\">Our complementary services</h3>\n      <ul>\n        <li>ISO certification support</li>\n        <li>Structuring and coordination of CSR programmes</li>\n        <li>Documentation and on-site audits, plus strategic reviews</li>\n        <li>Training, awareness kits and dashboards</li>\n      </ul>\n    </div>\n  </div>\n\n  <div class=\"mt-5\">\n    <h3 class=\"mb-3\">Our MAPSI QHSE platform</h3>\n    <p>MAPSI enables the complete and secure digitalisation of your QHSE approach:</p>\n    <ul>\n      <li>Recording and management of audits, nonconformities and action plans</li>\n      <li>Centralised document management with complete version history</li>\n      <li>Custom indicators, dashboards and alerts</li>\n      <li>Multi-site, multi-standard and multi-user support</li>\n    </ul>\n  </div>\n\n  <div class=\"mt-5\">\n    <h3 class=\"mb-3\">Security and compliance of our engagements</h3>\n    <ul>\n      <li>ISO 27001 certifications and ICA-certified auditors</li>\n      <li>Strict compliance with CNIL, ISO and ANSSI standards</li>\n      <li>Contractual confidentiality and segregated access controls</li>\n      <li>Full auditability of deliverables and actions</li>\n    </ul>\n  </div>\n\n  <div class=\"text-center mt-5\">\n    <p class=\"lead\"><strong>With OLING, give your QHSE approach the structure, tools and direction required for certification readiness and sustainable performance.</strong></p>\n  </div>",
             "descriptionShort": null,
             "publicNarrative": {
                 "focus": [
@@ -903,21 +903,21 @@
                     "Relevant documents and records, approval rules, versions, distribution, retention and evidence of implementation.",
                     "Audit findings, nonconformities, root-cause analysis, corrective actions, deadlines, owners and effectiveness reviews."
                 ],
-                "intro": "OLING helps organisations structure or regain control of their quality management system, then integrate safety and environmental components where the QSE scope requires them.",
-                "eyebrow": "Quality and QSE management",
-                "promise": "ISO 9001 defines requirements for quality management. QSE refers to an integrated approach covering quality, safety and the environment; it is not a single standard. The scope must therefore specify the applicable standards, shared responsibilities and requirements specific to each discipline.",
-                "headline": "ISO 9001 and QSE: building a manageable management system",
+                "intro": "OLING helps organisations structure or regain control of their quality management system, then integrate safety and environmental components where the QHSE scope requires them.",
+                "eyebrow": "Quality and QHSE management",
+                "promise": "ISO 9001 defines requirements for quality management. QHSE refers to an integrated approach covering quality, safety and the environment; it is not a single standard. The scope must therefore specify the applicable standards, shared responsibilities and requirements specific to each discipline.",
+                "headline": "ISO 9001 and QHSE: building a manageable management system",
                 "outcomes": [
                     "Clearly defined processes, responsibilities and evidence",
                     "Gaps prioritised before the audit",
-                    "Quality or QSE management that teams can use in practice"
+                    "Quality or QHSE management that teams can use in practice"
                 ],
-                "metaTitle": "ISO 9001 and QSE: Quality Systems, Audits and Certification Preparation | OLING",
+                "metaTitle": "ISO 9001 and QHSE: Quality Systems, Audits and Certification Preparation | OLING",
                 "focusTitle": "Elements to bring under control",
-                "schemaName": "ISO 9001 and QSE Management Consulting",
+                "schemaName": "ISO 9001 and QHSE Management Consulting",
                 "clientTypes": [
                     "Executive management for policies, objectives, resources, decisions and the management review.",
-                    "The quality or QSE manager for methodology, coordination, audits, evidence and action tracking.",
+                    "The quality or QHSE manager for methodology, coordination, audits, evidence and action tracking.",
                     "Process owners and operational teams for implementing controls and measuring results.",
                     "Internal auditors and the certification body for separately assessing system conformity and effectiveness."
                 ],
@@ -929,12 +929,12 @@
                     "Dashboard, management review template and certification audit preparation file."
                 ],
                 "finalCtaText": "The initial discussion covers the scope, target standards, audits already conducted, open findings and internal responsibilities.",
-                "promiseTitle": "ISO 9001 and QSE are not the same thing",
+                "promiseTitle": "ISO 9001 and QHSE are not the same thing",
                 "supportLinks": [
                     {
                         "href": "/pca-pra-continuite-activite",
                         "label": "Business continuity and disaster recovery",
-                        "description": "To structure the BIA, recovery objectives, plans and exercises in a programme distinct from the QSE system."
+                        "description": "To structure the BIA, recovery objectives, plans and exercises in a programme distinct from the QHSE system."
                     },
                     {
                         "href": "/direction-qualite-deleguee",
@@ -961,10 +961,10 @@
                     "Context, interested parties, scope, processes, responsibilities and risks or opportunities to address.",
                     "Objectives, indicators, document control, competencies and controls required for the system to operate.",
                     "Internal audits, nonconformities, causes, corrective actions, management reviews and continual improvement.",
-                    "Integration of quality, safety and environmental requirements into a coherent QSE system when multiple standards are targeted."
+                    "Integration of quality, safety and environmental requirements into a coherent QHSE system when multiple standards are targeted."
                 ],
                 "coverageTitle": "From assessment to effective system operation",
-                "finalCtaLabel": "Review your QSE system",
+                "finalCtaLabel": "Review your QHSE system",
                 "finalCtaTitle": "Define the system, gaps and audit timeline",
                 "missionPhases": [
                     "Define the scope and conduct an assessment based on practices, documents, indicators and interviews.",
@@ -978,8 +978,8 @@
                         "title": "How should an organisation prepare for ISO 9001?"
                     },
                     {
-                        "text": "ISO 9001 is a quality management system standard. QSE is an integrated approach to quality, safety and the environment, often based on several standards. A QSE approach must retain the requirements specific to each area while combining governance, audits and action tracking.",
-                        "title": "What is the difference between ISO 9001 and QSE?"
+                        "text": "ISO 9001 is a quality management system standard. QHSE is an integrated approach to quality, safety and the environment, often based on several standards. A QHSE approach must retain the requirements specific to each area while combining governance, audits and action tracking.",
+                        "title": "What is the difference between ISO 9001 and QHSE?"
                     },
                     {
                         "text": "Addressing a nonconformity involves more than correcting the observed effect. The problem must be contained, its causes investigated, a proportionate action agreed, an owner and deadline assigned, and the action checked to confirm that it genuinely prevents the issue from recurring.",
@@ -990,7 +990,7 @@
                         "title": "What is the purpose of a management review?"
                     }
                 ],
-                "metaDescription": "ISO 9001 and QSE consulting: assessments, processes, indicators, internal audits, nonconformities, management reviews and certification preparation.",
+                "metaDescription": "ISO 9001 and QHSE consulting: assessments, processes, indicators, internal audits, nonconformities, management reviews and certification preparation.",
                 "projectContexts": [
                     "Determine whether the objective covers ISO 9001 alone or an integrated system incorporating ISO 14001, ISO 45001 or other requirements.",
                     "Select a scope consistent with the activities, sites, products, services and responsibilities that are genuinely under control.",
@@ -998,16 +998,16 @@
                     "Distinguish preparation, internal audits and advisory support from the decisions made by the certification body."
                 ],
                 "clientTypesTitle": "Management system stakeholders",
-                "deliverablesTitle": "Quality and QSE management deliverables",
-                "schemaServiceType": "ISO 9001 and QSE Management Consulting",
+                "deliverablesTitle": "Quality and QHSE management deliverables",
+                "schemaServiceType": "ISO 9001 and QHSE Management Consulting",
                 "supportLinksIntro": "Building or improving the quality system remains distinct from its ongoing operational coordination and cross-functional risk management.",
                 "supportLinksTitle": "Keeping the system effective over time",
                 "missionPhasesTitle": "Preparing the organisation without producing documentation for appearance's sake",
-                "citablePassagesTitle": "Guidance for structuring ISO 9001 and QSE",
+                "citablePassagesTitle": "Guidance for structuring ISO 9001 and QHSE",
                 "projectContextsTitle": "Decisions to make before an audit",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9828ea53d8966ac585652e7c740805a248af4c870a7225edddfddda2508fa313"
         },
         {
@@ -1033,7 +1033,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "fad72d57b17a28695c882d9f42ee0c45d1630aaa6ad1501102a25a2616a81c6c"
         },
         {
@@ -1141,7 +1141,7 @@
                 "projectContextsTitle": "Decisions required from management",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9b48904a139e0d20c73c2576e25e6cb0cfb9dda3515dd019455930d390b3f3ca"
         },
         {
@@ -1155,7 +1155,7 @@
             "designation": "CSR Certification",
             "designationShort": "CSR",
             "introductionShort": "CSR certification: assessment, improvement plan, non-financial reporting and alignment of commitments.",
-            "description": "<div class=\"container py-5\">\r\n  <h2 class=\"mb-4\">CSR Certification</h2>\r\n\r\n  <p>\r\n    OLING supports businesses, public authorities and major projects in structuring, managing and strengthening their QSE (Quality – Safety – Environment) frameworks through a rigorous, operational and certification-ready approach. Our experienced consultants provide <strong>outsourced quality management</strong>, QSE audits, ISO management system coordination and certification support.\r\n  </p>\r\n\r\n  <h2 class=\"mt-5\">Our areas of expertise</h2>\r\n  <ul>\r\n    <li><strong>Outsourced QSE management</strong> for multi-site organisations or strategic projects</li>\r\n    <li><strong>Certification preparation and support</strong> for ISO 9001, 14001, 45001 and 50001</li>\r\n    <li><strong>Design and coordination of integrated QSE systems</strong> (quality, environment and safety)</li>\r\n    <li><strong>Quality and compliance audits</strong> against ISO, professional or industry standards</li>\r\n    <li><strong>Implementation of KPIs, action plans and monitoring tools</strong> (MAPSI QSE, Power BI, etc.)</li>\r\n    <li><strong>Document framework development</strong> (quality manuals, procedures, records and regulatory monitoring plans)</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our outsourced QSE management services</h2>\r\n  <ul>\r\n    <li>Full management of the quality or HSE function for large-scale projects or organisations</li>\r\n    <li>Coordination of management reviews, oversight of improvement plans and reporting to governance bodies</li>\r\n    <li>Management or support of internal teams (CSR, operations, technical, HR, etc.)</li>\r\n    <li>Management of relationships with certification bodies (AFNOR, Veritas, Dekra...)</li>\r\n    <li>Development of quality, safety and CSR indicators and tailored management tools</li>\r\n    <li>Digitalisation of QSE processes through MAPSI: audits, non-conformities, actions, documents and indicators</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our added value</h2>\r\n  <ul>\r\n    <li><strong>Senior consultants</strong> (5 to 30 years of experience, certified auditors)</li>\r\n    <li><strong>Major client references</strong>: ports, public authorities, industrial companies, transport and development planning</li>\r\n    <li><strong>Rigorous documentation</strong> and the ability to handle ISO, ICPE, DREAL and other audits</li>\r\n    <li><strong>360° quality management</strong>: process mapping, risk management, indicators and lessons learned</li>\r\n    <li><strong>Combined QSE and GDPR/cybersecurity expertise</strong> as part of an integrated approach</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our complementary services</h2>\r\n  <ul>\r\n    <li><strong>Internal audits</strong> before or after certification (ISO, AFNOR, Veritas...)</li>\r\n    <li><strong>Training and awareness</strong> in quality, safety, environment and risk management</li>\r\n    <li><strong>CSR and non-financial reporting support</strong></li>\r\n    <li><strong>Development of on-site inspection plans</strong>: checklists, action tracking and gap analysis</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">MAPSI QSE Platform</h2>\r\n  <ul>\r\n    <li>Recording and management of audits, non-conformities, actions and reviews</li>\r\n    <li>Document management, indicators and improvement plans</li>\r\n    <li>Complete audit trails for third-party audits</li>\r\n    <li>Consolidated view across multiple sites, frameworks and standards</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Examples of recent engagements</h2>\r\n  <ul>\r\n    <li><strong>Outsourced QSE management</strong> for a multi-regional port operator (Guadeloupe, French Guiana, Martinique)</li>\r\n    <li><strong>ISO 9001 + CSR certification</strong> for a mixed-economy development company</li>\r\n    <li><strong>Quality system review</strong> for a public authority (water and sanitation)</li>\r\n    <li><strong>Annual quality audit and assessment</strong> for an air transport operator</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Security and compliance of our services</h2>\r\n  <ul>\r\n    <li>ISO 27001-certified team with ICA-certified auditors</li>\r\n    <li>Strict adherence to confidentiality, professional ethics and impartiality principles</li>\r\n    <li>Structured, digitalised and audit-ready documentation</li>\r\n    <li>Recovery plans, security indicators, lessons learned and gap monitoring</li>\r\n  </ul>\r\n\r\n  <p class=\"mt-5\"><strong>With OLING, manage your QSE commitments with expertise, efficiency and confidence, fully aligned with your operational requirements and strategic ambitions.</strong></p>\r\n</div>",
+            "description": "<div class=\"container py-5\">\r\n  <h2 class=\"mb-4\">CSR Certification</h2>\r\n\r\n  <p>\r\n    OLING supports businesses, public authorities and major projects in structuring, managing and strengthening their QHSE (Quality – Safety – Environment) frameworks through a rigorous, operational and certification-ready approach. Our experienced consultants provide <strong>outsourced quality management</strong>, QHSE audits, ISO management system coordination and certification support.\r\n  </p>\r\n\r\n  <h2 class=\"mt-5\">Our areas of expertise</h2>\r\n  <ul>\r\n    <li><strong>Outsourced QHSE management</strong> for multi-site organisations or strategic projects</li>\r\n    <li><strong>Certification preparation and support</strong> for ISO 9001, 14001, 45001 and 50001</li>\r\n    <li><strong>Design and coordination of integrated QHSE systems</strong> (quality, environment and safety)</li>\r\n    <li><strong>Quality and compliance audits</strong> against ISO, professional or industry standards</li>\r\n    <li><strong>Implementation of KPIs, action plans and monitoring tools</strong> (MAPSI QHSE, Power BI, etc.)</li>\r\n    <li><strong>Document framework development</strong> (quality manuals, procedures, records and regulatory monitoring plans)</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our outsourced QHSE management services</h2>\r\n  <ul>\r\n    <li>Full management of the quality or HSE function for large-scale projects or organisations</li>\r\n    <li>Coordination of management reviews, oversight of improvement plans and reporting to governance bodies</li>\r\n    <li>Management or support of internal teams (CSR, operations, technical, HR, etc.)</li>\r\n    <li>Management of relationships with certification bodies (AFNOR, Veritas, Dekra...)</li>\r\n    <li>Development of quality, safety and CSR indicators and tailored management tools</li>\r\n    <li>Digitalisation of QHSE processes through MAPSI: audits, non-conformities, actions, documents and indicators</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our added value</h2>\r\n  <ul>\r\n    <li><strong>Senior consultants</strong> (5 to 30 years of experience, certified auditors)</li>\r\n    <li><strong>Major client references</strong>: ports, public authorities, industrial companies, transport and development planning</li>\r\n    <li><strong>Rigorous documentation</strong> and the ability to handle ISO, ICPE, DREAL and other audits</li>\r\n    <li><strong>360° quality management</strong>: process mapping, risk management, indicators and lessons learned</li>\r\n    <li><strong>Combined QHSE and GDPR/cybersecurity expertise</strong> as part of an integrated approach</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Our complementary services</h2>\r\n  <ul>\r\n    <li><strong>Internal audits</strong> before or after certification (ISO, AFNOR, Veritas...)</li>\r\n    <li><strong>Training and awareness</strong> in quality, safety, environment and risk management</li>\r\n    <li><strong>CSR and non-financial reporting support</strong></li>\r\n    <li><strong>Development of on-site inspection plans</strong>: checklists, action tracking and gap analysis</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">MAPSI QHSE Platform</h2>\r\n  <ul>\r\n    <li>Recording and management of audits, non-conformities, actions and reviews</li>\r\n    <li>Document management, indicators and improvement plans</li>\r\n    <li>Complete audit trails for third-party audits</li>\r\n    <li>Consolidated view across multiple sites, frameworks and standards</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Examples of recent engagements</h2>\r\n  <ul>\r\n    <li><strong>Outsourced QHSE management</strong> for a multi-regional port operator (Guadeloupe, French Guiana, Martinique)</li>\r\n    <li><strong>ISO 9001 + CSR certification</strong> for a mixed-economy development company</li>\r\n    <li><strong>Quality system review</strong> for a public authority (water and sanitation)</li>\r\n    <li><strong>Annual quality audit and assessment</strong> for an air transport operator</li>\r\n  </ul>\r\n\r\n  <h2 class=\"mt-5\">Security and compliance of our services</h2>\r\n  <ul>\r\n    <li>ISO 27001-certified team with ICA-certified auditors</li>\r\n    <li>Strict adherence to confidentiality, professional ethics and impartiality principles</li>\r\n    <li>Structured, digitalised and audit-ready documentation</li>\r\n    <li>Recovery plans, security indicators, lessons learned and gap monitoring</li>\r\n  </ul>\r\n\r\n  <p class=\"mt-5\"><strong>With OLING, manage your QHSE commitments with expertise, efficiency and confidence, fully aligned with your operational requirements and strategic ambitions.</strong></p>\r\n</div>",
             "descriptionShort": null,
             "publicNarrative": {
                 "intro": "CSR certification: assessment, improvement plan, non-financial reporting and alignment of commitments.",
@@ -1262,7 +1262,7 @@
                 "projectContextsTitle": "Decisions that shape the roadmap",
                 "hideLegacyDescription": true
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "aba4f989c1ea22c1483258329b5bd55305b5372ae9d73a43d003fb2e1c9275b5"
         },
         {
@@ -1299,15 +1299,15 @@
             },
             "locale": "en",
             "slug": "quality-safety-continuous-improvement",
-            "designation": "QSE, quality, safety and continuous improvement",
-            "designationShort": "QSE",
-            "introductionShort": "Structure QSE frameworks, audits, non-conformities, action plans and performance indicators to give teams practical management tools.",
-            "description": "<h2>QSE, quality, safety and continuous improvement</h2>\n<p>OLING supports QSE initiatives to make quality, safety and continuous improvement requirements manageable, documented and sustainable across the organisation.</p>\n<h3>Scope of the engagement</h3>\n<ul>\n  <li>Assessment of the existing system and clarification of applicable requirements.</li>\n  <li>Structuring of frameworks, procedures, evidence and approval workflows.</li>\n  <li>Organisation of audits, non-conformities, corrective actions and deadline tracking.</li>\n  <li>Development of practical indicators and management tools for leadership and operational teams.</li>\n</ul>",
+            "designation": "QHSE, quality, safety and continuous improvement",
+            "designationShort": "QHSE",
+            "introductionShort": "Structure QHSE frameworks, audits, non-conformities, action plans and performance indicators to give teams practical management tools.",
+            "description": "<h2>QHSE, quality, safety and continuous improvement</h2>\n<p>OLING supports QHSE initiatives to make quality, safety and continuous improvement requirements manageable, documented and sustainable across the organisation.</p>\n<h3>Scope of the engagement</h3>\n<ul>\n  <li>Assessment of the existing system and clarification of applicable requirements.</li>\n  <li>Structuring of frameworks, procedures, evidence and approval workflows.</li>\n  <li>Organisation of audits, non-conformities, corrective actions and deadline tracking.</li>\n  <li>Development of practical indicators and management tools for leadership and operational teams.</li>\n</ul>",
             "descriptionShort": null,
             "publicNarrative": {
-                "intro": "Structure QSE frameworks, audits, non-conformities, action plans and performance indicators to give teams practical management tools.",
+                "intro": "Structure QHSE frameworks, audits, non-conformities, action plans and performance indicators to give teams practical management tools.",
                 "eyebrow": "OLING service",
-                "headline": "QSE, quality, safety and continuous improvement",
+                "headline": "QHSE, quality, safety and continuous improvement",
                 "outcomes": [
                     "Clearer decisions",
                     "A more robust system",
@@ -1340,7 +1340,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "8c53a00d7fbdee4ad5f92a7e89d8d2d8e4786736214261f3a56e3ade2e595c94"
         },
         {
@@ -1444,7 +1444,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "a2d81d780281b2526fe2c63c268a4014125ed8a225009b704dd740055b9b4c73"
         },
         {
@@ -1470,7 +1470,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "fe3638a37b21fa3e0829a4d8b179e30c36c7f1d1a769465df14adf611693a9c7"
         },
         {
@@ -1496,7 +1496,7 @@
                     "Better-managed implementation"
                 ]
             },
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "9e7b7bd0cb1a86eeae63094ee23577051554b36d338a83ec8bad1df22ae50ba1"
         }
     ]

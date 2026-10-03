@@ -1,7 +1,7 @@
 {
     "entity": "PracticeTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-02T23:07:40+00:00",
+    "exportedAt": "2026-10-03T07:21:02+00:00",
     "translations": [
         {
             "source": {
@@ -24,7 +24,7 @@
                 "#Transformación",
                 "#SoftwareEmpresarial"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "12bd3f61d0f1005b07542f840201d8443f59521ebcbb4204fca591dfeec63857"
         },
         {
@@ -74,7 +74,7 @@
                 "#Ciberseguridad",
                 "#Auditoria"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "e6494a394d68c1c87ad67bf278f5f9612669867815916e4cbc388a9d789605d6"
         },
         {
@@ -98,7 +98,7 @@
                 "#Riesgos",
                 "#Continuidad"
             ],
-            "status": "to_review",
+            "status": "reviewed",
             "sourceContentHash": "95005f86c93345df3122c3b324d65d12525a9c4ff0b36fd15f25dcf676180236"
         }
     ]

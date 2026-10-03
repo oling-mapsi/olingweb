@@ -284,7 +284,12 @@ final class AiTranslationService
             'expertise-data-automatisation-intelligence-artificielle' => ['en' => 'data-automation-ai', 'es' => 'datos-automatizacion-ia'],
         ];
 
-        return $fallbacks[$sourceSlug][$targetLocale] ?? '';
+        $fallback = $fallbacks[$sourceSlug][$targetLocale] ?? $this->normalizeSlug($sourceSlug);
+        if (str_starts_with($fallback, 'ressource-')) {
+            $fallback = substr($fallback, strlen('ressource-'));
+        }
+
+        return $this->shortenSlug($fallback);
     }
 
     private function assertSameJsonShape(mixed $source, mixed $target, string $path): void

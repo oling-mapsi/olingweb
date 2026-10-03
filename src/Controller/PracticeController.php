@@ -525,23 +525,31 @@ class PracticeController extends AbstractController
             $poolOffset = abs(crc32($firstKey)) % count($imagePool);
         }
 
-        return array_map(function (Projet $project, int $position) use ($imagePool, $poolOffset, $locale): array {
+        $cards = [];
+        foreach ($projects as $position => $project) {
             $projectService = $project->getServices()->first();
             $metadata = $project->getMetadata();
             $projectContent = $this->localizedContentResolver->getProjetView($project, $locale);
             $serviceContent = $projectService instanceof \App\Entity\Services ? $this->localizedContentResolver->getServiceView($projectService, $locale) : null;
+            $title = $this->buildProjectCardTitle($projectContent);
+            $excerpt = $this->buildProjectCardExcerpt($projectContent, $metadata, $locale);
+            if ($locale !== SitePageTranslation::LOCALE_FR && ($title === '' || $excerpt === '')) {
+                continue;
+            }
 
-            return [
-                'href' => $this->resolveProjectCardHref($project, $projectService),
+            $cards[] = [
+                'href' => $locale === SitePageTranslation::LOCALE_FR ? $this->resolveProjectCardHref($project, $projectService) : $this->localizedContactPath($locale),
                 'image' => $this->resolveProjectCardImage($project, $imagePool, $poolOffset + $position),
-                'title' => $this->buildProjectCardTitle($projectContent),
-                'eyebrow' => $this->buildProjectCardEyebrow($project, $metadata),
+                'title' => $title,
+                'eyebrow' => $locale === SitePageTranslation::LOCALE_FR ? $this->buildProjectCardEyebrow($project, $metadata) : $serviceContent?->getDesignation(),
                 'meta' => $projectContent->getTerritory() ?: ($serviceContent ? $serviceContent->getDesignation() : null),
                 'period' => $projectContent->getPeriodLabel(),
-                'excerpt' => $this->buildProjectCardExcerpt($projectContent, $metadata),
+                'excerpt' => $excerpt,
                 'index' => $project->getFeaturedProjectsRank(),
             ];
-        }, $projects, array_keys($projects));
+        }
+
+        return $cards;
     }
 
     private function resolveProjectCardHref(Projet $project, mixed $projectService): string
@@ -598,9 +606,9 @@ class PracticeController extends AbstractController
     /**
      * @param array<string, mixed> $metadata
      */
-    private function buildProjectCardExcerpt(mixed $project, array $metadata): string
+    private function buildProjectCardExcerpt(mixed $project, array $metadata, string $locale = SitePageTranslation::LOCALE_FR): string
     {
-        $editorialAngle = trim((string) ($metadata['editorial_angle'] ?? ''));
+        $editorialAngle = $locale === SitePageTranslation::LOCALE_FR ? trim((string) ($metadata['editorial_angle'] ?? '')) : '';
         if ($editorialAngle !== '') {
             return $editorialAngle;
         }
@@ -618,7 +626,16 @@ class PracticeController extends AbstractController
             }
         }
 
-        return 'Projet de transformation, de cadrage ou de mise en œuvre mené par les équipes OLING.';
+        return $locale === SitePageTranslation::LOCALE_FR ? 'Projet de transformation, de cadrage ou de mise en œuvre mené par les équipes OLING.' : '';
+    }
+
+    private function localizedContactPath(string $locale): string
+    {
+        return match ($locale) {
+            SitePageTranslation::LOCALE_EN => '/en/contact',
+            SitePageTranslation::LOCALE_ES => '/es/contacto',
+            default => $this->generateUrl('contact'),
+        };
     }
 
     /**

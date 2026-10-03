@@ -200,14 +200,11 @@ class LocalizedContentResolver
             'locale' => $locale,
         ]);
 
-        if (!is_array($row) && $locale !== SitePageTranslation::LOCALE_FR) {
-            $row = $this->connection->fetchAssociative(sprintf('SELECT * FROM %s WHERE %s = :id AND locale = :locale', $table, $ownerColumn), [
-                'id' => $ownerId,
-                'locale' => SitePageTranslation::LOCALE_FR,
-            ]);
-        }
-
         if (!is_array($row)) {
+            if ($locale !== SitePageTranslation::LOCALE_FR) {
+                return $this->emptyTranslatedFields($fields);
+            }
+
             throw new \LogicException(sprintf('Missing %s translation in "%s" for owner #%d.', $locale, $table, $ownerId));
         }
 
@@ -221,6 +218,24 @@ class LocalizedContentResolver
                 $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             }
             $data[(string) $property] = $value;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param array<int|string, string> $fields
+     *
+     * @return array<string, mixed>
+     */
+    private function emptyTranslatedFields(array $fields): array
+    {
+        $data = [];
+        foreach ($fields as $property => $column) {
+            if (is_int($property)) {
+                $property = $column;
+            }
+            $data[(string) $property] = null;
         }
 
         return $data;

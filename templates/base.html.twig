@@ -6,7 +6,7 @@
 {% set currentLocale = app.request.locale|default('fr') %}
 {% set navHomePath = currentLocale == 'en' ? '/en' : (currentLocale == 'es' ? '/es' : path('index')) %}
 {% set navAboutPath = currentLocale == 'en' ? '/en/about' : (currentLocale == 'es' ? '/es/quienes-somos' : path('apropos')) %}
-{% set navExpertisesPath = currentLocale == 'en' ? '/en/consulting-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')) %}
+{% set navExpertisesPath = currentLocale == 'en' ? '/en/areas-of-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')) %}
 {% set navServicesPath = currentLocale == 'en' ? '/en/services' : (currentLocale == 'es' ? '/es/servicios-y-ofertas' : path('services_index')) %}
 {% set navSectorsPath = currentLocale == 'en' ? '/en/industries' : (currentLocale == 'es' ? '/es/sectores' : path('sectors_index')) %}
 {% set navProjectsPath = currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')) %}

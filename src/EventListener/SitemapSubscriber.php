@@ -195,20 +195,20 @@ class SitemapSubscriber implements EventSubscriberInterface
     private function registerWave5StaticUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
     {
         foreach ([
-            'erp_questionnaire_en',
-            'erp_questionnaire_es',
-            'discloser_en',
-            'discloser_es',
-            'charte_ia_en',
-            'charte_ia_es',
-            'polrgpd_en',
-            'polrgpd_es',
-            'polsecurite_en',
-            'polsecurite_es',
-        ] as $route) {
+            'erp_questionnaire_en' => SitePageTranslation::LOCALE_EN,
+            'erp_questionnaire_es' => SitePageTranslation::LOCALE_ES,
+            'discloser_en' => SitePageTranslation::LOCALE_EN,
+            'discloser_es' => SitePageTranslation::LOCALE_ES,
+            'charte_ia_en' => SitePageTranslation::LOCALE_EN,
+            'charte_ia_es' => SitePageTranslation::LOCALE_ES,
+            'polrgpd_en' => SitePageTranslation::LOCALE_EN,
+            'polrgpd_es' => SitePageTranslation::LOCALE_ES,
+            'polsecurite_en' => SitePageTranslation::LOCALE_EN,
+            'polsecurite_es' => SitePageTranslation::LOCALE_ES,
+        ] as $route => $locale) {
             $urls->addUrl(
                 new UrlConcrete($router->generate($route, [], UrlGeneratorInterface::ABSOLUTE_URL)),
-                'wave5'
+                $locale
             );
         }
     }

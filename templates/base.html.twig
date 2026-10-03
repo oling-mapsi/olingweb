@@ -7,6 +7,7 @@
 {% set navHomePath = currentLocale == 'en' ? '/en' : (currentLocale == 'es' ? '/es' : path('index')) %}
 {% set navSectorsPath = currentLocale == 'en' ? '/en/industries' : (currentLocale == 'es' ? '/es/sectores' : path('sectors_index')) %}
 {% set navProjectsPath = currentLocale == 'en' ? '/en/projects' : (currentLocale == 'es' ? '/es/proyectos' : path('projets')) %}
+{% set navTeamPath = currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')) %}
 {% set languageAlternates = localizedAlternates|default({}) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set isAdminPage = currentRoute starts with 'admin_' or currentRoute == 'login' or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' %}
@@ -365,8 +366,8 @@
                         {% for sector in public_site_page_resolver.getSectorCatalogEntries()|slice(0, 8) %}
                             <li><a href="{{ sector.detailUrl ?: path('sectors_index') }}">{{ sector.designation }}</a></li>
                         {% endfor %}
-                        <li><a href="{{ path('sectors_index') }}">{{ 'footer.all_sectors'|trans }}</a></li>
-                        <li><a href="{{ path('projets') }}">{{ 'nav.case_studies'|trans }}</a></li>
+                        <li><a href="{{ navSectorsPath }}">{{ 'footer.all_sectors'|trans }}</a></li>
+                        <li><a href="{{ navProjectsPath }}">{{ 'nav.projects'|trans }}</a></li>
                         <li><a href="{{ path('seo_resources_index') }}">{{ 'nav.resources'|trans }}</a></li>
                     </ul>
                 </div>
@@ -374,7 +375,7 @@
                     <span class="oling-footer__title">{{ 'footer.company'|trans }}</span>
                     <ul>
                         <li><a href="{{ path('apropos') }}">{{ 'nav.about'|trans }}</a></li>
-                        <li><a href="{{ path('team') }}">{{ 'footer.team'|trans }}</a></li>
+                        <li><a href="{{ navTeamPath }}">{{ 'footer.team'|trans }}</a></li>
                         <li><a href="{{ path('metiers') }}">{{ 'footer.jobs'|trans }}</a></li>
                         <li><a href="{{ path('rse') }}">{{ 'footer.rse'|trans }}</a></li>
                         <li><a href="https://mapsi.fr/" target="_blank" rel="noopener">MAPSI</a></li>

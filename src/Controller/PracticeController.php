@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Email;
+use App\Entity\LegalPage;
 use App\Entity\Projet;
 use App\Entity\SitePageTranslation;
 use App\Entity\Team;
+use App\Dto\TranslatedEntityPublicView;
 use App\Form\EmailType;
 use App\Repository\PracticeRepository;
 use App\Repository\ServicesRepository;
@@ -22,6 +24,7 @@ use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
 use App\Service\LocalizedContentResolver;
 use App\Service\I18n\LocalizedUrlGenerator;
+use App\Service\LegalPageDefaults;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -110,7 +113,7 @@ class PracticeController extends AbstractController
         $services = $this->localizeServices($reposervices->findAll(), $locale);
         $projets = $repoprojet->findAll();
         $metiers = $repometier->findAll();
-        $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates());
+        $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates(), $locale);
         $featuredPractices = $repopractice->findBy(['featuredHome' => true]);
         usort($featuredPractices, static function ($a, $b) {
             $rankA = $a->getFeaturedHomeRank() ?? 9999;
@@ -690,7 +693,7 @@ class PracticeController extends AbstractController
      * @param \App\Entity\Metier[] $metiers
      * @return array<int, array<string, string>>
      */
-    private function buildHomeHeroMetiers(array $metiers): array
+    private function buildHomeHeroMetiers(array $metiers, string $locale = SitePageTranslation::LOCALE_FR): array
     {
         $items = [];
 
@@ -701,12 +704,13 @@ class PracticeController extends AbstractController
             }
 
             $designation = trim((string) $metier->getDesignation());
+            $copy = $this->localizedHomeHeroMetierCopy((string) $metier->getSlug(), $designation, $locale);
             $items[] = [
-                'designation' => $designation,
+                'designation' => $copy['designation'],
                 'image' => trim($image),
-                'intro' => trim((string) ($metier->getHomeHeroIntro() ?: '')),
-                'text1' => trim((string) ($metier->getHomeHeroText1() ?: $designation)),
-                'text2' => trim((string) ($metier->getHomeHeroText2() ?: '')),
+                'intro' => $copy['intro'],
+                'text1' => $copy['text1'],
+                'text2' => $copy['text2'],
             ];
         }
 
@@ -715,6 +719,48 @@ class PracticeController extends AbstractController
         }
 
         return $items;
+    }
+
+    /**
+     * @return array{designation: string, intro: string, text1: string, text2: string}
+     */
+    private function localizedHomeHeroMetierCopy(string $slug, string $designation, string $locale): array
+    {
+        $fallback = [
+            'designation' => $designation,
+            'intro' => '',
+            'text1' => $designation,
+            'text2' => '',
+        ];
+
+        $copy = [
+            SitePageTranslation::LOCALE_EN => [
+                'banque' => ['designation' => 'Banking', 'text1' => 'Banking', 'text2' => 'Continuity, infrastructure and multi-year IT roadmaps.'],
+                'eauetassainissement' => ['designation' => 'Water & wastewater', 'text1' => 'Water & wastewater', 'text2' => 'IT convergence, continuity and public-service operations.'],
+                'industrie' => ['designation' => 'Industry', 'text1' => 'Industry', 'text2' => 'ERP, CRM, compliance and outsourced CIO support.'],
+                'mutuelle' => ['designation' => 'Mutual insurance', 'text1' => 'Mutual insurance', 'text2' => 'Resilience, health data and management control.'],
+                'sante' => ['designation' => 'Healthcare', 'text1' => 'Healthcare', 'text2' => 'Business systems, ERP and reliability-critical coordination.'],
+                'transport' => ['designation' => 'Transport', 'text1' => 'Transport', 'text2' => 'IT, quality, compliance and continuity for complex platforms.'],
+                'collectivites' => ['designation' => 'Local authorities', 'text1' => 'Local authorities', 'text2' => 'IT roadmaps, shared services and traceability.'],
+                'cci' => ['designation' => 'Chambers of commerce', 'text1' => 'Chambers of commerce', 'text2' => 'ERP, storage, GDPR and digital service modernization.'],
+                'formationprofessionnelle' => ['designation' => 'Professional training', 'text1' => 'Professional training', 'text2' => 'Quality, compliance, management tools and documentation.'],
+                'negoceetdistribution' => ['designation' => 'Trade & distribution', 'text1' => 'Trade & distribution', 'text2' => 'ERP, Office 365, accounting standards and IT management.'],
+            ],
+            SitePageTranslation::LOCALE_ES => [
+                'banque' => ['designation' => 'Banca', 'text1' => 'Banca', 'text2' => 'Continuidad, infraestructura y hojas de ruta SI plurianuales.'],
+                'eauetassainissement' => ['designation' => 'Agua y saneamiento', 'text1' => 'Agua y saneamiento', 'text2' => 'Convergencia SI, continuidad y explotación de servicio público.'],
+                'industrie' => ['designation' => 'Industria', 'text1' => 'Industria', 'text2' => 'ERP, CRM, cumplimiento y dirección SI externalizada.'],
+                'mutuelle' => ['designation' => 'Mutualidad y seguros', 'text1' => 'Mutualidad y seguros', 'text2' => 'Resiliencia, datos de salud y control de gestión.'],
+                'sante' => ['designation' => 'Salud', 'text1' => 'Salud', 'text2' => 'SI de negocio, ERP y coordinación con alta exigencia.'],
+                'transport' => ['designation' => 'Transporte', 'text1' => 'Transporte', 'text2' => 'SI, calidad, cumplimiento y continuidad para plataformas complejas.'],
+                'collectivites' => ['designation' => 'Administraciones locales', 'text1' => 'Administraciones locales', 'text2' => 'Planes directores SI, servicios compartidos y trazabilidad.'],
+                'cci' => ['designation' => 'Cámaras de comercio', 'text1' => 'Cámaras de comercio', 'text2' => 'ERP, almacenamiento, RGPD y modernización digital.'],
+                'formationprofessionnelle' => ['designation' => 'Formación profesional', 'text1' => 'Formación profesional', 'text2' => 'Calidad, cumplimiento, herramientas de gestión y documentación.'],
+                'negoceetdistribution' => ['designation' => 'Comercio y distribución', 'text1' => 'Comercio y distribución', 'text2' => 'ERP, Office 365, normas contables y función SI.'],
+            ],
+        ][$locale][$slug] ?? [];
+
+        return array_merge($fallback, $copy);
     }
 
     #[Route('/amoa-si', name: 'amoa_si', options: ["sitemap" => true])]
@@ -1221,9 +1267,42 @@ class PracticeController extends AbstractController
         return trim(preg_replace('/[^a-z0-9]+/', ' ', $normalized) ?? $normalized);
     }
 
-    private function localizeLegalPage(?\App\Entity\LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): mixed
+    private function localizeLegalPage(?LegalPage $page, string $locale = SitePageTranslation::LOCALE_FR): mixed
     {
-        return $page ? $this->localizedContentResolver->getLegalPageView($page, $locale) : null;
+        if (!$page) {
+            return null;
+        }
+
+        $view = $this->localizedContentResolver->getLegalPageView($page, $locale);
+        if (trim((string) $view->getTitle()) !== '' && trim((string) $view->getBody()) !== '') {
+            return $view;
+        }
+
+        $defaults = $this->legalPageDefaultsForLocale($locale);
+        $slug = (string) $page->getSlug();
+
+        return new TranslatedEntityPublicView($page, [
+            'slug' => $slug,
+            'title' => $defaults[$slug]['title'] ?? $page->getTitle(),
+            'body' => $defaults[$slug]['body'] ?? $page->getBody(),
+        ]);
+    }
+
+    /**
+     * @return array<string, array{title: string, body: string}>
+     */
+    private function legalPageDefaultsForLocale(string $locale): array
+    {
+        if ($locale === SitePageTranslation::LOCALE_FR) {
+            return LegalPageDefaults::defaults();
+        }
+
+        $path = dirname(__DIR__, 2).sprintf('/data/i18n/legal_pages.%s.json', $locale);
+        if (!is_file($path)) {
+            return [];
+        }
+
+        return json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
     }
 
     private function resolveLegalLocale(Request $request): string

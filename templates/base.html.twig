@@ -15,6 +15,8 @@
 {% set navResourcesPath = currentLocale == 'en' ? '/en/resources' : (currentLocale == 'es' ? '/es/recursos' : path('seo_resources_index')) %}
 {% set languageAlternates = localizedAlternates|default({}) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
+{% set languageNames = {'fr': 'Français', 'en': 'English', 'es': 'Español'} %}
+{% set languageAriaLabel = currentLocale == 'en' ? 'Change language' : (currentLocale == 'es' ? 'Cambiar idioma' : 'Changer de langue') %}
 {% set isAdminPage = currentRoute starts with 'admin_' or currentRoute == 'login' or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
@@ -102,54 +104,79 @@
         }
 
         .oling-language-switcher {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
+          margin-left: 0.35rem;
         }
       }
 
-      .oling-language-switcher__item {
+      .oling-language-switcher__toggle {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 2rem;
-        padding: 0.25rem 0.35rem;
+        gap: 0.35rem;
+        min-height: 2.25rem;
+        padding: 0.42rem 0.65rem;
         border-radius: 999px;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 0.72rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.86);
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.78rem;
         font-weight: 700;
         text-decoration: none;
       }
 
-      .oling-language-switcher__item.active {
+      .oling-language-switcher__toggle:hover,
+      .oling-language-switcher__toggle:focus,
+      .oling-language-switcher__toggle.show {
         color: #ffffff;
-        background: rgba(255, 255, 255, 0.16);
+        border-color: rgba(255, 255, 255, 0.36);
+        background: rgba(255, 255, 255, 0.14);
       }
 
-      .oling-language-switcher__item.disabled {
-        color: rgba(255, 255, 255, 0.34);
+      .oling-language-switcher__toggle:focus-visible,
+      .oling-language-switcher .dropdown-item:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.92);
+        outline-offset: 2px;
+      }
+
+      .oling-language-switcher__menu {
+        min-width: 8.25rem;
+        padding: 0.35rem;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 0.65rem;
+      }
+
+      .oling-language-switcher__menu .dropdown-item {
+        border-radius: 0.45rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .oling-language-switcher__menu .dropdown-item.active,
+      .oling-language-switcher__menu .dropdown-item:active {
+        color: #111827;
+        background: rgba(47, 93, 98, 0.12);
+      }
+
+      .oling-language-switcher__menu .dropdown-item.disabled {
+        color: rgba(17, 24, 39, 0.38);
       }
 
       body.oling-body.oling-home .oling-header .nav-link,
       body.oling-body.oling-home .oling-header .nav-link:visited,
       body.oling-body.oling-home .oling-header .mapsi-link,
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item,
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item:visited {
+      body.oling-body.oling-home .oling-header .oling-language-switcher__toggle,
+      body.oling-body.oling-home .oling-header .oling-language-switcher__toggle:visited {
         color: #f5f8ff !important;
       }
 
       body.oling-body.oling-home .oling-header .nav-link.active,
       body.oling-body.oling-home .oling-header .nav-link:hover,
       body.oling-body.oling-home .oling-header .nav-link:focus,
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item.active,
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item:hover,
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item:focus {
+      body.oling-body.oling-home .oling-header .oling-language-switcher__toggle:hover,
+      body.oling-body.oling-home .oling-header .oling-language-switcher__toggle:focus,
+      body.oling-body.oling-home .oling-header .oling-language-switcher__toggle.show {
         color: #ffffff !important;
         background: rgba(255, 255, 255, 0.08) !important;
-      }
-
-      body.oling-body.oling-home .oling-header .oling-language-switcher__item.disabled {
-        color: rgba(245, 248, 255, 0.42) !important;
       }
 
       @media (max-width: 991.98px) {
@@ -207,8 +234,8 @@
         body.oling-body.oling-home .navbar-nav-wrap-col .nav-link:visited,
         body.oling-body.oling-home .navbar-nav-wrap-col .mymenulink,
         body.oling-body.oling-home .navbar-nav-wrap-col .mapsi-link,
-        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__item,
-        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__item:visited {
+        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__toggle,
+        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__toggle:visited {
           color: #f5f8ff !important;
         }
 
@@ -216,9 +243,9 @@
         body.oling-body.oling-home .navbar-nav-wrap-col .nav-link:focus,
         body.oling-body.oling-home .navbar-nav-wrap-col .mymenulink:hover,
         body.oling-body.oling-home .navbar-nav-wrap-col .mymenulink:focus,
-        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__item.active,
-        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__item:hover,
-        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__item:focus {
+        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__toggle:hover,
+        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__toggle:focus,
+        body.oling-body.oling-home .navbar-nav-wrap-col .oling-language-switcher__toggle.show {
           color: #ffffff !important;
           background: rgba(255, 255, 255, 0.08) !important;
         }
@@ -331,20 +358,34 @@
                                 <img src="{{ asset('/img/logo/mapsi_blanc.png') }}" class="logo-dark-mode" alt="Logo MAPSI">
                             </a>
                         </li>
-                        <li class="nav-item oling-language-switcher" aria-label="Changer de langue">
-                            {% for languageCode, languageLabel in languageLocales %}
-                                {% set languagePath = languageAlternates[languageCode]|default(null) %}
-                                {% if languageCode == currentLocale %}
-                                    <span class="oling-language-switcher__item active" aria-current="page" lang="{{ languageCode }}">{{ languageLabel }}</span>
-                                {% elseif languagePath %}
-                                    <a class="oling-language-switcher__item" href="{{ languagePath }}" hreflang="{{ languageCode }}" lang="{{ languageCode }}">{{ languageLabel }}</a>
-                                {% else %}
-                                    <span class="oling-language-switcher__item disabled" aria-disabled="true" lang="{{ languageCode }}">{{ languageLabel }}</span>
-                                {% endif %}
-                            {% endfor %}
-                        </li>
                         <li class="nav-item oling-main-menu__cta">
                             <a class="btn btn-primary" href="{{ navContactPath }}">{{ 'nav.consultant_cta'|trans }}</a>
+                        </li>
+                        <li class="nav-item dropdown oling-language-switcher" aria-label="{{ languageAriaLabel }}">
+                            <button
+                                type="button"
+                                class="oling-language-switcher__toggle dropdown-toggle"
+                                id="languageSwitcher"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                                aria-expanded="false"
+                                aria-label="{{ languageAriaLabel }}"
+                            >
+                                <i class="bi-globe2" aria-hidden="true"></i>
+                                <span>{{ languageLocales[currentLocale]|default(currentLocale|upper) }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end oling-language-switcher__menu" aria-labelledby="languageSwitcher">
+                                {% for languageCode, languageLabel in languageLocales %}
+                                    {% set languagePath = languageAlternates[languageCode]|default(null) %}
+                                    {% if languageCode == currentLocale %}
+                                        <li><span class="dropdown-item active" aria-current="true" lang="{{ languageCode }}">{{ languageNames[languageCode] }}</span></li>
+                                    {% elseif languagePath %}
+                                        <li><a class="dropdown-item" href="{{ languagePath }}" hreflang="{{ languageCode }}" lang="{{ languageCode }}">{{ languageNames[languageCode] }}</a></li>
+                                    {% else %}
+                                        <li><span class="dropdown-item disabled" aria-disabled="true" lang="{{ languageCode }}">{{ languageNames[languageCode] }}</span></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                         </li>
                     </ul>
                 </div>

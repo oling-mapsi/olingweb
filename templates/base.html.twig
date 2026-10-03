@@ -152,9 +152,14 @@
       }
 
       .oling-language-switcher__toggle::after {
-        border-top-color: rgba(255, 255, 255, 0.82) !important;
-        border-right-color: transparent !important;
-        border-left-color: transparent !important;
+        width: 0.42rem;
+        height: 0.42rem;
+        margin-left: 0.25rem;
+        border: 0 !important;
+        border-right: 2px solid rgba(255, 255, 255, 0.82) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.82) !important;
+        background-image: none !important;
+        transform: translateY(-0.12rem) rotate(45deg);
       }
 
       .oling-language-switcher__toggle:hover,
@@ -172,7 +177,8 @@
       .oling-language-switcher__toggle:focus::after,
       .oling-language-switcher__toggle.show::after {
         color: rgba(255, 255, 255, 0.94);
-        border-top-color: rgba(255, 255, 255, 0.94) !important;
+        border-right-color: rgba(255, 255, 255, 0.94) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.94) !important;
       }
 
       .oling-language-switcher__toggle:focus-visible,

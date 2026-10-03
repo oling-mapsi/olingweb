@@ -112,47 +112,38 @@
         </div>
       </div>
 
-      <div class="oling-home-expertises__stack">
-        {% for card in homeUniverseCards|slice(0, 1) %}
+      {% set expertiseTags = [
+        ['ERP', 'CRM', 'GMAO', 'SI Finance', 'Data & IA'],
+        ['Schéma directeur', 'PMO', 'Organisation', 'Data', 'Infrastructure'],
+        ['RGPD', 'QSE', 'Risques', 'Contrôle interne'],
+        ['Registres', 'Audits', 'Incidents', 'Reporting']
+      ] %}
+      {% set expertiseIcons = ['bi-graph-up-arrow', 'bi-diagram-3', 'bi-shield-check', 'bi-layers'] %}
+
+      <div class="oling-home-expertises__stack oling-home-expertise-mosaic">
+        {% for card in homeUniverseCards|slice(0, 4) %}
           {% set cardHref = card.url|default(card.route is defined ? path(card.route, card.routeParams|default({})) ~ (card.fragment is defined and card.fragment ? '#' ~ card.fragment : '') : '#') %}
           {% set practice = (homePractices|filter(item => item.slug == card.practiceSlug)|first)|default(null) %}
-          <a class="oling-home-panel oling-home-panel--wide oling-home-panel--dark" href="{{ cardHref }}">
-            <div class="oling-home-panel__media">
-              {% set leadImage = practice ? (practice.image1 ?: practice.image2) : null %}
-              {% if leadImage %}
-                <img src="{{ asset(leadImage) }}" alt="{{ card.title }}">
-              {% endif %}
-            </div>
-            <div class="oling-home-panel__body">
-              <span>01</span>
-              <h3>{{ card.title }}</h3>
-              <p>{{ card.text }}</p>
-            </div>
+          {% set panelImage = practice ? (practice.image1 ?: practice.image2) : null %}
+          <a class="oling-home-expertise-card oling-home-expertise-card--{{ loop.index }}" href="{{ cardHref }}">
+            {% if panelImage %}
+              <img class="oling-home-expertise-card__image" src="{{ asset(panelImage) }}" alt="">
+            {% endif %}
+            <span class="oling-home-expertise-card__veil" aria-hidden="true"></span>
+            <span class="oling-home-expertise-card__top">
+              <span class="oling-home-expertise-card__number">{{ '%02d'|format(loop.index) }}</span>
+              <span class="oling-home-expertise-card__icon" aria-hidden="true"><i class="bi {{ expertiseIcons[loop.index0] }}"></i></span>
+            </span>
+            <span class="oling-home-expertise-card__content">
+              <span class="oling-home-expertise-card__title">{{ card.title }}</span>
+              <span class="oling-home-expertise-card__tags">
+                {% for tag in expertiseTags[loop.index0] %}
+                  <span>{{ tag }}</span>
+                {% endfor %}
+              </span>
+            </span>
           </a>
         {% endfor %}
-
-        <div class="oling-home-panel-grid">
-          {% for card in homeUniverseCards|slice(1) %}
-            {% set cardHref = card.url|default(card.route is defined ? path(card.route, card.routeParams|default({})) ~ (card.fragment is defined and card.fragment ? '#' ~ card.fragment : '') : '#') %}
-            {% set cardVariant = loop.last ? 'image' : (loop.index is even ? 'blue' : 'pink') %}
-            {% set practice = (homePractices|filter(item => item.slug == card.practiceSlug)|first)|default(null) %}
-            <a class="oling-home-panel oling-home-panel--{{ cardVariant }}" href="{{ cardHref }}">
-              {% if cardVariant == 'image' %}
-                <div class="oling-home-panel__media">
-                  {% set panelImage = practice ? (practice.image1 ?: practice.image2) : null %}
-                  {% if panelImage %}
-                    <img src="{{ asset(panelImage) }}" alt="{{ card.title }}">
-                  {% endif %}
-                </div>
-              {% endif %}
-              <div class="oling-home-panel__body">
-                <span>{{ '%02d'|format(loop.index + 1) }}</span>
-                <h3>{{ card.title }}</h3>
-                <p>{{ card.text }}</p>
-              </div>
-            </a>
-          {% endfor %}
-        </div>
       </div>
     </div>
   </section>

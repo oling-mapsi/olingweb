@@ -14159,6 +14159,214 @@ body.oling-body.oling-home .oling-home-kpi--image img {
   object-fit: cover !important;
 }
 
+body.oling-body.oling-home .oling-home-expertise-mosaic {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  grid-template-rows: minmax(18rem, auto) minmax(11.5rem, auto) minmax(11.5rem, auto);
+  gap: 1rem !important;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 15rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 190, 111, 0.16);
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255, 190, 111, 0.18), transparent 35%),
+    linear-gradient(145deg, rgba(36, 18, 22, 0.96), rgba(17, 14, 19, 0.96));
+  box-shadow:
+    0 30px 74px -52px rgba(0, 0, 0, 0.96),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  color: #f7fbff !important;
+  text-decoration: none;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card:hover,
+body.oling-body.oling-home .oling-home-expertise-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(255, 190, 111, 0.34);
+  box-shadow:
+    0 38px 86px -54px rgba(0, 0, 0, 1),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card--1 {
+  grid-row: 1 / span 2;
+  min-height: 31rem;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card--2 {
+  min-height: 18rem;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255, 190, 111, 0.22), transparent 34%),
+    linear-gradient(145deg, #f45287 0%, #cf2f66 56%, #351620 100%);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card--3 {
+  background:
+    radial-gradient(circle at 88% 16%, rgba(138, 234, 146, 0.16), transparent 36%),
+    linear-gradient(145deg, #145f4e 0%, #123d37 52%, #121419 100%);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card--4 {
+  grid-column: 1 / -1;
+  min-height: 11.5rem;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(125, 91, 166, 0.26), transparent 34%),
+    linear-gradient(145deg, #1c1b4f 0%, #15142d 54%, #0f1017 100%);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.34;
+  filter: saturate(0.95) contrast(1.05) brightness(0.78);
+  transition: transform 360ms ease, opacity 220ms ease;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card:hover .oling-home-expertise-card__image {
+  transform: scale(1.035);
+  opacity: 0.42;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__veil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(100deg, rgba(11, 13, 19, 0.94) 0%, rgba(18, 15, 20, 0.78) 52%, rgba(18, 15, 20, 0.4) 100%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 18px);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__top,
+body.oling-body.oling-home .oling-home-expertise-card__content {
+  position: absolute;
+  left: clamp(1.15rem, 2.2vw, 2rem);
+  right: clamp(1.15rem, 2.2vw, 2rem);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__top {
+  top: clamp(1.1rem, 2vw, 1.8rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__number {
+  color: rgba(247, 251, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 1.25rem;
+  backdrop-filter: blur(12px);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__content {
+  bottom: clamp(1.15rem, 2.4vw, 2rem);
+  display: grid;
+  gap: 1rem;
+  max-width: 36rem;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__title {
+  display: block;
+  max-width: 15ch;
+  color: #f7fbff !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1.8rem, 3vw, 3.15rem);
+  font-weight: 750;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card--4 .oling-home-expertise-card__title {
+  max-width: 22ch;
+  font-size: clamp(1.65rem, 2.4vw, 2.45rem);
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+body.oling-body.oling-home .oling-home-expertise-card__tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(247, 251, 255, 0.88);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.1;
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body.oling-home .oling-home-expertise-mosaic {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: none;
+  }
+
+  body.oling-body.oling-home .oling-home-expertise-card,
+  body.oling-body.oling-home .oling-home-expertise-card--1,
+  body.oling-body.oling-home .oling-home-expertise-card--4 {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 17rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.oling-body.oling-home .oling-home-expertise-card {
+    min-height: 16rem;
+    border-radius: 1.1rem;
+  }
+
+  body.oling-body.oling-home .oling-home-expertise-card__top,
+  body.oling-body.oling-home .oling-home-expertise-card__content {
+    left: 1.05rem;
+    right: 1.05rem;
+  }
+
+  body.oling-body.oling-home .oling-home-expertise-card__title,
+  body.oling-body.oling-home .oling-home-expertise-card--4 .oling-home-expertise-card__title {
+    font-size: clamp(1.45rem, 8vw, 2.05rem);
+  }
+
+  body.oling-body.oling-home .oling-home-expertise-card__tags span {
+    min-height: 1.85rem;
+    padding: 0.3rem 0.58rem;
+    font-size: 0.76rem;
+  }
+}
+
 @media (max-width: 991.98px) {
   body.oling-body .oling-brand,
   body.oling-body .oling-header .mapsi-link {

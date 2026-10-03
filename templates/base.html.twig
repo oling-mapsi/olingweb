@@ -17,6 +17,28 @@
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set languageNames = {'fr': 'Français', 'en': 'English', 'es': 'Español'} %}
 {% set languageAriaLabel = currentLocale == 'en' ? 'Change language' : (currentLocale == 'es' ? 'Cambiar idioma' : 'Changer de langue') %}
+{% set legalLanguageRoutes = {
+    'discloser': {'fr': 'discloser', 'en': 'discloser_en', 'es': 'discloser_es'},
+    'discloser_en': {'fr': 'discloser', 'en': 'discloser_en', 'es': 'discloser_es'},
+    'discloser_es': {'fr': 'discloser', 'en': 'discloser_en', 'es': 'discloser_es'},
+    'polrgpd': {'fr': 'polrgpd', 'en': 'polrgpd_en', 'es': 'polrgpd_es'},
+    'polrgpd_en': {'fr': 'polrgpd', 'en': 'polrgpd_en', 'es': 'polrgpd_es'},
+    'polrgpd_es': {'fr': 'polrgpd', 'en': 'polrgpd_en', 'es': 'polrgpd_es'},
+    'polsecurite': {'fr': 'polsecurite', 'en': 'polsecurite_en', 'es': 'polsecurite_es'},
+    'polsecurite_en': {'fr': 'polsecurite', 'en': 'polsecurite_en', 'es': 'polsecurite_es'},
+    'polsecurite_es': {'fr': 'polsecurite', 'en': 'polsecurite_en', 'es': 'polsecurite_es'},
+    'charte_ia': {'fr': 'charte_ia', 'en': 'charte_ia_en', 'es': 'charte_ia_es'},
+    'charte_ia_en': {'fr': 'charte_ia', 'en': 'charte_ia_en', 'es': 'charte_ia_es'},
+    'charte_ia_es': {'fr': 'charte_ia', 'en': 'charte_ia_en', 'es': 'charte_ia_es'}
+} %}
+{% set switcherAlternates = languageAlternates %}
+{% if currentRoute in legalLanguageRoutes|keys %}
+    {% set switcherAlternates = {
+        'fr': path(legalLanguageRoutes[currentRoute].fr),
+        'en': path(legalLanguageRoutes[currentRoute].en),
+        'es': path(legalLanguageRoutes[currentRoute].es)
+    } %}
+{% endif %}
 {% set isAdminPage = currentRoute starts with 'admin_' or currentRoute == 'login' or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
@@ -376,7 +398,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end oling-language-switcher__menu" aria-labelledby="languageSwitcher">
                                 {% for languageCode, languageLabel in languageLocales %}
-                                    {% set languagePath = languageAlternates[languageCode]|default(null) %}
+                                    {% set languagePath = switcherAlternates[languageCode]|default(null) %}
                                     {% if languageCode == currentLocale %}
                                         <li><span class="dropdown-item active" aria-current="true" lang="{{ languageCode }}">{{ languageNames[languageCode] }}</span></li>
                                     {% elseif languagePath %}

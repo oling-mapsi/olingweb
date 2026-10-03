@@ -3,8 +3,10 @@
     "narratives": {
         "business-apps": {
             "eyebrow": "Opérations et technologie",
-            "headline": null,
-            "intro": "",
+            "headline": "Applications métiers, ERP, CRM, GMAO, data et automatisation utile",
+            "metaTitle": "Applications métiers, ERP, CRM, GMAO et data | OLING",
+            "metaDescription": "OLING accompagne les projets applications métiers : ERP, CRM, GMAO, SI Finance, data, BI, automatisation et adoption opérationnelle.",
+            "intro": "OLING aide les directions métier et DSI à cadrer, choisir, déployer et faire adopter les applications qui structurent les opérations.",
             "promise": "Faire des applications metiers un levier de performance plutot qu'une source de friction.",
             "focus": [
                 "Assistance au déploiement Progiciel (ERP, CRM, GMAO, SI Finance, SIRH)",
@@ -138,8 +140,10 @@
         },
         "expertises-audit": {
             "eyebrow": "Conformité & Risques",
-            "headline": null,
-            "intro": "",
+            "headline": "Conformité, audit, risques, cybersécurité et résilience",
+            "metaTitle": "Conformité, audit, risques et cybersécurité | OLING",
+            "metaDescription": "OLING intervient sur la conformité, l’audit, la gestion des risques, le RGPD, ISO 27001, NIS2, DORA, QSE et la résilience.",
+            "intro": "OLING structure les démarches de conformité, de contrôle et de résilience pour rendre les risques pilotables et les preuves exploitables.",
             "promise": "Faire converger exigences reglementaires, securite, donnees et pilotage.",
             "focus": [
                 "Audit de conformité réglementaire",
@@ -150,8 +154,10 @@
         },
         "mapsi": {
             "eyebrow": "Domaine OLING",
-            "headline": null,
-            "intro": "",
+            "headline": "MAPSI, outillage de pilotage, conformité et traçabilité",
+            "metaTitle": "MAPSI : pilotage, conformité et traçabilité | OLING",
+            "metaDescription": "MAPSI relie pilotage, conformité, workflows, preuves et tableaux de bord pour industrialiser les dispositifs de gouvernance.",
+            "intro": "MAPSI complète les accompagnements OLING lorsque les processus, preuves, plans d’action et indicateurs doivent être outillés durablement.",
             "promise": "Une pratique structuree pour relier enjeux operationnels, outils et execution.",
             "focus": []
         }

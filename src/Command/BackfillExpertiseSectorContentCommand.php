@@ -47,7 +47,8 @@ class BackfillExpertiseSectorContentCommand extends Command
     {
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Valide sans ecrire.')
-            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un payload different.');
+            ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un payload different.')
+            ->addOption('practice-slug', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Limite le backfill practice narrative a un ou plusieurs slugs.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -55,18 +56,24 @@ class BackfillExpertiseSectorContentCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $dryRun = (bool) $input->getOption('dry-run');
         $overwrite = (bool) $input->getOption('overwrite');
+        $onlyPracticeSlugs = array_filter(array_map('strval', (array) $input->getOption('practice-slug')));
         $counts = ['write' => 0, 'unchanged' => 0, 'conflict' => 0, 'missing' => 0];
         $report = [];
 
-        foreach ($this->loadSource('expertise_pages.fr.json', 'pages') as $slug => $payload) {
-            $this->processSitePage('expertise', $slug, self::EXPERTISE_PAGE_SLUGS[$slug] ?? null, 'expertisePage', $payload, $dryRun, $overwrite, $counts, $report);
-        }
+        if ($onlyPracticeSlugs === []) {
+            foreach ($this->loadSource('expertise_pages.fr.json', 'pages') as $slug => $payload) {
+                $this->processSitePage('expertise', $slug, self::EXPERTISE_PAGE_SLUGS[$slug] ?? null, 'expertisePage', $payload, $dryRun, $overwrite, $counts, $report);
+            }
 
-        foreach ($this->loadSource('sector_pages.fr.json', 'pages') as $slug => $payload) {
-            $this->processSitePage('sector', $slug, self::SECTOR_PAGE_SLUGS[$slug] ?? null, 'sectorPage', $payload, $dryRun, $overwrite, $counts, $report);
+            foreach ($this->loadSource('sector_pages.fr.json', 'pages') as $slug => $payload) {
+                $this->processSitePage('sector', $slug, self::SECTOR_PAGE_SLUGS[$slug] ?? null, 'sectorPage', $payload, $dryRun, $overwrite, $counts, $report);
+            }
         }
 
         foreach ($this->loadSource('practice_narratives.fr.json', 'narratives') as $slug => $payload) {
+            if ($onlyPracticeSlugs !== [] && !in_array($slug, $onlyPracticeSlugs, true)) {
+                continue;
+            }
             $this->processGlobalContent('practice_narrative', $slug, $payload, $dryRun, $overwrite, $counts, $report);
         }
 

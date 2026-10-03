@@ -35,7 +35,8 @@ class BackfillCorePagesCommand extends Command
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Valide sans ecrire.')
             ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un payload different.')
-            ->addOption('create-missing', null, InputOption::VALUE_NONE, 'Cree les SitePage FR explicitement presentes dans la source.');
+            ->addOption('create-missing', null, InputOption::VALUE_NONE, 'Cree les SitePage FR explicitement presentes dans la source.')
+            ->addOption('slug', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Limite le backfill a un ou plusieurs slugs.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -45,10 +46,14 @@ class BackfillCorePagesCommand extends Command
         $dryRun = (bool) $input->getOption('dry-run');
         $overwrite = (bool) $input->getOption('overwrite');
         $createMissing = (bool) $input->getOption('create-missing');
+        $onlySlugs = array_filter(array_map('strval', (array) $input->getOption('slug')));
         $counts = ['write' => 0, 'unchanged' => 0, 'conflict' => 0, 'missing' => 0];
         $report = [];
 
         foreach ($source['pages'] as $slug => $payload) {
+            if ($onlySlugs !== [] && !in_array($slug, $onlySlugs, true)) {
+                continue;
+            }
             $created = false;
             $page = $this->sitePageRepository->findOneBy(['slug' => $slug]);
             $translation = $page?->getTranslation(SitePageTranslation::LOCALE_FR);

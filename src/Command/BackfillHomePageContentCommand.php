@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 )]
 class BackfillHomePageContentCommand extends Command
 {
-    private const SOURCE_PATH = '/data/i18n/home_page.fr.json';
+    private const SOURCE_PATH_PATTERN = '/data/i18n/home_page.%s.json';
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -32,6 +32,7 @@ class BackfillHomePageContentCommand extends Command
     protected function configure(): void
     {
         $this
+            ->addOption('locale', null, InputOption::VALUE_REQUIRED, 'Locale source to backfill: fr, en or es.', SitePageTranslation::LOCALE_FR)
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Valide et affiche les actions sans ecrire en base.')
             ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Remplace un contenu homepage existant different.');
     }
@@ -41,7 +42,9 @@ class BackfillHomePageContentCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $dryRun = (bool) $input->getOption('dry-run');
         $overwrite = (bool) $input->getOption('overwrite');
-        $source = $this->loadSource();
+        $locale = (string) $input->getOption('locale');
+        SitePageTranslation::assertSupportedLocale($locale);
+        $source = $this->loadSource($locale);
         $page = $this->sitePageRepository->findOneBy(['slug' => $source['slug']]);
 
         if ($page === null) {
@@ -49,9 +52,9 @@ class BackfillHomePageContentCommand extends Command
             return Command::FAILURE;
         }
 
-        $translation = $page->getTranslation(SitePageTranslation::LOCALE_FR);
+        $translation = $page->getTranslation($locale);
         if (!$translation instanceof SitePageTranslation) {
-            $io->error(sprintf('Missing FR translation for SitePage "%s".', $source['slug']));
+            $io->error(sprintf('Missing %s translation for SitePage "%s".', strtoupper($locale), $source['slug']));
             return Command::FAILURE;
         }
 
@@ -60,7 +63,7 @@ class BackfillHomePageContentCommand extends Command
         $incoming = $source['homePage'];
 
         if ($this->canonicalJson($existing) === $this->canonicalJson($incoming)) {
-            $io->success('homePage unchanged dry_run='.($dryRun ? 'yes' : 'no'));
+            $io->success(sprintf('homePage %s unchanged dry_run=%s', $locale, $dryRun ? 'yes' : 'no'));
             return Command::SUCCESS;
         }
 
@@ -75,7 +78,7 @@ class BackfillHomePageContentCommand extends Command
             $this->entityManager->flush();
         }
 
-        $io->success(($existing === null ? 'homePage created' : 'homePage overwritten').' dry_run='.($dryRun ? 'yes' : 'no'));
+        $io->success(sprintf('homePage %s %s dry_run=%s', $locale, $existing === null ? 'created' : 'overwritten', $dryRun ? 'yes' : 'no'));
 
         return Command::SUCCESS;
     }
@@ -83,11 +86,11 @@ class BackfillHomePageContentCommand extends Command
     /**
      * @return array{slug: string, locale: string, homePage: array<string, mixed>}
      */
-    private function loadSource(): array
+    private function loadSource(string $locale): array
     {
-        $path = $this->kernel->getProjectDir() . self::SOURCE_PATH;
+        $path = $this->kernel->getProjectDir() . sprintf(self::SOURCE_PATH_PATTERN, $locale);
         $decoded = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
-        if (!is_array($decoded) || ($decoded['slug'] ?? null) !== 'home' || ($decoded['locale'] ?? null) !== SitePageTranslation::LOCALE_FR || !is_array($decoded['homePage'] ?? null)) {
+        if (!is_array($decoded) || ($decoded['slug'] ?? null) !== 'home' || ($decoded['locale'] ?? null) !== $locale || !is_array($decoded['homePage'] ?? null)) {
             throw new \RuntimeException(sprintf('Invalid homepage source file: %s', $path));
         }
 

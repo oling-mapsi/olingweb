@@ -102,25 +102,54 @@
         },
         "accompaniments": {
             "eyebrow": "Accompagnements",
-            "title": "",
-            "items": []
+            "title": "Des accompagnements pour cadrer, décider et exécuter",
+            "items": [
+                {
+                    "title": "Cadrage et diagnostic",
+                    "text": "Clarifier le besoin, les risques, les acteurs, les contraintes et les décisions à prendre avant d’engager un programme.",
+                    "route": "contact"
+                },
+                {
+                    "title": "Pilotage de projet",
+                    "text": "Structurer la gouvernance, les livrables, les arbitrages et les indicateurs pour garder une trajectoire lisible.",
+                    "route": "services_index"
+                },
+                {
+                    "title": "Sécurisation conformité et risques",
+                    "text": "Intégrer RGPD, cybersécurité, qualité, continuité et contrôle interne sans alourdir inutilement les projets.",
+                    "route": "expertises_index"
+                }
+            ]
         },
         "proof": {
             "eyebrow": "Méthode d’intervention",
-            "title": "",
-            "items": [],
+            "title": "Une méthode courte, documentée et orientée décision",
+            "items": [
+                {
+                    "title": "Comprendre",
+                    "text": "Identifier les objectifs, les irritants, les dépendances et les contraintes réelles du terrain."
+                },
+                {
+                    "title": "Structurer",
+                    "text": "Transformer le diagnostic en feuille de route, responsabilités, livrables et critères de réussite."
+                },
+                {
+                    "title": "Piloter",
+                    "text": "Installer un rythme de décision, suivre les risques et ajuster les priorités avec les équipes."
+                }
+            ],
             "image": "/img/spe/bureau.jpg",
             "imageAlt": "Equipe OLING au travail"
         },
         "projects": {
             "eyebrow": "Références",
-            "title": "",
-            "intro": ""
+            "title": "Des missions conduites dans des contextes sensibles",
+            "intro": "OLING intervient auprès d’organisations publiques, PME, ETI et groupes sur des sujets où la méthode, la preuve et l’adhésion comptent autant que la solution."
         },
         "resources": {
             "eyebrow": "Ressources",
-            "title": "",
-            "intro": "",
+            "title": "Méthodes, points de vigilance et guides pratiques",
+            "intro": "Nos ressources complètent les expertises avec des formats utiles pour cadrer un projet, préparer un arbitrage ou structurer une feuille de route.",
             "cta": {
                 "label": "Voir toutes les ressources",
                 "route": "seo_resources_index"
@@ -128,8 +157,8 @@
         },
         "finalCta": {
             "eyebrow": "Diagnostic",
-            "title": "",
-            "text": "",
+            "title": "Un sujet SI, conformité ou organisation à cadrer ?",
+            "text": "Un premier échange permet de qualifier le contexte, les priorités, les risques et le meilleur format d’accompagnement.",
             "primaryCta": {
                 "label": "Demander un diagnostic",
                 "route": "contact"

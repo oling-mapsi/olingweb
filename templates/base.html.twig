@@ -146,12 +146,30 @@
         text-decoration: none;
       }
 
+      .oling-language-switcher__toggle .bi-globe2,
+      .oling-language-switcher__toggle::after {
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .oling-language-switcher__toggle::after {
+        border-top-color: currentColor;
+      }
+
       .oling-language-switcher__toggle:hover,
       .oling-language-switcher__toggle:focus,
       .oling-language-switcher__toggle.show {
         color: #ffffff;
         border-color: rgba(255, 255, 255, 0.36);
         background: rgba(255, 255, 255, 0.14);
+      }
+
+      .oling-language-switcher__toggle:hover .bi-globe2,
+      .oling-language-switcher__toggle:focus .bi-globe2,
+      .oling-language-switcher__toggle.show .bi-globe2,
+      .oling-language-switcher__toggle:hover::after,
+      .oling-language-switcher__toggle:focus::after,
+      .oling-language-switcher__toggle.show::after {
+        color: rgba(255, 255, 255, 0.94);
       }
 
       .oling-language-switcher__toggle:focus-visible,

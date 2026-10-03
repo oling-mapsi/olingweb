@@ -50,13 +50,13 @@
   <section class="oling-proof-library" aria-labelledby="proof-library-title">
     <div class="container">
       <div class="oling-proof-library__intro">
-        <span class="oling-kicker">Missions OLING</span>
-        <h2 id="proof-library-title">Missions documentées</h2>
-        <p>Chaque mission présente un contexte réel, le périmètre de l’intervention et les éléments effectivement documentés. Les organisations sont anonymisées.</p>
+        <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
+        <h2 id="proof-library-title">{{ 'projects.library_title'|trans }}</h2>
+        <p>{{ 'projects.library_intro'|trans }}</p>
       </div>
 
-      <div class="oling-proof-filters" role="group" aria-label="Filtrer les missions">
-        <button class="oling-proof-filter" type="button" data-proof-filter="all" aria-pressed="true">Toutes</button>
+      <div class="oling-proof-filters" role="group" aria-label="{{ 'projects.filter_aria'|trans }}">
+        <button class="oling-proof-filter" type="button" data-proof-filter="all" aria-pressed="true">{{ 'projects.filter_all'|trans }}</button>
         {% for filter in page.proofLibrary.filters %}
           <button class="oling-proof-filter" type="button" data-proof-filter="{{ filter.id }}" aria-pressed="false">{{ filter.label }}</button>
         {% endfor %}
@@ -72,36 +72,36 @@
             </header>
             <div class="oling-proof-mission__content">
               <div>
-                <h3>Contexte</h3>
+                <h3>{{ 'projects.context'|trans }}</h3>
                 <p>{{ mission.context }}</p>
               </div>
               <div>
-                <h3>Intervention OLING</h3>
+                <h3>{{ 'projects.intervention'|trans }}</h3>
                 <p>{{ mission.intervention }}</p>
               </div>
               <div>
-                <h3>Périmètre</h3>
+                <h3>{{ 'projects.scope'|trans }}</h3>
                 <ul class="oling-proof-terms">
                   {% for item in mission.scope %}<li>{{ item }}</li>{% endfor %}
                 </ul>
               </div>
               <div>
-                <h3>Livrables et éléments documentés</h3>
+                <h3>{{ 'projects.deliverables'|trans }}</h3>
                 <ul class="oling-proof-terms">
                   {% for item in mission.deliverables %}<li>{{ item }}</li>{% endfor %}
                 </ul>
               </div>
               {% if mission.systems is not empty %}
                 <div>
-                  <h3>Systèmes et technologies</h3>
+                  <h3>{{ 'projects.systems'|trans }}</h3>
                   <p>{{ mission.systems|join(' · ') }}</p>
                 </div>
               {% endif %}
-              <div class="oling-proof-quotes" aria-label="Synthèse factuelle">
+              <div class="oling-proof-quotes" aria-label="{{ 'projects.quotes_aria'|trans }}">
                 {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
               </div>
               <div class="oling-proof-owner">
-                <a href="{{ mission.owner.href }}">Voir l’expertise : {{ mission.owner.label }}</a>
+                <a href="{{ mission.owner.href }}">{{ 'projects.owner_prefix'|trans }} {{ mission.owner.label }}</a>
                 {% if mission.secondaryOwner is defined %}
                   <a href="{{ mission.secondaryOwner.href }}">{{ mission.secondaryOwner.label }}</a>
                 {% endif %}
@@ -110,15 +110,15 @@
           </article>
         {% endfor %}
       </div>
-      <p class="oling-proof-empty" data-proof-empty hidden>Aucune mission anonymisée suffisamment documentée n’est publiée dans cette catégorie.</p>
+      <p class="oling-proof-empty" data-proof-empty hidden>{{ 'projects.empty'|trans }}</p>
     </div>
   </section>
 
   {% include 'public/_cta_band.html.twig' with {
-    eyebrow: 'Votre contexte',
-    title: 'Échanger sur votre projet',
-    text: 'Présentez-nous le périmètre, les systèmes concernés et les décisions à préparer.',
-    primaryCta: {route: 'contact', label: 'Demander un échange'},
+    eyebrow: 'projects.cta_eyebrow'|trans,
+    title: 'projects.cta_title'|trans,
+    text: 'projects.cta_text'|trans,
+    primaryCta: {route: 'contact', label: 'projects.cta_label'|trans},
     phoneCta: true
   } %}
 

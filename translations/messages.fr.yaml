@@ -226,6 +226,25 @@ contact_page:
   exchange_title: "Échanger avec OLING"
   privacy_prefix: "Pour les demandes RGPD :"
 
+projects:
+  library_kicker: "Missions OLING"
+  library_title: "Missions documentées"
+  library_intro: "Chaque mission présente un contexte réel, le périmètre de l’intervention et les éléments effectivement documentés. Les organisations sont anonymisées."
+  filter_aria: "Filtrer les missions"
+  filter_all: "Toutes"
+  context: "Contexte"
+  intervention: "Intervention OLING"
+  scope: "Périmètre"
+  deliverables: "Livrables et éléments documentés"
+  systems: "Systèmes et technologies"
+  quotes_aria: "Synthèse factuelle"
+  owner_prefix: "Voir l’expertise :"
+  empty: "Aucune mission anonymisée suffisamment documentée n’est publiée dans cette catégorie."
+  cta_eyebrow: "Votre contexte"
+  cta_title: "Échanger sur votre projet"
+  cta_text: "Présentez-nous le périmètre, les systèmes concernés et les décisions à préparer."
+  cta_label: "Demander un échange"
+
 team:
   areas_label: "Domaines d’intervention"
   publications: "Voir ses publications"

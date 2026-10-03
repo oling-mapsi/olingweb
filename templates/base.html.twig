@@ -189,8 +189,20 @@
 
       .oling-language-switcher__menu .dropdown-item {
         border-radius: 0.45rem;
+        color: #111827;
         font-size: 0.85rem;
         font-weight: 600;
+      }
+
+      .oling-language-switcher__menu .dropdown-item:hover,
+      .oling-language-switcher__menu .dropdown-item:focus {
+        color: #111827;
+        background: rgba(15, 23, 42, 0.06);
+      }
+
+      .oling-language-switcher__menu .dropdown-item:hover::after,
+      .oling-language-switcher__menu .dropdown-item:focus::after {
+        color: #2f5d62;
       }
 
       .oling-language-switcher__menu .dropdown-item.active,

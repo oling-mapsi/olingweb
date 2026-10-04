@@ -14227,14 +14227,14 @@ body.oling-body.oling-home .oling-home-expertise-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.52;
-  filter: saturate(1.04) contrast(1.03) brightness(0.92);
+  opacity: 0.72;
+  filter: saturate(1.08) contrast(1.02) brightness(1);
   transition: transform 360ms ease, opacity 220ms ease;
 }
 
 body.oling-body.oling-home .oling-home-expertise-card:hover .oling-home-expertise-card__image {
   transform: scale(1.035);
-  opacity: 0.62;
+  opacity: 0.82;
 }
 
 body.oling-body.oling-home .oling-home-expertise-card__veil {
@@ -14242,8 +14242,8 @@ body.oling-body.oling-home .oling-home-expertise-card__veil {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(100deg, rgba(11, 13, 19, 0.86) 0%, rgba(18, 15, 20, 0.56) 52%, rgba(18, 15, 20, 0.18) 100%),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 18px);
+    linear-gradient(100deg, rgba(11, 13, 19, 0.62) 0%, rgba(18, 15, 20, 0.24) 52%, rgba(18, 15, 20, 0.05) 100%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 18px);
 }
 
 body.oling-body.oling-home .oling-home-expertise-card__top,

@@ -1,0 +1,8 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Backoffice - Campagnes Growth{% endblock %}
+{% block growth_title %}Campagnes Growth{% endblock %}
+
+{% block growth_body %}
+    {% include 'admin/growth/_campaign_table.html.twig' with {campaigns: campaigns} %}
+{% endblock %}

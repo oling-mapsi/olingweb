@@ -1,0 +1,59 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Backoffice - {{ campaign.title }}{% endblock %}
+{% block growth_title %}{{ campaign.title }}{% endblock %}
+{% block growth_intro %}Statut campagne: {{ campaign.status.value }}{% endblock %}
+
+{% block growth_body %}
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post" action="{{ path('admin_growth_campaign_generate', {id: campaign.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('growth_generate_' ~ campaign.id) }}">
+            <button class="btn btn-primary">Générer</button>
+        </form>
+        <a class="btn btn-outline-secondary" href="{{ path('admin_growth_campaign_edit', {id: campaign.id}) }}">Éditer</a>
+        {% if content %}
+            <form method="post" action="{{ path('admin_growth_campaign_review', {id: campaign.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('growth_review_' ~ campaign.id) }}">
+                <button class="btn btn-outline-primary">Marquer relu</button>
+            </form>
+            <form method="post" action="{{ path('admin_growth_campaign_approve', {id: campaign.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('growth_approve_' ~ campaign.id) }}">
+                <button class="btn btn-success">Approuver</button>
+            </form>
+        {% endif %}
+        <form method="post" action="{{ path('admin_growth_campaign_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer cette campagne Growth ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('growth_delete_' ~ campaign.id) }}">
+            <button class="btn btn-outline-danger">Supprimer</button>
+        </form>
+    </div>
+
+    {% if content %}
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="border rounded p-4">
+                    <div class="small text-muted mb-2">Contenu: {{ content.status.value }}</div>
+                    <h2 class="h4">{{ content.title }}</h2>
+                    <p class="text-muted">{{ content.excerpt|striptags }}</p>
+                    <div>{{ content.contentHtml|raw }}</div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="border rounded p-4">
+                    <h2 class="h5">Publication</h2>
+                    <form method="post" action="{{ path('admin_growth_campaign_publish', {id: campaign.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('growth_publish_' ~ campaign.id) }}">
+                        <label class="form-label" for="growth-destination">Destination</label>
+                        <select id="growth-destination" class="form-select mb-3" name="destination">
+                            {% for destination in destinations %}
+                                <option value="{{ destination.value }}">{{ destination.label }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-primary w-100">Publier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">Aucun brouillon. Lancez une génération ou éditez le contenu manuellement.</div>
+    {% endif %}
+{% endblock %}

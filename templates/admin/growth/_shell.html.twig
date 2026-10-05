@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+    <div class="container content-space-2 content-space-lg-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1">{% block growth_title %}Growth{% endblock %}</h1>
+                <p class="text-muted mb-0">{% block growth_intro %}Cockpit interne de génération, validation et publication éditoriale.{% endblock %}</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-secondary" href="{{ path('admin_growth_campaigns') }}">Campagnes</a>
+                <a class="btn btn-primary" href="{{ path('admin_growth_campaign_new') }}">Nouvelle campagne</a>
+            </div>
+        </div>
+
+        {% include 'admin/_nav.html.twig' %}
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block growth_body %}{% endblock %}
+    </div>
+</main>
+{% endblock %}

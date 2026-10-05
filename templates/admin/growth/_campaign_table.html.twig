@@ -1,0 +1,27 @@
+{% if campaigns is empty %}
+    <div class="alert alert-info">Aucune campagne Growth.</div>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Campagne</th>
+                    <th>Contenu</th>
+                    <th>Mise à jour</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                    {% set content = campaign.primaryContent %}
+                    <tr>
+                        <td class="fw-semibold"><a href="{{ path('admin_growth_campaign_show', {id: campaign.id}) }}">{{ campaign.title }}</a></td>
+                        <td>{{ campaign.status.value }}</td>
+                        <td>{{ content ? content.status.value : 'aucun brouillon' }}</td>
+                        <td>{{ campaign.updatedAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

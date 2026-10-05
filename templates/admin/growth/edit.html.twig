@@ -1,0 +1,25 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Backoffice - Éditer Growth{% endblock %}
+{% block growth_title %}Éditer le brouillon{% endblock %}
+
+{% block growth_body %}
+    {{ form_start(form) }}
+        <div class="row g-3">
+            {% for field in form %}
+                {% if field.vars.name != '_token' %}
+                    <div class="{{ field.vars.name in ['contentHtml'] ? 'col-12' : 'col-lg-6' }}">
+                        {{ form_label(field) }}
+                        {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(field) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {{ form_rest(form) }}
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary">Enregistrer</button>
+            <a class="btn btn-outline-secondary" href="{{ path('admin_growth_campaign_show', {id: campaign.id}) }}">Retour</a>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

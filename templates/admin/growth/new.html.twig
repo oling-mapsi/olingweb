@@ -1,0 +1,15 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Backoffice - Nouvelle campagne Growth{% endblock %}
+{% block growth_title %}Nouvelle campagne{% endblock %}
+
+{% block growth_body %}
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+        <button class="btn btn-primary">Créer</button>
+    {{ form_end(form) }}
+{% endblock %}

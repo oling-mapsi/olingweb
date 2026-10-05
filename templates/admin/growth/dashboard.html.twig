@@ -1,0 +1,40 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Backoffice - Growth{% endblock %}
+{% block growth_title %}Growth{% endblock %}
+
+{% block growth_body %}
+    <div class="row g-3 mb-4">
+        {% for label, value in {'Campagnes': stats.campaigns, 'Brouillons': stats.drafts, 'À valider': stats.to_review, 'Approuvés': stats.approved, 'Erreurs': stats.errors} %}
+            <div class="col-sm-6 col-lg">
+                <div class="border rounded p-3 h-100">
+                    <div class="text-muted small">{{ label }}</div>
+                    <div class="h3 mb-0">{{ value }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <h2 class="h5">Campagnes en cours</h2>
+            {% include 'admin/growth/_campaign_table.html.twig' with {campaigns: campaigns} %}
+        </div>
+        <div class="col-lg-5">
+            <h2 class="h5">Publications récentes</h2>
+            {% if publications is empty %}
+                <div class="alert alert-info">Aucune publication.</div>
+            {% else %}
+                <div class="list-group">
+                    {% for publication in publications %}
+                        <div class="list-group-item">
+                            <div class="fw-semibold">{{ publication.destination.label }} · {{ publication.status.value }}</div>
+                            <div class="small text-muted">{{ publication.createdAt|date('d/m/Y H:i') }}</div>
+                            {% if publication.lastError %}<div class="small text-danger">{{ publication.lastError }}</div>{% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

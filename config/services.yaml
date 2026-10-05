@@ -13,6 +13,10 @@ parameters:
     chat_ai_provider_default: 'auto'
     chat_ai_openai_base_url_default: 'https://api.openai.com/v1'
     chat_ai_openai_model_default: 'gpt-5.6'
+    mapsi_product_facts_base_url: '%env(default::string:MAPSI_PRODUCT_FACTS_BASE_URL)%'
+    mapsi_product_facts_token: '%env(default::string:MAPSI_PRODUCT_FACTS_TOKEN)%'
+    mapsi_public_news_base_url: '%env(default::string:MAPSI_PUBLIC_NEWS_BASE_URL)%'
+    mapsi_public_news_token: '%env(default::string:MAPSI_PUBLIC_NEWS_TOKEN)%'
     chat_ai_provider: '%env(default:chat_ai_provider_default:string:CHAT_AI_PROVIDER)%'
     chat_ai_openai_api_key: '%env(default::string:OPENAI_API_KEY)%'
     chat_ai_openai_base_url: '%env(default:chat_ai_openai_base_url_default:string:CHAT_AI_OPENAI_BASE_URL)%'
@@ -118,5 +122,32 @@ services:
             $apiKey: '%chat_ai_openai_api_key%'
             $baseUrl: '%chat_ai_openai_base_url%'
             $model: '%chat_ai_openai_model%'
+
+    App\Service\Growth\GrowthContentGeneratorInterface:
+        alias: App\Service\Growth\OpenAiGrowthContentGenerator
+
+    App\Service\Growth\OpenAiGrowthContentGenerator:
+        arguments:
+            $apiKey: '%chat_ai_openai_api_key%'
+            $baseUrl: '%chat_ai_openai_base_url%'
+            $model: '%chat_ai_openai_model%'
+
+    App\Service\Growth\OlingSitePublisher:
+        tags: ['app.growth_publisher']
+
+    App\Service\Growth\MapsiPublicPublisher:
+        arguments:
+            $baseUrl: '%mapsi_public_news_base_url%'
+            $token: '%mapsi_public_news_token%'
+        tags: ['app.growth_publisher']
+
+    App\Service\Growth\GrowthPublisherRegistry:
+        arguments:
+            $publishers: !tagged_iterator app.growth_publisher
+
+    App\Service\Growth\MapsiProductFactsClient:
+        arguments:
+            $baseUrl: '%mapsi_product_facts_base_url%'
+            $token: '%mapsi_product_facts_token%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -19,17 +19,34 @@ OLING Management & Technologie is an independent consulting firm based in France
 - Business continuity / disaster recovery (PCA / PRA)
 - AI governance / AI Act compliance
 
+## Primary SEO / AI Owner Paths
+
+- AMOA SI: /amoa-si
+- AMOA ERP: /business-apps/erp
+- GDPR / DPO: /expertises-audit/rgpd
+- ISO 9001 / Quality management: /conseil-qualite
+- Cybersecurity / ISO 27001 governance: /cyber-securite
+
+## Supporting French Paths
+
+- SMSI / ISO 27001 audit support: /expertises-audit/si
+- QSE integrated management systems: /expertises-audit/qse
+- GDPR synthesis: /rgpd
+
 ## Main French URLs
 
 - https://oling.fr/
 - https://oling.fr/amoa-si
+- https://oling.fr/business-apps/erp
 - https://oling.fr/erp-progiciel
 - https://oling.fr/crm
 - https://oling.fr/gmao
 - https://oling.fr/si-finance
 - https://oling.fr/facturation-electronique-amoa
 - https://oling.fr/rgpd
+- https://oling.fr/expertises-audit/rgpd
 - https://oling.fr/cyber-securite
+- https://oling.fr/expertises-audit/si
 - https://oling.fr/gestion-risques-audit-controle-interne
 - https://oling.fr/pca-pra-continuite-activite
 - https://oling.fr/conseil-qualite

@@ -78,10 +78,10 @@
         },
         "business-apps/erp": {
             "metaTitle": "AMOA ERP : cadrage, choix et pilotage de projet ERP | OLING",
-            "metaDescription": "Cabinet AMOA ERP indépendant : cadrage, choix de solution, pilotage intégrateur, reprise de données, recette, migration et conduite du changement.",
+            "metaDescription": "Cabinet de conseil ERP indépendant : AMOA ERP, cadrage, choix ERP, cahier des charges, reprise de données, intégrateur, recette et déploiement.",
             "eyebrow": "Cabinet AMOA ERP independant",
             "headline": "AMOA ERP : cadrage, choix et pilotage de votre projet ERP",
-            "intro": "OLING accompagne les directions metier, DSI et sponsors de projet pour cadrer, choisir et piloter un projet ERP, depuis l'expression des besoins jusqu'a la recette, la migration et le deploiement.",
+            "intro": "OLING accompagne les directions métier, DSI et sponsors de projet comme cabinet de conseil ERP indépendant pour cadrer, choisir et piloter un projet ERP, depuis l'expression des besoins jusqu'a la reprise de données, la recette, la migration et le déploiement.",
             "promise": "OLING n'est ni editeur, ni revendeur, ni integrateur ERP. Le cabinet intervient en AMOA pour structurer les decisions, tenir la gouvernance projet, objectiver les choix et securiser l'execution.",
             "outcomes": [
                 "Cadrage ERP plus clair et decisions mieux arbitrees",
@@ -91,9 +91,9 @@
             "focus": [
                 "Cadrage strategique et diagnostic de l'existant",
                 "Expression des besoins, processus et cahier des charges",
-                "Aide au choix ERP, consultation et comparaison des solutions",
+                "Aide au choix ERP, consultation éditeurs et intégrateurs, comparaison des solutions",
                 "Arbitrage entre ERP generaliste et progiciel metier selon le perimetre fonctionnel",
-                "Pilotage integrateur, recette, reprise de donnees et conduite du changement"
+                "Pilotage intégrateur, recette, reprise de données, déploiement et conduite du changement"
             ],
             "missionPhases": [
                 "Cadrage du projet ERP, objectifs, perimetre, priorites et gouvernance",
@@ -703,9 +703,9 @@
             "supportLinksIntro": "La construction ou l’amélioration du système qualité reste distincte de son animation opérationnelle continue et du pilotage transverse des risques.",
             "supportLinks": [
                 {
-                    "href": "/pca-pra-continuite-activite",
-                    "label": "PCA, PRA et continuité d’activité",
-                    "description": "Pour structurer le BIA, les objectifs de reprise, les plans et les exercices dans une trajectoire distincte du système QSE."
+                    "href": "/conseil-qualite",
+                    "label": "Conseil ISO 9001 et qualité",
+                    "description": "Page propriétaire pour relier processus, audits, indicateurs, non-conformités et performance opérationnelle."
                 },
                 {
                     "href": "/direction-qualite-deleguee",
@@ -713,9 +713,9 @@
                     "description": "Pour animer durablement les rituels, audits, indicateurs et plans d’actions."
                 },
                 {
-                    "href": "/conseil-qualite",
-                    "label": "Conseil qualité",
-                    "description": "Pour relier qualité, processus, indicateurs et performance opérationnelle."
+                    "href": "/pca-pra-continuite-activite",
+                    "label": "PCA, PRA et continuité d’activité",
+                    "description": "Pour structurer le BIA, les objectifs de reprise, les plans et les exercices dans une trajectoire distincte du système QSE."
                 },
                 {
                     "href": "/ressources/indicateurs-qualite-si",
@@ -750,17 +750,19 @@
             ]
         },
         "expertises-audit/rgpd": {
+            "metaTitle": "RGPD et DPO externalise : diagnostic, registre et conformite | OLING",
+            "metaDescription": "Conseil RGPD et DPO externalise : registre des traitements, AIPD, contrats, droits, preuves, diagnostic de conformite et animation continue.",
             "eyebrow": "Protection des données et gouvernance",
-            "headline": "Rendre la conformité RGPD opérationnelle et pilotable",
-            "intro": "OLING reprend les situations RGPD complexes pour cartographier les traitements, qualifier les risques, remettre les preuves en ordre et construire un plan de conformité pilotable.",
+            "headline": "RGPD et DPO externalisé : rendre la conformité opérationnelle",
+            "intro": "OLING assure l’accompagnement RGPD des situations complexes : audit RGPD, cartographie des traitements, registre, AIPD/DPIA, demandes de droits, violations, sensibilisation et organisation DPO lorsque la conformité doit être suivie dans la durée.",
             "hideLegacyDescription": true,
             "coverageTitle": "Quand engager une mission RGPD structurée",
             "coverageText": "Cette mission traite un besoin de diagnostic, de remise en conformité ou de transformation qui dépasse l'animation courante d'une fonction DPO. Elle relie traitements, responsabilités, contrats, sécurité et décisions de direction.",
             "coverageItems": [
-                "Reconstituer le registre d'une organisation simple ou multi-entités et identifier traitements, données, finalités, bases légales et durées de conservation.",
+                "Reconstituer le registre d'une organisation simple ou multi-entités et identifier traitements, données, finalités, bases légales, demandes de droits et durées de conservation.",
                 "Qualifier les écarts, les risques pour les personnes et les traitements qui nécessitent une AIPD.",
                 "Vérifier les rôles de responsable de traitement, sous-traitant et responsables conjoints dans les contrats.",
-                "Prioriser les mesures juridiques, organisationnelles et techniques avec des responsables et des preuves attendues."
+                "Prioriser les mesures juridiques, organisationnelles et techniques avec des responsables, des plans d’action, des preuves attendues et les points d’attention CNIL."
             ],
             "outcomes": [
                 "Vision claire des traitements et des risques",
@@ -773,7 +775,7 @@
             "focus": [
                 "Données clients, usagers, salariés, candidats, prospects et contacts fournisseurs.",
                 "Flux entre applications, hébergeurs, prestataires, partenaires, destinataires hors de l'organisation et transferts hors Espace économique européen.",
-                "Droits d'accès, conservation, suppression, violations de données et mesures de sécurité associées.",
+                "Droits d'accès, demandes de droits, conservation, suppression, violations de données, relation CNIL et mesures de sécurité associées.",
                 "Usages IA, profilage, surveillance ou données sensibles qui imposent une analyse renforcée."
             ],
             "missionPhasesTitle": "Conduire le diagnostic jusqu'au plan pilote",
@@ -787,8 +789,8 @@
             "deliverables": [
                 "Cartographie des traitements et registre consolidé.",
                 "Matrice des écarts, risques et bases légales.",
-                "AIPD ou planification des analyses à conduire.",
-                "Feuille de route priorisée, RACI et dossier de preuves."
+                "AIPD / DPIA ou planification des analyses à conduire.",
+                "Feuille de route priorisée, RACI, plan de sensibilisation et dossier de preuves."
             ],
             "projectContextsTitle": "Décisions attendues de la direction",
             "projectContexts": [

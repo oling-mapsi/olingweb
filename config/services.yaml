@@ -132,6 +132,11 @@ services:
             $baseUrl: '%chat_ai_openai_base_url%'
             $model: '%chat_ai_openai_model%'
 
+    App\Service\Growth\GrowthPreviewBuilder:
+        arguments:
+            $mapsiBaseUrl: '%mapsi_public_news_base_url%'
+            $mapsiToken: '%mapsi_public_news_token%'
+
     App\Service\Growth\OlingSitePublisher:
         tags: ['app.growth_publisher']
 

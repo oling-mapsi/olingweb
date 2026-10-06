@@ -75,4 +75,12 @@ class GrowthCampaign
 
     /** @return Collection<int, GrowthPublication> */
     public function getPublications(): Collection { return $this->publications; }
+    public function addPublication(GrowthPublication $publication): self
+    {
+        if (!$this->publications->contains($publication)) {
+            $this->publications->add($publication);
+            $publication->setCampaign($this);
+        }
+        return $this;
+    }
 }

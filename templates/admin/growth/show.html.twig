@@ -6,8 +6,13 @@
 
 {% block growth_body %}
     <div class="d-flex flex-wrap gap-2 mb-4">
-        <form method="post" action="{{ path('admin_growth_campaign_generate', {id: campaign.id}) }}">
+        <form method="post" action="{{ path('admin_growth_campaign_generate', {id: campaign.id}) }}" class="d-flex gap-2">
             <input type="hidden" name="_token" value="{{ csrf_token('growth_generate_' ~ campaign.id) }}">
+            <select class="form-select" name="destination" aria-label="Destination de génération">
+                {% for destination in destinations %}
+                    <option value="{{ destination.value }}">{{ destination.label }}</option>
+                {% endfor %}
+            </select>
             <button class="btn btn-primary">Générer</button>
         </form>
         <a class="btn btn-outline-secondary" href="{{ path('admin_growth_campaign_edit', {id: campaign.id}) }}">Éditer</a>
@@ -21,7 +26,7 @@
                 <button class="btn btn-success">Approuver</button>
             </form>
         {% endif %}
-        <form method="post" action="{{ path('admin_growth_campaign_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer cette campagne Growth ?');">
+        <form method="post" action="{{ path('admin_growth_campaign_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer cette campagne Growth ? Les ressources déjà publiées seront conservées et la campagne sera archivée.');">
             <input type="hidden" name="_token" value="{{ csrf_token('growth_delete_' ~ campaign.id) }}">
             <button class="btn btn-outline-danger">Supprimer</button>
         </form>
@@ -40,6 +45,14 @@
             <div class="col-lg-4">
                 <div class="border rounded p-4">
                     <h2 class="h5">Publication</h2>
+                    <div class="d-grid gap-2 mb-3">
+                        {% for destination in destinations %}
+                            <form method="post" action="{{ path('admin_growth_campaign_preview', {id: campaign.id, destination: destination.value}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('growth_preview_' ~ campaign.id) }}">
+                                <button class="btn btn-outline-primary w-100">Preview {{ destination.label }}</button>
+                            </form>
+                        {% endfor %}
+                    </div>
                     <form method="post" action="{{ path('admin_growth_campaign_publish', {id: campaign.id}) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('growth_publish_' ~ campaign.id) }}">
                         <label class="form-label" for="growth-destination">Destination</label>

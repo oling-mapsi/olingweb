@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Entity\GrowthCampaign;
 use App\Entity\GrowthContent;
+use App\Enum\GrowthCampaignStatus;
 use App\Enum\GrowthContentStatus;
 use App\Enum\GrowthDestination;
 use App\Enum\GrowthPublicationStatus;
@@ -50,14 +51,30 @@ class GrowthDomainWorkflowTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $workflow->publish($campaign, GrowthDestination::OLING_PUBLIC, null);
 
+        $content->setStatus(GrowthContentStatus::GENERATED);
         $workflow->review($campaign, $content, null);
-        self::assertSame(GrowthContentStatus::REVIEWED, $content->getStatus());
-
         $workflow->approve($campaign, $content, null);
         $publication = $workflow->publish($campaign, GrowthDestination::OLING_PUBLIC, null);
 
         self::assertTrue($publisher->called);
         self::assertSame(GrowthPublicationStatus::PUBLISHED, $publication->getStatus());
+    }
+
+    public function testApproveRequiresReviewedContent(): void
+    {
+        $campaign = (new GrowthCampaign())->setTitle('Campagne');
+        $content = (new GrowthContent())->setCampaign($campaign)->setStatus(GrowthContentStatus::GENERATED);
+        $campaign->addContent($content);
+
+        $workflow = new GrowthWorkflow(
+            $this->entityManager(),
+            $this->createStub(GrowthContentGeneratorInterface::class),
+            new GrowthPublisherRegistry([]),
+            $this->auditLogger()
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $workflow->approve($campaign, $content, null);
     }
 
     public function testDeleteIsAuditedAndRemovesCampaign(): void
@@ -75,6 +92,27 @@ class GrowthDomainWorkflowTest extends TestCase
 
         $workflow->delete($campaign, null);
     }
+
+    public function testPublishedCampaignDeleteArchivesInsteadOfRemoving(): void
+    {
+        $campaign = (new GrowthCampaign())->setTitle('Publiee');
+        $publication = (new \App\Entity\GrowthPublication())->setStatus(GrowthPublicationStatus::PUBLISHED);
+        $campaign->addPublication($publication);
+        $entityManager = $this->entityManager();
+        $entityManager->expects(self::never())->method('remove');
+
+        $workflow = new GrowthWorkflow(
+            $entityManager,
+            $this->createStub(GrowthContentGeneratorInterface::class),
+            new GrowthPublisherRegistry([]),
+            $this->auditLogger()
+        );
+
+        $workflow->delete($campaign, null);
+
+        self::assertSame(GrowthCampaignStatus::ARCHIVED, $campaign->getStatus());
+    }
+
 
     private function entityManager(): EntityManagerInterface&\PHPUnit\Framework\MockObject\MockObject
     {

@@ -30,9 +30,13 @@ class GrowthWorkflow
         $this->entityManager->flush();
     }
 
-    public function generate(GrowthCampaign $campaign, ?UserInterface $actor): GrowthContent
+    public function generate(GrowthCampaign $campaign, ?UserInterface $actor, ?GrowthDestination $destination = null): GrowthContent
     {
-        $content = $this->generator->generate($campaign);
+        if ($campaign->getStatus() === GrowthCampaignStatus::PUBLISHED || $campaign->getStatus() === GrowthCampaignStatus::ARCHIVED) {
+            throw new \RuntimeException('Published or archived campaigns cannot be regenerated.');
+        }
+
+        $content = $this->generator->generate($campaign, $destination);
         $campaign->addContent($content);
         $campaign->setStatus(GrowthCampaignStatus::DRAFT);
         $this->entityManager->persist($content);
@@ -44,6 +48,10 @@ class GrowthWorkflow
 
     public function review(GrowthCampaign $campaign, GrowthContent $content, ?UserInterface $actor): void
     {
+        if (!in_array($content->getStatus(), [GrowthContentStatus::DRAFT, GrowthContentStatus::GENERATED], true)) {
+            throw new \RuntimeException('Only draft or generated Growth content can be reviewed.');
+        }
+
         $content->setStatus(GrowthContentStatus::REVIEWED);
         $campaign->setStatus(GrowthCampaignStatus::IN_REVIEW);
         $this->auditLogger->log('content_reviewed', $campaign, $actor, ['content_id' => $content->getId()]);
@@ -52,6 +60,10 @@ class GrowthWorkflow
 
     public function approve(GrowthCampaign $campaign, GrowthContent $content, ?UserInterface $actor): void
     {
+        if ($content->getStatus() !== GrowthContentStatus::REVIEWED) {
+            throw new \RuntimeException('Only reviewed Growth content can be approved.');
+        }
+
         $content->setStatus(GrowthContentStatus::APPROVED);
         $campaign->setStatus(GrowthCampaignStatus::APPROVED);
         $this->auditLogger->log('content_approved', $campaign, $actor, ['content_id' => $content->getId()]);
@@ -70,6 +82,7 @@ class GrowthWorkflow
             ->setContent($content)
             ->setDestination($destination)
             ->setStatus(GrowthPublicationStatus::PENDING);
+        $campaign->addPublication($publication);
 
         $this->entityManager->persist($publication);
         $this->auditLogger->log('publication_requested', $campaign, $actor, ['destination' => $destination->value]);
@@ -92,6 +105,16 @@ class GrowthWorkflow
 
     public function delete(GrowthCampaign $campaign, ?UserInterface $actor): void
     {
+        foreach ($campaign->getPublications() as $publication) {
+            if ($publication->getStatus() === GrowthPublicationStatus::PUBLISHED) {
+                $campaign->setStatus(GrowthCampaignStatus::ARCHIVED);
+                $this->auditLogger->log('campaign_archived_after_publication', $campaign, $actor, ['campaign_title' => $campaign->getTitle()]);
+                $this->entityManager->flush();
+
+                return;
+            }
+        }
+
         $this->auditLogger->log('campaign_deleted', $campaign, $actor, ['campaign_title' => $campaign->getTitle()]);
         $this->entityManager->remove($campaign);
         $this->entityManager->flush();

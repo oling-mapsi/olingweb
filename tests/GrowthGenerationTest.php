@@ -4,6 +4,8 @@ namespace App\Tests;
 
 use App\Entity\GrowthCampaign;
 use App\Enum\GrowthContentStatus;
+use App\Enum\GrowthDestination;
+use App\Service\Growth\GrowthEditorialContextProvider;
 use App\Service\Growth\GrowthSlugger;
 use App\Service\Growth\OpenAiGrowthContentGenerator;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +32,7 @@ class GrowthGenerationTest extends TestCase
         $generator = new OpenAiGrowthContentGenerator(
             new MockHttpClient(new MockResponse($body, ['http_code' => 200])),
             new GrowthSlugger(),
+            new GrowthEditorialContextProvider(),
             new NullLogger(),
             'key',
             'https://api.openai.test/v1',
@@ -47,6 +50,7 @@ class GrowthGenerationTest extends TestCase
         $generator = new OpenAiGrowthContentGenerator(
             new MockHttpClient(new MockResponse('{"error":"rate limit"}', ['http_code' => 429])),
             new GrowthSlugger(),
+            new GrowthEditorialContextProvider(),
             new NullLogger(),
             'key',
             'https://api.openai.test/v1',
@@ -55,5 +59,14 @@ class GrowthGenerationTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
         $generator->generate((new GrowthCampaign())->setTitle('Sujet'));
+    }
+
+    public function testMapsiDestinationUsesDedicatedEditorialContext(): void
+    {
+        $context = new GrowthEditorialContextProvider();
+
+        self::assertStringContainsString('MAPSI', $context->systemPrompt(GrowthDestination::MAPSI_PUBLIC));
+        self::assertStringContainsString('MAPSI_PUBLIC', $context->userPrompt((new GrowthCampaign())->setTitle('Sujet'), GrowthDestination::MAPSI_PUBLIC));
+        self::assertStringContainsString('aucune donnee client', $context->systemPrompt(GrowthDestination::MAPSI_PUBLIC));
     }
 }

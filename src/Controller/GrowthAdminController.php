@@ -9,6 +9,7 @@ use App\Form\GrowthCampaignType;
 use App\Form\GrowthContentType;
 use App\Repository\GrowthCampaignRepository;
 use App\Repository\GrowthPublicationRepository;
+use App\Service\Growth\GrowthPreviewBuilder;
 use App\Service\Growth\GrowthWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -122,13 +123,43 @@ class GrowthAdminController extends AbstractController
         }
 
         try {
-            $workflow->generate($campaign, $this->getUser());
+            $destination = GrowthDestination::tryFrom((string) $request->request->get('destination')) ?? GrowthDestination::OLING_PUBLIC;
+            $workflow->generate($campaign, $this->getUser(), $destination);
             $this->addFlash('success', 'Brouillon généré. Validation humaine requise avant publication.');
         } catch (\Throwable $exception) {
             $this->addFlash('danger', 'Génération impossible: '.$exception->getMessage());
         }
 
         return $this->redirectToRoute('admin_growth_campaign_show', ['id' => $campaign->getId()]);
+    }
+
+    #[Route('/campaigns/{id}/preview/{destination}', name: 'campaign_preview', methods: ['POST'])]
+    public function preview(GrowthCampaign $campaign, string $destination, Request $request, GrowthPreviewBuilder $previewBuilder): Response
+    {
+        if (!$this->isCsrfTokenValid('growth_preview_'.$campaign->getId(), (string) $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton CSRF invalide.');
+            return $this->redirectToRoute('admin_growth_campaign_show', ['id' => $campaign->getId()]);
+        }
+
+        $target = GrowthDestination::tryFrom($destination) ?? GrowthDestination::OLING_PUBLIC;
+        try {
+            $preview = $previewBuilder->build($campaign, $target);
+            $this->addFlash('success', 'Preview '.$target->label().': '.$preview['url']);
+        } catch (\Throwable) {
+            $this->addFlash('danger', 'Preview indisponible. Le détail technique est journalisé.');
+        }
+
+        return $this->redirectToRoute('admin_growth_campaign_show', ['id' => $campaign->getId()]);
+    }
+
+    #[Route('/campaigns/{id}/internal-preview', name: 'campaign_internal_preview', methods: ['GET'])]
+    public function internalPreview(GrowthCampaign $campaign): Response
+    {
+        return $this->render('admin/growth/internal_preview.html.twig', [
+            'campaign' => $campaign,
+            'content' => $campaign->getPrimaryContent(),
+            'practices' => [],
+        ]);
     }
 
     #[Route('/campaigns/{id}/review', name: 'campaign_review', methods: ['POST'])]
@@ -162,8 +193,12 @@ class GrowthAdminController extends AbstractController
     public function delete(GrowthCampaign $campaign, Request $request, GrowthWorkflow $workflow): Response
     {
         if ($this->isCsrfTokenValid('growth_delete_'.$campaign->getId(), (string) $request->request->get('_token'))) {
+            $wasPublished = false;
+            foreach ($campaign->getPublications() as $publication) {
+                $wasPublished = $wasPublished || $publication->getStatus()->value === 'published';
+            }
             $workflow->delete($campaign, $this->getUser());
-            $this->addFlash('success', 'Campagne Growth supprimée.');
+            $this->addFlash('success', $wasPublished ? 'Campagne Growth archivée: ressource publiée conservée.' : 'Campagne Growth supprimée.');
         }
 
         return $this->redirectToRoute('admin_growth_campaigns');

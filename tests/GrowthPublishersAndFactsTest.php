@@ -7,9 +7,13 @@ use App\Entity\GrowthContent;
 use App\Entity\GrowthPublication;
 use App\Enum\GrowthDestination;
 use App\Enum\GrowthPublicationStatus;
+use App\Service\Growth\GrowthPreviewBuilder;
 use App\Service\Growth\MapsiProductFactsClient;
 use App\Service\Growth\MapsiPublicPublisher;
+use App\Service\GrowthPreviewSigner;
+use App\Service\GrowthPublishingService;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -67,5 +71,82 @@ class GrowthPublishersAndFactsTest extends TestCase
             get_class_methods($client),
             static fn (string $method): bool => !str_starts_with($method, '__')
         )));
+    }
+
+    public function testMapsiPreviewFallsBackToInternalAdminPreviewWithoutCredentials(): void
+    {
+        $campaign = $this->campaignWithContent();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->expects(self::once())
+            ->method('generate')
+            ->with('admin_growth_campaign_internal_preview')
+            ->willReturn('https://oling.test/admin/growth/campaigns/42/internal-preview');
+
+        $builder = new GrowthPreviewBuilder(
+            $this->createMock(GrowthPublishingService::class),
+            new GrowthPreviewSigner('secret', 900),
+            $urlGenerator,
+            new MockHttpClient(),
+            null,
+            null
+        );
+
+        $preview = $builder->build($campaign, GrowthDestination::MAPSI_PUBLIC);
+
+        self::assertSame('internal', $preview['mode']);
+        self::assertStringContainsString('/internal-preview', $preview['url']);
+    }
+
+    public function testOlingPreviewUsesSignedPreviewRoute(): void
+    {
+        $campaign = $this->campaignWithContent();
+        $publishing = $this->getMockBuilder(GrowthPublishingService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['createOrUpdateDraft'])
+            ->getMock();
+        $publishing->expects(self::once())
+            ->method('createOrUpdateDraft')
+            ->willReturn(['draft_revision_number' => 77]);
+
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->expects(self::once())
+            ->method('generate')
+            ->with('growth_preview_article')
+            ->willReturn('https://oling.test/preview/ressources/oling-growth-campaign-42/77?signature=ok');
+
+        $builder = new GrowthPreviewBuilder(
+            $publishing,
+            new GrowthPreviewSigner('secret', 900),
+            $urlGenerator,
+            new MockHttpClient(),
+            null,
+            null
+        );
+
+        $preview = $builder->build($campaign, GrowthDestination::OLING_PUBLIC);
+
+        self::assertSame('signed', $preview['mode']);
+        self::assertStringContainsString('/preview/ressources/', $preview['url']);
+        self::assertNotNull($preview['expires_at']);
+    }
+
+    private function campaignWithContent(): GrowthCampaign
+    {
+        $campaign = (new GrowthCampaign())->setTitle('Campagne');
+        $reflection = new \ReflectionProperty($campaign, 'id');
+        $reflection->setAccessible(true);
+        $reflection->setValue($campaign, 42);
+
+        $content = (new GrowthContent())
+            ->setCampaign($campaign)
+            ->setTitle('Titre')
+            ->setSlug('titre')
+            ->setExcerpt('Extrait')
+            ->setContentHtml('<p>Texte</p>')
+            ->setMetaTitle('Meta')
+            ->setMetaDescription('Description');
+        $campaign->addContent($content);
+
+        return $campaign;
     }
 }

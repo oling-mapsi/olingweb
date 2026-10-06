@@ -98,6 +98,45 @@ Conclusion: `MAPSI_PUBLIC` peut utiliser l'API existante, sans ecrire dans MAPSI
 
 La generation IA ne valide jamais un contenu. La publication exige un contenu approuve.
 
+Transitions autorisees:
+
+- `DRAFT` / `GENERATED` -> `REVIEWED`
+- `REVIEWED` -> `APPROVED`
+- `APPROVED` -> `PUBLISHED`
+- `PUBLISHED` -> `ARCHIVED` pour la campagne uniquement
+
+Transitions interdites:
+
+- `DRAFT` -> `PUBLISHED`
+- `GENERATED` -> `APPROVED`
+- `PUBLISHED` -> hard delete
+- `ARCHIVED` -> regenerate
+
+## Prompts et sources
+
+Les contextes editoriaux sont separes:
+
+- Oling: transformation numerique, web, data, ERP et automatisation.
+- MAPSI: contenu prudent pour mapsi.fr, sans donnee client ni metrique usage brute.
+
+Les prompts vivent dans `GrowthEditorialContextProvider`; aucun prompt massif n'est place dans le controleur.
+
+`MapsiProductFactsClient` reste strictement read-only. Les endpoints `health`, `capabilities`, `contact-snapshot`, `usage-snapshot` et `product-changes` sont valides par smoke/test, mais les snapshots sensibles ne sont pas transmis tels quels a OpenAI.
+
+## Preview
+
+- `OLING_PUBLIC`: draft via `GrowthPublishingService`, puis URL signee `/preview/ressources/{externalId}/{revisionId}`.
+- `MAPSI_PUBLIC`: API preview `mapsi.fr` si configuree.
+- fallback MAPSI sans credentials: preview interne admin Oling, non publique.
+
+La preview ne publie jamais automatiquement.
+
+## Regle de suppression
+
+- Campagne jamais publiee: suppression dure possible avec `ROLE_ADMIN`, CSRF, confirmation et audit.
+- Campagne avec ressource publiee: la campagne est archivee; la ressource publique distante reste intacte.
+- Unpublish distant: action explicite separee, non couplee a la suppression Growth.
+
 ## Securite
 
 - `/admin/growth` herite de l'access control `^/admin => ROLE_ADMIN`.
@@ -199,16 +238,37 @@ Ne retirer Growth de MAPSI qu'apres:
 | FEATURE | MAPSI CURRENT | OLING TARGET | IMPLEMENTED | TESTED | REQUIRED BEFORE CUTOVER |
 | --- | --- | --- | --- | --- | --- |
 | campaigns | oui | `GrowthCampaign` | oui | oui | durcir UX |
-| generation | oui | service OpenAI isole | oui | oui | prompts/sources |
-| deletion | oui commit `84b03fd` | POST CSRF + audit | oui | oui | confirmer regle contenu publie |
+| generation | oui | service OpenAI isole + contextes edito | oui | oui | non |
+| deletion | oui commit `84b03fd` | POST CSRF + audit + archive si publie | oui | oui | non |
 | weekly packs | oui | module futur | non | non | port next |
 | source packs | oui | module futur | non | non | port next |
 | assets | oui | `GrowthContent` puis assets dedies | partiel | partiel | modeliser multi-assets |
-| approval | oui | review/approve | oui | oui | UX validation |
+| approval | oui | review/approve | oui | oui | non |
 | publication | oui | publishers destinations | oui | oui | smoke avec secrets |
 | audit | oui | `GrowthAuditEvent` | oui | oui | listing admin |
 | channel settings | oui | config destinations | non | non | port next |
-| preview | oui | Oling existant + mapsi.fr API | partiel | non | exposer URLs preview |
+| preview | oui | Oling existant + mapsi.fr API/fallback interne | oui | oui | non |
 | retry | oui | futur | non | non | port next |
 | schedule | oui | futur | non | non | port next |
 | product facts | oui API MAPSI | client read-only Oling | oui | oui | smoke MAPSI |
+
+## Matrice de parite finale Phase 2
+
+| FEATURE | MAPSI | OLING | TESTED | CUTOVER BLOCKER |
+| --- | --- | --- | --- | --- |
+| campaigns | cockpit legacy | `/admin/growth` | oui | no |
+| generation | legacy | OpenAI + contextes separes | oui | no |
+| prompts/sources | legacy | `GrowthEditorialContextProvider` | oui | no |
+| MAPSI facts | API interne | client read-only | oui | no |
+| preview OLING_PUBLIC | n/a | signed preview | oui | no |
+| preview MAPSI_PUBLIC | mapsi.fr API | API ou preview interne | oui | no |
+| deletion | legacy | hard delete ou archive | oui | no |
+| approval | legacy | review puis approve | oui | no |
+| publication | legacy | publishers explicites | oui | no |
+| audit | legacy | `GrowthAuditEvent` | oui | no |
+| weekly packs | oui | PORT_NEXT | n/a | no |
+| source packs | oui | PORT_NEXT | n/a | no |
+| assets multi-canaux | partiel | PORT_NEXT | n/a | no |
+| retry | oui | PORT_NEXT | n/a | no |
+| schedule | oui | PORT_NEXT | n/a | no |
+| channel settings | oui | PORT_NEXT | n/a | no |

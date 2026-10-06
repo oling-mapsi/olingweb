@@ -5,6 +5,7 @@ namespace App\Service\Growth;
 use App\Entity\GrowthCampaign;
 use App\Entity\GrowthContent;
 use App\Enum\GrowthContentStatus;
+use App\Enum\GrowthDestination;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\Exception\RedirectionException;
@@ -19,6 +20,7 @@ class OpenAiGrowthContentGenerator implements GrowthContentGeneratorInterface
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly GrowthSlugger $slugger,
+        private readonly GrowthEditorialContextProvider $editorialContext,
         private readonly LoggerInterface $logger,
         private readonly ?string $apiKey,
         private readonly string $baseUrl,
@@ -26,8 +28,9 @@ class OpenAiGrowthContentGenerator implements GrowthContentGeneratorInterface
     ) {
     }
 
-    public function generate(GrowthCampaign $campaign): GrowthContent
+    public function generate(GrowthCampaign $campaign, ?GrowthDestination $destination = null): GrowthContent
     {
+        $destination ??= GrowthDestination::OLING_PUBLIC;
         if (trim((string) $this->apiKey) === '') {
             throw new \RuntimeException('OPENAI_API_KEY is not configured.');
         }
@@ -41,8 +44,8 @@ class OpenAiGrowthContentGenerator implements GrowthContentGeneratorInterface
                 'json' => [
                     'model' => $this->model,
                     'input' => [
-                        ['role' => 'developer', 'content' => [['type' => 'input_text', 'text' => $this->systemPrompt()]]],
-                        ['role' => 'user', 'content' => [['type' => 'input_text', 'text' => 'Sujet: '.$campaign->getTitle()]]],
+                        ['role' => 'developer', 'content' => [['type' => 'input_text', 'text' => $this->editorialContext->systemPrompt($destination)]]],
+                        ['role' => 'user', 'content' => [['type' => 'input_text', 'text' => $this->editorialContext->userPrompt($campaign, $destination)]]],
                     ],
                     'text' => [
                         'format' => [
@@ -94,11 +97,6 @@ class OpenAiGrowthContentGenerator implements GrowthContentGeneratorInterface
             ->setCategories($this->stringList($decoded['categories'] ?? []))
             ->setTags($this->stringList($decoded['tags'] ?? []))
             ->setAuthorDisplayName((string) ($decoded['author_display_name'] ?? 'Growth Factory'));
-    }
-
-    private function systemPrompt(): string
-    {
-        return 'Tu produis un brouillon editorial B2B pour Oling. Retourne uniquement le JSON conforme. Ne publie rien. Les faits produit doivent rester prudents et sourcables.';
     }
 
     private function schema(): array

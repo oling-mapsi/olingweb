@@ -1,0 +1,18 @@
+{% extends 'admin/growth/_shell.html.twig' %}
+
+{% block title %}Preview Growth - {{ campaign.title }}{% endblock %}
+{% block growth_title %}Preview interne{% endblock %}
+{% block growth_intro %}{{ campaign.title }}{% endblock %}
+
+{% block growth_body %}
+    {% if content %}
+        <article class="border rounded p-4 bg-white">
+            <p class="small text-muted mb-2">Preview interne non publique</p>
+            <h1 class="h3">{{ content.title }}</h1>
+            <p class="lead">{{ content.excerpt|striptags }}</p>
+            <div>{{ content.contentHtml|raw }}</div>
+        </article>
+    {% else %}
+        <div class="alert alert-info">Aucun contenu à prévisualiser.</div>
+    {% endif %}
+{% endblock %}

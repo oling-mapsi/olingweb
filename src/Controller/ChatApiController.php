@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ChatConversation;
 use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatConversationManager;
+use App\Service\Chat\ScopingNotePdfService;
 use App\Service\ErpQuestionnaire\ErpQuestionnaireMailer;
 use App\Service\ErpQuestionnaire\ErpQuestionnaireContentProvider as ErpQuestionnaireContentProvider;
 use App\Service\ErpQuestionnaire\ErpQuestionnairePayloadMapper;
@@ -13,8 +14,10 @@ use App\Service\ErpQuestionnaire\ErpQuestionnaireSummaryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -54,6 +57,10 @@ class ChatApiController extends AbstractController
     #[Route('/conversations/{token}/messages', name: 'conversation_message', methods: ['POST'])]
     public function postMessage(string $token, Request $request, ChatConversationManager $conversationManager, AiConsultantContentProvider $contentProvider): JsonResponse
     {
+        if (function_exists('set_time_limit')) {
+            @set_time_limit(75);
+        }
+
         $this->assertCsrf($request);
         $conversation = $this->requireConversation($token, $conversationManager);
         $payload = $this->decodePayload($request);
@@ -63,12 +70,22 @@ class ChatApiController extends AbstractController
             return $this->json(['success' => false, 'message' => $contentProvider->text('copy.empty_message')], Response::HTTP_BAD_REQUEST);
         }
 
-        $reply = $conversationManager->handleVisitorMessage(
-            $conversation,
-            $content,
-            $payload['sourcePath'] ?? null,
-            $payload['sourceUrl'] ?? null
-        );
+        try {
+            $reply = $conversationManager->handleVisitorMessage(
+                $conversation,
+                $content,
+                $payload['sourcePath'] ?? null,
+                $payload['sourceUrl'] ?? null
+            );
+        } catch (\Throwable $exception) {
+            $reply = $conversationManager->handleTechnicalFailure(
+                $conversation,
+                $content,
+                $payload['sourcePath'] ?? null,
+                $payload['sourceUrl'] ?? null,
+                (new \ReflectionClass($exception))->getShortName()
+            );
+        }
 
         return $this->json([
             'success' => true,
@@ -76,6 +93,9 @@ class ChatApiController extends AbstractController
                 'content' => $reply->content,
                 'requestLead' => $reply->requestLead,
                 'sources' => $reply->sources,
+                'status' => $reply->status,
+                'type' => $reply->messageType,
+                'actions' => $reply->actions,
             ],
             'conversation' => $conversationManager->serializeConversation($conversation),
         ]);
@@ -158,6 +178,46 @@ class ChatApiController extends AbstractController
             ], UrlGeneratorInterface::ABSOLUTE_PATH),
             'conversation' => $conversationManager->serializeConversation($conversation),
         ]);
+    }
+
+    #[Route('/conversations/{token}/scoping-note', name: 'conversation_scoping_note', methods: ['POST'])]
+    public function createScopingNote(string $token, Request $request, ChatConversationManager $conversationManager, ScopingNotePdfService $scopingNotePdfService): JsonResponse
+    {
+        $this->assertCsrf($request);
+        $conversation = $this->requireConversation($token, $conversationManager);
+
+        try {
+            $note = $scopingNotePdfService->create($conversation);
+        } catch (\InvalidArgumentException $exception) {
+            return $this->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json([
+            'success' => true,
+            'note' => $note,
+        ]);
+    }
+
+    #[Route('/conversations/{token}/scoping-notes/{noteToken}/download', name: 'conversation_scoping_note_download', methods: ['GET'])]
+    public function downloadScopingNote(string $token, string $noteToken, ChatConversationManager $conversationManager, ScopingNotePdfService $scopingNotePdfService): Response
+    {
+        $conversation = $this->requireConversation($token, $conversationManager);
+
+        try {
+            $path = $scopingNotePdfService->pdfPath($conversation, $noteToken);
+        } catch (\InvalidArgumentException) {
+            throw $this->createNotFoundException('Note introuvable.');
+        }
+
+        $response = new BinaryFileResponse($path);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Cache-Control', 'private, no-store, max-age=0');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $scopingNotePdfService->filename($conversation));
+
+        return $response;
     }
 
     /**

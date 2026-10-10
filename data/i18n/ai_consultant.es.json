@@ -49,7 +49,20 @@
         "medium": "medio",
         "low": "bajo",
         "unqualified_need": "necesidad no cualificada",
-        "unqualified": "no cualificado"
+        "unqualified": "no cualificado",
+        "crm": "CRM",
+        "gmao": "GMAO",
+        "si_finance": "SI financiero",
+        "rfe": "facturación electrónica",
+        "pca_pra": "PCA / PRA",
+        "qse": "QSE / calidad",
+        "grc_mapsi": "GRC / MAPSI",
+        "information": "información",
+        "demo_logiciel": "demostración de software",
+        "devis": "presupuesto",
+        "quote_request": "solicitud de presupuesto",
+        "proposal_request": "solicitud de propuesta",
+        "contact": "contacto"
     },
     "copy": {
         "welcome": "Hola. Soy el asistente experto de OLING. Haga una pregunta sobre nuestras áreas de especialización, nuestra experiencia, nuestro equipo o su proyecto.",
@@ -61,7 +74,7 @@
         "erp_api_confirmation": "Se ha enviado la cualificación del ERP / solución de software. El resumen está disponible a continuación.",
         "emergency_vague": "Puedo ayudarle a definir el tema. ¿Cuál es actualmente su principal reto: herramienta, organización, cumplimiento normativo o riesgo?",
         "emergency_clarify": "Puedo ayudarle a aclarar la necesidad. ¿Cuál es el punto más importante que debe protegerse en su contexto actual?",
-        "contact_details": "Para contactar con OLING, puede utilizar estas vías directas:\n- Teléfono: 01 89 70 15 60\n- Correo electrónico: contact@oling.fr\n- Formulario: [Abrir la página de contacto](/contact?chat_fallback=1)",
+        "contact_details": "Para contactar con OLING, puede utilizar estas vías directas:\n- Teléfono: 01 89 70 15 60\n- Correo electrónico: contact@oling.fr\n- Formulario: utilice el botón “Enviar mi proyecto a OLING” cuando esté disponible.",
         "confidential_clients": "No cito los nombres de clientes en mis respuestas. Sin embargo, puedo presentarle los tipos de misiones, los sectores afectados, las tecnologías utilizadas y los problemas abordados.",
         "confidential_named": "No confirmo ni detallo las relaciones con organizaciones mencionadas. Sin embargo, puedo indicarle las experiencias pertinentes de OLING en este tipo de contexto.",
         "safety_client_names": "Puedo describir los contextos, las misiones y las áreas de especialización pertinentes de OLING sin citar el nombre de ningún cliente.",
@@ -90,7 +103,8 @@
             "Siguiente paso de OLING: conversación para definir el alcance y confirmar el perímetro, la madurez, la planificación general, la carga y el presupuesto indicativos."
         ],
         "erp_modules_fallback": "por cualificar",
-        "erp_risks_fallback": "datos, interfaces, seguridad, RGPD, pruebas de aceptación y gestión del cambio por cualificar"
+        "erp_risks_fallback": "datos, interfaces, seguridad, RGPD, pruebas de aceptación y gestión del cambio por cualificar",
+        "assistant_unavailable": "Estoy encontrando temporalmente una dificultad técnica para analizar su solicitud. No obstante, puede contactar directamente con el equipo de OLING en el 01 89 70 15 60 o en contact@oling.fr.\n- Teléfono: 01 89 70 15 60\n- Correo electrónico: contact@oling.fr\n- Formulario: utilice el botón “Enviar mi proyecto a OLING” cuando esté disponible."
     },
     "heuristic": {
         "contact": {

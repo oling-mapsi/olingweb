@@ -8,6 +8,7 @@
   data-show-url-template="{{ path('api_chat_conversation_show', {token: 'CHAT_TOKEN'}) }}"
   data-message-url-template="{{ path('api_chat_conversation_message', {token: 'CHAT_TOKEN'}) }}"
   data-lead-url-template="{{ path('api_chat_conversation_lead', {token: 'CHAT_TOKEN'}) }}"
+  data-scoping-note-url-template="{{ path('api_chat_conversation_scoping_note', {token: 'CHAT_TOKEN'}) }}"
   data-erp-questionnaire-url-template="{{ path('api_chat_conversation_erp_questionnaire', {token: 'CHAT_TOKEN'}) }}"
   data-csrf-token="{{ csrf_token('chat_widget') }}"
   data-contact-fallback-url="{{ path('contact', {chat_fallback: 1}) }}"
@@ -169,7 +170,7 @@
             <input type="email" class="form-control" id="chatEmail" name="chatEmail" placeholder="{{ 'chat.email'|trans }}" required>
           </div>
           <div class="col-12">
-            <label class="oling-chat-widget__field-label" for="chatPhone">{{ 'chat.phone'|trans }}</label>
+            <label class="oling-chat-widget__field-label" for="chatPhone">{{ 'chat.phone'|trans }} <span class="text-muted">(optionnel)</span></label>
             <input type="text" class="form-control" id="chatPhone" name="chatPhone" placeholder="{{ 'chat.phone'|trans }}">
           </div>
           <div class="col-12">
@@ -182,7 +183,7 @@
             <label class="oling-chat-widget__field-label" for="chatNeedDescription">
               {{ 'chat.need'|trans }} <span class="oling-chat-widget__field-required" aria-hidden="true">*</span>
             </label>
-            <textarea class="form-control" id="chatNeedDescription" name="chatNeedDescription" rows="4" placeholder="{{ 'chat.need'|trans }}" required></textarea>
+            <textarea class="form-control" id="chatNeedDescription" name="chatNeedDescription" rows="8" placeholder="{{ 'chat.need'|trans }}" required></textarea>
           </div>
           <div class="col-12">
             <label class="oling-chat-widget__consent">
@@ -191,7 +192,7 @@
             </label>
           </div>
           <div class="col-12">
-            <button type="button" class="btn btn-primary w-100" data-chat-submit-lead>{{ 'chat.submit_lead'|trans }}</button>
+            <button type="button" class="btn btn-primary w-100" data-chat-submit-lead>Transmettre mon projet à OLING</button>
           </div>
         </div>
       </div>

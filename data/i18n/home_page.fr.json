@@ -66,37 +66,31 @@
         ],
         "practices": {
             "eyebrow": "Expertises",
-            "title": "Trois univers de conseil, une plateforme métier",
+            "title": "Transformation & performance SI, conformité et risques",
             "cards": [
                 {
                     "practiceSlug": "consulting",
-                    "title": "AMOA & Applications métiers",
-                    "text": "AMOA SI, ERP, CRM, GMAO, SI Finance, data et IA : cadrer les choix et sécuriser la mise en œuvre.",
-                    "route": "services_index",
-                    "fragment": "amoa-applications-metiers"
+                    "title": "Transformation & performance SI",
+                    "text": "AMOA SI, ERP, CRM, GMAO, SI Finance, data/BI et transformation numérique.",
+                    "url": "/amoa-si"
                 },
                 {
                     "practiceSlug": "business-apps",
-                    "title": "Gouvernance & Performance DSI",
-                    "text": "Schéma directeur SI, PMO, processus, données, infrastructures et appui à la direction SI.",
-                    "route": "services_index",
-                    "fragment": "gouvernance-performance-dsi"
+                    "title": "AMOA ERP & applications métiers",
+                    "text": "Cadrage ERP, cahier des charges, aide au choix, pilotage intégrateur, recette et adoption.",
+                    "url": "/business-apps/erp"
                 },
                 {
                     "practiceSlug": "expertises-audit",
-                    "title": "Conformité, Risques & Résilience",
-                    "text": "RGPD, cybersécurité, QSE, risques, contrôle interne, résilience et conformité IA.",
-                    "route": "services_index",
-                    "fragment": "conformite-risques-resilience"
+                    "title": "Conformité / risques",
+                    "text": "RGPD, DPO externalisé, ISO 27001, cybersécurité, qualité ISO 9001, QSE et risques.",
+                    "url": "/expertises-audit/rgpd"
                 },
                 {
                     "practiceSlug": "mapsi",
-                    "title": "MAPSI – Plateforme Privacy, QSE",
-                    "text": "Plateforme GRC pour centraliser registres, audits, risques, plans d’action, incidents et reporting.",
-                    "route": "practice_home",
-                    "routeParams": {
-                        "slug": "mapsi"
-                    }
+                    "title": "Cyber & ISO 27001",
+                    "text": "Gouvernance cyber, SMSI, NIS2, DORA, PCA/PRA, risques et plans d’actions.",
+                    "url": "/cyber-securite"
                 }
             ]
         },

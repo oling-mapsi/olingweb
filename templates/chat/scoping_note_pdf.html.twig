@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="{{ conversation.locale|default('fr') }}">
+<head>
+  <meta charset="utf-8">
+  <style>
+    @page { margin: 28mm 18mm 22mm; }
+    body { font-family: DejaVu Sans, sans-serif; color: #101820; font-size: 11px; line-height: 1.5; }
+    .header { display: table; width: 100%; border-bottom: 1px solid #d9e6f2; padding-bottom: 12px; margin-bottom: 18px; }
+    .brand, .meta { display: table-cell; vertical-align: middle; }
+    .brand img { width: 112px; }
+    .meta { text-align: right; color: #53697d; font-size: 10px; }
+    h1 { color: #17324a; font-size: 22px; margin: 0 0 4px; }
+    .subtitle { color: #53697d; margin: 0 0 16px; font-size: 13px; }
+    h2 { color: #17324a; font-size: 14px; margin: 15px 0 6px; page-break-after: avoid; }
+    p { margin: 0 0 7px; }
+    .summary { border-left: 3px solid #b93162; padding-left: 10px; margin-bottom: 12px; }
+    .section { page-break-inside: avoid; }
+    .notice { margin-top: 18px; padding-top: 10px; border-top: 1px solid #d9e6f2; color: #53697d; font-size: 9px; }
+    .footer { position: fixed; bottom: -12mm; left: 0; right: 0; color: #53697d; font-size: 9px; border-top: 1px solid #d9e6f2; padding-top: 5px; }
+    .page:after { content: counter(page); }
+  </style>
+</head>
+<body>
+  <div class="footer">OLING — Note de cadrage préliminaire — page <span class="page"></span></div>
+  <div class="header">
+    <div class="brand">{% if logoDataUri %}<img src="{{ logoDataUri }}" alt="OLING">{% else %}<strong>OLING</strong>{% endif %}</div>
+    <div class="meta">Générée le {{ generatedAt|date('d/m/Y') }}<br>{{ note.need }}</div>
+  </div>
+
+  <h1>{{ note.title }}</h1>
+  <p class="subtitle">{{ note.subtitle }}</p>
+
+  {% for title, content in note.sections %}
+    <div class="section {{ loop.first ? 'summary' : '' }}">
+      <h2>{{ loop.index }}. {{ title }}</h2>
+      {% for paragraph in content|split("\n") %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+  <div class="notice">
+    Cette note constitue une première analyse générée avec l'assistance de l'IA OLING à partir des informations communiquées.
+    Elle ne remplace pas un diagnostic approfondi et ne constitue pas un engagement contractuel.
+  </div>
+</body>
+</html>

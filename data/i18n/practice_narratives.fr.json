@@ -23,10 +23,10 @@
             "intro": "OLING accompagne les directions générales, DSI et directions métiers en AMOA SI pour cadrer les besoins, choisir les solutions, piloter les intégrateurs et sécuriser les projets ERP, CRM, GMAO, SI Finance, facturation électronique, data et infrastructure.",
             "promise": "Cabinet de conseil AMOA SI indépendant, OLING représente les intérêts du commanditaire : clarification des objectifs, arbitrage des scénarios, gouvernance projet, coordination MOA/MOE, recette et conduite du changement.",
             "focus": [
-                "Cadrage, expression des besoins et cahier des charges",
-                "Choix de solution, consultation et pilotage fournisseurs",
-                "Recette, migration, déploiement et conduite du changement",
-                "Schéma directeur, gouvernance SI et PMO de transformation"
+                "Cadrage stratégique AMOA SI, schéma directeur, feuille de route et priorisation des chantiers.",
+                "Expression des besoins, processus métier, cahier des charges, consultation et aide au choix.",
+                "Pilotage ERP, CRM, GMAO, SI Finance, SIRH, data/BI, facturation électronique et infrastructure.",
+                "Recette, migration, conduite du changement, adoption et stabilisation post-démarrage."
             ],
             "missionPhases": [
                 "Cadrage stratégique, schéma directeur et priorisation des chantiers",
@@ -135,6 +135,25 @@
                     "href": "/a-propos/team",
                     "label": "Experts OLING",
                     "description": "Profils mobilisables sur les projets de transformation et de gouvernance SI."
+                }
+            ],
+            "citablePassagesTitle": "Réponses courtes sur l’AMOA SI",
+            "citablePassages": [
+                {
+                    "title": "Qu’est-ce qu’une AMOA SI ?",
+                    "text": "Une AMOA SI aide le commanditaire à cadrer le besoin métier, organiser les décisions, formaliser les exigences, piloter les prestataires et vérifier que la solution livrée répond aux usages attendus."
+                },
+                {
+                    "title": "Quelle différence entre AMOA, MOA et MOE ?",
+                    "text": "La MOA porte le besoin et les arbitrages métier, la MOE conçoit ou intègre la solution, et l’AMOA assiste la MOA pour structurer les décisions, sécuriser les livrables et coordonner les acteurs."
+                },
+                {
+                    "title": "Quand faire appel à OLING ?",
+                    "text": "OLING intervient lorsque le projet SI engage plusieurs métiers, fournisseurs ou référentiels, ou lorsqu’un cadrage indépendant est nécessaire avant consultation, relance ou mise en production."
+                },
+                {
+                    "title": "Quels livrables produit une AMOA SI ?",
+                    "text": "Les livrables typiques sont la note de cadrage, l’expression des besoins, le cahier des charges, la grille de choix, le RACI, le planning, le suivi des risques, la stratégie de recette et le plan de conduite du changement."
                 }
             ]
         },

@@ -8,7 +8,6 @@ use App\Entity\ChatPublicDocument;
 use App\Repository\ChatPublicDocumentRepository;
 use App\Service\Chat\Ai\AiDecision;
 use App\Service\Chat\Ai\AiProviderInterface;
-use App\Service\Chat\Ai\HeuristicAiProvider;
 use App\Service\Chat\AiConsultantContentProvider;
 use App\Service\Chat\ChatPublicContentIndexer;
 use App\Service\Chat\ChatQualificationService;
@@ -143,11 +142,36 @@ class ChatCommercialSectorRegressionTest extends TestCase
         return new ChatResponder(
             new PublicContentCatalog($repository, $this->createMock(ChatPublicContentIndexer::class)),
             $qualificationService,
-            new HeuristicAiProvider($qualificationService, new AiConsultantContentProvider(dirname(__DIR__))),
-            $providers,
+            $providers !== [] ? $providers : [$this->sectorAwareTestProvider()],
             new NullLogger(),
             new AiConsultantContentProvider(dirname(__DIR__)),
         );
+    }
+
+    private function sectorAwareTestProvider(): AiProviderInterface
+    {
+        return new class implements AiProviderInterface {
+            public function getName(): string
+            {
+                return 'test_llm';
+            }
+
+            public function isAvailable(): bool
+            {
+                return true;
+            }
+
+            public function generateDecision(ChatConversation $conversation, string $visitorMessage, array $documents, array $qualification): AiDecision
+            {
+                foreach ($documents as $document) {
+                    if (($document['type'] ?? null) === 'reference' && preg_match('/Secteur\s+([^.;\n]+)/u', $document['text'], $matches) === 1) {
+                        return new AiDecision('Oui. OLING dispose de références dans le secteur '.trim($matches[1]).' et peut rapprocher ce retour d’expérience de votre besoin.', false, $qualification, array_column($documents, 'url'));
+                    }
+                }
+
+                return new AiDecision('OLING peut cadrer ce besoin avec une approche AMOA adaptée, sous réserve de confirmer le périmètre.', false, $qualification, array_column($documents, 'url'));
+            }
+        };
     }
 
     private function conversation(string $question): ChatConversation

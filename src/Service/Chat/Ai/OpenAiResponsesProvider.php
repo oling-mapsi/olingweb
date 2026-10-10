@@ -86,13 +86,18 @@ class OpenAiResponsesProvider implements AiProviderInterface
                     ],
                     'max_output_tokens' => 800,
                 ],
-                'timeout' => 20,
+                'timeout' => 35,
+                'max_duration' => 35,
             ]);
 
             $headers = $response->getHeaders(false);
-            $payload = $response->toArray();
+            if ($response->getStatusCode() >= 400) {
+                throw new \RuntimeException('OpenAI API returned HTTP '.$response->getStatusCode().'.');
+            }
+
+            $payload = $this->decodeJsonPayload($response->getContent(false), 'OpenAI API response');
             $output = $this->extractOutputText($payload);
-            $decoded = json_decode($this->sanitizeJsonPayload($output), true, 512, JSON_THROW_ON_ERROR);
+            $decoded = $this->decodeStructuredOutput($output);
         } catch (
             ClientException|
             DecodingExceptionInterface|
@@ -103,7 +108,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
             \JsonException|
             \RuntimeException $exception
         ) {
-            $this->logger->warning('OpenAI chat provider failed, falling back to heuristic provider.', [
+            $this->logger->warning('OpenAI chat provider failed.', [
                 'error' => $exception->getMessage(),
             ]);
 
@@ -189,7 +194,7 @@ class OpenAiResponsesProvider implements AiProviderInterface
         return [
             'type' => 'object',
             'additionalProperties' => false,
-            'required' => ['reply', 'request_lead', 'qualification', 'missing_fields', 'confidence'],
+            'required' => ['reply', 'request_lead', 'qualification', 'missing_fields', 'commercial_progression', 'confidence'],
             'properties' => [
                 'reply' => ['type' => 'string'],
                 'request_lead' => ['type' => 'boolean'],
@@ -218,6 +223,20 @@ class OpenAiResponsesProvider implements AiProviderInterface
                 'missing_fields' => [
                     'type' => 'array',
                     'items' => ['type' => 'string'],
+                ],
+                'commercial_progression' => [
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'required' => ['main_intent', 'project_maturity', 'known_elements', 'missing_elements', 'qualification_level', 'recommended_next_action', 'rationale'],
+                    'properties' => [
+                        'main_intent' => ['type' => ['string', 'null']],
+                        'project_maturity' => ['type' => ['string', 'null']],
+                        'known_elements' => ['type' => 'array', 'items' => ['type' => 'string']],
+                        'missing_elements' => ['type' => 'array', 'items' => ['type' => 'string']],
+                        'qualification_level' => ['type' => ['string', 'null']],
+                        'recommended_next_action' => ['type' => 'string', 'enum' => ['continue_conversation', 'start_diagnostic', 'generate_scoping_note', 'open_lead_form']],
+                        'rationale' => ['type' => ['string', 'null']],
+                    ],
                 ],
                 'confidence' => ['type' => ['number', 'null']],
             ],
@@ -279,6 +298,122 @@ class OpenAiResponsesProvider implements AiProviderInterface
 
     private function sanitizeJsonPayload(string $payload): string
     {
-        return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $payload) ?? $payload;
+        if (function_exists('mb_convert_encoding')) {
+            $payload = mb_convert_encoding($payload, 'UTF-8', 'UTF-8');
+        }
+
+        $sanitized = '';
+        $inString = false;
+        $escaped = false;
+        $length = strlen($payload);
+
+        for ($index = 0; $index < $length; ++$index) {
+            $char = $payload[$index];
+            $ord = ord($char);
+
+            if ($escaped) {
+                $sanitized .= $char;
+                $escaped = false;
+                continue;
+            }
+
+            if ($char === '\\') {
+                $sanitized .= $char;
+                $escaped = true;
+                continue;
+            }
+
+            if ($char === '"') {
+                $sanitized .= $char;
+                $inString = !$inString;
+                continue;
+            }
+
+            if ($ord < 32 || $ord === 127) {
+                if ($inString) {
+                    $sanitized .= match ($char) {
+                        "\n", "\r" => '\\n',
+                        "\t" => '\\t',
+                        default => ' ',
+                    };
+                } else {
+                    $sanitized .= ' ';
+                }
+                continue;
+            }
+
+            $sanitized .= $char;
+        }
+
+        $unicodeSanitized = @preg_replace('/[\p{Cc}\p{Zl}\p{Zp}]+/u', ' ', $sanitized);
+
+        return is_string($unicodeSanitized) ? $unicodeSanitized : $sanitized;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function decodeJsonPayload(string $payload, string $label): array
+    {
+        try {
+            $decoded = json_decode($this->sanitizeJsonPayload($payload), true, 512, JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
+        } catch (\JsonException $exception) {
+            throw new \RuntimeException($label.' JSON decode failed: '.$exception->getMessage(), 0, $exception);
+        }
+
+        if (!is_array($decoded)) {
+            throw new \RuntimeException($label.' JSON decode failed: unexpected payload type.');
+        }
+
+        return $decoded;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function decodeStructuredOutput(string $payload): array
+    {
+        try {
+            return $this->decodeJsonPayload($payload, 'OpenAI structured output');
+        } catch (\RuntimeException $exception) {
+            $reply = $this->extractReplyFallback($payload);
+            if ($reply === null) {
+                throw $exception;
+            }
+
+            return [
+                'reply' => $reply,
+                'request_lead' => str_contains($payload, '"request_lead":true') || str_contains($payload, '"request_lead": true'),
+                'qualification' => [],
+                'missing_fields' => [],
+                'confidence' => null,
+            ];
+        }
+    }
+
+    private function extractReplyFallback(string $payload): ?string
+    {
+        if (function_exists('mb_convert_encoding')) {
+            $payload = mb_convert_encoding($payload, 'UTF-8', 'UTF-8');
+        }
+
+        $replyKey = strpos($payload, '"reply"');
+        $leadKey = strpos($payload, '"request_lead"', $replyKey === false ? 0 : $replyKey);
+        if ($replyKey === false || $leadKey === false) {
+            return null;
+        }
+
+        $firstQuote = strpos($payload, '"', (int) strpos($payload, ':', $replyKey) + 1);
+        if ($firstQuote === false || $firstQuote >= $leadKey) {
+            return null;
+        }
+
+        $raw = substr($payload, $firstQuote + 1, $leadKey - $firstQuote - 1);
+        $raw = preg_replace('/",\s*$/', '', trim($raw)) ?? $raw;
+        $raw = str_replace(['\\"', '\\n', '\\r', '\\t'], ['"', "\n", "\n", ' '], $raw);
+
+        $reply = trim($raw, " \t\n\r\0\x0B\",");
+
+        return $reply === '' ? null : $reply;
     }
 }

@@ -22,9 +22,9 @@ final class AiConsultantLocalizationTest extends TestCase
         $content = $provider->content();
 
         self::assertSame('fr', $content['meta']['locale']);
-        self::assertSame('v1', $content['meta']['version']);
-        self::assertSame('v1', $content['prompts']['chat.system']['version']);
-        self::assertStringContainsString('Tu es l’assistant expert d’OLING.', $provider->prompt('chat.system'));
+        self::assertSame('v2.1', $content['meta']['version']);
+        self::assertSame('v2-generative-sales', $content['prompts']['chat.system']['version']);
+        self::assertStringContainsString('Tu es le consultant avant-vente digital d’OLING', $provider->prompt('chat.system'));
         $rendered = $provider->renderPrompt('chat.user', [
             'sourceUrl' => 'https://oling.fr/',
             'sourcePath' => '/',
@@ -62,7 +62,7 @@ final class AiConsultantLocalizationTest extends TestCase
 
         self::assertInstanceOf(ChatConversation::class, $conversation);
         self::assertSame('en', $conversation->getLocale());
-        self::assertSame('v1', $conversation->getPromptVersion());
+        self::assertSame('v2.1', $conversation->getPromptVersion());
     }
 
     public function testLocalizedJsonContractsMatchFrenchSource(): void

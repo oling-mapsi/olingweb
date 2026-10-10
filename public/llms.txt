@@ -94,3 +94,11 @@ OLING Management & Technologie is an independent consulting firm based in France
 ## Sitemap
 
 https://oling.fr/sitemap.xml
+
+## SEO/AI owner pages (2026-10-05)
+- AMOA SI owner: see Main French URLs for AMOA SI, AMOA IT, cadrage SI, transformation SI and project governance.
+- AMOA ERP owner: see Main French URLs for cabinet conseil ERP, choix ERP, cahier des charges, consultation, reprise de données, interfaces, recette and deployment.
+- RGPD owner: see Main French URLs for audit RGPD, mise en conformité, registre, DPIA/AIPD, droits, violations, CNIL and links to DPO externalisé.
+- DPO externalisé support: https://oling.fr/expertises/rgpd-dpo-gouvernance for ongoing DPO/DPD governance.
+- ISO 9001 / qualité owner: https://oling.fr/expertises-audit/qse for ISO 9001, SMQ, audits internes, non-conformités, actions correctives, revue de direction and QSE articulation.
+- Cyber / ISO 27001 owner: see Main French URLs for cybersecurity governance, SMSI, ISO 27001, NIS2, DORA, PCA/PRA and risk management. OLING is ISO 27001:2022 certified.

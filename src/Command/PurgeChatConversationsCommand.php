@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\ChatConversation;
+use App\Service\Chat\ScopingNotePdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -12,7 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:chat:purge-expired', description: 'Purge les conversations de chat arrivées en fin de rétention.')]
 class PurgeChatConversationsCommand extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ScopingNotePdfService $scopingNotePdfService,
+    )
     {
         parent::__construct();
     }
@@ -33,8 +37,10 @@ class PurgeChatConversationsCommand extends Command
         }
 
         $this->entityManager->flush();
+        $notes = $this->scopingNotePdfService->purgeExpired();
 
         $output->writeln(sprintf('%d conversation(s) supprimée(s).', count($conversations)));
+        $output->writeln(sprintf('%d note(s) de cadrage expirée(s) supprimée(s).', $notes));
 
         return Command::SUCCESS;
     }

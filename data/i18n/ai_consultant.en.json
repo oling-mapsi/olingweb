@@ -49,7 +49,20 @@
         "medium": "medium",
         "low": "low",
         "unqualified_need": "unqualified need",
-        "unqualified": "unqualified"
+        "unqualified": "unqualified",
+        "crm": "CRM",
+        "gmao": "CMMS",
+        "si_finance": "finance information system",
+        "rfe": "e-invoicing",
+        "pca_pra": "BCP / DRP",
+        "qse": "QSE / quality",
+        "grc_mapsi": "GRC / MAPSI",
+        "information": "information",
+        "demo_logiciel": "software demo",
+        "devis": "quote",
+        "quote_request": "quote request",
+        "proposal_request": "proposal request",
+        "contact": "contact"
     },
     "copy": {
         "welcome": "Hello. I am OLING's expert assistant. Ask a question about our expertise, experience, team or your project.",
@@ -61,7 +74,7 @@
         "erp_api_confirmation": "ERP / software package qualification submitted. The summary is available below.",
         "emergency_vague": "I can help you scope the subject. What is your main concern today: tools, organisation, compliance or risk?",
         "emergency_clarify": "I can help you clarify the requirement. What is the most important point to secure in your current context?",
-        "contact_details": "To contact OLING, you can use these direct options:\n- Telephone: 01 89 70 15 60\n- Email: contact@oling.fr\n- Form: [Open the Contact page](/contact?chat_fallback=1)",
+        "contact_details": "To contact OLING, you can use these direct options:\n- Telephone: 01 89 70 15 60\n- Email: contact@oling.fr\n- Form: use the “Send my project to OLING” button when it is available.",
         "confidential_clients": "I do not mention client names in my responses. However, I can present the types of assignments, relevant sectors, technologies used and issues addressed.",
         "confidential_named": "I neither confirm nor provide details about relationships with named organisations. However, I can outline relevant OLING experience in this type of context.",
         "safety_client_names": "I can describe the relevant OLING contexts, assignments and expertise without mentioning client names.",
@@ -90,7 +103,8 @@
             "Next OLING step: a scoping discussion to confirm the scope, maturity, high-level schedule, workload and indicative budget."
         ],
         "erp_modules_fallback": "to be qualified",
-        "erp_risks_fallback": "data, interfaces, security, GDPR, acceptance testing and change management to be qualified"
+        "erp_risks_fallback": "data, interfaces, security, GDPR, acceptance testing and change management to be qualified",
+        "assistant_unavailable": "I am temporarily experiencing a technical issue while analysing your request. You can still contact the OLING team directly on 01 89 70 15 60 or at contact@oling.fr.\n- Telephone: 01 89 70 15 60\n- Email: contact@oling.fr\n- Form: use the “Send my project to OLING” button when it is available."
     },
     "heuristic": {
         "contact": {

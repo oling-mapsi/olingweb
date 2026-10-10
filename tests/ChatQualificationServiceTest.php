@@ -64,6 +64,25 @@ class ChatQualificationServiceTest extends TestCase
         self::assertSame('diagnostic', $qualification['commercial_intent']);
     }
 
+    public function testRfeFinanceConversationIsNotReclassifiedAsCrmBecauseOfSalesforce(): void
+    {
+        $conversation = new ChatConversation();
+        foreach (['accompagnement amoa SI finance ?', 'un cadrage en amont', 'la rfe', 'salesforce', 'dolibarr'] as $index => $content) {
+            $conversation->addMessage((new ChatMessage())
+                ->setRole('visitor')
+                ->setContent($content)
+                ->setMessageType('answer')
+                ->setSequenceNumber($index + 1)
+                ->setCreatedAt(new \DateTimeImmutable()));
+        }
+
+        $qualification = (new ChatQualificationService())->qualify($conversation);
+
+        self::assertSame('si_finance', $qualification['primary_need']);
+        self::assertSame('qualified_opportunity', $qualification['commercial_stage']);
+        self::assertSame('cadrage', $qualification['commercial_intent']);
+    }
+
     public function testErpLeadSummaryAddsAmoaProjectFrame(): void
     {
         $conversation = new ChatConversation();

@@ -50,6 +50,17 @@ class CorePagesSourceTest extends TestCase
         self::assertContains('/mapsi/mapsi-secu', $hrefs);
     }
 
+    public function testHomePageLinksToSeoAiOwnerPages(): void
+    {
+        $source = json_decode((string) file_get_contents(dirname(__DIR__) . '/data/i18n/home_page.fr.json'), true, 512, JSON_THROW_ON_ERROR);
+        $urls = array_column($source['homePage']['practices']['cards'], 'url');
+
+        self::assertContains('/amoa-si', $urls);
+        self::assertContains('/business-apps/erp', $urls);
+        self::assertContains('/expertises-audit/rgpd', $urls);
+        self::assertContains('/cyber-securite', $urls);
+    }
+
     public function testServiceAndExpertiseIndexesExposeSpecializedIndexablePages(): void
     {
         $services = (string) file_get_contents(dirname(__DIR__) . '/templates/services-index.html.twig');

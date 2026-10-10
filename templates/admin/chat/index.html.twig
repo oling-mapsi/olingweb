@@ -32,6 +32,81 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="text-muted d-block mb-1">Taux conversation → lead</span>
+                        <strong class="fs-3">{{ dashboard.rates.conversation_to_lead }}%</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="mb-4" aria-labelledby="chat-dashboard-title">
+            <h2 id="chat-dashboard-title" class="h5 mb-3">Pilotage commercial agrégé</h2>
+            <div class="row g-3">
+                {% set metricLabels = {
+                    started: 'Conversations engagées',
+                    needs: 'Besoins identifiés',
+                    qualified_opportunities: 'Opportunités qualifiées',
+                    contact_offers: 'Propositions contact',
+                    note_offers: 'Propositions note PDF',
+                    diagnostics: 'Diagnostics terminés',
+                    notes: 'Notes générées',
+                    lead_pending: 'Formulaires ouverts',
+                    leads: 'Leads transmis',
+                    avg_exchanges_before_contact_offer: 'Échanges avant contact',
+                    llm_unavailable: 'Indisponibilités LLM',
+                    avg_latency_ms: 'Latence moyenne'
+                } %}
+                {% for key, label in metricLabels %}
+                    <div class="col-6 col-lg-3">
+                        <div class="card h-100">
+                            <div class="card-body py-3">
+                                <span class="text-muted small d-block">{{ label }}</span>
+                                <strong>
+                                    {% if key == 'avg_latency_ms' %}
+                                        {{ dashboard.metrics[key] is not null ? dashboard.metrics[key] ~ ' ms' : '-' }}
+                                    {% else %}
+                                        {{ dashboard.metrics[key] is not null ? dashboard.metrics[key] : '-' }}
+                                    {% endif %}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h6">Taux de conversion</h3>
+                            <ul class="list-unstyled mb-0">
+                                <li>Diagnostic → lead : {{ dashboard.rates.diagnostic_to_lead }}%</li>
+                                <li>Note → lead : {{ dashboard.rates.note_to_lead }}%</li>
+                                <li>Formulaire ouvert → transmis : {{ dashboard.rates.form_to_lead }}%</li>
+                                <li>Opportunité qualifiée → lead : {{ dashboard.rates.qualified_opportunity_to_lead }}%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h6">Domaines de besoin</h3>
+                            {% if dashboard.domains is empty %}
+                                <p class="text-muted mb-0">Aucune donnée.</p>
+                            {% else %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for domain, count in dashboard.domains|slice(0, 8) %}
+                                        <li>{{ domain ?: 'unknown' }} : {{ count }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         {% if conversations is empty %}

@@ -27,31 +27,71 @@ class ChatAuditCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $questions = [
-            'projet SI client et facturation avez vous des références eaux et assainissement ?',
-            'vous faites amoa progiciel ?',
-            'eaux et assainissement ?',
-            'comment accompagnez-vous un projet ERP ?',
-            'quelles solutions et progiciels maîtrisez-vous ?',
-            'quel expert oling pour mon projet erp ?',
-            'faites-vous des audits rgpd ?',
-            'amoa iso27001',
-            'notre ERP est obsolète, vous intervenez sur le cadrage ?',
-            'avez-vous des références dans l industrie ?',
-            'vous connaissez sage x3 ?',
-            'vous faites gmao ?',
-            'on cherche une aide pour reprise de données et interfaces',
-            'vous intervenez sur la facturation électronique ?',
-            'je veux parler à un consultant',
-            'votre numéro de téléphone ?',
-            'qui chez oling pour un projet crm ?',
-            'avez-vous déjà travaillé avec veolia ?',
-            'besoin d un dpo externe, vous faites ?',
-            'projet multi sites avec SI finance et reporting, quelle approche ?',
+            'On veut changer Sage.',
+            'Notre ERP devient ingérable.',
+            'Je cherche quelqu’un pour faire le cahier des charges ERP.',
+            'DAF: nous devons changer notre ERP finance.',
+            'Je dois choisir entre SAP et Dynamics.',
+            'Vous connaissez Sage X3 ?',
+            'Notre intégrateur ERP est en retard.',
+            'On cherche une aide pour reprise de données et interfaces.',
+            'AMOA GMAO eau et assainissement: vous intervenez ?',
+            'CRM sur mesure avec contraintes cyber, quelle approche ?',
+            'Nous avons un projet SIRH.',
+            'Vous intervenez sur la facturation électronique ?',
+            'Projet multi-sites avec SI finance et reporting, quelle approche ?',
+            'Nous voulons mettre en place Power BI.',
+            'Nous devons développer une application métier spécifique.',
+            'Nous voulons faire un schéma directeur SI.',
+            'Je voudrais externaliser une partie de ma DSI.',
+            'Nous cherchons un DSI de transition.',
+            'Nous avons besoin de PMO sur un programme SI.',
+            'Transformation digitale PME: par où commencer ?',
+            'Est-ce que NIS2 me concerne ?',
+            'DORA: que devons-nous préparer ?',
+            'On doit passer ISO 27001.',
+            'Nous voulons un audit cyber.',
+            'PCA/PRA: comment structurer le projet ?',
+            'ISO 22301: pouvez-vous accompagner ?',
+            'Nous avons un contrôle CNIL.',
+            'Mon DPO part dans trois mois.',
+            'Faites-vous des audits RGPD ?',
+            'DPIA sur un outil RH: comment faire ?',
+            'Nous devons remettre à jour notre registre des traitements.',
+            'Besoin d un DPO externe pour une collectivité.',
+            'Nous devons passer ISO 9001.',
+            'ISO 14001 et QSE: vous faites ?',
+            'Qualiopi: peut-on structurer le pilotage ?',
+            'On cherche un logiciel pour gérer nos plans d’action qualité.',
+            'Contrôle interne: comment organiser les preuves ?',
+            'Je cherche un logiciel GRC.',
+            'Logiciel RGPD: MAPSI peut convenir ?',
+            'Logiciel ISO 27001: que proposez-vous ?',
+            'ITSM et cartographie SI dans MAPSI ?',
+            'AI Act: comment cartographier nos usages IA ?',
+            'Agents IA métier: comment cadrer le risque ?',
+            'DG: nous devons prioriser nos projets SI.',
+            'DSI: nous avons trop de dépendances applicatives.',
+            'DAF: combien coûte une AMOA ERP ?',
+            'DRH: données sensibles dans un projet SIRH.',
+            'Nous préparons un marché public.',
+            'Vous êtes une petite structure.',
+            'Pourquoi vous plutôt qu’un grand cabinet ?',
+            'Nous avons déjà un intégrateur.',
+            'Nous voulons simplement un consultant freelance.',
+            'Votre prix semble élevé.',
+            'Nous ne voulons pas changer tous nos outils.',
+            'Est-ce que vous intervenez en Guadeloupe ?',
+            'Avez-vous déjà travaillé avec Veolia ?',
+            'Projet bloqué urgent, pouvez-vous nous aider vite ?',
+            'Je veux parler à un consultant.',
+            'Votre numéro de téléphone ?',
+            'Pouvez-vous relire notre expression de besoin ?',
         ];
 
         $rows = [];
         $openAiCount = 0;
-        $heuristicCount = 0;
+        $unavailableCount = 0;
         $totalMs = 0;
 
         foreach ($questions as $question) {
@@ -72,8 +112,8 @@ class ChatAuditCommand extends Command
 
             if ($reply->provider === 'openai') {
                 ++$openAiCount;
-            } elseif ($reply->provider === 'heuristic') {
-                ++$heuristicCount;
+            } elseif ($reply->provider === 'llm_unavailable') {
+                ++$unavailableCount;
             }
 
             $totalMs += $durationMs;
@@ -97,7 +137,7 @@ class ChatAuditCommand extends Command
             'timestamp' => (new \DateTimeImmutable())->format(DATE_ATOM),
             'count' => count($questions),
             'openai_success_rate' => round(($openAiCount / count($questions)) * 100, 1),
-            'heuristic_fallback_rate' => round(($heuristicCount / count($questions)) * 100, 1),
+            'llm_unavailable_rate' => round(($unavailableCount / count($questions)) * 100, 1),
             'average_provider_latency_ms' => round($totalMs / count($questions), 1),
             'rows' => $rows,
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));

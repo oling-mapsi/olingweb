@@ -42,7 +42,7 @@
             "seoTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
             "metaDescription": "OLING accompagne le choix, le cadrage, la mise en oeuvre et la securisation des projets ERP, CRM, GMAO et applications metiers.",
             "eyebrow": "ERP, CRM, GMAO et applications metiers",
-            "intro": "OLING intervient en amont des projets ERP et applicatifs pour clarifier les besoins, arbitrer les scenarios et piloter des trajectoires credibles jusqu'a la recette et l'adoption.",
+            "intro": "Cette page soutient l’owner AMOA ERP en présentant le périmètre applications métiers. Pour le cadrage ERP, le cahier des charges, la consultation et le pilotage intégrateur, la page de référence est /business-apps/erp.",
             "situations": [
                 "Choix ou remplacement d'un ERP devenu limitant.",
                 "Projet CRM ou GMAO mal cadre, mal specifie ou mal approprie.",
@@ -136,10 +136,10 @@
         "cybersecurite-conformite-resilience": {
             "nav": "Cyber et resilience",
             "title": "Cybers securite, conformite et resilience",
-            "seoTitle": "Cybers securite, conformite et resilience pour PME et ETI | OLING",
-            "metaDescription": "OLING accompagne la securisation des organisations : cybersecurite, ISO 27001, NIS2, DORA, continuite et resilience.",
+            "seoTitle": "Cybersécurité, ISO 27001, NIS2 et DORA | OLING",
+            "metaDescription": "OLING, certifiée ISO 27001:2022, accompagne la gouvernance cyber, SMSI, ISO 27001, NIS2, DORA, PCA/PRA, risques et résilience.",
             "eyebrow": "Risques, conformite et resilience",
-            "intro": "OLING aide les organisations a mettre en coherence securite, continuite, gouvernance et exigences reglementaires pour proteger leur activite et leurs donnees.",
+            "intro": "OLING aide les organisations à mettre en cohérence cybersécurité, SMSI, ISO 27001, NIS2, DORA, PCA/PRA, risques, incidents, fournisseurs et conformité. OLING est certifiée ISO 27001:2022.",
             "situations": [
                 "Besoin de structurer la gouvernance de securite avant une croissance ou une transformation.",
                 "Exposition croissante aux exigences NIS2, DORA, ISO 27001 ou aux demandes clients.",
@@ -171,8 +171,8 @@
         "rgpd-dpo-gouvernance": {
             "nav": "RGPD et DPO",
             "title": "DPO externalisé et gouvernance RGPD continue",
-            "seoTitle": "RGPD, gouvernance et DPO externalise | OLING",
-            "metaDescription": "OLING accompagne la conformite RGPD, la gouvernance des donnees et les besoins de DPO externalise pour PME, ETI et organisations regulees.",
+            "seoTitle": "DPO externalisé et gouvernance RGPD | OLING",
+            "metaDescription": "DPO externalisé OLING : gouvernance RGPD, registre, avis, DPIA, demandes de droits, incidents, CNIL, sensibilisation et reporting direction.",
             "eyebrow": "Protection des données et responsabilités",
             "intro": "Le DPO externalisé OLING anime la conformité RGPD dans la durée : conseil indépendant, suivi du registre, contrôle des actions, accompagnement des équipes et dialogue avec la direction.",
             "situations": [

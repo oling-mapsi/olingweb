@@ -1,356 +1,370 @@
 {
-  "meta": {
-    "locale": "fr",
-    "version": "v1"
-  },
-  "prompts": {
-    "chat.system": {
-      "version": "v1",
-      "system": "Return strict JSON only.\nTu es l’assistant expert d’OLING.\n\nTu réponds aux visiteurs sur les expertises, services, méthodes, consultants, progiciels, secteurs et expériences OLING.\n\nTa priorité est de répondre précisément à la question posée.\n\nUtilise exclusivement les informations OLING fournies dans le contexte.\nTu peux raisonner, synthétiser, comparer et rapprocher plusieurs sources.\nQuand le contexte contient une practice, un service, une référence projet ou un profil OLING pertinent, cite-les explicitement dans la réponse par leur intitulé OLING.\nNe reste pas générique si des éléments OLING précis sont présents dans le contexte.\n\nTu es le consultant IA commercial d'OLING Management & Technologie: expert, concret, rassurant, orienté projet et qualification d'opportunité.\nQuand un secteur d'activité est identifiable, utilise le secteur canonique transmis par le contexte et les références associées en priorité.\nSi au moins une référence existe dans les snippets pour ce secteur, indique clairement qu'OLING dispose d'expérience ou de références dans ce secteur et rapproche cette preuve du besoin exprimé.\nNe dis jamais qu'OLING n'a pas de référence, ou que les références ne documentent pas un secteur, simplement parce qu'un premier extrait ne contient pas cette preuve.\nSi une preuve précise reste indisponible, dis plutôt: \"Je n'ai pas suffisamment d'éléments dans le contexte actuellement disponible pour citer précisément une référence.\"\n\nN’invente jamais une compétence, une technologie, un projet, un résultat, une certification, un prix ou un délai.\n\nTu peux citer les collaborateurs OLING lorsque les données Team le justifient.\nTu ne cites jamais le nom d’un client OLING et tu ne confirmes ni n’infirmes une relation avec une organisation nommée.\nLe mot \"client\" peut être utilisé au sens générique métier. L’interdiction porte uniquement sur l’identité d’un client nommé ou d’une organisation nommée.\n\nQuand tu décris les références, parle des secteurs, contextes, missions, technologies, processus, livrables et résultats documentés, sans nommer les clients.\nN’interprète pas automatiquement \"SI client\" comme \"CRM\".\nNe parle de CRM que si le contexte mentionne explicitement CRM, relation client, ventes, force commerciale ou un outil CRM.\n\nRéponds d’abord à la question.\nNe pose une question que si elle est réellement nécessaire pour donner une réponse utile.\nNe transforme pas une question d’information en questionnaire commercial.\nStructure presque toujours la réponse avec de vrais retours à la ligne.\nUtilise 2 à 5 blocs courts maximum.\nQuand tu listes des points, utilise des puces simples commençant par \"-\".\nQuand utile, ajoute un intertitre court sur sa propre ligne, terminé par \":\".\nUtilise des paragraphes courts. Évite les blocs compacts denses.\n\nSi le visiteur demande comment contacter OLING, ou demande le téléphone, commence la réponse par :\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n\nPropose un contact uniquement lorsque le visiteur le demande ou lorsqu’un projet concret est clairement exprimé.\n\nTon: consultant senior, précis, naturel, factuel.\n\nLa question originale du visiteur reste toujours le signal principal.\nLes champs de qualification sont des métadonnées secondaires.\n\nSi le visiteur demande si OLING intervient dans un secteur, réponds clairement oui/non dès la première phrase, puis précise les contextes, types de missions et expertises documentés.\nNe commence pas par une limitation quand le besoin est clair. Réponds d'abord au besoin, puis apporte 1 à 3 preuves maximum et une prochaine étape naturelle.\nSi le visiteur demande une phase projet, un cadrage, des livrables, une recette, une reprise de données ou une gouvernance, réponds avec un niveau consultant senior: étapes, livrables, points de vigilance et articulation projet.\nQuand un échange précédent a déjà fixé le contexte métier ou applicatif, conserve ce contexte au lieu de repartir sur un autre service moins pertinent.\n\nPour un besoin ERP, progiciel ou applicatif métier, utilise le cadre AMOA OLING existant.\nQualifie sans inventer:\n- besoin ERP / progiciel et contexte métier\n- maturité projet: flou, cadrage, consultation, projet en cours ou bloqué\n- modules fonctionnels concernés: finance, achats, ventes, stocks, production, maintenance, RH, reporting ou interfaces\n- périmètre cible, irritants, risques, données, interfaces, sécurité et RGPD\n- livrables AMOA attendus: note de cadrage, expression de besoins, cahier des charges, grille de choix, stratégie de reprise, recette, conduite du changement\n- macro-planning indicatif par grandes phases\n- charge et budget uniquement sous forme d'ordre de grandeur indicatif, à confirmer après échange\n- prochaines étapes commerciales OLING: échange de cadrage, qualification, proposition d'accompagnement\nSi le visiteur demande un questionnaire ERP, pose une question structurée et progressive au lieu de renvoyer vers un autre module."
+    "meta": {
+        "locale": "fr",
+        "version": "v2.1"
     },
-    "chat.user": {
-      "version": "v1",
-      "template": "Produce a valid json object that matches the schema.\n\nCurrent page: {{ sourceUrl }}\nCurrent source path: {{ sourcePath }}\n\nQualification metadata only:\n{{ qualification }}\n\nRecent conversation:\n{{ history }}\n\nLatest visitor message:\n{{ visitorMessage }}\n\nRelevant public OLING snippets:\n{{ snippets }}\n\nPriority:\n- answer the latest visitor question first\n- use the snippets as evidence\n- mention the most relevant OLING practice, service, project reference, or team member when the context supports it\n- keep qualification as secondary metadata only\n- if information is sufficient, do not ask a follow-up question\n- use short paragraphs and bullets when the answer contains several distinct points\n\nAllowed taxonomy:\n- primary_need: transformation_si, amoa_erp, organisation_gouvernance, conformite, rgpd, cybersecurite, ia_data_automatisation, autre\n- urgency_level: immediate, short_term, planned, exploratory\n- maturity_level: flou, cadre, consultation, en_cours, bloque\n- organization_type: pme, pmi, eti, public, association, autre\n- organization_size: 1_49, 50_249, 250_999, 1000_plus, unknown\n- commercial_intent: diagnostic, cadrage, assistance_projet, audit, mise_en_conformite, expertise_ponctuelle, orientation\n- potential_value: low, medium, high"
+    "prompts": {
+        "chat.system": {
+            "version": "v2-generative-sales",
+            "system": "Return strict JSON only.\nTu es le consultant avant-vente digital d’OLING Management & Technologie. Ta priorite est de transformer un interet professionnel en relation commerciale qualifiee : comprendre la demande, apporter une reponse credible, montrer comment OLING peut accompagner, puis proposer activement un premier echange des qu'une opportunite existe.\n\nQuand le visiteur exprime une demande professionnelle explicite des le premier message (DORA, NIS2, ISO 27001, DPO externalise, AMOA ERP/CRM/GMAO/SI Finance/RFE, DSI de transition, integrateur en difficulte, demonstration MAPSI, remplacement ou migration), reponds au fond puis propose naturellement un echange avec un consultant OLING. Ne bloque jamais cette proposition parce que budget, delai, taille ou interlocuteur ne sont pas connus : le rendez-vous sert justement a les qualifier.\n\nProgression : exploration = question generale, pas de CTA obligatoire ; besoin identifie = projet reel, analyse et proposition d'echange possible ; opportunite qualifiee = bouton contact prioritaire, note PDF ou mini-diagnostic seulement en appui ; intention de contact = devis, rendez-vous, contact, rappel, ouverture directe de la fiche via open_lead_form.\n\nRègles : une seule question principale a la fois ; ne repete pas les questions resolues ; ne recite pas la liste des prestations ; ne prolonge pas artificiellement le diagnostic ; respecte un refus explicite de contact. Pour une prestation OLING possible, prefere une conclusion courte et engageante : premier echange, cadrage, evaluation du perimetre ou transmission du projet.\n\nRFE/SI Finance : si le besoin porte sur AMOA SI Finance, facturation electronique, RFE, e-invoicing/e-reporting, flux financiers, Salesforce ou Dolibarr, garde le besoin principal SI Finance/RFE. Ne requalifie pas en CRM uniquement parce que Salesforce est cite. Ne suppose pas le role de Salesforce ou Dolibarr sans confirmation.\n\nFiabilite : utilise exclusivement les snippets et le contexte. N'invente jamais client nomme, certification, partenaire, competence, technologie maitrisee, tarif, delai, disponibilite, obligation reglementaire ou resultat de mission.\n\nContact : si le visiteur demande comment contacter OLING, indique telephone 01 89 70 15 60 et email contact@oling.fr. Ne fabrique jamais d'URL technique. Le backend rend les actions structurees.\n\nStyle : consultant senior, direct, precis, naturel, pragmatique. Reponds au dernier message en exploitant l'historique."
+        },
+        "chat.user": {
+            "version": "v1",
+            "template": "Produce a valid json object that matches the schema.\n\nCurrent page: {{ sourceUrl }}\nCurrent source path: {{ sourcePath }}\n\nQualification metadata only:\n{{ qualification }}\n\nRecent conversation:\n{{ history }}\n\nLatest visitor message:\n{{ visitorMessage }}\n\nRelevant public OLING snippets:\n{{ snippets }}\n\nPriority:\n- answer the latest visitor question first\n- use the snippets as evidence\n- keep qualification as secondary metadata only\n- if information is sufficient for a first commercial step, do not ask another qualification question\n- fill commercial_progression but never expose it to the visitor\n- recommended_next_action must be one of continue_conversation, start_diagnostic, generate_scoping_note, open_lead_form\n- format reply as readable Markdown: short paragraphs, section titles, **bold labels**, bullet or numbered lists when useful, and Markdown links only to URLs present in the snippets\n- preserve accents and apostrophes in French\n\nAllowed taxonomy:\n- primary_need: transformation_si, amoa_erp, crm, gmao, si_finance, rfe, rgpd, cybersecurite, pca_pra, qse, grc_mapsi, ia_data_automatisation, organisation_gouvernance, autre\n- urgency_level: immediate, short_term, planned, exploratory\n- maturity_level: flou, cadre, consultation, en_cours, bloque\n- organization_type: pme, pmi, eti, public, association, autre\n- organization_size: 1_49, 50_249, 250_999, 1000_plus, unknown\n- commercial_intent: information, orientation, diagnostic, cadrage, assistance_projet, audit, mise_en_conformite, demo_logiciel, devis, quote_request, proposal_request, contact\n- potential_value: low, medium, high"
+        }
+    },
+    "labels": {
+        "amoa_erp": "AMOA ERP",
+        "rgpd": "RGPD",
+        "cybersecurite": "cybersécurité",
+        "ia_data_automatisation": "IA / data / automatisation",
+        "conformite": "conformité",
+        "organisation_gouvernance": "organisation / gouvernance",
+        "transformation_si": "transformation SI",
+        "immediate": "immédiate",
+        "short_term": "court terme",
+        "planned": "planifiée",
+        "exploratory": "exploratoire",
+        "flou": "réflexion initiale",
+        "cadre": "cadrage",
+        "consultation": "consultation",
+        "en_cours": "projet en cours",
+        "bloque": "bloqué",
+        "pme": "PME",
+        "pmi": "PMI",
+        "eti": "ETI",
+        "public": "organisation publique",
+        "association": "association",
+        "1_49": "1 à 49 personnes",
+        "50_249": "50 à 249 personnes",
+        "250_999": "250 à 999 personnes",
+        "1000_plus": "1000+ personnes",
+        "diagnostic": "diagnostic",
+        "cadrage": "cadrage",
+        "assistance_projet": "assistance projet",
+        "mise_en_conformite": "mise en conformité",
+        "expertise_ponctuelle": "expertise ponctuelle",
+        "orientation": "orientation",
+        "high": "élevée",
+        "medium": "moyenne",
+        "low": "faible",
+        "unqualified_need": "besoin non qualifié",
+        "unqualified": "non qualifié",
+        "crm": "CRM",
+        "gmao": "GMAO",
+        "si_finance": "SI finance",
+        "rfe": "facturation électronique",
+        "pca_pra": "PCA / PRA",
+        "qse": "QSE / qualité",
+        "grc_mapsi": "GRC / MAPSI",
+        "information": "information",
+        "demo_logiciel": "démonstration logiciel",
+        "devis": "devis",
+        "quote_request": "demande de chiffrage",
+        "proposal_request": "demande de proposition",
+        "contact": "contact"
+    },
+    "copy": {
+        "welcome": "Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.",
+        "empty_message": "Le message est vide.",
+        "conversation_not_found": "Conversation introuvable.",
+        "invalid_csrf": "Jeton invalide.",
+        "lead_confirmation": "Merci, votre demande a bien été envoyée. Un consultant OLING reviendra vers vous rapidement. Si vous le souhaitez, vous pouvez aussi continuer ici et poser une autre question.",
+        "lead_api_confirmation": "Merci, votre demande a bien été envoyée. Un consultant OLING reviendra vers vous rapidement. Vous pouvez aussi continuer ici et poser une autre question.",
+        "erp_api_confirmation": "Qualification ERP / progiciel transmise. La synthèse est disponible ci-dessous.",
+        "emergency_vague": "Je peux vous aider à cadrer le sujet. Quel est surtout votre enjeu aujourd’hui: outil, organisation, conformité ou risque ?",
+        "emergency_clarify": "Je peux vous aider à clarifier le besoin. Quel est le point le plus important à sécuriser dans votre contexte actuel ?",
+        "contact_details": "Pour contacter OLING, vous pouvez utiliser ces accès directs :\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : utilisez le bouton « Transmettre mon projet à OLING » lorsqu’il est proposé.",
+        "confidential_clients": "Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche vous présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.",
+        "confidential_named": "Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche vous indiquer les expériences OLING pertinentes sur ce type de contexte.",
+        "safety_client_names": "Je peux décrire les contextes, missions et expertises OLING pertinentes, sans citer de nom de client.",
+        "sector_positive": "Oui. OLING dispose de références dans le secteur %s.%s",
+        "legacy_welcome": "Bonjour. Je peux vous aider à clarifier votre besoin. Décrivez simplement votre contexte, votre enjeu ou votre point de blocage.",
+        "lead_required": "Le nom, l’email professionnel, l’organisation, la fiche projet et le consentement sont obligatoires.",
+        "lead_invalid_email": "L’email n’est pas valide.",
+        "lead_consent_required": "Le consentement RGPD est obligatoire.",
+        "summary_short": "%s a sollicité OLING pour un besoin %s avec un niveau d’urgence %s.",
+        "summary_lines": {
+            "initial_context": "Contexte initial : %s",
+            "primary_need": "Besoin principal : %s",
+            "urgency": "Urgence : %s",
+            "maturity": "Maturité : %s",
+            "organization_type": "Type d’organisation : %s",
+            "organization_size": "Taille estimée : %s",
+            "commercial_intent": "Intention commerciale : %s",
+            "potential_value": "Valeur potentielle : %s",
+            "description": "Description consolidée : %s"
+        },
+        "erp_summary": [
+            "Analyse AMOA ERP / progiciel :",
+            "Modules pressentis : %s.",
+            "Points de vigilance : %s.",
+            "Livrables AMOA à envisager : note de cadrage, expression des besoins, cahier des charges ou grille de choix, stratégie de reprise, recette, conduite du changement.",
+            "Prochaine étape OLING : échange de cadrage pour confirmer le périmètre, la maturité, le macro-planning, la charge et le budget indicatifs."
+        ],
+        "erp_modules_fallback": "à qualifier",
+        "erp_risks_fallback": "données, interfaces, sécurité, RGPD, recette et conduite du changement à qualifier",
+        "assistant_unavailable": "Je rencontre momentanément une difficulté technique pour analyser votre demande. Vous pouvez néanmoins contacter directement notre équipe OLING au 01 89 70 15 60 ou à contact@oling.fr.\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : utilisez le bouton « Transmettre mon projet à OLING » lorsqu’il est proposé."
+    },
+    "heuristic": {
+        "contact": {
+            "intro": "Si vous souhaitez contacter OLING :",
+            "items": [
+                "Appelez le 01 89 70 15 60",
+                "Écrivez à contact@oling.fr",
+                "Je peux aussi vous proposer un échange via le formulaire"
+            ]
+        },
+        "greeting": "Bonjour.",
+        "amoa_iso27001_blend": "Vous semblez croiser un sujet d’AMOA et de structuration ISO 27001. Cherchez-vous surtout à cadrer une démarche ISO 27001, à choisir ou piloter un outil, ou à articuler les deux ?",
+        "information": {
+            "expert_intro": "Le profil OLING le plus pertinent dans ce contexte est :",
+            "default": "Je peux vous aider à identifier les expertises, expériences et ressources OLING les plus pertinentes.",
+            "primary_need": {
+                "amoa_erp": "OLING intervient en AMOA ERP et applicatifs métiers, du cadrage jusqu’au choix de solution, à la reprise de données, aux interfaces et à la recette.",
+                "rgpd": "OLING intervient sur la gouvernance RGPD, le registre, les DPIA, l’organisation DPO et la mise sous contrôle opérationnelle.",
+                "cybersecurite": "OLING intervient sur la sécurité des SI, la résilience, les analyses de risques et les cadres comme ISO 27001, NIS2 ou DORA.",
+                "ia_data_automatisation": "OLING intervient sur la data, l’automatisation, le reporting et les usages de l’IA reliés aux besoins métier.",
+                "conformite": "OLING intervient sur les dispositifs de conformité, de contrôle, de risques et de pilotage.",
+                "organisation_gouvernance": "OLING intervient sur les sujets d’organisation, de gouvernance, de responsabilités et de pilotage.",
+                "transformation_si": "OLING intervient sur les trajectoires de transformation SI, le cadrage, les arbitrages et la sécurisation de l’exécution."
+            }
+        },
+        "sector": {
+            "generic": "ce type de secteur",
+            "with_references": "Oui. OLING dispose de références anonymisées dans %s et peut accompagner ce type de besoin.",
+            "also": "Oui. OLING intervient aussi dans %s.",
+            "next_step": "Une première étape utile serait de qualifier le périmètre, les applications en place, les interfaces et la trajectoire cible.",
+            "amoa": "Oui. OLING intervient dans %s sur des sujets d’AMOA SI, ERP, CRM, GMAO ou applicatifs métiers, avec un angle cadrage, choix de solution, pilotage, recette et déploiement.",
+            "default": "Oui. OLING intervient dans %s, avec des approches qui croisent selon les cas transformation SI, organisation, conformité, sécurité et pilotage de projet."
+        },
+        "cadrage": {
+            "crm": {
+                "approach": {
+                    "intro": "En phase de cadrage CRM, OLING cherche surtout à sécuriser le besoin, les processus et la trajectoire projet :",
+                    "items": [
+                        "clarification des objectifs métier, des parcours, des rôles et de la gouvernance des données",
+                        "cartographie des processus, expression des besoins et backlog métier",
+                        "évaluation des scénarios de solution, critères d’arbitrage et gouvernance projet",
+                        "préparation de la reprise, de la recette et de la conduite du changement"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables mobilisables :",
+                    "items": [
+                        "note de cadrage, roadmap CRM et gouvernance projet",
+                        "cartographie des processus, expression des besoins et backlog métier",
+                        "grille de choix, matrice de scoring et dossier d’arbitrage",
+                        "plan de reprise des données, stratégie de recette et plan de conduite du changement"
+                    ]
+                }
+            },
+            "gmao": {
+                "approach": {
+                    "intro": "En phase de cadrage GMAO, OLING sécurise d’abord les processus maintenance, les données équipements et les interfaces terrain :",
+                    "items": [
+                        "diagnostic de l’existant, des usages réels et des limites du dispositif maintenance",
+                        "cadrage des processus maintenance, des rôles, des équipements et des données de référence",
+                        "expression des besoins, cahier des charges et scénarios de démonstration",
+                        "préparation de la reprise, de la recette, du déploiement et de l’adoption terrain"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables mobilisables :",
+                    "items": [
+                        "diagnostic de l’existant, cartographie des processus maintenance et roadmap GMAO",
+                        "expression des besoins, cahier des charges et modèle de données équipements",
+                        "grille de choix, scénarios de démonstration et dossier d’arbitrage",
+                        "stratégie de reprise, stratégie de recette, plan de déploiement et conduite du changement"
+                    ]
+                }
+            },
+            "si_finance": {
+                "approach": {
+                    "intro": "En phase de cadrage SI Finance, OLING cadre les processus, les données et les arbitrages entre fonctions Finance, DSI et intégrateurs :",
+                    "items": [
+                        "diagnostic de l’existant et des points de fragilité sur clôture, reporting, référentiels et interfaces",
+                        "cadrage des besoins, des processus Finance, des responsabilités et de la gouvernance cible",
+                        "évaluation des scénarios ERP ou EPM et objectivation des choix",
+                        "préparation de la reprise, de la recette et de la conduite du changement"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables mobilisables :",
+                    "items": [
+                        "diagnostic SI Finance, cartographie des processus et note de cadrage",
+                        "expression des besoins, roadmap, architecture fonctionnelle cible et gouvernance projet",
+                        "grille de choix, matrice de scoring et dossier d’arbitrage entre solutions et intégrateurs",
+                        "stratégie de reprise, stratégie de recette, plan de conduite du changement et indicateurs de pilotage"
+                    ]
+                }
+            },
+            "default": {
+                "approach": {
+                    "intro": "En phase de cadrage AMOA, OLING cherche d’abord à rendre le projet arbitrable et pilotable :",
+                    "items": [
+                        "clarification des objectifs, du périmètre, des priorités et des points de vigilance",
+                        "ateliers métier, cartographie des processus et expression des besoins",
+                        "choix du scénario cible, gouvernance projet, macro-planning et stratégie de consultation si nécessaire",
+                        "anticipation des interfaces, de la reprise, de la recette et de la conduite du changement"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables mobilisables :",
+                    "items": [
+                        "note de cadrage, macro-planning et gouvernance projet",
+                        "expression des besoins, cahier des charges et critères de choix",
+                        "cartographie des processus ou dossier de consultation selon le contexte",
+                        "stratégie de recette, plan de migration et plan de conduite du changement"
+                    ]
+                }
+            }
+        },
+        "reference": {
+            "with_amoa": "Oui. OLING dispose de références anonymisées sur ce type de contexte, y compris en AMOA progiciel.",
+            "with_reference": "Oui. OLING dispose de références anonymisées sur ce type de contexte.",
+            "amoa_no_doc": "OLING intervient en AMOA progiciel et peut présenter des références anonymisées par secteur, mission et contexte, sans citer de client.",
+            "default_no_doc": "Je peux présenter des références OLING de manière anonymisée, par secteur, mission, technologie et problématique traitée."
+        },
+        "domain": {
+            "qse": {
+                "approach": {
+                    "intro": "Sur les sujets QSE, OLING intervient surtout pour structurer un dispositif pilotable et exploitable par les équipes :",
+                    "items": [
+                        "diagnostic du dispositif existant, des écarts, des responsabilités et des pratiques réellement tenues",
+                        "mise en cohérence entre exigences qualité, sécurité, environnement, organisation et outils",
+                        "préparation ou remise sous contrôle de démarches ISO 9001, ISO 14001, ISO 45001 ou Qualiopi selon le contexte",
+                        "définition d’un pilotage concret avec plans d’actions, indicateurs, revues et preuves attendues"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables typiques :",
+                    "items": [
+                        "diagnostic QSE, cartographie des écarts et feuille de route",
+                        "matrice des responsabilités, processus cibles et plan de maîtrise",
+                        "plan d’actions, indicateurs, supports de revue et dossier de preuves",
+                        "trame documentaire, politiques, procédures et supports de sensibilisation"
+                    ]
+                }
+            },
+            "cyber": {
+                "approach": {
+                    "intro": "Sur les sujets cybersécurité, conformité et résilience, OLING cherche d’abord à rendre le dispositif gouvernable et priorisable :",
+                    "items": [
+                        "évaluation de posture, analyse de risques et lecture des dépendances critiques",
+                        "mise en cohérence entre sécurité SI, continuité, exigences métiers, fournisseurs et gouvernance",
+                        "structuration de trajectoires ISO 27001, NIS2, DORA, PCA/PRA ou organisation de crise",
+                        "priorisation des mesures, arbitrages et preuves de pilotage attendues par la direction"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables typiques :",
+                    "items": [
+                        "diagnostic de posture, cartographie des risques et feuille de route cyber",
+                        "politique de sécurité, gouvernance, RACI et plan de traitement",
+                        "dispositif PCA/PRA, scénarios de crise et plan de tests",
+                        "tableau de bord de conformité, indicateurs et supports de comité"
+                    ]
+                }
+            },
+            "rgpd": {
+                "approach": {
+                    "intro": "Sur les sujets RGPD et gouvernance des données, OLING intervient pour remettre la conformité dans un cadre opérationnel :",
+                    "items": [
+                        "diagnostic du dispositif, des traitements, des rôles et des preuves disponibles",
+                        "articulation entre registre, AIPD, sous-traitants, demandes de droits et mesures de sécurité",
+                        "mise en cohérence entre RGPD, outils, pratiques métiers, DSI et gouvernance interne",
+                        "priorisation des écarts et organisation durable du pilotage DPO ou DPO externalisé"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables typiques :",
+                    "items": [
+                        "registre, cartographie des traitements et feuille de route RGPD",
+                        "AIPD, matrice de rôles, procédures et trame documentaire",
+                        "plan d’actions, support de preuves et dispositif de sensibilisation",
+                        "cadre de gouvernance DPO, calendrier de revues et suivi des écarts"
+                    ]
+                }
+            },
+            "ia_conformite": {
+                "approach": {
+                    "intro": "Sur la conformité IA, OLING aide à sécuriser les usages avant qu’ils ne deviennent une dette de gouvernance :",
+                    "items": [
+                        "cartographie des usages IA, des risques, des données et des dépendances fournisseurs",
+                        "alignement entre AI Act, RGPD, cybersécurité, achats et supervision humaine",
+                        "définition des rôles, contrôles, critères d’escalade et exigences de preuve",
+                        "mise sous contrôle des cas d’usage sensibles et du pilotage des agents ou assistants IA"
+                    ]
+                },
+                "deliverables": {
+                    "intro": "Livrables typiques :",
+                    "items": [
+                        "cartographie des usages IA et matrice de risques",
+                        "politique IA, cadre de gouvernance et registre de conformité",
+                        "dossier de preuves, exigences fournisseurs et contrôles de supervision",
+                        "plan d’actions AI Act / RGPD / cyber et tableau de bord de suivi"
+                    ]
+                }
+            }
+        },
+        "project_analysis": {
+            "intro": "Voici le point le plus pertinent pour votre sujet :",
+            "primary_need": {
+                "amoa_erp": "OLING intervient sur le cadrage et la sécurisation des projets ERP et applicatifs métiers.",
+                "rgpd": "OLING peut intervenir sur la mise sous contrôle du dispositif RGPD, la gouvernance, les preuves et le plan d’actions.",
+                "cybersecurite": "OLING peut intervenir sur l’analyse de risques, la gouvernance sécurité, la feuille de route et la remise sous contrôle du dispositif.",
+                "conformite": "OLING peut intervenir sur le diagnostic, la cartographie des écarts, les priorités et le pilotage des actions."
+            },
+            "default": "OLING peut intervenir pour structurer le sujet, clarifier le périmètre et sécuriser la trajectoire de mise en œuvre."
+        },
+        "next_question": {
+            "amoa_erp": "Pour avancer, quel est votre point prioritaire: clarifier le périmètre, choisir une solution, sécuriser les données et interfaces, ou reprendre un projet déjà lancé ?",
+            "too_vague": "Pour bien cadrer: votre sujet porte surtout sur un outil, une organisation, une contrainte réglementaire ou un risque ?",
+            "missing_primary_need": "Le point clé est-il plutôt le choix de solution, le cadrage, la conformité, la sécurité ou l’organisation cible ?",
+            "replacement": "Le point déterminant est de savoir si vous cherchez d’abord à remplacer l’outil, à remettre à plat les processus, ou à sécuriser les deux en parallèle.",
+            "default": "Quel est le point métier ou opérationnel le plus important à sécuriser dans votre contexte ?"
+        },
+        "erp_questionnaire": {
+            "intro": "Pour qualifier un besoin ERP ou progiciel, OLING commence par cadrer les points suivants :",
+            "items": [
+                "contexte métier, irritants actuels, objectifs attendus et niveau de maturité du projet",
+                "modules concernés: finance, achats, ventes, stocks, production, maintenance, RH, reporting ou interfaces",
+                "périmètre cible, sites concernés, volumes, données à reprendre et interfaces critiques",
+                "contraintes sécurité, RGPD, habilitations, hébergement, traçabilité et continuité d’activité",
+                "livrables AMOA attendus: note de cadrage, expression de besoins, cahier des charges, grille de choix, recette, reprise et conduite du changement",
+                "macro-planning, gouvernance, risques, charge et budget indicatifs à confirmer après échange"
+            ],
+            "first_question": "Première question: quel progiciel ou domaine applicatif souhaitez-vous cadrer, et quel irritant métier déclenche le projet ?"
+        },
+        "confidential": {
+            "clients": "Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.",
+            "named": "Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche indiquer les expériences OLING pertinentes sur ce type de contexte."
+        },
+        "excerpt_fallback": "OLING dispose d’un retour d’expérience pertinent sur ce type de sujet.",
+        "bridge": "OLING intervient aussi sur %s"
+    },
+    "email": {
+        "subject": "[OLING][Lead IA] %s - %s - %s",
+        "title": "Nouveau lead IA OLING",
+        "date": "Date",
+        "company": "Société",
+        "name": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "source": "Page d'origine",
+        "short_summary": "Résumé court",
+        "qualification": "Qualification",
+        "primary_need": "Besoin principal",
+        "urgency": "Urgence",
+        "maturity": "Maturité",
+        "organization_type": "Type d'organisation",
+        "organization_size": "Taille",
+        "commercial_intent": "Intention commerciale",
+        "potential_value": "Valeur potentielle",
+        "description": "Description consolidée",
+        "consent": "Consentement RGPD",
+        "yes": "Oui",
+        "no": "Non"
     }
-  },
-  "labels": {
-    "amoa_erp": "AMOA ERP",
-    "rgpd": "RGPD",
-    "cybersecurite": "cybersécurité",
-    "ia_data_automatisation": "IA / data / automatisation",
-    "conformite": "conformité",
-    "organisation_gouvernance": "organisation / gouvernance",
-    "transformation_si": "transformation SI",
-    "immediate": "immédiate",
-    "short_term": "court terme",
-    "planned": "planifiée",
-    "exploratory": "exploratoire",
-    "flou": "réflexion initiale",
-    "cadre": "cadrage",
-    "consultation": "consultation",
-    "en_cours": "projet en cours",
-    "bloque": "bloqué",
-    "pme": "PME",
-    "pmi": "PMI",
-    "eti": "ETI",
-    "public": "organisation publique",
-    "association": "association",
-    "1_49": "1 à 49 personnes",
-    "50_249": "50 à 249 personnes",
-    "250_999": "250 à 999 personnes",
-    "1000_plus": "1000+ personnes",
-    "diagnostic": "diagnostic",
-    "cadrage": "cadrage",
-    "assistance_projet": "assistance projet",
-    "mise_en_conformite": "mise en conformité",
-    "expertise_ponctuelle": "expertise ponctuelle",
-    "orientation": "orientation",
-    "high": "élevée",
-    "medium": "moyenne",
-    "low": "faible",
-    "unqualified_need": "besoin non qualifié",
-    "unqualified": "non qualifié"
-  },
-  "copy": {
-    "welcome": "Bonjour. Je suis l’assistant expert OLING. Posez une question sur nos expertises, nos expériences, notre équipe ou votre projet.",
-    "empty_message": "Le message est vide.",
-    "conversation_not_found": "Conversation introuvable.",
-    "invalid_csrf": "Jeton invalide.",
-    "lead_confirmation": "Merci, votre demande a bien été envoyée. Un consultant OLING reviendra vers vous rapidement. Si vous le souhaitez, vous pouvez aussi continuer ici et poser une autre question.",
-    "lead_api_confirmation": "Merci, votre demande a bien été envoyée. Un consultant OLING reviendra vers vous rapidement. Vous pouvez aussi continuer ici et poser une autre question.",
-    "erp_api_confirmation": "Qualification ERP / progiciel transmise. La synthèse est disponible ci-dessous.",
-    "emergency_vague": "Je peux vous aider à cadrer le sujet. Quel est surtout votre enjeu aujourd’hui: outil, organisation, conformité ou risque ?",
-    "emergency_clarify": "Je peux vous aider à clarifier le besoin. Quel est le point le plus important à sécuriser dans votre contexte actuel ?",
-    "contact_details": "Pour contacter OLING, vous pouvez utiliser ces accès directs :\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : [Ouvrir la page Contact](/contact?chat_fallback=1)",
-    "confidential_clients": "Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche vous présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.",
-    "confidential_named": "Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche vous indiquer les expériences OLING pertinentes sur ce type de contexte.",
-    "safety_client_names": "Je peux décrire les contextes, missions et expertises OLING pertinentes, sans citer de nom de client.",
-    "sector_positive": "Oui. OLING dispose de références dans le secteur %s.%s",
-    "legacy_welcome": "Bonjour. Je peux vous aider à clarifier votre besoin. Décrivez simplement votre contexte, votre enjeu ou votre point de blocage.",
-    "lead_required": "Tous les champs sont obligatoires.",
-    "lead_invalid_email": "L’email n’est pas valide.",
-    "lead_consent_required": "Le consentement RGPD est obligatoire.",
-    "summary_short": "%s a sollicité OLING pour un besoin %s avec un niveau d’urgence %s.",
-    "summary_lines": {
-      "initial_context": "Contexte initial : %s",
-      "primary_need": "Besoin principal : %s",
-      "urgency": "Urgence : %s",
-      "maturity": "Maturité : %s",
-      "organization_type": "Type d’organisation : %s",
-      "organization_size": "Taille estimée : %s",
-      "commercial_intent": "Intention commerciale : %s",
-      "potential_value": "Valeur potentielle : %s",
-      "description": "Description consolidée : %s"
-    },
-    "erp_summary": [
-      "Analyse AMOA ERP / progiciel :",
-      "Modules pressentis : %s.",
-      "Points de vigilance : %s.",
-      "Livrables AMOA à envisager : note de cadrage, expression des besoins, cahier des charges ou grille de choix, stratégie de reprise, recette, conduite du changement.",
-      "Prochaine étape OLING : échange de cadrage pour confirmer le périmètre, la maturité, le macro-planning, la charge et le budget indicatifs."
-    ],
-    "erp_modules_fallback": "à qualifier",
-    "erp_risks_fallback": "données, interfaces, sécurité, RGPD, recette et conduite du changement à qualifier"
-  },
-  "heuristic": {
-    "contact": {
-      "intro": "Si vous souhaitez contacter OLING :",
-      "items": [
-        "Appelez le 01 89 70 15 60",
-        "Écrivez à contact@oling.fr",
-        "Je peux aussi vous proposer un échange via le formulaire"
-      ]
-    },
-    "greeting": "Bonjour.",
-    "amoa_iso27001_blend": "Vous semblez croiser un sujet d’AMOA et de structuration ISO 27001. Cherchez-vous surtout à cadrer une démarche ISO 27001, à choisir ou piloter un outil, ou à articuler les deux ?",
-    "information": {
-      "expert_intro": "Le profil OLING le plus pertinent dans ce contexte est :",
-      "default": "Je peux vous aider à identifier les expertises, expériences et ressources OLING les plus pertinentes.",
-      "primary_need": {
-        "amoa_erp": "OLING intervient en AMOA ERP et applicatifs métiers, du cadrage jusqu’au choix de solution, à la reprise de données, aux interfaces et à la recette.",
-        "rgpd": "OLING intervient sur la gouvernance RGPD, le registre, les DPIA, l’organisation DPO et la mise sous contrôle opérationnelle.",
-        "cybersecurite": "OLING intervient sur la sécurité des SI, la résilience, les analyses de risques et les cadres comme ISO 27001, NIS2 ou DORA.",
-        "ia_data_automatisation": "OLING intervient sur la data, l’automatisation, le reporting et les usages de l’IA reliés aux besoins métier.",
-        "conformite": "OLING intervient sur les dispositifs de conformité, de contrôle, de risques et de pilotage.",
-        "organisation_gouvernance": "OLING intervient sur les sujets d’organisation, de gouvernance, de responsabilités et de pilotage.",
-        "transformation_si": "OLING intervient sur les trajectoires de transformation SI, le cadrage, les arbitrages et la sécurisation de l’exécution."
-      }
-    },
-    "sector": {
-      "generic": "ce type de secteur",
-      "with_references": "Oui. OLING dispose de références anonymisées dans %s et peut accompagner ce type de besoin.",
-      "also": "Oui. OLING intervient aussi dans %s.",
-      "next_step": "Une première étape utile serait de qualifier le périmètre, les applications en place, les interfaces et la trajectoire cible.",
-      "amoa": "Oui. OLING intervient dans %s sur des sujets d’AMOA SI, ERP, CRM, GMAO ou applicatifs métiers, avec un angle cadrage, choix de solution, pilotage, recette et déploiement.",
-      "default": "Oui. OLING intervient dans %s, avec des approches qui croisent selon les cas transformation SI, organisation, conformité, sécurité et pilotage de projet."
-    },
-    "cadrage": {
-      "crm": {
-        "approach": {
-          "intro": "En phase de cadrage CRM, OLING cherche surtout à sécuriser le besoin, les processus et la trajectoire projet :",
-          "items": [
-            "clarification des objectifs métier, des parcours, des rôles et de la gouvernance des données",
-            "cartographie des processus, expression des besoins et backlog métier",
-            "évaluation des scénarios de solution, critères d’arbitrage et gouvernance projet",
-            "préparation de la reprise, de la recette et de la conduite du changement"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables mobilisables :",
-          "items": [
-            "note de cadrage, roadmap CRM et gouvernance projet",
-            "cartographie des processus, expression des besoins et backlog métier",
-            "grille de choix, matrice de scoring et dossier d’arbitrage",
-            "plan de reprise des données, stratégie de recette et plan de conduite du changement"
-          ]
-        }
-      },
-      "gmao": {
-        "approach": {
-          "intro": "En phase de cadrage GMAO, OLING sécurise d’abord les processus maintenance, les données équipements et les interfaces terrain :",
-          "items": [
-            "diagnostic de l’existant, des usages réels et des limites du dispositif maintenance",
-            "cadrage des processus maintenance, des rôles, des équipements et des données de référence",
-            "expression des besoins, cahier des charges et scénarios de démonstration",
-            "préparation de la reprise, de la recette, du déploiement et de l’adoption terrain"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables mobilisables :",
-          "items": [
-            "diagnostic de l’existant, cartographie des processus maintenance et roadmap GMAO",
-            "expression des besoins, cahier des charges et modèle de données équipements",
-            "grille de choix, scénarios de démonstration et dossier d’arbitrage",
-            "stratégie de reprise, stratégie de recette, plan de déploiement et conduite du changement"
-          ]
-        }
-      },
-      "si_finance": {
-        "approach": {
-          "intro": "En phase de cadrage SI Finance, OLING cadre les processus, les données et les arbitrages entre fonctions Finance, DSI et intégrateurs :",
-          "items": [
-            "diagnostic de l’existant et des points de fragilité sur clôture, reporting, référentiels et interfaces",
-            "cadrage des besoins, des processus Finance, des responsabilités et de la gouvernance cible",
-            "évaluation des scénarios ERP ou EPM et objectivation des choix",
-            "préparation de la reprise, de la recette et de la conduite du changement"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables mobilisables :",
-          "items": [
-            "diagnostic SI Finance, cartographie des processus et note de cadrage",
-            "expression des besoins, roadmap, architecture fonctionnelle cible et gouvernance projet",
-            "grille de choix, matrice de scoring et dossier d’arbitrage entre solutions et intégrateurs",
-            "stratégie de reprise, stratégie de recette, plan de conduite du changement et indicateurs de pilotage"
-          ]
-        }
-      },
-      "default": {
-        "approach": {
-          "intro": "En phase de cadrage AMOA, OLING cherche d’abord à rendre le projet arbitrable et pilotable :",
-          "items": [
-            "clarification des objectifs, du périmètre, des priorités et des points de vigilance",
-            "ateliers métier, cartographie des processus et expression des besoins",
-            "choix du scénario cible, gouvernance projet, macro-planning et stratégie de consultation si nécessaire",
-            "anticipation des interfaces, de la reprise, de la recette et de la conduite du changement"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables mobilisables :",
-          "items": [
-            "note de cadrage, macro-planning et gouvernance projet",
-            "expression des besoins, cahier des charges et critères de choix",
-            "cartographie des processus ou dossier de consultation selon le contexte",
-            "stratégie de recette, plan de migration et plan de conduite du changement"
-          ]
-        }
-      }
-    },
-    "reference": {
-      "with_amoa": "Oui. OLING dispose de références anonymisées sur ce type de contexte, y compris en AMOA progiciel.",
-      "with_reference": "Oui. OLING dispose de références anonymisées sur ce type de contexte.",
-      "amoa_no_doc": "OLING intervient en AMOA progiciel et peut présenter des références anonymisées par secteur, mission et contexte, sans citer de client.",
-      "default_no_doc": "Je peux présenter des références OLING de manière anonymisée, par secteur, mission, technologie et problématique traitée."
-    },
-    "domain": {
-      "qse": {
-        "approach": {
-          "intro": "Sur les sujets QSE, OLING intervient surtout pour structurer un dispositif pilotable et exploitable par les équipes :",
-          "items": [
-            "diagnostic du dispositif existant, des écarts, des responsabilités et des pratiques réellement tenues",
-            "mise en cohérence entre exigences qualité, sécurité, environnement, organisation et outils",
-            "préparation ou remise sous contrôle de démarches ISO 9001, ISO 14001, ISO 45001 ou Qualiopi selon le contexte",
-            "définition d’un pilotage concret avec plans d’actions, indicateurs, revues et preuves attendues"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables typiques :",
-          "items": [
-            "diagnostic QSE, cartographie des écarts et feuille de route",
-            "matrice des responsabilités, processus cibles et plan de maîtrise",
-            "plan d’actions, indicateurs, supports de revue et dossier de preuves",
-            "trame documentaire, politiques, procédures et supports de sensibilisation"
-          ]
-        }
-      },
-      "cyber": {
-        "approach": {
-          "intro": "Sur les sujets cybersécurité, conformité et résilience, OLING cherche d’abord à rendre le dispositif gouvernable et priorisable :",
-          "items": [
-            "évaluation de posture, analyse de risques et lecture des dépendances critiques",
-            "mise en cohérence entre sécurité SI, continuité, exigences métiers, fournisseurs et gouvernance",
-            "structuration de trajectoires ISO 27001, NIS2, DORA, PCA/PRA ou organisation de crise",
-            "priorisation des mesures, arbitrages et preuves de pilotage attendues par la direction"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables typiques :",
-          "items": [
-            "diagnostic de posture, cartographie des risques et feuille de route cyber",
-            "politique de sécurité, gouvernance, RACI et plan de traitement",
-            "dispositif PCA/PRA, scénarios de crise et plan de tests",
-            "tableau de bord de conformité, indicateurs et supports de comité"
-          ]
-        }
-      },
-      "rgpd": {
-        "approach": {
-          "intro": "Sur les sujets RGPD et gouvernance des données, OLING intervient pour remettre la conformité dans un cadre opérationnel :",
-          "items": [
-            "diagnostic du dispositif, des traitements, des rôles et des preuves disponibles",
-            "articulation entre registre, AIPD, sous-traitants, demandes de droits et mesures de sécurité",
-            "mise en cohérence entre RGPD, outils, pratiques métiers, DSI et gouvernance interne",
-            "priorisation des écarts et organisation durable du pilotage DPO ou DPO externalisé"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables typiques :",
-          "items": [
-            "registre, cartographie des traitements et feuille de route RGPD",
-            "AIPD, matrice de rôles, procédures et trame documentaire",
-            "plan d’actions, support de preuves et dispositif de sensibilisation",
-            "cadre de gouvernance DPO, calendrier de revues et suivi des écarts"
-          ]
-        }
-      },
-      "ia_conformite": {
-        "approach": {
-          "intro": "Sur la conformité IA, OLING aide à sécuriser les usages avant qu’ils ne deviennent une dette de gouvernance :",
-          "items": [
-            "cartographie des usages IA, des risques, des données et des dépendances fournisseurs",
-            "alignement entre AI Act, RGPD, cybersécurité, achats et supervision humaine",
-            "définition des rôles, contrôles, critères d’escalade et exigences de preuve",
-            "mise sous contrôle des cas d’usage sensibles et du pilotage des agents ou assistants IA"
-          ]
-        },
-        "deliverables": {
-          "intro": "Livrables typiques :",
-          "items": [
-            "cartographie des usages IA et matrice de risques",
-            "politique IA, cadre de gouvernance et registre de conformité",
-            "dossier de preuves, exigences fournisseurs et contrôles de supervision",
-            "plan d’actions AI Act / RGPD / cyber et tableau de bord de suivi"
-          ]
-        }
-      }
-    },
-    "project_analysis": {
-      "intro": "Voici le point le plus pertinent pour votre sujet :",
-      "primary_need": {
-        "amoa_erp": "OLING intervient sur le cadrage et la sécurisation des projets ERP et applicatifs métiers.",
-        "rgpd": "OLING peut intervenir sur la mise sous contrôle du dispositif RGPD, la gouvernance, les preuves et le plan d’actions.",
-        "cybersecurite": "OLING peut intervenir sur l’analyse de risques, la gouvernance sécurité, la feuille de route et la remise sous contrôle du dispositif.",
-        "conformite": "OLING peut intervenir sur le diagnostic, la cartographie des écarts, les priorités et le pilotage des actions."
-      },
-      "default": "OLING peut intervenir pour structurer le sujet, clarifier le périmètre et sécuriser la trajectoire de mise en œuvre."
-    },
-    "next_question": {
-      "amoa_erp": "Pour avancer, quel est votre point prioritaire: clarifier le périmètre, choisir une solution, sécuriser les données et interfaces, ou reprendre un projet déjà lancé ?",
-      "too_vague": "Pour bien cadrer: votre sujet porte surtout sur un outil, une organisation, une contrainte réglementaire ou un risque ?",
-      "missing_primary_need": "Le point clé est-il plutôt le choix de solution, le cadrage, la conformité, la sécurité ou l’organisation cible ?",
-      "replacement": "Le point déterminant est de savoir si vous cherchez d’abord à remplacer l’outil, à remettre à plat les processus, ou à sécuriser les deux en parallèle.",
-      "default": "Quel est le point métier ou opérationnel le plus important à sécuriser dans votre contexte ?"
-    },
-    "erp_questionnaire": {
-      "intro": "Pour qualifier un besoin ERP ou progiciel, OLING commence par cadrer les points suivants :",
-      "items": [
-        "contexte métier, irritants actuels, objectifs attendus et niveau de maturité du projet",
-        "modules concernés: finance, achats, ventes, stocks, production, maintenance, RH, reporting ou interfaces",
-        "périmètre cible, sites concernés, volumes, données à reprendre et interfaces critiques",
-        "contraintes sécurité, RGPD, habilitations, hébergement, traçabilité et continuité d’activité",
-        "livrables AMOA attendus: note de cadrage, expression de besoins, cahier des charges, grille de choix, recette, reprise et conduite du changement",
-        "macro-planning, gouvernance, risques, charge et budget indicatifs à confirmer après échange"
-      ],
-      "first_question": "Première question: quel progiciel ou domaine applicatif souhaitez-vous cadrer, et quel irritant métier déclenche le projet ?"
-    },
-    "confidential": {
-      "clients": "Je ne cite pas les noms de clients dans mes réponses. Je peux en revanche présenter les types de missions, les secteurs concernés, les technologies utilisées et les problématiques traitées.",
-      "named": "Je ne confirme ni ne détaille les relations avec des organisations nommées. Je peux en revanche indiquer les expériences OLING pertinentes sur ce type de contexte."
-    },
-    "excerpt_fallback": "OLING dispose d’un retour d’expérience pertinent sur ce type de sujet.",
-    "bridge": "OLING intervient aussi sur %s"
-  },
-  "email": {
-    "subject": "[OLING][Lead IA] %s - %s - %s",
-    "title": "Nouveau lead IA OLING",
-    "date": "Date",
-    "company": "Société",
-    "name": "Nom",
-    "email": "Email",
-    "phone": "Téléphone",
-    "source": "Page d'origine",
-    "short_summary": "Résumé court",
-    "qualification": "Qualification",
-    "primary_need": "Besoin principal",
-    "urgency": "Urgence",
-    "maturity": "Maturité",
-    "organization_type": "Type d'organisation",
-    "organization_size": "Taille",
-    "commercial_intent": "Intention commerciale",
-    "potential_value": "Valeur potentielle",
-    "description": "Description consolidée",
-    "consent": "Consentement RGPD",
-    "yes": "Oui",
-    "no": "Non"
-  }
 }

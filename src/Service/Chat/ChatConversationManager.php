@@ -67,6 +67,46 @@ class ChatConversationManager
         return $reply;
     }
 
+    public function handleTechnicalFailure(ChatConversation $conversation, string $content, ?string $sourcePath, ?string $sourceUrl, ?string $errorCode = null): ChatReply
+    {
+        $conversation
+            ->setSourcePath($sourcePath ?: $conversation->getSourcePath())
+            ->setSourceUrl($sourceUrl ?: $conversation->getSourceUrl());
+
+        $lastMessage = $conversation->getMessages()->last();
+        if (!$lastMessage instanceof ChatMessage || $lastMessage->getRole() !== 'visitor' || trim($lastMessage->getContent()) !== trim($content)) {
+            $this->addVisitorMessage($conversation, $content);
+        }
+
+        $qualification = $conversation->getQualification() ?: $this->qualificationService->qualify($conversation);
+        $reply = new ChatReply(
+            $this->contentProvider->text('copy.assistant_unavailable', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE),
+            false,
+            [],
+            $qualification,
+            'technical_error',
+            'technical_unavailable',
+            null,
+            true,
+            null,
+            [],
+            null,
+            null,
+            null,
+            $errorCode,
+            null,
+            'technical_error'
+        );
+
+        $this->addAssistantMessage($conversation, $reply->content, $reply->messageType, [], $reply);
+        $conversation->setQualification($qualification);
+        $conversation->setStatus(ChatConversation::STATUS_ACTIVE);
+        $this->touchConversation($conversation);
+        $this->entityManager->flush();
+
+        return $reply;
+    }
+
     /**
      * @param array<string, mixed> $payload
      * @return array<string, string|null>
@@ -80,7 +120,7 @@ class ChatConversationManager
         $needDescription = trim((string) ($payload['needDescription'] ?? ''));
         $rgpdConsent = (bool) ($payload['rgpdConsent'] ?? false);
 
-        if ($fullName === '' || $email === '' || $phone === '' || $company === '' || $needDescription === '') {
+        if ($fullName === '' || $email === '' || $company === '' || $needDescription === '') {
             throw new \InvalidArgumentException($this->contentProvider->text('copy.lead_required', $conversation->getLocale() ?: AiConsultantContentProvider::LOCALE));
         }
 
@@ -146,6 +186,15 @@ class ChatConversationManager
                     'role' => $message->getRole(),
                     'content' => $this->normalizeSerializedMessageContent($message),
                     'type' => $message->getMessageType(),
+                    'provider' => $message->getProvider(),
+                    'status' => match ($message->getProvider()) {
+                        'llm_unavailable' => 'llm_unavailable',
+                        'technical_error' => 'technical_error',
+                        null => null,
+                        'openai' => 'llm_primary',
+                        default => $message->isFallbackUsed() ? 'llm_secondary' : 'llm_primary',
+                    },
+                    'actions' => $this->messageActions($message),
                     'sources' => $message->getSourceUrls(),
                     'sourceCards' => $this->publicContentCatalog->findCardsByUrls($message->getSourceUrls()),
                     'createdAt' => $message->getCreatedAt()?->format(DATE_ATOM),
@@ -162,6 +211,63 @@ class ChatConversationManager
                 'company' => $conversation->getLead()?->getCompany(),
             ] : null,
         ];
+    }
+
+    /**
+     * @return array<int, array{type:string,label:string}>
+     */
+    private function messageActions(ChatMessage $message): array
+    {
+        if ($message->getRole() !== 'assistant') {
+            return [];
+        }
+
+        $content = mb_strtolower((string) $message->getContent());
+        $actions = [];
+
+        if ($message->getMessageType() === 'diagnostic') {
+            $actions[] = [
+                'type' => 'generate_scoping_note',
+                'label' => 'Préparer ma note de cadrage',
+            ];
+            $actions[] = [
+                'type' => 'open_lead_form',
+                'label' => 'Échanger avec un consultant OLING',
+            ];
+        } elseif (str_contains($content, 'mini-diagnostic')) {
+            $actions[] = [
+                'type' => 'start_diagnostic',
+                'label' => 'Lancer un mini-diagnostic',
+            ];
+        }
+
+        if (str_contains($content, 'note de cadrage') || $message->getMessageType() === 'scoping_note') {
+            $actions[] = [
+                'type' => $message->getMessageType() === 'scoping_note' ? 'download_scoping_note' : 'generate_scoping_note',
+                'label' => $message->getMessageType() === 'scoping_note' ? 'Télécharger la note' : 'Préparer ma note de cadrage',
+            ];
+        }
+
+        $contactIntent = in_array($message->getMessageType(), ['contact_offer', 'proposal_request', 'lead_request', 'contact_info', 'technical_unavailable'], true)
+            || str_contains($content, '/contact?chat_fallback=1')
+            || str_contains($content, 'contact@oling.fr')
+            || str_contains($content, 'contacter oling')
+            || str_contains($content, 'prise de contact');
+
+        if ($contactIntent) {
+            $label = match (true) {
+                $message->getMessageType() === 'proposal_request' => 'Recevoir une proposition OLING',
+                $message->getMessageType() === 'technical_unavailable' && str_contains($this->normalize($message->getContent()), 'proposition adapt') => 'Transmettre ma demande de proposition à OLING',
+                $message->getMessageType() === 'contact_offer' => 'Être recontacté par OLING',
+                default => 'Transmettre mon projet à OLING',
+            };
+            $actions[] = [
+                'type' => 'open_lead_form',
+                'label' => $label,
+            ];
+        }
+
+        return array_values(array_unique($actions, SORT_REGULAR));
     }
 
     private function addVisitorMessage(ChatConversation $conversation, string $content): void
@@ -229,5 +335,14 @@ class ChatConversationManager
         }
 
         return $message->getContent();
+    }
+
+    private function normalize(string $value): string
+    {
+        $value = mb_strtolower($value);
+        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+        $value = is_string($ascii) ? $ascii : $value;
+
+        return preg_replace('/[^a-z0-9]+/', ' ', $value) ?? $value;
     }
 }

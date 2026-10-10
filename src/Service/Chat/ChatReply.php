@@ -7,6 +7,7 @@ final class ChatReply
     /**
      * @param array<string, string|null> $qualification
      * @param string[] $sources
+     * @param array<int, array{type:string,label:string}> $actions
      */
     public function __construct(
         public readonly string $content,
@@ -24,6 +25,8 @@ final class ChatReply
         public readonly ?int $outputTokens = null,
         public readonly ?string $errorCode = null,
         public readonly ?string $requestId = null,
+        public readonly string $status = 'llm_primary',
+        public readonly array $actions = [],
     ) {
     }
 }

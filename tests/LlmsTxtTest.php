@@ -31,4 +31,19 @@ final class LlmsTxtTest extends TestCase
         self::assertNotEmpty($matches[0]);
         self::assertSame($matches[0], array_values(array_unique($matches[0])));
     }
+
+    public function testLlmsTxtExposesSeoAiOwnerPages(): void
+    {
+        $content = (string) file_get_contents(dirname(__DIR__).'/public/llms.txt');
+
+        foreach ([
+            'https://oling.fr/amoa-si',
+            'https://oling.fr/business-apps/erp',
+            'https://oling.fr/expertises-audit/rgpd',
+            'https://oling.fr/expertises-audit/qse',
+            'https://oling.fr/cyber-securite',
+        ] as $url) {
+            self::assertStringContainsString($url, $content);
+        }
+    }
 }

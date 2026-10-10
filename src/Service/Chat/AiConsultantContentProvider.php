@@ -5,7 +5,7 @@ namespace App\Service\Chat;
 class AiConsultantContentProvider
 {
     public const LOCALE = 'fr';
-    public const VERSION = 'v1';
+    public const VERSION = 'v2.1';
 
     /** @var array<string, array<string, mixed>> */
     private array $content = [];

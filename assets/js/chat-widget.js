@@ -37,21 +37,42 @@ const getLinkAttributes = (url) => {
 const sourceLabel = (url) => {
   try {
     const parsed = new URL(url, window.location.origin);
-    return parsed.pathname;
+    return parsed.pathname
+      .split('/')
+      .filter(Boolean)
+      .pop()
+      ?.replace(/[-_]+/g, ' ') || (CHAT_I18N.sourceResource || 'Ressource');
   } catch (error) {
-    return url;
+    return CHAT_I18N.sourceResource || 'Ressource';
   }
 };
 
 const formatMessageContent = (value) => escapeHtml(value).replace(/\n/g, '<br>');
 
+const analyticsEventMap = {
+  open_lead_form: 'lead_form_opened',
+  start_diagnostic: 'diagnostic_started',
+  generate_scoping_note: 'scoping_note_generated',
+  download_scoping_note: 'scoping_note_downloaded',
+};
+
 const sanitizeAssistantIntro = (value) => String(value || '')
   .replace('Posez une question sur OLING.', '')
   .trim();
 
-const escapeHtmlWithBasicInlineMarkup = (value) => escapeHtml(value)
-  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-  .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, url) => `<a href="${url}" ${getLinkAttributes(url)}>${label}</a>`);
+const escapeHtmlWithBasicInlineMarkup = (value) => {
+  let html = escapeHtml(value)
+    .replace(/\[([^\]]+)\]\(\/contact\?chat_fallback=1\)/g, '$1')
+    .replace(/\/contact\?chat_fallback=1/g, 'le formulaire de contact')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, url) => `<a href="${url}" ${getLinkAttributes(url)}>${label}</a>`);
+
+  html = html
+    .replace(/\b01\s?89\s?70\s?15\s?60\b/g, '<a href="tel:0189701560" data-chat-bypass="true">01 89 70 15 60</a>')
+    .replace(/(^|[\s(])contact@oling\.fr(?!<\/a>)/g, '$1<a href="mailto:contact@oling.fr" data-chat-bypass="true">contact@oling.fr</a>');
+
+  return html;
+};
 
 const renderContactAssistantCard = (lines) => {
   const phoneLine = lines.find((line) => /^-?\s*Téléphone\s*:/i.test(line));
@@ -65,19 +86,19 @@ const renderContactAssistantCard = (lines) => {
   const phone = (phoneLine.split(':').slice(1).join(':') || '').trim();
   const email = (emailLine.split(':').slice(1).join(':') || '').trim();
   const formMatch = formLine?.match(/\[([^\]]+)\]\(([^)]+)\)/);
-  const formLabel = formMatch?.[1] || (CHAT_I18N.contactForm || 'Ouvrir la page Contact');
-  const formHref = formMatch?.[2] || '/contact?chat_fallback=1';
   const intro = lines.find((line) => !/^-\s*(Téléphone|Email|Formulaire)\s*:/i.test(line)) || (CHAT_I18N.contactIntro || 'Si vous souhaitez contacter OLING :');
   const phoneHref = `tel:${phone.replace(/[^+\d]/g, '')}`;
+  const isContinuityMessage = /difficulté technique|momentanément indisponible/i.test(intro);
 
   return `
     <div class="oling-chat-widget__assistant-contact-card">
       <p class="oling-chat-widget__assistant-contact-intro">${escapeHtmlWithBasicInlineMarkup(intro)}</p>
       <div class="oling-chat-widget__assistant-contact-links">
+        ${isContinuityMessage ? `<button type="button" class="oling-chat-widget__assistant-contact-link" data-chat-retry-last>${escapeHtml(CHAT_I18N.retryAi || 'Réessayer avec l’IA')}</button>` : ''}
         <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--phone" href="${escapeHtml(phoneHref)}" data-chat-bypass="true">${escapeHtml(phone)}</a>
         <a class="oling-chat-widget__assistant-contact-link oling-chat-widget__assistant-contact-link--email" href="mailto:${escapeHtml(email)}" data-chat-bypass="true">${escapeHtml(email)}</a>
       </div>
-      <a class="oling-chat-widget__assistant-contact-form-link" href="${escapeHtml(formHref)}" data-chat-bypass="true">${escapeHtml(formLabel)}</a>
+      <button type="button" class="oling-chat-widget__assistant-contact-form-link" data-chat-open-lead>${escapeHtml(CHAT_I18N.transmitProject || 'Transmettre mon projet à OLING')}</button>
     </div>
   `;
 };
@@ -99,23 +120,37 @@ const formatAssistantContent = (value) => {
 
   const blocks = [];
   let listBuffer = [];
+  let listType = 'ul';
 
   const flushList = () => {
     if (!listBuffer.length) return;
     blocks.push(`
-      <ul class="oling-chat-widget__assistant-list">
+      <${listType} class="oling-chat-widget__assistant-list">
         ${listBuffer.map((item) => `<li>${escapeHtmlWithBasicInlineMarkup(item)}</li>`).join('')}
-      </ul>
+      </${listType}>
     `);
     listBuffer = [];
+    listType = 'ul';
   };
 
   lines.forEach((line) => {
     const bulletMatch = line.match(/^[-•]\s+(.+)$/);
     const numberedMatch = line.match(/^\d+[.)]\s+(.+)$/);
     const headingMatch = line.match(/^([^:]{2,80})\s*:\s*$/);
+    const markdownHeadingMatch = line.match(/^#{1,3}\s+(.+)$/);
+
+    if (markdownHeadingMatch) {
+      flushList();
+      blocks.push(`<p class="oling-chat-widget__assistant-heading">${escapeHtmlWithBasicInlineMarkup(markdownHeadingMatch[1])}</p>`);
+      return;
+    }
 
     if (bulletMatch || numberedMatch) {
+      const nextType = numberedMatch ? 'ol' : 'ul';
+      if (listBuffer.length && listType !== nextType) {
+        flushList();
+      }
+      listType = nextType;
       listBuffer.push((bulletMatch || numberedMatch)[1]);
       return;
     }
@@ -159,20 +194,44 @@ const getMessageSourceCards = (message) => (
       }))
 );
 
+const sourceExcerpt = (card) => {
+  const excerpt = String(card.excerpt || '').trim();
+  if (!excerpt) return '';
+  const title = String(card.title || '').trim().toLowerCase();
+  const compactExcerpt = excerpt.toLowerCase();
+  if (title && (compactExcerpt.includes(title) || title.includes(compactExcerpt))) return '';
+  return excerpt.length > 118 ? `${excerpt.slice(0, 115).trim()}...` : excerpt;
+};
+
 const createSourceCardsHtml = (cards) => `
-  <div class="oling-chat-widget__sources-inline">
+  <div class="oling-chat-widget__sources-inline" aria-label="${escapeHtml(CHAT_I18N.sourcesUseful || 'Sources utiles')}">
+    <div class="oling-chat-widget__sources-inline-title">${escapeHtml(CHAT_I18N.sourcesUseful || 'Sources utiles')}</div>
     ${cards.map((card) => `
       <a class="oling-chat-widget__source-card oling-chat-widget__source-card--inline" href="${escapeHtml(card.url)}" ${getLinkAttributes(card.url)}>
-        ${card.image ? `<span class="oling-chat-widget__source-media"><img src="${escapeHtml(card.image)}" alt="" loading="lazy"></span>` : '<span class="oling-chat-widget__source-media oling-chat-widget__source-media--placeholder"></span>'}
         <span class="oling-chat-widget__source-body">
           <span class="oling-chat-widget__source-type">${escapeHtml(card.typeLabel || sourceTypeLabel(card.type))}</span>
           <span class="oling-chat-widget__source-title">${escapeHtml(card.title || sourceLabel(card.url))}</span>
-          ${card.excerpt ? `<span class="oling-chat-widget__source-excerpt">${escapeHtml(card.excerpt)}</span>` : ''}
+          ${sourceExcerpt(card) ? `<span class="oling-chat-widget__source-excerpt">${escapeHtml(sourceExcerpt(card))}</span>` : ''}
         </span>
       </a>
     `).join('')}
   </div>
 `;
+
+const createActionButtonsHtml = (actions = [], content = '') => {
+  const supportedTypes = ['open_lead_form', 'start_diagnostic', 'generate_scoping_note', 'download_scoping_note', 'copy_request'];
+  const hasDirectContactDetails = /Téléphone\s*:|Email\s*:/i.test(String(content || ''));
+  const usableActions = actions
+    .filter((action) => supportedTypes.includes(action.type))
+    .filter((action) => !(hasDirectContactDetails && action.type === 'open_lead_form'));
+  if (!usableActions.length) return '';
+
+  return `
+    <div class="oling-chat-widget__assistant-actions">
+      ${usableActions.map((action) => `<button type="button" class="oling-chat-widget__assistant-action" data-chat-action="${escapeHtml(action.type)}">${escapeHtml(action.label || 'Transmettre mon projet à OLING')}</button>`).join('')}
+    </div>
+  `;
+};
 
 const createMessageHtml = (message) => `
   <article class="oling-chat-widget__message oling-chat-widget__message--${message.role}">
@@ -181,6 +240,7 @@ const createMessageHtml = (message) => `
         <div class="oling-chat-widget__assistant-block">
           <div class="oling-chat-widget__message-meta">${escapeHtml(CHAT_I18N.assistantMeta || 'OLING')}</div>
           <div class="oling-chat-widget__assistant-body">${formatAssistantContent(message.content)}</div>
+          ${createActionButtonsHtml(message.actions || [], message.content)}
         </div>
       `
       : `
@@ -247,6 +307,24 @@ const initChatWidget = () => {
     conversation: null,
     typing: false,
     scrollMode: 'bottom',
+    lastFailedContent: '',
+    firstQuestionTracked: false,
+    lastProjectContext: '',
+  };
+
+  const trackChatEvent = (name, details = {}) => {
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: `oling_chat_${name}`,
+        status: details.status || undefined,
+        messageType: details.messageType || undefined,
+        primaryNeed: details.primaryNeed || undefined,
+        commercialIntent: details.commercialIntent || undefined,
+      });
+    } catch (error) {
+      // Analytics must never block the chat.
+    }
   };
 
   const storageVersion = root.dataset.storageVersion || '1';
@@ -268,6 +346,7 @@ const initChatWidget = () => {
   };
 
   const setOpen = (open) => {
+    const wasOpen = state.open;
     state.open = open;
     window.localStorage.setItem(CHAT_OPEN_STATE_KEY, open ? 'open' : 'closed');
     root.classList.toggle('is-open', open);
@@ -276,6 +355,10 @@ const initChatWidget = () => {
     launcher?.setAttribute('aria-expanded', open ? 'true' : 'false');
     panel?.setAttribute('aria-hidden', open ? 'false' : 'true');
     if (open) {
+      if (!wasOpen) {
+        trackChatEvent('opened');
+        trackChatEvent('chat_opened');
+      }
       updateViewportHeight();
       focusMessageInput();
       scrollMessagesToBottom();
@@ -429,11 +512,29 @@ const initChatWidget = () => {
     syncResetVisibility(conversation);
     syncContactCard(conversation);
     renderMessageList(messageList);
+    const qualification = conversation.qualification || {};
+    if (qualification.primary_need) {
+      trackChatEvent('need_identified', { primaryNeed: qualification.primary_need, commercialIntent: qualification.commercial_intent });
+    }
+    if (qualification.commercial_intent && qualification.commercial_intent !== 'information') {
+      trackChatEvent('conversation_qualified', { primaryNeed: qualification.primary_need, commercialIntent: qualification.commercial_intent });
+    }
+    if (lastMessage?.role === 'assistant' && lastMessage?.type) {
+      trackChatEvent(
+        lastMessage.type === 'technical_unavailable' ? 'llm_unavailable' : 'assistant_reply',
+        { status: lastMessage.status, messageType: lastMessage.type }
+      );
+    }
     const hasDirectContactDetails = !!conversation && (conversation.messages || []).some((message) => (
       message.role === 'assistant'
       && /01 89 70 15 60|contact@oling\.fr/i.test(String(message.content || ''))
     ));
-    setLeadVisible(!!conversation.requestLead && !conversation.leadSubmitted && !hasDirectContactDetails);
+    const shouldShowLead = !!conversation.requestLead && !conversation.leadSubmitted && !hasDirectContactDetails;
+    setLeadVisible(shouldShowLead);
+    if (shouldShowLead) {
+      trackChatEvent('cta_presented', { primaryNeed: qualification.primary_need, commercialIntent: qualification.commercial_intent });
+      prefillLeadDescription(true);
+    }
 
     if (conversation.contact) {
       root.querySelector('input[name="chatFullName"]').value = conversation.contact.fullName || '';
@@ -494,6 +595,7 @@ const initChatWidget = () => {
   const showUrl = (token) => root.dataset.showUrlTemplate.replace('CHAT_TOKEN', token);
   const messageUrl = (token) => root.dataset.messageUrlTemplate.replace('CHAT_TOKEN', token);
   const leadUrl = (token) => root.dataset.leadUrlTemplate.replace('CHAT_TOKEN', token);
+  const scopingNoteUrl = (token) => root.dataset.scopingNoteUrlTemplate.replace('CHAT_TOKEN', token);
   const erpQuestionnaireUrl = (token) => root.dataset.erpQuestionnaireUrlTemplate.replace('CHAT_TOKEN', token);
 
   const setErpVisible = (visible) => {
@@ -588,15 +690,129 @@ const initChatWidget = () => {
     }
   };
 
-  const prefillLeadDescription = () => {
+  const prefillLeadDescription = (force = false) => {
     const field = root.querySelector('textarea[name="chatNeedDescription"]');
-    if (!field || field.value.trim() !== '' || !state.conversation) return;
+    if (!field || (!force && field.value.trim() !== '') || !state.conversation) return;
 
     const visitorMessages = (state.conversation.messages || [])
       .filter((message) => message.role === 'visitor')
       .map((message) => message.content);
+    const latestScoping = [...(state.conversation.messages || [])]
+      .reverse()
+      .find((message) => message.role === 'assistant' && ['diagnostic', 'scoping_note'].includes(message.type));
+    if (latestScoping?.content) {
+      visitorMessages.push(latestScoping.content);
+    }
+    if (!visitorMessages.length) {
+      if (state.lastProjectContext) {
+        visitorMessages.push(state.lastProjectContext);
+      }
+    }
+    if (!visitorMessages.length) {
+      messages?.querySelectorAll('.oling-chat-widget__message--visitor .oling-chat-widget__bubble').forEach((bubble) => {
+        const text = bubble.textContent?.trim();
+        if (text) {
+          visitorMessages.push(text);
+        }
+      });
+    }
 
-    field.value = visitorMessages.join('\n').trim();
+    const qualification = state.conversation.qualification || {};
+    const label = (value, fallback = 'à compléter') => value || fallback;
+    const sourceUrl = window.location.href;
+    const contextText = visitorMessages.join(' / ').trim();
+    const normalizedContext = contextText.toLowerCase();
+    const projectContextLines = [];
+
+    if (normalizedContext.includes('dora')) {
+      projectContextLines.push('Domaine : DORA / résilience opérationnelle numérique');
+      projectContextLines.push('Besoin : accompagnement à la conformité DORA');
+      projectContextLines.push('Objet : premier échange avec un consultant OLING');
+      projectContextLines.push('Contexte : besoin de cadrer le périmètre et la démarche de mise en conformité');
+      if (normalizedContext.includes('gestion') && (normalizedContext.includes('actifs') || normalizedContext.includes('asset'))) {
+        projectContextLines.push('Secteur : société de gestion d’actifs financiers');
+      }
+    }
+    if (normalizedContext.includes('erp') && (normalizedContext.includes('proposition') || normalizedContext.includes('methodologie') || normalizedContext.includes('méthodologie') || normalizedContext.includes('livrables') || normalizedContext.includes('cout') || normalizedContext.includes('coût'))) {
+      projectContextLines.push('Objet : Demande de proposition — AMOA ERP industriel');
+      if (normalizedContext.includes('pme') || normalizedContext.includes('40 utilisateur')) {
+        projectContextLines.push('Contexte : PME industrielle, environ 40 utilisateurs ERP');
+      }
+      if (normalizedContext.includes('etudes') || normalizedContext.includes('études') || normalizedContext.includes('achats') || normalizedContext.includes('production')) {
+        projectContextLines.push('Processus : études, achats, approvisionnements, stocks, production, qualité, ventes et pilotage');
+      }
+      projectContextLines.push('Prestations demandées : voir le texte original ci-dessous, à conserver sans omission');
+      projectContextLines.push('Attentes commerciales : méthodologie, nombre de jours estimés, livrables, références industrielles et coût');
+    }
+
+    field.value = [
+      'Objet : demande commerciale issue du chat OLING',
+      `Expertise pressentie : ${label(qualification.primary_need)}`,
+      `Intention : ${label(qualification.commercial_intent)}`,
+      ...projectContextLines,
+      `Contexte résumé : ${contextText || 'à compléter'}`,
+      `Objectifs : ${label(qualification.primary_need)}`,
+      'Périmètre : à compléter',
+      `Situation actuelle : ${label(qualification.maturity_level)}`,
+      `Échéance / urgence : ${label(qualification.urgency_level)}`,
+      'Prochaine étape souhaitée : échange de cadrage avec OLING',
+      `Page source : ${sourceUrl}`,
+    ].join('\n');
+    trackChatEvent('form_prefilled', { primaryNeed: qualification.primary_need, commercialIntent: qualification.commercial_intent });
+  };
+
+  const openLeadForm = () => {
+    if (!state.conversation || state.conversation.leadSubmitted) return;
+    prefillLeadDescription(true);
+    setLeadVisible(true);
+    setSummary(CHAT_I18N.leadOffer || 'Vérifiez la fiche projet, ajoutez vos coordonnées manquantes puis validez l’envoi.', 'info');
+    trackChatEvent('cta_clicked', { primaryNeed: state.conversation.qualification?.primary_need, commercialIntent: state.conversation.qualification?.commercial_intent });
+    trackChatEvent('form_opened');
+    trackChatEvent('lead_form_opened');
+    root.querySelector('input[name="chatFullName"]')?.focus({ preventScroll: true });
+    scrollMessagesToBottom();
+  };
+
+  const diagnosticPrompt = () => [
+    'Je souhaite lancer un mini-diagnostic OLING.',
+    'Posez-moi uniquement les questions utiles, une par une si nécessaire, sans me redemander les informations déjà présentes dans notre échange.',
+    'À la fin, restituez contexte, irritants, risques, hypothèses, scénarios, recommandations, décisions à prendre et rôle possible d’OLING.',
+  ].join(' ');
+
+  const scopingNotePrompt = () => [
+    'Préparez une note de cadrage exploitable à partir de notre conversation.',
+    'Structure attendue : objet, organisation si connue, contexte, besoins, objectifs, périmètre, risques, scénarios, recommandations, décisions, rôle OLING et prochaines étapes.',
+    'Ajoutez une mention indiquant que cette note est indicative, modifiable et à valider avant transmission.',
+  ].join(' ');
+
+  const downloadScopingNote = async () => {
+    if (!state.token) return;
+    const payload = await request(scopingNoteUrl(state.token), {
+      method: 'POST',
+      body: JSON.stringify({}),
+    });
+    if (!payload.note?.downloadUrl) {
+      throw new Error(CHAT_I18N.genericError || 'Une erreur est survenue.');
+    }
+    window.location.href = payload.note.downloadUrl;
+  };
+
+  const sendStructuredActionMessage = async (content, loadingLabel) => {
+    if (state.loading) return;
+    setError('');
+    setLoading(true, loadingLabel);
+    try {
+      await ensureConversation();
+      renderOptimisticVisitorMessage(content);
+      await sendMessage(content);
+      state.typing = false;
+      setStatus('');
+    } catch (error) {
+      renderLocalContinuityMessage(content);
+      setError('');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const sendMessage = async (content) => {
@@ -610,10 +826,43 @@ const initChatWidget = () => {
       }),
     });
 
+    if (!payload.conversation) {
+      throw new Error(CHAT_I18N.genericError || 'Une erreur est survenue.');
+    }
+
     state.typing = false;
     renderConversation(payload.conversation);
     setStatus('');
     prefillLeadDescription();
+  };
+
+  const continuityContent = () => CHAT_I18N.continuityMessage || 'Je rencontre momentanément une difficulté technique pour analyser votre demande. Vous pouvez néanmoins contacter directement notre équipe OLING au 01 89 70 15 60 ou à contact@oling.fr.\n- Téléphone : 01 89 70 15 60\n- Email : contact@oling.fr\n- Formulaire : utilisez le bouton « Transmettre mon projet à OLING » lorsqu’il est proposé.';
+
+  const renderLocalContinuityMessage = (content) => {
+    state.lastFailedContent = content || state.lastFailedContent;
+    const baseConversation = state.conversation || { messages: [] };
+    const existingMessages = baseConversation.messages || [];
+    const hasVisitor = existingMessages.some((message) => message.role === 'visitor' && message.content === content);
+    const nextMessages = [
+      ...existingMessages,
+      ...(content && !hasVisitor ? [{ role: 'visitor', content }] : []),
+      {
+        role: 'assistant',
+        type: 'technical_unavailable',
+        content: continuityContent(),
+        sources: [],
+        sourceCards: [],
+        actions: [{ type: 'copy_request', label: 'Copier ma demande' }],
+      },
+    ];
+
+    state.typing = false;
+    renderConversation({
+      ...baseConversation,
+      messages: nextMessages,
+      requestLead: false,
+    });
+    setStatus('');
   };
 
   const openAndSendPrefill = async (content) => {
@@ -623,11 +872,13 @@ const initChatWidget = () => {
     setLoading(true, CHAT_I18N.openChat || 'Ouverture du chat...');
     try {
       await ensureConversation();
+      state.lastProjectContext = content;
       renderOptimisticVisitorMessage(content);
       await sendMessage(content);
       prefillLeadDescription();
     } catch (error) {
-      setError(error.message || (CHAT_I18N.launchQuestionnaireError || 'Impossible de lancer le questionnaire.'));
+      renderLocalContinuityMessage(content);
+      setError('');
     } finally {
       setLoading(false);
     }
@@ -715,6 +966,8 @@ const initChatWidget = () => {
       body: JSON.stringify(payload),
     });
 
+    trackChatEvent('lead_confirmed');
+    trackChatEvent('lead_submission_confirmed');
     renderConversation(response.conversation);
     setError('');
   };
@@ -727,6 +980,8 @@ const initChatWidget = () => {
     try {
       await ensureConversation();
       prefillLeadDescription();
+      trackChatEvent('form_opened');
+      trackChatEvent('chat_opened');
     } catch (error) {
       setError(error.message || (CHAT_I18N.openChatError || 'Impossible d’ouvrir le chat.'));
     } finally {
@@ -787,10 +1042,14 @@ const initChatWidget = () => {
     if (!content) return;
 
     setError('');
+    if (!state.firstQuestionTracked) {
+      state.firstQuestionTracked = true;
+      trackChatEvent('first_question');
+    }
+    state.lastProjectContext = content;
     messageInput.value = '';
     resizeMessageInput();
     setLoading(true, `${CHAT_I18N.sending || 'Envoi en cours'}...`);
-    const previousConversation = state.conversation ? { ...state.conversation, messages: [...(state.conversation.messages || [])] } : null;
     try {
       await ensureConversation();
       renderOptimisticVisitorMessage(content);
@@ -798,11 +1057,83 @@ const initChatWidget = () => {
       state.typing = false;
       setStatus('');
     } catch (error) {
-      state.typing = false;
-      if (previousConversation) {
-        renderConversation(previousConversation);
+      renderLocalContinuityMessage(content);
+      setError('');
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  root.addEventListener('click', async (event) => {
+    const actionButton = event.target.closest('[data-chat-action]');
+    if (actionButton) {
+      event.preventDefault();
+      const actionType = actionButton.dataset.chatAction;
+      trackChatEvent(analyticsEventMap[actionType] || 'chat_cta_clicked');
+
+      if (actionType === 'open_lead_form') {
+        if (!state.conversation && !state.token) {
+          await ensureConversation();
+        }
+        openLeadForm();
+        return;
       }
-      setError(error.message || (CHAT_I18N.sendError || 'Impossible d’envoyer le message.'));
+
+      if (actionType === 'copy_request') {
+        const text = state.lastFailedContent || root.querySelector('textarea[name="chatMessage"]')?.value || '';
+        if (text && navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          setSummary('Votre demande a été copiée. Vous pouvez la transmettre à OLING par téléphone ou email.', 'info');
+        }
+        return;
+      }
+
+      if (actionType === 'start_diagnostic') {
+        await sendStructuredActionMessage(diagnosticPrompt(), CHAT_I18N.loadingDiagnostic || 'Préparation du mini-diagnostic...');
+        return;
+      }
+
+      if (actionType === 'generate_scoping_note') {
+        await sendStructuredActionMessage(scopingNotePrompt(), CHAT_I18N.loadingScopingNote || 'Préparation de la note de cadrage...');
+        return;
+      }
+
+      if (actionType === 'download_scoping_note') {
+        setLoading(true, CHAT_I18N.loadingScopingNotePdf || 'Préparation du PDF...');
+        try {
+          await downloadScopingNote();
+        } catch (error) {
+          setError(error.message || (CHAT_I18N.genericError || 'Une erreur est survenue.'));
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
+    }
+
+    const leadOpenButton = event.target.closest('[data-chat-open-lead]');
+    if (leadOpenButton) {
+      event.preventDefault();
+      if (!state.conversation && !state.token) {
+        await ensureConversation();
+      }
+      openLeadForm();
+      return;
+    }
+
+    const retryButton = event.target.closest('[data-chat-retry-last]');
+    if (!retryButton || state.loading || !state.lastFailedContent) return;
+
+    event.preventDefault();
+    setError('');
+    setLoading(true, `${CHAT_I18N.sending || 'Envoi en cours'}...`);
+    try {
+      await ensureConversation();
+      await sendMessage(state.lastFailedContent);
+      state.lastFailedContent = '';
+    } catch (error) {
+      renderLocalContinuityMessage(state.lastFailedContent);
+      setError('');
     } finally {
       setLoading(false);
     }
@@ -811,6 +1142,8 @@ const initChatWidget = () => {
   leadButton?.addEventListener('click', async () => {
     if (state.loading) return;
     setError('');
+    trackChatEvent('form_submitted');
+    trackChatEvent('lead_form_submitted');
     setLoading(true, CHAT_I18N.leadSending || 'Transmission en cours...');
     try {
       await submitLead();
@@ -854,6 +1187,9 @@ const initChatWidget = () => {
   root.addEventListener('click', (event) => {
     const link = event.target.closest('a[data-chat-bypass="true"]');
     if (!link) return;
+    if (link.classList.contains('oling-chat-widget__source-card')) {
+      trackChatEvent('chat_source_clicked');
+    }
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
     const href = link.getAttribute('href');

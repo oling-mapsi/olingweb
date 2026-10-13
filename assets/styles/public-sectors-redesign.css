@@ -1,0 +1,295 @@
+/* SECTEURS — accessible editorial visual cards; media optional / CMS-owned. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub {
+  --sector-ink:#122e48; --sector-copy:#536a7f; --sector-rose:#dc407a;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub > section > .container {
+  width: calc(100% - 2 * clamp(1rem,4vw,2.5rem));
+  max-width:1152px;
+  margin-inline:auto;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-overview {
+  padding-block: clamp(4rem,6vw,6.5rem) !important;
+  background:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-overview .oling-section-head {
+  max-width:800px;
+  margin-bottom:clamp(2rem,3vw,3rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-overview .oling-section-head h2 {
+  max-width:23ch;
+  font-size:clamp(2rem,3.1vw,3.15rem);
+  letter-spacing:-.05em;
+  line-height:1.1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(.85rem,1.9vw,1.5rem);
+  align-items:stretch;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:520px;
+  overflow:hidden;
+  isolation:isolate;
+  border:1px solid rgba(24,66,99,.13);
+  border-radius:1.25rem;
+  background:#fff !important;
+  box-shadow:0 25px 46px -43px rgba(17,44,69,.32);
+  color:var(--sector-ink);
+  text-decoration:none !important;
+  transition:transform 210ms ease, box-shadow 210ms ease, border-color 210ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual {
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  min-height:155px;
+  overflow:hidden;
+  padding:1.35rem 1.5rem;
+  background:
+    radial-gradient(circle at 86% 6%,rgba(250,255,255,.34),transparent 32%),
+    linear-gradient(130deg,#153e60 0%,#2e79a0 100%);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card:nth-child(3n+2) .oling-sector-card__visual {
+  background:radial-gradient(circle at 85% 6%,rgba(255,255,255,.22),transparent 38%),linear-gradient(125deg,#15414c,#34858e);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card:nth-child(3n+3) .oling-sector-card__visual {
+  background:radial-gradient(circle at 85% 6%,rgba(255,255,255,.22),transparent 38%),linear-gradient(125deg,#462d55,#9b4f82);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:saturate(.85);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(105deg,rgba(13,32,54,.35),rgba(13,32,54,.05) 75%);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual::before {
+  content:"";
+  position:absolute;
+  z-index:1;
+  right:-3.6rem;
+  bottom:-5.3rem;
+  width:15rem;
+  height:15rem;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:50%;
+  box-shadow:0 0 0 2.3rem rgba(255,255,255,.045),0 0 0 5.3rem rgba(255,255,255,.03);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__index {
+  position:relative;
+  z-index:2;
+  color:#fff !important;
+  font-family:var(--oling-display);
+  font-size:clamp(2.5rem,4vw,4.25rem);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:-.09em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__line {
+  position:absolute;
+  z-index:2;
+  bottom:1.3rem;
+  left:1.5rem;
+  width:3rem;
+  height:3px;
+  border-radius:3px;
+  background:#fd80af;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__body {
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:clamp(1.25rem,2vw,1.8rem);
+  min-width:0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__body .oling-kicker {
+  color:#b53d6d;
+  font-size:.7rem;
+  letter-spacing:.15em;
+  font-weight:850;
+  margin-bottom:.55rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__body h2 {
+  margin:0 0 .9rem;
+  color:var(--sector-ink) !important;
+  font-family:var(--oling-body);
+  font-size:clamp(1.37rem,1.9vw,1.85rem);
+  font-weight:800;
+  line-height:1.13;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__intro {
+  margin:0 0 1.2rem;
+  color:var(--sector-copy) !important;
+  font-family:var(--oling-body);
+  font-size:.98rem;
+  line-height:1.65;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__details {
+  margin-top:auto;
+  width:100%;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__caption {
+  display:block;
+  margin-bottom:.7rem;
+  color:#2f5876;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__specifics {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  gap:.4rem;
+  margin:0 0 1.15rem;
+  padding:0;
+  list-style:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__specifics li {
+  width:fit-content;
+  max-width:100%;
+  padding:.34rem .53rem;
+  background:#eff5fa;
+  border-radius:.45rem;
+  color:#315a77;
+  font-size:.72rem;
+  font-weight:650;
+  line-height:1.4;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__footer {
+  display:flex;
+  align-items:flex-end;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  gap:.6rem 1rem;
+  width:100%;
+  padding-top:1rem;
+  margin-top:auto;
+  border-top:1px solid rgba(24,66,99,.10);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__proof {
+  color:#50677c;
+  font-size:.77rem;
+  line-height:1.3;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__proof strong {color:#244d70}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__more {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  color:#145783;
+  font-size:.82rem;
+  font-weight:800;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__more > span {
+  font-size:1.25rem;
+  font-weight:800;
+  line-height:1;
+  transition:transform 200ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) a.oling-sector-card:is(:hover,:focus-visible) {
+  color:var(--sector-ink);
+  transform:translateY(-4px);
+  border-color:rgba(220,64,122,.31);
+  box-shadow:0 35px 54px -39px rgba(17,44,69,.37);
+}
+body.oling-body:not(.oling-home):not(.admin) a.oling-sector-card:is(:hover,:focus-visible) .oling-sector-card__more > span {transform:translate(3px,-3px)}
+body.oling-body:not(.oling-home):not(.admin) a.oling-sector-card:focus-visible {outline:3px solid #3997d3;outline-offset:3px}
+/* Sector reading cards sit in a distinct quiet band. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-angles-section {
+  background:linear-gradient(180deg,#eef5fb,#f7fafc) !important;
+  padding-block:clamp(4rem,6vw,6rem) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angles {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1.25rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:clamp(1.35rem,2vw,2.1rem);
+  border:1px solid rgba(31,75,108,.13);
+  border-radius:1.1rem;
+  color:#122e48;
+  background:#fff;
+  text-decoration:none;
+  transition:transform 210ms ease, box-shadow 210ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.45rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__top .oling-kicker {color:#ad396c;font-size:.73rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__index {
+  font-family:var(--oling-display);
+  color:rgba(22,53,80,.22);
+  font-size:2rem;
+  font-weight:800;
+  line-height:1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle h2 {
+  max-width:22ch;
+  margin:0 0 .8rem;
+  font-family:var(--oling-body);
+  font-size:clamp(1.35rem,2vw,1.95rem);
+  font-weight:800;
+  color:#122e48;
+  line-height:1.16;
+  letter-spacing:-.04em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle p {color:#50677b;line-height:1.67;font-size:.95rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__issues {font-size:.84rem !important}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__more {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  width:100%;
+  margin-top:auto;
+  padding-top:1.2rem;
+  border-top:1px solid rgba(31,75,108,.12);
+  color:#135b90;
+  font-size:.86rem;
+  font-weight:800;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle__more span {font-size:1.3rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle:is(:hover,:focus-visible) {
+  transform:translateY(-2px);
+  box-shadow:0 25px 50px -43px rgba(21,53,80,.42);
+}
+@media(max-width:1199.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-angles {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-card {min-height:0}
+}
+@media(max-width:575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-angles {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual {min-height:135px}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-card,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle {transition:none;transform:none !important}
+}

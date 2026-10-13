@@ -1,0 +1,287 @@
+/**
+ * OLING public secondary pages — design foundation, lot 1.
+ *
+ * Scope: ONLY public pages other than the homepage.
+ * Do not add SEO content, routes, JS handlers or back-office rules here.
+ * Imported after app.css to progressively replace the legacy capsule styles.
+ */
+body.oling-body:not(.oling-home):not(.admin) {
+  --oling-secondary-ink: #122b40;
+  --oling-secondary-copy: #4a6277;
+  --oling-secondary-line: rgba(21, 49, 74, 0.12);
+  --oling-secondary-paper: #f7f9fc;
+  --oling-secondary-rose: #d63d72;
+}
+
+/* Full-width header backdrop; retain the existing nav structure and behavior. */
+body.oling-body:not(.oling-home):not(.admin) #header.oling-header {
+  width: 100%;
+  left: 0;
+  right: 0;
+  padding: 0 !important;
+  min-height: 4.75rem;
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--oling-secondary-line) !important;
+  background: rgba(251, 252, 254, 0.96) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) #header > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: clamp(1rem, 2.4vw, 3rem) !important;
+}
+
+/* The old rounded topbar is a layout wrapper, no longer a floating card. */
+body.oling-body:not(.oling-home):not(.admin) #header .oling-topbar,
+body.oling-body:not(.oling-home):not(.admin) #header .container > nav.oling-topbar {
+  width: 100%;
+  min-height: 4.75rem;
+  margin: 0 !important;
+  padding: 0.4rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) #header .oling-brand {
+  align-self: center !important;
+  padding-bottom: 0 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) #header .oling-brand img {
+  height: clamp(2.2rem, 3.1vw, 2.9rem) !important;
+  max-height: 2.9rem !important;
+  transform: none !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) #header .oling-language-switcher__toggle {
+  border-color: var(--oling-secondary-line);
+  background: rgba(18, 43, 64, 0.035);
+  color: var(--oling-secondary-ink);
+}
+
+/* Light editorial hero: its backdrop fills the viewport, the content does not. */
+body.oling-body:not(.oling-home):not(.admin) main section.oling-shell-hero {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: clamp(3.3rem, 5.5vw, 5.3rem) 0 clamp(3.1rem, 4.5vw, 4.8rem);
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--oling-secondary-line);
+  background:
+    radial-gradient(36rem 22rem at 97% 7%, rgba(214, 61, 114, 0.075), transparent 70%),
+    radial-gradient(33rem 20rem at 1% 78%, rgba(48, 113, 176, 0.055), transparent 72%),
+    linear-gradient(180deg, #f5f8fc 0%, #ffffff 100%) !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero > .container {
+  position: relative;
+  width: 100%;
+  background: transparent !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.65fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4.5rem);
+  width: 100% !important;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner:not(:has(.oling-shell-hero__highlights)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__copy {
+  max-width: 55rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero h1 {
+  max-width: 20ch;
+  margin: 0.6rem 0 1.3rem;
+  color: var(--oling-secondary-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(2.7rem, 4.4vw, 4.6rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.05em !important;
+  line-height: 1.035;
+  text-transform: none;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__eyebrow,
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero .oling-kicker {
+  color: #875069 !important;
+  font-family: var(--oling-body);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__intro {
+  max-width: 64ch;
+  margin: 0 0 1.65rem;
+  color: var(--oling-secondary-copy) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
+  font-weight: 450;
+  line-height: 1.65;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__highlights {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: initial;
+  gap: 0.25rem;
+  min-width: 0;
+  padding-left: clamp(1rem, 2.7vw, 2.5rem);
+  border-left: 1px solid var(--oling-secondary-line);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__highlights span {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem 0 0.65rem 1.25rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: var(--oling-secondary-ink) !important;
+  font-family: var(--oling-body) !important;
+  font-size: clamp(0.89rem, 1.05vw, 1.02rem) !important;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.42 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__highlights span::before {
+  content: "";
+  position: absolute;
+  top: 1.22rem;
+  left: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--oling-secondary-rose);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions {
+  gap: 0.75rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn {
+  min-height: 2.85rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 0.75rem;
+  font-family: var(--oling-body);
+  font-size: 0.83rem;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn-outline-dark {
+  color: var(--oling-secondary-ink) !important;
+  background: transparent !important;
+  border-color: rgba(18, 43, 64, 0.28) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn-outline-dark:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  background: var(--oling-secondary-ink) !important;
+  border-color: var(--oling-secondary-ink) !important;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) #header .oling-topbar {
+    min-height: 4.4rem;
+    padding-block: 0.35rem !important;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) #header .navbar-nav-wrap-col.collapse.show {
+    top: calc(100% + 0.35rem);
+    background: rgba(251, 252, 254, 0.99) !important;
+    border: 1px solid var(--oling-secondary-line) !important;
+    border-radius: 0.85rem;
+    box-shadow: 0 15px 30px rgba(18, 43, 64, 0.1) !important;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) #header .oling-mobile-mega__group,
+  body.oling-body:not(.oling-home):not(.admin) #header .oling-mobile-mega__all,
+  body.oling-body:not(.oling-home):not(.admin) #header .oling-mobile-mega__link {
+    color: var(--oling-secondary-ink) !important;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.45rem;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__highlights {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+    border-left: 0;
+    gap: 0.25rem 1rem;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__highlights span {
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) main section.oling-shell-hero {
+    padding-block: 2.65rem 2.8rem;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero h1 {
+    max-width: 100%;
+    font-size: clamp(2.15rem, 8.8vw, 3rem) !important;
+    letter-spacing: -0.045em !important;
+    line-height: 1.08;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__intro {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions {
+    align-items: stretch;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn {
+    max-width: 100%;
+  }
+}

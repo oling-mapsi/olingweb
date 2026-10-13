@@ -816,7 +816,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $team = $this->publicLeadershipSelector->select($this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale));
+        $team = $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale);
         $pageEntity = $sitePageRepository->findOneBy(['slug' => 'team']);
 
         return $this->render('team.html.twig', [

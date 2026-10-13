@@ -24,6 +24,24 @@ final class TeamRuntimeArchitectureTest extends TestCase
         self::assertStringContainsString('translation.translation_status = :status', $repository);
     }
 
+    public function testTeamPageKeepsAllPublishedProfilesWhileAboutUsesEditorialPreview(): void
+    {
+        $controller = (string) file_get_contents(dirname(__DIR__) . '/src/Controller/PracticeController.php');
+
+        self::assertMatchesRegularExpression(
+            "/['\"]teamPreview['\"]\\s*=>\\s*\\\$this->publicLeadershipSelector->select\\(\\\$this->buildTeamProfiles\\(\\\$repoteam->findPublishedOrderedForLocale\\(\\\$locale\\), \\\$locale\\)\\)/",
+            $controller
+        );
+        self::assertMatchesRegularExpression(
+            '/\\$team\\s*=\\s*\\$this->buildTeamProfiles\\(\\$repoteam->findPublishedOrderedForLocale\\(\\$locale\\), \\$locale\\);/',
+            $controller
+        );
+        self::assertDoesNotMatchRegularExpression(
+            '/\\$team\\s*=\\s*\\$this->publicLeadershipSelector->select\\(/',
+            $controller
+        );
+    }
+
     public function testRuntimeDoesNotReadTeamImportJsonFiles(): void
     {
         foreach (['src/Controller', 'src/Service', 'src/Repository', 'templates'] as $directory) {

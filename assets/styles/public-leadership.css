@@ -92,7 +92,7 @@ body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--preview {
 }
 
 body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--detail {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
   gap: clamp(1.2rem, 2.6vw, 2rem);
 }
 
@@ -110,8 +110,8 @@ body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card {
 }
 
 body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--detail {
-  grid-template-columns: minmax(15rem, 0.35fr) minmax(0, 0.65fr);
-  min-height: 22rem;
+  grid-template-columns: minmax(10rem, 0.36fr) minmax(0, 0.64fr);
+  min-height: 20rem;
   border-radius: 1.4rem;
 }
 

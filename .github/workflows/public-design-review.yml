@@ -49,6 +49,12 @@ jobs:
           php -l tests/TeamProfilesSourceTest.php
           php -l tests/PublicLeadershipSelectorTest.php
 
+      # The repository contains a partial tracked vendor/ tree. Composer otherwise
+      # treats those directories as already installed even if Twig files are missing.
+      # CI uses a disposable checkout: clean vendor ONLY in this runner.
+      - name: Start from a clean vendor directory in CI
+        run: rm -rf vendor
+
       - name: Install PHP dependencies without side-effect scripts
         run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
 

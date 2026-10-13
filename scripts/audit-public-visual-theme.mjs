@@ -158,6 +158,29 @@ try {
             aboutCards: document.querySelectorAll('.oling-leadership-grid--preview .oling-leadership-card').length,
             teamNames: [...document.querySelectorAll('.oling-leadership-grid--detail .oling-leadership-card__name')].map((el) => el.textContent.trim()),
             personNames: schemaNames,
+            editorialGeometry: (() => {
+              const rect = (sel) => {
+                const node = document.querySelector(sel);
+                if (!node) return null;
+                const b = node.getBoundingClientRect();
+                return { x: b.x, y: b.y, width: b.width, height: b.height, centerOffset: (b.x + b.width / 2) - (innerWidth / 2) };
+              };
+              const featured = document.querySelector('.oling-universe--1');
+              const resource = document.querySelector('.oling-resource-story:nth-child(4n+1)');
+              return {
+                resourcesHeading: rect('.oling-resources-library__heading'),
+                resourcesCuration: rect('.oling-resources-curation__content'),
+                sectorsCard: rect('.oling-sectors-grid .oling-sector-card'),
+                sectorsVisual: rect('.oling-sectors-grid .oling-sector-card__visual'),
+                expertiseFeatured: rect('.oling-universe--1'),
+                expertiseBg: featured ? getComputedStyle(featured).backgroundImage : null,
+                expertiseTextColor: featured ? getComputedStyle(featured.querySelector('.oling-universe__head h3')).color : null,
+                resourceFeaturedBg: resource ? getComputedStyle(resource).backgroundImage : null,
+                projectCount: document.querySelectorAll('.oling-proof-mission').length,
+                sectorsCount: document.querySelectorAll('.oling-sectors-grid .oling-sector-card').length,
+                expertiseCount: document.querySelectorAll('.oling-expertises-featured .oling-expertise-index-card').length,
+              };
+            })(),
           };
         });
         const seo = Object.fromEntries(seoKeys.map((key) => [key, data[key]]));
@@ -184,6 +207,27 @@ try {
           issue('Language chevron must be visibly white on a slate grey toggle');
         }
         if (data.h1.length !== 1) issue(`Expected one H1; found ${data.h1.length}`);
+        if (!captureBaseline && route === '/ressources') {
+          if (!data.editorialGeometry.resourcesHeading || !data.editorialGeometry.resourcesCuration) {
+            issue('Resource editorial sections missing');
+          } else {
+            if (Math.abs(data.editorialGeometry.resourcesHeading.centerOffset) > 14) issue('Resources article-library heading is not centered');
+            if (Math.abs(data.editorialGeometry.resourcesCuration.centerOffset) > 14) issue('Resources curated expertises remain off-center');
+          }
+          if (data.editorialGeometry.resourceFeaturedBg && !data.editorialGeometry.resourceFeaturedBg.includes('gradient')) {
+            issue('Featured resource card has no differentiated background');
+          }
+        }
+        if (!captureBaseline && route === '/expertises' && data.editorialGeometry.expertiseFeatured) {
+          if (!data.editorialGeometry.expertiseBg?.includes('gradient')) issue('Flagship expertise feature must have dark background');
+          if (data.editorialGeometry.expertiseTextColor !== 'rgb(255, 255, 255)') issue('Flagship expertise dark feature heading must be white');
+        }
+        if (!captureBaseline && route === '/secteurs' && data.editorialGeometry.sectorsCount) {
+          const {sectorsCard, sectorsVisual} = data.editorialGeometry;
+          if (sectorsCard && sectorsVisual && sectorsVisual.width < sectorsCard.width * 0.85) {
+            issue('Sector visual cover shrank due to legacy card styles');
+          }
+        }
         if (data.overflow > 3) issue(`Horizontal overflow ${data.overflow}px`);
         if (!captureBaseline) {
           if (['/expertises', '/services', '/secteurs', '/projets', '/ressources', '/contact'].includes(route)
@@ -296,7 +340,7 @@ try {
           heroPanel: data.heroPanel, languageToggle: data.languageToggle,
           languageArrow: data.languageArrow, horizontalOverflow: data.overflow,
         }, aboutCards: data.aboutCards, teamNames: data.teamNames, personNames: data.personNames,
-          isEditorial: data.isEditorial, languageCaret: data.languageCaret });
+          isEditorial: data.isEditorial, languageCaret: data.languageCaret, editorialGeometry: data.editorialGeometry });
       } catch (error) {
         issue(String(error?.message || error));
         records.push({ route, width, status, error: String(error) });

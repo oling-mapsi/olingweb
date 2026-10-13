@@ -25,10 +25,10 @@
       <div class="oling-sectors-grid">
         {% for sector in sectorCatalog %}
           {% set tag = sector.detailUrl ? 'a' : 'article' %}
-          <{{ tag }} class="oling-sector-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
+          <{{ tag }} class="oling-sector-card{{ sector.heroImage ? ' oling-sector-card--photographic' : '' }}"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
             <div class="oling-sector-card__visual" aria-hidden="true">
               {% if sector.heroImage %}
-                <img src="{{ asset(sector.heroImage) }}" alt="" loading="lazy" decoding="async">
+                <img src="{{ asset(sector.heroImage) }}" alt="" width="640" height="360" loading="lazy" decoding="async">
               {% endif %}
               <span class="oling-sector-card__index">{{ '%02d'|format(loop.index) }}</span>
               <span class="oling-sector-card__line"></span>
@@ -48,7 +48,9 @@
                 </div>
               {% endif %}
               <div class="oling-sector-card__footer">
-                <span class="oling-sector-card__proof"><strong>Références publiées :</strong> {{ sector.projectCount }}</span>
+                {% if sector.projectCount > 0 %}
+                  <span class="oling-sector-card__proof"><strong>Missions associées :</strong> {{ sector.projectCount }}</span>
+                {% endif %}
                 {% if sector.detailUrl %}
                   <span class="oling-sector-card__more">Voir l’approche associée <span aria-hidden="true">↗</span></span>
                 {% endif %}

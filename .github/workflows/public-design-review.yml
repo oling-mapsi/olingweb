@@ -48,6 +48,7 @@ jobs:
           php -l tests/HomePageSourceTest.php
           php -l tests/TeamProfilesSourceTest.php
           php -l tests/PublicLeadershipSelectorTest.php
+          php -l tests/PublicEditorialDesignSourceTest.php
 
       # The repository contains a partial tracked vendor/ tree. Composer otherwise
       # treats those directories as already installed even if Twig files are missing.
@@ -59,7 +60,7 @@ jobs:
         run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
 
       - name: Run focused unit tests
-        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest'
+        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest'
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

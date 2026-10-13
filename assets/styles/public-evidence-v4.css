@@ -1,0 +1,236 @@
+/**
+ * OLING V4 — evidence-led projects and photographic sector cards.
+ * Loaded after all previous public design layers.
+ * No changes to home, admin, route metadata or hidden SEO-only content.
+ */
+
+/* Each documented mission keeps its context, intervention, perimeter,
+ * deliverables and owner links visible. Factual notes are accessible through
+ * a native <details> control to reduce repetitive height on long listings. */
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.8vw, 1.45rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__narrative,
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__evidence {
+  min-width: 0;
+  gap: clamp(.9rem, 1.5vw, 1.4rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__block {
+  min-width: 0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__block h3 {
+  margin-bottom: .45rem;
+  color: #2b698d;
+  font-weight: 800;
+  font-size: .76rem;
+  line-height: 1.25;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__block p {
+  margin-bottom: .4rem;
+  color: #475f70;
+  font-size: clamp(.91rem, 1vw, .98rem);
+  line-height: 1.62;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .36rem;
+  margin: .55rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-terms li {
+  margin: 0;
+  padding: .34rem .54rem;
+  border: 1px solid #dce6ee;
+  border-radius: .45rem;
+  background: #f1f6fa;
+  color: #2d526b;
+  font-family: var(--oling-body);
+  font-size: .78rem;
+  font-weight: 650;
+  line-height: 1.38;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes {
+  margin-top: .1rem;
+  border: 1px solid #e1e8ef;
+  border-radius: .78rem;
+  background: #f7fafc;
+  overflow: hidden;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__summary {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto auto;
+  align-items: center;
+  gap: .65rem;
+  padding: .85rem 1rem;
+  cursor: pointer;
+  color: #24526d;
+  font-family: var(--oling-body);
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .035em;
+  line-height: 1.3;
+  list-style: none;
+  text-transform: uppercase;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__summary::-webkit-details-marker {
+  display: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__summary:focus-visible {
+  outline: 3px solid rgba(43,105,141,.5);
+  outline-offset: -3px;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__count {
+  display: inline-grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid #d5e4ee;
+  border-radius: .45rem;
+  color: #305f7b;
+  background: #eaf2f8;
+  font-size: .7rem;
+  font-weight: 800;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__chevron {
+  width: .5rem;
+  height: .5rem;
+  margin-right: .17rem;
+  border-right: 2px solid #24526d;
+  border-bottom: 2px solid #24526d;
+  transform: rotate(45deg);
+  transition: transform .18s ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes[open] .oling-proof-quotes__chevron {
+  transform: rotate(225deg);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__body {
+  display: grid;
+  gap: .6rem;
+  padding: 0 1rem 1rem;
+  color: #506a7c;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__body p {
+  margin: 0;
+  padding: .7rem .85rem;
+  border-left: 2px solid #c94f7b;
+  border-radius: .2rem .4rem .4rem .2rem;
+  background: #fff;
+  font-size: .84rem;
+  line-height: 1.56;
+  color: #435d70;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-owner {
+  margin-top: .25rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-owner a:focus-visible {
+  outline: 2px solid #2b79ad;
+  outline-offset: 3px;
+}
+
+/* Sector portraits: prefer existing, individually chosen CMS images; use the
+ * repository's matching public industry photographs only when CMS is empty.
+ * Keep the fallback gradient as an accessible final resort. */
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card--photographic .oling-sector-card__visual {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  background: #d9e7f0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card--photographic .oling-sector-card__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .28s ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card--photographic .oling-sector-card__visual::after {
+  inset: auto 0 0;
+  height: 48%;
+  background: linear-gradient(180deg, transparent, rgba(9,31,48,.31));
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card {
+  border-radius: 1.1rem;
+  box-shadow: 0 15px 38px -31px rgba(19,49,72,.3);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__body {
+  gap: .6rem;
+  padding: clamp(1.2rem,1.75vw,1.65rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__intro {
+  margin: 0;
+  font-size: .95rem;
+  line-height: 1.57;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__details {
+  margin-top: .3rem;
+  padding-top: .9rem;
+  border-color: #e1eaf1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__caption {
+  font-size: .72rem;
+  color: #33637f;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__specifics {
+  display: grid;
+  gap: .55rem;
+  margin-top: .75rem;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__specifics li {
+  margin: 0;
+  padding: .15rem 0 .15rem .85rem;
+  border-left: 2px solid #bcd5e5;
+  font-size: .81rem;
+  line-height: 1.53;
+  color: #456175;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__footer {
+  gap: .5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .86rem;
+  color: #1e6597;
+  text-decoration: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card:focus-visible {
+  outline: 3px solid #2b79ad;
+  outline-offset: 4px;
+}
+
+/* Avoid clipping content in the compact mobile cards. */
+@media (max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__identity,
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__content {
+    padding: clamp(1.2rem, 4vw, 1.6rem);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__content {
+    gap: 1.05rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__body {
+    padding: 1.2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-quotes__chevron,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card__visual img {
+    transition: none;
+  }
+}

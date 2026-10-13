@@ -283,7 +283,8 @@ try {
             }
           }
           if (kind === 'team') {
-            if (data.teamNames.length !== 2 || data.personNames.length !== 2) issue('Expected two leadership cards and two Person schema entries');
+            if (data.teamNames.length <= 2 || data.personNames.length <= 2) issue('Expected the complete published team, not only the leadership preview');
+            if (data.teamNames.length !== data.personNames.length) issue('Visible team cards and Person JSON-LD counts differ');
             if (data.teamNames.join('|') !== data.personNames.join('|')) issue('Person JSON-LD and visible leadership names differ');
           }
           if (kind === 'about' && data.aboutCards !== 2) issue('Expected two leadership previews');

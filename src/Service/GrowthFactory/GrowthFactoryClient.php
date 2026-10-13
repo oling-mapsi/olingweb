@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Service\GrowthFactory;
+
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+final class GrowthFactoryClient
+{
+    public function __construct(
+        private readonly HttpClientInterface $httpClient,
+        private readonly GrowthFactoryJwtEncoder $jwtEncoder,
+        private readonly LoggerInterface $logger,
+        private readonly bool $enabled,
+        private readonly string $baseUrl,
+        private readonly float $timeoutSeconds,
+        private readonly float $generateTimeoutSeconds,
+    ) {
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function listCampaigns(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/studio-simple/campaigns');
+    }
+
+    public function getCampaign(UserInterface $actor, string $id): array
+    {
+        return $this->request($actor, 'GET', '/studio-simple/campaigns/'.rawurlencode($id));
+    }
+
+    public function createCampaign(UserInterface $actor, string $type, string $theme, array $channels): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns', [
+            'name' => $theme,
+            'campaign_type' => $type,
+            'theme' => $theme,
+            'selected_channels' => array_values($channels),
+        ]);
+    }
+
+    public function generateCampaign(UserInterface $actor, string $id): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/generate', null, $this->generateTimeoutSeconds);
+    }
+
+    public function updateAsset(UserInterface $actor, string $campaignId, string $assetId, array $payload): array
+    {
+        return $this->request($actor, 'PUT', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId), $payload);
+    }
+
+    public function publishCampaign(UserInterface $actor, string $id, array $channels): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/publish', ['channels' => array_values($channels)]);
+    }
+
+    public function deleteCampaign(UserInterface $actor, string $id): void
+    {
+        $this->request($actor, 'DELETE', '/studio-simple/campaigns/'.rawurlencode($id));
+    }
+
+    private function request(UserInterface $actor, string $method, string $path, ?array $json = null, ?float $timeout = null): array
+    {
+        if (!$this->enabled) {
+            throw new GrowthFactoryUnavailableException('Growth est désactivé.');
+        }
+        if (trim($this->baseUrl) === '') {
+            throw new GrowthFactoryUnavailableException('Growth Factory n’est pas configuré.');
+        }
+
+        $correlationId = bin2hex(random_bytes(16));
+        $options = [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.$this->jwtEncoder->encode($actor, $correlationId),
+                'X-Correlation-ID' => $correlationId,
+                'Idempotency-Key' => $correlationId,
+            ],
+            'timeout' => $timeout ?? $this->timeoutSeconds,
+        ];
+        if ($json !== null) {
+            $options['headers']['Content-Type'] = 'application/json';
+            $options['json'] = $json;
+        }
+
+        try {
+            $response = $this->httpClient->request($method, rtrim($this->baseUrl, '/').$path, $options);
+            $status = $response->getStatusCode();
+            $body = trim($response->getContent(false));
+            $payload = $body !== '' ? json_decode($body, true) : [];
+        } catch (TransportExceptionInterface|\JsonException|\RuntimeException $exception) {
+            $this->logger->warning('growth_factory_unavailable', ['method' => $method, 'path' => $path, 'error' => $exception->getMessage()]);
+            throw new GrowthFactoryUnavailableException('Growth Factory est indisponible.', previous: $exception);
+        }
+
+        if ($status >= 200 && $status < 300) {
+            return is_array($payload) ? $payload : [];
+        }
+        $message = is_array($payload) ? (string) ($payload['detail'] ?? $payload['message'] ?? 'Erreur Growth Factory.') : 'Erreur Growth Factory.';
+
+        throw match ($status) {
+            404 => new GrowthFactoryNotFoundException($message),
+            409 => new GrowthFactoryConflictException($message),
+            401, 403 => new GrowthFactoryException('Accès Growth refusé.'),
+            default => $status >= 500 ? new GrowthFactoryUnavailableException('Growth Factory est indisponible.') : new GrowthFactoryException($message),
+        };
+    }
+}

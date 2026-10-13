@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Growth | Admin{% endblock %}
+{% block meta_description %}Cockpit Growth OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="mb-4">
+      <h1 class="h3 mb-1">Growth</h1>
+      <p class="text-muted mb-0">Cockpit OLING connecté à Growth Factory.</p>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label,messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label == 'danger' ? 'danger' : 'success' }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if not available %}
+      <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
+    {% endif %}
+
+    <section class="card mb-4">
+      <div class="card-body">
+        <h2 class="h5">Nouvelle campagne</h2>
+        <form method="post" action="{{ path('admin_growth_campaign_create') }}" class="row g-3">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_campaign_create') }}">
+          <div class="col-lg-3">
+            <label class="form-label" for="growth-type">Type</label>
+            <select class="form-select" id="growth-type" name="campaign_type" required>
+              {% for type,option in type_options %}
+                <option value="{{ type }}" data-channels="{{ option.channels|join(',') }}">{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-5">
+            <label class="form-label" for="growth-theme">Thème</label>
+            <input class="form-control" id="growth-theme" name="theme" required>
+          </div>
+          <div class="col-lg-4">
+            <span class="form-label d-block">Canaux</span>
+            {% for channel,label in channel_options %}
+              <label class="form-check form-check-inline">
+                <input class="form-check-input js-growth-channel" type="checkbox" name="channels[]" value="{{ channel }}">
+                <span class="form-check-label">{{ label }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary" {{ available ? '' : 'disabled' }}>Créer et générer</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+          <h2 class="h5 mb-0">Campagnes</h2>
+          <span class="small text-muted">{{ campaigns|length }} élément(s)</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Campagne</th><th>Type</th><th>Canaux</th><th>Statut</th><th></th></tr></thead>
+            <tbody>
+            {% for campaign in campaigns %}
+              <tr>
+                <td>{{ campaign.name ?: campaign.theme }}</td>
+                <td>{{ campaign.campaign_type }}</td>
+                <td>{{ campaign.selected_channels|join(', ') }}</td>
+                <td><span class="badge bg-secondary">{{ campaign.status }}</span></td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('admin_growth_show', {id: campaign.id}) }}">Ouvrir</a></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-muted">Aucune campagne disponible.</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <h2 class="h5">Parité suivie</h2>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead><tr><th>Fonction</th><th>État</th><th>Phase</th></tr></thead>
+            <tbody>
+              {% for row in parity_matrix %}
+                <tr><td>{{ row.feature }}</td><td>{{ row.status }}</td><td>{{ row.phase }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+(() => {
+  const type = document.getElementById('growth-type');
+  const boxes = Array.from(document.querySelectorAll('.js-growth-channel'));
+  const sync = () => {
+    const allowed = (type.selectedOptions[0]?.dataset.channels || '').split(',');
+    boxes.forEach((box) => {
+      box.disabled = !allowed.includes(box.value);
+      box.checked = allowed.includes(box.value);
+    });
+  };
+  type?.addEventListener('change', sync);
+  sync();
+})();
+</script>
+{% endblock %}

@@ -16,6 +16,10 @@ parameters:
     chat_ai_mistral_base_url_default: 'https://api.mistral.ai/v1'
     chat_ai_mistral_model_default: 'mistral-large-latest'
     chat_ai_global_latency_budget_ms: 55000
+    growth_factory_jwt_audience_default: 'mapsi-growth-admin'
+    growth_factory_jwt_ttl_seconds_default: 60
+    growth_factory_timeout_seconds_default: 10
+    growth_factory_generate_timeout_seconds_default: 90
     chat_ai_provider: '%env(default:chat_ai_provider_default:string:CHAT_AI_PROVIDER)%'
     chat_ai_openai_api_key: '%env(default::string:OPENAI_API_KEY)%'
     chat_ai_openai_base_url: '%env(default:chat_ai_openai_base_url_default:string:CHAT_AI_OPENAI_BASE_URL)%'
@@ -25,6 +29,16 @@ parameters:
     chat_ai_mistral_model: '%env(default:chat_ai_mistral_model_default:string:MISTRAL_MODEL)%'
     analytics_ga4_property_id: '%env(string:GA4_PROPERTY_ID)%'
     analytics_ga4_credentials_path: '%env(string:GA4_CREDENTIALS_PATH)%'
+    growth_factory_enabled: '%env(bool:default::GROWTH_FACTORY_ENABLED)%'
+    growth_factory_base_url: '%env(default::string:GROWTH_FACTORY_BASE_URL)%'
+    growth_factory_jwt_issuer: '%env(default:router.request_context.host:string:GROWTH_FACTORY_JWT_ISSUER)%'
+    growth_factory_jwt_audience: '%env(default:growth_factory_jwt_audience_default:string:GROWTH_FACTORY_JWT_AUDIENCE)%'
+    growth_factory_jwt_ttl_seconds: '%env(int:default:growth_factory_jwt_ttl_seconds_default:GROWTH_FACTORY_JWT_TTL_SECONDS)%'
+    growth_factory_jwt_kid: '%env(default::string:GROWTH_FACTORY_JWT_KID)%'
+    growth_factory_private_key: '%env(default::string:GROWTH_FACTORY_PRIVATE_KEY)%'
+    growth_factory_private_key_file: '%env(default::string:GROWTH_FACTORY_PRIVATE_KEY_FILE)%'
+    growth_factory_timeout_seconds: '%env(float:default:growth_factory_timeout_seconds_default:GROWTH_FACTORY_TIMEOUT_SECONDS)%'
+    growth_factory_generate_timeout_seconds: '%env(float:default:growth_factory_generate_timeout_seconds_default:GROWTH_FACTORY_GENERATE_TIMEOUT_SECONDS)%'
     oling_schema_same_as:
         - 'https://www.linkedin.com/company/oling-management-&-technologie/'
         - 'https://twitter.com/oling971'
@@ -81,6 +95,22 @@ services:
             $httpClient: '@http_client'
             $propertyId: '%analytics_ga4_property_id%'
             $credentialsPath: '%analytics_ga4_credentials_path%'
+
+    App\Service\GrowthFactory\GrowthFactoryJwtEncoder:
+        arguments:
+            $issuer: '%growth_factory_jwt_issuer%'
+            $audience: '%growth_factory_jwt_audience%'
+            $ttlSeconds: '%growth_factory_jwt_ttl_seconds%'
+            $keyId: '%growth_factory_jwt_kid%'
+            $privateKeyPem: '%growth_factory_private_key%'
+            $privateKeyFile: '%growth_factory_private_key_file%'
+
+    App\Service\GrowthFactory\GrowthFactoryClient:
+        arguments:
+            $enabled: '%growth_factory_enabled%'
+            $baseUrl: '%growth_factory_base_url%'
+            $timeoutSeconds: '%growth_factory_timeout_seconds%'
+            $generateTimeoutSeconds: '%growth_factory_generate_timeout_seconds%'
 
     App\Service\UploadManager:
         arguments:

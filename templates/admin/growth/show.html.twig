@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Growth | Admin{% endblock %}
+{% block meta_description %}Campagne Growth{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+      <div>
+        <h1 class="h3 mb-1">{{ campaign.name|default('Growth') }}</h1>
+        {% if campaign %}<p class="text-muted mb-0">{{ campaign.campaign_type }} · {{ campaign.status }}</p>{% endif %}
+      </div>
+      <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_growth_index') }}">Retour</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label,messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label == 'danger' ? 'danger' : 'success' }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if not available or not campaign %}
+      <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
+    {% else %}
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post" action="{{ path('admin_growth_generate', {id: campaign.id}) }}">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_generate_' ~ campaign.id) }}">
+          <button class="btn btn-outline-primary">Régénérer</button>
+        </form>
+        <form method="post" action="{{ path('admin_growth_publish', {id: campaign.id}) }}" onsubmit="return confirm('Publier les canaux sélectionnés ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_publish_' ~ campaign.id) }}">
+          {% for channel in campaign.selected_channels %}
+            <input type="hidden" name="channels[]" value="{{ channel }}">
+          {% endfor %}
+          <button class="btn btn-primary">Publier les canaux</button>
+        </form>
+        <form method="post" action="{{ path('admin_growth_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer ou archiver cette campagne dans Growth Factory ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_delete_' ~ campaign.id) }}">
+          <button class="btn btn-outline-danger">Supprimer / archiver</button>
+        </form>
+      </div>
+
+      <div class="row g-4">
+        {% for channel in campaign.selected_channels %}
+          {% set asset = campaign.assets_by_channel[channel]|default(null) %}
+          <div class="col-lg-6">
+            <section class="card h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                  <div>
+                    <h2 class="h5 mb-1">{{ channel_options[channel]|default(channel) }}</h2>
+                    <span class="badge bg-secondary">{{ asset.status|default('À générer') }}</span>
+                  </div>
+                  {% if asset %}
+                    <span class="small text-muted">v{{ asset.version }}</span>
+                  {% endif %}
+                </div>
+                {% if asset %}
+                  <form method="post" action="{{ path('admin_growth_asset_update', {id: campaign.id, assetId: asset.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('growth_asset_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                    <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                    <div class="mb-3">
+                      <label class="form-label">Titre</label>
+                      <input class="form-control" name="title" value="{{ asset.title }}">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Texte</label>
+                      <textarea class="form-control" name="content_text" rows="7">{{ asset.content_text }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">HTML</label>
+                      <textarea class="form-control" name="content_html" rows="7">{{ asset.content_html }}</textarea>
+                    </div>
+                    {% if asset.public_url|default('') %}
+                      <p class="small text-muted">Publié : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
+                    {% endif %}
+                    <button class="btn btn-outline-primary btn-sm">Enregistrer ce canal</button>
+                  </form>
+                {% else %}
+                  <p class="text-muted mb-0">Aucun contenu reçu pour ce canal.</p>
+                {% endif %}
+              </div>
+            </section>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

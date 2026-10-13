@@ -39,6 +39,7 @@ parameters:
     growth_factory_private_key_file: '%env(default::string:GROWTH_FACTORY_PRIVATE_KEY_FILE)%'
     growth_factory_timeout_seconds: '%env(float:default:growth_factory_timeout_seconds_default:GROWTH_FACTORY_TIMEOUT_SECONDS)%'
     growth_factory_generate_timeout_seconds: '%env(float:default:growth_factory_generate_timeout_seconds_default:GROWTH_FACTORY_GENERATE_TIMEOUT_SECONDS)%'
+    growth_factory_allowed_admin_emails: '%env(default::string:GROWTH_FACTORY_ALLOWED_ADMIN_EMAILS)%'
     oling_schema_same_as:
         - 'https://www.linkedin.com/company/oling-management-&-technologie/'
         - 'https://twitter.com/oling971'

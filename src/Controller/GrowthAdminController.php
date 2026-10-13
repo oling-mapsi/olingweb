@@ -7,6 +7,7 @@ use App\Service\GrowthFactory\GrowthFactoryConflictException;
 use App\Service\GrowthFactory\GrowthFactoryException;
 use App\Service\GrowthFactory\GrowthFactoryView;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/growth')]
 class GrowthAdminController extends AbstractController
 {
+    public function __construct(
+        #[Autowire(param: 'growth_factory_allowed_admin_emails')]
+        private readonly string $allowedAdminEmails = '',
+    ) {
+    }
+
     #[Route('', name: 'admin_growth_index', methods: ['GET'])]
     #[Route('/', name: 'admin_growth_index_slash', methods: ['GET'])]
     public function index(GrowthFactoryClient $client, GrowthFactoryView $view): Response
@@ -254,6 +261,19 @@ class GrowthAdminController extends AbstractController
 
     private function getUserOrDeny(): \Symfony\Component\Security\Core\User\UserInterface
     {
-        return $this->getUser() ?? throw $this->createAccessDeniedException();
+        $user = $this->getUser() ?? throw $this->createAccessDeniedException();
+        $allowed = array_filter(array_map(
+            static fn (string $email): string => mb_strtolower(trim($email)),
+            explode(',', $this->allowedAdminEmails)
+        ));
+        $identifiers = [mb_strtolower($user->getUserIdentifier())];
+        if (method_exists($user, 'getEmail')) {
+            $identifiers[] = mb_strtolower((string) $user->getEmail());
+        }
+        if ($allowed !== [] && array_intersect($identifiers, $allowed) === []) {
+            throw $this->createAccessDeniedException('Growth est limite aux administrateurs pilotes.');
+        }
+
+        return $user;
     }
 }

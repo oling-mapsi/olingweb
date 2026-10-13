@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/growth-phase7-env"
+
+if [ "${GROWTH_PHASE7_CONFIRM_RESET:-}" != "RESET_PHASE7" ]; then
+  echo "Refusing reset: set GROWTH_PHASE7_CONFIRM_RESET=RESET_PHASE7." >&2
+  exit 2
+fi
+
+psql -h "$GROWTH_PHASE7_DB_HOST" -d postgres -Atc "select 'phase7-ok'" >/dev/null
+dropdb -h "$GROWTH_PHASE7_DB_HOST" --if-exists "$GROWTH_PHASE7_DB_NAME"
+createdb -h "$GROWTH_PHASE7_DB_HOST" "$GROWTH_PHASE7_DB_NAME"
+(cd "$GROWTH_PHASE7_GF_ROOT" && alembic upgrade head && alembic upgrade head)
+
+rm -f "$GROWTH_PHASE7_OLING_DB"
+(cd "$GROWTH_PHASE7_OLING_ROOT" && DATABASE_URL="sqlite:///${GROWTH_PHASE7_OLING_DB}" APP_SECRET=phase7-secret php bin/console doctrine:schema:create --env=dev -q)
+
+echo "Phase 7 staging reset complete."

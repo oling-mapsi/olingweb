@@ -139,6 +139,36 @@ foreach ([
     }
 }
 
+// Use existing versioned French expertise/sector editorial sources in the
+// temporary fixture. This creates actual 9-page/3-page hub inventories
+// without importing or inventing any public production database records.
+foreach ([
+    ['expertise_pages.fr.json', 'expertise-', 'expertisePage'],
+    ['sector_pages.fr.json', 'secteur-', 'sectorPage'],
+] as [$sourceFilename, $prefix, $payloadKey]) {
+    $source = json_decode(
+        (string) file_get_contents(dirname(__DIR__, 2).'/data/i18n/'.$sourceFilename),
+        true,
+        512,
+        JSON_THROW_ON_ERROR
+    );
+    if (!is_array($source['pages'] ?? null)) {
+        throw new RuntimeException('Invalid isolated-preview source '.$sourceFilename);
+    }
+    foreach ($source['pages'] as $slug => $payload) {
+        $page = $ensurePage(
+            $prefix.$slug,
+            (string) ($payload['seoTitle'] ?? $payload['title'] ?? $slug),
+            (string) ($payload['metaDescription'] ?? $payload['intro'] ?? ''),
+            (string) ($payload['intro'] ?? '')
+        );
+        $translation = $page->getTranslation('fr');
+        if ($translation instanceof SitePageTranslation) {
+            $translation->setStructuredData([$payloadKey => $payload]);
+        }
+    }
+}
+
 $em->flush();
-echo "Isolated design preview: FR pages and sector cards seeded in temporary MySQL.\n";
+echo "Isolated design preview: resources, 9 expertise pages, sector pages and sector cards populated in temporary MySQL.\n";
 $kernel->shutdown();

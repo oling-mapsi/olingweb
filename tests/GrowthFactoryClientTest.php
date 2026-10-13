@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Service\GrowthFactory\GrowthFactoryClient;
 use App\Service\GrowthFactory\GrowthFactoryConflictException;
+use App\Service\GrowthFactory\GrowthFactoryException;
 use App\Service\GrowthFactory\GrowthFactoryJwtEncoder;
 use App\Service\GrowthFactory\GrowthFactoryRoleMapper;
 use App\Service\GrowthFactory\GrowthFactoryUnavailableException;
@@ -66,6 +67,24 @@ final class GrowthFactoryClientTest extends TestCase
 
         $this->expectException(GrowthFactoryConflictException::class);
         $factory->updateAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'camp', 'asset', []);
+    }
+
+    public function testValidationStatusIsExplicit(): void
+    {
+        $factory = $this->factory(new MockHttpClient(new MockResponse('{"detail":"invalid channel"}', ['http_code' => 422])));
+
+        $this->expectException(GrowthFactoryException::class);
+        $this->expectExceptionMessage('Requête Growth invalide: invalid channel');
+        $factory->createCampaign(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'OLING', 'Theme', ['bad']);
+    }
+
+    public function testRateLimitStatusIsUnavailable(): void
+    {
+        $factory = $this->factory(new MockHttpClient(new MockResponse('{"detail":"too many requests"}', ['http_code' => 429])));
+
+        $this->expectException(GrowthFactoryUnavailableException::class);
+        $this->expectExceptionMessage('Growth Factory limite temporairement les requêtes.');
+        $factory->listCampaigns(new InMemoryUser('admin', null, ['ROLE_ADMIN']));
     }
 
     private function factory(MockHttpClient $client): GrowthFactoryClient

@@ -12,5 +12,6 @@ No OLING Growth campaign tables are introduced in Phase 3.
 | Generation/regeneration | Delegated to Growth Factory |
 | Channel editing | Delegated to Growth Factory asset update with `expected_version` |
 | Publication | Explicit POST only, no auto-publish after generation |
+| Internal preview | OLING renders a sandboxed per-channel preview from Growth Factory asset content |
 | Weekly Packs / Source Packs / retry / schedule / channel settings | Preserved in Growth Factory, advanced admin screens still pending |
 | Production writes | Not executed in tests |

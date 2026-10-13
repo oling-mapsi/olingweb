@@ -123,6 +123,33 @@ class GrowthAdminController extends AbstractController
         return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 
+    #[Route('/campaigns/{id}/assets/{assetId}/preview', name: 'admin_growth_asset_preview', methods: ['GET'])]
+    public function previewAsset(string $id, string $assetId, GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    {
+        try {
+            $campaign = $view->normalizeCampaign($client->getCampaign($this->getUserOrDeny(), $id));
+            $asset = null;
+            foreach ($campaign['content_assets'] as $item) {
+                if (is_array($item) && (string) ($item['id'] ?? '') === $assetId) {
+                    $asset = $item;
+                    break;
+                }
+            }
+            if ($asset === null) {
+                throw $this->createNotFoundException();
+            }
+
+            return $this->render('admin/growth/preview.html.twig', [
+                'campaign' => $campaign,
+                'asset' => $asset,
+                'channel_options' => $view->channelOptions(),
+            ]);
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+            return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+        }
+    }
+
     #[Route('/campaigns/{id}/publish', name: 'admin_growth_publish', methods: ['POST'])]
     public function publish(string $id, Request $request, GrowthFactoryClient $client): Response
     {

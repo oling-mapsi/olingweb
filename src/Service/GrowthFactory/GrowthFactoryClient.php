@@ -108,6 +108,8 @@ final class GrowthFactoryClient
             404 => new GrowthFactoryNotFoundException($message),
             409 => new GrowthFactoryConflictException($message),
             401, 403 => new GrowthFactoryException('Accès Growth refusé.'),
+            422 => new GrowthFactoryException('Requête Growth invalide: '.$message),
+            429 => new GrowthFactoryUnavailableException('Growth Factory limite temporairement les requêtes.'),
             default => $status >= 500 ? new GrowthFactoryUnavailableException('Growth Factory est indisponible.') : new GrowthFactoryException($message),
         };
     }

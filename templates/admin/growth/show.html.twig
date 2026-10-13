@@ -77,7 +77,10 @@
                     {% if asset.public_url|default('') %}
                       <p class="small text-muted">Publié : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
                     {% endif %}
-                    <button class="btn btn-outline-primary btn-sm">Enregistrer ce canal</button>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-outline-primary btn-sm">Enregistrer ce canal</button>
+                      <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Preview</a>
+                    </div>
                   </form>
                 {% else %}
                   <p class="text-muted mb-0">Aucun contenu reçu pour ce canal.</p>

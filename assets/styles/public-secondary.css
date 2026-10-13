@@ -285,3 +285,53 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn-out
     max-width: 100%;
   }
 }
+
+/* All public locales: visible white downward chevron on a solid slate-grey chip.
+   Use a CSS stroke rather than the legacy SVG background-image, which is
+   obscured by earlier cascade rules in some navbar states. */
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  min-width: 4.75rem;
+  padding: 0.48rem 0.75rem !important;
+  color: #fff !important;
+  background: #586878 !important;
+  border: 1px solid #657687 !important;
+  border-radius: 0.72rem !important;
+}
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle::after {
+  content: "" !important;
+  display: inline-block !important;
+  width: 0.46rem !important;
+  height: 0.46rem !important;
+  flex: 0 0 0.46rem;
+  margin: -0.18rem 0 0 0.12rem !important;
+  border: 0 !important;
+  border-right: 2px solid #fff !important;
+  border-bottom: 2px solid #fff !important;
+  border-radius: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  transform: rotate(45deg) !important;
+  opacity: 1 !important;
+  vertical-align: middle;
+}
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle :is(span, i, svg),
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle .bi-globe2 {
+  color: #fff !important;
+}
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle:is(:hover, :focus, :focus-visible, .show) {
+  color: #fff !important;
+  background: #455768 !important;
+  border-color: #708194 !important;
+}
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle:focus-visible {
+  outline: 2px solid #2075bd !important;
+  outline-offset: 3px !important;
+}
+@media (max-width: 991.98px) {
+  body.oling-body:not(.admin) #header .oling-language-switcher__toggle {
+    min-width: 4.25rem;
+  }
+}

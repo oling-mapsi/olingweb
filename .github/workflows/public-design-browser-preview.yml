@@ -10,7 +10,7 @@ on:
       - 'translations/**'
       - 'data/i18n/**'
       - 'scripts/audit-public-visual-theme.mjs'
-      - 'scripts/ci/prepare-public-design-preview.mjs'
+      - 'scripts/ci/**'
       - '.github/workflows/public-design-browser-preview.yml'
   workflow_dispatch:
 
@@ -21,7 +21,7 @@ jobs:
   browser-preview:
     name: Build isolated Symfony preview and upload screenshots
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     services:
       mysql:
         image: mysql:8.0
@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: Checkout PR without production credentials
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: PHP 8.3 + MySQL extension
         uses: shivammathur/setup-php@v2
@@ -109,6 +111,43 @@ jobs:
       - name: Capture actual browser screenshots and QA report
         run: npm run audit:public-visual
 
+      - name: Start main-branch reference server against the SAME temporary CI database
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/oling-main-seo" origin/main
+          (
+            cd "$RUNNER_TEMP/oling-main-seo"
+            rm -rf vendor
+            composer install --no-interaction --no-progress --prefer-dist --no-scripts
+            mkdir -p public/build
+            cp -a "$GITHUB_WORKSPACE/public/build/." public/build/
+            nohup php -S 127.0.0.1:8754 -t public tests/e2e/php-router.php > /tmp/oling-main-seo-server.log 2>&1 &
+            echo $! > /tmp/oling-main-seo-server.pid
+          )
+          for n in $(seq 1 25); do
+            if curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8754/a-propos | grep -qx '200'; then
+              echo "Main reference page renders with shared isolated preview data"
+              break
+            fi
+            sleep 2
+          done
+          curl --fail --silent --show-error http://127.0.0.1:8754/a-propos > /dev/null
+
+      - name: Capture main SEO baseline via Playwright (no screenshots)
+        env:
+          OLING_AUDIT_BASE_URL: http://127.0.0.1:8754
+          OLING_AUDIT_WIDTHS: '1366'
+          OLING_AUDIT_OUTPUT_DIR: docs/redesign/seo-main
+          OLING_AUDIT_CAPTURE_BASELINE: '1'
+          OLING_AUDIT_SKIP_SCREENSHOTS: '1'
+        run: npm run audit:public-visual
+
+      - name: Diff rendered main vs PR SEO metadata on identical CI data
+        run: |
+          node scripts/ci/compare-public-seo-snapshots.mjs \
+            docs/redesign/seo-main/PUBLIC_THEME_AUDIT.json \
+            docs/redesign/PUBLIC_THEME_AUDIT.json \
+            docs/redesign/SEO_DIFF_REPORT.md
+
       - name: Copy server diagnostics if capture fails
         if: failure()
         run: |
@@ -126,6 +165,9 @@ jobs:
             docs/redesign/PUBLIC_THEME_AUDIT.json
             docs/redesign/screenshots-public-design/**
             docs/redesign/preview-server.log
+            docs/redesign/seo-main/PUBLIC_THEME_AUDIT.json
+            docs/redesign/SEO_DIFF_REPORT.md
+            docs/redesign/SEO_DIFF_REPORT.json
           retention-days: 14
           if-no-files-found: warn
 

@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const allowed = new Set(['apropos', 'team', 'projets', 'metiers', 'secteurs-index', 'expertises-index']);
+const allowed = new Set(['apropos', 'team', 'projets', 'metiers', 'secteurs-index', 'expertises-index', 'ressources']);
 const destination = resolve('var/public-design-preview');
 mkdirSync(destination, { recursive: true });
 for (const locale of ['en', 'es']) {

@@ -110,6 +110,26 @@ jobs:
             tail -n 120 /tmp/oling-preview-server.log || true
             echo "Symfony application diagnostics:"
             tail -n 100 var/log/prod.log 2>/dev/null || true
+            echo "CI-only debug page: isolated database and synthetic APP_SECRET, no production access"
+            (
+              APP_ENV=dev APP_DEBUG=1 nohup php -S 127.0.0.1:8756 -t public tests/e2e/php-router.php > /tmp/oling-dev-error.log 2>&1 &
+              echo $! > /tmp/oling-dev-error.pid
+            )
+            sleep 3
+            curl --silent --show-error -o /tmp/oling-home-error.html -w 'Debug HTTP %{http_code}\\n' http://127.0.0.1:8756/ || true
+            php -r '
+              $html=(string) @file_get_contents("/tmp/oling-home-error.html");
+              if (preg_match("~<title[^>]*>(.*?)</title>~si", $html, $m)) {
+                echo "Error page title: ".trim(strip_tags(html_entity_decode($m[1], ENT_QUOTES, "UTF-8"))).PHP_EOL;
+              }
+              if (preg_match("~<h1[^>]*>(.*?)</h1>~si", $html, $m)) {
+                echo "Error page H1: ".trim(strip_tags(html_entity_decode($m[1], ENT_QUOTES, "UTF-8"))).PHP_EOL;
+              }
+            '
+            echo "Filtered dev diagnostics (no raw request dump):"
+            grep -E 'request.CRITICAL|php.CRITICAL|Uncaught|Exception' var/log/dev.log 2>/dev/null | tail -n 8 | cut -c 1-450 || true
+            echo "Debug server tail:"
+            tail -n 16 /tmp/oling-dev-error.log 2>/dev/null || true
             exit 1
           fi
 

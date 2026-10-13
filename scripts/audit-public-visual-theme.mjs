@@ -173,6 +173,7 @@ try {
                 sectorsCard: rect('.oling-sectors-grid .oling-sector-card'),
                 sectorsVisual: rect('.oling-sectors-grid .oling-sector-card__visual'),
                 expertiseFeatured: rect('.oling-universe--1'),
+                expertiseDomainCards: [1,2,3].map((number) => rect(`.oling-universe--${number}`)),
                 expertiseBg: featured ? getComputedStyle(featured).backgroundImage : null,
                 expertiseTextColor: featured ? getComputedStyle(featured.querySelector('.oling-universe__head h3')).color : null,
                 resourceFeaturedBg: resource ? getComputedStyle(resource).backgroundImage : null,
@@ -223,6 +224,21 @@ try {
         if (!captureBaseline && route === '/expertises' && data.editorialGeometry.expertiseFeatured) {
           if (!data.editorialGeometry.expertiseBg?.includes('gradient')) issue('Flagship expertise feature must have dark background');
           if (data.editorialGeometry.expertiseTextColor !== 'rgb(255, 255, 255)') issue('Flagship expertise dark feature heading must be white');
+        }
+        if (!captureBaseline && route === '/expertises') {
+          const domainCards = data.editorialGeometry.expertiseDomainCards || [];
+          if (domainCards.length !== 3 || domainCards.some((item) => !item)) {
+            issue('All three expertise-domain cards must render');
+          } else if (width >= 1200) {
+            const [featured, second, third] = domainCards;
+            if (Math.min(second.width, third.width) < featured.width * 0.42 ||
+                Math.abs(second.width - third.width) > 24) {
+              issue('Flagship expertise domains 02/03 are squeezed into an unbalanced grid');
+            }
+          } else if (width < 768 &&
+                domainCards.some((card) => Math.abs(card.centerOffset) > 8)) {
+            issue('Mobile expertise domain cards are not centered');
+          }
         }
         if (!captureBaseline && route === '/secteurs' && data.editorialGeometry.sectorsCount) {
           const {sectorsCard, sectorsVisual} = data.editorialGeometry;

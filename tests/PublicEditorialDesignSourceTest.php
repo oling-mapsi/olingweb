@@ -71,7 +71,9 @@ final class PublicEditorialDesignSourceTest extends TestCase
             self::assertNotFalse($position);
         }
         self::assertSame($positions, array_values(array_unique($positions)));
-        self::assertSame($positions, array_values(array_filter($positions, static fn (int $position): bool => $position >= 0)));
+        $sortedPositions = $positions;
+        sort($sortedPositions);
+        self::assertSame($sortedPositions, $positions, 'Public CSS must load after the legacy styles in a stable order.');
 
         self::assertStringContainsString('body.oling-body:not(.oling-home):not(.admin)', $secondary);
         self::assertStringContainsString('body.oling-body:not(.oling-home):not(.admin)', $editorial);

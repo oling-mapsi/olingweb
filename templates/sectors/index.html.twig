@@ -15,27 +15,45 @@
     highlights: indexPage.highlights
   } %}
 
-  <section class="oling-shell-section">
+  <section class="oling-shell-section oling-sectors-overview">
     <div class="container">
       <div class="oling-section-head">
         <span class="oling-kicker">{{ indexPage.section.kicker }}</span>
         <h2>{{ indexPage.section.title }}</h2>
         <p>{{ indexPage.section.text }}</p>
       </div>
-      <div class="oling-editorial-grid">
+      <div class="oling-sectors-grid">
         {% for sector in sectorCatalog %}
           {% set tag = sector.detailUrl ? 'a' : 'article' %}
-          <{{ tag }} class="oling-editorial-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
-            <span class="oling-kicker">Secteur servi</span>
-            <h2>{{ sector.designation }}</h2>
-            <p>{{ sector.intro }}</p>
-            {% if sector.specifics is not empty %}
-              <p><strong>Spécificités connues :</strong> {{ sector.specifics|join(' · ') }}</p>
-            {% endif %}
-            <p><strong>Références publiées :</strong> {{ sector.projectCount }}</p>
-            {% if sector.detailUrl %}
-              <span class="oling-editorial-card__more">Voir l’approche associée</span>
-            {% endif %}
+          <{{ tag }} class="oling-sector-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
+            <div class="oling-sector-card__visual" aria-hidden="true">
+              {% if sector.heroImage %}
+                <img src="{{ asset(sector.heroImage) }}" alt="" loading="lazy" decoding="async">
+              {% endif %}
+              <span class="oling-sector-card__index">{{ '%02d'|format(loop.index) }}</span>
+              <span class="oling-sector-card__line"></span>
+            </div>
+            <div class="oling-sector-card__body">
+              <span class="oling-kicker">Secteur servi</span>
+              <h2>{{ sector.designation }}</h2>
+              <p class="oling-sector-card__intro">{{ sector.intro }}</p>
+              {% if sector.specifics is not empty %}
+                <div class="oling-sector-card__details">
+                  <span class="oling-sector-card__caption"><strong>Spécificités connues :</strong></span>
+                  <ul class="oling-sector-card__specifics">
+                    {% for specific in sector.specifics %}
+                      <li>{{ specific }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+              <div class="oling-sector-card__footer">
+                <span class="oling-sector-card__proof"><strong>Références publiées :</strong> {{ sector.projectCount }}</span>
+                {% if sector.detailUrl %}
+                  <span class="oling-sector-card__more">Voir l’approche associée <span aria-hidden="true">↗</span></span>
+                {% endif %}
+              </div>
+            </div>
           </{{ tag }}>
         {% else %}
           <div class="oling-surface oling-surface--light">
@@ -47,23 +65,26 @@
   </section>
 
   {% if sectorPages is not empty %}
-    <section class="oling-shell-section oling-shell-section--tint">
+    <section class="oling-shell-section oling-shell-section--tint oling-sectors-angles-section">
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">Angles sectoriels</span>
           <h2>Quelques lectures transverses déjà détaillées</h2>
           <p>Certains environnements disposent déjà d’une page de cadrage plus développée quand plusieurs secteurs partagent des contraintes proches.</p>
         </div>
-        <div class="oling-editorial-grid">
+        <div class="oling-sector-angles">
           {% for slug, sectorPage in sectorPages %}
-            <a class="oling-editorial-card" href="{{ path('sectors_show', {slug: slug}) }}">
-              <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
+            <a class="oling-sector-angle" href="{{ path('sectors_show', {slug: slug}) }}">
+              <div class="oling-sector-angle__top">
+                <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
+                <span class="oling-sector-angle__index" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+              </div>
               <h2>{{ sectorPage.title }}</h2>
               <p>{{ sectorPage.intro }}</p>
               {% if sectorPage.issues is not empty %}
-                <p><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+                <p class="oling-sector-angle__issues"><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
               {% endif %}
-              <span class="oling-editorial-card__more">Voir la page</span>
+              <span class="oling-sector-angle__more">Voir la page <span aria-hidden="true">↗</span></span>
             </a>
           {% endfor %}
         </div>

@@ -137,6 +137,22 @@ try {
             isEditorial: Boolean(document.querySelector('main.oling-public-editorial')),
             languageCaret,
             overflow: document.documentElement.scrollWidth - window.innerWidth,
+            overflowElements: [...document.body.querySelectorAll('*')]
+              .filter((node) => {
+                const style = getComputedStyle(node);
+                if (style.display === 'none' || style.visibility === 'hidden') return false;
+                const rect = node.getBoundingClientRect();
+                if (rect.width <= 0 || rect.height <= 0) return false;
+                return rect.right > innerWidth + 3 || rect.left < -3;
+              }).slice(0, 15).map((node) => {
+                const rect = node.getBoundingClientRect();
+                return {
+                  tag: node.tagName.toLowerCase(),
+                  selector: [node.id && ('#' + node.id), [...node.classList].slice(0, 3).map(c => '.' + c).join('')].filter(Boolean).join(''),
+                  left: Math.round(rect.left), right: Math.round(rect.right),
+                  width: Math.round(rect.width),
+                };
+              }),
             header: nodeInfo('#header'),
             topbar: nodeInfo('#header .oling-topbar'),
             hero: nodeInfo('main section.oling-shell-hero'),
@@ -246,7 +262,7 @@ try {
             issue('Sector visual cover shrank due to legacy card styles');
           }
         }
-        if (data.overflow > 3) issue(`Horizontal overflow ${data.overflow}px`);
+        if (data.overflow > 3) issue(`Horizontal overflow ${data.overflow}px; elements=${JSON.stringify(data.overflowElements)}`);
         if (!captureBaseline) {
           if (['/expertises', '/services', '/secteurs', '/projets', '/ressources', '/contact'].includes(route)
               && !data.isEditorial) {
@@ -335,13 +351,21 @@ try {
             issue('Desktop language selector not visible for close-up review');
           }
         }
-        if (!captureBaseline && kind !== 'home' && width < 992) {
+        if (!captureBaseline && width < 1200) {
           const toggle = page.locator('#header .navbar-toggler').first();
           if (await toggle.isVisible()) {
             await toggle.click();
             await page.waitForTimeout(350);
             if (!await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
               issue('Mobile menu did not expand');
+            }
+            const activeLanguage = page.locator('#languageSwitcher');
+            if (!await activeLanguage.isVisible()) issue('Language selector not visible in expanded tablet/mobile navigation');
+            else {
+              const rect = await activeLanguage.boundingBox();
+              if (!rect || rect.x < -2 || rect.x + rect.width > width + 2) {
+                issue(`Language selector overflows ${width}px navigation viewport: ${JSON.stringify(rect)}`);
+              }
             }
             const chatLauncher = page.locator('#oling-chat-widget .oling-chat-widget__launcher');
             if (await chatLauncher.count() && await chatLauncher.isVisible()) {
@@ -416,7 +440,7 @@ try {
           }
         }
         records.push({ route, width, status, seo, h1: data.h1, layout: {
-          header: data.header, topbar: data.topbar, hero: data.hero,
+          header: data.header, topbar: data.topbar, hero: data.hero, overflowElements: data.overflowElements,
           heroPanel: data.heroPanel, languageToggle: data.languageToggle,
           languageArrow: data.languageArrow, horizontalOverflow: data.overflow,
         }, aboutCards: data.aboutCards, teamNames: data.teamNames, personNames: data.personNames,

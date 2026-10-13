@@ -41,7 +41,11 @@ final class GrowthFactoryClientTest extends TestCase
         $factory->createCampaign($actor, 'MAPSI_MARKETING', 'Theme', ['mapsi_site', 'oling_site']);
         $factory->generateCampaign($actor, 'camp_1');
         $factory->updateAsset($actor, 'camp_1', 'asset_1', ['expected_version' => 3]);
+        $factory->reviewAsset($actor, 'camp_1', 'asset_1', 4, 'ok');
+        $factory->approveAsset($actor, 'camp_1', 'asset_1', 4, 'ok');
         $factory->publishCampaign($actor, 'camp_1', ['mapsi_site']);
+        $factory->unpublishCampaign($actor, 'camp_1', ['mapsi_site']);
+        $factory->archiveCampaign($actor, 'camp_1');
 
         self::assertSame('POST', $requests[0][0]);
         self::assertStringEndsWith('/studio-simple/campaigns', $requests[0][1]);
@@ -49,7 +53,11 @@ final class GrowthFactoryClientTest extends TestCase
         self::assertStringContainsString('/studio-simple/campaigns/camp_1/generate', $requests[1][1]);
         self::assertSame('PUT', $requests[2][0]);
         self::assertSame(['expected_version' => 3], $requests[2][2]);
-        self::assertSame(['channels' => ['mapsi_site']], $requests[3][2]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/assets/asset_1/review', $requests[3][1]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/assets/asset_1/approve', $requests[4][1]);
+        self::assertSame(['channels' => ['mapsi_site']], $requests[5][2]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/unpublish', $requests[6][1]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/archive', $requests[7][1]);
         self::assertStringContainsString('Authorization: Bearer ', implode("\n", $requests[0][3]));
     }
 

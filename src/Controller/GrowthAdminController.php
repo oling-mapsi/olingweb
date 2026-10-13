@@ -123,6 +123,40 @@ class GrowthAdminController extends AbstractController
         return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 
+    #[Route('/campaigns/{id}/assets/{assetId}/review', name: 'admin_growth_asset_review', methods: ['POST'])]
+    public function reviewAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_review_'.$id.'_'.$assetId);
+
+        try {
+            $client->reviewAsset($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('comment', '')));
+            $this->addFlash('success', 'Contenu marqué comme revu.');
+        } catch (GrowthFactoryConflictException) {
+            $this->addFlash('danger', 'Revue impossible : rechargez la campagne ou vérifiez son état.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/approve', name: 'admin_growth_asset_approve', methods: ['POST'])]
+    public function approveAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_approve_'.$id.'_'.$assetId);
+
+        try {
+            $client->approveAsset($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('comment', '')));
+            $this->addFlash('success', 'Contenu approuvé.');
+        } catch (GrowthFactoryConflictException) {
+            $this->addFlash('danger', 'Approbation impossible : la version ou l’état du contenu a changé.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
     #[Route('/campaigns/{id}/assets/{assetId}/preview', name: 'admin_growth_asset_preview', methods: ['GET'])]
     public function previewAsset(string $id, string $assetId, GrowthFactoryClient $client, GrowthFactoryView $view): Response
     {
@@ -165,6 +199,37 @@ class GrowthAdminController extends AbstractController
         return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 
+    #[Route('/campaigns/{id}/unpublish', name: 'admin_growth_unpublish', methods: ['POST'])]
+    public function unpublish(string $id, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_unpublish_'.$id);
+
+        try {
+            $client->unpublishCampaign($this->getUserOrDeny(), $id, (array) $request->request->all('channels'));
+            $this->addFlash('success', 'Dépublication demandée à Growth Factory.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/archive', name: 'admin_growth_archive', methods: ['POST'])]
+    public function archive(string $id, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_archive_'.$id);
+
+        try {
+            $client->archiveCampaign($this->getUserOrDeny(), $id);
+            $this->addFlash('success', 'Campagne archivée.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+            return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+        }
+
+        return $this->redirectToRoute('admin_growth_index');
+    }
+
     #[Route('/campaigns/{id}/delete', name: 'admin_growth_delete', methods: ['POST'])]
     public function delete(string $id, Request $request, GrowthFactoryClient $client): Response
     {
@@ -172,7 +237,7 @@ class GrowthAdminController extends AbstractController
 
         try {
             $client->deleteCampaign($this->getUserOrDeny(), $id);
-            $this->addFlash('success', 'Campagne supprimée ou archivée par Growth Factory.');
+            $this->addFlash('success', 'Campagne supprimée.');
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }

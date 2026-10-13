@@ -51,6 +51,9 @@ final class GrowthFactoryView
                 'content_text' => '',
                 'status' => 'DRAFT',
                 'version' => 0,
+                'approved_by' => '',
+                'approved_at' => null,
+                'approved_version' => null,
                 'published_at' => null,
                 'public_url' => '',
             ];
@@ -76,6 +79,8 @@ final class GrowthFactoryView
             ['feature' => 'Types MAPSI_USERS / MAPSI_MARKETING / OLING', 'status' => 'Repris', 'phase' => 'Phase 3'],
             ['feature' => 'Assets multicanaux', 'status' => 'Repris via content_assets', 'phase' => 'Phase 3'],
             ['feature' => 'Versionnement par canal', 'status' => 'Préservé via expected_version', 'phase' => 'Phase 3'],
+            ['feature' => 'Revue et approbation humaine', 'status' => 'Repris via /review et /approve', 'phase' => 'Phase 5'],
+            ['feature' => 'Archivage / dépublication explicites', 'status' => 'Repris via /archive et /unpublish', 'phase' => 'Phase 5'],
             ['feature' => 'Weekly Packs', 'status' => 'Conservé Growth Factory, écran avancé à finaliser', 'phase' => 'Lot ultérieur'],
             ['feature' => 'Source Packs', 'status' => 'Conservé Growth Factory, écran avancé à finaliser', 'phase' => 'Lot ultérieur'],
             ['feature' => 'Planification / retry / paramètres canaux', 'status' => 'Conservé Growth Factory, non exposé dans MVP admin', 'phase' => 'Lot ultérieur'],

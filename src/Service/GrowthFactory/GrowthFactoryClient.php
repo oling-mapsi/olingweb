@@ -55,9 +55,35 @@ final class GrowthFactoryClient
         return $this->request($actor, 'PUT', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId), $payload);
     }
 
+    public function reviewAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $comment = ''): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/review', [
+            'comment' => $comment,
+            'expected_version' => $expectedVersion,
+        ]);
+    }
+
+    public function approveAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $comment = ''): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/approve', [
+            'comment' => $comment,
+            'expected_version' => $expectedVersion,
+        ]);
+    }
+
     public function publishCampaign(UserInterface $actor, string $id, array $channels): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/publish', ['channels' => array_values($channels)]);
+    }
+
+    public function unpublishCampaign(UserInterface $actor, string $id, array $channels): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/unpublish', ['channels' => array_values($channels)]);
+    }
+
+    public function archiveCampaign(UserInterface $actor, string $id): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/archive');
     }
 
     public function deleteCampaign(UserInterface $actor, string $id): void

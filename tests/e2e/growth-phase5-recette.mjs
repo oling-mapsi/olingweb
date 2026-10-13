@@ -67,9 +67,28 @@ async function publishCurrent() {
   await page.waitForLoadState('networkidle');
 }
 
+async function reviewAndApproveAll() {
+  const reviewButtons = await page.locator('button:has-text("Revoir")').count();
+  for (let i = 0; i < reviewButtons; i += 1) {
+    await page.locator('button:has-text("Revoir")').nth(i).click();
+    await page.waitForLoadState('networkidle');
+  }
+  const approveButtons = await page.locator('button:has-text("Approuver")').count();
+  for (let i = 0; i < approveButtons; i += 1) {
+    await page.locator('button:has-text("Approuver")').nth(i).click();
+    await page.waitForLoadState('networkidle');
+  }
+}
+
 async function deleteCurrent() {
   page.once('dialog', dialog => dialog.accept());
-  await page.click('button:has-text("Supprimer / archiver")');
+  await page.click('button:has-text("Supprimer")');
+  await page.waitForURL(/\/admin\/growth\/?$/);
+}
+
+async function archiveCurrent() {
+  page.once('dialog', dialog => dialog.accept());
+  await page.click('button:has-text("Archiver")');
   await page.waitForURL(/\/admin\/growth\/?$/);
 }
 
@@ -80,9 +99,9 @@ try {
   await page.waitForURL(/\/admin\/growth/);
   await page.screenshot({ path: new URL('growth-index-desktop.png', outDir).pathname, fullPage: true });
 
-  await createCampaign('OLING', `Phase 4 recette OLING ${runId}`);
+  await createCampaign('OLING', `Phase 5 recette OLING ${runId}`);
   await page.screenshot({ path: new URL('growth-oling-show.png', outDir).pathname, fullPage: true });
-  const stale = await updateFirstAsset('Texte modifie pendant la recette Phase 4.');
+  const stale = await updateFirstAsset('Texte modifie pendant la recette Phase 5.');
   const staleResponse = await staleUpdate(stale);
   if (![302, 303].includes(staleResponse.status())) {
     throw new Error(`Unexpected stale update HTTP ${staleResponse.status()}`);
@@ -93,19 +112,25 @@ try {
   await page.screenshot({ path: new URL('growth-preview.png', outDir).pathname, fullPage: true });
   await page.goBack();
   await publishCurrent();
-
-  await createCampaign('MAPSI_USERS', `Phase 4 recette MAPSI users ${runId}`);
-  await deleteCurrent();
-
-  await createCampaign('MAPSI_MARKETING', `Phase 4 recette MAPSI marketing ${runId}`);
+  if (!/approved|approuv/i.test(await page.textContent('body'))) {
+    throw new Error('Publication before approval was not rejected visibly');
+  }
+  await reviewAndApproveAll();
   await publishCurrent();
+
+  await createCampaign('MAPSI_USERS', `Phase 5 recette MAPSI users ${runId}`);
   await deleteCurrent();
+
+  await createCampaign('MAPSI_MARKETING', `Phase 5 recette MAPSI marketing ${runId}`);
+  await reviewAndApproveAll();
+  await publishCurrent();
+  await archiveCurrent();
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/admin/growth`);
   await page.screenshot({ path: new URL('growth-index-mobile.png', outDir).pathname, fullPage: true });
 
-  console.log('growth phase4 browser recette ok');
+  console.log('growth phase5 browser recette ok');
 } finally {
   await browser.close();
 }

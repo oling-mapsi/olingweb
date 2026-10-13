@@ -37,9 +37,20 @@
           {% endfor %}
           <button class="btn btn-primary">Publier les canaux</button>
         </form>
-        <form method="post" action="{{ path('admin_growth_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer ou archiver cette campagne dans Growth Factory ?');">
+        <form method="post" action="{{ path('admin_growth_unpublish', {id: campaign.id}) }}" onsubmit="return confirm('Dépublier les canaux sélectionnés ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_unpublish_' ~ campaign.id) }}">
+          {% for channel in campaign.selected_channels %}
+            <input type="hidden" name="channels[]" value="{{ channel }}">
+          {% endfor %}
+          <button class="btn btn-outline-warning">Dépublier</button>
+        </form>
+        <form method="post" action="{{ path('admin_growth_archive', {id: campaign.id}) }}" onsubmit="return confirm('Archiver cette campagne sans dépublication ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_archive_' ~ campaign.id) }}">
+          <button class="btn btn-outline-secondary">Archiver</button>
+        </form>
+        <form method="post" action="{{ path('admin_growth_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer cette campagne jamais publiée ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('growth_delete_' ~ campaign.id) }}">
-          <button class="btn btn-outline-danger">Supprimer / archiver</button>
+          <button class="btn btn-outline-danger">Supprimer</button>
         </form>
       </div>
 
@@ -77,11 +88,26 @@
                     {% if asset.public_url|default('') %}
                       <p class="small text-muted">Publié : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
                     {% endif %}
+                    {% if asset.approved_by|default('') %}
+                      <p class="small text-muted mb-2">Approuvé par {{ asset.approved_by }}{% if asset.approved_version|default(null) %} en v{{ asset.approved_version }}{% endif %}</p>
+                    {% endif %}
                     <div class="d-flex gap-2">
                       <button class="btn btn-outline-primary btn-sm">Enregistrer ce canal</button>
                       <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Preview</a>
                     </div>
                   </form>
+                  <div class="d-flex flex-wrap gap-2 mt-2">
+                    <form method="post" action="{{ path('admin_growth_asset_review', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_review_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-outline-secondary btn-sm">Revoir</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_growth_asset_approve', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_approve_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-success btn-sm">Approuver</button>
+                    </form>
+                  </div>
                 {% else %}
                   <p class="text-muted mb-0">Aucun contenu reçu pour ce canal.</p>
                 {% endif %}

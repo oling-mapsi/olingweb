@@ -39,7 +39,7 @@
         'es': path(legalLanguageRoutes[currentRoute].es)
     } %}
 {% endif %}
-{% set isAdminPage = currentRoute starts with 'admin_' or currentRoute == 'login' or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' %}
+{% set isAdminPage = currentRoute starts with 'admin_' or currentRoute in ['login', 'logout'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' %}
 {% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
     {
@@ -354,7 +354,7 @@
     }
     </script>
 </head>
-<body class="oling-body{% if not isAdminPage %} oling-refresh{% endif %}{% if app.request.pathinfo == '/' or currentRoute == 'localized_homepage' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3">
+<body class="oling-body{% if not isAdminPage %} oling-refresh{% endif %}{% if app.request.pathinfo == '/' or currentRoute == 'localized_homepage' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3" data-analytics-excluded="{{ app.request.attributes.get('analytics_internal_excluded') or isAdminPage ? '1' : '0' }}" data-analytics-collect-url="{{ path('analytics_collect') }}">
     {% if not isAdminPage %}
     <header id="header" class="oling-header navbar navbar-expand-lg navbar-show-hide"
             data-hs-header-options='{"fixMoment": 0, "fixEffect": "slide"}'>

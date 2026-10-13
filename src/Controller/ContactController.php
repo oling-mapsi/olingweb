@@ -16,6 +16,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use App\Service\Analytics\AnalyticsConversionAttributionService;
 
 class ContactController extends AbstractController
 {
@@ -26,7 +27,8 @@ class ContactController extends AbstractController
         ValidatorInterface $validator,
         MailerInterface $mailer,
         CsrfTokenManagerInterface $csrfTokenManager,
-        RateLimiterFactory $contactFormLimiter
+        RateLimiterFactory $contactFormLimiter,
+        AnalyticsConversionAttributionService $attributionService
     ): JsonResponse {
         $csrfToken = (string) $request->request->get('_token', '');
         if (!$csrfTokenManager->isTokenValid(new CsrfToken('contact_form', $csrfToken))) {
@@ -140,6 +142,14 @@ class ContactController extends AbstractController
                     'message' => 'Le message a bien été enregistré, mais l’envoi email a échoué. Merci de réessayer.',
                 ]);
             }
+
+            $attributionService->attribute(
+                'contact',
+                (string) $message->getId(),
+                $request->request->get('analyticsSessionId'),
+                $request->getPathInfo(),
+                new \DateTimeImmutable()
+            );
 
             return new JsonResponse([
                 'success' => true,

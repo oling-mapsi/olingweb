@@ -322,6 +322,9 @@ const initChatWidget = () => {
         primaryNeed: details.primaryNeed || undefined,
         commercialIntent: details.commercialIntent || undefined,
       });
+      document.dispatchEvent(new CustomEvent('oling:chat-analytics', {
+        detail: { name, parameters: details },
+      }));
     } catch (error) {
       // Analytics must never block the chat.
     }
@@ -659,6 +662,7 @@ const initChatWidget = () => {
         sourceUrl: window.location.href,
         referrer: document.referrer || null,
         locale: document.documentElement.lang || 'fr',
+        analyticsSessionId: window.olingAnalytics?.sessionId?.() || null,
       }),
     });
 
@@ -903,8 +907,13 @@ const initChatWidget = () => {
     if (!state.token || !erpForm) return;
     const payload = await request(erpQuestionnaireUrl(state.token), {
       method: 'POST',
-      body: JSON.stringify(collectFormPayload(erpForm)),
+      body: JSON.stringify({
+        ...collectFormPayload(erpForm),
+        analyticsSessionId: window.olingAnalytics?.sessionId?.() || null,
+        conversionPage: window.location.pathname,
+      }),
     });
+    trackChatEvent('erp_questionnaire_confirmed');
     renderConversation(payload.conversation);
     renderErpResult(payload.summary || {}, payload.pdfUrl || '');
     setSummary(payload.message || (CHAT_I18N.erpSent || 'Qualification ERP transmise.'), 'success');
@@ -959,6 +968,8 @@ const initChatWidget = () => {
       company: root.querySelector('input[name="chatCompany"]').value.trim(),
       needDescription: root.querySelector('textarea[name="chatNeedDescription"]').value.trim(),
       rgpdConsent: root.querySelector('input[name="chatConsent"]').checked,
+      analyticsSessionId: window.olingAnalytics?.sessionId?.() || null,
+      conversionPage: window.location.pathname,
     };
 
     const response = await request(leadUrl(state.token), {
@@ -1088,10 +1099,11 @@ const initChatWidget = () => {
         return;
       }
 
-      if (actionType === 'start_diagnostic') {
-        await sendStructuredActionMessage(diagnosticPrompt(), CHAT_I18N.loadingDiagnostic || 'Préparation du mini-diagnostic...');
-        return;
-      }
+    if (actionType === 'start_diagnostic') {
+      await sendStructuredActionMessage(diagnosticPrompt(), CHAT_I18N.loadingDiagnostic || 'Préparation du mini-diagnostic...');
+      trackChatEvent('diagnostic_completed');
+      return;
+    }
 
       if (actionType === 'generate_scoping_note') {
         await sendStructuredActionMessage(scopingNotePrompt(), CHAT_I18N.loadingScopingNote || 'Préparation de la note de cadrage...');

@@ -1,5 +1,5 @@
 {% set route = app.request.attributes.get('_route') %}
-<div class="mb-4">
+<div class="mb-4 admin-nav-wrap">
     <div class="nav nav-pills flex-wrap gap-2">
         <a class="nav-link {{ route starts with 'admin_index' ? 'active' : '' }}" href="{{ path('admin_index') }}">Tableau de bord</a>
         <a class="nav-link {{ route starts with 'admin_content' ? 'active' : '' }}" href="{{ path('admin_content_index') }}">Contenus</a>
@@ -9,6 +9,7 @@
         <a class="nav-link {{ route starts with 'admin_metiers' ? 'active' : '' }}" href="{{ path('admin_metiers_index') }}">Métiers</a>
         <a class="nav-link {{ route starts with 'admin_teams' ? 'active' : '' }}" href="{{ path('admin_teams_index') }}">Équipe</a>
         <a class="nav-link {{ route starts with 'admin_chat' ? 'active' : '' }}" href="{{ path('admin_chat_index') }}">Conversations IA</a>
+        <a class="nav-link {{ route starts with 'admin_analytics' ? 'active' : '' }}" href="{{ path('admin_analytics_index') }}">Audience & Parcours</a>
         <a class="nav-link {{ route starts with 'admin_users' ? 'active' : '' }}" href="{{ path('admin_users_index') }}">Utilisateurs</a>
         <a class="nav-link {{ route starts with 'admin_pages' ? 'active' : '' }}" href="{{ path('admin_pages_index') }}">Pages éditoriales</a>
         <a class="nav-link {{ route starts with 'admin_agencies' ? 'active' : '' }}" href="{{ path('admin_agencies_index') }}">Agences</a>

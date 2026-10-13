@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Controller\ContactController;
+use App\Service\Analytics\AnalyticsConversionAttributionService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
@@ -96,6 +97,7 @@ class ContactControllerTest extends TestCase
         $csrf->method('isTokenValid')->willReturn($validCsrf);
         $entityManager ??= $this->createMock(EntityManagerInterface::class);
         $mailer ??= $this->createMock(MailerInterface::class);
+        $attribution = $this->createMock(AnalyticsConversionAttributionService::class);
         $validator = $this->createMock(ValidatorInterface::class);
         $validator->method('validate')->willReturn(new ConstraintViolationList());
         $request = Request::create('/send-email', 'POST', $payload, server: ['REMOTE_ADDR' => '203.0.113.10']);
@@ -106,7 +108,8 @@ class ContactControllerTest extends TestCase
             $validator,
             $mailer,
             $csrf,
-            $limiter ?? $this->limiter()
+            $limiter ?? $this->limiter(),
+            $attribution
         );
     }
 

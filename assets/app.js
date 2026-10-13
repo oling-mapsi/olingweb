@@ -38,7 +38,10 @@ import './bootstrap';
 $(document).ready(function () {
   // INITIALIZATION OF NAVBAR
   // =======================================================
-  new HSHeader('#header').init();
+  const header = document.getElementById('header');
+  if (header) {
+    new HSHeader('#header').init();
+  }
 
   const getBackgroundImageUrl = (element) => {
     const style = window.getComputedStyle(element);
@@ -374,7 +377,12 @@ $(document).ready(function () {
 
   // DEMAND ATTRIBUTION
   // =======================================================
+  const analyticsExcluded = document.body?.dataset?.analyticsExcluded === '1';
+  const analyticsCollectUrl = document.body?.dataset?.analyticsCollectUrl || '/analytics/collect';
   const demandAttributionKey = 'oling_demand_attribution';
+  const analyticsSessionKey = 'oling_analytics_session';
+  const analyticsLastSeenKey = 'oling_analytics_last_seen';
+  const analyticsPreviousPathKey = 'oling_analytics_previous_path';
   const demandOwnerByPath = {
     '/amoa-si': 'amoa-si',
     '/business-apps/erp': 'erp',
@@ -408,6 +416,8 @@ $(document).ready(function () {
       if (/chatgpt|openai/.test(normalized)) return 'chatgpt';
       if (/claude|anthropic/.test(normalized)) return 'claude';
       if (/perplexity/.test(normalized)) return 'perplexity';
+      if (/linkedin|lnkd\.in/.test(normalized)) return 'linkedin';
+      if (/facebook|instagram|twitter|x\.com/.test(normalized)) return 'social';
       if (/bing|copilot/.test(normalized)) return 'bing-copilot';
       if (/google/.test(normalized)) return 'google';
       return null;
@@ -439,7 +449,7 @@ $(document).ready(function () {
   const initialDemandContext = currentDemandContext();
 
   const readDemandAttribution = () => {
-    if (localStorage.getItem('oling_cookie_consent') !== 'all') return null;
+    if (analyticsExcluded || localStorage.getItem('oling_cookie_consent') !== 'all') return null;
     try {
       return JSON.parse(sessionStorage.getItem(demandAttributionKey) || 'null');
     } catch (e) {
@@ -448,7 +458,7 @@ $(document).ready(function () {
   };
 
   const writeDemandAttribution = (changes = {}) => {
-    if (localStorage.getItem('oling_cookie_consent') !== 'all') return null;
+    if (analyticsExcluded || localStorage.getItem('oling_cookie_consent') !== 'all') return null;
 
     const existing = readDemandAttribution() || {};
     const attribution = {
@@ -468,8 +478,63 @@ $(document).ready(function () {
   };
 
   const trackDemandEvent = (name, parameters = {}) => {
-    if (localStorage.getItem('oling_cookie_consent') !== 'all' || typeof window.gtag !== 'function') return;
+    if (analyticsExcluded || localStorage.getItem('oling_cookie_consent') !== 'all' || typeof window.gtag !== 'function') return;
     window.gtag('event', name, parameters);
+  };
+
+  const randomAnalyticsId = () => {
+    if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  };
+
+  const analyticsSessionId = () => {
+    if (analyticsExcluded || localStorage.getItem('oling_cookie_consent') !== 'all') return null;
+    const now = Date.now();
+    const lastSeen = Number(sessionStorage.getItem(analyticsLastSeenKey) || 0);
+    let sessionId = sessionStorage.getItem(analyticsSessionKey);
+    if (!sessionId || now - lastSeen > 30 * 60 * 1000) {
+      sessionId = randomAnalyticsId();
+      sessionStorage.setItem(analyticsSessionKey, sessionId);
+    }
+    sessionStorage.setItem(analyticsLastSeenKey, String(now));
+    return sessionId;
+  };
+
+  const collectAnalyticsEvent = (eventName, parameters = {}) => {
+    if (analyticsExcluded || localStorage.getItem('oling_cookie_consent') !== 'all') return;
+    const sessionId = analyticsSessionId();
+    if (!sessionId) return;
+    const attribution = demandAttributionForForm();
+    const payload = {
+      eventName,
+      eventId: parameters.eventId || randomAnalyticsId(),
+      sessionId,
+      pagePath: parameters.pagePath || window.location.pathname,
+      previousPagePath: parameters.previousPagePath || sessionStorage.getItem(analyticsPreviousPathKey) || '',
+      referrer: document.referrer || '',
+      utmSource: attribution.utmSource || '',
+      utmMedium: attribution.utmMedium || '',
+      utmCampaign: attribution.utmCampaign || '',
+      locale: document.documentElement.lang || 'fr',
+    };
+    navigator.sendBeacon?.(analyticsCollectUrl, new Blob([JSON.stringify(payload)], { type: 'application/json' }))
+      || fetch(analyticsCollectUrl, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(() => {});
+  };
+
+  const trackCommercialEvent = (eventName, parameters = {}) => {
+    trackDemandEvent(eventName, parameters);
+    collectAnalyticsEvent(eventName, parameters);
+  };
+
+  window.olingAnalytics = {
+    sessionId: analyticsSessionId,
+    attribution: demandAttributionForForm,
   };
 
   const demandCtaLocation = (link) => {
@@ -502,6 +567,7 @@ $(document).ready(function () {
       demandUtmSource: attribution.utmSource,
       demandUtmMedium: attribution.utmMedium,
       demandUtmCampaign: attribution.utmCampaign,
+      analyticsSessionId: analyticsSessionId() || '',
     };
 
     Object.entries(values).forEach(([name, value]) => {
@@ -522,7 +588,7 @@ $(document).ready(function () {
             link.dataset.demandCta = owner;
             link.addEventListener('click', () => {
               writeDemandAttribution({ ctaSource: owner });
-              trackDemandEvent('demand_cta_click', {
+              trackCommercialEvent('cta_click', {
                 demand_cluster: owner,
                 demand_source: demandAttributionForForm().source,
                 cta_location: demandCtaLocation(link),
@@ -539,10 +605,28 @@ $(document).ready(function () {
     document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
       link.addEventListener('click', () => {
         const pagePath = normalizeDemandPath(window.location.pathname);
-        trackDemandEvent('phone_click', {
+        trackCommercialEvent('phone_click', {
           page_path: pagePath,
           demand_source: demandAttributionForForm().source,
           demand_cluster: demandOwnerByPath[pagePath] || link.dataset.demandPhone || 'contact',
+          cta_location: demandCtaLocation(link),
+        });
+      }, { capture: true });
+    });
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+      link.addEventListener('click', () => {
+        trackCommercialEvent('email_click', {
+          page_path: normalizeDemandPath(window.location.pathname),
+          cta_location: demandCtaLocation(link),
+        });
+      }, { capture: true });
+    });
+
+    document.querySelectorAll('a[href$=".pdf"], a[href*="/download"], a[download]').forEach((link) => {
+      link.addEventListener('click', () => {
+        trackCommercialEvent('resource_download', {
+          page_path: normalizeDemandPath(window.location.pathname),
           cta_location: demandCtaLocation(link),
         });
       }, { capture: true });
@@ -572,6 +656,7 @@ $(document).ready(function () {
   };
 
   const initConsentMode = () => {
+    if (analyticsExcluded) return;
     if (window.__olingConsentModeReady) return;
     const gaId = document.body?.dataset?.gaId;
     if (!gaId) return;
@@ -626,11 +711,19 @@ $(document).ready(function () {
       banner.classList.remove('is-visible');
       banner.classList.remove('is-details-open');
     }
+    if (value === consentAll) {
+      initConsentMode();
+    }
     updateConsentMode(value);
     if (value === consentAll) {
       writeDemandAttribution();
+      collectAnalyticsEvent('page_view', { previousPagePath: sessionStorage.getItem(analyticsPreviousPathKey) || '' });
+      sessionStorage.setItem(analyticsPreviousPathKey, normalizeDemandPath(window.location.pathname));
     } else {
       sessionStorage.removeItem(demandAttributionKey);
+      sessionStorage.removeItem(analyticsSessionKey);
+      sessionStorage.removeItem(analyticsLastSeenKey);
+      sessionStorage.removeItem(analyticsPreviousPathKey);
     }
   };
 
@@ -701,8 +794,6 @@ $(document).ready(function () {
 
   window.addEventListener('resize', syncCookieBannerState);
 
-  initConsentMode();
-
   const existingConsent = localStorage.getItem(consentKey);
   if (existingConsent === consentAll || existingConsent === consentMinimal) {
     setAnalyticsCheckbox(existingConsent === consentAll);
@@ -714,6 +805,25 @@ $(document).ready(function () {
   }
 
   initDemandTracking();
+
+  if (!analyticsExcluded) {
+    document.addEventListener('oling:chat-analytics', (event) => {
+      const detail = event.detail || {};
+      const map = {
+        opened: 'chat_opened',
+        chat_opened: 'chat_opened',
+        first_question: 'chat_first_message',
+        lead_confirmed: 'chat_lead_confirmed',
+        lead_submission_confirmed: 'chat_lead_confirmed',
+        erp_questionnaire_confirmed: 'erp_questionnaire_confirmed',
+        diagnostic_completed: 'diagnostic_completed',
+      };
+      const mapped = map[detail.name];
+      if (mapped) {
+        trackCommercialEvent(mapped, detail.parameters || {});
+      }
+    });
+  }
 
   document.querySelectorAll('.js-cookie-manage').forEach((button) => {
     button.addEventListener('click', () => {
@@ -728,11 +838,13 @@ $(document).ready(function () {
 
   // INITIALIZATION OF MEGA MENU
   // =======================================================
-  const megaMenu = new HSMegaMenu('.js-mega-menu', {
-    desktop: {
-      position: 'left'
-    }
-  });
+  if (document.querySelector('.js-mega-menu')) {
+    new HSMegaMenu('.js-mega-menu', {
+      desktop: {
+        position: 'left'
+      }
+    });
+  }
 
   // Mobile menu: keep Bootstrap default behavior (no custom full-screen overlay).
 
@@ -746,7 +858,9 @@ $(document).ready(function () {
 
   // INITIALIZATION OF GO TO
   // =======================================================
-  new HSGoTo('.js-go-to');
+  if (document.querySelector('.js-go-to')) {
+    new HSGoTo('.js-go-to');
+  }
 
   // INITIALIZATION OF SELECT2 (admin)
   // =======================================================
@@ -1421,9 +1535,11 @@ $(document).ready(function () {
 
   // INITIALIZATION OF STICKY BLOCKS
   // =======================================================
-  new HSStickyBlock('.js-sticky-block', {
-    targetSelector: document.getElementById('header').classList.contains('navbar-fixed') ? '#header' : null
-  })
+  if (document.querySelector('.js-sticky-block')) {
+    new HSStickyBlock('.js-sticky-block', {
+      targetSelector: header && header.classList.contains('navbar-fixed') ? '#header' : null
+    })
+  }
   
   // Ajouter un événement de soumission du formulaire
   $('#envoiemail').on('click', function () {
@@ -1475,10 +1591,10 @@ $(document).ready(function () {
         data: $form.serialize(),
         success: function (response) {
             if (response.success) {
-                trackDemandEvent('contact_submit', {
-                  demand_source: demandAttribution.source,
-                  demand_cluster: demandAttribution.ctaSource || 'contact-page',
-                  landing_page: demandAttribution.landingPage,
+                trackCommercialEvent('contact_confirmed', {
+	                  demand_source: demandAttribution.source,
+	                  demand_cluster: demandAttribution.ctaSource || 'contact-page',
+	                  landing_page: demandAttribution.landingPage,
                 });
                 $form.addClass('d-none');
                 $success.removeClass('d-none');

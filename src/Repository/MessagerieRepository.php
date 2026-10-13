@@ -39,6 +39,17 @@ class MessagerieRepository extends ServiceEntityRepository
         }
     }
 
+    public function countCreatedBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
+    {
+        return (int) $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->andWhere('m.CreatedAt BETWEEN :from AND :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Messagerie[] Returns an array of Messagerie objects
 //     */

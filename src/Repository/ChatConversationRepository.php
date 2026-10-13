@@ -54,4 +54,17 @@ class ChatConversationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function countSubmittedBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
+    {
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.status = :status')
+            ->andWhere('c.submittedAt BETWEEN :from AND :to')
+            ->setParameter('status', ChatConversation::STATUS_SUBMITTED)
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

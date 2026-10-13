@@ -23,6 +23,8 @@ parameters:
     chat_ai_mistral_api_key: '%env(default::string:MISTRAL_API_KEY)%'
     chat_ai_mistral_base_url: '%env(default:chat_ai_mistral_base_url_default:string:MISTRAL_BASE_URL)%'
     chat_ai_mistral_model: '%env(default:chat_ai_mistral_model_default:string:MISTRAL_MODEL)%'
+    analytics_ga4_property_id: '%env(default::string:GA4_PROPERTY_ID)%'
+    analytics_ga4_credentials_path: '%env(default::string:GA4_CREDENTIALS_PATH)%'
     oling_schema_same_as:
         - 'https://www.linkedin.com/company/oling-management-&-technologie/'
         - 'https://twitter.com/oling971'
@@ -69,6 +71,16 @@ services:
     App\Twig\AgencyExtension:
         arguments:
             $siteBaseUrl: '%site_base_url%'
+
+    App\Service\Analytics\InternalAnalyticsExclusionService:
+        arguments:
+            $secret: '%kernel.secret%'
+
+    App\Service\Analytics\Ga4DataApiClient:
+        arguments:
+            $httpClient: '@http_client'
+            $propertyId: '%analytics_ga4_property_id%'
+            $credentialsPath: '%analytics_ga4_credentials_path%'
 
     App\Service\UploadManager:
         arguments:

@@ -1,0 +1,294 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audience & Parcours | Admin{% endblock %}
+{% block meta_description %}Statistiques internes OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+      <div>
+        <h1 class="h3 mb-1">Audience & Parcours</h1>
+        <p class="text-muted mb-0">Visites consenties, sources, parcours et conversions confirmées.</p>
+        {% if isExcluded %}
+          <p class="small text-muted mb-0">Cet appareil est exclu des statistiques.</p>
+        {% endif %}
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_analytics_export', {period: period}) }}">Export CSV</a>
+      </div>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    <form class="analytics-periods d-flex flex-wrap align-items-center gap-2 mb-3" method="get">
+      {% for value,label in {'7':'7 derniers jours','30':'30 derniers jours','90':'90 derniers jours'} %}
+        <button class="btn btn-sm {{ period == value ? 'btn-primary' : 'btn-outline-primary' }}" name="period" value="{{ value }}">{{ label }}</button>
+      {% endfor %}
+      <span class="text-muted small ms-auto">GA4 : {{ dashboard.quality.ga4.label }}</span>
+    </form>
+
+    <section class="row g-3 mb-3 analytics-kpis">
+      {% set cards = {
+        'Visites mesurées': dashboard.overview.sessions,
+        'Pages consultées': dashboard.overview.pageViews,
+        'Prospects confirmés': dashboard.overview.prospects
+      } %}
+      {% for label,value in cards %}
+        <div class="col-6 col-lg-4">
+          <div class="card analytics-kpi-card">
+            <div class="card-body">
+              <span class="text-muted small d-block">{{ label }}</span>
+              <strong class="fs-3">{{ value }}</strong>
+              <span class="small text-muted d-block">{{ label == 'Prospects confirmés' ? 'Base métier' : 'Collecteur' }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+
+    {% if dashboard.dailyVisits|length > 1 %}
+      <section class="card analytics-chart mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+            <h2 class="h6 mb-0">Évolution des visites</h2>
+            <span class="small text-muted">Source : collecteur</span>
+          </div>
+          <div class="analytics-chart__bars" aria-label="Visites quotidiennes">
+            {% for point in dashboard.dailyVisits %}
+              <div class="analytics-chart__bar" style="--value: {{ (point.visits / dashboard.maxDailyVisits * 100)|round }}%">
+                <span>{{ point.visits }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if dashboard.overview.conversionRate is not null %}
+      <section class="card mb-3">
+        <div class="card-body py-3">
+          <span class="text-muted small d-block">Taux de conversion first-party</span>
+          <strong>{{ dashboard.overview.conversionRate }}%</strong>
+          <span class="small text-muted ms-2">{{ dashboard.overview.attributableConversions }} conversions rattachées / {{ dashboard.overview.sessions }} sessions</span>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if dashboard.ga4.error is empty %}
+      <section class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+            <div>
+              <h2 class="h6 mb-1">GA4 Data API</h2>
+              <p class="small text-muted mb-0">Données réelles Google Analytics, séparées du collecteur OLING.</p>
+            </div>
+            <span class="small text-muted">Source : GA4</span>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-4"><span class="small text-muted d-block">Sessions</span><strong>{{ dashboard.ga4.sessions }}</strong></div>
+            <div class="col-4"><span class="small text-muted d-block">Pages vues</span><strong>{{ dashboard.ga4.pageViews }}</strong></div>
+            <div class="col-4"><span class="small text-muted d-block">Engagées</span><strong>{{ dashboard.ga4.engagedSessions }}</strong></div>
+          </div>
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+                <table class="table table-sm mb-0">
+                  <thead><tr><th>Page GA4</th><th>Vues</th><th>Sessions</th></tr></thead>
+                  <tbody>
+                  {% for page in dashboard.ga4.pages %}
+                    <tr><td class="text-break">{{ page.page }}</td><td>{{ page.views }}</td><td>{{ page.sessions }}</td></tr>
+                  {% else %}
+                    <tr><td colspan="3" class="text-muted">Aucune page GA4 sur cette période.</td></tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+                <table class="table table-sm mb-0">
+                  <thead><tr><th>Source GA4</th><th>Sessions</th><th>Pages vues</th></tr></thead>
+                  <tbody>
+                  {% for source in dashboard.ga4.sources %}
+                    <tr><td>{{ source.source }}</td><td>{{ source.sessions }}</td><td>{{ source.pageViews }}</td></tr>
+                  {% else %}
+                    <tr><td colspan="3" class="text-muted">Aucune source GA4 sur cette période.</td></tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <div class="row g-3">
+      <section class="col-lg-7">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Pages les plus consultées</h2>
+              <span class="small text-muted">Source : collecteur</span>
+            </div>
+            <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+              <table class="table table-sm align-middle">
+                <thead><tr><th>Page</th><th>Famille</th><th>Vues</th><th>Sessions</th><th>Conv.</th></tr></thead>
+                <tbody>
+                {% for page in dashboard.pages %}
+                  <tr><td class="text-break">{{ page.page }}</td><td>{{ page.family }}</td><td>{{ page.views }}</td><td>{{ page.sessions }}</td><td>{{ page.conversions }}</td></tr>
+                {% else %}
+                  <tr><td colspan="5" class="text-muted">Aucune page collectée sur cette période.</td></tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-5">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Origine des visiteurs</h2>
+              <span class="small text-muted">Source : collecteur</span>
+            </div>
+            <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+              <table class="table table-sm">
+                <thead><tr><th>Source</th><th>Sessions</th><th>Événements</th></tr></thead>
+                <tbody>
+                {% for source in dashboard.sources %}
+                  <tr><td>{{ source.source }}</td><td>{{ source.sessions }}</td><td>{{ source.events }}</td></tr>
+                {% else %}
+                  <tr><td colspan="3" class="text-muted">Aucune source collectée sur cette période.</td></tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-7">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Parcours observés</h2>
+              <span class="small text-muted">Source : collecteur</span>
+            </div>
+            <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+              <table class="table table-sm">
+                <thead><tr><th>Depuis</th><th>Vers</th><th>Transitions</th></tr></thead>
+                <tbody>
+                {% for transition in dashboard.transitions %}
+                  <tr><td class="text-break">{{ transition.previousPage }}</td><td class="text-break">{{ transition.page }}</td><td>{{ transition.count }}</td></tr>
+                {% else %}
+                  <tr><td colspan="3" class="text-muted">Pas encore assez d’événements pour établir un parcours.</td></tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-5">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Conversion commerciale</h2>
+              <span class="small text-muted">Source : base métier</span>
+            </div>
+            <ul class="list-unstyled mb-0">
+              <li>Formulaires contact : {{ dashboard.conversions.contact }}</li>
+              <li>Leads chat IA : {{ dashboard.conversions.chat }}</li>
+              <li>Questionnaires ERP : {{ dashboard.conversions.erp }}</li>
+              <li>Clics téléphone : {{ dashboard.conversions.phone }}</li>
+              <li>Clics email : {{ dashboard.conversions.email }}</li>
+              <li>Téléchargements : {{ dashboard.conversions.downloads }}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-7">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Conversions attribuables</h2>
+              <span class="small text-muted">Source : serveur</span>
+            </div>
+            <div class="table-responsive" data-scroll-label="Défilement horizontal possible">
+              <table class="table table-sm">
+                <thead><tr><th>Entrée</th><th>Source</th><th>Conversions</th></tr></thead>
+                <tbody>
+                {% for row in dashboard.attributionByEntryAndSource %}
+                  <tr><td class="text-break">{{ row.entryPage }}</td><td>{{ row.source }}</td><td>{{ row.conversions }}</td></tr>
+                {% else %}
+                  <tr><td colspan="3" class="text-muted">Aucune conversion rattachable à une session consentie sur cette période.</td></tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-lg-5">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+              <h2 class="h5 mb-0">Dernières conversions</h2>
+              <span class="small text-muted">Source : serveur</span>
+            </div>
+            <ul class="list-unstyled mb-0">
+              {% for row in dashboard.attributedConversions|slice(0, 5) %}
+                <li class="mb-2">
+                  <strong>{{ row.type }}</strong><br>
+                  <span class="small text-muted">Entrée {{ row.entryPage }} -> contact {{ row.conversionPage }} via {{ row.source }}</span>
+                  {% if row.visitedPages is iterable and row.visitedPages|length > 0 %}
+                    <span class="small text-muted d-block">Parcours : {{ row.visitedPages|join(' -> ') }}</span>
+                  {% endif %}
+                </li>
+              {% else %}
+                <li class="text-muted">Aucune conversion attribuable.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card mt-3">
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start">
+          <div>
+            <h2 class="h6 mb-1">Réglages du suivi</h2>
+            <p class="text-muted small mb-0">
+              {{ isExcluded ? 'Cet appareil est exclu des statistiques.' : 'Cet appareil est comptabilisé.' }}
+            </p>
+            <p class="small text-muted mt-2 mb-0">Limites : nouveau navigateur, navigation privée, suppression des cookies et historiques déjà enregistrés.</p>
+          </div>
+          <form method="post" action="{{ path(isExcluded ? 'admin_analytics_include_device' : 'admin_analytics_exclude_device') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('analytics_device_exclusion') }}">
+            <button class="btn btn-sm {{ isExcluded ? 'btn-outline-secondary' : 'btn-primary' }}">
+              {{ isExcluded ? 'Réactiver le suivi pour recette' : 'Exclure cet appareil' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="card mt-3">
+      <div class="card-body">
+        <h2 class="h6">Qualité des statistiques</h2>
+        <p class="mb-1">Collecteur interne : {{ dashboard.quality.collector }}</p>
+        <p class="mb-1">GA4 Data API : {{ dashboard.quality.ga4.label }}</p>
+        <p class="small text-muted mb-0">Taux de conversion : {{ dashboard.definitions.conversionRate }}</p>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

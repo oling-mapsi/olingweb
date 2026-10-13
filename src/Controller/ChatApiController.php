@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Analytics\AnalyticsConversionAttributionService;
 
 #[Route('/api/chat', name: 'api_chat_')]
 class ChatApiController extends AbstractController
@@ -102,7 +103,7 @@ class ChatApiController extends AbstractController
     }
 
     #[Route('/conversations/{token}/lead', name: 'conversation_lead', methods: ['POST'])]
-    public function submitLead(string $token, Request $request, ChatConversationManager $conversationManager, AiConsultantContentProvider $contentProvider): JsonResponse
+    public function submitLead(string $token, Request $request, ChatConversationManager $conversationManager, AiConsultantContentProvider $contentProvider, AnalyticsConversionAttributionService $attributionService): JsonResponse
     {
         $this->assertCsrf($request);
         $conversation = $this->requireConversation($token, $conversationManager);
@@ -115,6 +116,16 @@ class ChatApiController extends AbstractController
                 'success' => false,
                 'message' => $exception->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($conversation->getId() !== null) {
+            $attributionService->attribute(
+                'chat_lead',
+                (string) $conversation->getId(),
+                $payload['analyticsSessionId'] ?? null,
+                is_scalar($payload['conversionPage'] ?? null) ? (string) $payload['conversionPage'] : $conversation->getSourcePath(),
+                $conversation->getSubmittedAt() ?? new \DateTimeImmutable()
+            );
         }
 
         return $this->json([
@@ -136,7 +147,8 @@ class ChatApiController extends AbstractController
         ErpQuestionnaireRateLimitGuard $rateLimitGuard,
         ErpQuestionnaireMailer $mailer,
         AiConsultantContentProvider $contentProvider,
-        ErpQuestionnaireContentProvider $erpContentProvider
+        ErpQuestionnaireContentProvider $erpContentProvider,
+        AnalyticsConversionAttributionService $attributionService
     ): JsonResponse {
         $this->assertCsrf($request);
         $conversation = $this->requireConversation($token, $conversationManager);
@@ -168,6 +180,16 @@ class ChatApiController extends AbstractController
         $mailer->sendProspectAndInternal($submission);
         $submission->setEmailedAt(new \DateTimeImmutable());
         $entityManager->flush();
+
+        if ($submission->getId() !== null) {
+            $attributionService->attribute(
+                'erp_questionnaire',
+                (string) $submission->getId(),
+                $payload['analyticsSessionId'] ?? null,
+                is_scalar($payload['conversionPage'] ?? null) ? (string) $payload['conversionPage'] : $conversation->getSourcePath(),
+                $submission->getCreatedAt() ?? new \DateTimeImmutable()
+            );
+        }
 
         return $this->json([
             'success' => true,

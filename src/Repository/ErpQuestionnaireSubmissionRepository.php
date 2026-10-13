@@ -20,4 +20,15 @@ class ErpQuestionnaireSubmissionRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['publicToken' => $token]);
     }
+
+    public function countCreatedBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
+    {
+        return (int) $this->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->andWhere('s.createdAt BETWEEN :from AND :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

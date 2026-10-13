@@ -75,9 +75,16 @@
                 </div>
               {% endif %}
               {% if mission.citations is not empty %}
-                <div class="oling-proof-quotes" aria-label="{{ 'projects.quotes_aria'|trans }}">
-                  {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
-                </div>
+                <details class="oling-proof-quotes" aria-label="{{ 'projects.quotes_aria'|trans }}">
+                  <summary class="oling-proof-quotes__summary">
+                    <span>{{ 'projects.quotes_aria'|trans }}</span>
+                    <span class="oling-proof-quotes__count">{{ mission.citations|length }}</span>
+                    <span class="oling-proof-quotes__chevron" aria-hidden="true"></span>
+                  </summary>
+                  <div class="oling-proof-quotes__body">
+                    {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
+                  </div>
+                </details>
               {% endif %}
               <div class="oling-proof-owner">
                 <a href="{{ mission.owner.href }}">{{ 'projects.owner_prefix'|trans }} {{ mission.owner.label }}</a>

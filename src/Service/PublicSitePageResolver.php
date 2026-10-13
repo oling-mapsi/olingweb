@@ -12,6 +12,41 @@ use App\Repository\SitePageRepository;
 
 class PublicSitePageResolver
 {
+    /**
+     * Reviewed descriptions from the published EN/ES site-page snapshots.
+     * Use these only when a translated CMS page has an empty SEO description.
+     * A nonempty published CMS or structured-data value always wins.
+     * This does not write into the database or affect the French content.
+     */
+    private const REVIEWED_INSTITUTIONAL_META_DESCRIPTIONS = [
+        'apropos' => [
+            'en' => 'OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.',
+            'es' => 'OLING, consultora especializada en proyectos de sistemas de información, software empresarial y cumplimiento normativo. Gobernanza, ERP y acompañamiento a organizaciones.',
+        ],
+        'team' => [
+            'en' => 'A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects.',
+            'es' => 'Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos.',
+        ],
+    ];
+
+    private static function editorialMetaDescription(
+        string $slug,
+        string $locale,
+        ?string $published,
+        ?string $structured,
+    ): string {
+        $fromCms = trim((string) $published);
+        if ($fromCms !== '') {
+            return $fromCms;
+        }
+        $fromStructured = trim((string) $structured);
+        if ($fromStructured !== '') {
+            return $fromStructured;
+        }
+
+        return self::REVIEWED_INSTITUTIONAL_META_DESCRIPTIONS[$slug][$locale] ?? '';
+    }
+
     private const HOME_PAGE_SLUG = 'home';
     private const EXPERTISE_INDEX_SLUG = 'expertises-index';
     private const SECTOR_INDEX_SLUG = 'secteurs-index';
@@ -181,7 +216,7 @@ class PublicSitePageResolver
         $merged = $this->mergeRecursive($defaults, $payload);
 
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? '');
-        $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? '');
+        $merged['metaDescription'] = self::editorialMetaDescription($slug, $locale, $content->getMetaDescription(), $merged['metaDescription'] ?? null);
         $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
         $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $content->getTitle() ?: '');
         $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? '');

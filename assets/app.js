@@ -10,6 +10,7 @@ import 'cropperjs/dist/cropper.css';
 // Custom overrides should load after vendor/theme styles
 import './styles/app.css';
 import './styles/public-secondary.css';
+import './styles/public-leadership.css';
 import './styles/chat-widget.css';
 import './js/chat-widget.js';
 

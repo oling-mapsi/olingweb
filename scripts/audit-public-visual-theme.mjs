@@ -172,7 +172,11 @@ try {
           if (await page.locator('#cookie-banner').isVisible()) issue('Cookie banner covers the design capture');
           await page.screenshot({
             path: join(out, 'screenshots-public-design', `${route === '/' ? 'home' : route.slice(1).replaceAll('/', '-')}-${width}.png`),
-            fullPage: true, animations: 'disabled',
+            fullPage: true,
+            animations: 'disabled',
+            // Remove ONLY the framework's QA/developer overlay. Real site UI,
+            // layout, cookies behavior, and portraits remain browser-rendered.
+            style: '[id^="sfwdt"], .sf-toolbar, .sf-toolbarreset { display: none !important; visibility: hidden !important; }',
           });
         }
         if (!captureBaseline && kind !== 'home' && width < 992) {
@@ -211,6 +215,7 @@ writeFileSync(join(out, 'PUBLIC_THEME_AUDIT.md'), [
   ...(failures.length ? failures.map((f) => `- ${f}`) : ['All sampled browser assertions passed.']), '',
   'Evidence: PUBLIC_THEME_AUDIT.json and screenshots-public-design/.',
   'This report contains observed browser values; no synthetic zero counters.',
+  'Visual captures exclude only the Symfony developer toolbar; cookie consent is refused through the visible UI.',
   'To compare SEO metadata, supply OLING_AUDIT_BASELINE_FILE from a main-branch capture.', '',
 ].join('\n'));
 
@@ -264,6 +269,7 @@ ${fixtureLabel ? `<p><strong>Données de recette :</strong> ${escapeHtml(fixture
 <main><div class="summary"><strong>${failures.length} anomalie(s) détectée(s)</strong> sur ${records.length} combinaisons route/largeur ;
 ${previews.length} captures disponibles. ${failures.length ? 'Consulter PUBLIC_THEME_AUDIT.md avant toute validation.' : 'Contrôler aussi les interactions et le référencement avant accord.'}</div>
 <section class="grid">${galleryCards}</section>
+<p class="footnote">Les captures excluent uniquement la barre d'outils Symfony de développement ; le bandeau cookies est refusé par son vrai bouton dans ce navigateur de recette.</p>
 <p class="footnote">Chaque capture est cliquable. Les images représentent l'état local à la date de l'audit, et non OLING.fr en production.
 Pour tester les menus et les liens, ouvrir le site local directement dans un navigateur. Ne pas fusionner ou déployer sans validation.</p></main></body></html>`;
 writeFileSync(join(out, 'preview.html'), gallery);

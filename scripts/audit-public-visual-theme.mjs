@@ -22,7 +22,17 @@ const routes = [
   ['/secteurs', 'secondary'], ['/projets', 'secondary'],
   ['/ressources', 'secondary'], ['/contact', 'secondary'],
 ];
-const widths = [360, 390, 768, 1024, 1366, 1440, 1920];
+const requestedRoutes = process.env.OLING_AUDIT_ROUTES?.split(',').map((value) => value.trim()).filter(Boolean);
+if (requestedRoutes?.length) {
+  const supported = new Set(routes.map(([route]) => route));
+  for (const route of requestedRoutes) {
+    if (!supported.has(route)) throw new Error(`Unsupported preview route ${route}`);
+  }
+  routes.splice(0, routes.length, ...routes.filter(([route]) => requestedRoutes.includes(route)));
+}
+const requestedWidths = process.env.OLING_AUDIT_WIDTHS?.split(',').map((value) => Number.parseInt(value.trim(), 10)).filter(Number.isFinite);
+const widths = requestedWidths?.length ? requestedWidths : [360, 390, 768, 1024, 1366, 1440, 1920];
+const fixtureLabel = process.env.OLING_AUDIT_FIXTURE_LABEL?.trim() || '';
 const failures = [], records = [];
 const seoKeys = ['title', 'description', 'canonical', 'robots', 'hreflang', 'ogTitle', 'ogDescription'];
 mkdirSync(out, { recursive: true });
@@ -164,11 +174,12 @@ try {
 } finally {
   await browser.close();
 }
-const report = { timestamp: new Date().toISOString(), baseUrl, captureBaseline, baselinePath, records, failures };
+const report = { timestamp: new Date().toISOString(), baseUrl, fixtureLabel, captureBaseline, baselinePath, records, failures };
 writeFileSync(join(out, 'PUBLIC_THEME_AUDIT.json'), JSON.stringify(report, null, 2) + '\n');
 writeFileSync(join(out, 'PUBLIC_THEME_AUDIT.md'), [
   '# OLING Public Theme — browser computed-style audit', '',
   `Base: ${baseUrl}`,
+  `Data source: ${fixtureLabel || 'local/staging environment supplied by operator'}`,
   `Audit mode: ${captureBaseline ? 'baseline capture' : 'new design validation'}`,
   `Routes/viewport combinations: ${records.length}`,
   `Failures: ${failures.length}`, '',
@@ -223,7 +234,8 @@ const gallery = `<!doctype html>
 </style></head>
 <body><header class="hero"><h1>OLING — Prévisualisation de la refonte</h1>
 <p>Captures produites par un véritable navigateur Playwright sur l'environnement local/de recette :
-${escapeHtml(baseUrl)}. Elles ne sont ni des maquettes ni des images générées.</p></header>
+${escapeHtml(baseUrl)}. Elles ne sont ni des maquettes ni des images générées.</p>
+${fixtureLabel ? `<p><strong>Données de recette :</strong> ${escapeHtml(fixtureLabel)}. Les contenus et images affichés peuvent différer de la production.</p>` : ''}</header>
 <main><div class="summary"><strong>${failures.length} anomalie(s) détectée(s)</strong> sur ${records.length} combinaisons route/largeur ;
 ${previews.length} captures disponibles. ${failures.length ? 'Consulter PUBLIC_THEME_AUDIT.md avant toute validation.' : 'Contrôler aussi les interactions et le référencement avant accord.'}</div>
 <section class="grid">${galleryCards}</section>

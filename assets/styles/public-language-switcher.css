@@ -1,0 +1,53 @@
+/**
+ * OLING public header — visible language dropdown affordance.
+ *
+ * Base Twig styles contain a decorative SVG background but never allocate
+ * a box for Bootstrap's ::after caret. We reserve explicit dimensions and
+ * render a white chevron inside a neutral slate-gray chip on EVERY public
+ * page, including the dark homepage.
+ */
+body.oling-body:not(.admin) .oling-header button.oling-language-switcher__toggle.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.36rem;
+  min-height: 2.4rem;
+  padding-inline: 0.65rem 0.45rem;
+  white-space: nowrap;
+}
+
+body.oling-body:not(.admin) .oling-header button.oling-language-switcher__toggle.dropdown-toggle::after {
+  content: "" !important;
+  display: inline-block !important;
+  flex: 0 0 1.25rem;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin: 0 0 0 0.18rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0.3rem;
+  opacity: 1 !important;
+  vertical-align: middle;
+  background-color: #64748b !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m3.75 5.8 4.25 4.25 4.25-4.25' fill='none' stroke='%23ffffff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 0.88rem 0.88rem !important;
+  transform: none !important;
+}
+
+body.oling-body:not(.admin) .oling-header button.oling-language-switcher__toggle.dropdown-toggle:is(:hover, :focus-visible, .show)::after {
+  background-color: #475569 !important;
+}
+
+body.oling-body:not(.admin) .oling-header button.oling-language-switcher__toggle.dropdown-toggle:focus-visible {
+  outline: 2px solid #64748b !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 575.98px) {
+  body.oling-body:not(.admin) .oling-header button.oling-language-switcher__toggle.dropdown-toggle {
+    min-height: 2.3rem;
+    padding-inline: 0.55rem 0.4rem;
+  }
+}

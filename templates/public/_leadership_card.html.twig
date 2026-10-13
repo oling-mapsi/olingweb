@@ -1,0 +1,54 @@
+{# Shared public leadership profile, sourced exclusively from published localized Team profiles. #}
+{% set isDetail = mode|default('preview') == 'detail' %}
+<article{% if isDetail %} id="{{ person.slug }}"{% endif %} class="oling-leadership-card oling-leadership-card--{{ isDetail ? 'detail' : 'preview' }}">
+  <div class="oling-leadership-card__media">
+    {% if person.photo %}
+      <img src="{{ person.photo }}" alt="{{ 'leadership.portrait_alt'|trans({'%name%': person.noncomplet}) }}" width="640" height="800" loading="lazy" decoding="async">
+    {% else %}
+      <span class="oling-leadership-card__no-photo" aria-hidden="true">OLING</span>
+    {% endif %}
+  </div>
+  <div class="oling-leadership-card__body">
+    <span class="oling-leadership-card__eyebrow">{{ 'leadership.eyebrow'|trans }}</span>
+    {% if isDetail %}
+      <h2 class="oling-leadership-card__name">{{ person.noncomplet }}</h2>
+    {% else %}
+      <h3 class="oling-leadership-card__name">{{ person.noncomplet }}</h3>
+    {% endif %}
+    {% if person.titre %}
+      <p class="oling-leadership-card__role">{{ person.titre }}</p>
+    {% endif %}
+    {% if person.shortcv %}
+      <p class="oling-leadership-card__bio">{{ person.shortcv|striptags }}</p>
+    {% endif %}
+    {% if person.areas is defined and person.areas|length > 0 %}
+      <ul class="oling-leadership-card__areas" aria-label="{{ 'leadership.profile_area_label'|trans }}">
+        {% for area in person.areas %}
+          <li>
+            {% if area.href is defined and area.href %}
+              <a href="{{ area.href }}">{{ area.label }}</a>
+            {% else %}
+              {{ area.label }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="oling-leadership-card__links">
+      {% if person.linkedin %}
+        <a href="{{ person.linkedin }}" target="_blank" rel="noopener noreferrer"
+           aria-label="{{ 'team.linkedin'|trans({'%name%': person.noncomplet}) }}">
+          <i class="bi-linkedin" aria-hidden="true"></i>
+          <span>LinkedIn</span>
+          <i class="bi-arrow-up-right" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+      {% if person.publicationsUrl %}
+        <a href="{{ person.publicationsUrl }}" target="_blank" rel="noopener noreferrer">
+          <span>{{ 'leadership.publications'|trans }}</span>
+          <i class="bi-arrow-up-right" aria-hidden="true"></i>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</article>

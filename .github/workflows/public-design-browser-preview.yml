@@ -37,7 +37,7 @@ jobs:
           --health-retries=8
 
     env:
-      APP_ENV: dev
+      APP_ENV: prod
       APP_DEBUG: '0'
       APP_SECRET: isolated-public-design-preview-ci
       DATABASE_URL: 'mysql://root:CIOnlyPreviewPassword@127.0.0.1:3306/oling_preview?serverVersion=8.0.35&charset=utf8mb4'

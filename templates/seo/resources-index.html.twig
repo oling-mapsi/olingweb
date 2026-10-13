@@ -21,22 +21,25 @@
   } %}
 
   {% if articles is not empty %}
-    <section class="oling-shell-section oling-shell-section--tint">
+    <section class="oling-shell-section oling-shell-section--tint oling-resources-library">
       <div class="container">
-        <div class="oling-section-head">
+        <div class="oling-section-head oling-resources-library__heading">
           <span class="oling-kicker">{{ 'resources.library_kicker'|trans }}</span>
           <h2>Contenus de cadrage, retours terrain et points de vigilance</h2>
           <p>Les ressources complètent les expertises et les services avec un format plus pédagogique : méthode, vigilance, arbitrages et retours d’expérience.</p>
         </div>
-        <div class="oling-editorial-grid">
+        <div class="oling-editorial-grid oling-resources-library__grid">
           {% for article in articles %}
-            <article class="oling-editorial-card">
-              <span class="oling-kicker">{{ 'resources.resource_kicker'|trans }}</span>
-              <h2><a class="link" href="{{ article.href }}">{{ article.h1 }}</a></h2>
+            <article class="oling-editorial-card oling-resource-story">
+              <div class="oling-resource-story__top">
+                <span class="oling-kicker">{{ 'resources.resource_kicker'|trans }}</span>
+                <span class="oling-resource-story__number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+              </div>
+              <h2 class="oling-resource-story__title"><a class="link" href="{{ article.href }}">{{ article.h1 }}</a></h2>
               {% if article.intro is not empty %}
                 <p>{{ article.intro }}</p>
               {% endif %}
-              <a class="oling-editorial-card__more" href="{{ article.href }}">{{ 'resources.read_article'|trans }}</a>
+              <a class="oling-editorial-card__more oling-resource-story__more" href="{{ article.href }}">{{ 'resources.read_article'|trans }}</a>
             </article>
           {% endfor %}
         </div>
@@ -45,19 +48,21 @@
   {% endif %}
 
   {% if page and page.heroSideHtml %}
-    <section class="oling-shell-section">
+    <section class="oling-shell-section oling-resources-curation" aria-label="{{ 'resources.library_kicker'|trans }}">
       <div class="container">
-        <div class="oling-surface oling-surface--light">
-          <div class="oling-richtext oling-resource-content">{{ page.heroSideHtml|raw }}</div>
+        <div class="oling-resources-curation__inner">
+          {# CMS-authored content remains unchanged for SEO. Dedicated layout
+             centers its heading, introduction and linked expertises. #}
+          <div class="oling-richtext oling-resource-content oling-resources-curation__content">{{ page.heroSideHtml|raw }}</div>
         </div>
       </div>
     </section>
   {% endif %}
 
   {% if faqItems is not empty %}
-    <section class="oling-shell-section">
+    <section class="oling-shell-section oling-resources-faq">
       <div class="container">
-        <div class="oling-surface oling-surface--light">
+        <div class="oling-surface oling-surface--light oling-resources-faq__inner">
           <span class="oling-kicker">FAQ</span>
           <h2>{{ 'resources.faq_title'|trans }}</h2>
           <ul class="oling-check-list mb-0">

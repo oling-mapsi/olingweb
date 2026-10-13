@@ -327,6 +327,10 @@ try {
             if (!await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
               issue('Mobile menu did not expand');
             }
+            const chatLauncher = page.locator('#oling-chat-widget .oling-chat-widget__launcher');
+            if (await chatLauncher.count() && await chatLauncher.isVisible()) {
+              issue('Chat launcher overlaps the expanded mobile navigation');
+            }
             // Capture the real expanded mobile menu with the language switcher
             // visible; do not fabricate a CSS mock-up.
             if (!skipScreenshots && width === 390 && ['/a-propos', '/en/about', '/es/quienes-somos'].includes(route)) {
@@ -347,6 +351,9 @@ try {
             await page.waitForTimeout(300);
             if (await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
               issue('Mobile menu did not collapse');
+            }
+            if (await chatLauncher.count() && !await chatLauncher.isVisible()) {
+              issue('Chat launcher did not return after mobile navigation collapsed');
             }
           }
         }

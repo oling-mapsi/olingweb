@@ -356,7 +356,7 @@
 </head>
 <body class="oling-body{% if not isAdminPage %} oling-refresh{% endif %}{% if app.request.pathinfo == '/' or currentRoute == 'localized_homepage' %} oling-home{% endif %}{% if isAdminPage %} admin{% endif %}{% block body_class %}{% endblock %}" data-ga-id="G-1EN73LS1B3" data-analytics-excluded="{{ app.request.attributes.get('analytics_internal_excluded') or isAdminPage ? '1' : '0' }}" data-analytics-collect-url="{{ path('analytics_collect') }}">
     {% if not isAdminPage %}
-    <header id="header" class="oling-header navbar navbar-expand-lg navbar-show-hide"
+    <header id="header" class="oling-header navbar navbar-expand-xl navbar-show-hide"
             data-hs-header-options='{"fixMoment": 0, "fixEffect": "slide"}'>
         <div class="container">
             <nav class="js-mega-menu navbar-nav-wrap oling-topbar">
@@ -370,14 +370,14 @@
                 </button>
 
                 <div class="navbar-nav-wrap-col collapse navbar-collapse d-print-none" id="navbarNavMenuLeftAligned">
-                    <ul class="navbar-nav oling-main-menu align-items-lg-center">
+                    <ul class="navbar-nav oling-main-menu align-items-xl-center">
                         <li class="hs-has-mega-menu nav-item"
                             data-hs-mega-menu-item-options='{"desktop":{"position":"left"}}'>
                             <a id="expertisesMegaMenu"
                                class="hs-mega-menu-invoker hs-mega-menu__invoker nav-link {% if expertisesActive %}active{% endif %}"
                                href="{{ navExpertisesPath }}"
                                aria-expanded="false">{{ 'nav.expertises'|trans }}</a>
-                            <div class="oling-mobile-mega d-lg-none">
+                            <div class="oling-mobile-mega d-xl-none">
                                 {% for universe in navigationUniverses %}
                                     <a class="oling-mobile-mega__group" href="{{ universe.href }}">{{ universe.title|trans }}</a>
                                     <div class="oling-mobile-mega__links">

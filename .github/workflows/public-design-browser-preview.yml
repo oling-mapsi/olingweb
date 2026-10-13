@@ -45,8 +45,8 @@ jobs:
       MESSENGER_TRANSPORT_DSN: 'sync://'
       OLING_CI_PREVIEW_ONLY: '1'
       OLING_AUDIT_BASE_URL: 'http://127.0.0.1:8753'
-      OLING_AUDIT_ROUTES: '/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
-      OLING_AUDIT_WIDTHS: '390,768,1366,1920'
+      OLING_AUDIT_ROUTES: '/,/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
+      OLING_AUDIT_WIDTHS: '390,768,1024,1366,1920'
       OLING_AUDIT_FIXTURE_LABEL: 'GitHub Actions : base MySQL temporaire et contenus publics versionnes, sans donnees de production'
 
     steps:
@@ -104,6 +104,34 @@ jobs:
           done
           curl --fail --silent --show-error http://127.0.0.1:8753/a-propos > /dev/null
           curl --fail --silent --show-error http://127.0.0.1:8753/a-propos/team > /dev/null
+          if ! curl --fail --silent --show-error http://127.0.0.1:8753/ > /tmp/oling-home-preview.html; then
+            echo "FATAL: CI homepage fixture does not render HTTP 200."
+            echo "Symfony server diagnostics (CI only, no production secrets):"
+            tail -n 120 /tmp/oling-preview-server.log || true
+            echo "Symfony application diagnostics:"
+            tail -n 100 var/log/prod.log 2>/dev/null || true
+            echo "CI-only debug page: isolated database and synthetic APP_SECRET, no production access"
+            (
+              APP_ENV=dev APP_DEBUG=1 nohup php -S 127.0.0.1:8756 -t public tests/e2e/php-router.php > /tmp/oling-dev-error.log 2>&1 &
+              echo $! > /tmp/oling-dev-error.pid
+            )
+            sleep 3
+            curl --silent --show-error -o /tmp/oling-home-error.html -w 'Debug HTTP %{http_code}\\n' http://127.0.0.1:8756/ || true
+            php -r '
+              $html=(string) @file_get_contents("/tmp/oling-home-error.html");
+              if (preg_match("~<title[^>]*>(.*?)</title>~si", $html, $m)) {
+                echo "Error page title: ".trim(strip_tags(html_entity_decode($m[1], ENT_QUOTES, "UTF-8"))).PHP_EOL;
+              }
+              if (preg_match("~<h1[^>]*>(.*?)</h1>~si", $html, $m)) {
+                echo "Error page H1: ".trim(strip_tags(html_entity_decode($m[1], ENT_QUOTES, "UTF-8"))).PHP_EOL;
+              }
+            '
+            echo "Filtered dev diagnostics (no raw request dump):"
+            grep -E 'request.CRITICAL|php.CRITICAL|Uncaught|Exception' var/log/dev.log 2>/dev/null | tail -n 8 | cut -c 1-450 || true
+            echo "Debug server tail:"
+            tail -n 16 /tmp/oling-dev-error.log 2>/dev/null || true
+            exit 1
+          fi
 
       - name: Install real Chromium browser for screenshots
         run: npx playwright install --with-deps chromium
@@ -135,6 +163,7 @@ jobs:
       - name: Capture main SEO baseline via Playwright (no screenshots)
         env:
           OLING_AUDIT_BASE_URL: http://127.0.0.1:8754
+          OLING_AUDIT_ROUTES: '/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
           OLING_AUDIT_WIDTHS: '1366'
           OLING_AUDIT_OUTPUT_DIR: docs/redesign/seo-main
           OLING_AUDIT_CAPTURE_BASELINE: '1'
@@ -142,6 +171,8 @@ jobs:
         run: npm run audit:public-visual
 
       - name: Diff rendered main vs PR SEO metadata on identical CI data
+        env:
+          OLING_SEO_EXCLUDED_ROUTES: '/'
         run: |
           node scripts/ci/compare-public-seo-snapshots.mjs \
             docs/redesign/seo-main/PUBLIC_THEME_AUDIT.json \
@@ -186,7 +217,7 @@ jobs:
 
   publish-built-assets:
     name: Stage CI-compiled static files into the release branch
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'design/public-secondary-foundation-2026-10-13' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'hotfix/oling-v4-preprod-1024-seo-20261013' }}
     needs: browser-preview
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -222,5 +253,5 @@ jobs:
           git config user.name "oling-design-build-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Build versioned OLING V4 production frontend assets"
-          git push origin "HEAD:refs/heads/design/public-secondary-foundation-2026-10-13"
+          git push origin "HEAD:refs/heads/hotfix/oling-v4-preprod-1024-seo-20261013"
           echo "Git release branch now includes hashed CSS, JS and manifest."

@@ -79,6 +79,37 @@ $ensurePage = static function (
     return $page;
 };
 
+// The repository's core-pages FR snapshot does not contain "home".
+// The original preview therefore returned HTTP 500 for '/' on an empty CI DB.
+// Create a homepage page/translation from the EXISTING versioned home source.
+// This is restricted above to the throwaway /oling_preview database.
+$homeSource = json_decode(
+    (string) file_get_contents(dirname(__DIR__, 2).'/data/i18n/home_page.fr.json'),
+    true,
+    512,
+    JSON_THROW_ON_ERROR
+);
+$home = $homeSource['homePage'] ?? null;
+if (!is_array($home) || ($homeSource['slug'] ?? null) !== 'home') {
+    throw new RuntimeException('Invalid versioned home page preview source');
+}
+$homePage = $ensurePage(
+    'home',
+    (string) ($home['seoTitle'] ?? 'OLING'),
+    (string) ($home['metaDescription'] ?? ''),
+    (string) ($home['hero']['intro'] ?? '')
+);
+$homeTranslation = $homePage->getTranslation('fr');
+if (!$homeTranslation instanceof SitePageTranslation) {
+    throw new RuntimeException('Unable to publish the FR preview home translation');
+}
+$homeTranslation->setSeoTitle((string) ($home['seoTitle'] ?? 'OLING'));
+$homeTranslation->setSeoDescription((string) ($home['metaDescription'] ?? ''));
+$homeTranslation->setHeroBadge((string) ($home['hero']['eyebrow'] ?? ''));
+$homeTranslation->setHeroTitle(null);
+$homeTranslation->setHeroIntro((string) ($home['hero']['intro'] ?? ''));
+$homeTranslation->setStructuredData(['homePage' => $home]);
+
 // Pages created by the versioned public seed may lack their French translation,
 // which makes mergeIndexPage/resolveStructuredPage fail in an empty database.
 foreach ($pages->findAll() as $page) {

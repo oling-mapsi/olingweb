@@ -12,6 +12,65 @@ use App\Repository\SitePageRepository;
 
 class PublicSitePageResolver
 {
+    /**
+     * Reviewed descriptions from the published EN/ES site-page snapshots.
+     * Use these only when a translated CMS page has an empty SEO description.
+     * A nonempty published CMS or structured-data value always wins.
+     * This does not write into the database or affect the French content.
+     */
+    private const REVIEWED_INSTITUTIONAL_FALLBACKS = [
+        'apropos' => [
+            'en' => [
+                'seoTitle' => 'About OLING | IT Project Advisory Consultancy',
+                'metaDescription' => 'OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.',
+                'title' => 'IT project advisory, enterprise software and compliance',
+            ],
+            'es' => [
+                'seoTitle' => 'Quiénes somos | Consultora de proyectos de sistemas de información - OLING',
+                'metaDescription' => 'OLING, consultora especializada en proyectos de sistemas de información, software empresarial y cumplimiento normativo. Gobernanza, ERP y acompañamiento a organizaciones.',
+                'title' => 'Asesoría en sistemas de información, software empresarial y cumplimiento normativo',
+            ],
+        ],
+        'team' => [
+            'en' => [
+                'seoTitle' => 'Our Team | IT Project Advisory Experts - OLING',
+                'metaDescription' => 'A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects.',
+                'title' => 'A multidisciplinary team of experts',
+            ],
+            'es' => [
+                'seoTitle' => 'El equipo | Expertos en asesoría de sistemas de información - OLING',
+                'metaDescription' => 'Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos.',
+                'title' => 'Un equipo de expertos multidisciplinares',
+            ],
+        ],
+    ];
+
+    private static function editorialMetaDescription(
+        string $slug,
+        string $locale,
+        ?string $published,
+        ?string $structured,
+    ): string {
+        $fromCms = trim((string) $published);
+        if ($fromCms !== '') {
+            return $fromCms;
+        }
+        $fromStructured = trim((string) $structured);
+        if ($fromStructured !== '') {
+            return $fromStructured;
+        }
+
+        return self::REVIEWED_INSTITUTIONAL_FALLBACKS[$slug][$locale]['metaDescription'] ?? '';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function reviewedInstitutionalFallback(string $slug, string $locale): array
+    {
+        return self::REVIEWED_INSTITUTIONAL_FALLBACKS[$slug][$locale] ?? [];
+    }
+
     private const HOME_PAGE_SLUG = 'home';
     private const EXPERTISE_INDEX_SLUG = 'expertises-index';
     private const SECTOR_INDEX_SLUG = 'secteurs-index';
@@ -172,7 +231,7 @@ class PublicSitePageResolver
 
         $content = $this->localizedContentResolver->getPublicView($sitePage, $locale);
         if ($content === null) {
-            return $defaults;
+            return self::reviewedInstitutionalFallback($slug, $locale) ?: $defaults;
         }
         $structuredData = $content->getStructuredData();
         $payload = is_array($structuredData['corePage'] ?? null)
@@ -181,7 +240,7 @@ class PublicSitePageResolver
         $merged = $this->mergeRecursive($defaults, $payload);
 
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? '');
-        $merged['metaDescription'] = $content->getMetaDescription() ?: ($merged['metaDescription'] ?? '');
+        $merged['metaDescription'] = self::editorialMetaDescription($slug, $locale, $content->getMetaDescription(), $merged['metaDescription'] ?? null);
         $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
         $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $content->getTitle() ?: '');
         $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? '');

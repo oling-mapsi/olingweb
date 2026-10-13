@@ -98,9 +98,9 @@
 
   <section class="oling-home-expertises">
     <div class="container">
-      {% set practicesEyebrow = homePracticesSection and homePracticesSection.eyebrow ? homePracticesSection.eyebrow : homePage.practices.eyebrow %}
+      {% set practicesEyebrow = homePracticesSection and homePracticesSection.getEyebrow() ? homePracticesSection.getEyebrow() : homePage.practices.eyebrow %}
       {% set practicesTitle = homePracticesSection and homePracticesSection.title ? homePracticesSection.title : homePage.practices.title %}
-      {% set practicesIntro = homePracticesSection and homePracticesSection.intro ? homePracticesSection.intro : null %}
+      {% set practicesIntro = homePracticesSection and homePracticesSection.getIntro() ? homePracticesSection.getIntro() : null %}
       {% set homeUniverseCards = homePage.practices.cards|default([]) %}
       <div class="oling-home-section-head">
         <span>{{ practicesEyebrow }}</span>

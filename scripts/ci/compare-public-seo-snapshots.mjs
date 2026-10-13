@@ -16,6 +16,9 @@ if (!baselinePath || !proposedPath || !outputPath) {
 const baseline = JSON.parse(readFileSync(baselinePath, 'utf8'));
 const proposed = JSON.parse(readFileSync(proposedPath, 'utf8'));
 const fields = ['title', 'description', 'canonical', 'robots', 'hreflang', 'ogTitle', 'ogDescription'];
+const excludedRoutes = new Set(
+  (process.env.OLING_SEO_EXCLUDED_ROUTES || '').split(',').map((value) => value.trim()).filter(Boolean)
+);
 const normalizeUrl = (value) => {
   if (typeof value !== 'string') return value;
   try {
@@ -33,13 +36,13 @@ const normalizeField = (field, value) => field === 'canonical'
     : value;
 
 const byKey = new Map(baseline.records
-  .filter((r) => r.width === 1366)
+  .filter((r) => r.width === 1366 && !excludedRoutes.has(r.route))
   .map((r) => [r.route, r]));
 const errors = [];
 const editorialExceptions = [];
 const comparisons = [];
 let validatedMetadata = 0;
-for (const candidate of proposed.records.filter((r) => r.width === 1366)) {
+for (const candidate of proposed.records.filter((r) => r.width === 1366 && !excludedRoutes.has(r.route))) {
   const base = byKey.get(candidate.route);
   if (!base || base.status !== 200 || candidate.status !== 200 || !base.seo || !candidate.seo) {
     errors.push(`${candidate.route}: missing same-data HTTP 200 baseline/proposal metadata`);
@@ -83,6 +86,7 @@ const result = {
   baselinePath,
   proposedPath,
   routesCompared: comparisons.length,
+  excludedRoutes: [...excludedRoutes],
   metadataFieldsUnchanged: validatedMetadata,
   editorialExceptions,
   errors,
@@ -93,6 +97,7 @@ const markdown = [
   '# OLING.fr — comparison of rendered SEO: main vs redesign',
   '',
   'This report compares pages rendered from the **same disposable, versioned CI MySQL fixture**.',
+  `Explicitly excluded from differential SEO comparison: ${[...excludedRoutes].join(', ') || 'none'} (excluded pages must be browser-checked independently).`,
   'It is not a production Google indexation, crawl-volume or Search Console verification.',
   '',
   `Pages compared at 1366px: **${result.routesCompared}**`,

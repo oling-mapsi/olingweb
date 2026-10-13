@@ -18,14 +18,30 @@ class PublicSitePageResolver
      * A nonempty published CMS or structured-data value always wins.
      * This does not write into the database or affect the French content.
      */
-    private const REVIEWED_INSTITUTIONAL_META_DESCRIPTIONS = [
+    private const REVIEWED_INSTITUTIONAL_FALLBACKS = [
         'apropos' => [
-            'en' => 'OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.',
-            'es' => 'OLING, consultora especializada en proyectos de sistemas de información, software empresarial y cumplimiento normativo. Gobernanza, ERP y acompañamiento a organizaciones.',
+            'en' => [
+                'seoTitle' => 'About OLING | IT Project Advisory Consultancy',
+                'metaDescription' => 'OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.',
+                'title' => 'IT project advisory, enterprise software and compliance',
+            ],
+            'es' => [
+                'seoTitle' => 'Quiénes somos | Consultora de proyectos de sistemas de información - OLING',
+                'metaDescription' => 'OLING, consultora especializada en proyectos de sistemas de información, software empresarial y cumplimiento normativo. Gobernanza, ERP y acompañamiento a organizaciones.',
+                'title' => 'Asesoría en sistemas de información, software empresarial y cumplimiento normativo',
+            ],
         ],
         'team' => [
-            'en' => 'A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects.',
-            'es' => 'Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos.',
+            'en' => [
+                'seoTitle' => 'Our Team | IT Project Advisory Experts - OLING',
+                'metaDescription' => 'A team of experts in IT project advisory, enterprise software, compliance and cybersecurity to support your strategic projects.',
+                'title' => 'A multidisciplinary team of experts',
+            ],
+            'es' => [
+                'seoTitle' => 'El equipo | Expertos en asesoría de sistemas de información - OLING',
+                'metaDescription' => 'Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos.',
+                'title' => 'Un equipo de expertos multidisciplinares',
+            ],
         ],
     ];
 
@@ -44,7 +60,15 @@ class PublicSitePageResolver
             return $fromStructured;
         }
 
-        return self::REVIEWED_INSTITUTIONAL_META_DESCRIPTIONS[$slug][$locale] ?? '';
+        return self::REVIEWED_INSTITUTIONAL_FALLBACKS[$slug][$locale]['metaDescription'] ?? '';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function reviewedInstitutionalFallback(string $slug, string $locale): array
+    {
+        return self::REVIEWED_INSTITUTIONAL_FALLBACKS[$slug][$locale] ?? [];
     }
 
     private const HOME_PAGE_SLUG = 'home';
@@ -207,7 +231,7 @@ class PublicSitePageResolver
 
         $content = $this->localizedContentResolver->getPublicView($sitePage, $locale);
         if ($content === null) {
-            return $defaults;
+            return self::reviewedInstitutionalFallback($slug, $locale) ?: $defaults;
         }
         $structuredData = $content->getStructuredData();
         $payload = is_array($structuredData['corePage'] ?? null)

@@ -20,7 +20,7 @@ final class LocalizedUrlGenerator
 
         $translation = $this->localizedContentResolver->getPublishedTranslation($page, $locale);
         if (!$translation instanceof SitePageTranslation) {
-            return null;
+            return $this->fixedLocalizedPath($page->getSlug(), $locale);
         }
 
         if ($page->getSlug() === 'home') {
@@ -96,6 +96,23 @@ final class LocalizedUrlGenerator
             'projets' => '/projets',
             'secteurs-index' => '/secteurs',
             default => str_starts_with($sourceSlug, 'secteur-') ? '/secteurs/'.$sourceSlug : null,
+        };
+    }
+
+    private function fixedLocalizedPath(string $sourceSlug, string $locale): ?string
+    {
+        return match ($sourceSlug) {
+            'apropos' => match ($locale) {
+                SitePageTranslation::LOCALE_EN => '/en/about',
+                SitePageTranslation::LOCALE_ES => '/es/quienes-somos',
+                default => '/a-propos',
+            },
+            'team' => match ($locale) {
+                SitePageTranslation::LOCALE_EN => '/en/team',
+                SitePageTranslation::LOCALE_ES => '/es/equipo',
+                default => '/a-propos/team',
+            },
+            default => null,
         };
     }
 

@@ -61,4 +61,32 @@ class PublicSitePageResolverTranslationTest extends TestCase
         self::assertSame('TRANSLATED FR BODY MARKER', $resolved['formSection']['title']);
         self::assertStringNotContainsString('LEGACY', json_encode($resolved, JSON_THROW_ON_ERROR));
     }
+
+    public function testInstitutionalSeoFallbackAppliesWhenLocalizedCmsPageIsMissing(): void
+    {
+        $page = (new SitePage())->setSlug('apropos');
+
+        $sitePageRepository = $this->createMock(SitePageRepository::class);
+        $sitePageRepository->method('findOneBy')->willReturn($page);
+
+        $localizedContentResolver = $this->createMock(LocalizedContentResolver::class);
+        $localizedContentResolver
+            ->method('getPublicView')
+            ->with($page, SitePageTranslation::LOCALE_EN)
+            ->willReturn(null);
+
+        $resolver = new PublicSitePageResolver(
+            $sitePageRepository,
+            $this->createMock(MetierRepository::class),
+            $localizedContentResolver,
+            $this->createMock(SiteGlobalContentRepository::class),
+            $this->createMock(SiteGlobalContentTranslationRepository::class)
+        );
+
+        $resolved = $resolver->getEditorialPage('apropos', SitePageTranslation::LOCALE_EN);
+
+        self::assertSame('About OLING | IT Project Advisory Consultancy', $resolved['seoTitle']);
+        self::assertSame('OLING provides IT project advisory, enterprise software and compliance consulting, covering governance, ERP and organisational support.', $resolved['metaDescription']);
+        self::assertSame('IT project advisory, enterprise software and compliance', $resolved['title']);
+    }
 }

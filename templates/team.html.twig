@@ -6,88 +6,35 @@
 
 {% block body %}
 <main id="content" role="main">
-  <style>
-    .oling-team-page-grid { gap: 1rem; }
-    .oling-team-card { grid-template-columns: 88px minmax(0, 1fr); gap: 0.85rem; border-radius: 18px; box-shadow: 0 16px 34px rgba(11, 35, 55, 0.06); }
-    .oling-team-media { height: 124px; min-height: 124px; margin: 0.8rem 0 0.8rem 0.8rem; border-radius: 14px; overflow: hidden; }
-    .oling-team-media img { object-position: center 12%; }
-    .oling-team-card__body { padding: 0.95rem 1rem 1rem 0; }
-    .oling-team-card__head { margin-bottom: 0.55rem; gap: 0.8rem; }
-    .oling-team-card__head h2 { font-size: 1.28rem; line-height: 0.98; max-width: 13ch; }
-    .oling-team-card__title { margin-top: 0.22rem; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; }
-    .oling-team-card__link { font-size: 0.66rem; letter-spacing: 0.12em; }
-    .oling-team-card__social { width: 1.85rem; height: 1.85rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; color: #244968; background: rgba(36, 73, 104, 0.08); transition: color .2s ease, background-color .2s ease; }
-    .oling-team-card__social:hover { color: #0a66c2; background: rgba(10, 102, 194, 0.12); }
-    .oling-team-card__social [class^="bi-"] { font-size: 0.95rem; line-height: 1; }
-    .oling-team-card__organization { margin: 0.25rem 0 0; color: #52616d; font-size: 0.75rem; }
-    .oling-team-card__areas { display: flex; flex-wrap: wrap; gap: 0.35rem 0.75rem; margin: 0 0 0.65rem; padding: 0; list-style: none; }
-    .oling-team-card__areas li, .oling-team-card__areas a { color: #244968; font-size: 0.76rem; font-weight: 700; }
-    .oling-team-card__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.7rem; }
-    .oling-team-card__content, .oling-team-card__content p, .oling-team-card__content li { font-size: 0.9rem; line-height: 1.55; }
-    @media (max-width: 575.98px) {
-      .oling-team-card { grid-template-columns: 1fr; }
-      .oling-team-media { width: calc(100% - 1.9rem); height: 140px; min-height: 140px; margin: 0.95rem 0.95rem 0; }
-      .oling-team-card__body { padding: 0.9rem 0.95rem 1rem; }
-    }
-  </style>
-
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
-    title: page.title,
-    intro: page.intro,
+    title: 'leadership.team_title'|trans,
+    intro: 'leadership.team_intro'|trans,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
     highlights: page.highlights
   } %}
 
-  <section class="oling-shell-section">
+  <section class="oling-shell-section oling-leadership-page" aria-labelledby="oling-leadership-heading">
     <div class="container">
       {% if page.legacyBodyHtml is defined and page.legacyBodyHtml %}
-        <div class="oling-surface oling-surface--light mb-4">
-          <div class="oling-richtext">{{ page.legacyBodyHtml|raw }}</div>
+        <div class="oling-leadership-page__legacy oling-richtext">
+          {{ page.legacyBodyHtml|raw }}
         </div>
       {% endif %}
-
-      <div class="oling-team-page-grid">
-        {% for people in team %}
-          <article id="{{ people.slug }}" class="oling-team-card">
-            <div class="oling-team-media">
-              <img src="{{ people.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ people.noncomplet }}">
-            </div>
-            <div class="oling-team-card__body">
-              <div class="oling-team-card__head">
-                <div>
-                  <h2>{{ people.noncomplet }}</h2>
-                  {% if people.titre %}
-                    <p class="oling-team-card__title">{{ people.titre }}</p>
-                  {% endif %}
-                  <p class="oling-team-card__organization">{{ people.organization }}</p>
-                </div>
-              </div>
-              <ul class="oling-team-card__areas" aria-label="{{ 'team.areas_label'|trans }}">
-                {% for area in people.areas %}
-                  <li>
-                    {% if area.href is defined %}<a href="{{ area.href }}">{{ area.label }}</a>{% else %}{{ area.label }}{% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-              {% if people.shortcv %}
-                <div class="oling-richtext oling-team-card__content"><p>{{ people.shortcv }}</p></div>
-              {% endif %}
-              <div class="oling-team-card__actions">
-                {% if people.linkedin %}
-                  <a class="oling-team-card__social" href="{{ people.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'team.linkedin'|trans({'%name%': people.noncomplet}) }}">
-                    <i class="bi-linkedin" aria-hidden="true"></i>
-                  </a>
-                {% endif %}
-                {% if people.publicationsUrl %}
-                  <a class="oling-team-card__link" href="{{ people.publicationsUrl }}" target="_blank" rel="noopener">{{ 'team.publications'|trans }}</a>
-                {% endif %}
-              </div>
-            </div>
-          </article>
-        {% endfor %}
+      <div class="oling-leadership-page__heading">
+        <span class="oling-kicker">{{ 'leadership.eyebrow'|trans }}</span>
+        <h2 id="oling-leadership-heading">{{ 'leadership.detail_heading'|trans }}</h2>
       </div>
+      {% if team|length > 0 %}
+        <div class="oling-leadership-grid oling-leadership-grid--detail">
+          {% for people in team %}
+            {% include 'public/_leadership_card.html.twig' with {person: people, mode: 'detail'} only %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="oling-leadership-page__empty">{{ 'leadership.empty'|trans }}</p>
+      {% endif %}
     </div>
   </section>
 </main>

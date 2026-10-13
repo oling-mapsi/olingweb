@@ -54,6 +54,17 @@ try {
           records.push({ route, width, status });
           continue;
         }
+        // Consent is refused through the real public control in this temporary
+        // browser context. This clears the banner from design screenshots while
+        // verifying that the refusal UI is functional.
+        const refuseCookies = page.locator('#cookie-banner .js-cookie-refuse');
+        if (await refuseCookies.isVisible()) {
+          await refuseCookies.click();
+          await page.waitForTimeout(180);
+          if (await page.locator('#cookie-banner').isVisible()) {
+            issue('Cookie refusal did not hide the banner');
+          }
+        }
         const data = await page.evaluate(() => {
           const nodeInfo = (selector) => {
             const el = document.querySelector(selector);
@@ -145,6 +156,20 @@ try {
           }
         }
         if (kind === 'about' || kind === 'team' || [390, 1366].includes(width)) {
+          // Photographs are lazy-loaded lower in the document. Scrolling to
+          // decode them can hide the sticky header; restore a true initial view.
+          await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+          await page.waitForTimeout(300);
+          const headerInViewport = async () => page.locator('#header').evaluate((header) => {
+            const rect = header.getBoundingClientRect();
+            return rect.top >= -4 && rect.bottom > 28 && getComputedStyle(header).visibility !== 'hidden';
+          });
+          if (!await headerInViewport()) {
+            await page.reload({ waitUntil: 'domcontentloaded', timeout: 45000 });
+            await page.waitForTimeout(300);
+          }
+          if (!await headerInViewport()) issue('Navigation header hidden at the top of the capture');
+          if (await page.locator('#cookie-banner').isVisible()) issue('Cookie banner covers the design capture');
           await page.screenshot({
             path: join(out, 'screenshots-public-design', `${route === '/' ? 'home' : route.slice(1).replaceAll('/', '-')}-${width}.png`),
             fullPage: true, animations: 'disabled',

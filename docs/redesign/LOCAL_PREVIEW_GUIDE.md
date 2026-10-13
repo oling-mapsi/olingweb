@@ -67,6 +67,8 @@ Production : **ne pas déployer / ne pas fusionner sans validation**.
 
    Audit JSON/Markdown : `docs/redesign/PUBLIC_THEME_AUDIT.json` et `docs/redesign/PUBLIC_THEME_AUDIT.md`.
 
+   **Galerie simple à ouvrir pour valider : `docs/redesign/preview.html`**. Elle regroupe automatiquement les captures réelles avec une vignette cliquable par page et largeur d'écran.
+
    Un résultat non-PASS doit être corrigé avant validation. Les captures sont **générées uniquement si le navigateur a vraiment chargé les pages** ; aucune capture fictive.
 
 ## Comparaison graphique et SEO main vs refonte

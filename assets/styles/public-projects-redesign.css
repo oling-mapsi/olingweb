@@ -328,3 +328,16 @@ body.oling-body:not(.oling-home):not(.admin) .oling-proof-empty {
 @media(prefers-reduced-motion:reduce) {
   body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter {transition:none}
 }
+
+/* Prevent old card caption width constraints from splitting 01/02 vertically. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission__number {
+  display:inline-block !important;
+  width:auto !important;
+  min-width:2.8rem !important;
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  overflow-wrap:normal !important;
+  word-break:keep-all !important;
+  font-variant-numeric:tabular-nums;
+  text-align:right;
+}

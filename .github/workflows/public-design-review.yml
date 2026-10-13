@@ -52,6 +52,7 @@ jobs:
           php -l tests/PublicLeadershipSelectorTest.php
           php -l tests/PublicEditorialDesignSourceTest.php
           php -l tests/SectorVisualAssetsTest.php
+          php -l tests/InstitutionalSeoFallbackTest.php
           php -l src/Service/PublicSitePageResolver.php
 
       # The repository contains a partial tracked vendor/ tree. Composer otherwise
@@ -64,7 +65,7 @@ jobs:
         run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
 
       - name: Run focused unit tests
-        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest|SectorVisualAssetsTest'
+        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest|SectorVisualAssetsTest|InstitutionalSeoFallbackTest'
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

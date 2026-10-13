@@ -7,9 +7,11 @@ on:
       - 'assets/**'
       - 'src/Service/PublicLeadershipSelector.php'
       - 'src/Controller/PracticeController.php'
+      - 'src/Service/PublicSitePageResolver.php'
       - 'templates/**'
       - 'translations/messages.*.yaml'
       - 'scripts/audit-public-visual-theme.mjs'
+      - 'scripts/ci/compare-public-seo-snapshots.mjs'
       - 'tests/**'
       - 'package.json'
       - 'package-lock.json'
@@ -49,6 +51,8 @@ jobs:
           php -l tests/TeamProfilesSourceTest.php
           php -l tests/PublicLeadershipSelectorTest.php
           php -l tests/PublicEditorialDesignSourceTest.php
+          php -l tests/SectorVisualAssetsTest.php
+          php -l src/Service/PublicSitePageResolver.php
 
       # The repository contains a partial tracked vendor/ tree. Composer otherwise
       # treats those directories as already installed even if Twig files are missing.
@@ -60,7 +64,7 @@ jobs:
         run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
 
       - name: Run focused unit tests
-        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest'
+        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest|SectorVisualAssetsTest'
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -72,7 +76,9 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Validate browser audit script syntax
-        run: node --check scripts/audit-public-visual-theme.mjs
+        run: |
+          node --check scripts/audit-public-visual-theme.mjs
+          node --check scripts/ci/compare-public-seo-snapshots.mjs
 
       - name: Build public assets
         run: npm run build

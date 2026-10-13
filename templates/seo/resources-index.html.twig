@@ -10,7 +10,7 @@
 
 {% block body %}
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
-<main id="content" role="main" class="oling-seo-cabinet">
+<main id="content" role="main" class="oling-seo-cabinet oling-public-editorial oling-public-editorial--resources">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page and page.heroBadge ? page.heroBadge : 'Ressources OLING',
     title: page and page.heroTitle ? page.heroTitle : 'Des ressources pour cadrer plus vite, arbitrer plus proprement et sécuriser les transformations',

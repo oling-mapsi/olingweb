@@ -1,6 +1,7 @@
 ### Symfony ###
 /.env
 /.env.local
+/.env.local.php
 /.env.*.local
 /vendor/
 /node_modules/

@@ -286,30 +286,36 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn-out
   }
 }
 
-/* All public locales: visible white downward chevron on a solid slate-grey chip.
-   Use a CSS stroke rather than the legacy SVG background-image, which is
-   obscured by earlier cascade rules in some navbar states. */
-body.oling-body:not(.admin) #header .oling-language-switcher__toggle {
+/* PUBLIC language dropdown — accessible light-slate chip, including the homepage.
+   One deliberately scoped source of truth replaces the old invisible white
+   arrow on a light background; the component remains Bootstrap-driven. */
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle,
+body.oling-body.oling-home #header .oling-language-switcher__toggle {
   display: inline-flex !important;
+  justify-content: center;
   align-items: center !important;
-  gap: 0.5rem !important;
-  min-width: 4.75rem;
-  padding: 0.48rem 0.75rem !important;
-  color: #fff !important;
-  background: #586878 !important;
-  border: 1px solid #657687 !important;
-  border-radius: 0.72rem !important;
+  gap: 0.52rem !important;
+  min-width: 5.1rem;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.5rem 0.78rem !important;
+  background: #eef1f5 !important;
+  background-image: none !important;
+  border: 1px solid #cdd7e1 !important;
+  border-radius: 0.8rem !important;
+  color: #18354c !important;
+  box-shadow: none !important;
 }
 body.oling-body:not(.admin) #header .oling-language-switcher__toggle::after {
   content: "" !important;
   display: inline-block !important;
-  width: 0.46rem !important;
-  height: 0.46rem !important;
-  flex: 0 0 0.46rem;
-  margin: -0.18rem 0 0 0.12rem !important;
+  width: 0.47rem !important;
+  height: 0.47rem !important;
+  flex: 0 0 0.47rem !important;
+  margin: -0.17rem 0 0 0.18rem !important;
   border: 0 !important;
-  border-right: 2px solid #fff !important;
-  border-bottom: 2px solid #fff !important;
+  border-right: 2px solid #18354c !important;
+  border-bottom: 2px solid #18354c !important;
   border-radius: 0 !important;
   background: none !important;
   background-image: none !important;
@@ -317,21 +323,26 @@ body.oling-body:not(.admin) #header .oling-language-switcher__toggle::after {
   opacity: 1 !important;
   vertical-align: middle;
 }
-body.oling-body:not(.admin) #header .oling-language-switcher__toggle :is(span, i, svg),
-body.oling-body:not(.admin) #header .oling-language-switcher__toggle .bi-globe2 {
-  color: #fff !important;
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle .bi-globe2,
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle :is(span, i, svg) {
+  color: #18354c !important;
 }
-body.oling-body:not(.admin) #header .oling-language-switcher__toggle:is(:hover, :focus, :focus-visible, .show) {
-  color: #fff !important;
-  background: #455768 !important;
-  border-color: #708194 !important;
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle :is(svg) {
+  stroke: currentColor;
+}
+body.oling-body:not(.admin) #header .oling-language-switcher__toggle:is(:hover, :focus, :focus-visible, .show),
+body.oling-body.oling-home #header .oling-language-switcher__toggle:is(:hover, :focus, :focus-visible, .show) {
+  color: #18354c !important;
+  background: #e2e9f0 !important;
+  border-color: #b7c7d6 !important;
 }
 body.oling-body:not(.admin) #header .oling-language-switcher__toggle:focus-visible {
-  outline: 2px solid #2075bd !important;
+  outline: 2px solid #166aa6 !important;
   outline-offset: 3px !important;
 }
 @media (max-width: 991.98px) {
   body.oling-body:not(.admin) #header .oling-language-switcher__toggle {
-    min-width: 4.25rem;
+    min-width: 4.75rem;
+    padding-inline: 0.7rem !important;
   }
 }

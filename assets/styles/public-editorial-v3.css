@@ -597,3 +597,15 @@ body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources 
   box-shadow: none !important;
   padding: 0 !important;
 }
+
+/* The ordinal numerals 02 and 03 used to inherit dark blue on teal/plum,
+   losing contrast in the visual review. Make their hierarchy explicit. */
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index
+:is(.oling-universe--2, .oling-universe--3) .oling-universe__ordinal > span:first-child {
+  color: #f8c5d8 !important;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .18);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index
+:is(.oling-universe--2, .oling-universe--3) .oling-universe__ordinal > span:not(:first-child) {
+  color: rgba(255,255,255,.88) !important;
+}

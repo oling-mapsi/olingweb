@@ -1,0 +1,632 @@
+/* EXPERTISES — flagship OLING advisory landing page, editorial 2026.
+   Existing semantic H1/H2/H3, links, service inventory and SEO fields preserved.
+   This file replaces the page's legacy inline 8px-card styling. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index {
+  --expertises-ink:#102d46;
+  --expertises-copy:#4f687d;
+  --expertises-blue:#1b6398;
+  --expertises-rose:#dc3c79;
+  --expertises-border:rgba(26,68,103,.13);
+  background:#fff;
+  color:var(--expertises-ink);
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index > section > .container {
+  width:calc(100% - 2 * clamp(1rem,4vw,2.5rem));
+  max-width:1152px;
+  margin-inline:auto;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index section.oling-shell-hero {
+  padding-block:clamp(4rem,6vw,7rem) !important;
+  border-bottom:1px solid rgba(27,76,111,.11) !important;
+  background:
+    radial-gradient(48rem 30rem at 100% 10%,rgba(220,60,121,.12),transparent 68%),
+    radial-gradient(38rem 24rem at 2% 100%,rgba(40,123,183,.08),transparent 68%),
+    linear-gradient(180deg,#f3f7fc,#fff) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__inner {
+  display:grid;
+  grid-template-columns:minmax(0,1.17fr) minmax(15rem,.83fr);
+  align-items:center;
+  gap:clamp(2rem,5vw,6.1rem);
+  width:100%;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__copy {
+  max-width:750px;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:.65rem;
+  font-family:var(--oling-body);
+  font-size:.74rem;
+  font-weight:850;
+  letter-spacing:.14em;
+  color:#a93565 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__eyebrow::before {
+  display:inline-block;
+  width:1.8rem;
+  height:2px;
+  content:"";
+  background:var(--expertises-rose);
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero h1 {
+  max-width:18ch;
+  margin:1.1rem 0 1.4rem;
+  color:#102d46 !important;
+  font-family:var(--oling-body);
+  font-size:clamp(2.9rem,4.5vw,5rem) !important;
+  font-weight:850;
+  line-height:1.035;
+  letter-spacing:-.062em !important;
+  text-transform:none !important;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__intro {
+  max-width:60ch;
+  margin:0 0 2rem;
+  color:#4f687d !important;
+  font-family:var(--oling-body);
+  font-size:clamp(1.02rem,1.25vw,1.19rem);
+  line-height:1.7;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights {
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:stretch;
+  gap:0;
+  padding:clamp(1.2rem,3vw,2.5rem);
+  border:1px solid rgba(255,255,255,.08) !important;
+  border-radius:1.4rem;
+  background:linear-gradient(142deg,#0e314d,#153d5b) !important;
+  box-shadow:0 35px 60px -45px rgba(11,42,70,.56);
+  overflow:hidden;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  right:-7rem;
+  top:-6rem;
+  width:18rem;
+  height:18rem;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 0 3rem rgba(255,255,255,.026),0 0 0 6rem rgba(255,255,255,.013);
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights span {
+  position:relative;
+  display:block;
+  width:100%;
+  margin:0;
+  padding:1.3rem .2rem 1.3rem 2rem !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(255,255,255,.15) !important;
+  border-radius:0 !important;
+  background:none !important;
+  color:#f9fbff !important;
+  font-family:var(--oling-body) !important;
+  font-size:clamp(.94rem,1.16vw,1.13rem) !important;
+  font-weight:750;
+  line-height:1.36 !important;
+  letter-spacing:-.015em;
+  white-space:normal;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights span:last-child {
+  border-bottom:0 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights span::before {
+  content:"" !important;
+  position:absolute;
+  top:1.76rem;
+  left:.25rem;
+  width:.6rem;
+  height:.6rem;
+  border-radius:50%;
+  background:#fa84b0 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__actions {display:flex;flex-wrap:wrap;gap:.8rem}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__actions .btn {
+  min-height:3.1rem;
+  border-radius:.8rem;
+  padding:.8rem 1.3rem;
+  font-weight:800;
+}
+/* The three business pillars. One panoramic lead panel, two balanced companions. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universes {
+  padding-block:clamp(4.25rem,7vw,7.25rem);
+  border-bottom:1px solid rgba(26,68,103,.12);
+  background:linear-gradient(180deg,#fff 0%,#f5f8fc 100%) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__head {
+  margin:0 0 clamp(2rem,4vw,3.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universes__overline {
+  display:block;
+  margin-bottom:.9rem;
+  color:#af3f72;
+  font-family:var(--oling-body);
+  font-size:.75rem;
+  font-weight:850;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__head h2 {
+  max-width:18ch;
+  margin:.55rem 0 0;
+  color:#102d46;
+  font-family:var(--oling-body);
+  font-size:clamp(2.35rem,3.8vw,4rem);
+  font-weight:850;
+  letter-spacing:-.06em;
+  line-height:1.07;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universes__grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(1rem,2vw,1.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe {
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:1.45rem;
+  min-width:0;
+  padding:clamp(1.5rem,2.6vw,2.5rem);
+  border:1px solid var(--expertises-border);
+  border-radius:1.45rem;
+  background:#fff;
+  box-shadow:0 22px 49px -45px rgba(15,50,76,.36);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 {
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+  gap:clamp(2rem,4vw,4rem);
+  padding:clamp(2rem,3.5vw,3.5rem);
+  border-color:#183e5b;
+  background:
+    radial-gradient(35rem 30rem at 7% 100%,rgba(55,139,182,.22),transparent 65%),
+    linear-gradient(145deg,#113048,#173f5d);
+  box-shadow:0 38px 66px -53px rgba(12,45,74,.62);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__head {min-width:0}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__ordinal {
+  display:flex;
+  align-items:baseline;
+  gap:.5rem;
+  margin-bottom:clamp(1.35rem,2vw,2rem);
+  color:#194d76;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__ordinal span:first-child {
+  font-family:var(--oling-display);
+  font-size:clamp(2.6rem,4vw,4.5rem);
+  font-weight:850;
+  letter-spacing:-.09em;
+  line-height:1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__ordinal span:last-child {
+  font-family:var(--oling-body);
+  font-size:.85rem;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__ordinal {
+  color:rgba(255,255,255,.44);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe .oling-kicker {
+  color:#ae3d6c;
+  font-size:.72rem;
+  font-weight:850;
+  letter-spacing:.13em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-kicker {
+  color:#ffaacf !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__head h3 {
+  max-width:17ch;
+  margin:.65rem 0 1rem;
+  color:#102d46 !important;
+  font-family:var(--oling-body);
+  font-size:clamp(1.85rem,2.55vw,2.85rem);
+  font-weight:850;
+  letter-spacing:-.055em;
+  line-height:1.08;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__head h3 {
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__head p {
+  max-width:45ch;
+  margin:0 0 1.4rem;
+  color:#50697e !important;
+  font-family:var(--oling-body);
+  font-size:clamp(.97rem,1.13vw,1.08rem);
+  line-height:1.66;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__head p {
+  color:rgba(232,244,253,.82) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__cta,
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__cta:visited {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  width:fit-content;
+  min-height:2.65rem;
+  padding:.65rem 1rem;
+  border:1px solid rgba(25,93,145,.2);
+  border-radius:.65rem;
+  color:#165d8f !important;
+  font-size:.88rem;
+  font-weight:800;
+  text-decoration:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__cta {
+  border-color:rgba(255,255,255,.25) !important;
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__cta::after {
+  content:"↗";
+  margin-left:.3rem;
+  font-size:1.05rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__links {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-content:start;
+  gap:.7rem;
+  min-width:0;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__links li {
+  min-width:0;
+  margin:0;
+  padding:0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__link {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-rows:auto 1fr;
+  gap:.45rem .5rem;
+  height:100%;
+  min-height:118px;
+  padding:1rem 1.05rem;
+  border:1px solid rgba(24,69,105,.12);
+  border-radius:.85rem;
+  color:#163d5e !important;
+  background:#f6f9fc;
+  text-decoration:none !important;
+  transition:background-color 200ms ease,border-color 200ms ease,transform 200ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__link {
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.13);
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__link strong {
+  grid-column:1;
+  grid-row:1;
+  color:inherit;
+  font-family:var(--oling-body);
+  font-size:clamp(.92rem,1.1vw,1.02rem);
+  font-weight:800;
+  letter-spacing:-.015em;
+  line-height:1.3;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__link > span:not(.oling-universe__link-icon) {
+  grid-column:1 / -1;
+  grid-row:2;
+  color:#587185;
+  font-family:var(--oling-body);
+  font-size:.78rem;
+  font-weight:550;
+  line-height:1.52;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__link > span:not(.oling-universe__link-icon) {
+  color:rgba(233,243,253,.8);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__link-icon {
+  grid-column:2;
+  grid-row:1;
+  align-self:start;
+  color:#2b739f !important;
+  font-size:1.2rem;
+  line-height:1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__link-icon {
+  color:#fcaccd !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe__link:is(:hover,:focus-visible) {
+  transform:translateY(-2px);
+  background:#fff;
+  border-color:rgba(220,60,121,.36);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 .oling-universe__link:is(:hover,:focus-visible) {
+  background:rgba(255,255,255,.13);
+  border-color:rgba(255,255,255,.35);
+}
+/* A quiet intermediate checkpoint makes the catalogue feel intentional. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-expertises-needs {
+  padding-block:clamp(3.7rem,6vw,6rem);
+  border-block:1px solid rgba(22,65,98,.09);
+  background:#ebf3fa !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-needs__inner {
+  display:grid;
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  align-items:center;
+  gap:clamp(2rem,5vw,5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-needs h2 {
+  margin:.65rem 0 0;
+  max-width:15ch;
+  color:#102d46;
+  font-family:var(--oling-body);
+  font-size:clamp(2rem,3.5vw,3.7rem);
+  font-weight:850;
+  letter-spacing:-.055em;
+  line-height:1.09;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-needs p {
+  max-width:61ch;
+  color:#4e667a;
+  font-family:var(--oling-body);
+  font-size:clamp(1rem,1.2vw,1.13rem);
+  line-height:1.75;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-needs__lead {
+  margin:.3rem 0 .8rem !important;
+  color:#183e5b !important;
+  font-size:clamp(1.1rem,1.6vw,1.38rem) !important;
+  font-weight:850;
+  line-height:1.4 !important;
+}
+/* Nine pages: consistent three-column card editorial grid. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-expertises-featured {
+  padding-block:clamp(4.5rem,7vw,7rem) !important;
+  background:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-section-head {
+  width:100%;
+  max-width:790px;
+  margin:0 0 clamp(2rem,3.5vw,3rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-section-head h2 {
+  max-width:21ch;
+  margin:.65rem 0 1rem;
+  color:#102d46;
+  font-family:var(--oling-body);
+  font-size:clamp(2.15rem,3.4vw,3.55rem);
+  font-weight:850;
+  letter-spacing:-.05em;
+  line-height:1.09;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-section-head p {
+  max-width:70ch;
+  color:#50697d;
+  font-family:var(--oling-body);
+  font-size:1.025rem;
+  line-height:1.72;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(.85rem,1.8vw,1.5rem);
+  align-items:stretch;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card {
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  min-height:300px;
+  margin:0;
+  padding:clamp(1.4rem,2vw,2.1rem);
+  overflow:hidden;
+  border:1px solid rgba(26,68,103,.13);
+  border-radius:1.15rem;
+  background:linear-gradient(180deg,#fff,#f9fbfd);
+  box-shadow:0 22px 45px -43px rgba(20,51,81,.32);
+  transition:transform 200ms ease,border-color 200ms ease,box-shadow 200ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:-6rem;
+  right:-7rem;
+  width:16rem;
+  height:16rem;
+  border:1px solid rgba(35,115,169,.09);
+  border-radius:50%;
+  box-shadow:0 0 0 3rem rgba(35,115,169,.026);
+  pointer-events:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card:nth-child(3n+2) {
+  background:linear-gradient(180deg,#f7fbff,#f2f7fc);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card:nth-child(3n+3) {
+  background:linear-gradient(180deg,#fdfaff,#f8f5fc);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card__top {
+  display:flex;
+  align-items:start;
+  justify-content:space-between;
+  width:100%;
+  gap:.8rem;
+  margin-bottom:clamp(1.1rem,2.2vw,2rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card .oling-kicker {
+  color:#af3b6c;
+  font-size:.7rem;
+  font-weight:850;
+  line-height:1.4;
+  letter-spacing:.12em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card__number {
+  color:rgba(26,76,110,.25);
+  font-family:var(--oling-display);
+  font-size:clamp(2rem,3vw,2.9rem);
+  font-weight:850;
+  line-height:1;
+  letter-spacing:-.08em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card h3 {
+  max-width:24ch;
+  min-height:0;
+  margin:0 0 1rem;
+  color:#15334e;
+  font-family:var(--oling-body);
+  font-size:clamp(1.45rem,2vw,2rem);
+  font-weight:850;
+  line-height:1.13;
+  letter-spacing:-.047em;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card p {
+  margin:0 0 1.8rem;
+  color:#526b7e;
+  font-family:var(--oling-body);
+  font-size:.95rem;
+  line-height:1.65;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card__link {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  min-height:2rem;
+  margin-top:auto;
+  color:#165f94 !important;
+  font-family:var(--oling-body);
+  font-size:.89rem;
+  font-weight:850;
+  text-decoration:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card__link::after {
+  content:"↗";
+  color:#d93b78;
+  font-size:1.15rem;
+  margin-left:.3rem;
+  transition:transform 200ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card:is(:hover,:focus-within) {
+  transform:translateY(-3px);
+  border-color:rgba(216,60,119,.28);
+  box-shadow:0 31px 50px -41px rgba(20,51,81,.38);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card:is(:hover,:focus-within) .oling-expertise-index-card__link::after {
+  transform:translate(3px,-3px);
+}
+/* MAPSI appears as one differentiated product band, not a bland paragraph. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-expertises-mapsi {
+  padding-block:clamp(3rem,5vw,5rem) !important;
+  background:#f2f7fb !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi__inner {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(2rem,4vw,4rem);
+  padding:clamp(1.7rem,3.6vw,3.3rem);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:1.35rem;
+  background:linear-gradient(110deg,#0f2d47,#1a4d6c);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi .oling-section-head h2 {
+  color:#fff;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi .oling-section-head p {
+  max-width:61ch;
+  color:rgba(238,246,254,.82) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi .oling-kicker {
+  color:#ffb7d3;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi .oling-universe__cta {
+  flex:0 0 auto;
+  background:#fff !important;
+  border-color:#fff !important;
+  color:#144267 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-expertises-complementary {
+  padding-block:clamp(4rem,6vw,6rem) !important;
+  background:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-complementary .oling-expertise-index-card {
+  min-height:250px;
+  background:#f7f9fc;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-complementary .oling-expertise-index-card h3 {
+  font-size:clamp(1.4rem,1.75vw,1.8rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card--secondary .oling-expertise-index-card__number {
+  font-size:1.65rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index :is(a,button):focus-visible {
+  outline:3px solid #3f9fdf;
+  outline-offset:3px;
+}
+@media(max-width:1199.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 {grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);gap:2rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe__links {gap:.5rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__inner {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights {flex-direction:row;flex-wrap:wrap;gap:.75rem;padding:1.1rem}
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights span {
+    flex:1 1 12rem;
+    width:auto;
+    padding:.45rem .7rem .45rem 1.35rem !important;
+    border:0 !important;
+    font-size:.86rem !important;
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights span::before {
+    top:.75rem;
+    left:.15rem;
+    width:.5rem;
+    height:.5rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-needs__inner {grid-template-columns:minmax(0,1fr);gap:1.3rem}
+}
+@media(max-width:767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-universes__grid {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 {grid-column:auto}
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-mapsi__inner {flex-direction:column;align-items:flex-start}
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-grid {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card {min-height:245px}
+}
+@media(max-width:575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero h1 {
+    max-width:100%;
+    font-size:clamp(2.4rem,9.5vw,3.1rem) !important;
+    letter-spacing:-.052em !important;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe__links {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe,
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe--1 {padding:1.4rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe__link {min-height:0}
+  body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__highlights {flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-universe__link,
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card {transition:none;transform:none !important}
+}

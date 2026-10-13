@@ -24,12 +24,12 @@ final class TeamRuntimeArchitectureTest extends TestCase
         self::assertStringContainsString('translation.translation_status = :status', $repository);
     }
 
-    public function testTeamPageKeepsAllPublishedProfilesWhileAboutUsesEditorialPreview(): void
+    public function testTeamAndAboutPagesKeepAllPublishedProfiles(): void
     {
         $controller = (string) file_get_contents(dirname(__DIR__) . '/src/Controller/PracticeController.php');
 
         self::assertMatchesRegularExpression(
-            "/['\"]teamPreview['\"]\\s*=>\\s*\\\$this->publicLeadershipSelector->select\\(\\\$this->buildTeamProfiles\\(\\\$repoteam->findPublishedOrderedForLocale\\(\\\$locale\\), \\\$locale\\)\\)/",
+            "/['\"]teamPreview['\"]\\s*=>\\s*\\\$this->buildTeamProfiles\\(\\\$repoteam->findPublishedOrderedForLocale\\(\\\$locale\\), \\\$locale\\)/",
             $controller
         );
         self::assertMatchesRegularExpression(
@@ -37,7 +37,7 @@ final class TeamRuntimeArchitectureTest extends TestCase
             $controller
         );
         self::assertDoesNotMatchRegularExpression(
-            '/\\$team\\s*=\\s*\\$this->publicLeadershipSelector->select\\(/',
+            '/(teamPreview\\s*=>|\\$team\\s*=)\\s*\\$this->publicLeadershipSelector->select\\(/',
             $controller
         );
     }

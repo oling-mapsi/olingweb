@@ -231,7 +231,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => $this->publicLeadershipSelector->select($this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale)),
+            'teamPreview' => $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos', $locale),
             'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
             'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,

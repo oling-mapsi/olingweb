@@ -20,7 +20,12 @@ class AdminAnalyticsExclusionSubscriber implements EventSubscriberInterface
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
         $user = $event->getUser();
-        if (!method_exists($user, 'getRoles') || !in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+        if (!method_exists($user, 'getRoles')) {
+            return;
+        }
+
+        $roles = $user->getRoles();
+        if (!in_array('ROLE_ADMIN', $roles, true) && !in_array('ROLE_SUPER_ADMIN', $roles, true)) {
             return;
         }
 

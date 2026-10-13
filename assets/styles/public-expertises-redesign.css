@@ -630,3 +630,41 @@ body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index :is(a,butto
   body.oling-body:not(.oling-home):not(.admin) .oling-universe__link,
   body.oling-body:not(.oling-home):not(.admin) .oling-expertise-index-card {transition:none;transform:none !important}
 }
+
+/* Pixel-QA: enforce a genuine dark featured universe: legacy article surfaces
+   and global text styles otherwise leave near-white labels on white cards. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universes__grid .oling-universe.oling-universe--1 {
+  background: radial-gradient(35rem 30rem at 7% 100%,rgba(55,139,182,.22),transparent 65%),linear-gradient(145deg,#113048,#173f5d) !important;
+  background-color:#113048 !important;
+  border-color:#183e5b !important;
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__ordinal,
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__head .oling-kicker {
+  color:#ffb3d4 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__head h3,
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__link strong {
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__head p,
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__link > span:not(.oling-universe__link-icon) {
+  color:#dfedf8 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__link {
+  background:rgba(255,255,255,.075) !important;
+  border-color:rgba(255,255,255,.17) !important;
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__link:is(:hover,:focus-visible) {
+  background:rgba(255,255,255,.15) !important;
+  border-color:rgba(255,255,255,.35) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__link-icon {
+  color:#ffb3d4 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-universe--1 .oling-universe__cta {
+  color:#fff !important;
+  border-color:rgba(255,255,255,.25) !important;
+  background:rgba(255,255,255,.07) !important;
+}

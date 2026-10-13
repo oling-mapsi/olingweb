@@ -138,6 +138,20 @@ try {
             topbar: nodeInfo('#header .oling-topbar'),
             hero: nodeInfo('main section.oling-shell-hero'),
             heroPanel: nodeInfo('.oling-shell-hero__inner'),
+            languageToggle: nodeInfo('#header .oling-language-switcher__toggle'),
+            languageArrow: (() => {
+              const node = document.querySelector('#header .oling-language-switcher__toggle');
+              if (!node) return null;
+              const css = getComputedStyle(node, '::after');
+              return {
+                content: css.content,
+                display: css.display,
+                rightBorder: css.borderRightColor,
+                rightWidth: css.borderRightWidth,
+                bottomWidth: css.borderBottomWidth,
+                background: getComputedStyle(node).backgroundColor,
+              };
+            })(),
             aboutCards: document.querySelectorAll('.oling-leadership-grid--preview .oling-leadership-card').length,
             teamNames: [...document.querySelectorAll('.oling-leadership-grid--detail .oling-leadership-card__name')].map((el) => el.textContent.trim()),
             personNames: schemaNames,
@@ -155,6 +169,17 @@ try {
           }
         }
         if (!data.canonical || !data.description) issue('Missing canonical or description');
+        if (!data.languageArrow) {
+          issue('Public language selector or chevron missing');
+        } else if (!captureBaseline && (
+          data.languageArrow.content === 'none' ||
+          data.languageArrow.display === 'none' ||
+          parseFloat(data.languageArrow.rightWidth) < 1.5 ||
+          parseFloat(data.languageArrow.bottomWidth) < 1.5 ||
+          data.languageArrow.rightBorder !== 'rgb(255, 255, 255)'
+        )) {
+          issue('Language chevron must be visibly white on a slate grey toggle');
+        }
         if (data.h1.length !== 1) issue(`Expected one H1; found ${data.h1.length}`);
         if (data.overflow > 3) issue(`Horizontal overflow ${data.overflow}px`);
         if (!captureBaseline) {
@@ -263,7 +288,8 @@ try {
         }
         records.push({ route, width, status, seo, h1: data.h1, layout: {
           header: data.header, topbar: data.topbar, hero: data.hero,
-          heroPanel: data.heroPanel, horizontalOverflow: data.overflow,
+          heroPanel: data.heroPanel, languageToggle: data.languageToggle,
+          languageArrow: data.languageArrow, horizontalOverflow: data.overflow,
         }, aboutCards: data.aboutCards, teamNames: data.teamNames, personNames: data.personNames,
           isEditorial: data.isEditorial, languageCaret: data.languageCaret });
       } catch (error) {

@@ -255,3 +255,17 @@ proofs:
   kicker: "Pruebas"
   default_title: "Misiones anonimizadas"
   scope_label: "Alcance"
+
+leadership:
+  eyebrow: "Dirección OLING"
+  about_title: "Dos perspectivas complementarias, un mismo compromiso con los resultados"
+  about_intro: "La dirección participa directamente en la definición, las decisiones y el seguimiento de las misiones. Gobernanza de SI, transformación, cumplimiento y calidad comparten un enfoque práctico."
+  team_title: "La dirección de OLING, implicada en sus proyectos de SI y cumplimiento"
+  team_intro: "Conozca a las dos personas de dirección que impulsan nuestro enfoque: comprender los retos, asegurar las decisiones y acompañar a los equipos hasta obtener resultados."
+  detail_heading: "Sus interlocutores de dirección"
+  profile_area_label: "Ámbitos de intervención"
+  portrait_alt: "Retrato de %name%"
+  publications: "Leer sus publicaciones"
+  meet_label: "Conocer a la dirección"
+  contact_label: "Hablar de su proyecto"
+  empty: "Los perfiles de dirección no están disponibles temporalmente."

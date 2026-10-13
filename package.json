@@ -20,7 +20,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
-        "test:e2e:chat": "playwright test -c playwright.chat.config.js"
+        "test:e2e:chat": "playwright test -c playwright.chat.config.js",
+        "audit:public-visual": "node scripts/audit-public-visual-theme.mjs"
     },
     "dependencies": {
         "@popperjs/core": "^2.11.7",

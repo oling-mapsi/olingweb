@@ -271,6 +271,22 @@ try {
             if (data.teamNames.join('|') !== data.personNames.join('|')) issue('Person JSON-LD and visible leadership names differ');
           }
           if (kind === 'about' && data.aboutCards !== 2) issue('Expected two leadership previews');
+          if (route === '/secteurs') {
+            const sectorImages = page.locator('.oling-sector-card--photographic .oling-sector-card__visual img');
+            const cards = await page.locator('.oling-sectors-grid .oling-sector-card').count();
+            if (cards > 0 && await sectorImages.count() === 0) {
+              issue('Sector cards do not show any real, versioned editorial images');
+            }
+            for (let i = 0, n = await sectorImages.count(); i < n; i++) {
+              const photo = sectorImages.nth(i);
+              await photo.scrollIntoViewIfNeeded();
+              const valid = await photo.evaluate(async (img) => {
+                await img.decode().catch(() => null);
+                return img.naturalWidth >= 320;
+              });
+              if (!valid) issue(`Sector image ${i + 1} is broken or too small`);
+            }
+          }
           if (kind === 'about' || kind === 'team') {
             const photos = page.locator('.oling-leadership-card__media img');
             for (let i = 0, n = await photos.count(); i < n; i++) {
@@ -365,6 +381,21 @@ try {
             }
           }
           if (route === '/projets') {
+            const notes = page.locator('.oling-proof-quotes');
+            if (await notes.count()) {
+              const details = notes.first();
+              if (await details.getAttribute('open') !== null) {
+                issue('Factual project notes should be collapsed initially');
+              }
+              await details.locator('summary').click();
+              if (await details.getAttribute('open') === null) issue('Factual project notes did not open');
+              const fullQuote = details.locator('.oling-proof-quotes__body p');
+              if (!await fullQuote.count() || !await fullQuote.first().isVisible()) {
+                issue('Expanded project notes have no accessible factual evidence');
+              }
+              await details.locator('summary').click();
+              if (await details.getAttribute('open') !== null) issue('Factual project notes did not close');
+            }
             const filters = page.locator('[data-proof-filter]');
             if (await filters.count() > 1) {
               const button = filters.nth(1);

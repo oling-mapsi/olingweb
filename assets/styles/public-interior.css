@@ -1,0 +1,160 @@
+/**
+ * OLING interior — shared visual rhythm for the secondary public catalogue.
+ * No markup, routes, text, CMS data, indexing, filters or form logic changed.
+ * Scoped to public page families to keep the homepage and admin untouched.
+ */
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--expertises,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--contact,
+  .oling-public-editorial--service
+) {
+  --oling-interior-ink: #122b40;
+  --oling-interior-body: #4a6277;
+  --oling-interior-border: rgba(28, 65, 95, .12);
+  --oling-interior-shade: #f5f8fc;
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--expertises,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--contact,
+  .oling-public-editorial--service
+) > .oling-shell-section {
+  padding-block: clamp(3rem, 4.8vw, 5.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--expertises,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--contact,
+  .oling-public-editorial--service
+) .oling-section-head {
+  max-width: 70rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.75rem);
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--expertises,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--contact,
+  .oling-public-editorial--service
+) .oling-section-head h2 {
+  max-width: 27ch;
+  font-family: var(--oling-body);
+  font-size: clamp(1.85rem, 2.85vw, 3.05rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.14;
+  color: #122b40;
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--expertises,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--contact,
+  .oling-public-editorial--service
+) .oling-section-head p {
+  max-width: 69ch;
+  font-family: var(--oling-body);
+  font-size: clamp(1rem, 1.12vw, 1.1rem);
+  line-height: 1.7;
+  color: #4a6277;
+}
+/* Hub cards: subtle structure instead of heavy floating surfaces. */
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--resources
+) .oling-editorial-card {
+  min-width: 0;
+  border: 1px solid rgba(28, 65, 95, .1);
+  border-radius: 1.1rem;
+  background: #fff;
+  box-shadow: 0 20px 35px -34px rgba(18,43,64,.29);
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--resources
+) .oling-editorial-card:is(:hover, :focus-within) {
+  transform: translateY(-2px);
+  border-color: rgba(40, 103, 158, .25);
+  box-shadow: 0 25px 40px -34px rgba(18,43,64,.38);
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--resources
+) .oling-editorial-card h3 {
+  font-family: var(--oling-body);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.2;
+  color: #122b40;
+}
+/* Keep CMS content / contact inputs intact; remove only the excessive raised-card feel. */
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--contact,
+  .oling-public-editorial--resources,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--service
+) .oling-surface--light {
+  border-radius: 1.15rem;
+  border-color: rgba(28,65,95,.11);
+  box-shadow: 0 16px 30px -32px rgba(18,43,64,.29);
+}
+/* The service detail family shares the same calmer editorial typography. */
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--service .oling-richtext,
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resource-content {
+  line-height: 1.75;
+}
+/* The projects catalogue is intentionally list-led: preserve all filters and data hooks. */
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library {
+  padding-block: clamp(3rem, 4.5vw, 5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission {
+  border-top-color: rgba(28,65,95,.14);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter {
+  border-radius: .7rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter:focus-visible,
+body.oling-body:not(.oling-home):not(.admin) .oling-editorial-card:focus-visible {
+  outline: 3px solid rgba(40,103,158,.48);
+  outline-offset: 3px;
+}
+/* Expertise index historically embeds its own later inline CSS. Override only
+   stable structural details with explicit specificity; no article text is edited. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-expertise-index-card {
+  border-radius: 1rem;
+  border-color: rgba(28,65,95,.11);
+  box-shadow: 0 16px 32px -30px rgba(18,43,64,.25);
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-expertises-index .oling-shell-hero__inner {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-editorial-card {
+    transition: none;
+    transform: none !important;
+  }
+}
+@media (max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission {
+    grid-template-columns: minmax(0,1fr);
+    gap: 1rem;
+    padding-block: 1.65rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-filters {
+    gap: .4rem;
+  }
+}

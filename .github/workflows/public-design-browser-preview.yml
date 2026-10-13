@@ -1,0 +1,226 @@
+name: OLING public design — isolated browser preview
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'src/**'
+      - 'templates/**'
+      - 'translations/**'
+      - 'data/i18n/**'
+      - 'scripts/audit-public-visual-theme.mjs'
+      - 'scripts/ci/**'
+      - '.github/workflows/public-design-browser-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-preview:
+    name: Build isolated Symfony preview and upload screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: CIOnlyPreviewPassword
+          MYSQL_DATABASE: oling_preview
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pCIOnlyPreviewPassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=8
+
+    env:
+      APP_ENV: prod
+      APP_DEBUG: '0'
+      APP_SECRET: isolated-public-design-preview-ci
+      DATABASE_URL: 'mysql://root:CIOnlyPreviewPassword@127.0.0.1:3306/oling_preview?serverVersion=8.0.35&charset=utf8mb4'
+      MAILER_DSN: 'null://null'
+      MESSENGER_TRANSPORT_DSN: 'sync://'
+      OLING_CI_PREVIEW_ONLY: '1'
+      OLING_AUDIT_BASE_URL: 'http://127.0.0.1:8753'
+      OLING_AUDIT_ROUTES: '/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
+      OLING_AUDIT_WIDTHS: '390,768,1366,1920'
+      OLING_AUDIT_FIXTURE_LABEL: 'GitHub Actions : base MySQL temporaire et contenus publics versionnes, sans donnees de production'
+
+    steps:
+      - name: Checkout PR without production credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: PHP 8.3 + MySQL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, ctype, iconv, pdo_mysql, gd, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHP deps in disposable runner
+        run: |
+          rm -rf vendor
+          composer install --no-interaction --no-progress --prefer-dist --no-scripts
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Compile production-like frontend assets
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Migrate temporary CI database (never production)
+        run: php bin/console doctrine:migrations:migrate --no-interaction
+
+      - name: Populate temporary local content from versioned repository sources
+        run: |
+          php bin/console app:content:seed-public-pages
+          php bin/console app:i18n:backfill-core-pages --create-missing --overwrite
+          php scripts/ci/seed-design-preview.php
+          node scripts/ci/prepare-public-design-preview.mjs
+          php bin/console app:i18n:import-translations --locale=en --entity=SitePage --input=var/public-design-preview/site-pages.en.json --overwrite
+          php bin/console app:i18n:import-translations --locale=es --entity=SitePage --input=var/public-design-preview/site-pages.es.json --overwrite
+
+      - name: Start isolated Symfony preview
+        run: |
+          nohup php -S 127.0.0.1:8753 -t public tests/e2e/php-router.php > /tmp/oling-preview-server.log 2>&1 &
+          echo $! > /tmp/oling-preview-server.pid
+          for n in $(seq 1 20); do
+            if curl -sS -o /tmp/oling-preview-about.html -w '%{http_code}' http://127.0.0.1:8753/a-propos | grep -qx '200'; then
+              echo "Symfony About page serves HTTP 200"
+              break
+            fi
+            sleep 2
+          done
+          curl --fail --silent --show-error http://127.0.0.1:8753/a-propos > /dev/null
+          curl --fail --silent --show-error http://127.0.0.1:8753/a-propos/team > /dev/null
+
+      - name: Install real Chromium browser for screenshots
+        run: npx playwright install --with-deps chromium
+
+      - name: Capture actual browser screenshots and QA report
+        run: npm run audit:public-visual
+
+      - name: Start main-branch reference server against the SAME temporary CI database
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/oling-main-seo" origin/main
+          (
+            cd "$RUNNER_TEMP/oling-main-seo"
+            rm -rf vendor
+            composer install --no-interaction --no-progress --prefer-dist --no-scripts
+            mkdir -p public/build
+            cp -a "$GITHUB_WORKSPACE/public/build/." public/build/
+            nohup php -S 127.0.0.1:8754 -t public tests/e2e/php-router.php > /tmp/oling-main-seo-server.log 2>&1 &
+            echo $! > /tmp/oling-main-seo-server.pid
+          )
+          for n in $(seq 1 25); do
+            if curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8754/a-propos | grep -qx '200'; then
+              echo "Main reference page renders with shared isolated preview data"
+              break
+            fi
+            sleep 2
+          done
+          curl --fail --silent --show-error http://127.0.0.1:8754/a-propos > /dev/null
+
+      - name: Capture main SEO baseline via Playwright (no screenshots)
+        env:
+          OLING_AUDIT_BASE_URL: http://127.0.0.1:8754
+          OLING_AUDIT_WIDTHS: '1366'
+          OLING_AUDIT_OUTPUT_DIR: docs/redesign/seo-main
+          OLING_AUDIT_CAPTURE_BASELINE: '1'
+          OLING_AUDIT_SKIP_SCREENSHOTS: '1'
+        run: npm run audit:public-visual
+
+      - name: Diff rendered main vs PR SEO metadata on identical CI data
+        run: |
+          node scripts/ci/compare-public-seo-snapshots.mjs \
+            docs/redesign/seo-main/PUBLIC_THEME_AUDIT.json \
+            docs/redesign/PUBLIC_THEME_AUDIT.json \
+            docs/redesign/SEO_DIFF_REPORT.md
+
+      - name: Copy server diagnostics if capture fails
+        if: failure()
+        run: |
+          mkdir -p docs/redesign
+          cp /tmp/oling-preview-server.log docs/redesign/preview-server.log || true
+
+      - name: Upload visual gallery and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oling-design-preview-gallery
+          path: |
+            docs/redesign/preview.html
+            docs/redesign/PUBLIC_THEME_AUDIT.md
+            docs/redesign/PUBLIC_THEME_AUDIT.json
+            docs/redesign/screenshots-public-design/**
+            docs/redesign/preview-server.log
+            docs/redesign/seo-main/PUBLIC_THEME_AUDIT.json
+            docs/redesign/SEO_DIFF_REPORT.md
+            docs/redesign/SEO_DIFF_REPORT.json
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload reproducible production browser assets for Git-controlled release
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oling-v4-production-build
+          path: public/build/**
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: No production release
+        if: always()
+        run: echo "Isolated preview only; no merge, deployment, production database or production data touched."
+
+  publish-built-assets:
+    name: Stage CI-compiled static files into the release branch
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'design/public-secondary-foundation-2026-10-13' }}
+    needs: browser-preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout only the explicitly approved OLING redesign branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: true
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Deterministically rebuild versioned public assets
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -s public/build/manifest.json
+          test -s public/build/entrypoints.json
+
+      - name: Stage only public/build assets, never configuration or secrets
+        run: |
+          git add -A public/build
+          if git diff --cached --quiet; then
+            echo "Asset manifest and compiled files are already up to date."
+            exit 0
+          fi
+          git config user.name "oling-design-build-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Build versioned OLING V4 production frontend assets"
+          git push origin "HEAD:refs/heads/design/public-secondary-foundation-2026-10-13"
+          echo "Git release branch now includes hashed CSS, JS and manifest."

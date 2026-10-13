@@ -416,3 +416,17 @@ seo:
       rgpd: "Échanger avec un DPO"
       cyber: "Évaluer mon projet cybersécurité"
       qse: "Échanger sur ma démarche QSE"
+
+leadership:
+  eyebrow: "Direction OLING"
+  about_title: "Deux regards complémentaires, une même exigence de résultat"
+  about_intro: "La direction s'implique dans le cadrage, les décisions et le suivi des missions. Gouvernance SI, transformation, conformité et qualité se rencontrent dans une même approche de terrain."
+  team_title: "La direction OLING, engagée dans vos projets SI et conformité"
+  team_intro: "Découvrez les deux profils de direction qui portent notre approche : comprendre les enjeux, sécuriser les décisions et accompagner les équipes jusqu'aux résultats."
+  detail_heading: "Vos interlocuteurs de direction"
+  profile_area_label: "Domaines d'intervention"
+  portrait_alt: "Portrait de %name%"
+  publications: "Lire ses publications"
+  meet_label: "Découvrir la direction"
+  contact_label: "Échanger sur votre projet"
+  empty: "Les profils de direction sont temporairement indisponibles."

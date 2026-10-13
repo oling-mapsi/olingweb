@@ -28,6 +28,25 @@ class PublicSitePageResolver
         'transformation-digitale-ia-pme-pmi' => 'expertise-transformation-digitale-ia-pme-pmi',
     ];
 
+    /**
+     * Approved, already-versioned industry photography.
+     * Used only when the database entry has neither a hero nor a thumbnail:
+     * never overwrite an editorially selected/admin-managed image.
+     */
+    private const SECTOR_HERO_FALLBACKS = [
+        'amenagementethabitats' => '/uploads/metiers/hero/amenagementethabitats-20260809-hero.png',
+        'banque' => '/uploads/metiers/hero/banque-20260809-hero.png',
+        'cci' => '/uploads/metiers/hero/cci-20260809-hero.png',
+        'collectivites' => '/uploads/metiers/hero/collectivites-20260809-hero.png',
+        'eauetassainissement' => '/uploads/metiers/hero/eauetassainissement-20260809-hero.png',
+        'formationprofessionnelle' => '/uploads/metiers/hero/formationprofessionnelle-20260809-hero.png',
+        'industrie' => '/uploads/metiers/hero/industrie-20260809-hero.png',
+        'mutuelle' => '/uploads/metiers/hero/mutuelle-20260809-hero.png',
+        'negoceetdistribution' => '/uploads/metiers/hero/negoceetdistribution-20260809-hero.png',
+        'sante' => '/uploads/metiers/hero/medico-social-20260809-hero.png',
+        'transport' => '/uploads/metiers/hero/transport-intermodal-69a3a08f1beb31.17401526.jpg',
+    ];
+
     private const SECTOR_PAGE_SLUGS = [
         'industrie' => 'secteur-industrie',
         'services' => 'secteur-services',
@@ -311,7 +330,7 @@ class PublicSitePageResolver
                 'intro' => $summary['intro'],
                 'specifics' => $summary['specifics'],
                 'projectCount' => $projectCount,
-                'heroImage' => $metier->getImageHero() ?: $metier->getImage(),
+                'heroImage' => $metier->getImageHero() ?: $metier->getImage() ?: (self::SECTOR_HERO_FALLBACKS[$slug] ?? null),
                 'detailUrl' => $this->resolveSectorDetailUrl($slug),
             ];
         }

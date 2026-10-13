@@ -52,13 +52,17 @@ class TeamProfilesSourceTest extends TestCase
         }
     }
 
-    public function testTeamTemplateUsesLinkedinIconOnly(): void
+    public function testSharedLeadershipCardRetainsAccessibleLinkedin(): void
     {
-        $template = (string) file_get_contents(dirname(__DIR__) . '/templates/team.html.twig');
+        $template = (string) file_get_contents(dirname(__DIR__) . '/templates/public/_leadership_card.html.twig');
+        $team = (string) file_get_contents(dirname(__DIR__) . '/templates/team.html.twig');
+        $about = (string) file_get_contents(dirname(__DIR__) . '/templates/about.html.twig');
 
         self::assertStringContainsString('bi-linkedin', $template);
         self::assertStringContainsString('noopener noreferrer', $template);
         self::assertStringContainsString('aria-label="{{ \'team.linkedin\'|trans', $template);
         self::assertStringNotContainsString('>LinkedIn</a>', $template);
+        self::assertStringContainsString("public/_leadership_card.html.twig", $team);
+        self::assertStringContainsString("public/_leadership_card.html.twig", $about);
     }
 }

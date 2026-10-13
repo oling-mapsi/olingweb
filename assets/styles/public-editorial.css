@@ -1,0 +1,513 @@
+/**
+ * OLING public editorial system — lots 3–6.
+ *
+ * Covers expertises, services, sectors, projects, resources, contact,
+ * service/practice details and first-party SEO landings.
+ * Scoped to explicit <main> opt-in; does not style dark homepage, BO or
+ * institutional leadership cards, and never changes text/URLs/SEO metadata.
+ */
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial {
+  --oling-editorial-ink: #122b40;
+  --oling-editorial-copy: #476075;
+  --oling-editorial-accent: #cf386c;
+  --oling-editorial-link: #155e9b;
+  --oling-editorial-rule: rgba(19, 49, 76, 0.13);
+  --oling-editorial-tint: #f4f8fc;
+  --oling-editorial-paper: #fff;
+  min-width: 0;
+  background: var(--oling-editorial-paper) !important;
+  color: var(--oling-editorial-ink);
+}
+
+/* The base theme can force transparent sections; only opt-in pages may tint. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial > section.oling-shell-section,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial > section.oling-page-section {
+  padding-block: clamp(3.3rem, 5.2vw, 5.4rem);
+  background: #fff !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial > section.oling-shell-section--tint {
+  background:
+    radial-gradient(42rem 27rem at 97% 5%, rgba(60, 116, 176, 0.045), transparent 72%),
+    var(--oling-editorial-tint) !important;
+  border-block: 1px solid rgba(25, 70, 105, 0.05);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial section > .container {
+  max-width: 1216px;
+  padding-inline: clamp(1rem, 2.3vw, 2rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-kicker {
+  color: #87506c;
+  font-family: var(--oling-body);
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-section-head {
+  max-width: 65rem;
+  margin-bottom: clamp(1.8rem, 3vw, 3rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-section-head h2 {
+  max-width: 23ch;
+  width: auto;
+  margin: 0.5rem 0 0.85rem;
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(2rem, 3vw, 3.15rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.05em !important;
+  line-height: 1.11 !important;
+  text-wrap: balance;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-section-head p {
+  max-width: 70ch;
+  color: var(--oling-editorial-copy) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(0.99rem, 1.05vw, 1.1rem);
+  line-height: 1.72;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col {
+  gap: clamp(1.35rem, 3.7vw, 4rem);
+  align-items: stretch;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col > .oling-surface.oling-surface--light {
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(1.25rem, 2.3vw, 2.15rem) 0.15rem 0.8rem;
+  border: 0 !important;
+  border-top: 2px solid rgba(207, 56, 108, 0.36) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col > .oling-surface.oling-surface--light h2 {
+  margin: 0.7rem 0 1.2rem;
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1.65rem, 2.25vw, 2.42rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.045em !important;
+  line-height: 1.14 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col > .oling-surface.oling-surface--light p,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col > .oling-surface.oling-surface--light li {
+  color: var(--oling-editorial-copy) !important;
+  line-height: 1.75;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-check-list li {
+  margin-bottom: 0.8rem;
+  padding-left: 1.45rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-editorial-grid,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-service-link-grid,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-project-proof-grid,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-deliverable-grid {
+  gap: clamp(0.85rem, 1.6vw, 1.4rem);
+  align-items: stretch;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card, .oling-deliverable-card) {
+  min-width: 0;
+  padding: clamp(1.15rem, 1.7vw, 1.65rem);
+  border: 1px solid rgba(18, 53, 81, 0.1) !important;
+  border-radius: 0.9rem !important;
+  background: #fff !important;
+  box-shadow: 0 16px 35px -32px rgba(10, 45, 73, 0.44) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card):is(:hover, :focus-within) {
+  border-color: rgba(31, 111, 174, 0.25) !important;
+  box-shadow: 0 22px 38px -30px rgba(10, 45, 73, 0.32) !important;
+  transform: translateY(-2px);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card) h2,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card) h3 {
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1.13rem, 1.55vw, 1.52rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.032em !important;
+  line-height: 1.23 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card) p {
+  color: var(--oling-editorial-copy) !important;
+  font-size: 0.95rem;
+  line-height: 1.67;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial a:not(.btn):focus-visible,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial button:focus-visible {
+  outline: 3px solid #388cd4;
+  outline-offset: 3px;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-cta-band {
+  padding: clamp(2.5rem, 4vw, 4rem) 0 clamp(3.5rem, 5vw, 5.5rem);
+  background: #fff !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-cta-band__inner {
+  border-radius: 1.15rem !important;
+  padding: clamp(1.65rem, 3vw, 3rem) !important;
+  background:
+    radial-gradient(32rem 24rem at 100% 0%, rgba(207, 56, 108, 0.16), transparent 70%),
+    linear-gradient(125deg, #09253c 0%, #133e5d 100%) !important;
+  box-shadow: none !important;
+}
+
+/* Lot 3 — expertises & services: clear universe headings and link groups. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises > .oling-universes {
+  padding-block: clamp(3.4rem, 5vw, 5.8rem);
+  background: #f3f7fb !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises > .oling-expertises-needs {
+  padding-block: clamp(3.4rem, 5vw, 5rem);
+  background: #fff !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universes__head h2,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-expertises-needs h2 {
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(2rem, 3vw, 3.15rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.05em !important;
+  line-height: 1.12 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universe,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-expertise-index-card {
+  border: 1px solid rgba(18, 53, 81, 0.12);
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 18px 35px -34px rgba(10, 45, 73, 0.34);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universe {
+  padding: clamp(1.35rem, 2vw, 2rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universe__head h3,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-expertise-index-card h3 {
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1.4rem, 2vw, 2.25rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.04em !important;
+  line-height: 1.13 !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-expertise-index-card {
+  min-height: 17rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--services-hub .oling-section-head h2 {
+  max-width: 30ch;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--services-hub .border-top.h-100 {
+  border-top: 2px solid rgba(27, 100, 160, 0.26) !important;
+  padding-top: 1.3rem !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--services-hub .border-top.h-100 h3 a {
+  color: var(--oling-editorial-ink) !important;
+  font-size: 1.12rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--services-hub .border-top.h-100 h3 a:is(:hover, :focus-visible) {
+  color: var(--oling-editorial-link) !important;
+  text-decoration: underline;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--services-hub .border-top.h-100 p {
+  color: var(--oling-editorial-copy);
+  font-size: 0.97rem;
+  line-height: 1.66;
+}
+
+/* Lot 4 — sector library and projects: preserve dynamic filtering. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-editorial-card::before {
+  width: 100%;
+  height: 0.2rem;
+  background: linear-gradient(90deg, #1f6fcb, #cb4878);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-editorial-card {
+  min-height: 17rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-library {
+  padding-block: clamp(3rem, 5vw, 5rem);
+  background: #fff !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-library__intro h2 {
+  margin: 0.6rem 0 0.85rem;
+  font-family: var(--oling-body);
+  color: var(--oling-editorial-ink);
+  font-size: clamp(2rem, 3vw, 3.15rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.048em;
+  line-height: 1.11;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-filter {
+  min-height: 2.65rem;
+  border: 1px solid var(--oling-editorial-rule);
+  border-radius: 0.7rem;
+  background: #f6f9fc;
+  color: var(--oling-editorial-ink);
+  font-size: 0.82rem;
+  letter-spacing: 0;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-filter[aria-pressed="true"] {
+  border-color: #163a56;
+  background: #163a56;
+  color: #fff;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-filter:not([aria-pressed="true"]):is(:hover,:focus-visible) {
+  border-color: rgba(22, 58, 86, 0.35);
+  background: #eaf2fa;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission {
+  grid-template-columns: minmax(12rem, 0.65fr) minmax(0, 1.35fr);
+  gap: clamp(1.4rem, 4vw, 4.2rem);
+  padding-block: clamp(2.2rem, 3.7vw, 3.5rem);
+  border-top: 1px solid var(--oling-editorial-rule);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission__identity h2 {
+  font-family: var(--oling-body);
+  font-size: clamp(1.7rem, 2.25vw, 2.4rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.13;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-terms li {
+  border-left: 0;
+  border-radius: 0.4rem;
+  background: #edf4f8;
+  color: #28536f;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission[hidden] {
+  display: none !important;
+}
+
+/* Lot 5 — editorial resources and practical contact page. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-editorial-card {
+  min-height: 16rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-content {
+  max-width: 78ch;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-two-col {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-two-col > article.oling-surface:nth-child(2) {
+  padding: clamp(1.35rem, 2.4vw, 2.45rem) !important;
+  border: 1px solid rgba(18, 53, 81, 0.11) !important;
+  border-radius: 1.05rem !important;
+  background: #f7f9fc !important;
+  box-shadow: 0 18px 35px -33px rgba(10, 45, 73, 0.35) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-two-col > article:first-child > .oling-surface {
+  min-height: 0;
+  padding: 1.25rem 0;
+  border: 0 !important;
+  border-top: 1px solid var(--oling-editorial-rule) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-contact-form .form-control {
+  min-height: 3.2rem;
+  border: 1px solid rgba(18, 53, 81, 0.17);
+  border-radius: 0.65rem;
+  background: #fff;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-contact-form textarea.form-control {
+  min-height: 9rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-contact-form :is(.form-control, .form-check-input):focus-visible {
+  outline: 2px solid #2b7eb9;
+  outline-offset: 2px;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-contact-form__consent {
+  align-items: start;
+}
+
+/* Lot 6 — legacy SEO landing templates, while retaining all SEO/FAQ content. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo > section.oling-seo-cabinet__hero {
+  width: 100%;
+  margin: 0;
+  padding-block: clamp(3.2rem, 5vw, 5rem);
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--oling-editorial-rule);
+  background:
+    radial-gradient(35rem 25rem at 100% 5%, rgba(207, 56, 108, 0.065), transparent 68%),
+    linear-gradient(180deg, #f4f8fc, #fff) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-seo-cabinet__hero-copy {
+  max-width: 70ch;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-seo-cabinet__hero-copy h1 {
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(2.4rem, 4vw, 4.2rem) !important;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.07 !important;
+  text-wrap: balance;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-seo-cabinet__hero-copy .oling-lede,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .breadcrumb,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .breadcrumb a {
+  color: var(--oling-editorial-copy) !important;
+  line-height: 1.7;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-seo-cabinet__hero-media {
+  border: 0;
+  border-radius: 0.85rem;
+  background: #e1eaf1;
+  box-shadow: 0 12px 28px -24px rgba(16, 46, 72, 0.28);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo > section.oling-section:not(.oling-seo-cabinet__hero) {
+  padding-block: clamp(2.7rem, 4.5vw, 4.4rem);
+  border-bottom: 1px solid rgba(18, 53, 81, 0.045);
+  background: #fff !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo > section.oling-section:nth-of-type(2n + 1):not(.oling-seo-cabinet__hero) {
+  background: #f7f9fc !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-surface {
+  border-radius: 0.85rem !important;
+  border: 1px solid rgba(18, 53, 81, 0.09) !important;
+  background: #fff !important;
+  box-shadow: 0 16px 34px -32px rgba(10, 45, 73, 0.38) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-surface h2 {
+  color: var(--oling-editorial-ink) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(1.35rem, 1.8vw, 1.95rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+/* Legacy and legal remain restrained: no mass restyling of richtext/structured data. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--legal,
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--fallback {
+  background: #f7f9fc !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--fallback > .container {
+  padding-block: clamp(2.8rem, 5vw, 5rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--fallback h1 {
+  color: var(--oling-editorial-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(2.2rem, 3.7vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-two-col {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universe:first-child {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial > section.oling-shell-section,
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial > section.oling-page-section {
+    padding-block: 2.7rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial section > .container {
+    padding-inline: 1rem;
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-two-col,
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-editorial-grid,
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-service-link-grid,
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-deliverable-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-expertise-index-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--expertises .oling-universe:first-child .oling-universe__links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--contact .oling-two-col > article.oling-surface:nth-child(2) {
+    padding: 1.3rem !important;
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--seo .oling-seo-cabinet__hero-shell.is-with-media {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial .oling-cta-band__inner {
+    padding: 1.65rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial :is(.oling-editorial-card, .oling-service-link-card, .oling-proof-card) {
+    transition: none !important;
+    transform: none !important;
+  }
+}

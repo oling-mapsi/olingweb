@@ -1,0 +1,306 @@
+/* RESSOURCES — editorial library + centered CMS curation.
+   Purely presentational: headings, list copy, URLs and JSON-LD remain CMS-owned. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources {
+  --resource-navy: #122e48;
+  --resource-slate: #50677b;
+  --resource-coral: #d83c77;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources > section > .container {
+  width: calc(100% - 2 * clamp(1rem,4vw,2.5rem));
+  max-width: 1152px;
+  margin-inline: auto;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-library {
+  padding-block: clamp(4.2rem,7vw,7rem) !important;
+  background: linear-gradient(180deg,#fff 0%,#f6f9fd 100%) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading {
+  width: 100%;
+  max-width: 760px !important;
+  margin: 0 auto clamp(2.2rem,4vw,3.5rem) !important;
+  text-align: center;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading h2 {
+  max-width: none !important;
+  margin: .7rem 0 1rem;
+  font-size: clamp(2.15rem,3.55vw,3.55rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.05em !important;
+  text-wrap: balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading p {
+  max-width: 64ch !important;
+  margin-inline: auto;
+  line-height: 1.73;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  align-items: stretch;
+  gap: clamp(.85rem,2vw,1.5rem);
+  width: 100%;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 310px;
+  padding: clamp(1.65rem,2.5vw,2.75rem) !important;
+  border-radius: 1.25rem !important;
+  border: 1px solid rgba(26,70,103,.13);
+  background: #fff !important;
+  box-shadow: 0 18px 52px -46px rgba(15,42,66,.34) !important;
+  transition: transform 210ms ease, border-color 210ms ease, box-shadow 210ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) {
+  background: linear-gradient(135deg,#123451,#194764) !important;
+  border-color: #194764 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+  align-items: center;
+  margin-bottom: clamp(1.25rem,2.6vw,2.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__top .oling-kicker {
+  color: #b63b70;
+  font-size: .74rem;
+  font-weight: 850;
+  letter-spacing: .13em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) .oling-kicker {
+  color: #ffafce !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__number {
+  color: rgba(22,57,82,.22);
+  font-family: var(--oling-display);
+  font-size: clamp(2rem,3.3vw,3rem);
+  font-weight: 800;
+  letter-spacing: -.07em;
+  line-height: 1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) .oling-resource-story__number {
+  color: rgba(255,255,255,.24);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title {
+  margin: 0 0 1.05rem !important;
+  max-width: 25ch;
+  font-family: var(--oling-body) !important;
+  font-size: clamp(1.5rem,2.2vw,2.15rem) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.04em !important;
+  font-weight: 800 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title a {
+  color: #122e48 !important;
+  text-decoration: none !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) .oling-resource-story__title a {
+  color: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story > p {
+  margin-bottom: 1.6rem !important;
+  color: #50677b !important;
+  font-size: 1.015rem;
+  line-height: 1.65;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) > p {
+  color: rgba(238,246,255,.84) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__more {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  width: fit-content;
+  margin-top: auto;
+  color: #165e92 !important;
+  font-weight: 800;
+  font-size: .91rem;
+  text-decoration: none !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:nth-child(4n+1) .oling-resource-story__more {
+  color: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story:is(:hover,:focus-within) {
+  transform: translateY(-3px);
+  border-color: rgba(216,60,119,.34);
+  box-shadow: 0 32px 65px -47px rgba(15,42,66,.4) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title a:focus-visible,
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__more:focus-visible {
+  outline: 3px solid #54abef;
+  outline-offset: 4px;
+}
+/* This is the former left-stranded "Expertises recherchées" section.
+   Both the heading and the actual CMS HTML are centered inside a true layout. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-curation {
+  padding-block: clamp(4rem,7vw,6.7rem) !important;
+  background:
+    radial-gradient(48rem 26rem at 105% -15%,rgba(216,60,119,.09),transparent 65%),
+    linear-gradient(180deg,#f1f6fc,#f8fbfe) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__inner {
+  width: 100%;
+  max-width: 1152px;
+  margin-inline: auto;
+  padding: clamp(1.65rem,4.5vw,4.25rem);
+  border: 1px solid rgba(26,70,103,.10);
+  border-radius: clamp(1rem,2vw,1.65rem);
+  background: #fff;
+  box-shadow: 0 25px 65px -55px rgba(11,38,63,.45);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  color: #3e5870;
+  text-align: center;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(h2,h3,h4) {
+  width: 100%;
+  max-width: 22ch;
+  margin: 0 auto 1rem !important;
+  font-family: var(--oling-body);
+  font-size: clamp(2.1rem,3.3vw,3.35rem) !important;
+  font-weight: 800;
+  line-height: 1.13;
+  letter-spacing: -.05em;
+  color: #122e48 !important;
+  text-align: center !important;
+  text-wrap: balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > p {
+  max-width: 67ch;
+  margin: 0 auto 2rem !important;
+  font-size: clamp(1rem,1.22vw,1.12rem);
+  line-height: 1.72;
+  color: #50677b !important;
+  text-align: center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: .85rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 1.5rem auto 0 !important;
+  padding: 0 !important;
+  text-align: left;
+  list-style: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) > li {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 90px;
+  margin: 0 !important;
+  padding: 1rem 1.15rem;
+  border: 1px solid rgba(26,70,103,.12);
+  border-radius: .85rem;
+  background: #f8fafc;
+  color: #123b5b;
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) > li::before {
+  display: none !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) > li a {
+  color: #174e7b !important;
+  text-decoration: none !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) > li:is(:hover,:focus-within) {
+  border-color: rgba(216,60,119,.36);
+  background: #fff;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) > li a:is(:hover,:focus-visible) {
+  text-decoration: underline !important;
+  text-underline-offset: .25rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > .row {
+  justify-content: center;
+  margin-inline: auto;
+  text-align: center;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-faq {
+  padding-block: clamp(3.2rem,5vw,5rem) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-faq__inner {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: clamp(1.4rem,3vw,2.75rem) !important;
+  box-shadow: none !important;
+}
+@media (max-width: 991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content > :is(ul,ol) { grid-template-columns: minmax(0,1fr); }
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story { min-height: 0; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__inner { padding: 1.3rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-resource-story { transition: none; transform:none !important; }
+}
+
+/* Pixel-QA: legacy .oling-section-head is a two-column grid by default.
+   The library heading must be a centered stacked composition, not one narrow
+   cell on the right of an implicit grid. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-library .oling-resources-library__heading {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:.65rem !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  width:100% !important;
+  max-width:820px !important;
+  margin-inline:auto !important;
+  text-align:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading > :is(.oling-kicker,h2,p) {
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+  margin-inline:auto !important;
+  text-align:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading h2 {
+  max-width:24ch !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading p {
+  max-width:68ch !important;
+}
+/* The legacy generic editorial card has background:#fff!important,
+   so dark featured cards require a more specific explicit override. */
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:.85rem !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story__top {
+  display:flex !important;
+  width:100% !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-library__grid .oling-resource-story:nth-child(4n+1) {
+  background:linear-gradient(135deg,#14334d,#1f506e) !important;
+  background-color:#14334d !important;
+  border-color:#1f506e !important;
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) :is(h2,h2 a,.oling-resource-story__number,.oling-resource-story__more) {
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) > p {
+  color:#d8e8f5 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) .oling-kicker {
+  color:#ffaccb !important;
+}

@@ -20,6 +20,7 @@ use App\Repository\ContentItemRepository;
 use App\Repository\LegalPageRepository;
 use App\Repository\SitePageRepository;
 use App\Service\PublicSitePageResolver;
+use App\Service\PublicLeadershipSelector;
 use App\Service\SeoGeoInternalLinkService;
 use App\Service\SitePageFaqParser;
 use App\Service\LocalizedContentResolver;
@@ -40,6 +41,7 @@ class PracticeController extends AbstractController
         private readonly PublicSitePageResolver $publicSitePageResolver,
         private readonly LocalizedContentResolver $localizedContentResolver,
         private readonly LocalizedUrlGenerator $localizedUrlGenerator,
+        private readonly PublicLeadershipSelector $publicLeadershipSelector,
     )
     {
     }
@@ -229,7 +231,7 @@ class PracticeController extends AbstractController
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
-            'teamPreview' => $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale),
+            'teamPreview' => $this->publicLeadershipSelector->select($this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale)),
             'page' => $this->publicSitePageResolver->getEditorialPage('apropos', $locale),
             'localizedAlternates' => $pageEntity ? $this->localizedUrlGenerator->sitePageAlternates($pageEntity) : null,
             'canonicalPath' => $pageEntity ? $this->localizedUrlGenerator->sitePagePath($pageEntity, $locale) : null,
@@ -814,7 +816,7 @@ class PracticeController extends AbstractController
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $team = $this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale);
+        $team = $this->publicLeadershipSelector->select($this->buildTeamProfiles($repoteam->findPublishedOrderedForLocale($locale), $locale));
         $pageEntity = $sitePageRepository->findOneBy(['slug' => 'team']);
 
         return $this->render('team.html.twig', [

@@ -5,7 +5,7 @@
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
 {% block body %}
-<main id="content" role="main">
+<main id="content" role="main" class="oling-public-editorial oling-public-editorial--contact">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,

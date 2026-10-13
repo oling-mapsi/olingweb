@@ -1,0 +1,91 @@
+name: OLING public design — PR code validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'src/Service/PublicLeadershipSelector.php'
+      - 'src/Controller/PracticeController.php'
+      - 'src/Service/PublicSitePageResolver.php'
+      - 'templates/**'
+      - 'translations/messages.*.yaml'
+      - 'scripts/audit-public-visual-theme.mjs'
+      - 'scripts/ci/compare-public-seo-snapshots.mjs'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/public-design-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-and-build:
+    name: PHP tests + frontend build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      APP_ENV: test
+      APP_DEBUG: 0
+      APP_SECRET: ci-only-not-for-production
+      DATABASE_URL: sqlite:///%kernel.project_dir%/var/test.db
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, ctype, iconv, pdo_sqlite, gd, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: PHP syntax checks
+        run: |
+          php -l src/Controller/PracticeController.php
+          php -l src/Service/PublicLeadershipSelector.php
+          php -l tests/HomePageSourceTest.php
+          php -l tests/TeamProfilesSourceTest.php
+          php -l tests/PublicLeadershipSelectorTest.php
+          php -l tests/PublicEditorialDesignSourceTest.php
+          php -l tests/SectorVisualAssetsTest.php
+          php -l src/Service/PublicSitePageResolver.php
+
+      # The repository contains a partial tracked vendor/ tree. Composer otherwise
+      # treats those directories as already installed even if Twig files are missing.
+      # CI uses a disposable checkout: clean vendor ONLY in this runner.
+      - name: Start from a clean vendor directory in CI
+        run: rm -rf vendor
+
+      - name: Install PHP dependencies without side-effect scripts
+        run: composer install --no-interaction --no-progress --prefer-dist --no-scripts
+
+      - name: Run focused unit tests
+        run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest|SectorVisualAssetsTest'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate browser audit script syntax
+        run: |
+          node --check scripts/audit-public-visual-theme.mjs
+          node --check scripts/ci/compare-public-seo-snapshots.mjs
+
+      - name: Build public assets
+        run: npm run build
+
+      - name: Explain remaining manual gates
+        run: |
+          echo "Build and focused tests do not provide a visual preview."
+          echo "Browser screenshots require local Symfony DB-backed staging."
+          echo "Run npm run audit:public-visual locally and open docs/redesign/preview.html."
+          echo "Do not merge or deploy without visual and SEO review."

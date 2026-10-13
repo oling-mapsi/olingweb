@@ -255,3 +255,17 @@ proofs:
   kicker: "Evidence"
   default_title: "Anonymized assignments"
   scope_label: "Scope"
+
+leadership:
+  eyebrow: "OLING leadership"
+  about_title: "Two complementary perspectives, one commitment to delivery"
+  about_intro: "Our leadership stays involved in scoping, decision-making and delivery. IT governance, transformation, compliance and quality are approached with the same hands-on focus."
+  team_title: "OLING leadership, committed to your IT and compliance projects"
+  team_intro: "Meet the two leadership profiles behind our approach: understanding priorities, securing decisions and working with teams through to delivery."
+  detail_heading: "Your leadership contacts"
+  profile_area_label: "Areas of expertise"
+  portrait_alt: "Portrait of %name%"
+  publications: "Read publications"
+  meet_label: "Meet the leadership team"
+  contact_label: "Discuss your project"
+  empty: "Leadership profiles are temporarily unavailable."

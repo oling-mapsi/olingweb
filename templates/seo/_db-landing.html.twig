@@ -30,7 +30,7 @@
   {% set heroImageRaw = page.heroImage|trim %}
   {% set heroImageSrc = heroImageRaw starts with 'http://' or heroImageRaw starts with 'https://' ? heroImageRaw : asset(heroImageRaw starts with '/' ? heroImageRaw|slice(1) : heroImageRaw) %}
 {% endif %}
-<main id="content" role="main" class="oling-seo-cabinet">
+<main id="content" role="main" class="oling-seo-cabinet oling-public-editorial oling-public-editorial--seo">
   <section class="oling-section oling-section--tight oling-seo-cabinet__hero">
     <div class="container">
       <div class="oling-seo-cabinet__hero-shell{% if hasHeroImage %} is-with-media{% endif %}">

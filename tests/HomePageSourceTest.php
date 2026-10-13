@@ -12,6 +12,7 @@ use App\Service\I18n\LocaleRouteContext;
 use App\Service\LegalPageDefaults;
 use App\Service\LocalizedContentResolver;
 use App\Service\PublicSitePageResolver;
+use App\Service\PublicLeadershipSelector;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -139,7 +140,8 @@ class HomePageSourceTest extends TestCase
         return new PracticeController(
             $this->createMock(PublicSitePageResolver::class),
             $localizedResolver,
-            new LocalizedUrlGenerator($localizedResolver, new LocaleRouteContext())
+            new LocalizedUrlGenerator($localizedResolver, new LocaleRouteContext()),
+            new PublicLeadershipSelector()
         );
     }
 }

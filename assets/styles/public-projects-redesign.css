@@ -1,0 +1,343 @@
+/* PROJETS — authored client evidence in a modern editorial card system.
+   Data source, anonymous identities, filter attributes and copy unchanged. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-projects-redesign {
+  padding-block: clamp(4.1rem,6.5vw,6.8rem) !important;
+  background:linear-gradient(180deg,#fff 0%,#f7fafc 80%) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign > .container {
+  width:calc(100% - 2 * clamp(1rem,4vw,2.5rem));
+  max-width:1152px;
+  margin-inline:auto;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__intro {
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  column-gap:2.5rem;
+  max-width:100% !important;
+  margin:0 0 clamp(1.5rem,3vw,2.6rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__intro > .oling-kicker {grid-column:1}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__intro h2 {
+  grid-column:1;
+  max-width:21ch;
+  margin:.55rem 0 .7rem;
+  color:#122e48;
+  font-family:var(--oling-body);
+  font-size:clamp(2.15rem,3.5vw,3.65rem);
+  font-weight:800;
+  letter-spacing:-.055em;
+  line-height:1.1;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__intro > p {
+  grid-column:1;
+  max-width:69ch;
+  margin:0;
+  color:#50677b;
+  font-size:clamp(1rem,1.15vw,1.14rem);
+  line-height:1.7;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__count {
+  grid-column:2;
+  grid-row:1 / span 3;
+  align-self:center;
+  display:flex;
+  flex-direction:column;
+  min-width:9.8rem;
+  padding:1.3rem 1.65rem;
+  border:1px solid rgba(29,86,125,.12);
+  border-radius:1rem;
+  background:#eff5fa;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__count strong {
+  color:#174463;
+  font-family:var(--oling-display);
+  font-size:clamp(2.5rem,4vw,4.1rem);
+  letter-spacing:-.07em;
+  line-height:1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__count span {
+  margin-top:.38rem;
+  max-width:11ch;
+  color:#45677f;
+  font-size:.75rem;
+  font-weight:800;
+  line-height:1.25;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+/* Filters stay operational; on narrow screens they scroll horizontally
+   within the component rather than collapsing into huge full-width buttons. */
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filters {
+  position:sticky;
+  top:clamp(4.2rem,6vw,4.9rem);
+  z-index:14;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin:0 0 1.65rem;
+  padding:.78rem 0;
+  border-bottom:1px solid rgba(21,64,97,.10);
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter {
+  min-height:2.65rem;
+  padding:.64rem 1rem;
+  border:1px solid rgba(25,72,109,.16);
+  border-radius:999px;
+  background:#f2f6fa;
+  color:#244b67;
+  font-family:var(--oling-body);
+  font-size:.87rem;
+  font-weight:750;
+  line-height:1.25;
+  cursor:pointer;
+  transition:background-color 160ms ease,border-color 160ms ease,color 160ms ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter[aria-pressed="true"] {
+  color:#fff !important;
+  background:#143c5b !important;
+  border-color:#143c5b !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter:is(:hover,:focus-visible) {border-color:#2681bd}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter:focus-visible {outline:3px solid #64b4e9;outline-offset:2px}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-list {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(1.1rem,2.5vw,2.1rem);
+}
+/* Each real mission is a single substantive dossier; no fake thumbnails. */
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission {
+  display:grid;
+  grid-template-columns:minmax(17rem,.355fr) minmax(0,.645fr);
+  min-width:0;
+  gap:0;
+  overflow:hidden;
+  margin:0;
+  padding:0 !important;
+  border:1px solid rgba(23,66,98,.14) !important;
+  border-radius:1.3rem;
+  background:#fff;
+  box-shadow:0 26px 52px -47px rgba(11,41,69,.35);
+  scroll-margin-top:10rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission[hidden],
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-empty[hidden] {display:none !important}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity {
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  min-height:100%;
+  padding:clamp(1.7rem,3vw,2.85rem);
+  overflow:hidden;
+  background:linear-gradient(140deg,#102e48,#1b4d6d);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission:nth-child(3n+2) .oling-proof-mission__identity {
+  background:linear-gradient(135deg,#103e4a,#1c6571);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission:nth-child(3n+3) .oling-proof-mission__identity {
+  background:linear-gradient(135deg,#2b3156,#574d7a);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  right:-11rem;
+  bottom:-8.5rem;
+  width:25rem;
+  height:25rem;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 0 0 4rem rgba(255,255,255,.025),0 0 0 8rem rgba(255,255,255,.018);
+  pointer-events:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:1rem;
+  width:100%;
+  margin-bottom:clamp(2rem,5vw,4rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity .oling-kicker {
+  color:#ffb1d2 !important;
+  font-family:var(--oling-body);
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  line-height:1.4;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__number {
+  color:rgba(255,255,255,.28);
+  font-family:var(--oling-display);
+  font-size:clamp(2rem,3.2vw,3.6rem);
+  font-weight:800;
+  letter-spacing:-.07em;
+  line-height:1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity h2 {
+  max-width:16ch;
+  margin:0 0 1.45rem;
+  color:#fff !important;
+  font-family:var(--oling-body);
+  font-size:clamp(1.55rem,2.2vw,2.4rem);
+  font-weight:800;
+  letter-spacing:-.047em;
+  line-height:1.14;
+  text-wrap:balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__org {
+  max-width:35ch;
+  margin:0;
+  color:rgba(231,244,255,.80) !important;
+  font-size:.96rem;
+  font-weight:650;
+  line-height:1.52;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__decor {
+  display:block;
+  width:3.6rem;
+  height:3px;
+  margin-top:auto;
+  transform:translateY(1.8rem);
+  border-radius:3px;
+  background:#f08ab6;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__content {
+  display:grid;
+  gap:1.45rem;
+  padding:clamp(1.65rem,3vw,2.9rem);
+  min-width:0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__narrative,
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__evidence {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(1.2rem,2.5vw,2.2rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__evidence {
+  padding-top:1.3rem;
+  border-top:1px solid rgba(25,73,107,.13);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__block {min-width:0}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__content h3 {
+  margin:0 0 .6rem;
+  color:#19445f !important;
+  font-family:var(--oling-body);
+  font-size:.82rem;
+  font-weight:850;
+  line-height:1.2;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__content p {
+  margin:0;
+  color:#52687b;
+  font-family:var(--oling-body);
+  font-size:.96rem;
+  line-height:1.66;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-terms {
+  display:flex;
+  flex-wrap:wrap;
+  align-content:flex-start;
+  gap:.4rem;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-terms li {
+  display:inline-flex;
+  padding:.38rem .55rem;
+  border:1px solid rgba(31,88,128,.11);
+  border-radius:.45rem;
+  background:#eef5fa;
+  color:#2f5674;
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1.35;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__systems {
+  padding-top:.2rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-quotes {
+  display:grid;
+  gap:.55rem;
+  padding:1rem 1.2rem;
+  border-radius:.8rem;
+  background:#f7f9fc;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-quotes p {
+  border-left:3px solid #d83c77;
+  padding-left:.75rem;
+  color:#345774;
+  font-size:.89rem;
+  line-height:1.55;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-owner {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.6rem 1.3rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(25,73,107,.12);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-owner a {
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  color:#166299 !important;
+  font-size:.86rem;
+  font-weight:800;
+  text-decoration:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-owner a::after {content:"↗";font-size:1.05rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-owner a:is(:hover,:focus-visible) {text-decoration:underline;text-underline-offset:3px}
+body.oling-body:not(.oling-home):not(.admin) .oling-proof-empty {
+  padding:3rem 1.4rem;
+  border:1px dashed rgba(25,73,107,.17);
+  border-radius:1rem;
+  background:#fff;
+  color:#516d83;
+  text-align:center;
+}
+@media(max-width:1199.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission {grid-template-columns:minmax(14rem,.36fr) minmax(0,.64fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__narrative {grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__intro {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__count {grid-column:1;grid-row:auto;min-width:0;width:fit-content;flex-direction:row;align-items:center;gap:.7rem;margin-top:1.1rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-library__count strong {font-size:2.1rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity {min-height:230px}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__identity-top {margin-bottom:1.3rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__decor {display:none}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__narrative,
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-mission__evidence {grid-template-columns:minmax(0,1fr)}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-filters {flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;top:4.25rem}
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter {white-space:nowrap;flex:0 0 auto}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-proof-filter {transition:none}
+}
+
+/* Prevent old card caption width constraints from splitting 01/02 vertically. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--projects .oling-proof-mission__number {
+  display:inline-block !important;
+  width:auto !important;
+  min-width:2.8rem !important;
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  overflow-wrap:normal !important;
+  word-break:keep-all !important;
+  font-variant-numeric:tabular-nums;
+  text-align:right;
+}

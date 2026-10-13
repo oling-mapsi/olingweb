@@ -30,5 +30,7 @@
 /public/sitemap.xml
 /public/sitemap-*.xml.gz
 
+/public/sitemap.en.xml
+/public/sitemap.es.xml
 /public/sitemap.default.xml
 /public/sitemap.default-*.xml.gzpublic/img/video/slide22-6.mp4

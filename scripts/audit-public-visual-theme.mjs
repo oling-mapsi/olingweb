@@ -76,6 +76,17 @@ try {
             };
           };
           const meta = (name) => document.querySelector(name)?.getAttribute('content') || '';
+          const switcher = document.querySelector('#languageSwitcher');
+          const caret = switcher ? getComputedStyle(switcher, '::after') : null;
+          const languageCaret = caret ? {
+            width: Number.parseFloat(caret.width),
+            height: Number.parseFloat(caret.height),
+            display: caret.display,
+            backgroundColor: caret.backgroundColor,
+            backgroundImage: caret.backgroundImage,
+            opacity: caret.opacity,
+            content: caret.content,
+          } : null;
           const schemaNames = [];
           for (const element of document.querySelectorAll('script[type="application/ld+json"]')) {
             try {
@@ -100,6 +111,8 @@ try {
             ogDescription: meta('meta[property="og:description"]'),
             h1: [...document.querySelectorAll('main h1')].map((el) => el.textContent.trim()),
             isHome: document.body.classList.contains('oling-home'),
+            isEditorial: Boolean(document.querySelector('main.oling-public-editorial')),
+            languageCaret,
             overflow: document.documentElement.scrollWidth - window.innerWidth,
             header: nodeInfo('#header'),
             topbar: nodeInfo('#header .oling-topbar'),
@@ -124,6 +137,18 @@ try {
         if (!data.canonical || !data.description) issue('Missing canonical or description');
         if (data.h1.length !== 1) issue(`Expected one H1; found ${data.h1.length}`);
         if (data.overflow > 3) issue(`Horizontal overflow ${data.overflow}px`);
+        if (!captureBaseline) {
+          const caret = data.languageCaret;
+          if (!caret || caret.display === 'none' || caret.width < 16 || caret.height < 16 ||
+              !caret.backgroundImage.includes('data:image/svg+xml') ||
+              !['rgb(100, 116, 139)', 'rgb(71, 85, 105)'].includes(caret.backgroundColor)) {
+            issue('Language selector chevron must be visible, white-on-gray and at least 16px wide');
+          }
+          if (['/expertises', '/services', '/secteurs', '/projets', '/ressources', '/contact'].includes(route)
+              && !data.isEditorial) {
+            issue('Secondary page is missing editorial design scope');
+          }
+        }
         if (!captureBaseline) {
           if (kind === 'home' ? !data.isHome : data.isHome) issue('Wrong body home modifier');
           if (kind !== 'home') {
@@ -189,10 +214,38 @@ try {
             }
           }
         }
+        // Functional controls: never submit live data; just exercise safe UI.
+        if (!captureBaseline) {
+          if (route === '/contact') {
+            for (const selector of ['#contact-form', '#contactWorkEmail', '#consent', '#button-send']) {
+              if (!await page.locator(selector).count()) issue(`Missing contact control ${selector}`);
+            }
+          }
+          if (route === '/projets') {
+            const filters = page.locator('[data-proof-filter]');
+            if (await filters.count() > 1) {
+              const button = filters.nth(1);
+              await button.click();
+              if (await button.getAttribute('aria-pressed') !== 'true') issue('Project filter did not select');
+              await filters.first().click();
+              if (await filters.first().getAttribute('aria-pressed') !== 'true') issue('Project filter did not reset');
+            }
+          }
+          const languageToggle = page.locator('#languageSwitcher');
+          if (await languageToggle.isVisible()) {
+            await languageToggle.click();
+            if (await languageToggle.getAttribute('aria-expanded') !== 'true'
+                || !await page.locator('.oling-language-switcher__menu').isVisible()) {
+              issue('Language selector dropdown did not open');
+            }
+            await languageToggle.press('Escape');
+          }
+        }
         records.push({ route, width, status, seo, h1: data.h1, layout: {
           header: data.header, topbar: data.topbar, hero: data.hero,
           heroPanel: data.heroPanel, horizontalOverflow: data.overflow,
-        }, aboutCards: data.aboutCards, teamNames: data.teamNames, personNames: data.personNames });
+        }, aboutCards: data.aboutCards, teamNames: data.teamNames, personNames: data.personNames,
+          isEditorial: data.isEditorial, languageCaret: data.languageCaret });
       } catch (error) {
         issue(String(error?.message || error));
         records.push({ route, width, status, error: String(error) });

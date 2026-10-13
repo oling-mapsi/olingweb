@@ -315,6 +315,46 @@ body.oling-body:not(.oling-home):not(.admin) .oling-leadership-page__empty {
   background: #ffffff;
 }
 
+/* Useful links retain their CMS content but read as restrained navigation. */
+body.oling-body:not(.oling-home):not(.admin) .oling-about-links {
+  padding-block: clamp(3.6rem, 5vw, 5.7rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-links .oling-section-head h2 {
+  max-width: 27ch;
+  color: var(--oling-secondary-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(1.8rem, 2.9vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.13;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-links .oling-service-link-card {
+  min-height: 100%;
+  padding: clamp(1.25rem, 2vw, 1.7rem);
+  border: 1px solid rgba(19, 49, 74, 0.09);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 15px 30px -28px rgba(18, 49, 75, 0.20);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-links .oling-service-link-card h3 {
+  margin: 0.75rem 0;
+  color: var(--oling-secondary-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(1.16rem, 1.7vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.18;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-links .oling-service-link-card p {
+  font-family: var(--oling-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
 @media (max-width: 1199.98px) {
   body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--preview {
     grid-template-columns: minmax(0, 1fr);

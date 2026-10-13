@@ -186,7 +186,7 @@ jobs:
 
   publish-built-assets:
     name: Stage CI-compiled static files into the release branch
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'design/public-secondary-foundation-2026-10-13' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'hotfix/oling-v4-preprod-1024-seo-20261013' }}
     needs: browser-preview
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -222,5 +222,5 @@ jobs:
           git config user.name "oling-design-build-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Build versioned OLING V4 production frontend assets"
-          git push origin "HEAD:refs/heads/design/public-secondary-foundation-2026-10-13"
+          git push origin "HEAD:refs/heads/hotfix/oling-v4-preprod-1024-seo-20261013"
           echo "Git release branch now includes hashed CSS, JS and manifest."

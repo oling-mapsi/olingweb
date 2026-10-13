@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/growth-phase6-env"
+
+curl -fsS "$GROWTH_PHASE6_GF_URL/healthz" >/dev/null
+curl -fsS "$GROWTH_PHASE6_OLING_URL/admin/growth" >/dev/null || true
+
+echo "Phase 6 health checks completed."

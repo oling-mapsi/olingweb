@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+for port in 8061 8070; do
+  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN || true)"
+  if [ -n "$pids" ]; then
+    kill $pids
+    echo "Stopped listeners on :$port"
+  fi
+done

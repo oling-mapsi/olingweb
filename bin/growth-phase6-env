@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export GROWTH_PHASE6_DB_NAME="${GROWTH_PHASE6_DB_NAME:-mapsi_growth_phase6_staging}"
+export GROWTH_PHASE6_GF_ROOT="${GROWTH_PHASE6_GF_ROOT:-/Users/florestanrouet/myweb/mapsi-growth-factory}"
+export GROWTH_PHASE6_OLING_ROOT="${GROWTH_PHASE6_OLING_ROOT:-/Users/florestanrouet/.codex/worktrees/growth-oling-admin/olingw}"
+export GROWTH_PHASE6_GF_URL="${GROWTH_PHASE6_GF_URL:-http://127.0.0.1:8070}"
+export GROWTH_PHASE6_OLING_URL="${GROWTH_PHASE6_OLING_URL:-http://127.0.0.1:8061}"
+export GROWTH_PHASE6_JWT_KEY_FILE="${GROWTH_PHASE6_JWT_KEY_FILE:-/private/tmp/oling_growth_factory_jwt_phase6.pem}"
+export GROWTH_PHASE6_OLING_DB="${GROWTH_PHASE6_OLING_DB:-/private/tmp/oling_growth_phase6.db}"
+
+case "$GROWTH_PHASE6_DB_NAME" in
+  *phase6*|*staging*|*test*) ;;
+  *) echo "Refusing unsafe database name: $GROWTH_PHASE6_DB_NAME" >&2; exit 2 ;;
+esac
+
+export DATABASE_URL="postgresql+psycopg://florestanrouet@localhost:5432/${GROWTH_PHASE6_DB_NAME}"
+export GROWTH_GENERATOR_MODE=simulated
+export OLING_MODE=mock
+export MAPSI_SITE_MODE=mock
+export PUBLISH_OLING_ENABLED=true
+export PUBLISH_MAPSI_SITE_ENABLED=true
+export PUBLISH_LINKEDIN_ENABLED=true
+export STUDIO_ADMIN_API_ENABLED=true
+export STUDIO_ADMIN_JWT_ISSUER=oling-admin
+export STUDIO_ADMIN_JWT_AUDIENCE=mapsi-growth-admin
+export STUDIO_ADMIN_JWT_ALLOWED_ALGORITHMS=RS256
+export STUDIO_ADMIN_JWT_MAX_LIFETIME_SECONDS=300
+export STUDIO_ADMIN_ENFORCE_REPLAY_PROTECTION=true

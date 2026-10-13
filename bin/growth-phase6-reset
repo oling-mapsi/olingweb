@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(dirname "$0")/growth-phase6-env"
+
+case "$GROWTH_PHASE6_DB_NAME" in
+  *phase6*|*staging*|*test*) ;;
+  *) echo "Refusing unsafe database name: $GROWTH_PHASE6_DB_NAME" >&2; exit 2 ;;
+esac
+
+dropdb --if-exists "$GROWTH_PHASE6_DB_NAME"
+createdb "$GROWTH_PHASE6_DB_NAME"
+(cd "$GROWTH_PHASE6_GF_ROOT" && alembic upgrade head)
+
+rm -f "$GROWTH_PHASE6_OLING_DB"
+(cd "$GROWTH_PHASE6_OLING_ROOT" && DATABASE_URL="sqlite:///${GROWTH_PHASE6_OLING_DB}" APP_SECRET=phase6-secret php bin/console doctrine:schema:create --env=dev -q)
+
+echo "Phase 6 isolated data reset complete."

@@ -17,7 +17,7 @@ class GrowthAdminController extends AbstractController
 {
     public function __construct(
         #[Autowire(param: 'growth_factory_allowed_admin_emails')]
-        private readonly string $allowedAdminEmails = '',
+        private readonly ?string $allowedAdminEmails = null,
     ) {
     }
 
@@ -264,7 +264,7 @@ class GrowthAdminController extends AbstractController
         $user = $this->getUser() ?? throw $this->createAccessDeniedException();
         $allowed = array_filter(array_map(
             static fn (string $email): string => mb_strtolower(trim($email)),
-            explode(',', $this->allowedAdminEmails)
+            explode(',', $this->allowedAdminEmails ?? '')
         ));
         $identifiers = [mb_strtolower($user->getUserIdentifier())];
         if (method_exists($user, 'getEmail')) {

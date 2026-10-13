@@ -45,8 +45,8 @@ jobs:
       MESSENGER_TRANSPORT_DSN: 'sync://'
       OLING_CI_PREVIEW_ONLY: '1'
       OLING_AUDIT_BASE_URL: 'http://127.0.0.1:8753'
-      OLING_AUDIT_ROUTES: '/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
-      OLING_AUDIT_WIDTHS: '390,768,1366,1920'
+      OLING_AUDIT_ROUTES: '/,/a-propos,/a-propos/team,/en/about,/en/team,/es/quienes-somos,/es/equipo,/expertises,/services,/secteurs,/projets,/ressources,/contact'
+      OLING_AUDIT_WIDTHS: '390,768,1024,1366,1920'
       OLING_AUDIT_FIXTURE_LABEL: 'GitHub Actions : base MySQL temporaire et contenus publics versionnes, sans donnees de production'
 
     steps:

@@ -346,3 +346,15 @@ body.oling-body:not(.admin) #header .oling-language-switcher__toggle:focus-visib
     padding-inline: 0.7rem !important;
   }
 }
+
+/* Mobile expanded navigation has priority over the floating chat launcher.
+   The chat widget and open chat panel are untouched outside this state.
+   Without this guard the pink launcher occludes the language globe in the
+   mobile dropdown (observed in the actual 390px Chromium screenshot). */
+@media (max-width: 991.98px) {
+  body.oling-body:not(.admin):has(#navbarNavMenuLeftAligned.show)
+  #oling-chat-widget:not(.is-open) .oling-chat-widget__launcher {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}

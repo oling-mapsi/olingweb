@@ -12,6 +12,7 @@ import './styles/app.css';
 import './styles/public-secondary.css';
 import './styles/public-leadership.css';
 import './styles/public-interior.css';
+import './styles/public-editorial-v3.css';
 import './styles/public-resources-redesign.css';
 import './styles/public-sectors-redesign.css';
 import './styles/public-projects-redesign.css';

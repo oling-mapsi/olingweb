@@ -348,5 +348,6 @@ Pour tester les menus et les liens, ouvrir le site local directement dans un nav
 writeFileSync(join(out, 'preview.html'), gallery);
 console.log(`Gallery generated: ${previews.length} actual screenshots at ${join(out, 'preview.html')}`);
 
+for (const failure of failures) console.error(`VISUAL_QA_FAIL: ${failure}`);
 console.log(`Visual audit: ${records.length} samples, ${failures.length} failures`);
 if (failures.length) process.exitCode = 1;

@@ -246,3 +246,61 @@ body.oling-body:not(.oling-home):not(.admin) .oling-resources-faq__inner {
 @media (prefers-reduced-motion:reduce) {
   body.oling-body:not(.oling-home):not(.admin) .oling-resource-story { transition: none; transform:none !important; }
 }
+
+/* Pixel-QA: legacy .oling-section-head is a two-column grid by default.
+   The library heading must be a centered stacked composition, not one narrow
+   cell on the right of an implicit grid. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-library .oling-resources-library__heading {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:.65rem !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  width:100% !important;
+  max-width:820px !important;
+  margin-inline:auto !important;
+  text-align:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading > :is(.oling-kicker,h2,p) {
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+  margin-inline:auto !important;
+  text-align:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading h2 {
+  max-width:24ch !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__heading p {
+  max-width:68ch !important;
+}
+/* The legacy generic editorial card has background:#fff!important,
+   so dark featured cards require a more specific explicit override. */
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:.85rem !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid .oling-resource-story__top {
+  display:flex !important;
+  width:100% !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-library__grid .oling-resource-story:nth-child(4n+1) {
+  background:linear-gradient(135deg,#14334d,#1f506e) !important;
+  background-color:#14334d !important;
+  border-color:#1f506e !important;
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) :is(h2,h2 a,.oling-resource-story__number,.oling-resource-story__more) {
+  color:#fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) > p {
+  color:#d8e8f5 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resource-story:nth-child(4n+1) .oling-kicker {
+  color:#ffaccb !important;
+}

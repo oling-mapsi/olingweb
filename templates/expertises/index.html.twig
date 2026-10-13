@@ -3,331 +3,6 @@
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  <style>
-    .oling-expertises-index {
-      --expertises-ink: #0b2234;
-      --expertises-copy: #425b71;
-      --expertises-blue: #0f5da6;
-      --expertises-border: rgba(15, 93, 166, 0.14);
-      background: #fff;
-      color: var(--expertises-ink);
-    }
-    .oling-expertises-index > section .container { max-width: 1240px; }
-    .oling-expertises-index .oling-shell-hero { padding-bottom: 4rem; background: #f6f9fc; }
-    .oling-expertises-index .oling-shell-hero__inner {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2rem;
-      padding: 3.25rem;
-      border-radius: 8px;
-    }
-    .oling-expertises-index .oling-shell-hero__copy { max-width: 900px; }
-    .oling-expertises-index .oling-shell-hero h1 {
-      max-width: 21ch;
-      margin: 0.8rem 0 1.15rem;
-      font-size: clamp(3.5rem, 4.4vw, 4.75rem);
-      line-height: 0.9;
-      letter-spacing: 0;
-    }
-    .oling-expertises-index .oling-shell-hero__intro {
-      max-width: 710px;
-      margin-bottom: 1.5rem;
-      font-size: 1.08rem;
-      line-height: 1.65;
-    }
-    .oling-expertises-index .oling-shell-hero__highlights {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-      align-items: center;
-    }
-    .oling-expertises-index .oling-shell-hero__highlights span {
-      padding: 0.48rem 0.72rem;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.07);
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 600;
-      line-height: 1.25;
-      letter-spacing: 0;
-    }
-    .oling-expertises-index .oling-shell-section { padding: 5rem 0; }
-    .oling-expertises-index .oling-section-head {
-      display: block;
-      max-width: 760px;
-      margin-bottom: 2.25rem;
-    }
-    .oling-expertises-index .oling-section-head h2 {
-      max-width: 18ch;
-      margin: 0.65rem 0 0.85rem;
-      font-size: clamp(2.65rem, 4vw, 4rem);
-      line-height: 0.95;
-      letter-spacing: 0;
-    }
-    .oling-expertises-index .oling-section-head p {
-      max-width: 690px;
-      color: var(--expertises-copy);
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-    .oling-expertises-index .oling-kicker { color: #557086; font-size: 0.75rem; letter-spacing: 0; }
-    .oling-expertise-index-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-rows: 1fr;
-      gap: 1rem;
-    }
-    .oling-expertise-index-card {
-      --card-accent: #0f5da6;
-      position: relative;
-      display: flex;
-      min-height: 278px;
-      height: 100%;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 1.6rem;
-      overflow: hidden;
-      background: #fff;
-      border: 1px solid var(--expertises-border);
-      border-radius: 8px;
-      box-shadow: 0 10px 28px rgba(11, 35, 55, 0.035);
-      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-    }
-    .oling-expertise-index-card::before {
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 3px;
-      background: var(--card-accent);
-      content: "";
-    }
-    .oling-expertise-index-card:nth-child(3n + 2) { --card-accent: #287c86; }
-    .oling-expertise-index-card:nth-child(3n) { --card-accent: #486784; }
-    .oling-expertise-index-card h3 {
-      min-height: 2.05em;
-      margin: 0.75rem 0 0.7rem;
-      color: var(--expertises-ink);
-      font-size: 1.85rem;
-      line-height: 1.02;
-      letter-spacing: 0;
-    }
-    .oling-expertise-index-card p {
-      margin: 0 0 1.25rem;
-      color: var(--expertises-copy);
-      font-size: 0.94rem;
-      line-height: 1.6;
-    }
-    .oling-expertise-index-card__link,
-    .oling-expertises-index .oling-universe__link,
-    .oling-expertises-index .oling-universe__cta {
-      color: var(--expertises-blue) !important;
-      font-size: 0.86rem;
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .oling-expertise-index-card__link { margin-top: auto; }
-    .oling-expertise-index-card__link::after,
-    .oling-expertises-index .oling-universe__link::after,
-    .oling-expertises-index .oling-universe__cta::after {
-      display: inline-block;
-      margin-left: 0.35rem;
-      content: "\2192";
-      transition: transform 180ms ease;
-    }
-    .oling-expertise-index-card:has(.oling-expertise-index-card__link:hover),
-    .oling-expertise-index-card:focus-within {
-      transform: translateY(-2px);
-      border-color: rgba(15, 93, 166, 0.32);
-      box-shadow: 0 16px 34px rgba(11, 35, 55, 0.08);
-    }
-    .oling-expertise-index-card__link:hover::after,
-    .oling-universe__link:hover::after,
-    .oling-universe__cta:hover::after { transform: translateX(3px); }
-    .oling-expertises-needs {
-      padding: 4.75rem 0;
-      background: #eef4f9;
-      border-block: 1px solid rgba(15, 93, 166, 0.08);
-    }
-    .oling-expertises-needs__inner {
-      display: grid;
-      grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
-      gap: 4rem;
-      align-items: start;
-    }
-    .oling-expertises-needs h2 {
-      max-width: 13ch;
-      margin: 0.65rem 0 0;
-      color: var(--expertises-ink);
-      font-size: clamp(2.75rem, 4vw, 4rem);
-      line-height: 0.95;
-      letter-spacing: 0;
-    }
-    .oling-expertises-needs p {
-      max-width: 650px;
-      margin: 0.2rem 0 0;
-      color: var(--expertises-copy);
-      font-size: 1.05rem;
-      line-height: 1.75;
-    }
-    .oling-expertises-needs__lead {
-      margin-bottom: 0.65rem !important;
-      color: var(--expertises-ink) !important;
-      font-weight: 700;
-    }
-    .oling-universes {
-      padding: 5rem 0;
-      background: #eef4f9;
-      border-bottom: 1px solid rgba(15, 93, 166, 0.08);
-    }
-    .oling-universes__head { margin-bottom: 2.25rem; }
-    .oling-universes__head h2 {
-      max-width: 15ch;
-      margin: 0.65rem 0 0;
-      color: var(--expertises-ink);
-      font-size: clamp(2.65rem, 4vw, 4rem);
-      line-height: 0.95;
-      letter-spacing: 0;
-    }
-    .oling-universes__grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-    .oling-universe {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      gap: 1.5rem;
-      padding: 1.75rem;
-      background: #fff;
-      border: 1px solid var(--expertises-border);
-      border-radius: 8px;
-    }
-    .oling-universe:first-child {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.32fr);
-      gap: 3rem;
-      padding: 2rem;
-    }
-    .oling-universe__head { align-self: start; }
-    .oling-universe__head h3 {
-      max-width: 14ch;
-      margin: 0.65rem 0 0.85rem;
-      color: var(--expertises-ink);
-      font-size: clamp(2rem, 2.8vw, 2.75rem);
-      line-height: 1;
-      letter-spacing: 0;
-    }
-    .oling-universe__head p {
-      max-width: 430px;
-      margin-bottom: 1.2rem;
-      color: var(--expertises-copy);
-      line-height: 1.65;
-    }
-    .oling-universe__links {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      border-top: 1px solid rgba(11, 35, 55, 0.11);
-    }
-    .oling-universe:first-child .oling-universe__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .oling-universe__links li { min-width: 0; border-bottom: 1px solid rgba(11, 35, 55, 0.11); }
-    .oling-universe:first-child .oling-universe__links li:nth-child(odd) { border-right: 1px solid rgba(11, 35, 55, 0.11); }
-    .oling-universe__link {
-      display: grid;
-      min-height: 108px;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-content: start;
-      gap: 0.75rem;
-      padding: 0.9rem 1rem;
-      color: var(--expertises-ink);
-      line-height: 1.35;
-      transition: color 180ms ease, background-color 180ms ease;
-    }
-    .oling-universe__link strong { font-size: 0.9rem; line-height: 1.35; }
-    .oling-universe__link span {
-      grid-column: 1 / -1;
-      color: var(--expertises-copy);
-      font-size: 0.8rem;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-    .oling-expertises-index .oling-universe__link::after { grid-column: 2; grid-row: 1; }
-    .oling-universe__link:hover { color: var(--expertises-blue); background: #f6f9fc; }
-    .oling-expertises-index .oling-expertises-mapsi { padding-block: 4rem; background: #f6f9fc; }
-    .oling-expertises-mapsi__inner {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 2rem;
-    }
-    .oling-expertises-index .oling-cta-band__inner { border-radius: 8px; }
-    .oling-expertises-index :is(a, button):focus-visible { outline: 3px solid #5eb4ef; outline-offset: 3px; }
-
-    @media (max-width: 1199.98px) {
-      .oling-expertise-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 991.98px) {
-      .oling-expertises-needs__inner,
-      .oling-universe:first-child { grid-template-columns: 1fr; gap: 2rem; }
-      .oling-universe__head h3 { max-width: 19ch; }
-    }
-
-    @media (max-width: 767.98px) {
-      .oling-expertises-index .oling-shell-hero { padding: 3.25rem 0 2.75rem; }
-      .oling-expertises-index .oling-shell-hero__inner { gap: 1.4rem; padding: 2rem 1.35rem; }
-      .oling-expertises-index .oling-shell-hero h1 {
-        max-width: 12ch;
-        font-size: clamp(2.55rem, 11vw, 3.05rem);
-        line-height: 0.94;
-      }
-      .oling-expertises-index .oling-shell-hero__intro { font-size: 0.96rem; }
-      .oling-expertises-index .oling-shell-hero__actions,
-      .oling-expertises-index .oling-shell-hero__actions .btn { width: 100%; }
-      .oling-expertises-index .oling-shell-hero__actions .btn { justify-content: center; }
-      .oling-expertises-index .oling-shell-section,
-      .oling-expertises-needs,
-      .oling-universes { padding: 3.75rem 0; }
-      .oling-expertises-index .oling-section-head { margin-bottom: 1.65rem; }
-      .oling-expertises-index .oling-section-head h2,
-      .oling-expertises-needs h2,
-      .oling-universes__head h2 { font-size: 2.75rem; }
-      .oling-expertise-index-grid,
-      .oling-universes__grid,
-      .oling-universe:first-child .oling-universe__links,
-      .oling-universe__links { grid-template-columns: 1fr; }
-      .oling-expertise-index-card { min-height: auto; padding: 1.35rem; }
-      .oling-expertise-index-card h3 { min-height: auto; font-size: 1.7rem; }
-      .oling-expertise-index-card__link {
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-      }
-      .oling-expertises-needs__inner,
-      .oling-universe:first-child { gap: 1.5rem; }
-      .oling-universe,
-      .oling-universe:first-child { padding: 1.35rem; }
-      .oling-universe:first-child .oling-universe__links li:nth-child(odd) { border-right: 0; }
-      .oling-universe__link { min-height: 96px; padding-inline: 0.25rem; }
-      .oling-expertises-mapsi__inner { align-items: start; flex-direction: column; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .oling-expertises-index *,
-      .oling-expertises-index *::before,
-      .oling-expertises-index *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-{% endblock %}
-
 {% block body %}
 {% set universes = [
   {
@@ -383,16 +58,20 @@
     highlights: page.highlights
   } %}
 
-  <section class="oling-universes" aria-labelledby="expertises-domains-title">
+  <section class="oling-universes oling-expertises-domains" aria-labelledby="expertises-domains-title">
     <div class="container">
       <div class="oling-universes__head">
+        <span class="oling-universes__overline" aria-hidden="true">01 — Une vision d’ensemble</span>
         <span class="oling-kicker">Domaines d’intervention</span>
         <h2 id="expertises-domains-title">Nos 3 domaines d’intervention</h2>
       </div>
       <div class="oling-universes__grid">
         {% for universe in universes %}
-          <article class="oling-universe" aria-labelledby="expertise-universe-{{ loop.index }}">
+          <article class="oling-universe oling-universe--{{ loop.index }}" aria-labelledby="expertise-universe-{{ loop.index }}">
             <div class="oling-universe__head">
+              <div class="oling-universe__ordinal" aria-hidden="true">
+                <span>{{ '%02d'|format(loop.index) }}</span><span>/ 03</span>
+              </div>
               <span class="oling-kicker">Domaine d’intervention</span>
               <h3 id="expertise-universe-{{ loop.index }}">{{ universe.title }}</h3>
               <p>{{ universe.intro }}</p>
@@ -404,6 +83,7 @@
                   <a class="oling-universe__link" href="{{ item.href }}">
                     <strong>{{ item.label }}</strong>
                     <span>{{ item.text }}</span>
+                    <span class="oling-universe__link-icon" aria-hidden="true">↗</span>
                   </a>
                 </li>
               {% endfor %}
@@ -427,7 +107,7 @@
     </div>
   </section>
 
-  <section class="oling-shell-section" aria-labelledby="expertises-featured-title">
+  <section class="oling-shell-section oling-expertises-featured" aria-labelledby="expertises-featured-title">
     <div class="container">
       <div class="oling-section-head">
         <span class="oling-kicker">Fiches expertise</span>
@@ -438,7 +118,10 @@
       <div class="oling-expertise-index-grid">
         {% for slug, expertisePage in expertisePages %}
           <article class="oling-expertise-index-card">
-            <span class="oling-kicker">{{ expertisePage.nav }}</span>
+            <div class="oling-expertise-index-card__top">
+              <span class="oling-kicker">{{ expertisePage.nav }}</span>
+              <span class="oling-expertise-index-card__number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+            </div>
             <h3>{{ expertisePage.title }}</h3>
             <p>{{ expertisePage.intro }}</p>
             <a class="oling-expertise-index-card__link" href="{{ path('expertises_show', {slug: slug}) }}">Voir la fiche</a>
@@ -459,7 +142,7 @@
     </div>
   </section>
 
-  <section class="oling-shell-section" aria-labelledby="expertises-audit-complementaires-title">
+  <section class="oling-shell-section oling-expertises-complementary" aria-labelledby="expertises-audit-complementaires-title">
     <div class="container">
       <div class="oling-section-head">
         <span class="oling-kicker">Audit et pilotage</span>
@@ -467,32 +150,47 @@
         <p>Ces interventions complètent les pages owner lorsque le besoin porte sur un contrôle, une fonction ou une preuve spécifique.</p>
       </div>
       <div class="oling-expertise-index-grid">
-        <article class="oling-expertise-index-card">
-          <span class="oling-kicker">Audit</span>
+        <article class="oling-expertise-index-card oling-expertise-index-card--secondary">
+          <div class="oling-expertise-index-card__top">
+            <span class="oling-kicker">Audit</span>
+            <span class="oling-expertise-index-card__number" aria-hidden="true">↗</span>
+          </div>
           <h3>Achats et marchés</h3>
           <p>Procédures, conformité achats, marchés publics et sécurisation des décisions.</p>
           <a class="oling-expertise-index-card__link" href="/expertises-audit/achats-marches">Voir la fiche</a>
         </article>
-        <article class="oling-expertise-index-card">
-          <span class="oling-kicker">Contrôle</span>
+        <article class="oling-expertise-index-card oling-expertise-index-card--secondary">
+          <div class="oling-expertise-index-card__top">
+            <span class="oling-kicker">Contrôle</span>
+            <span class="oling-expertise-index-card__number" aria-hidden="true">↗</span>
+          </div>
           <h3>Contrôle interne</h3>
           <p>Contrôles clés, risques, responsabilités et plans de maîtrise.</p>
           <a class="oling-expertise-index-card__link" href="/expertises-audit/controle-interne">Voir la fiche</a>
         </article>
-        <article class="oling-expertise-index-card">
-          <span class="oling-kicker">Pilotage</span>
+        <article class="oling-expertise-index-card oling-expertise-index-card--secondary">
+          <div class="oling-expertise-index-card__top">
+            <span class="oling-kicker">Pilotage</span>
+            <span class="oling-expertise-index-card__number" aria-hidden="true">↗</span>
+          </div>
           <h3>Contrôle de gestion</h3>
           <p>Indicateurs, budget, reporting et performance opérationnelle.</p>
           <a class="oling-expertise-index-card__link" href="/expertises-audit/controle-de-gestion">Voir la fiche</a>
         </article>
-        <article class="oling-expertise-index-card">
-          <span class="oling-kicker">Finance</span>
+        <article class="oling-expertise-index-card oling-expertise-index-card--secondary">
+          <div class="oling-expertise-index-card__top">
+            <span class="oling-kicker">Finance</span>
+            <span class="oling-expertise-index-card__number" aria-hidden="true">↗</span>
+          </div>
           <h3>Audit finance</h3>
           <p>Processus financiers, contrôles, données et fiabilisation du pilotage.</p>
           <a class="oling-expertise-index-card__link" href="/expertises-audit/finance">Voir la fiche</a>
         </article>
-        <article class="oling-expertise-index-card">
-          <span class="oling-kicker">RSE</span>
+        <article class="oling-expertise-index-card oling-expertise-index-card--secondary">
+          <div class="oling-expertise-index-card__top">
+            <span class="oling-kicker">RSE</span>
+            <span class="oling-expertise-index-card__number" aria-hidden="true">↗</span>
+          </div>
           <h3>Audit RSE</h3>
           <p>Engagements, preuves, conformité et pilotage responsable.</p>
           <a class="oling-expertise-index-card__link" href="/expertises-audit/rse">Voir la fiche</a>

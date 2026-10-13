@@ -20,6 +20,7 @@ import './styles/public-projects-redesign.css';
 import './styles/public-expertises-redesign.css';
 import './styles/public-language-switcher.css';
 import './styles/public-editorial.css';
+import './styles/public-tablet-navigation.css';
 import './styles/chat-widget.css';
 import './js/chat-widget.js';
 

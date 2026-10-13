@@ -202,9 +202,11 @@ try {
           data.languageArrow.display === 'none' ||
           parseFloat(data.languageArrow.rightWidth) < 1.5 ||
           parseFloat(data.languageArrow.bottomWidth) < 1.5 ||
-          data.languageArrow.rightBorder !== 'rgb(255, 255, 255)' || !['rgb(88, 104, 120)', 'rgb(69, 87, 104)'].includes(data.languageArrow.background)
+          data.languageArrow.rightBorder !== 'rgb(24, 53, 76)' ||
+          !['rgb(238, 241, 245)', 'rgb(226, 233, 240)'].includes(data.languageArrow.background) ||
+          data.languageToggle?.color !== 'rgb(24, 53, 76)'
         )) {
-          issue('Language chevron must be visibly white on a slate grey toggle');
+          issue('Language chevron/globe/text must be dark slate on an accessible pale-grey chip');
         }
         if (data.h1.length !== 1) issue(`Expected one H1; found ${data.h1.length}`);
         if (!captureBaseline && route === '/ressources') {
@@ -290,6 +292,17 @@ try {
             style: '[id^="sfwdt"], .sf-toolbar, .sf-toolbarreset { display: none !important; visibility: hidden !important; }',
           });
         }
+        if (!skipScreenshots && width === 1366 && ['/a-propos', '/en/about', '/es/quienes-somos'].includes(route)) {
+          const languageToggle = page.locator('#languageSwitcher');
+          if (await languageToggle.isVisible()) {
+            await languageToggle.screenshot({
+              path: join(out, 'screenshots-public-design', `language-selector-${route.slice(1).replaceAll('/', '-')}-1366.png`),
+              animations: 'disabled',
+            });
+          } else if (!captureBaseline) {
+            issue('Desktop language selector not visible for close-up review');
+          }
+        }
         if (!captureBaseline && kind !== 'home' && width < 992) {
           const toggle = page.locator('#header .navbar-toggler').first();
           if (await toggle.isVisible()) {
@@ -297,6 +310,19 @@ try {
             await page.waitForTimeout(350);
             if (!await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
               issue('Mobile menu did not expand');
+            }
+            // Capture the real expanded mobile menu with the language switcher
+            // visible; do not fabricate a CSS mock-up.
+            if (!skipScreenshots && width === 390 && ['/a-propos', '/en/about', '/es/quienes-somos'].includes(route)) {
+              const langInMenu = page.locator('#languageSwitcher');
+              if (await langInMenu.isVisible()) {
+                await langInMenu.screenshot({
+                  path: join(out, 'screenshots-public-design', `language-selector-${route.slice(1).replaceAll('/', '-')}-390.png`),
+                  animations: 'disabled',
+                });
+              } else {
+                issue('Language selector hidden even after opening mobile navigation');
+              }
             }
             // Close the genuine menu BEFORE interacting with the project
             // filters; an expanded mobile dropdown correctly intercepts

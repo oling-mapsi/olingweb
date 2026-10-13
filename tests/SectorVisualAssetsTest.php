@@ -44,7 +44,7 @@ final class SectorVisualAssetsTest extends TestCase
         $template = (string) file_get_contents(dirname(__DIR__).'/templates/sectors/index.html.twig');
 
         self::assertStringContainsString(
-            "$metier->getImageHero() ?: $metier->getImage() ?: (self::SECTOR_HERO_FALLBACKS[$slug] ?? null)",
+            '$metier->getImageHero() ?: $metier->getImage() ?: (self::SECTOR_HERO_FALLBACKS[$slug] ?? null)',
             $resolver
         );
         self::assertStringContainsString('{% if sector.projectCount > 0 %}', $template);

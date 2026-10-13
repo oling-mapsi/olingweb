@@ -1,0 +1,358 @@
+/**
+ * OLING institutional pages — leadership and open editorial composition.
+ * Applies only to public About/Team pages, never the homepage or back office.
+ * Import after the legacy bundle and the shared secondary-page foundation.
+ */
+body.oling-body:not(.oling-home):not(.admin) .oling-about-foundation {
+  padding-block: clamp(3.5rem, 5vw, 5.6rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-foundation__grid {
+  gap: clamp(1.8rem, 4vw, 4.5rem);
+  align-items: stretch;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-principle {
+  min-width: 0;
+  padding: 1.65rem clamp(1rem, 2.5vw, 2.4rem) 1rem 0;
+  border-top: 2px solid rgba(214, 61, 114, 0.36);
+  background: transparent;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-principle h2 {
+  margin: 0.9rem 0 1.05rem;
+  max-width: 23ch;
+  color: var(--oling-secondary-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(1.7rem, 2.5vw, 2.65rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-principle p,
+body.oling-body:not(.oling-home):not(.admin) .oling-about-principle li,
+body.oling-body:not(.oling-home):not(.admin) .oling-about-principle .oling-richtext {
+  color: var(--oling-secondary-copy);
+  font-family: var(--oling-body);
+  font-size: 1.01rem;
+  line-height: 1.75;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main section.oling-about-leadership {
+  position: relative;
+  padding-block: clamp(3.7rem, 5.4vw, 6.2rem);
+  border-block: 1px solid rgba(24, 66, 103, 0.08);
+  background:
+    radial-gradient(54rem 36rem at 100% 0%, rgba(48, 113, 176, 0.095), transparent 70%),
+    linear-gradient(180deg, #eef5fc 0%, #f6f9fd 100%) !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership::before {
+  display: none !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  align-items: end;
+  gap: clamp(1.4rem, 4vw, 4rem);
+  margin-bottom: clamp(2rem, 3.4vw, 3.5rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__heading h2,
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-page__heading h2 {
+  margin: 0.6rem 0 0;
+  max-width: 22ch;
+  color: var(--oling-secondary-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(2rem, 3.2vw, 3.45rem);
+  font-weight: 800;
+  line-height: 1.11;
+  letter-spacing: -0.052em;
+  text-wrap: balance;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__heading > p {
+  max-width: 48ch;
+  margin: 0 0 0.2rem;
+  color: var(--oling-secondary-copy);
+  font-family: var(--oling-body);
+  font-size: clamp(1rem, 1.2vw, 1.14rem);
+  line-height: 1.72;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--preview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--detail {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.2rem, 2.6vw, 2rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  min-height: 20rem;
+  min-width: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(19, 49, 74, 0.09);
+  border-radius: 1.2rem;
+  background: #ffffff;
+  box-shadow: 0 24px 46px -37px rgba(18, 49, 75, 0.30);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--detail {
+  grid-template-columns: minmax(15rem, 0.35fr) minmax(0, 0.65fr);
+  min-height: 22rem;
+  border-radius: 1.4rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  background: linear-gradient(145deg, #d5e2ec, #eef3f8);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 25%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(12, 35, 56, 0.055));
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center 13%;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__no-photo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100%;
+  color: rgba(18, 43, 64, 0.43);
+  font-family: var(--oling-body);
+  font-weight: 850;
+  font-size: 1.75rem;
+  letter-spacing: 0.19em;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(1.25rem, 2vw, 2.3rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__eyebrow {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #ae3a66 !important;
+  font-family: var(--oling-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__name {
+  margin: 0 0 0.65rem;
+  color: var(--oling-secondary-ink);
+  font-family: var(--oling-body);
+  font-size: clamp(1.42rem, 2vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--detail .oling-leadership-card__name {
+  font-size: clamp(1.95rem, 2.8vw, 3.05rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__role {
+  margin: 0.05rem 0 0.8rem;
+  color: #2f618b !important;
+  font-family: var(--oling-body);
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.42;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__bio {
+  margin: 0 0 1.15rem;
+  color: var(--oling-secondary-copy) !important;
+  font-family: var(--oling-body);
+  font-size: clamp(0.91rem, 1.08vw, 1.03rem);
+  font-weight: 450;
+  line-height: 1.65;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--preview .oling-leadership-card__bio {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  line-clamp: 5;
+  overflow: hidden;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.55rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__areas li {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(38, 93, 135, 0.12);
+  border-radius: 0.45rem;
+  background: #f1f6fb;
+  color: #285a7f !important;
+  font-family: var(--oling-body);
+  font-size: 0.73rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__areas a {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__areas a:is(:hover, :focus-visible) {
+  text-decoration: underline;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.15rem;
+  margin-top: auto;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__links a {
+  display: inline-flex;
+  gap: 0.42rem;
+  align-items: center;
+  min-height: 2rem;
+  color: #245b8b !important;
+  font-family: var(--oling-body);
+  font-size: 0.83rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__links a:is(:hover, :focus-visible) {
+  color: #a7275a !important;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__actions {
+  margin-top: clamp(1.4rem, 2.4vw, 2.3rem);
+  justify-content: flex-start;
+}
+
+body.oling-body:not(.oling-home):not(.admin) main section.oling-leadership-page {
+  padding-block: clamp(2.5rem, 4.6vw, 5rem) clamp(4rem, 6vw, 7rem);
+  background: #f7f9fc !important;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-page__heading {
+  margin: 0 0 clamp(1.8rem, 3vw, 2.8rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-page__legacy {
+  max-width: 74ch;
+  margin: 0 0 2.4rem;
+  padding: 0 0 1rem;
+  color: var(--oling-secondary-copy);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-page__empty {
+  padding: 2rem;
+  border: 1px solid var(--oling-secondary-line);
+  border-radius: 0.9rem;
+  background: #ffffff;
+}
+
+@media (max-width: 1199.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-grid--preview {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 57rem;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--preview {
+    min-height: 19rem;
+    grid-template-columns: minmax(13rem, 0.34fr) minmax(0, 0.66fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-about-foundation__grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__heading {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card,
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--detail,
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card--preview {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media {
+    height: clamp(15rem, 48vw, 22rem);
+    min-height: 0;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media img {
+    min-height: 0;
+    height: 100%;
+    object-position: center 18%;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__body {
+    padding: clamp(1.2rem, 4vw, 2rem);
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-about-principle {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 390px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media {
+    height: 15rem;
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-about-leadership__actions .btn {
+    width: 100%;
+  }
+}

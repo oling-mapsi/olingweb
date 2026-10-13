@@ -4,38 +4,6 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  <style>
-    .oling-proof-library { padding: 3rem 0 4.5rem; }
-    .oling-proof-library__intro { max-width: 48rem; margin-bottom: 1.5rem; }
-    .oling-proof-filters { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0 0 2.5rem; }
-    .oling-proof-filter { border: 1px solid rgba(16,38,60,.18); background: #fff; color: #17324a; padding: .62rem .85rem; font: inherit; font-weight: 700; cursor: pointer; }
-    .oling-proof-filter[aria-pressed="true"] { background: #17324a; border-color: #17324a; color: #fff; }
-    .oling-proof-list { display: grid; gap: 0; }
-    .oling-proof-mission { display: grid; grid-template-columns: minmax(13rem,.65fr) minmax(0,1.35fr); gap: 2rem; padding: 2.5rem 0; border-top: 1px solid rgba(16,38,60,.16); }
-    .oling-proof-mission[hidden] { display: none; }
-    .oling-proof-mission__identity h2 { margin: .45rem 0 .7rem; color: #10263c; font-size: clamp(1.8rem,3vw,2.6rem); line-height: 1; letter-spacing: 0; }
-    .oling-proof-mission__org { margin: 0; color: #4b6175; font-weight: 700; }
-    .oling-proof-mission__content { display: grid; gap: 1.3rem; }
-    .oling-proof-mission__content h3 { margin: 0 0 .35rem; color: #17324a; font-size: 1rem; }
-    .oling-proof-mission__content p { margin: 0; color: #334b60; line-height: 1.65; }
-    .oling-proof-terms { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
-    .oling-proof-terms li { border-left: 3px solid #2f7d79; background: #f1f6f5; padding: .4rem .62rem; color: #23433f; font-size: .9rem; }
-    .oling-proof-quotes { display: grid; gap: .65rem; }
-    .oling-proof-quotes p { border-left: 3px solid #226fc7; padding-left: .9rem; color: #183a59; }
-    .oling-proof-owner { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-    .oling-proof-owner a { font-weight: 800; }
-    .oling-proof-empty { padding: 2rem 0; border-top: 1px solid rgba(16,38,60,.16); color: #4b6175; }
-    @media (max-width: 767.98px) {
-      .oling-proof-library { padding-top: 2rem; }
-      .oling-proof-filters { display: grid; grid-template-columns: 1fr; }
-      .oling-proof-filter { width: 100%; text-align: left; }
-      .oling-proof-mission { grid-template-columns: 1fr; gap: 1.3rem; padding: 2rem 0; }
-    }
-  </style>
-{% endblock %}
-
 {% block body %}
 <main id="content" role="main" class="oling-case-studies-page oling-public-editorial oling-public-editorial--projects">
   {% include 'public/_page_hero.html.twig' with {
@@ -47,12 +15,13 @@
     highlights: page.highlights
   } %}
 
-  <section class="oling-proof-library" aria-labelledby="proof-library-title">
+  <section class="oling-proof-library oling-projects-redesign" aria-labelledby="proof-library-title">
     <div class="container">
       <div class="oling-proof-library__intro">
         <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
         <h2 id="proof-library-title">{{ 'projects.library_title'|trans }}</h2>
         <p>{{ 'projects.library_intro'|trans }}</p>
+        <div class="oling-proof-library__count"><strong>{{ page.proofLibrary.missions|length }}</strong><span>missions documentées</span></div>
       </div>
 
       <div class="oling-proof-filters" role="group" aria-label="{{ 'projects.filter_aria'|trans }}">
@@ -66,40 +35,50 @@
         {% for mission in page.proofLibrary.missions %}
           <article id="{{ mission.id }}" class="oling-proof-mission" data-proof-category="{{ mission.category }}">
             <header class="oling-proof-mission__identity">
-              <span class="oling-kicker">{{ mission.categoryLabel }}</span>
+              <div class="oling-proof-mission__identity-top">
+                <span class="oling-kicker">{{ mission.categoryLabel }}</span>
+                <span class="oling-proof-mission__number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+              </div>
               <h2>{{ mission.title }}</h2>
               <p class="oling-proof-mission__org">{{ mission.organization }} · {{ mission.sector }}</p>
+              <span class="oling-proof-mission__decor" aria-hidden="true"></span>
             </header>
             <div class="oling-proof-mission__content">
-              <div>
-                <h3>{{ 'projects.context'|trans }}</h3>
-                <p>{{ mission.context }}</p>
+              <div class="oling-proof-mission__narrative">
+                <section class="oling-proof-mission__block">
+                  <h3>{{ 'projects.context'|trans }}</h3>
+                  <p>{{ mission.context }}</p>
+                </section>
+                <section class="oling-proof-mission__block">
+                  <h3>{{ 'projects.intervention'|trans }}</h3>
+                  <p>{{ mission.intervention }}</p>
+                </section>
               </div>
-              <div>
-                <h3>{{ 'projects.intervention'|trans }}</h3>
-                <p>{{ mission.intervention }}</p>
-              </div>
-              <div>
-                <h3>{{ 'projects.scope'|trans }}</h3>
-                <ul class="oling-proof-terms">
-                  {% for item in mission.scope %}<li>{{ item }}</li>{% endfor %}
-                </ul>
-              </div>
-              <div>
-                <h3>{{ 'projects.deliverables'|trans }}</h3>
-                <ul class="oling-proof-terms">
-                  {% for item in mission.deliverables %}<li>{{ item }}</li>{% endfor %}
-                </ul>
+              <div class="oling-proof-mission__evidence">
+                <section class="oling-proof-mission__block">
+                  <h3>{{ 'projects.scope'|trans }}</h3>
+                  <ul class="oling-proof-terms">
+                    {% for item in mission.scope %}<li>{{ item }}</li>{% endfor %}
+                  </ul>
+                </section>
+                <section class="oling-proof-mission__block">
+                  <h3>{{ 'projects.deliverables'|trans }}</h3>
+                  <ul class="oling-proof-terms">
+                    {% for item in mission.deliverables %}<li>{{ item }}</li>{% endfor %}
+                  </ul>
+                </section>
               </div>
               {% if mission.systems is not empty %}
-                <div>
+                <div class="oling-proof-mission__systems">
                   <h3>{{ 'projects.systems'|trans }}</h3>
                   <p>{{ mission.systems|join(' · ') }}</p>
                 </div>
               {% endif %}
-              <div class="oling-proof-quotes" aria-label="{{ 'projects.quotes_aria'|trans }}">
-                {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
-              </div>
+              {% if mission.citations is not empty %}
+                <div class="oling-proof-quotes" aria-label="{{ 'projects.quotes_aria'|trans }}">
+                  {% for citation in mission.citations %}<p>{{ citation }}</p>{% endfor %}
+                </div>
+              {% endif %}
               <div class="oling-proof-owner">
                 <a href="{{ mission.owner.href }}">{{ 'projects.owner_prefix'|trans }} {{ mission.owner.label }}</a>
                 {% if mission.secondaryOwner is defined %}

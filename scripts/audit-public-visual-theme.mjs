@@ -254,6 +254,14 @@ try {
             if (!await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
               issue('Mobile menu did not expand');
             }
+            // Close the genuine menu BEFORE interacting with the project
+            // filters; an expanded mobile dropdown correctly intercepts
+            // pointer events and otherwise makes this an artificial failure.
+            await toggle.click();
+            await page.waitForTimeout(300);
+            if (await page.locator('#navbarNavMenuLeftAligned').evaluate((el) => el.classList.contains('show'))) {
+              issue('Mobile menu did not collapse');
+            }
           }
         }
         // Functional controls: never submit live data; just exercise safe UI.

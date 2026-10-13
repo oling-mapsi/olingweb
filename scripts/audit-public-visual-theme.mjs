@@ -287,7 +287,7 @@ try {
             if (data.teamNames.length !== data.personNames.length) issue('Visible team cards and Person JSON-LD counts differ');
             if (data.teamNames.join('|') !== data.personNames.join('|')) issue('Person JSON-LD and visible leadership names differ');
           }
-          if (kind === 'about' && data.aboutCards !== 2) issue('Expected two leadership previews');
+          if (kind === 'about' && data.aboutCards <= 2) issue('Expected the complete published team on the about page');
           if (route === '/secteurs') {
             const sectorImages = page.locator('.oling-sector-card--photographic .oling-sector-card__visual img');
             const cards = await page.locator('.oling-sectors-grid .oling-sector-card').count();

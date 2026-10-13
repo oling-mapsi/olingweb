@@ -1,0 +1,523 @@
+/*
+ * OLING public pages — visual direction V3.
+ * Bounded editorial widths, genuine rhythm, no content replacement.
+ * Intentional high-specificity for older CMS/theme rules.
+ */
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--resources,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--expertises
+) > section:not(.oling-shell-hero):not(.oling-cta-band) > .container {
+  width: min(100% - 3rem, 1250px);
+  max-width: 1250px;
+  margin-inline: auto;
+}
+body.oling-body:not(.oling-home):not(.admin) :is(
+  .oling-public-editorial--resources,
+  .oling-public-editorial--projects,
+  .oling-public-editorial--sectors-hub,
+  .oling-public-editorial--expertises
+) .oling-section-head {
+  max-width: 880px;
+}
+/* Resources: the CMS-authored 'expertises recherchées' section must sit on
+ * the actual centered reading grid, not left aligned in a full-width column. */
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation {
+  border-block: 1px solid rgba(34,72,99,.09);
+  padding-block: clamp(4rem,7vw,7rem);
+  background: linear-gradient(155deg,#f0f5fa 0%,#f9fbfe 100%) !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation > .container,
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__inner {
+  width: min(100% - 2rem, 1040px);
+  max-width: 1040px;
+  margin-inline: auto;
+  display: block;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: clamp(1.8rem,4vw,4rem);
+  border: 1px solid rgba(34,72,99,.12);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 28px 65px -55px rgba(12,41,64,.43);
+  color: #40596b;
+  text-align: center;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content :is(h2,h3) {
+  max-width: 25ch;
+  margin: 0 auto 1.15rem;
+  font: 800 clamp(1.7rem,3vw,2.85rem)/1.13 var(--oling-body);
+  letter-spacing: -.046em;
+  color: #122b40;
+  text-wrap: balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content p {
+  margin-inline: auto;
+  max-width: 66ch;
+  line-height: 1.72;
+  color: #476073;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content :is(ul,ol) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .7rem;
+  padding: 0;
+  margin: 1.5rem auto;
+  list-style: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content li {
+  display: inline-flex;
+  padding: .68rem .9rem;
+  border-radius: .7rem;
+  background: #eff5fa;
+  border: 1px solid #dbe6ef;
+  text-align: left;
+  font-weight: 650;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__content a {
+  color: #176298;
+  text-underline-offset: 3px;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-library__heading {
+  margin-inline: auto;
+  text-align: center;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-library__heading :is(h2,p) {
+  margin-inline: auto;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: clamp(1rem,1.8vw,1.6rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story {
+  border-radius: 20px;
+  padding: clamp(1.3rem,2.2vw,2rem);
+  border: 1px solid rgba(25,67,100,.11);
+  background: #fff;
+  box-shadow: 0 18px 48px -41px rgba(13,38,58,.35);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title {
+  font: 800 clamp(1.28rem,1.7vw,1.7rem)/1.2 var(--oling-body);
+  letter-spacing: -.025em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title a {
+  color: #132e45;
+  text-decoration: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-resource-story__title a:hover { color: #126ba7; }
+/* References / projects: more deliberate rhythm without sacrificing the
+ * existing data attributes, filter script, content or SEO anchors. */
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign > .container { max-width: 1240px; }
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__intro {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: .65rem 3rem;
+  align-items: end;
+  padding-bottom: clamp(2rem,3vw,3.4rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__intro > :is(.oling-kicker,h2,p) {
+  grid-column: 1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__intro h2 {
+  margin: 0;
+  max-width: 26ch;
+  font: 850 clamp(2rem,3.4vw,3.65rem)/1.1 var(--oling-body);
+  letter-spacing: -.06em;
+  color: #122b40;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__count {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 160px;
+  padding: 1.1rem 1.6rem;
+  border-left: 3px solid #dc4e80;
+  background: #f2f6fa;
+  color: #40596b;
+  border-radius: .35rem 1.1rem 1.1rem .35rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__count strong {
+  font: 850 clamp(2.5rem,3.5vw,4rem)/1 var(--oling-body);
+  color: #152f47;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  padding: 1.1rem 0 2.4rem;
+  border-top: 1px solid #e0e8ef;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-filter {
+  border-radius: 999px;
+  padding: .66rem 1rem;
+  background: #f3f7fb;
+  border: 1px solid #d7e1e9;
+  color: #27475e;
+  box-shadow: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-filter[aria-pressed="true"] {
+  background: #14334d;
+  color: #fff;
+  border-color: #14334d;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-list {
+  display: grid;
+  gap: clamp(1rem,2.5vw,2rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission {
+  display: grid;
+  grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr);
+  gap: 0;
+  border: 1px solid #dce6ee;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 58px -48px rgba(18,50,76,.34);
+  padding: 0;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission[hidden] { display: none !important; }
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__identity {
+  position: relative;
+  min-width: 0;
+  padding: clamp(1.7rem,2.7vw,3rem);
+  background: linear-gradient(148deg,#133550 0%,#1b4564 82%,#265e79 100%);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__identity :is(h2,p,.oling-kicker) {
+  color: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__identity h2 {
+  font: 800 clamp(1.45rem,2vw,2.35rem)/1.18 var(--oling-body);
+  letter-spacing: -.035em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__number {
+  color: rgba(255,255,255,.45);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__content {
+  min-width: 0;
+  padding: clamp(1.5rem,2.7vw,3rem);
+  background: #fff;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__block h3 {
+  font: 800 .79rem/1.3 var(--oling-body);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: #2e7299;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission__block p {
+  color: #465f73;
+  line-height: 1.65;
+}
+/* Sectors: image-led, legible, elegant vertical cards instead of old white boxes. */
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-overview {
+  padding-block: clamp(4rem,6vw,7rem);
+  background: #f6f9fc !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-overview > .container { max-width: 1270px; }
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-overview .oling-section-head {
+  margin-bottom: clamp(2rem,3vw,3.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: clamp(.9rem,2vw,1.65rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(24,59,84,.11);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff !important;
+  box-shadow: 0 20px 44px -36px rgba(14,47,71,.3);
+  color: #16334b !important;
+  text-decoration: none;
+  transition: transform .22s ease,box-shadow .22s ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 35px 60px -42px rgba(14,47,71,.45);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual {
+  width: 100%;
+  height: clamp(175px,18vw,230px);
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg,#cfdfea,#8dacbd);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual::after {
+  content: "";
+  position: absolute;
+  inset: 40% 0 0;
+  background: linear-gradient(0deg,rgba(12,31,46,.36),transparent);
+  pointer-events: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform .45s ease;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card:hover .oling-sector-card__visual img {
+  transform: scale(1.045);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__index {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  left: 18px;
+  padding: .45rem .62rem;
+  border-radius: .5rem;
+  background: rgba(13,36,55,.72);
+  color: #fff;
+  font: 800 .78rem/1 var(--oling-body);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__line { display: none; }
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  min-width: 0;
+  padding: clamp(1.2rem,2vw,1.9rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__body h2 {
+  margin: .1rem 0 .2rem;
+  color: #15364f !important;
+  font: 800 clamp(1.35rem,1.65vw,1.8rem)/1.19 var(--oling-body);
+  letter-spacing: -.035em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__intro {
+  color: #4d6677 !important;
+  line-height: 1.63;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__details {
+  border-top: 1px solid #e4eaf0;
+  padding-top: .8rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__specifics {
+  margin: .5rem 0;
+  padding-left: 1.2rem;
+  color: #506779;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__footer {
+  width: 100%;
+  margin-top: auto;
+  padding-top: 1.1rem;
+  border-top: 1px solid #e3eaf0;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  color: #445e70;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__more {
+  color: #146fa6;
+  font-weight: 800;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angles {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 1rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle {
+  padding: clamp(1.3rem,2vw,2rem);
+  border-radius: 18px;
+  border: 1px solid rgba(24,59,84,.12);
+  background: #fff;
+  box-shadow: 0 15px 35px -32px rgba(14,47,71,.3);
+}
+/* Expertises: high-priority landing page. Stronger hierarchy, rhythm and
+ * deliberately differentiated dark/white sections. Existing links unchanged. */
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-domains {
+  padding-block: clamp(4rem,6.5vw,7.2rem);
+  background: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__head {
+  margin-bottom: clamp(2rem,3.5vw,3.9rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__head h2 {
+  max-width: 21ch;
+  font: 850 clamp(2.2rem,3.55vw,4rem)/1.08 var(--oling-body);
+  letter-spacing: -.055em;
+  color: #13334c;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  align-items: stretch;
+  gap: clamp(.9rem,1.7vw,1.65rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d8e5ef;
+  border-radius: 22px;
+  background: #f8fbfe;
+  box-shadow: 0 25px 45px -39px rgba(16,44,66,.28);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__head {
+  position: relative;
+  min-height: 305px;
+  padding: clamp(1.4rem,2.4vw,2.4rem);
+  background: linear-gradient(145deg,#13344e,#1c5275);
+  color: #fff;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--2 .oling-universe__head {
+  background: linear-gradient(145deg,#173e56,#276c80);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--3 .oling-universe__head {
+  background: linear-gradient(145deg,#22374f,#714a73);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__head :is(h3,p,.oling-kicker,a) {
+  color: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__head h3 {
+  font: 850 clamp(1.5rem,2vw,2.1rem)/1.14 var(--oling-body);
+  letter-spacing: -.035em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__links {
+  margin: 0;
+  padding: clamp(.75rem,1.5vw,1.3rem);
+  list-style: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__links li {
+  border-bottom: 1px solid #e2eaf1;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__links li:last-child { border-bottom: 0; }
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__link {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: .3rem .75rem;
+  padding: 1.05rem .45rem;
+  text-decoration: none;
+  color: #244a63;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__link strong {
+  grid-column: 1;
+  color: #13354e;
+  font-size: 1.02rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__link > span:not(.oling-universe__link-icon) {
+  grid-column: 1;
+  color: #607787;
+  font-size: .91rem;
+  line-height: 1.52;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__link-icon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 2rem;
+  height: 2rem;
+  border-radius: .5rem;
+  background: #eaf2f8;
+  color: #236896;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__link:hover {
+  background: #eff6fb;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-needs {
+  padding-block: clamp(3rem,5vw,6rem);
+  background: #eaf2f9 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-featured {
+  padding-block: clamp(4rem,6vw,6.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: clamp(.85rem,1.6vw,1.5rem);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(1.35rem,2vw,2.1rem);
+  border: 1px solid #dce7ef;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 44px -38px rgba(17,48,72,.3);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card__number {
+  color: #cc5180;
+  font: 800 1.1rem/1 var(--oling-body);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card h3 {
+  color: #15354d;
+  font: 800 clamp(1.2rem,1.65vw,1.65rem)/1.17 var(--oling-body);
+  letter-spacing: -.035em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card > p {
+  color: #4e6778;
+  line-height: 1.62;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card__link {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  color: #146a9d;
+  font-weight: 800;
+  text-decoration: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-card__link::after {
+  content: " ↗";
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-mapsi {
+  padding-block: clamp(2.5rem,4vw,4rem);
+  background: #12344d !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-mapsi :is(h2,p,.oling-kicker,a) {
+  color: #fff !important;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertises-complementary {
+  background: #f4f8fc !important;
+  padding-block: clamp(4rem,6vw,6rem);
+}
+@media(max-width: 1100px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) :is(.oling-public-editorial--resources,.oling-public-editorial--projects,.oling-public-editorial--sectors-hub,.oling-public-editorial--expertises) > section:not(.oling-shell-hero):not(.oling-cta-band) > .container {
+    width: min(100% - 2rem,1250px);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expertise-index-grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-library__grid,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-angles {
+    grid-template-columns: minmax(0,1fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__head { min-height: 0; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__intro { display: block; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-library__count { margin-top: 1.4rem; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-projects-redesign .oling-proof-mission { grid-template-columns: minmax(0,1fr); }
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual { height: 210px; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation__content { padding: 1.3rem; }
+}
+@media(prefers-reduced-motion: reduce) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual img,
+  body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card { transition: none; }
+}

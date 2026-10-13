@@ -33,8 +33,28 @@ if (requestedRoutes?.length) {
 const requestedWidths = process.env.OLING_AUDIT_WIDTHS?.split(',').map((value) => Number.parseInt(value.trim(), 10)).filter(Number.isFinite);
 const widths = requestedWidths?.length ? requestedWidths : [360, 390, 768, 1024, 1366, 1440, 1920];
 const fixtureLabel = process.env.OLING_AUDIT_FIXTURE_LABEL?.trim() || '';
+const skipScreenshots = process.env.OLING_AUDIT_SKIP_SCREENSHOTS === '1';
 const failures = [], records = [];
 const seoKeys = ['title', 'description', 'canonical', 'robots', 'hreflang', 'ogTitle', 'ogDescription'];
+// An isolated comparison runs Symfony main and the PR on different localhost
+// ports. Compare paths, not local ephemeral ports; retain real public hosts.
+const comparableLocalUrl = (value) => {
+  if (!value) return value;
+  try {
+    const url = new URL(value);
+    if (['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)) {
+      return url.pathname + url.search + url.hash;
+    }
+  } catch { /* preserve non-URL values */ }
+  return value;
+};
+const comparableSeo = (seo) => ({
+  ...seo,
+  canonical: comparableLocalUrl(seo.canonical),
+  hreflang: Object.fromEntries(
+    Object.entries(seo.hreflang || {}).map(([language, url]) => [language, comparableLocalUrl(url)])
+  ),
+});
 mkdirSync(out, { recursive: true });
 mkdirSync(join(out, 'screenshots-public-design'), { recursive: true });
 
@@ -130,7 +150,7 @@ try {
             issue('SEO baseline record missing');
           } else {
             for (const key of seoKeys) {
-              if (JSON.stringify(seo[key]) !== JSON.stringify(previous.seo[key])) issue(`SEO ${key} changed`);
+              if (JSON.stringify(comparableSeo(seo)[key]) !== JSON.stringify(comparableSeo(previous.seo)[key])) issue(`SEO ${key} changed`);
             }
           }
         }
@@ -180,7 +200,7 @@ try {
             }
           }
         }
-        if (kind === 'about' || kind === 'team' || [390, 1366].includes(width)) {
+        if (!skipScreenshots && (kind === 'about' || kind === 'team' || [390, 1366].includes(width))) {
           // Photographs are lazy-loaded lower in the document. Scrolling to
           // decode them can hide the sticky header; restore a true initial view.
           await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
@@ -256,7 +276,7 @@ try {
 } finally {
   await browser.close();
 }
-const report = { timestamp: new Date().toISOString(), baseUrl, fixtureLabel, captureBaseline, baselinePath, records, failures };
+const report = { timestamp: new Date().toISOString(), baseUrl, fixtureLabel, captureBaseline, baselinePath, skipScreenshots, records, failures };
 writeFileSync(join(out, 'PUBLIC_THEME_AUDIT.json'), JSON.stringify(report, null, 2) + '\n');
 writeFileSync(join(out, 'PUBLIC_THEME_AUDIT.md'), [
   '# OLING Public Theme — browser computed-style audit', '',

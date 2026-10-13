@@ -521,3 +521,79 @@ body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-expe
   body.oling-body:not(.oling-home):not(.admin) .oling-sector-card__visual img,
   body.oling-body:not(.oling-home):not(.admin) .oling-sectors-grid .oling-sector-card { transition: none; }
 }
+
+/* QUALITY GATE V3.1 — restore a balanced flagship-domain layout.
+ * The previous three-column grid left a blank third track after the featured
+ * full-width universe: the other two domains ended up as narrow text strips.
+ * Featured 01 now uses a split composition; 02 and 03 form balanced halves. */
+@media (min-width: 1200px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: clamp(1.15rem, 2vw, 1.8rem);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--1 {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--1 .oling-universe__head {
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--1 .oling-universe__links {
+    align-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.2rem 0.7rem;
+    padding: clamp(1.3rem, 2vw, 2rem);
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--2,
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--3 {
+    grid-column: auto;
+    width: 100%;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--2 .oling-universe__links,
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--3 .oling-universe__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe {
+    grid-column: auto !important;
+    width: 100%;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .2rem .9rem;
+  }
+}
+@media (max-width: 767.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universes__grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe--1 {
+    grid-column: auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+  body.oling-body:not(.oling-home):not(.admin) .oling-expertises-index .oling-universe__links {
+    display: flex;
+    flex-direction: column;
+  }
+}
+/* On Resources, avoid two nested outline cards around the same CMS content. */
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation__inner {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}

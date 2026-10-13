@@ -104,6 +104,14 @@ jobs:
           done
           curl --fail --silent --show-error http://127.0.0.1:8753/a-propos > /dev/null
           curl --fail --silent --show-error http://127.0.0.1:8753/a-propos/team > /dev/null
+          if ! curl --fail --silent --show-error http://127.0.0.1:8753/ > /tmp/oling-home-preview.html; then
+            echo "FATAL: CI homepage fixture does not render HTTP 200."
+            echo "Symfony server diagnostics (CI only, no production secrets):"
+            tail -n 120 /tmp/oling-preview-server.log || true
+            echo "Symfony application diagnostics:"
+            tail -n 100 var/log/prod.log 2>/dev/null || true
+            exit 1
+          fi
 
       - name: Install real Chromium browser for screenshots
         run: npx playwright install --with-deps chromium

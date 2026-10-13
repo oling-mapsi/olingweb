@@ -68,5 +68,15 @@ La PR reste en **brouillon**, branche non fusionnée ; aucune mise en production
 - ZIP : artifact `oling-design-preview-gallery` de ce run ; captures navigateur sur fixture MySQL versionnée, **pas production**.
 - Sélecteur calculé : fond `rgb(238, 241, 245)`, chevron `rgb(24, 53, 76)`, trait 2 px, dimensions réelles 83 × 40 px à 1366 px.
 
-## Point de micro-recette supplémentaire — mobile
-Sur le zoom du sélecteur du menu mobile, le bord du lanceur de chat rose semble empiéter sur la zone du bouton de langue. Tester la navigation ouverte à 390 px avec le widget chargé. Si le chevauchement est confirmé, réduire/cacher temporairement **le lanceur seulement** pendant l'ouverture du menu, sans retirer le chat ni modifier son comportement hors menu. Ce point n'empêche pas l'arrow de s'afficher mais doit être réglé avant mise en production.
+## Point de micro-recette supplémentaire — mobile : corrigé et vérifié
+La première capture mobile montrait un chevauchement du lanceur de chat rose sur le sélecteur de langue dans le menu ouvert. **Correction intégrée** : masque temporairement uniquement le lanceur tant que la navigation mobile est déployée (pas le panneau de discussion déjà ouvert). Après fermeture du menu, le lanceur retrouve son affichage normal.
+La recette Chromium finale vérifie ces deux états à 390 et 768 px ; le zoom réel `language-selector-a-propos-390.png` montre le globe, FR et la flèche sans recouvrement.
+
+## Validation finale du lot de finitions
+- [GitHub code/build — PASS](https://github.com/oling-mapsi/olingweb/actions/runs/38426936834)
+- [GitHub navigateur — PASS](https://github.com/oling-mapsi/olingweb/actions/runs/38426936890) : 48 combinaisons, 0 échec, 36 captures générales, 6 gros plans langue.
+- Mesures desktop expertises 1366 : 1187,2 px pour domaine 01 et **579,9 px** pour domaines 02/03. Mobile 390 : trois domaines de **326 px** de largeur.
+- Sélecteur langue fond rgb(238,241,245), flèche rgb(24,53,76), trait 2 px sur FR/EN/ES.
+- Ressources : zone des expertises recherchées recentrée, un seul encadrement, zone de lecture **294 px sur 390 px**.
+- Archives de capture accessibles dans l'artifact `oling-design-preview-gallery` du workflow navigateur. Recette sur données temporaires, pas un snapshot de production.
+- Reste à faire : validation esthétique humaine, correction éventuelle de la densité Projets, révision des vraies photographies Secteurs, portraits HD d'équipe, diff SEO à données identiques et accord de publication.

@@ -186,21 +186,21 @@ const previews = records.filter(({ route, width, status }) =>
     (['/a-propos', '/a-propos/team', '/en/about', '/en/team', '/es/quienes-somos', '/es/equipo'].includes(route))
   )
 ).map(({ route, width }) => {
-  const name = \`\${route === '/' ? 'home' : route.slice(1).replaceAll('/', '-')}-\${width}.png\`;
+  const name = `${route === '/' ? 'home' : route.slice(1).replaceAll('/', '-')}-${width}.png`;
   const file = join(out, 'screenshots-public-design', name);
   return { route, width, name, file };
 }).filter(({ file }) => existsSync(file));
-const galleryCards = previews.map(({ route, width, name }) => \`
+const galleryCards = previews.map(({ route, width, name }) => `
   <article class="preview-card">
-    <div class="preview-card__heading"><strong>\${escapeHtml(route)}</strong><span>\${width} px</span></div>
-    <a target="_blank" rel="noopener" href="screenshots-public-design/\${encodeURIComponent(name)}">
-      <img src="screenshots-public-design/\${encodeURIComponent(name)}"
-           alt="Capture réelle de \${escapeHtml(route)} à \${width} pixels"
+    <div class="preview-card__heading"><strong>${escapeHtml(route)}</strong><span>${width} px</span></div>
+    <a target="_blank" rel="noopener" href="screenshots-public-design/${encodeURIComponent(name)}">
+      <img src="screenshots-public-design/${encodeURIComponent(name)}"
+           alt="Capture réelle de ${escapeHtml(route)} à ${width} pixels"
            loading="lazy">
     </a>
   </article>
-\`).join('\\n');
-const gallery = \`<!doctype html>
+`).join('\n');
+const gallery = `<!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OLING — revue graphique locale</title>
 <style>
@@ -211,7 +211,7 @@ const gallery = \`<!doctype html>
   .hero p{max-width:65ch;color:#d7e4ef;line-height:1.6}
   main{max-width:1500px;margin:auto;padding:2rem clamp(.8rem,2vw,2rem)}
   .summary{padding:1rem 1.25rem;margin-bottom:1.5rem;border-radius:.75rem;background:#fff;border:1px solid #dce5ee}
-  .summary strong{color:\${failures.length ? '#af2949' : '#226449'}}
+  .summary strong{color:${failures.length ? '#af2949' : '#226449'}}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:1.5rem}
   .preview-card{min-width:0;overflow:hidden;border:1px solid #dae4ee;border-radius:1rem;background:#fff;box-shadow:0 14px 35px -30px #123}
   .preview-card__heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.1rem}
@@ -223,14 +223,14 @@ const gallery = \`<!doctype html>
 </style></head>
 <body><header class="hero"><h1>OLING — Prévisualisation de la refonte</h1>
 <p>Captures produites par un véritable navigateur Playwright sur l'environnement local/de recette :
-\${escapeHtml(baseUrl)}. Elles ne sont ni des maquettes ni des images générées.</p></header>
-<main><div class="summary"><strong>\${failures.length} anomalie(s) détectée(s)</strong> sur \${records.length} combinaisons route/largeur ;
-\${previews.length} captures disponibles. \${failures.length ? 'Consulter PUBLIC_THEME_AUDIT.md avant toute validation.' : 'Contrôler aussi les interactions et le référencement avant accord.'}</div>
-<section class="grid">\${galleryCards}</section>
+${escapeHtml(baseUrl)}. Elles ne sont ni des maquettes ni des images générées.</p></header>
+<main><div class="summary"><strong>${failures.length} anomalie(s) détectée(s)</strong> sur ${records.length} combinaisons route/largeur ;
+${previews.length} captures disponibles. ${failures.length ? 'Consulter PUBLIC_THEME_AUDIT.md avant toute validation.' : 'Contrôler aussi les interactions et le référencement avant accord.'}</div>
+<section class="grid">${galleryCards}</section>
 <p class="footnote">Chaque capture est cliquable. Les images représentent l'état local à la date de l'audit, et non OLING.fr en production.
-Pour tester les menus et les liens, ouvrir le site local directement dans un navigateur. Ne pas fusionner ou déployer sans validation.</p></main></body></html>\`;
+Pour tester les menus et les liens, ouvrir le site local directement dans un navigateur. Ne pas fusionner ou déployer sans validation.</p></main></body></html>`;
 writeFileSync(join(out, 'preview.html'), gallery);
-console.log(\`Gallery generated: \${previews.length} actual screenshots at \${join(out, 'preview.html')}\`);
+console.log(`Gallery generated: ${previews.length} actual screenshots at ${join(out, 'preview.html')}`);
 
 console.log(`Visual audit: ${records.length} samples, ${failures.length} failures`);
 if (failures.length) process.exitCode = 1;

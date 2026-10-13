@@ -293,3 +293,113 @@ body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle:is(:hover,:focu
   body.oling-body:not(.oling-home):not(.admin) .oling-sector-card,
   body.oling-body:not(.oling-home):not(.admin) .oling-sector-angle {transition:none;transform:none !important}
 }
+
+/* Pixel-QA: old .oling-sector-card span applied 44x44px styling to EVERY
+   descendant span, fragmenting text into vertical syllables. Neutralize
+   that legacy widget contract only inside the NEW sector-grid cards. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card {
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  padding:0 !important;
+  min-width:0 !important;
+  width:100% !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card span {
+  display:inline !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  margin-bottom:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  color:inherit;
+  font-size:inherit;
+  white-space:normal !important;
+  overflow-wrap:normal !important;
+  word-break:normal !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__visual {
+  display:block !important;
+  width:100% !important;
+  flex:0 0 auto !important;
+  align-self:stretch !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__body {
+  display:flex !important;
+  flex:1 1 auto !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  width:100% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  margin:0 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__body .oling-kicker {
+  display:block !important;
+  color:#b53d6d !important;
+  font-size:.7rem !important;
+  font-weight:850 !important;
+  letter-spacing:.15em !important;
+  margin-bottom:.65rem !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__visual .oling-sector-card__index {
+  display:block !important;
+  width:fit-content !important;
+  color:#fff !important;
+  font-family:var(--oling-display) !important;
+  font-size:clamp(2.5rem,4vw,4.25rem) !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  letter-spacing:-.09em !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__visual .oling-sector-card__line {
+  display:block !important;
+  width:3rem !important;
+  height:3px !important;
+  border-radius:3px !important;
+  background:#fd80af !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__details {
+  width:100% !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__caption {
+  display:block !important;
+  margin-bottom:.7rem !important;
+  color:#2f5876 !important;
+  font-size:.73rem !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__footer {
+  display:flex !important;
+  align-items:center !important;
+  flex-wrap:wrap !important;
+  width:100% !important;
+  gap:.65rem 1rem !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__proof {
+  display:inline-flex !important;
+  width:auto !important;
+  flex:1 1 9rem !important;
+  color:#50677c !important;
+  font-size:.8rem !important;
+  line-height:1.45 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__more {
+  display:inline-flex !important;
+  align-items:center !important;
+  width:auto !important;
+  flex:0 1 auto !important;
+  gap:.45rem !important;
+  color:#145783 !important;
+  font-size:.82rem !important;
+  font-weight:800 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--sectors-hub .oling-sectors-grid .oling-sector-card__more span {
+  font-size:1.1rem !important;
+  font-weight:800 !important;
+}

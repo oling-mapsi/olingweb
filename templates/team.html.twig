@@ -7,7 +7,7 @@
 {% block body %}
 <main id="content" role="main">
   {% include 'public/_page_hero.html.twig' with {
-    eyebrow: page.eyebrow,
+    eyebrow: 'leadership.eyebrow'|trans,
     title: 'leadership.team_title'|trans,
     intro: 'leadership.team_intro'|trans,
     primaryCta: page.primaryCta,

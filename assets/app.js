@@ -12,6 +12,7 @@ import './styles/app.css';
 import './styles/public-secondary.css';
 import './styles/public-leadership.css';
 import './styles/public-language-switcher.css';
+import './styles/public-editorial.css';
 import './styles/chat-widget.css';
 import './js/chat-widget.js';
 

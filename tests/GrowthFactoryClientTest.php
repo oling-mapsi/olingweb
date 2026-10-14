@@ -44,9 +44,11 @@ final class GrowthFactoryClientTest extends TestCase
         $factory->updateAsset($actor, 'camp_1', 'asset_1', ['expected_version' => 3]);
         $factory->reviewAsset($actor, 'camp_1', 'asset_1', 4, 'ok');
         $factory->approveAsset($actor, 'camp_1', 'asset_1', 4, 'ok');
+        $factory->getAssetPublicationReadiness($actor, 'asset_1');
         $factory->publishAsset($actor, 'asset_1');
         $factory->publishCampaign($actor, 'camp_1', ['mapsi_site']);
         $factory->unpublishCampaign($actor, 'camp_1', ['mapsi_site']);
+        $factory->unpublishAsset($actor, 'asset_1');
         $factory->archiveCampaign($actor, 'camp_1');
 
         self::assertSame('POST', $requests[0][0]);
@@ -58,11 +60,13 @@ final class GrowthFactoryClientTest extends TestCase
         self::assertSame(['expected_version' => 3], $requests[2][2]);
         self::assertStringContainsString('/studio-simple/campaigns/camp_1/assets/asset_1/review', $requests[3][1]);
         self::assertStringContainsString('/studio-simple/campaigns/camp_1/assets/asset_1/approve', $requests[4][1]);
-        self::assertStringContainsString('/api/admin/v1/assets/asset_1/publish', $requests[5][1]);
-        self::assertArrayHasKey('idempotency_key', $requests[5][2]);
-        self::assertSame(['channels' => ['mapsi_site']], $requests[6][2]);
-        self::assertStringContainsString('/studio-simple/campaigns/camp_1/unpublish', $requests[7][1]);
-        self::assertStringContainsString('/studio-simple/campaigns/camp_1/archive', $requests[8][1]);
+        self::assertStringContainsString('/api/admin/v1/assets/asset_1/publication-readiness', $requests[5][1]);
+        self::assertStringContainsString('/api/admin/v1/assets/asset_1/publish', $requests[6][1]);
+        self::assertArrayHasKey('idempotency_key', $requests[6][2]);
+        self::assertSame(['channels' => ['mapsi_site']], $requests[7][2]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/unpublish', $requests[8][1]);
+        self::assertStringContainsString('/api/admin/v1/assets/asset_1/unpublish', $requests[9][1]);
+        self::assertStringContainsString('/studio-simple/campaigns/camp_1/archive', $requests[10][1]);
         self::assertStringContainsString('Authorization: Bearer ', implode("\n", $requests[0][3]));
     }
 

@@ -145,6 +145,11 @@ final class GrowthFactoryClient
         ]);
     }
 
+    public function getAssetPublicationReadiness(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publication-readiness');
+    }
+
     public function unpublishCampaign(UserInterface $actor, string $id, array $channels): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/unpublish', ['channels' => array_values($channels)]);

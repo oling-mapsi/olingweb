@@ -4,6 +4,30 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
+{% set locale = app.request.locale|default('fr') %}
+{% set ui = {
+  fr: {
+    cards_kicker: 'Fiches expertise',
+    cards_title: 'Expertises transverses',
+    cards_lead: 'Neuf expertises structurées pour cadrer, piloter et déployer',
+    cards_text: 'Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.',
+    card_more: 'Voir la fiche'
+  },
+  en: {
+    cards_kicker: 'Expertise pages',
+    cards_title: 'Cross-functional expertise',
+    cards_lead: 'Nine structured areas of expertise to scope, steer and deliver',
+    cards_text: 'Each page helps qualify the issue first. Once the right angle is clear, service pages detail the intervention and sector pages show where this expertise becomes a priority.',
+    card_more: 'View page'
+  },
+  es: {
+    cards_kicker: 'Fichas de especialización',
+    cards_title: 'Especializaciones transversales',
+    cards_lead: 'Nueve áreas estructuradas para encuadrar, pilotar y desplegar',
+    cards_text: 'Cada ficha ayuda primero a calificar el tema. Una vez identificado el enfoque adecuado, las páginas de servicios detallan la intervención y las páginas sectoriales muestran dónde esta especialización se vuelve prioritaria.',
+    card_more: 'Ver ficha'
+  }
+}[locale]|default({}) %}
 {% set universes = [
   {
     title: 'AMOA & Applications métiers',
@@ -58,6 +82,7 @@
     highlights: page.highlights
   } %}
 
+  {% if locale == 'fr' %}
   <section class="oling-universes oling-expertises-domains" aria-labelledby="expertises-domains-title">
     <div class="container">
       <div class="oling-universes__head">
@@ -93,15 +118,15 @@
       </div>
     </div>
   </section>
+  {% endif %}
 
   <section class="oling-expertises-needs" aria-labelledby="expertises-needs-title">
     <div class="container oling-expertises-needs__inner">
       <div>
         <span class="oling-kicker">{{ page.section.kicker }}</span>
-        <h2 id="expertises-needs-title">Vous partez d’un besoin, pas d’une offre</h2>
+        <h2 id="expertises-needs-title">{{ page.section.title }}</h2>
       </div>
       <div>
-        <p class="oling-expertises-needs__lead">{{ page.section.title }}</p>
         <p>{{ page.section.text }}</p>
       </div>
     </div>
@@ -110,10 +135,10 @@
   <section class="oling-shell-section oling-expertises-featured" aria-labelledby="expertises-featured-title">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">Fiches expertise</span>
-        <h2 id="expertises-featured-title">Expertises transverses</h2>
-        <p class="oling-expertises-needs__lead">Neuf expertises structurées pour cadrer, piloter et déployer</p>
-        <p>Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.</p>
+        <span class="oling-kicker">{{ ui.cards_kicker }}</span>
+        <h2 id="expertises-featured-title">{{ ui.cards_title }}</h2>
+        <p class="oling-expertises-needs__lead">{{ ui.cards_lead }}</p>
+        <p>{{ ui.cards_text }}</p>
       </div>
       <div class="oling-expertise-index-grid">
         {% for slug, expertisePage in expertisePages %}
@@ -124,13 +149,14 @@
             </div>
             <h3>{{ expertisePage.title }}</h3>
             <p>{{ expertisePage.intro }}</p>
-            <a class="oling-expertise-index-card__link" href="{{ expertisePage.href|default(path('expertises_show', {slug: slug})) }}">Voir la fiche</a>
+            <a class="oling-expertise-index-card__link" href="{{ expertisePage.href|default(path('expertises_show', {slug: slug})) }}">{{ ui.card_more }}</a>
           </article>
         {% endfor %}
       </div>
     </div>
   </section>
 
+  {% if locale == 'fr' %}
   <section class="oling-shell-section oling-expertises-mapsi" aria-labelledby="expertises-mapsi-title">
     <div class="container oling-expertises-mapsi__inner">
       <div class="oling-section-head mb-0">
@@ -198,6 +224,7 @@
       </div>
     </div>
   </section>
+  {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
     title: page.cta.title,

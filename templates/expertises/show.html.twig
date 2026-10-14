@@ -4,13 +4,19 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
+{% set locale = app.request.locale|default('fr') %}
+{% set ui = {
+  fr: {primary: 'Parler de votre projet', all: 'Voir toutes les expertises', situations: 'Situations fréquentes', situations_title: 'Quand OLING entre en jeu', interventions: 'Interventions', interventions_title: 'Ce que nous cadrons et pilotons', deliverables: 'Livrables', deliverables_title: 'Des sorties directement exploitables par la direction, les métiers et la DSI', deliverable_text: "Formalisé pour arbitrer, engager les parties prenantes et tenir l'exécution.", services: 'Offres liées', services_title: 'Services associés', proofs: 'Preuves', proofs_title: 'Cas et contextes où la clarté devait revenir vite', project: 'Projet', project_fallback: 'Projet structuré pour remettre de la lisibilité et de la maîtrise dans une transformation sensible.', diagnostic: 'Diagnostic'},
+  en: {primary: 'Discuss your project', all: 'View all expertise', situations: 'Common situations', situations_title: 'When OLING gets involved', interventions: 'Interventions', interventions_title: 'What we scope and steer', deliverables: 'Deliverables', deliverables_title: 'Outputs senior management, business teams and IT can use directly', deliverable_text: 'Formalised to support decisions, engage stakeholders and keep execution under control.', services: 'Related offers', services_title: 'Associated services', proofs: 'Proof points', proofs_title: 'Cases and contexts where clarity had to return quickly', project: 'Project', project_fallback: 'A structured project to restore visibility and control in a sensitive transformation.', diagnostic: 'Diagnostic'},
+  es: {primary: 'Hablar de su proyecto', all: 'Ver todas las especializaciones', situations: 'Situaciones frecuentes', situations_title: 'Cuándo interviene OLING', interventions: 'Intervenciones', interventions_title: 'Lo que encuadramos y pilotamos', deliverables: 'Entregables', deliverables_title: 'Resultados directamente utilizables por dirección, negocio y SI', deliverable_text: 'Formalizado para decidir, involucrar a las partes interesadas y mantener la ejecución bajo control.', services: 'Ofertas relacionadas', services_title: 'Servicios asociados', proofs: 'Pruebas', proofs_title: 'Casos y contextos donde era necesario recuperar claridad rápidamente', project: 'Proyecto', project_fallback: 'Proyecto estructurado para recuperar visibilidad y control en una transformación sensible.', diagnostic: 'Diagnóstico'}
+}[locale]|default({}) %}
 <main id="content" role="main" class="oling-public-editorial oling-public-editorial--detail">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.intro,
-    primaryCta: {route: 'contact', label: 'Parler de votre projet'},
-    secondaryCta: {route: 'expertises_index', label: 'Voir toutes les expertises'},
+    primaryCta: {route: 'contact', label: ui.primary},
+    secondaryCta: {route: 'expertises_index', label: ui.all},
     highlights: page.deliverables|slice(0, 3)
   } %}
 
@@ -28,8 +34,8 @@
     <div class="container">
       <div class="oling-two-col">
         <div class="oling-surface oling-surface--light">
-          <span class="oling-kicker">Situations fréquentes</span>
-          <h2>Quand OLING entre en jeu</h2>
+          <span class="oling-kicker">{{ ui.situations }}</span>
+          <h2>{{ ui.situations_title }}</h2>
           <ul class="oling-check-list">
             {% for item in page.situations %}
               <li>{{ item }}</li>
@@ -37,8 +43,8 @@
           </ul>
         </div>
         <div class="oling-surface oling-surface--light">
-          <span class="oling-kicker">Interventions</span>
-          <h2>Ce que nous cadrons et pilotons</h2>
+          <span class="oling-kicker">{{ ui.interventions }}</span>
+          <h2>{{ ui.interventions_title }}</h2>
           <ul class="oling-check-list">
             {% for item in page.interventions %}
               <li>{{ item }}</li>
@@ -52,14 +58,14 @@
   <section class="oling-shell-section oling-shell-section--tint">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">Livrables</span>
-        <h2>Des sorties directement exploitables par la direction, les métiers et la DSI</h2>
+        <span class="oling-kicker">{{ ui.deliverables }}</span>
+        <h2>{{ ui.deliverables_title }}</h2>
       </div>
       <div class="oling-deliverable-grid">
         {% for item in page.deliverables %}
           <article class="oling-deliverable-card">
             <h3>{{ item }}</h3>
-            <p>Formalisé pour arbitrer, engager les parties prenantes et tenir l'exécution.</p>
+            <p>{{ ui.deliverable_text }}</p>
           </article>
         {% endfor %}
       </div>
@@ -69,8 +75,8 @@
   <section class="oling-shell-section">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">Offres liées</span>
-        <h2>Services associés</h2>
+        <span class="oling-kicker">{{ ui.services }}</span>
+        <h2>{{ ui.services_title }}</h2>
       </div>
       {% include 'public/_linked_service_cards.html.twig' with {links: page.linkedServices, services: services} %}
     </div>
@@ -87,15 +93,15 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Preuves</span>
-          <h2>Cas et contextes où la clarté devait revenir vite</h2>
+          <span class="oling-kicker">{{ ui.proofs }}</span>
+          <h2>{{ ui.proofs_title }}</h2>
         </div>
         <div class="oling-project-proof-grid">
           {% for project in projects|slice(0, 3) %}
             <article class="oling-proof-card">
-              <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'Projet' }}</span>
+              <span class="oling-kicker">{{ project.metier ? project.metier.designation : ui.project }}</span>
               <h3>{{ project.designation }}</h3>
-              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : 'Projet structuré pour remettre de la lisibilité et de la maîtrise dans une transformation sensible.' }}</p>
+              <p>{{ project.description ? project.description|striptags|slice(0, 180) ~ '…' : ui.project_fallback }}</p>
             </article>
           {% endfor %}
         </div>
@@ -104,7 +110,7 @@
   {% endif %}
 
   {% include 'public/_cta_band.html.twig' with {
-    eyebrow: 'Diagnostic',
+    eyebrow: ui.diagnostic,
     title: page.finalCtaTitle|default('expertise.final_cta.default_title'|trans),
     text: page.finalCtaText|default('expertise.final_cta.default_text'|trans),
     primaryCta: {route: 'contact', label: page.finalCtaLabel|default('expertise.final_cta.default_label'|trans)},

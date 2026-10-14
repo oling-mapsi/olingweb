@@ -4,21 +4,27 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
+{% set locale = app.request.locale|default('fr') %}
+{% set ui = {
+  fr: {primary: 'Parler de votre contexte', all: 'Voir tous les secteurs', issues: 'Enjeux types', issues_title: 'Points de vigilance fréquents dans ce terrain', recommended: 'Expertises recommandées', recommended_title: 'Les sujets à prioriser en premier', more: "Voir l'expertise", cta_title: 'Construire une trajectoire adaptée à votre environnement', cta_text: 'OLING peut intervenir en diagnostic ou en pilotage pour remettre de la clarté sur les enjeux, les dépendances, les risques et les décisions structurantes.', cta_label: 'Demander un échange'},
+  en: {primary: 'Discuss your context', all: 'View all sectors', issues: 'Typical issues', issues_title: 'Frequent points of attention in this environment', recommended: 'Recommended expertise', recommended_title: 'Topics to prioritise first', more: 'View expertise', cta_title: 'Build a roadmap suited to your environment', cta_text: 'OLING can step in for diagnosis or steering to restore clarity on issues, dependencies, risks and structuring decisions.', cta_label: 'Request a discussion'},
+  es: {primary: 'Hablar de su contexto', all: 'Ver todos los sectores', issues: 'Retos típicos', issues_title: 'Puntos de vigilancia frecuentes en este terreno', recommended: 'Especializaciones recomendadas', recommended_title: 'Temas que deben priorizarse primero', more: 'Ver especialización', cta_title: 'Construir una trayectoria adaptada a su entorno', cta_text: 'OLING puede intervenir en diagnóstico o pilotaje para recuperar claridad sobre retos, dependencias, riesgos y decisiones estructurantes.', cta_label: 'Solicitar una conversación'}
+}[locale]|default({}) %}
 <main id="content" role="main" class="oling-public-editorial oling-public-editorial--detail oling-public-editorial--sector-detail">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.intro,
-    primaryCta: {route: 'contact', label: 'Parler de votre contexte'},
-    secondaryCta: {route: 'sectors_index', label: 'Voir tous les secteurs'},
+    primaryCta: {route: 'contact', label: ui.primary},
+    secondaryCta: {route: 'sectors_index', label: ui.all},
     highlights: page.issues|slice(0, 3)
   } %}
 
   <section class="oling-shell-section">
     <div class="container">
       <div class="oling-surface oling-surface--light">
-        <span class="oling-kicker">Enjeux types</span>
-        <h2>Points de vigilance fréquents dans ce terrain</h2>
+        <span class="oling-kicker">{{ ui.issues }}</span>
+        <h2>{{ ui.issues_title }}</h2>
         <ul class="oling-check-list">
           {% for issue in page.issues %}
             <li>{{ issue }}</li>
@@ -31,8 +37,8 @@
   <section class="oling-shell-section oling-shell-section--tint">
     <div class="container">
       <div class="oling-section-head">
-        <span class="oling-kicker">Expertises recommandées</span>
-        <h2>Les sujets à prioriser en premier</h2>
+        <span class="oling-kicker">{{ ui.recommended }}</span>
+        <h2>{{ ui.recommended_title }}</h2>
       </div>
       <div class="oling-editorial-grid">
         {% for slug in page.linkedExpertises %}
@@ -42,7 +48,7 @@
               <span class="oling-kicker">{{ linkedPage.eyebrow }}</span>
               <h3>{{ linkedPage.title }}</h3>
               <p>{{ linkedPage.intro }}</p>
-              <span class="oling-editorial-card__more">Voir l'expertise</span>
+              <span class="oling-editorial-card__more">{{ ui.more }}</span>
             </a>
           {% endif %}
         {% endfor %}
@@ -51,9 +57,9 @@
   </section>
 
   {% include 'public/_cta_band.html.twig' with {
-    title: 'Construire une trajectoire adaptée à votre environnement',
-    text: 'OLING peut intervenir en diagnostic ou en pilotage pour remettre de la clarté sur les enjeux, les dépendances, les risques et les décisions structurantes.',
-    primaryCta: {route: 'contact', label: 'Demander un échange'}
+    title: ui.cta_title,
+    text: ui.cta_text,
+    primaryCta: {route: 'contact', label: ui.cta_label}
   } %}
 </main>
 {% endblock %}

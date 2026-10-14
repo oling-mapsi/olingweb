@@ -4,14 +4,20 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
 {% block body %}
+{% set locale = app.request.locale|default('fr') %}
+{% set ui = {
+  fr: {primary: 'Échanger sur votre contexte', secondary: 'Voir nos expertises', sector: 'Secteur servi', specifics: 'Spécificités connues :', missions: 'Missions associées :', more: 'Voir l’approche associée', empty: 'Aucun secteur n’est disponible pour le moment.', angles: 'Angles sectoriels', angles_title: 'Quelques lectures transverses déjà détaillées', angles_text: 'Certains environnements disposent déjà d’une page de cadrage plus développée quand plusieurs secteurs partagent des contraintes proches.', vigilance: 'Points de vigilance :', page: 'Voir la page'},
+  en: {primary: 'Discuss your context', secondary: 'View our expertise', sector: 'Sector served', specifics: 'Known specificities:', missions: 'Related assignments:', more: 'View the related approach', empty: 'No sector is available at the moment.', angles: 'Sector angles', angles_title: 'A few cross-sector readings already detailed', angles_text: 'Some environments already have a more detailed scoping page when several sectors share similar constraints.', vigilance: 'Points of attention:', page: 'View page'},
+  es: {primary: 'Hablar de su contexto', secondary: 'Ver nuestras especializaciones', sector: 'Sector atendido', specifics: 'Especificidades conocidas:', missions: 'Misiones asociadas:', more: 'Ver el enfoque asociado', empty: 'No hay sectores disponibles por el momento.', angles: 'Enfoques sectoriales', angles_title: 'Algunas lecturas transversales ya detalladas', angles_text: 'Algunos entornos ya disponen de una página de encuadre más desarrollada cuando varios sectores comparten restricciones similares.', vigilance: 'Puntos de vigilancia:', page: 'Ver página'}
+}[locale]|default({}) %}
 <main id="content" role="main" class="oling-public-editorial oling-public-editorial--sectors-hub">
   {% set indexPage = page %}
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: indexPage.eyebrow,
     title: indexPage.title,
     intro: indexPage.intro,
-    primaryCta: {route: 'contact', label: 'Échanger sur votre contexte'},
-    secondaryCta: {route: 'expertises_index', label: 'Voir nos expertises'},
+    primaryCta: {route: 'contact', label: ui.primary},
+    secondaryCta: {route: 'expertises_index', label: ui.secondary},
     highlights: indexPage.highlights
   } %}
 
@@ -34,12 +40,12 @@
               <span class="oling-sector-card__line"></span>
             </div>
             <div class="oling-sector-card__body">
-              <span class="oling-kicker">Secteur servi</span>
+              <span class="oling-kicker">{{ ui.sector }}</span>
               <h2>{{ sector.designation }}</h2>
               <p class="oling-sector-card__intro">{{ sector.intro }}</p>
               {% if sector.specifics is not empty %}
                 <div class="oling-sector-card__details">
-                  <span class="oling-sector-card__caption"><strong>Spécificités connues :</strong></span>
+                  <span class="oling-sector-card__caption"><strong>{{ ui.specifics }}</strong></span>
                   <ul class="oling-sector-card__specifics">
                     {% for specific in sector.specifics %}
                       <li>{{ specific }}</li>
@@ -49,17 +55,17 @@
               {% endif %}
               <div class="oling-sector-card__footer">
                 {% if sector.projectCount > 0 %}
-                  <span class="oling-sector-card__proof"><strong>Missions associées :</strong> {{ sector.projectCount }}</span>
+                  <span class="oling-sector-card__proof"><strong>{{ ui.missions }}</strong> {{ sector.projectCount }}</span>
                 {% endif %}
                 {% if sector.detailUrl %}
-                  <span class="oling-sector-card__more">Voir l’approche associée <span aria-hidden="true">↗</span></span>
+                  <span class="oling-sector-card__more">{{ ui.more }} <span aria-hidden="true">↗</span></span>
                 {% endif %}
               </div>
             </div>
           </{{ tag }}>
         {% else %}
           <div class="oling-surface oling-surface--light">
-            <p class="mb-0">Aucun secteur n’est disponible pour le moment.</p>
+            <p class="mb-0">{{ ui.empty }}</p>
           </div>
         {% endfor %}
       </div>
@@ -70,9 +76,9 @@
     <section class="oling-shell-section oling-shell-section--tint oling-sectors-angles-section">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Angles sectoriels</span>
-          <h2>Quelques lectures transverses déjà détaillées</h2>
-          <p>Certains environnements disposent déjà d’une page de cadrage plus développée quand plusieurs secteurs partagent des contraintes proches.</p>
+          <span class="oling-kicker">{{ ui.angles }}</span>
+          <h2>{{ ui.angles_title }}</h2>
+          <p>{{ ui.angles_text }}</p>
         </div>
         <div class="oling-sector-angles">
           {% for slug, sectorPage in sectorPages %}
@@ -84,9 +90,9 @@
               <h2>{{ sectorPage.title }}</h2>
               <p>{{ sectorPage.intro }}</p>
               {% if sectorPage.issues is not empty %}
-                <p class="oling-sector-angle__issues"><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+                <p class="oling-sector-angle__issues"><strong>{{ ui.vigilance }}</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
               {% endif %}
-              <span class="oling-sector-angle__more">Voir la page <span aria-hidden="true">↗</span></span>
+              <span class="oling-sector-angle__more">{{ ui.page }} <span aria-hidden="true">↗</span></span>
             </a>
           {% endfor %}
         </div>

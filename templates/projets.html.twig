@@ -20,8 +20,8 @@
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
-          <h2 id="project-media-showcase-title">Références en images</h2>
-          <p>Une sélection de missions OLING illustrées à partir des médias associés aux projets.</p>
+          <h2 id="project-media-showcase-title">{{ 'projects.media_title'|trans }}</h2>
+          <p>{{ 'projects.media_intro'|trans }}</p>
         </div>
         <div class="oling-project-media-grid">
           {% for project in featuredProjects|slice(0, 6) %}

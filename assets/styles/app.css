@@ -3228,10 +3228,17 @@ body.oling-body.admin main a:not(.btn):not(.nav-link):not(.dropdown-item) {
 
 .admin .container.content-space-2,
 .admin .container.content-space-lg-3 {
-  width: min(100% - 2rem, 1640px);
-  max-width: 1640px;
+  width: min(100% - 1.5rem, 1920px);
+  max-width: 1920px;
   padding-top: 2rem;
   padding-bottom: 2.5rem;
+}
+
+@media (min-width: 1400px) {
+  .admin .container.content-space-2,
+  .admin .container.content-space-lg-3 {
+    width: calc(100% - 2.5rem);
+  }
 }
 
 .admin .nav.nav-pills {

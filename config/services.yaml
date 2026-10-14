@@ -17,6 +17,7 @@ parameters:
     chat_ai_mistral_model_default: 'mistral-large-latest'
     chat_ai_global_latency_budget_ms: 55000
     growth_factory_jwt_audience_default: 'mapsi-growth-admin'
+    growth_factory_base_url_default: ''
     growth_factory_jwt_ttl_seconds_default: 60
     growth_factory_timeout_seconds_default: 10
     growth_factory_generate_timeout_seconds_default: 90
@@ -30,7 +31,7 @@ parameters:
     analytics_ga4_property_id: '%env(string:GA4_PROPERTY_ID)%'
     analytics_ga4_credentials_path: '%env(string:GA4_CREDENTIALS_PATH)%'
     growth_factory_enabled: '%env(bool:default::GROWTH_FACTORY_ENABLED)%'
-    growth_factory_base_url: '%env(default::string:GROWTH_FACTORY_BASE_URL)%'
+    growth_factory_base_url: '%env(default:growth_factory_base_url_default:string:GROWTH_FACTORY_BASE_URL)%'
     growth_factory_jwt_issuer: '%env(default:router.request_context.host:string:GROWTH_FACTORY_JWT_ISSUER)%'
     growth_factory_jwt_audience: '%env(default:growth_factory_jwt_audience_default:string:GROWTH_FACTORY_JWT_AUDIENCE)%'
     growth_factory_jwt_ttl_seconds: '%env(int:default:growth_factory_jwt_ttl_seconds_default:GROWTH_FACTORY_JWT_TTL_SECONDS)%'

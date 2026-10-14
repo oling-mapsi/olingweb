@@ -9,6 +9,7 @@ use App\Form\SitePageTranslationType;
 use App\Repository\SitePageRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Service\SitePageTranslationSynchronizer;
+use App\Service\TranslationSourceHasher;
 use App\Service\UploadManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,7 +86,7 @@ class SitePageAdminController extends AbstractController
 
     #[Route('', name: 'admin_pages_index', methods: ['GET'])]
     #[Route('/', name: 'admin_pages_index_slash', methods: ['GET'])]
-    public function index(SitePageRepository $repository, EntityManagerInterface $entityManager): Response
+    public function index(SitePageRepository $repository, EntityManagerInterface $entityManager, TranslationSourceHasher $sourceHasher): Response
     {
         $this->ensureManagedPages($repository, $entityManager);
 
@@ -96,6 +97,7 @@ class SitePageAdminController extends AbstractController
 
         return $this->render('admin/pages/index.html.twig', [
             'pages' => $pages,
+            'translationStates' => $this->buildTranslationStates($pages, $sourceHasher),
             'practices' => [],
         ]);
     }
@@ -106,7 +108,8 @@ class SitePageAdminController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UploadManager $uploadManager,
-        SitePageTranslationSynchronizer $translationSynchronizer
+        SitePageTranslationSynchronizer $translationSynchronizer,
+        TranslationSourceHasher $sourceHasher
     ): Response {
         $frTranslation = $translationSynchronizer->ensureFrenchTranslation($page);
         $editorMode = $this->getEditorMode($page->getSlug());
@@ -143,6 +146,7 @@ class SitePageAdminController extends AbstractController
             'frTranslation' => $frTranslation,
             'enTranslation' => $page->getTranslation(SitePageTranslation::LOCALE_EN),
             'esTranslation' => $page->getTranslation(SitePageTranslation::LOCALE_ES),
+            'translationStates' => $this->buildTranslationStates([$page], $sourceHasher)[$page->getId()] ?? [],
             'editorMode' => $editorMode,
             'practices' => [],
         ]);
@@ -211,6 +215,29 @@ class SitePageAdminController extends AbstractController
         if ($needsFlush) {
             $entityManager->flush();
         }
+    }
+
+    /**
+     * @param SitePage[] $pages
+     * @return array<int, array<string, array{status:string,outdated:bool,id:int|null}>>
+     */
+    private function buildTranslationStates(array $pages, TranslationSourceHasher $sourceHasher): array
+    {
+        $states = [];
+        foreach ($pages as $page) {
+            $source = $page->getTranslation(SitePageTranslation::LOCALE_FR);
+            $sourceHash = $source instanceof SitePageTranslation ? $sourceHasher->hashSitePageTranslation($source) : null;
+            foreach ([SitePageTranslation::LOCALE_FR, SitePageTranslation::LOCALE_EN, SitePageTranslation::LOCALE_ES] as $locale) {
+                $translation = $page->getTranslation($locale);
+                $states[(int) $page->getId()][$locale] = [
+                    'status' => $translation?->getTranslationStatus() ?? 'missing',
+                    'outdated' => $locale !== SitePageTranslation::LOCALE_FR && $translation instanceof SitePageTranslation && $sourceHash !== null && $translation->isOutdated($sourceHash),
+                    'id' => $translation?->getId(),
+                ];
+            }
+        }
+
+        return $states;
     }
 
     private function getEditorMode(?string $slug): string

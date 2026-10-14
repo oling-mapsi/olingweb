@@ -11,7 +11,10 @@
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
       <h1 class="h3 mb-1">{{ target.locale|upper }} — {{ source.title }}</h1>
-      <p class="text-muted mb-0">Statut : <strong>{{ target.translationStatus }}</strong></p>
+      <p class="text-muted mb-0">
+        Statut : <strong>{{ target.translationStatus }}</strong>
+        {% if outdated %}<span class="badge bg-warning text-dark ms-2">Source FR modifiée</span>{% endif %}
+      </p>
     </div>
     <div class="d-flex gap-2">
       <form method="post" action="{{ path('admin_translations_site_page_generate', {id: target.sitePage.id, locale: target.locale}) }}">
@@ -19,6 +22,7 @@
         <input type="hidden" name="confirm_overwrite" value="1">
         <button class="btn btn-outline-secondary" type="submit">Régénérer IA</button>
       </form>
+      <a class="btn btn-outline-secondary" href="{{ path('admin_translations_site_page_preview', {id: target.id, locale: target.locale}) }}" target="_blank" rel="noopener">Prévisualiser</a>
       {% if target.translationStatus == 'ai_translated' %}
         <form method="post">
           <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
@@ -36,6 +40,13 @@
         <input type="hidden" name="action" value="publish">
         <button class="btn btn-success" type="submit">Publier</button>
       </form>
+      {% if target.translationStatus == 'published' %}
+        <form method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+          <input type="hidden" name="action" value="unpublish">
+          <button class="btn btn-outline-danger" type="submit">Dépublier</button>
+        </form>
+      {% endif %}
     </div>
   </div>
 
@@ -43,11 +54,13 @@
     <div class="col-lg-6">
       <h2 class="h5">Source FR</h2>
       <div class="card card-body">
+        <p><strong>Statut FR</strong><br><span class="badge bg-success">{{ source.translationStatus }}</span></p>
         <p><strong>Title</strong><br>{{ source.title }}</p>
         <p><strong>Slug</strong><br><code>{{ source.slug }}</code></p>
         <p><strong>Hero</strong><br>{{ source.heroTitle }}</p>
         <p><strong>Intro</strong><br>{{ source.heroIntro|striptags }}</p>
         <p><strong>SEO</strong><br>{{ source.seoTitle }}<br>{{ source.seoDescription }}</p>
+        <p><strong>Dernière source hash</strong><br><code>{{ target.sourceContentHash ?: '—' }}</code></p>
       </div>
     </div>
 

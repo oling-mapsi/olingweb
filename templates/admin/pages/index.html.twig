@@ -27,6 +27,7 @@
                             <th>FR</th>
                             <th>EN</th>
                             <th>ES</th>
+                            <th>Traductions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,9 +37,17 @@
                                     <a href="{{ path('admin_pages_edit', {id: page.id}) }}">{{ page.slug }}</a>
                                 </td>
                                 <td>{{ page.title }}</td>
-                                <td>{{ page.translation('fr') ? '✓' : '—' }}</td>
-                                <td>{{ page.translation('en') ? '✓' : '—' }}</td>
-                                <td>{{ page.translation('es') ? '✓' : '—' }}</td>
+                                {% set states = translationStates[page.id]|default({}) %}
+                                {% for code in ['fr', 'en', 'es'] %}
+                                    {% set state = states[code]|default({status: 'missing', outdated: false, id: null}) %}
+                                    <td>
+                                        <span class="badge {{ state.status == 'published' ? 'bg-success' : (state.status == 'missing' ? 'bg-light text-dark border' : 'bg-secondary') }}">{{ code|upper }} {{ state.status }}</span>
+                                        {% if state.outdated %}<span class="badge bg-warning text-dark">Source FR modifiée</span>{% endif %}
+                                    </td>
+                                {% endfor %}
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_pages_edit', {id: page.id}) }}">Gérer les traductions</a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

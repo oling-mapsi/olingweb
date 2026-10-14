@@ -15,9 +15,12 @@
 
   <form class="row g-2 mb-4" method="get">
     <div class="col-md-4">
-      <select class="form-select" name="family">
-        <option value="expertises-secteurs" {{ family == 'expertises-secteurs' ? 'selected' : '' }}>Expertises + secteurs</option>
-        <option value="all" {{ family == 'all' ? 'selected' : '' }}>Toutes les pages éditoriales</option>
+      <select class="form-select" name="type">
+        <option value="all" {{ type == 'all' ? 'selected' : '' }}>Tous types</option>
+        <option value="page" {{ type == 'page' ? 'selected' : '' }}>Page</option>
+        <option value="expertise" {{ type == 'expertise' ? 'selected' : '' }}>Expertise</option>
+        <option value="sector" {{ type == 'sector' ? 'selected' : '' }}>Secteur</option>
+        <option value="resource" {{ type == 'resource' ? 'selected' : '' }}>Ressource</option>
       </select>
     </div>
     <div class="col-md-3">
@@ -31,9 +34,12 @@
       <select class="form-select" name="status">
         <option value="all" {{ status == 'all' ? 'selected' : '' }}>Tous statuts</option>
         <option value="missing" {{ status == 'missing' ? 'selected' : '' }}>Manquantes</option>
+        <option value="draft" {{ status == 'draft' ? 'selected' : '' }}>Brouillons</option>
+        <option value="ai_translated" {{ status == 'ai_translated' ? 'selected' : '' }}>Traduites IA</option>
         <option value="to_review" {{ status == 'to_review' ? 'selected' : '' }}>À relire</option>
         <option value="reviewed" {{ status == 'reviewed' ? 'selected' : '' }}>Relues</option>
         <option value="published" {{ status == 'published' ? 'selected' : '' }}>Publiées</option>
+        <option value="outdated" {{ status == 'outdated' ? 'selected' : '' }}>Source FR modifiée</option>
       </select>
     </div>
     <div class="col-md-2">
@@ -41,13 +47,27 @@
     </div>
   </form>
 
+  {% set missingCount = rows|filter(row => row.status == 'missing')|length %}
+  {% if type != 'all' and locale in ['en', 'es'] and status == 'missing' %}
+    <form method="post" action="{{ path('admin_translations_bulk_generate') }}" class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-3" onsubmit="return confirm('{{ missingCount }} contenu(s) seront générés en {{ locale|upper }}. Confirmer ?');">
+      <div><strong>{{ missingCount }}</strong> contenu(s) manquant(s) pour {{ type }} / {{ locale|upper }}.</div>
+      <input type="hidden" name="_token" value="{{ csrf_token('translation_bulk_generate') }}">
+      <input type="hidden" name="type" value="{{ type }}">
+      <input type="hidden" name="locale" value="{{ locale }}">
+      <input type="hidden" name="expected_count" value="{{ missingCount }}">
+      <button class="btn btn-warning" type="submit" {{ missingCount == 0 ? 'disabled' : '' }}>Générer les traductions manquantes</button>
+    </form>
+  {% endif %}
+
   <div class="table-responsive">
     <table class="table table-sm align-middle">
       <thead>
         <tr>
           <th>Page FR</th>
+          <th>Type</th>
           <th>Locale</th>
           <th>Statut</th>
+          <th>Outdated</th>
           <th>Slug cible</th>
           <th class="text-end">Action</th>
         </tr>
@@ -59,12 +79,15 @@
               <strong>{{ row.source ? row.source.title : row.page.slug }}</strong><br>
               <code>{{ row.page.slug }}</code>
             </td>
+            <td>{{ row.type }}</td>
             <td>{{ row.locale|upper }}</td>
-            <td><span class="badge bg-secondary">{{ row.status }}</span></td>
+            <td><span class="badge {{ row.status == 'published' ? 'bg-success' : (row.status == 'missing' ? 'bg-light text-dark border' : 'bg-secondary') }}">{{ row.status }}</span></td>
+            <td>{% if row.outdated %}<span class="badge bg-warning text-dark">Source FR modifiée</span>{% else %}—{% endif %}</td>
             <td>{{ row.translation ? row.translation.slug : '—' }}</td>
             <td class="text-end">
               {% if row.translation %}
                 <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_translations_site_page_edit', {id: row.translation.id, locale: row.locale}) }}">Comparer / éditer</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin_translations_site_page_preview', {id: row.translation.id, locale: row.locale}) }}" target="_blank" rel="noopener">Prévisualiser</a>
               {% else %}
                 <form method="post" action="{{ path('admin_translations_site_page_generate', {id: row.page.id, locale: row.locale}) }}" class="d-inline">
                   <input type="hidden" name="_token" value="{{ csrf_token('translation_generate_' ~ row.page.id ~ '_' ~ row.locale) }}">
@@ -74,7 +97,7 @@
             </td>
           </tr>
         {% else %}
-          <tr><td colspan="5" class="text-muted">Aucune traduction trouvée.</td></tr>
+          <tr><td colspan="7" class="text-muted">Aucune traduction trouvée.</td></tr>
         {% endfor %}
       </tbody>
     </table>

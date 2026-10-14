@@ -7,8 +7,10 @@ use App\Repository\SitePageRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Service\I18n\AiTranslationService;
 use App\Service\I18n\TranslationReviewWorkflow;
+use App\Service\TranslationSourceHasher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,18 +20,21 @@ final class TranslationAdminController extends AbstractController
 {
     #[Route('', name: 'admin_translations_index', methods: ['GET'])]
     #[Route('/', name: 'admin_translations_index_slash', methods: ['GET'])]
-    public function index(SitePageRepository $pages, Request $request): Response
+    public function index(SitePageRepository $pages, Request $request, TranslationSourceHasher $sourceHasher): Response
     {
-        $family = (string) $request->query->get('family', 'expertises-secteurs');
+        $type = (string) $request->query->get('type', 'all');
         $locale = (string) $request->query->get('locale', 'all');
         $status = (string) $request->query->get('status', 'all');
 
         $rows = [];
         foreach ($pages->findBy([], ['slug' => 'ASC']) as $page) {
             $slug = (string) $page->getSlug();
-            if ($family === 'expertises-secteurs' && !$this->isExpertiseOrSector($slug)) {
+            $pageType = $this->pageType($slug);
+            if ($type !== 'all' && $type !== $pageType) {
                 continue;
             }
+            $source = $page->getTranslation(SitePageTranslation::LOCALE_FR);
+            $sourceHash = $source instanceof SitePageTranslation ? $sourceHasher->hashSitePageTranslation($source) : null;
 
             foreach ([SitePageTranslation::LOCALE_EN, SitePageTranslation::LOCALE_ES] as $targetLocale) {
                 if ($locale !== 'all' && $locale !== $targetLocale) {
@@ -37,22 +42,30 @@ final class TranslationAdminController extends AbstractController
                 }
                 $translation = $page->getTranslation($targetLocale);
                 $translationStatus = $translation?->getTranslationStatus() ?? 'missing';
+                $outdated = $translation instanceof SitePageTranslation && $sourceHash !== null && $translation->isOutdated($sourceHash);
                 if ($status !== 'all' && $status !== $translationStatus) {
+                    if ($status !== 'outdated' || !$outdated) {
+                        continue;
+                    }
+                }
+                if ($status === 'outdated' && !$outdated) {
                     continue;
                 }
                 $rows[] = [
                     'page' => $page,
-                    'source' => $page->getTranslation(SitePageTranslation::LOCALE_FR),
+                    'source' => $source,
                     'translation' => $translation,
                     'locale' => $targetLocale,
                     'status' => $translationStatus,
+                    'outdated' => $outdated,
+                    'type' => $pageType,
                 ];
             }
         }
 
         return $this->render('admin/translations/index.html.twig', [
             'rows' => $rows,
-            'family' => $family,
+            'type' => $type,
             'locale' => $locale,
             'status' => $status,
             'practices' => [],
@@ -65,7 +78,8 @@ final class TranslationAdminController extends AbstractController
         string $locale,
         Request $request,
         SitePageTranslationRepository $translations,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslationSourceHasher $sourceHasher
     ): Response {
         SitePageTranslation::assertSupportedLocale($locale);
         $target = $translations->find($id);
@@ -86,6 +100,8 @@ final class TranslationAdminController extends AbstractController
             $action = (string) $request->request->get('action', 'save');
             if ($action === 'publish') {
                 (new TranslationReviewWorkflow())->publish($target);
+            } elseif ($action === 'unpublish') {
+                (new TranslationReviewWorkflow())->unpublish($target);
             } elseif ($action === 'review') {
                 (new TranslationReviewWorkflow())->markReviewed($target);
             } elseif ($action === 'to_review') {
@@ -111,7 +127,23 @@ final class TranslationAdminController extends AbstractController
         return $this->render('admin/translations/site_page_edit.html.twig', [
             'source' => $source,
             'target' => $target,
+            'outdated' => $target->isOutdated($sourceHasher->hashSitePageTranslation($source)),
             'practices' => [],
+        ]);
+    }
+
+    #[Route('/site-page/{id}/{locale}/preview', name: 'admin_translations_site_page_preview', methods: ['GET'])]
+    public function previewSitePage(int $id, string $locale, SitePageTranslationRepository $translations): RedirectResponse
+    {
+        SitePageTranslation::assertSupportedLocale($locale);
+        $translation = $translations->find($id);
+        if (!$translation instanceof SitePageTranslation || $translation->getLocale() !== $locale || $translation->getSitePage() === null) {
+            throw $this->createNotFoundException('Traduction introuvable.');
+        }
+
+        return $this->redirectToRoute('admin_pages_preview', [
+            'id' => $translation->getSitePage()->getId(),
+            'locale' => $locale,
         ]);
     }
 
@@ -157,12 +189,70 @@ final class TranslationAdminController extends AbstractController
         }
     }
 
+    #[Route('/bulk-generate', name: 'admin_translations_bulk_generate', methods: ['POST'])]
+    public function bulkGenerate(
+        Request $request,
+        SitePageRepository $pages,
+        AiTranslationService $translationService,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (!$this->isCsrfTokenValid('translation_bulk_generate', (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $type = (string) $request->request->get('type', '');
+        $locale = (string) $request->request->get('locale', '');
+        SitePageTranslation::assertSupportedLocale($locale);
+        if ($locale === SitePageTranslation::LOCALE_FR || !in_array($type, ['page', 'expertise', 'sector', 'resource'], true)) {
+            throw $this->createAccessDeniedException('Filtres bulk invalides.');
+        }
+
+        $expected = max(0, (int) $request->request->get('expected_count'));
+        $generated = 0;
+        $candidates = [];
+        foreach ($pages->findBy([], ['slug' => 'ASC']) as $page) {
+            if ($this->pageType((string) $page->getSlug()) !== $type || $page->getTranslation($locale) instanceof SitePageTranslation) {
+                continue;
+            }
+            $candidates[] = $page;
+        }
+        if ($expected !== count($candidates)) {
+            $this->addFlash('danger', sprintf('Bulk annulé : %d contenu(s) attendus, %d trouvé(s).', $expected, count($candidates)));
+
+            return $this->redirectToRoute('admin_translations_index', ['type' => $type, 'locale' => $locale, 'status' => 'missing']);
+        }
+
+        foreach ($candidates as $page) {
+            $translationService->translateSitePage($page, $locale, false, true, false);
+            ++$generated;
+        }
+        $entityManager->flush();
+        $this->addFlash('success', sprintf('%d traduction(s) générée(s) en statut ai_translated, non publiées.', $generated));
+
+        return $this->redirectToRoute('admin_translations_index', ['type' => $type, 'locale' => $locale, 'status' => SitePageTranslation::STATUS_AI_TRANSLATED]);
+    }
+
     private function isExpertiseOrSector(string $slug): bool
     {
         return $slug === 'expertises-index'
             || $slug === 'secteurs-index'
             || str_starts_with($slug, 'expertise-')
             || str_starts_with($slug, 'secteur-');
+    }
+
+    private function pageType(string $slug): string
+    {
+        if ($slug === 'expertises-index' || str_starts_with($slug, 'expertise-')) {
+            return 'expertise';
+        }
+        if ($slug === 'secteurs-index' || str_starts_with($slug, 'secteur-')) {
+            return 'sector';
+        }
+        if (str_starts_with($slug, 'ressource-')) {
+            return 'resource';
+        }
+
+        return 'page';
     }
 
     private function nullableString(mixed $value): ?string

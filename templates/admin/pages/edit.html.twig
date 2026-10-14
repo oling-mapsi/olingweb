@@ -24,6 +24,43 @@
 
         {% include 'admin/_nav.html.twig' %}
 
+        <section class="card admin-form-card mb-4">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                    <div>
+                        <h2 class="h5 mb-1">Traductions</h2>
+                        <p class="text-muted mb-0">Français source, English et Español éditables depuis l’admin.</p>
+                    </div>
+                    <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_translations_index', {type: 'all', status: 'all'}) }}">Vue globale Traductions</a>
+                </div>
+                <div class="row g-3">
+                    {% for code, label in {'fr': 'Français', 'en': 'English', 'es': 'Español'} %}
+                        {% set state = translationStates[code]|default({status: 'missing', outdated: false, id: null}) %}
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>{{ label }}</strong>
+                                    <span class="badge {{ state.status == 'published' ? 'bg-success' : (state.status == 'missing' ? 'bg-light text-dark border' : 'bg-secondary') }}">{{ state.status }}</span>
+                                </div>
+                                {% if state.outdated %}<div class="badge bg-warning text-dark mb-2">Source FR modifiée</div>{% endif %}
+                                {% if code == 'fr' %}
+                                    <p class="small text-muted mb-2">Source de vérité.</p>
+                                {% elseif state.id %}
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_translations_site_page_edit', {id: state.id, locale: code}) }}">Éditer {{ code|upper }}</a>
+                                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin_translations_site_page_preview', {id: state.id, locale: code}) }}" target="_blank" rel="noopener">Prévisualiser</a>
+                                {% else %}
+                                    <form method="post" action="{{ path('admin_translations_site_page_generate', {id: page.id, locale: code}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('translation_generate_' ~ page.id ~ '_' ~ code) }}">
+                                        <button class="btn btn-sm btn-outline-secondary" type="submit">Générer avec l'IA</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
         <ul class="nav nav-tabs mb-4" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" type="button">FR ✓</button>

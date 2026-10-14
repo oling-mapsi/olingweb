@@ -14,6 +14,18 @@
       <p class="text-muted mb-0">Statut : <strong>{{ target.translationStatus }}</strong></p>
     </div>
     <div class="d-flex gap-2">
+      <form method="post" action="{{ path('admin_translations_site_page_generate', {id: target.sitePage.id, locale: target.locale}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('translation_generate_' ~ target.sitePage.id ~ '_' ~ target.locale) }}">
+        <input type="hidden" name="confirm_overwrite" value="1">
+        <button class="btn btn-outline-secondary" type="submit">Régénérer IA</button>
+      </form>
+      {% if target.translationStatus == 'ai_translated' %}
+        <form method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+          <input type="hidden" name="action" value="to_review">
+          <button class="btn btn-outline-primary" type="submit">Passer à relire</button>
+        </form>
+      {% endif %}
       <form method="post">
         <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
         <input type="hidden" name="action" value="review">

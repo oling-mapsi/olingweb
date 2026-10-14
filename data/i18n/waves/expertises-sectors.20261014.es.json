@@ -1,369 +1,8 @@
 {
     "entity": "SitePageTranslation",
     "locale": "es",
-    "exportedAt": "2026-10-14T09:40:05+00:00",
+    "exportedAt": "2026-10-14T09:45:06+00:00",
     "translations": [
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "apropos",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "quienes-somos",
-            "title": "Quiénes somos | Consultora de proyectos de sistemas de información - OLING",
-            "seoTitle": "Quiénes somos | Consultora de proyectos de sistemas de información - OLING",
-            "seoDescription": "OLING, consultora especializada en proyectos de sistemas de información, software empresarial y cumplimiento normativo. Gobernanza, ERP y acompañamiento a organizaciones.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Acerca de OLING",
-            "heroTitle": "Asesoría en sistemas de información, software empresarial y cumplimiento normativo",
-            "heroIntro": "Desde 2012, OLING acompaña a organizaciones públicas y privadas en la definición de sus proyectos de sistemas de información, el cumplimiento normativo y la mejora del rendimiento de sus sistemas.",
-            "heroSideHtml": "<div class=\"d-grid gap-4\">\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-file-earmark-text fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">Experiencia en sistemas de información, negocio y cumplimiento</h5>\n      <p class=\"text-white-70\">OLING diseña y dirige proyectos relacionados con ERP, gobernanza de datos, ciberseguridad, RGPD, calidad (ISO 27001, Qualiopi), transformación de procesos de negocio y asesoría funcional para proyectos de sistemas de información.</p>\n    </div>\n  </div>\n\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-chat-right-dots fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">Innovación y excelencia operativa</h5>\n      <p class=\"text-white-70\">Nuestro enfoque integra una vigilancia activa, I+D continua y herramientas innovadoras, entre ellas MAPSI, para anticipar los cambios normativos y tecnológicos y garantizar una eficiencia sostenible a nuestros clientes.</p>\n    </div>\n  </div>\n\n  <div class=\"d-flex\">\n    <div class=\"flex-shrink-0\">\n      <i class=\"bi-hand-thumbs-up fs-2 text-light\"></i>\n    </div>\n    <div class=\"flex-grow-1 ms-5\">\n      <h5 class=\"text-white\">Rendimiento y control presupuestario</h5>\n      <p class=\"text-white-70\">Nuestras soluciones están diseñadas para ofrecer un rápido retorno de la inversión mediante un enfoque modular, personalizado y pragmático, perfectamente adaptado a las restricciones presupuestarias de cada organización.</p>\n    </div>\n  </div>\n</div>",
-            "bodyHtml": "<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h2>Nuestra misión</h2>\n    <p>Ser un socio de confianza para definir, dirigir y proteger los proyectos de sistemas de información, normativos y organizativos de nuestros clientes, mediante soluciones útiles, controladas y conformes con los estándares más exigentes.</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Nuestras áreas de especialización</h3>\n    <p>Asesoría en proyectos de sistemas de información, ERP, CRM, GMAO, ciberseguridad, RGPD, auditoría ISO, calidad, seguridad y medio ambiente (QSE), cumplimiento de DORA/NIS2, gobernanza de datos, Microsoft 365, infraestructuras híbridas, gestión de riesgos y continuidad de negocio y recuperación ante desastres (PCA/PRA).</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Nuestro enfoque</h3>\n    <p>Un enfoque colaborativo basado en la escucha, la cercanía con las operaciones, la agilidad y una metodología contrastada que incorpora las mejores prácticas de ISO, CNIL, ITIL y DevOps. Nuestros entregables se orientan a los resultados y a facilitar su adopción por parte de los usuarios.</p>\n  </div>\n</div>\n\n<div class=\"row mb-5\">\n  <div class=\"col-md-9 col-lg-8 offset-md-3\">\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Nuestro compromiso con la calidad</h3>\n    <p>OLING cuenta con la certificación ISO 27001:2022. Nuestros procesos internos están alineados con las normas de calidad y seguridad más estrictas para garantizar un alto nivel de exigencia en cada proyecto.</p>\n  </div>\n</div>\n\n<div class=\"row mt-7 mb-5\">\n  <div class=\"col-md-9 col-lg-8 offset-md-3\">\n    <figure class=\"blockquote-lg text-center\">\n      <blockquote class=\"blockquote\">Acompañar a nuestros clientes hacia la excelencia, integrando la tecnología, el cumplimiento normativo y las personas en una misma dinámica de rendimiento sostenible.</blockquote>\n    </figure>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Un equipo multidisciplinar y certificado</h3>\n    <p>Consultores certificados como Delegados de Protección de Datos (DPO), auditores ISO, responsables de proyectos de sistemas de información, ingenieros de sistemas y cloud, expertos en ciberseguridad y formadores Qualiopi. OLING moviliza un equipo ágil y cualificado para cada proyecto.</p>\n  </div>\n</div>\n\n<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Únete a nuestro equipo</h3>\n    <p>¿Quieres contribuir a proyectos de sistemas de información, cumplimiento normativo y organización que aportan valor a los clientes? Únete a OLING, una consultora en pleno crecimiento, y desarrolla tu carrera en un entorno estimulante, exigente y colaborativo.</p>\n  </div>\n</div>",
-            "structuredData": {
-                "corePage": {
-                    "cta": {
-                        "text": "Podemos evaluar rápidamente tu situación, indicarte dónde aportamos valor y en qué casos sería más adecuado otro enfoque.",
-                        "title": "Comprueba si OLING ofrece el marco de intervención adecuado para tu proyecto",
-                        "primaryCta": {
-                            "label": "Solicitar una conversación",
-                            "route": "contact"
-                        }
-                    },
-                    "intro": "OLING acompaña a pymes y empresas de tamaño intermedio en proyectos de ERP, sistemas de información, cumplimiento normativo, RGPD e IA que requieren una definición sólida, una gobernanza clara y una dirección constante.",
-                    "title": "Una consultora comprometida con los proyectos que estructuran la empresa",
-                    "eyebrow": "Consultora OLING",
-                    "sections": [
-                        {
-                            "items": [
-                                {
-                                    "text": "OLING interviene en la transformación de las operaciones y los sistemas de información, así como en la gestión de riesgos, el cumplimiento normativo y la resiliencia. En ambos casos, el trabajo se centra en las decisiones, las dependencias y las condiciones de ejecución.",
-                                    "title": "Dos frentes, una misma lógica de control",
-                                    "kicker": "Posicionamiento"
-                                },
-                                {
-                                    "list": [
-                                        "Visión de negocio, organización, sistemas, datos y cumplimiento normativo.",
-                                        "Capacidad para intervenir desde el diagnóstico hasta la dirección operativa.",
-                                        "Uso controlado de la IA, abordado como una cuestión de gobernanza e integración."
-                                    ],
-                                    "title": "Una visión transversal, no otro silo",
-                                    "kicker": "Diferencia"
-                                }
-                            ],
-                            "layout": "two_col"
-                        }
-                    ],
-                    "seoTitle": "Consultora | OLING",
-                    "highlights": [
-                        "Transformación y asesoría en proyectos ERP",
-                        "Riesgos, cumplimiento normativo y resiliencia",
-                        "IA definida y gobernada"
-                    ],
-                    "primaryCta": {
-                        "label": "Háblanos de tu proyecto",
-                        "route": "contact"
-                    },
-                    "bodySection": {
-                        "title": "Un enfoque comprometido, pero ante todo útil para tomar decisiones",
-                        "kicker": "Consultora"
-                    },
-                    "teamSection": {
-                        "intro": "Hemos dado mayor visibilidad a la presentación del equipo, en lugar de mantenerla únicamente en una sección secundaria.",
-                        "title": "Perfiles de consultoría, operaciones y cumplimiento ya implicados en los proyectos",
-                        "kicker": "Equipo",
-                        "primaryCta": {
-                            "label": "Ver todo el equipo",
-                            "route": "team"
-                        },
-                        "secondaryCta": {
-                            "label": "Hablar con un consultor",
-                            "route": "contact"
-                        }
-                    },
-                    "linksSection": {
-                        "links": [
-                            {
-                                "text": "Conoce los perfiles, la experiencia y la trayectoria de los consultores de OLING.",
-                                "route": "team",
-                                "title": "Presentación del equipo",
-                                "kicker": "Equipo",
-                                "moreLabel": "Ver el equipo"
-                            },
-                            {
-                                "text": "Nuestros compromisos, nuestra gobernanza y nuestro marco de responsabilidad.",
-                                "route": "rse",
-                                "title": "Estrategia de responsabilidad social empresarial",
-                                "kicker": "Consultora",
-                                "moreLabel": "Ver la estrategia"
-                            },
-                            {
-                                "url": "https://mapsi.fr/",
-                                "text": "Accede al universo MAPSI y a las soluciones de producto vinculadas a la consultora.",
-                                "title": "Plataforma y ecosistema",
-                                "kicker": "MAPSI",
-                                "moreLabel": "Abrir MAPSI"
-                            }
-                        ],
-                        "title": "MAPSI, las políticas, el equipo y la trayectoria de la consultora siguen estando accesibles",
-                        "kicker": "Enlaces útiles"
-                    },
-                    "secondaryCta": {
-                        "label": "Ver el equipo",
-                        "route": "team"
-                    },
-                    "metaDescription": "OLING, consultora para pymes y empresas de tamaño intermedio: transformación de sistemas de información, organización, cumplimiento normativo, ciberseguridad e inteligencia artificial."
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "7646aa87caaad49f485ebc54b89db697c4a2d12157f4d414096e56ab91bc4be8",
-            "sourceUpdatedAt": "2026-10-02T21:10:37+00:00",
-            "translatedAt": "2026-10-02T21:10:37+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "conformite-reglementaire",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "cumplimiento-normativo",
-            "title": "Cumplimiento normativo | Reglamento de IA, ISO, QSE, energía y seguridad | OLING",
-            "seoTitle": "Cumplimiento normativo | Reglamento de IA, ISO, QSE, energía y seguridad | OLING",
-            "seoDescription": "Cumplimiento normativo ejecutable: Reglamento de IA, RGPD, ISO, ciberseguridad, calidad, medio ambiente, energía, DORA, NIS2 y mecanismos de evidencia.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Cumplimiento",
-            "heroTitle": "Cumplimiento normativo: convertir las obligaciones en acciones",
-            "heroIntro": "OLING ayuda a las organizaciones a pasar de un cumplimiento documental a un cumplimiento operativo: gobernanza, evidencias de auditoría, planes de acción priorizados y seguimiento por la dirección.",
-            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Ámbito cubierto</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/rgpd\">RGPD</a>, gobernanza de datos, registro, evaluación de impacto y evidencias.</li><li>Cumplimiento en materia de IA y Reglamento de IA: clasificación de los usos de IA, controles y gobernanza.</li><li><a class=\"link\" href=\"/conseil-qualite\">ISO, calidad, medio ambiente y energía</a> (ISO 9001/14001/50001/27001).</li><li><a class=\"link\" href=\"/cyber-securite\">Seguridad de los sistemas de información</a>, DORA, NIS2, continuidad de negocio y recuperación ante desastres.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Entregables y seguimiento</h2><ul class=\"mb-0\"><li>Mapa de requisitos y riesgos, plan de acción priorizado y matriz RACI.</li><li>Cuadro de mando de cumplimiento para el comité de dirección.</li><li>Paquete de evidencias auditables y calendario de revisiones.</li><li>Integración con proyectos críticos de sistemas de información: <a class=\"link\" href=\"/erp-progiciel\">ERP</a>, <a class=\"link\" href=\"/crm\">CRM</a>, <a class=\"link\" href=\"/gmao\">GMAO</a>, <a class=\"link\" href=\"/si-finance\">sistemas de información financieros</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">asesoría en facturación electrónica</a>, <a class=\"link\" href=\"/infrastructure-si-amoa\">infraestructura de sistemas de información</a>.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Itinerario recomendado</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/amoa-si\">Asesoría para sistemas de información críticos</a> con el fin de definir las transformaciones de los sistemas de información.</li><li><a class=\"link\" href=\"/erp-progiciel\">ERP y software de gestión</a>, <a class=\"link\" href=\"/crm\">CRM</a>, <a class=\"link\" href=\"/gmao\">GMAO</a>, <a class=\"link\" href=\"/si-finance\">sistemas de información financieros</a>, <a class=\"link\" href=\"/facturation-electronique-amoa\">asesoría en facturación electrónica</a>, <a class=\"link\" href=\"/infrastructure-si-amoa\">infraestructura de sistemas de información</a>.</li><li><a class=\"link\" href=\"/rgpd\">RGPD</a>, <a class=\"link\" href=\"/cyber-securite\">ciberseguridad</a>, <a class=\"link\" href=\"/conseil-qualite\">consultoría de calidad</a> para aplicar el cumplimiento de forma operativa.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita un plan de cumplimiento ejecutable para los próximos 12 meses?</h2><p class=\"oling-lede\">Creamos una hoja de ruta realista, alineada con sus obligaciones y prioridades de negocio.</p><a class=\"btn btn-primary\" href=\"/contact\">Hablar con un consultor de cumplimiento</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"conformite-reglementaire\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Obligaciones convertidas en planes ejecutables</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Marcos unificados para múltiples estándares y normativas (Reglamento de IA, RGPD, ISO, ciberseguridad, energía y calidad).</li>\n              <li>Priorización de las obligaciones según su criticidad, el esfuerzo requerido y el impacto en el negocio.</li>\n              <li>Gestión del cumplimiento mediante evidencias, comités e indicadores de progreso.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI asociadas</h2>\n      <p class=\"mb-3\">Esta área de especialización puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI asociado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y los departamentos y regiones de ultramar</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
-            "bodyHtml": "{\"items\":[{\"question\":\"¿Cómo priorizar las obligaciones de cumplimiento?\",\"answer\":\"Combinando los requisitos normativos, los riesgos de negocio y la criticidad de los sistemas para definir un plan de acción realista.\"},{\"question\":\"¿Cómo integrar el Reglamento de IA en un programa existente?\",\"answer\":\"Mediante una clasificación de los usos de IA, la definición de controles adaptados y la incorporación de evidencias en la gobernanza ya implantada.\"},{\"question\":\"¿Qué evidencias deben prepararse para una auditoría?\",\"answer\":\"Mapa de requisitos, planes de acción, actas de seguimiento, controles ejecutados y elementos de trazabilidad.\"}]}",
-            "structuredData": {
-                "landingNarrative": {
-                    "focus": [
-                        "Obligaciones relacionadas con el RGPD, la ciberseguridad, NIS2, DORA, la IA o las normas ISO abordadas en iniciativas separadas.",
-                        "Evidencias de auditoría dispersas entre las áreas de negocio, el departamento de TI, calidad y cumplimiento.",
-                        "Plan de acción normativo difícil de priorizar o supervisar en comité.",
-                        "Proyecto crítico de sistemas de información que debe incorporar requisitos de cumplimiento desde su definición."
-                    ],
-                    "showFaq": false,
-                    "heroBadge": "Cumplimiento",
-                    "heroIntro": "El RGPD, la ciberseguridad, NIS2, DORA, la IA o las normas ISO suelen involucrar a varias áreas. OLING estructura las obligaciones, responsabilidades, evidencias y planes de acción que deben gestionarse.",
-                    "heroTitle": "Cumplimiento normativo: convertir las obligaciones en acciones",
-                    "metaTitle": "Cumplimiento normativo | Reglamento de IA, ISO, QSE, energía y seguridad | OLING",
-                    "linksTitle": "Páginas relacionadas",
-                    "scopeTitle": "Cuándo resulta útil esta intervención",
-                    "deliverables": [
-                        "Mapa de obligaciones, riesgos y responsables.",
-                        "Plan de acción priorizado.",
-                        "Matriz RACI y calendario de revisiones.",
-                        "Cuadro de mando de seguimiento para el comité de dirección."
-                    ],
-                    "finalCtaText": null,
-                    "supportLinks": [
-                        {
-                            "href": "/expertises-audit/rgpd",
-                            "label": "RGPD y DPO"
-                        },
-                        {
-                            "href": "/cyber-securite",
-                            "label": "Ciberseguridad"
-                        },
-                        {
-                            "href": "/conseil-qualite",
-                            "label": "Consultoría de calidad"
-                        }
-                    ],
-                    "triggerTitle": "Qué hace OLING",
-                    "finalCtaLabel": "Hablar con un consultor de cumplimiento",
-                    "finalCtaTitle": "Identificar las obligaciones que deben gestionarse",
-                    "missionPhases": [
-                        "Identificar las obligaciones, los riesgos asociados y los responsables.",
-                        "Priorizar las acciones según su criticidad, esfuerzo, plazo e impacto en el negocio.",
-                        "Estructurar las evidencias requeridas para controles internos, auditorías o revisiones por la dirección.",
-                        "Conectar el cumplimiento con los proyectos de sistemas de información, la ciberseguridad, los datos y la calidad."
-                    ],
-                    "compactLanding": true,
-                    "metaDescription": "Cumplimiento normativo ejecutable: Reglamento de IA, RGPD, ISO, ciberseguridad, calidad, medio ambiente, energía, DORA, NIS2 y mecanismos de evidencia.",
-                    "showReadingPath": false,
-                    "showHeroSideHtml": false,
-                    "deliverablesTitle": "Documentos entregados",
-                    "schemaServiceType": "Cumplimiento normativo",
-                    "showAutomaticZones": false
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "4f6e9b981916d872a0f61968e133d1dd65b08e9bed0cff864e3aaf4b484d9a11",
-            "sourceUpdatedAt": "2026-10-02T22:18:23+00:00",
-            "translatedAt": "2026-10-02T22:18:23+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "conseil-qualite",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "consultoria-calidad",
-            "title": "Consultoría de calidad | Procesos, ISO y mejora continua | OLING",
-            "seoTitle": "Consultoría de calidad | Procesos, ISO y mejora continua | OLING",
-            "seoDescription": "Consultoría de calidad para el sector público, pymes y empresas de tamaño intermedio: gobernanza de procesos, iniciativas ISO, indicadores de rendimiento y mejora continua.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Consultoría de calidad",
-            "heroTitle": "Consultoría de calidad: reforzar la fiabilidad de los procesos y el rendimiento sostenible",
-            "heroIntro": "OLING alinea sus objetivos de negocio, procesos y herramientas de sistemas de información para implantar una calidad medible y sostenible.",
-            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Áreas de intervención</h2><ul class=\"mb-0\"><li>Mapeo y estandarización de los procesos críticos.</li><li>Gestión de indicadores de calidad, riesgos y cumplimiento.</li><li>Gestión del cambio y adopción por parte de los equipos.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Entregables</h2><ul class=\"mb-0\"><li>Plan priorizado de mejora continua.</li><li>Sistema de control y gobernanza de la calidad.</li><li>Hoja de ruta de asesoría en sistemas de información y trayectoria de transformación.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Guías relacionadas</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/ressources/indicateurs-qualite-si\">Indicadores de calidad de sistemas de información: KPI que realmente orientan la gestión</a></li><li><a class=\"link\" href=\"/ressources/cadrage-projet-amoa-si\">Definición de proyectos de sistemas de información: errores que deben evitarse</a></li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo: RGPD, AI Act, ISO, seguridad, QSE y energía</a></li></ul></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"conseil-qualite\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Sistemas de calidad orientados a resultados</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Rediseño de procesos y cuadros de mando de calidad vinculados a los objetivos de negocio.</li>\n              <li>Preparación de auditorías internas y externas con evidencias homogéneas y trazables.</li>\n              <li>Gestión de planes de mejora continua con responsables y plazos definidos.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de apoyo</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI relacionadas</h2>\n      <p class=\"mb-3\">Esta área de especialización puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/management-qualite\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI relacionado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia metropolitana y territorios franceses de ultramar</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
-            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuál es la diferencia entre calidad y cumplimiento?\",\"answer\":\"La calidad permite gestionar el rendimiento de los procesos. El cumplimiento verifica la adecuación a los requisitos normativos y regulatorios.\"},{\"question\":\"¿Qué normas ISO son las más habituales?\",\"answer\":\"Según el contexto: ISO 9001, ISO 14001, ISO 50001 e ISO 27001, con un enfoque integrado de los riesgos y las evidencias.\"},{\"question\":\"¿Cuánto tiempo se tarda en obtener resultados concretos?\",\"answer\":\"A menudo se observan mejoras en pocas semanas mediante un plan priorizado, indicadores y rutinas de seguimiento.\"}]}",
-            "structuredData": {
-                "landingNarrative": {
-                    "focus": [
-                        "Procesos críticos documentados, pero poco aplicados o ejecutados de forma diferente según el equipo.",
-                        "Numerosos indicadores de calidad, pero poco útiles para la toma de decisiones.",
-                        "Auditorías internas, planes de acción o revisiones de calidad que deben volver a estar bajo control.",
-                        "Iniciativas ISO o QSE que deben vincularse con las actividades y las herramientas de sistemas de información."
-                    ],
-                    "showFaq": false,
-                    "heroBadge": "Consultoría de calidad",
-                    "heroIntro": "OLING interviene en los procesos, indicadores, auditorías y planes de mejora cuando la calidad debe poder gestionarse dentro de las operaciones.",
-                    "heroTitle": "Consultoría de calidad: reforzar la fiabilidad de los procesos y el rendimiento sostenible",
-                    "metaTitle": "Consultoría de calidad | Procesos, ISO y mejora continua | OLING",
-                    "linksTitle": "Páginas relacionadas",
-                    "scopeTitle": "Cuándo resulta útil esta intervención",
-                    "deliverables": [
-                        "Mapa de procesos.",
-                        "Plan de mejora priorizado.",
-                        "Cuadro de mando de calidad.",
-                        "Materiales para la revisión de calidad o el comité de dirección."
-                    ],
-                    "finalCtaText": null,
-                    "supportLinks": [
-                        {
-                            "href": "/expertises-audit/qse",
-                            "label": "QSE"
-                        },
-                        {
-                            "href": "/conformite-reglementaire",
-                            "label": "Cumplimiento normativo"
-                        }
-                    ],
-                    "triggerTitle": "Qué hace OLING",
-                    "finalCtaLabel": "Hablar sobre mi iniciativa QSE",
-                    "finalCtaTitle": "Hacer que la gestión de la calidad sea más operativa",
-                    "missionPhases": [
-                        "Mapear los procesos y los puntos de control relevantes.",
-                        "Simplificar los indicadores de calidad y las rutinas de seguimiento.",
-                        "Estructurar los planes de mejora, los responsables y los plazos.",
-                        "Vincular la calidad, el cumplimiento, los riesgos y los proyectos de sistemas de información."
-                    ],
-                    "compactLanding": true,
-                    "metaDescription": "Consultoría de calidad para el sector público, pymes y empresas de tamaño intermedio: gobernanza de procesos, iniciativas ISO, indicadores de rendimiento y mejora continua.",
-                    "showReadingPath": false,
-                    "showHeroSideHtml": false,
-                    "deliverablesTitle": "Documentos entregados",
-                    "schemaServiceType": "Consultoría de calidad",
-                    "showAutomaticZones": false
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "954036fc3fb5551562b43d7620778fa5d3ec0318a0321a53c18998d9f4f56ef8",
-            "sourceUpdatedAt": "2026-10-02T22:17:32+00:00",
-            "translatedAt": "2026-10-02T22:17:32+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": true
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "dsi-externalisee",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "direccion-ti-externalizada",
-            "title": "Dirección de TI externalizada | Gobierno de TI, rendimiento y seguridad | OLING",
-            "seoTitle": "Dirección de TI externalizada | Gobierno de TI, rendimiento y seguridad | OLING",
-            "seoDescription": "Dirección de TI externalizada: hoja de ruta de TI, gestión de proveedores, calidad del servicio, seguridad y cumplimiento para organizaciones públicas y privadas.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Dirección de TI externalizada",
-            "heroTitle": "Dirección de TI externalizada: gestionar, proteger y transformar los sistemas de información",
-            "heroIntro": "Ofrecemos una dirección de TI externalizada orientada a resultados: estrategia de TI, gobierno de proyectos, rendimiento operativo, cumplimiento y ciberseguridad.",
-            "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"oling-surface p-4\"><h2>Entregables clave</h2><ul class=\"mb-0\"><li>Plan director de TI y trayectoria presupuestaria.</li><li>Gestión de proveedores, SLA y control interno de TI.</li><li>Cuadros de mando para la dirección y plan de riesgos.</li></ul></div></div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\"><div class=\"d-flex flex-wrap gap-2\"><a class=\"btn btn-primary\" href=\"/contact\">Hablar sobre dirección de TI externalizada</a><a class=\"btn btn-outline-primary\" href=\"/amoa-si\">Asesoría en proyectos de TI</a><a class=\"btn btn-outline-primary\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructura de TI</a></div></div>\n</section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"dsi-externalisee\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos</h2>\n      <p class=\"mb-3\">Gestión externalizada de TI con un impacto medible</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de misiones</h3>\n          <ul class=\"mb-0\">\n              <li>Implantación de un gobierno de TI claro para la dirección, las áreas de negocio y los proveedores.</li>\n              <li>Priorización de la cartera de proyectos según su valor, riesgo y capacidad de ejecución.</li>\n              <li>Mejora de la calidad del servicio mediante SLA, KPI y revisiones de rendimiento.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del alcance</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->",
-            "bodyHtml": "{\"items\":[{\"question\":\"¿Cuándo conviene elegir una dirección de TI externalizada?\",\"answer\":\"Cuando se necesita reforzar rápidamente la gestión de TI con un nivel de gobierno sénior, sin contratar de inmediato un equipo completo.\"},{\"question\":\"¿Qué nivel de participación esperan de los equipos internos?\",\"answer\":\"Una gestión conjunta clara, con procesos periódicos de decisión y funciones definidas para garantizar la adopción y una ejecución sostenible.\"},{\"question\":\"¿Se puede combinar la dirección de TI externalizada con la asesoría en proyectos de TI?\",\"answer\":\"Sí, incluso es recomendable para alinear la hoja de ruta global de TI con la ejecución de los proyectos prioritarios.\"}]}",
-            "structuredData": {
-                "landingNarrative": {
-                    "focus": [
-                        "Dirección de TI inexistente, vacante o con recursos insuficientes para los proyectos en curso.",
-                        "Cartera de proyectos de TI difícil de priorizar junto con las áreas de negocio.",
-                        "Proveedores, SLA, presupuesto o riesgos de TI gestionados de forma insuficiente.",
-                        "Necesidad de una dirección de TI de transición antes de una contratación o reorganización."
-                    ],
-                    "showFaq": false,
-                    "heroBadge": "Dirección de TI externalizada",
-                    "heroIntro": "OLING apoya a la dirección de TI para definir las prioridades, gestionar a los proveedores, supervisar los riesgos y establecer un marco de decisión para la cartera de TI.",
-                    "heroTitle": "Dirección de TI externalizada: gestionar, proteger y transformar los sistemas de información",
-                    "metaTitle": "Dirección de TI externalizada | Gobierno de TI, rendimiento y seguridad | OLING",
-                    "linksTitle": "Páginas relacionadas",
-                    "scopeTitle": "Cuándo resulta útil esta intervención",
-                    "deliverables": [
-                        "Hoja de ruta de TI y cartera priorizada.",
-                        "Cuadro de mando de la dirección de TI.",
-                        "Plan de riesgos de TI.",
-                        "Marco de gobierno de proveedores y SLA."
-                    ],
-                    "finalCtaText": null,
-                    "supportLinks": [
-                        {
-                            "href": "/amoa-si",
-                            "label": "Asesoría en proyectos de TI"
-                        },
-                        {
-                            "href": "/infrastructure-si-amoa",
-                            "label": "Asesoría en infraestructura de TI"
-                        }
-                    ],
-                    "triggerTitle": "Qué hace OLING",
-                    "finalCtaLabel": "Hablar sobre dirección de TI externalizada",
-                    "finalCtaTitle": "Reforzar temporalmente la dirección de TI",
-                    "missionPhases": [
-                        "Estructurar el gobierno de TI, los procesos periódicos y los mecanismos de arbitraje.",
-                        "Priorizar la cartera de proyectos según su criticidad, coste, riesgo y capacidad.",
-                        "Gestionar proveedores, contratos, niveles de servicio y planes de acción.",
-                        "Supervisar el presupuesto, la deuda técnica, la continuidad, la seguridad y las dependencias."
-                    ],
-                    "compactLanding": true,
-                    "metaDescription": "Dirección de TI externalizada: hoja de ruta de TI, gestión de proveedores, calidad del servicio, seguridad y cumplimiento para organizaciones públicas y privadas.",
-                    "showReadingPath": false,
-                    "showHeroSideHtml": false,
-                    "deliverablesTitle": "Documentos entregados",
-                    "schemaServiceType": "Dirección de TI externalizada",
-                    "showAutomaticZones": false
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "4891a84bb79643dc00b1224e205a1fda20776b4794599bfec45d6f90d1216fcd",
-            "sourceUpdatedAt": "2026-10-02T22:17:28+00:00",
-            "translatedAt": "2026-10-02T22:17:28+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
         {
             "source": {
                 "entity": "SitePage",
@@ -445,12 +84,12 @@
                     "metaDescription": "OLING acompaña la selección, la definición, la implementación y la reducción de riesgos de proyectos de ERP, CRM, GMAO y aplicaciones empresariales."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "8b0a8589f9cd9d47df030131e84130ed8f01f7f60418312810e8b1bf1634ca3e",
             "sourceUpdatedAt": "2026-10-02T22:18:13+00:00",
             "translatedAt": "2026-10-02T22:18:13+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -511,12 +150,12 @@
                     "metaDescription": "OLING define, desarrolla conjuntamente y dirige proyectos de IA: asesoría en IA, grandes iniciativas de transformación y agentes adaptados a microempresas, pymes y empresas medianas."
                 }
             },
-            "status": "ai_translated",
+            "status": "published",
             "sourceContentHash": "2719bc5aecfaef6b1e9bb0224ff3130c3c0cdd804d911fda0c291dceeded6f19",
             "sourceUpdatedAt": "2026-10-14T09:33:44+00:00",
             "translatedAt": "2026-10-14T09:33:44+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -577,12 +216,12 @@
                     "metaDescription": "OLING estructura el cumplimiento de la IA, la gobernanza de usos, los controles y las evidencias para desarrollar proyectos de IA sólidos y auditables."
                 }
             },
-            "status": "ai_translated",
+            "status": "published",
             "sourceContentHash": "f5c83710942a7b38fa0f0e42e07f9396e6c1265679edb78ed36f450c3a93f1d6",
             "sourceUpdatedAt": "2026-10-14T09:34:11+00:00",
             "translatedAt": "2026-10-14T09:34:11+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -642,12 +281,12 @@
                     "metaDescription": "OLING ayuda a las organizaciones a reforzar su seguridad: ciberseguridad, ISO 27001, NIS2, DORA, continuidad y resiliencia."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "cb49c6667436090ca8e04dadd5227fd929a819d8676abf6a6f92f239fc2b564e",
             "sourceUpdatedAt": "2026-10-02T22:18:07+00:00",
             "translatedAt": "2026-10-02T22:18:07+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -707,12 +346,12 @@
                     "metaDescription": "OLING ayuda a las empresas a identificar casos de uso de IA relevantes, estructurar su gobernanza, integrar agentes y gestionar proyectos de datos y automatización."
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "a955df17f8f340643a813e816af4d7c61ae8fb95944553213c66338a5f2cab11",
             "sourceUpdatedAt": "2026-10-02T22:19:37+00:00",
             "translatedAt": "2026-10-02T22:19:37+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -768,12 +407,12 @@
                     "metaDescription": "OLING ayuda a las pymes, empresas industriales y empresas medianas a replantear sus procesos, estructurar sus responsabilidades y gestionar los cambios asociados a la transformación de sus sistemas de información."
                 }
             },
-            "status": "ai_translated",
+            "status": "published",
             "sourceContentHash": "08c71d3163ab2b5cfc32693727db9b5c1901903e50a9ca85162d625f1e38b115",
             "sourceUpdatedAt": "2026-10-14T09:33:37+00:00",
             "translatedAt": "2026-10-14T09:33:37+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -847,12 +486,12 @@
                     "anonymousProofsTitle": "Encargos relacionados anonimizados"
                 }
             },
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "fde8bf2737734cb24da1595511c2455d6b178945f9f5d8da28e47637bb7a1c0b",
             "sourceUpdatedAt": "2026-10-02T22:19:47+00:00",
             "translatedAt": "2026-10-02T22:19:47+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -913,12 +552,12 @@
                     "metaDescription": "OLING estructura los proyectos de automatización e IA de microempresas, pymes y empresas industriales medianas con casos de uso específicos y agentes integrados en las operaciones."
                 }
             },
-            "status": "ai_translated",
+            "status": "published",
             "sourceContentHash": "78305ee5e1feaf638b8ab4318a6d0483a392189215c549c327f79ee764de6c0f",
             "sourceUpdatedAt": "2026-10-14T09:34:14+00:00",
             "translatedAt": "2026-10-14T09:34:14+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -978,12 +617,12 @@
                     "metaDescription": "OLING define, asegura y dirige las transformaciones de los sistemas de información de pymes y empresas medianas: gobernanza, hoja de ruta, proyectos estructurantes y ejecución."
                 }
             },
-            "status": "ai_translated",
+            "status": "published",
             "sourceContentHash": "0e7fc7be88f1dbc1e5b88846a0f8d5b2f7f76a63a8011694b73bd458cc347024",
             "sourceUpdatedAt": "2026-10-14T09:33:13+00:00",
             "translatedAt": "2026-10-14T09:33:13+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1007,41 +646,12 @@
             "heroSideHtml": null,
             "bodyHtml": null,
             "structuredData": null,
-            "status": "to_review",
+            "status": "published",
             "sourceContentHash": "44afc1cae75a39853b01faf92b6cfbf1ba8a4f2c6389aa8807f8ee693d6b220d",
             "sourceUpdatedAt": "2026-10-02T21:17:06+00:00",
             "translatedAt": "2026-10-02T21:17:06+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "gestion-risques-audit-controle-interne",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "riesgos-auditoria-control-interno",
-            "title": "Riesgos, auditoría y control interno | Gobernanza y pilotaje | OLING",
-            "seoTitle": "Riesgos, auditoría y control interno | OLING",
-            "seoDescription": null,
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": null,
-            "heroTitle": "Riesgos, auditoría y control interno",
-            "heroIntro": null,
-            "heroSideHtml": null,
-            "bodyHtml": null,
-            "structuredData": null,
-            "status": "to_review",
-            "sourceContentHash": "b362a6e46e50f5ca07f5001262997ca8d9472efaf108704dcd93ec2b82e71dc4",
-            "sourceUpdatedAt": "2026-10-02T22:18:20+00:00",
-            "translatedAt": "2026-10-02T22:18:20+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
+            "reviewedAt": "2026-10-14T11:44:49+00:00",
+            "publishedAt": "2026-10-14T11:44:49+00:00",
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -1242,667 +852,6 @@
         {
             "source": {
                 "entity": "SitePage",
-                "slug": "infrastructure-si-amoa",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "asesoria-infraestructura-si",
-            "title": "Asesoría en infraestructura de SI | Nube, resiliencia y seguridad | OLING",
-            "seoTitle": "Asesoría en infraestructura de SI | Nube, resiliencia y seguridad | OLING",
-            "seoDescription": "Asesoría en infraestructura de SI: estrategias de nube e híbridas, modernización de infraestructuras críticas, continuidad de negocio, seguridad y cumplimiento.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Infraestructura de SI",
-            "heroTitle": "Asesoría en infraestructura de SI: reforzar la fiabilidad de las plataformas críticas",
-            "heroIntro": "OLING acompaña a las direcciones de TI y a las áreas de negocio en la definición y gestión de la modernización de infraestructuras críticas: rendimiento, disponibilidad, ciberseguridad, costes y capacidad de evolución.",
-            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué definimos</h2><ul class=\"mb-0\"><li>Estrategias de arquitectura local, en la nube o híbrida.</li><li>Priorización de iniciativas de modernización y gestión de la obsolescencia.</li><li>Requisitos de disponibilidad, rendimiento, continuidad de negocio y recuperación ante desastres (PCA/PRA).</li><li>Integración con <a class=\"link\" href=\"/erp-progiciel\">ERP</a>, <a class=\"link\" href=\"/gmao\">GMAO</a> y <a class=\"link\" href=\"/si-finance\">sistemas de información financieros</a>.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Resultados esperados</h2><ul class=\"mb-0\"><li>Reducción de los riesgos de interrupción del servicio y de incidentes graves.</li><li>Mayor control de los costes operativos y las inversiones.</li><li>Alineación de las prioridades de negocio, técnicas y de cumplimiento.</li><li>Gobernanza clara de las decisiones sobre infraestructura (RACI, decisiones y KPI).</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Itinerario recomendado</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/cyber-securite\">Ciberseguridad</a> para gestionar los riesgos de seguridad de los sistemas de información y el cumplimiento de NIS2/DORA.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a> para vincular obligaciones, evidencias y gobernanza.</li><li><a class=\"link\" href=\"/facturation-electronique-amoa\">Asesoría en facturación electrónica</a> si su estrategia de infraestructura afecta a flujos financieros críticos.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita un plan realista de evolución de la infraestructura de SI?</h2><p class=\"oling-lede\">Creamos una hoja de ruta ejecutable con prioridades, dependencias, riesgos y gobernanza.</p><a class=\"btn btn-primary\" href=\"/contact\">Iniciar la definición de la infraestructura</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"infrastructure-si-amoa\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos</h2>\n      <p class=\"mb-3\">Bases de SI más resilientes</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Definición de evoluciones de infraestructura y nube según la criticidad para el negocio y los requisitos de continuidad.</li>\n              <li>Formalización de decisiones sobre capacidad, seguridad, costes y deuda técnica.</li>\n              <li>Gestión de la migración y estabilización con objetivos de servicio medibles.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI asociadas</h2>\n      <p class=\"mb-3\">Esta área de especialización puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/itsm-et-gestion-des-services-it\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI asociado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y territorios franceses de ultramar</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
-            "bodyHtml": "{\"items\":[{\"question\":\"¿Cómo elegir entre una estrategia en la nube, local o híbrida?\",\"answer\":\"Evaluando la criticidad para el negocio, los requisitos normativos, el rendimiento esperado, las competencias disponibles y el coste total de propiedad.\"},{\"question\":\"¿Cómo priorizar las iniciativas relacionadas con la obsolescencia?\",\"answer\":\"Clasificando los componentes según el riesgo de interrupción, el impacto en el negocio, la dificultad de migración y las dependencias de las aplicaciones.\"},{\"question\":\"¿Por qué se deben vincular la infraestructura, la ciberseguridad y el cumplimiento?\",\"answer\":\"Porque la resiliencia técnica, la seguridad y las obligaciones normativas deben gestionarse conjuntamente para que las medidas sigan siendo ejecutables.\"}]}",
-            "structuredData": {
-                "landingNarrative": {
-                    "focus": [
-                        "Infraestructura anticuada, deuda técnica u obsolescencia que debe priorizarse.",
-                        "Migración a la nube, arquitectura híbrida o alojamiento que debe definirse antes de una licitación.",
-                        "Requisitos de disponibilidad, rendimiento, ciberseguridad o continuidad de negocio y recuperación ante desastres (PCA/PRA) que deben formalizarse.",
-                        "Proyecto de infraestructura que afecta al ERP, las finanzas, la GMAO o flujos críticos."
-                    ],
-                    "showFaq": false,
-                    "heroBadge": "Infraestructura de SI",
-                    "heroIntro": "OLING interviene como asesor del cliente para definir las decisiones de arquitectura, las migraciones y la modernización de plataformas críticas, sin sustituir al integrador ni al proveedor de servicios gestionados.",
-                    "heroTitle": "Asesoría en infraestructura de SI: reforzar la fiabilidad de las plataformas críticas",
-                    "metaTitle": "Asesoría en infraestructura de SI | Nube, resiliencia y seguridad | OLING",
-                    "linksTitle": "Páginas relacionadas",
-                    "scopeTitle": "Cuándo resulta útil esta intervención",
-                    "deliverables": [
-                        "Documento de definición de la infraestructura.",
-                        "Escenarios de arquitectura y estrategia de migración.",
-                        "Matriz de riesgos, costes y dependencias.",
-                        "Requisitos de disponibilidad, seguridad y continuidad."
-                    ],
-                    "finalCtaText": null,
-                    "supportLinks": [
-                        {
-                            "href": "/cyber-securite",
-                            "label": "Ciberseguridad"
-                        },
-                        {
-                            "href": "/dsi-externalisee",
-                            "label": "Dirección de TI externalizada"
-                        },
-                        {
-                            "href": "/amoa-si",
-                            "label": "Asesoría en sistemas de información"
-                        }
-                    ],
-                    "triggerTitle": "Qué hace OLING",
-                    "finalCtaLabel": "Iniciar la definición de la infraestructura",
-                    "finalCtaTitle": "Definir una evolución de la infraestructura",
-                    "missionPhases": [
-                        "Identificar las necesidades del negocio, las restricciones técnicas y las dependencias de las aplicaciones.",
-                        "Comparar los escenarios de arquitectura y migración.",
-                        "Formalizar los requisitos de servicio, seguridad, continuidad y operación.",
-                        "Gestionar las decisiones entre costes, riesgos, plazos y capacidad interna."
-                    ],
-                    "compactLanding": true,
-                    "metaDescription": "Asesoría en infraestructura de SI: estrategias de nube e híbridas, modernización de infraestructuras críticas, continuidad de negocio, seguridad y cumplimiento.",
-                    "showReadingPath": false,
-                    "showHeroSideHtml": false,
-                    "deliverablesTitle": "Documentos entregados",
-                    "schemaServiceType": "Asesoría en infraestructura de SI",
-                    "showAutomaticZones": false
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "50a600e2079aa23f214a58e9f6b92864a728386a58089d2408772d1df81e74a6",
-            "sourceUpdatedAt": "2026-10-02T22:19:05+00:00",
-            "translatedAt": "2026-10-02T22:19:05+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "metiers",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "sectores-de-actividad",
-            "title": "Sectores de actividad | Consultoría en proyectos de sistemas de información - OLING",
-            "seoTitle": "Sectores de actividad | Consultoría en proyectos de sistemas de información - OLING",
-            "seoDescription": "Experiencia multisectorial en asesoría para proyectos de sistemas de información, software empresarial y cumplimiento para entidades públicas y privadas.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Experiencia sectorial",
-            "heroTitle": "Un socio experto para una transformación adaptada a su sector",
-            "heroIntro": null,
-            "heroSideHtml": null,
-            "bodyHtml": "<div class=\"row mb-3\">\n  <div class=\"col-10 col-md-7 col-lg-7 offset-1 offset-md-4\">\n    <h3>Experiencia adaptada a diversos sectores de actividad</h3>\n    <p>Nuestro enfoque multisectorial nos permite aplicar principios sólidos y estandarizados, teniendo en cuenta al mismo tiempo las particularidades y necesidades específicas de cada sector. De este modo, ofrecemos a nuestros clientes soluciones a medida, adaptadas a sus retos y objetivos.</p>\n\n    <ul class=\"list-unstyled list-timeline list-py-3\">\n      <li class=\"list-timeline-item\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Sector público, grandes puertos y aeropuertos</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>En el sector del transporte y las administraciones locales, contribuimos a crear un catálogo de servicios para una entidad de 2000 empleados, optimizando así su organización. Implantamos sistemas ERP para mejorar el rendimiento operativo y financiero en grandes puertos y aeropuertos. Nuestras actuaciones también incluyeron la elaboración de planes estratégicos de sistemas de información y digitalización, el cumplimiento de las normas ISO y del RGPD, así como la evaluación de la continuidad de los sistemas de información.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Comercio y distribución</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>Para las empresas de comercio y distribución, aportamos nuestra experiencia en ERP (como X3, Divalto, SAP, etc.), CRM, BI, contabilidad analítica, procesos de compras e inventario, gestión comercial y finanzas. Gracias a esta experiencia, acompañamos a nuestros clientes durante todo el proceso de integración de las soluciones de software y les ayudamos a aprovechar al máximo las herramientas de colaboración de Office 365. Nuestro objetivo es permitir que las empresas modernicen sus operaciones y optimicen su organización.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Empresas de agua</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>Para las empresas de agua, trabajamos en la modernización de las infraestructuras de tratamiento y distribución, la optimización de los procesos de gestión del agua y la implantación de soluciones digitales para mejorar la supervisión y el control de las redes de agua. También ayudamos a estas empresas a adaptarse a los retos medioambientales y normativos.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Proveedores de vivienda social y promotores urbanísticos</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>En el ámbito de la vivienda social y el desarrollo urbanístico, acompañamos a nuestros clientes en la transformación de sus procesos de negocio y en la implantación de sistemas de información adaptados a las necesidades específicas del sector. También contribuimos a implantar soluciones digitales para gestionar las viviendas sociales, mantener los edificios y mejorar la calidad de vida de los residentes.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n\n      <li class=\"list-timeline-item ms-auto\">\n        <div class=\"card card-shadow\">\n          <div class=\"card-body\">\n            <div class=\"d-sm-flex\">\n              <div class=\"flex-grow-1 ms-sm-4\">\n                <h4>Formación profesional</h4>\n                <figure class=\"blockquote-sm\">\n                  <blockquote class=\"blockquote\"><em>Por último, para las organizaciones de aprendizaje y formación, garantizamos el cumplimiento en materia de calidad, seguridad y medio ambiente, Qualiopi y RGPD. Implantamos soluciones de formación en línea, herramientas de gestión de competencias y plataformas de colaboración para facilitar el intercambio de conocimientos y el desarrollo de habilidades. También acompañamos a estas organizaciones en el cumplimiento de las normas de calidad y la normativa aplicable.</em></blockquote>\n                </figure>\n              </div>\n            </div>\n          </div>\n        </div>\n      </li>\n    </ul>\n  </div>\n</div>",
-            "structuredData": {
-                "corePage": {
-                    "intro": "OLING trabaja en entornos diversos con una misma exigencia: comprender las limitaciones del sector, aclarar las prioridades y facilitar la gestión de las transformaciones.",
-                    "title": "Sectores de actividad a los que acompaña OLING",
-                    "eyebrow": "Sectores atendidos",
-                    "sections": [
-                        {
-                            "text": "OLING presenta aquí únicamente los sectores en los que presta servicios. Para cada uno, la página destaca las limitaciones recurrentes ya identificadas en los proyectos publicados y los contextos de transformación más habituales.",
-                            "title": "Intervenciones adaptadas a la realidad de cada sector",
-                            "kicker": "Enfoque"
-                        },
-                        {
-                            "text": "En el sector del transporte y las administraciones locales, contribuimos a crear un catálogo de servicios para una entidad de 2000 empleados, optimizamos su organización e implantamos sistemas ERP para mejorar el rendimiento operativo y financiero en grandes puertos y aeropuertos. Nuestras actuaciones también incluyeron la elaboración de planes estratégicos de sistemas de información y digitalización, el cumplimiento de las normas ISO y del RGPD, así como la evaluación de la continuidad de los sistemas de información.",
-                            "kicker": "Sector público, grandes puertos y aeropuertos"
-                        },
-                        {
-                            "text": "Para las empresas de comercio y distribución, aportamos nuestra experiencia en ERP, CRM, BI, contabilidad analítica, procesos de compras e inventario, gestión comercial y finanzas. Acompañamos a nuestros clientes durante todo el proceso de integración de las soluciones de software y les ayudamos a aprovechar al máximo las herramientas de colaboración de Office 365.",
-                            "kicker": "Comercio y distribución"
-                        },
-                        {
-                            "text": "Para las empresas de agua, trabajamos en la modernización de las infraestructuras de tratamiento y distribución, la optimización de los procesos de gestión del agua y la implantación de soluciones digitales para mejorar la supervisión y el control de las redes.",
-                            "kicker": "Empresas de agua"
-                        },
-                        {
-                            "text": "En el ámbito de la vivienda social y el desarrollo urbanístico, acompañamos a nuestros clientes en la transformación de sus procesos de negocio y en la implantación de sistemas de información adaptados a las necesidades específicas del sector, con soluciones digitales útiles para la gestión y las operaciones.",
-                            "kicker": "Proveedores de vivienda social y promotores urbanísticos"
-                        },
-                        {
-                            "text": "Para las organizaciones de aprendizaje y formación, garantizamos el cumplimiento en materia de calidad, seguridad y medio ambiente, Qualiopi y RGPD; implantamos soluciones de formación en línea, herramientas de gestión de competencias y plataformas de colaboración, y las acompañamos en el cumplimiento de las normas de calidad aplicables.",
-                            "kicker": "Formación profesional"
-                        }
-                    ],
-                    "seoTitle": "Sectores de actividad | Consultoría en proyectos de sistemas de información - OLING",
-                    "highlights": [
-                        "Sectores con experiencia demostrada",
-                        "Referencias publicadas",
-                        "Retos sectoriales, de sistemas de información y de cumplimiento"
-                    ],
-                    "primaryCta": {
-                        "label": "Háblenos de su contexto",
-                        "route": "contact"
-                    },
-                    "secondaryCta": {
-                        "label": "Ver los sectores",
-                        "route": "sectors_index"
-                    },
-                    "metaDescription": "Experiencia multisectorial en asesoría para proyectos de sistemas de información, software empresarial y cumplimiento para entidades públicas y privadas."
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "e4d9663bfabe13fe5e27d5d76dc5a49da12705a50a113bd979cb2454221ebfed",
-            "sourceUpdatedAt": "2026-10-02T21:11:10+00:00",
-            "translatedAt": "2026-10-02T21:11:10+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "projets",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "proyectos",
-            "title": "Proyectos y misiones de OLING",
-            "seoTitle": "Proyectos y misiones de OLING",
-            "seoDescription": "Selección de misiones realizadas por OLING en asesoría de sistemas de información, aplicaciones empresariales, transformación organizativa, cumplimiento y gobernanza.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Proyectos de OLING",
-            "heroTitle": "Proyectos y misiones de OLING",
-            "heroIntro": "Una selección de misiones realizadas por OLING en asesoría de sistemas de información, aplicaciones empresariales, transformación organizativa, cumplimiento y gobernanza.",
-            "heroSideHtml": null,
-            "bodyHtml": "{\n    \"highlights\": [\n        \"Asesoría en proyectos de SI\",\n        \"Aplicaciones empresariales\",\n        \"Cumplimiento y gobernanza\"\n    ],\n    \"cards\": {\n        \"kicker\": \"Proyectos\",\n        \"title\": \"Misiones desarrolladas en contextos diversos, con el mismo nivel de exigencia\",\n        \"intro\": \"Los proyectos presentados conservan su contenido detallado e ilustran misiones reales realizadas por OLING.\",\n        \"archiveKicker\": \"Otras misiones\",\n        \"archiveTitle\": \"Otros proyectos que puede consultar\",\n        \"emptyText\": \"Por el momento no hay ningún proyecto disponible.\",\n        \"fallbackDescription\": \"Misión de OLING en asesoría de sistemas de información, aplicaciones empresariales, cumplimiento o gobernanza.\"\n    },\n    \"mapSection\": {\n        \"kicker\": \"Presencia sobre el terreno\",\n        \"title\": \"Misiones desarrolladas en la Francia metropolitana y los DROM\",\n        \"text\": \"OLING interviene allí donde los equipos, los proyectos y las limitaciones operativas requieren presencia sobre el terreno o una gestión cercana.\",\n        \"label\": \"Francia metropolitana y DROM\"\n    }\n}",
-            "structuredData": {
-                "corePage": {
-                    "cards": {
-                        "emptyText": "Por el momento no hay ningún proyecto disponible.",
-                        "fallbackDescription": "Dirección, transformación y cumplimiento en proyectos estratégicos de sistemas de información."
-                    },
-                    "intro": "OLING interviene en proyectos de transformación de sistemas de información, cumplimiento y resiliencia.",
-                    "title": "Proyectos y misiones de OLING",
-                    "eyebrow": "Casos de clientes de OLING",
-                    "seoTitle": "Nuestros proyectos | OLING",
-                    "highlights": [
-                        "Asesoría en proyectos de SI",
-                        "Aplicaciones empresariales",
-                        "Cumplimiento y gobernanza"
-                    ],
-                    "mapSection": {
-                        "text": "Francia y territorios de ultramar: implantamos, protegemos y acompañamos sus programas allí donde opera.",
-                        "label": "Francia metropolitana y DROM",
-                        "title": "Proyectos desarrollados en todos nuestros territorios.",
-                        "kicker": "Presencia sobre el terreno"
-                    },
-                    "primaryCta": {
-                        "label": "Hablemos de su contexto",
-                        "route": "contact"
-                    },
-                    "bodySection": {
-                        "enabled": true
-                    },
-                    "proofLibrary": {
-                        "filters": [
-                            {
-                                "id": "amoa-apps",
-                                "label": "Asesoría de SI y aplicaciones empresariales"
-                            },
-                            {
-                                "id": "ia-data",
-                                "label": "IA y datos"
-                            },
-                            {
-                                "id": "compliance-rgpd",
-                                "label": "Cumplimiento y RGPD"
-                            },
-                            {
-                                "id": "cyber-resilience",
-                                "label": "Ciberseguridad y resiliencia"
-                            },
-                            {
-                                "id": "quality-management",
-                                "label": "Calidad y gestión"
-                            }
-                        ],
-                        "missions": [
-                            {
-                                "id": "amoa-gmao-operateur-eau",
-                                "owner": {
-                                    "href": "/gmao",
-                                    "label": "Consultoría y asesoría en GMAO"
-                                },
-                                "scope": [
-                                    "GMAO",
-                                    "SI de intervenciones",
-                                    "SI técnico",
-                                    "SI de clientes",
-                                    "RR. HH.",
-                                    "finanzas",
-                                    "SIG"
-                                ],
-                                "title": "Asesoría en GMAO y modernización del SI de intervenciones",
-                                "sector": "Agua y saneamiento",
-                                "context": "La organización necesitaba modernizar la gestión de las intervenciones y garantizar la fiabilidad de los intercambios entre mantenimiento y los sistemas existentes.",
-                                "systems": [
-                                    "GMAO",
-                                    "ETL",
-                                    "SIG",
-                                    "SI de Finanzas y RR. HH."
-                                ],
-                                "category": "amoa-apps",
-                                "citations": [
-                                    "Para un operador público de agua, OLING definió una GMAO interoperable con los SI técnico, de clientes, RR. HH. y finanzas, así como con el SIG.",
-                                    "La misión abarcó el diagnóstico, la arquitectura objetivo, el marco funcional de referencia, la licitación, la selección, las pruebas y la aceptación."
-                                ],
-                                "deliverables": [
-                                    "Diagnóstico",
-                                    "Arquitectura objetivo",
-                                    "Marco funcional de referencia",
-                                    "Pliego de prescripciones técnicas (CCTP)",
-                                    "Expediente de licitación",
-                                    "Pruebas y aceptación"
-                                ],
-                                "intervention": "OLING dirigió el diagnóstico, los talleres, la arquitectura objetivo, el marco funcional de referencia, la licitación, la selección, las pruebas y la aceptación.",
-                                "organization": "Operador público de agua",
-                                "categoryLabel": "Asesoría de SI y aplicaciones empresariales",
-                                "secondaryOwner": {
-                                    "href": "/amoa-si",
-                                    "label": "Asesoría en proyectos de SI"
-                                }
-                            },
-                            {
-                                "id": "amoa-erp-groupe-industriel",
-                                "owner": {
-                                    "href": "/business-apps/erp",
-                                    "label": "Asesoría en ERP"
-                                },
-                                "scope": [
-                                    "ERP",
-                                    "Gobernanza de SI",
-                                    "Coordinación de proyectos",
-                                    "PMO"
-                                ],
-                                "title": "Asesoría en el ERP Divalto Infinity y gobernanza de SI",
-                                "sector": "Industria",
-                                "context": "El grupo desarrollaba un proyecto de ERP industrial asociado a una misión de acompañamiento del negocio y gobernanza de sistemas de información.",
-                                "systems": [
-                                    "Divalto Infinity"
-                                ],
-                                "category": "amoa-apps",
-                                "citations": [
-                                    "En un grupo industrial, OLING prestó asesoría para un proyecto ERP con Divalto Infinity y para la gobernanza de SI asociada.",
-                                    "La intervención documentada reúne asesoría en ERP, dirección interina de SI y PMO, sin atribuir a la misión resultados que no se hayan medido."
-                                ],
-                                "deliverables": [
-                                    "Asesoría para la implantación",
-                                    "Gobernanza de SI",
-                                    "Dirección interina de SI",
-                                    "PMO"
-                                ],
-                                "intervention": "OLING intervino en la asesoría para la implantación de Divalto Infinity, la gobernanza de SI, la dirección interina de SI y la gestión del proyecto.",
-                                "organization": "Grupo industrial",
-                                "categoryLabel": "Asesoría de SI y aplicaciones empresariales"
-                            },
-                            {
-                                "id": "si-finance-grand-port",
-                                "owner": {
-                                    "href": "/si-finance",
-                                    "label": "Asesoría en sistemas de información financiera"
-                                },
-                                "scope": [
-                                    "Sistemas de información financiera",
-                                    "Procesos presupuestarios",
-                                    "Requisitos normativos",
-                                    "Migración de datos"
-                                ],
-                                "title": "Transformación del sistema público de información financiera",
-                                "sector": "Transporte portuario",
-                                "context": "El sistema de información financiera debía reorientarse teniendo en cuenta los requisitos de la gestión presupuestaria y contable pública.",
-                                "systems": [],
-                                "category": "amoa-apps",
-                                "citations": [
-                                    "Para una gran autoridad portuaria, OLING acompañó la renovación de un sistema de información financiera sujeto a los requisitos de la gestión pública.",
-                                    "Los trabajos documentados abarcan la dirección del proyecto, el diagnóstico, la hoja de ruta, el diseño funcional y la preparación de la migración de datos."
-                                ],
-                                "deliverables": [
-                                    "Planificación y gobernanza del proyecto",
-                                    "Diagnóstico del sistema de información financiera",
-                                    "Hoja de ruta",
-                                    "Marco funcional de referencia",
-                                    "Preparación de la migración de datos"
-                                ],
-                                "intervention": "OLING se encargó de la dirección del proyecto, el diagnóstico, la estrategia objetivo, el diseño funcional y la preparación de la migración de datos.",
-                                "organization": "Gran autoridad portuaria",
-                                "categoryLabel": "Asesoría de SI y aplicaciones empresariales"
-                            },
-                            {
-                                "id": "rfe-acteur-transport",
-                                "owner": {
-                                    "href": "/consulting/reforme-facturation-electronique-amoa",
-                                    "label": "Asesoría en facturación electrónica"
-                                },
-                                "scope": [
-                                    "Facturación electrónica",
-                                    "E-reporting",
-                                    "Procesos y flujos",
-                                    "Arquitectura de SI",
-                                    "Licitación"
-                                ],
-                                "title": "Asesoría para la reforma de la facturación electrónica",
-                                "sector": "Transporte",
-                                "context": "La organización debía prepararse para la reforma dentro de un sistema de información heterogéneo y evaluar su impacto en los flujos de facturación.",
-                                "systems": [
-                                    "ERP de Finanzas",
-                                    "Informes",
-                                    "Gestión comercial",
-                                    "Chorus Pro"
-                                ],
-                                "category": "compliance-rgpd",
-                                "citations": [
-                                    "Para una empresa de transporte, OLING definió el alcance de la reforma de la facturación electrónica a partir de los casos de uso, los procesos y los flujos de SI.",
-                                    "La misión produjo un análisis de la situación actual, un análisis de brechas, una arquitectura objetivo y los elementos necesarios para la licitación."
-                                ],
-                                "deliverables": [
-                                    "Análisis de la situación actual",
-                                    "Mapa de procesos",
-                                    "Análisis de brechas",
-                                    "Arquitectura objetivo",
-                                    "Pliego de condiciones",
-                                    "Expediente de licitación"
-                                ],
-                                "intervention": "OLING definió los casos de uso, trazó el mapa de procesos y flujos, diseñó la arquitectura objetivo y preparó la licitación.",
-                                "organization": "Empresa de transporte",
-                                "categoryLabel": "Cumplimiento y RGPD"
-                            },
-                            {
-                                "id": "dpo-intercommunalite",
-                                "owner": {
-                                    "href": "/expertises/rgpd-dpo-gouvernance",
-                                    "label": "DPO externo"
-                                },
-                                "scope": [
-                                    "DPO externo",
-                                    "RGPD",
-                                    "Gobernanza",
-                                    "Servicios digitales compartidos"
-                                ],
-                                "title": "DPO externo y gobernanza del RGPD",
-                                "sector": "Sector público local",
-                                "context": "Los servicios digitales compartidos requerían una gobernanza continua del RGPD y un responsable claramente identificado.",
-                                "systems": [],
-                                "category": "compliance-rgpd",
-                                "citations": [
-                                    "Para una entidad de cooperación intermunicipal, OLING intervino como DPO externo en un contexto de servicios digitales compartidos.",
-                                    "La misión documentada se centra en la gobernanza del RGPD y el seguimiento del cumplimiento de la organización."
-                                ],
-                                "deliverables": [
-                                    "Gestión de la función de DPO",
-                                    "Gobernanza del RGPD",
-                                    "Seguimiento del cumplimiento"
-                                ],
-                                "intervention": "OLING ejerció como DPO externo y estructuró la gobernanza del RGPD en el entorno compartido de la organización.",
-                                "organization": "Entidad de cooperación intermunicipal",
-                                "categoryLabel": "Cumplimiento y RGPD"
-                            },
-                            {
-                                "id": "diagnostic-rgpd-semi",
-                                "owner": {
-                                    "href": "/expertises-audit/rgpd",
-                                    "label": "Cumplimiento del RGPD"
-                                },
-                                "scope": [
-                                    "RGPD",
-                                    "Tratamientos de datos de clientes",
-                                    "Diagnóstico de cumplimiento"
-                                ],
-                                "title": "Diagnóstico RGPD de los tratamientos de datos de clientes",
-                                "sector": "Sector inmobiliario y comercio local",
-                                "context": "La organización debía evaluar sus tratamientos de datos de clientes en el marco de un diagnóstico RGPD.",
-                                "systems": [],
-                                "category": "compliance-rgpd",
-                                "citations": [
-                                    "Para una empresa de capital mixto, OLING realizó un diagnóstico RGPD centrado en los tratamientos de datos de clientes.",
-                                    "Los trabajos documentados abarcan el análisis de los tratamientos de datos de clientes y la entrega de un diagnóstico RGPD."
-                                ],
-                                "deliverables": [
-                                    "Diagnóstico RGPD",
-                                    "Análisis de los tratamientos"
-                                ],
-                                "intervention": "OLING analizó los tratamientos de datos de clientes y realizó el diagnóstico RGPD asociado.",
-                                "organization": "Empresa de capital mixto",
-                                "categoryLabel": "Cumplimiento y RGPD"
-                            },
-                            {
-                                "id": "qsee-grand-port",
-                                "owner": {
-                                    "href": "/expertises-audit/qse",
-                                    "label": "Gestión QSE"
-                                },
-                                "scope": [
-                                    "Gobernanza QSEE",
-                                    "Procesos",
-                                    "Documentación",
-                                    "Indicadores",
-                                    "Mejora continua"
-                                ],
-                                "title": "Dirección externa de QSEE y mejora continua",
-                                "sector": "Transporte portuario",
-                                "context": "La entidad debía mantener a largo plazo la gobernanza de calidad, seguridad, medio ambiente y energía de sus actividades portuarias.",
-                                "systems": [
-                                    "Microsoft 365",
-                                    "MAPSI"
-                                ],
-                                "category": "quality-management",
-                                "citations": [
-                                    "Para una gran autoridad portuaria, OLING asumió durante varios años una delegación documentada de QSEE.",
-                                    "La misión abarca las revisiones de procesos, la documentación, los indicadores y el seguimiento de los planes de acción."
-                                ],
-                                "deliverables": [
-                                    "Revisiones de procesos",
-                                    "Documentación QSEE",
-                                    "Indicadores",
-                                    "Planes de acción"
-                                ],
-                                "intervention": "OLING asumió una delegación de QSEE que abarcaba las revisiones de procesos, la documentación, los indicadores y los planes de acción.",
-                                "organization": "Gran autoridad portuaria",
-                                "categoryLabel": "Calidad y gestión"
-                            },
-                            {
-                                "id": "management-processus-grand-port",
-                                "owner": {
-                                    "href": "/expertises-audit/qse",
-                                    "label": "Gestión QSE"
-                                },
-                                "scope": [
-                                    "Gestión por procesos",
-                                    "Sistema de gestión ambiental",
-                                    "Datos ambientales",
-                                    "Plan de transición"
-                                ],
-                                "title": "Gestión por procesos y transición a ISO 14001",
-                                "sector": "Transporte portuario",
-                                "context": "La entidad desarrollaba iniciativas diferenciadas de gestión por procesos y de transición de su sistema de gestión ambiental.",
-                                "systems": [],
-                                "category": "quality-management",
-                                "citations": [
-                                    "Para una gran autoridad portuaria, OLING acompañó una iniciativa documentada de gestión por procesos dentro de una misión ISO 9001.",
-                                    "Otra misión independiente abarcó la transición del sistema de gestión ambiental a ISO 14001:2015 y su plan de transición."
-                                ],
-                                "deliverables": [
-                                    "Acompañamiento en la gestión por procesos",
-                                    "Plan de transición a ISO 14001:2015",
-                                    "Trabajos de integración ambiental"
-                                ],
-                                "intervention": "OLING acompañó la gestión por procesos, la integración de datos ambientales y la preparación del plan de transición a ISO 14001:2015.",
-                                "organization": "Gran autoridad portuaria",
-                                "categoryLabel": "Calidad y gestión"
-                            },
-                            {
-                                "id": "direction-qualite-groupe-formation",
-                                "owner": {
-                                    "href": "/expertises-audit/qse",
-                                    "label": "Gestión QSE"
-                                },
-                                "scope": [
-                                    "Dirección de calidad",
-                                    "Organización",
-                                    "Indicadores Qualiopi",
-                                    "DUERP"
-                                ],
-                                "title": "Dirección de calidad y seguimiento de Qualiopi",
-                                "sector": "Formación profesional",
-                                "context": "El grupo necesitaba una dirección de calidad y el seguimiento operativo de varios requisitos de Qualiopi.",
-                                "systems": [],
-                                "category": "quality-management",
-                                "citations": [
-                                    "Para un grupo de formación profesional, OLING asumió una misión documentada de dirección de calidad delegada.",
-                                    "Los trabajos facturados incluyen la actualización del organigrama, el seguimiento de los indicadores Qualiopi 1 a 3 y la entrega de un documento único de evaluación de riesgos laborales (DUERP)."
-                                ],
-                                "deliverables": [
-                                    "Actualización del organigrama",
-                                    "Seguimiento de los indicadores Qualiopi 1 a 3",
-                                    "DUERP"
-                                ],
-                                "intervention": "OLING asumió una dirección de calidad delegada y llevó a cabo trabajos relacionados con la organización, los indicadores Qualiopi y el documento único de evaluación de riesgos laborales.",
-                                "organization": "Grupo de formación profesional",
-                                "categoryLabel": "Calidad y gestión",
-                                "secondaryOwner": {
-                                    "href": "/expertises-audit/qualiopi",
-                                    "label": "Acompañamiento Qualiopi"
-                                }
-                            },
-                            {
-                                "id": "qualiopi-cfa",
-                                "owner": {
-                                    "href": "/expertises-audit/qualiopi",
-                                    "label": "Acompañamiento Qualiopi"
-                                },
-                                "scope": [
-                                    "Qualiopi",
-                                    "Consejo de mejora",
-                                    "Indicadores",
-                                    "Programas de formación"
-                                ],
-                                "title": "Gestión de la calidad y cumplimiento de Qualiopi",
-                                "sector": "Formación profesional",
-                                "context": "La organización debía actualizar sus prácticas y evidencias de acuerdo con los cambios en la guía de interpretación de Qualiopi.",
-                                "systems": [],
-                                "category": "quality-management",
-                                "citations": [
-                                    "Para una organización de formación y un centro de formación de aprendices (CFA), OLING dirigió un taller sobre los cambios en la guía de interpretación de Qualiopi.",
-                                    "La misión abarcó el consejo de mejora, los indicadores de éxito, inserción laboral y satisfacción, así como las fichas de los programas."
-                                ],
-                                "deliverables": [
-                                    "Taller sobre la guía de interpretación",
-                                    "Actualización de los indicadores de éxito, inserción laboral y satisfacción",
-                                    "Verificación de las fichas de los programas"
-                                ],
-                                "intervention": "OLING dirigió un taller sobre la guía de interpretación, acompañó al consejo de mejora y revisó los indicadores y las fichas de los programas.",
-                                "organization": "Organización de formación y CFA",
-                                "categoryLabel": "Calidad y gestión",
-                                "secondaryOwner": {
-                                    "href": "/expertises-audit/qse",
-                                    "label": "Gestión QSE"
-                                }
-                            },
-                            {
-                                "id": "dora-pca-mutuelle",
-                                "owner": {
-                                    "href": "/pca-pra-continuite-activite",
-                                    "label": "PCA, PRA y continuidad de negocio"
-                                },
-                                "scope": [
-                                    "DORA",
-                                    "Activos TIC",
-                                    "Análisis de riesgos",
-                                    "RIA",
-                                    "BIA",
-                                    "PCA"
-                                ],
-                                "title": "DORA, análisis de impacto y plan de continuidad",
-                                "sector": "Seguros",
-                                "context": "La organización debía estructurar sus activos y riesgos digitales y, posteriormente, formalizar su continuidad de negocio.",
-                                "systems": [],
-                                "category": "cyber-resilience",
-                                "citations": [
-                                    "Para una mutua, OLING documentó los activos TIC, su criticidad y el procedimiento de evaluación y tratamiento de riesgos dentro de una iniciativa DORA.",
-                                    "Una misión asociada de continuidad produjo una RIA, una BIA y la documentación del plan de continuidad de negocio."
-                                ],
-                                "deliverables": [
-                                    "Inventario de activos",
-                                    "Procedimiento de evaluación y tratamiento de riesgos",
-                                    "RIA",
-                                    "BIA",
-                                    "Documentación del PCA"
-                                ],
-                                "intervention": "OLING acompañó el inventario y la clasificación de los activos TIC, la evaluación de riesgos, el análisis de impacto y la documentación del PCA.",
-                                "organization": "Mutua / empresa del sector asegurador",
-                                "categoryLabel": "Ciberseguridad y resiliencia",
-                                "secondaryOwner": {
-                                    "href": "/cyber-securite",
-                                    "label": "Ciberseguridad"
-                                }
-                            },
-                            {
-                                "id": "pcit-grand-port",
-                                "owner": {
-                                    "href": "/pca-pra-continuite-activite",
-                                    "label": "PCA, PRA y continuidad de negocio"
-                                },
-                                "scope": [
-                                    "Continuidad de TI",
-                                    "Telecomunicaciones",
-                                    "Infraestructuras",
-                                    "Sistemas",
-                                    "Aplicaciones"
-                                ],
-                                "title": "Plan de continuidad de TI y telecomunicaciones",
-                                "sector": "Transporte portuario",
-                                "context": "La entidad debía estructurar la continuidad de sus infraestructuras, sistemas y aplicaciones críticas.",
-                                "systems": [
-                                    "MAPSI"
-                                ],
-                                "category": "cyber-resilience",
-                                "citations": [
-                                    "Para una gran autoridad portuaria, OLING inició el inventario de referencia del PCIT, que abarcaba las infraestructuras, los sistemas y las aplicaciones.",
-                                    "La misión documentada incluye los talleres iniciales de definición, un plan de continuidad de TI y telecomunicaciones y una primera prueba técnica."
-                                ],
-                                "deliverables": [
-                                    "Inventario de componentes del PCIT",
-                                    "Plan de continuidad de TI y telecomunicaciones",
-                                    "Primera prueba técnica",
-                                    "Seguimiento del proyecto PCIT"
-                                ],
-                                "intervention": "OLING dirigió el inicio, los primeros talleres, la creación del inventario de componentes y una primera prueba técnica del PCIT.",
-                                "organization": "Gran autoridad portuaria",
-                                "categoryLabel": "Ciberseguridad y resiliencia"
-                            }
-                        ],
-                        "heroIntro": "OLING interviene en proyectos de transformación de sistemas de información, cumplimiento y resiliencia."
-                    },
-                    "secondaryCta": {
-                        "label": "Ver áreas de especialización",
-                        "route": "expertises_index"
-                    },
-                    "metaDescription": "Proyectos de transformación de sistemas de información, asesoría y cumplimiento realizados por OLING."
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "29073f31109f1b71ee9e7c4ed5303c689a0eb6c55a38cc2b9bd5bf54d1cf8f47",
-            "sourceUpdatedAt": "2026-10-02T21:16:23+00:00",
-            "translatedAt": "2026-10-02T21:16:23+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
                 "slug": "ressource-aipd-rgpd-methode",
                 "externalId": null
             },
@@ -2042,35 +991,6 @@
             "translatedAt": "2026-10-03T09:19:00+00:00",
             "reviewedAt": "2026-10-03T09:25:26+00:00",
             "publishedAt": "2026-10-03T09:25:26+00:00",
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "ressources",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "recursos",
-            "title": "Recursos de asesoría en sistemas de información y cumplimiento | Sistemas financieros, RGPD, Reglamento de IA | OLING",
-            "seoTitle": "Recursos de asesoría en sistemas de información y cumplimiento | Sistemas financieros, RGPD, Reglamento de IA | OLING",
-            "seoDescription": "Guías prácticas de OLING sobre asesoría en sistemas de información, infraestructura, sistemas financieros, facturación electrónica, RGPD, Reglamento de IA, ciberseguridad, calidad y control interno.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Recursos",
-            "heroTitle": "Recursos: guías de asesoría en sistemas de información, cumplimiento, sistemas financieros y rendimiento",
-            "heroIntro": "Contenidos especializados para ayudar a responsables del sector público, pymes y empresas medianas a definir, priorizar y ejecutar sus transformaciones de sistemas de información.",
-            "heroSideHtml": "<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4\">Áreas de especialización más demandadas</h2>\n      <div class=\"row g-2\">\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/erp-progiciel\">Asesoría para ERP y software empresarial</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gmao\">Asesoría para GMAO</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/crm\">Asesoría para CRM</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/mapsi-progiciel\">Software MAPSI</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Gestión de riesgos, auditoría y control interno</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/cabinet-conseil-paris\">Consultora en París</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/metropoles-hexagone\">Presencia en las principales ciudades de la Francia metropolitana</a></div>\n        <div class=\"col-md-6\"><a class=\"link\" href=\"/hexagone-drom-dom-tom\">París, Francia metropolitana, DROM DOM TOM</a></div>\n      </div>\n    </div>\n  </div>\n</section>\n<section class=\"oling-section oling-section--tight\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-5 text-center\">\n      <h2>¿Tiene un proyecto de RGPD, sistemas de información, calidad o ciberseguridad?</h2>\n      <p class=\"oling-lede\">Hablemos de sus prioridades y limitaciones para elaborar un plan de acción realista.</p>\n      <div class=\"d-flex justify-content-center flex-wrap gap-2\">\n        <a class=\"btn btn-primary\" href=\"/contact\">Hablar con un consultor</a>\n        <a class=\"btn btn-outline-primary\" href=\"/amoa-si\">Ver la oferta de asesoría en sistemas de información</a>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEO_STEP2_MAILLAGE_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-maillage-v2=\"resources-index\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Para saber más</h2>\n      <p class=\"mb-3\">Active las áreas prioritarias de asesoría y, a continuación, defina su ámbito territorial.</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-7\">\n          <h3 class=\"h6 text-uppercase mb-2\">Áreas prioritarias</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/amoa-si\">Asesoría en sistemas de información</a>: definición del alcance, gobernanza y supervisión de la ejecución.</li>\n            <li><a class=\"link\" href=\"/si-finance\">Asesoría en sistemas de información financieros</a>: flujos, control interno e informes.</li>\n            <li><a class=\"link\" href=\"/facturation-electronique-amoa\">Asesoría en facturación electrónica</a>: hoja de ruta PDP/PPF e implantación.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-5\">\n          <h3 class=\"h6 text-uppercase mb-2\">Zonas de intervención</h3>\n          <ul class=\"mb-0\">\n            <li><a class=\"link\" href=\"/cabinet-conseil-paris\">París</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-lyon\">Lyon</a></li>\n            <li><a class=\"link\" href=\"/cabinet-conseil-guadeloupe\">Guadalupe</a></li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Planificar la definición del alcance</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP2_MAILLAGE_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"resources-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Recursos complementarios de MAPSI</h2>\n      <p class=\"mb-3\">Para sistematizar el cumplimiento, los flujos de trabajo y la gestión de evidencias, consulte también las áreas de especialización de MAPSI.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/application-saas-grc\" target=\"_blank\" rel=\"noopener\">MAPSI SaaS GRC</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/privacy-rgpd\" target=\"_blank\" rel=\"noopener\">MAPSI Privacy RGPD</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK_RESOURCES -->",
-            "bodyHtml": null,
-            "structuredData": null,
-            "status": "to_review",
-            "sourceContentHash": "c80a36ba59146f3eabe59f14c2c1390b05d4fb78be9bd3407d7b15a6171a5a2f",
-            "sourceUpdatedAt": "2026-10-02T21:16:53+00:00",
-            "translatedAt": "2026-10-02T21:16:53+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
         },
@@ -2241,172 +1161,6 @@
             "translatedAt": "2026-10-02T21:17:18+00:00",
             "reviewedAt": "2026-10-02T22:00:00+00:00",
             "publishedAt": "2026-10-03T08:15:00+00:00",
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "si-finance",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "asesoria-si-finanzas",
-            "title": "Asesoría en SI Finanzas | Flujos P2P, O2C y R2R y control interno | OLING",
-            "seoTitle": "Asesoría en SI Finanzas | Flujos P2P, O2C y R2R y control interno | OLING",
-            "seoDescription": "Asesoría en SI Finanzas para direcciones financieras y de TI: optimización de flujos P2P, O2C y R2R, cierre, control interno, reporting, facturación electrónica y rendimiento.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Asesoría en SI Finanzas",
-            "heroTitle": "Asesoría en SI Finanzas: garantizar la fiabilidad de los flujos y agilizar la toma de decisiones",
-            "heroIntro": "OLING acompaña a las direcciones financieras y de TI en la transformación de los procesos financieros, la fiabilidad de los datos y la alineación del ERP y los sistemas financieros con los objetivos de cumplimiento y rendimiento.",
-            "heroSideHtml": "<section class=\"oling-section\"><div class=\"container\"><div class=\"row g-4\">\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Qué estructuramos</h2><ul class=\"mb-0\"><li>Optimización de los flujos Procure-to-Pay, Order-to-Cash y Record-to-Report.</li><li>Mejora de la fiabilidad de los datos maestros y de la calidad de los datos financieros.</li><li>Gobernanza de los controles clave y coordinación con la auditoría interna.</li><li>Integración de los sistemas financieros con el <a class=\"link\" href=\"/erp-progiciel\">ERP/software de gestión</a>, la <a class=\"link\" href=\"/infrastructure-si-amoa\">infraestructura de TI</a> y las herramientas complementarias.</li></ul></div></div>\n<div class=\"col-lg-6\"><div class=\"oling-surface p-4 h-100\"><h2>Resultados operativos</h2><ul class=\"mb-0\"><li>Ciclos de cierre más cortos y mayor calidad del reporting.</li><li>Decisiones financieras más rápidas gracias a datos fiables.</li><li>Mejor control de los riesgos financieros y de cumplimiento.</li><li>Hoja de ruta priorizada para las iniciativas de sistemas financieros con mayor valor.</li></ul></div></div>\n</div></div></section>\n<section class=\"oling-section oling-section--tight\"><div class=\"container\"><div class=\"oling-surface p-4\"><h2 class=\"h4\">Itinerario recomendado</h2><ul class=\"mb-0\"><li><a class=\"link\" href=\"/facturation-electronique-amoa\">Asesoría en facturación electrónica</a> para definir la hoja de ruta de e-invoicing y e-reporting.</li><li><a class=\"link\" href=\"/gestion-risques-audit-controle-interne\">Gestión de riesgos, auditoría y control interno</a> para reforzar la gobernanza.</li><li><a class=\"link\" href=\"/infrastructure-si-amoa\">Asesoría en infraestructura de TI</a> para garantizar la disponibilidad y el rendimiento de los flujos críticos.</li><li><a class=\"link\" href=\"/conformite-reglementaire\">Cumplimiento normativo</a> para coordinar los sistemas financieros con el cumplimiento en materia de IA, ISO, seguridad, QSE y energía.</li></ul></div></div></section>\n<section class=\"oling-section\"><div class=\"container\"><div class=\"oling-surface p-5 text-center\"><h2>¿Necesita una hoja de ruta de SI Finanzas para los próximos 12 meses?</h2><p class=\"oling-lede\">Definimos las prioridades, los entregables y la gobernanza para garantizar una ejecución controlada.</p><a class=\"btn btn-primary\" href=\"/contact\">Concertar una reunión</a></div></div></section>\n\n<!-- SEO_STEP3_CASES_START -->\n<section class=\"oling-section oling-section--tight\" data-seo-cases-v1=\"si-finance\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Casos de clientes y proyectos realizados</h2>\n      <p class=\"mb-3\">Flujos financieros fiables de principio a fin</p>\n      <div class=\"row g-4\">\n        <div class=\"col-lg-8\">\n          <h3 class=\"h6 text-uppercase mb-2\">Ejemplos de proyectos</h3>\n          <ul class=\"mb-0\">\n              <li>Optimización de los flujos P2P/O2C/R2R con reducción de los puntos de interrupción entre aplicaciones.</li>\n              <li>Refuerzo del control interno sobre los flujos y los accesos sensibles.</li>\n              <li>Agilización del cierre y mejora de la fiabilidad del reporting mediante la estandarización de los datos.</li>\n          </ul>\n        </div>\n        <div class=\"col-lg-4\">\n          <h3 class=\"h6 text-uppercase mb-2\">Sectores cubiertos</h3>\n          <ul class=\"mb-0\">\n            <li>Sector público</li>\n            <li>Infraestructuras y servicios</li>\n            <li>Finanzas y funciones de soporte</li>\n            <li>Energía y medio ambiente</li>\n            <li>Calidad y rendimiento operativo</li>\n          </ul>\n        </div>\n      </div>\n      <div class=\"mt-4 d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/projets\">Ver referencias</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"/contact\">Iniciar la definición del proyecto</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP3_CASES_END -->\n\n<section class=\"oling-section oling-section--tight\" data-seo-crosslink-mapsi=\"expertise-v1\">\n  <div class=\"container\">\n    <div class=\"oling-surface p-4\">\n      <h2 class=\"h4 mb-2\">Herramientas MAPSI asociadas</h2>\n      <p class=\"mb-3\">Esta área de especialización puede industrializarse con MAPSI para reforzar la trazabilidad, los flujos de trabajo y las evidencias de auditoría.</p>\n      <div class=\"d-flex flex-wrap gap-2\">\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/expertises/gestion-performance\" target=\"_blank\" rel=\"noopener\">Ver el módulo MAPSI asociado</a>\n        <a class=\"btn btn-outline-primary btn-sm\" href=\"https://mapsi.fr/fr/territoires/france-metropolitaine\" target=\"_blank\" rel=\"noopener\">Cobertura en Francia y los territorios franceses de ultramar</a>\n      </div>\n    </div>\n  </div>\n</section>\n<!-- SEO_STEP10_MAPSI_CROSSLINK -->",
-            "bodyHtml": "{\"items\":[{\"question\":\"¿Qué flujo debe priorizarse en un proyecto de SI Finanzas?\",\"answer\":\"Por lo general, P2P, O2C y R2R, abordando primero los puntos débiles que afectan al cierre y al reporting.\"},{\"question\":\"¿Cómo se puede agilizar el cierre financiero?\",\"answer\":\"Mejorando la fiabilidad de los datos maestros, automatizando los controles clave y aclarando las responsabilidades de elaboración y validación.\"},{\"question\":\"¿Por qué deben vincularse el SI Finanzas y la facturación electrónica?\",\"answer\":\"Porque la calidad de los flujos de facturación determina el cumplimiento, el rendimiento del procesamiento y la fiabilidad del reporting financiero.\"}]}",
-            "structuredData": {
-                "landingNarrative": {
-                    "focus": [
-                        "Describir la contabilidad general, auxiliar y analítica en función del alcance, junto con los controles y las responsabilidades asociados.",
-                        "Definir la preparación presupuestaria, los compromisos, los datos reales, las previsiones y las reglas de priorización.",
-                        "Determinar los ejes analíticos, las conciliaciones, el control de gestión y los datos necesarios para la toma de decisiones.",
-                        "Definir las fuentes del reporting, las reglas de consolidación, los controles de cierre y la elaboración de los estados financieros."
-                    ],
-                    "promise": "OLING no es un proveedor de soluciones EPM, un integrador financiero ni un despacho contable. La asesoría en SI Finanzas traduce las necesidades de la función financiera en procesos, datos maestros, controles, interfaces y escenarios de pruebas que el departamento de TI y el integrador puedan utilizar.",
-                    "heroBadge": "Consultora independiente de asesoría en SI Finanzas",
-                    "heroIntro": "OLING acompaña a las direcciones financieras y de TI en la definición de los procesos, la mejora de la fiabilidad de los datos, la clarificación de las herramientas ERP o EPM y la gestión de una transformación del SI Finanzas útil, gobernada y aplicable.",
-                    "heroTitle": "Asesoría en SI Finanzas: definir y dirigir su transformación financiera",
-                    "metaTitle": "Asesoría en SI Finanzas: definición y gestión de la transformación | OLING",
-                    "linksIntro": "El SI Finanzas forma parte de un ERP más amplio y debe integrar los flujos de facturación electrónica sin duplicar su definición detallada.",
-                    "linksTitle": "Ámbitos directamente relacionados con el SI Finanzas",
-                    "scopeTitle": "Procesos financieros y decisiones funcionales",
-                    "clientTypes": [
-                        "Las pruebas cubren los escenarios contables, presupuestarios y analíticos, así como los perfiles, permisos y controles asociados.",
-                        "Cada interfaz se prueba con sus datos de entrada, asientos esperados, rechazos y conciliaciones.",
-                        "Las migraciones se validan sobre los saldos, históricos, terceros y datos maestros antes de la puesta en marcha del sistema.",
-                        "El reporting y el cierre se prueban de principio a fin, desde la fuente hasta los estados y los controles de coherencia."
-                    ],
-                    "deliverables": [
-                        "Diagnóstico del SI Finanzas, mapa de procesos y documento de definición del proyecto.",
-                        "Especificación de requisitos, arquitectura funcional objetivo, reglas de gestión y gobernanza del proyecto.",
-                        "Modelo de datos maestros, catálogo de interfaces y documento para la evaluación y selección de soluciones.",
-                        "Plan de migración, estrategia de pruebas, plan de puesta en marcha e indicadores de estabilización."
-                    ],
-                    "finalCtaText": "La conversación inicial se centra en las operaciones que deben cubrirse, los datos, las interfaces, las dificultades de cierre y las decisiones funcionales pendientes.",
-                    "supportLinks": [
-                        {
-                            "href": "/amoa-si",
-                            "label": "Asesoría en sistemas de información",
-                            "description": "Para la gobernanza transversal y la gestión global del proyecto."
-                        },
-                        {
-                            "href": "/business-apps/erp",
-                            "label": "Asesoría en ERP",
-                            "description": "Para el alcance global del ERP, las interfaces y la gestión del integrador."
-                        },
-                        {
-                            "href": "/consulting/reforme-facturation-electronique-amoa",
-                            "label": "Asesoría en facturación electrónica",
-                            "description": "Para los flujos de entrada y salida, la plataforma autorizada, los estados y las pruebas de la reforma de la facturación electrónica."
-                        }
-                    ],
-                    "triggerTitle": "Método de definición y transformación",
-                    "finalCtaTitle": "Definir los procesos, los datos maestros y los controles del SI Finanzas",
-                    "missionPhases": [
-                        "Analizar las operaciones reales, los ajustes manuales, los plazos de cierre y las interrupciones entre contabilidad, presupuesto, tesorería y control de gestión.",
-                        "Determinar el modelo objetivo, las reglas de gestión, las responsabilidades, los controles y el alcance funcional de las herramientas.",
-                        "Comparar las opciones de ERP, EPM o herramientas complementarias mediante casos financieros representativos y criterios medibles.",
-                        "Dirigir el diseño, las interfaces, la migración, las pruebas, la puesta en marcha y la estabilización junto con las áreas de Finanzas y TI."
-                    ],
-                    "anonymousProofs": [
-                        {
-                            "label": "Gran puerto marítimo",
-                            "sector": "Transporte portuario",
-                            "mission": "Asesoría para la transformación del SI Finanzas: definición, requisitos normativos y preparación de la migración de datos.",
-                            "perimeter": [
-                                "SI Finanzas",
-                                "requisitos normativos",
-                                "migración de datos"
-                            ]
-                        }
-                    ],
-                    "metaDescription": "Consultora independiente de asesoría en SI Finanzas: definición, procesos financieros, ERP/EPM, reporting, datos, selección de soluciones, gestión, pruebas y gestión del cambio.",
-                    "projectContexts": [
-                        "Los datos maestros que deben gobernarse pueden incluir terceros, cuentas, ejes analíticos, estructuras, impuestos y centros de costes.",
-                        "Según el contexto, las interfaces conectan el ERP con compras, ventas, nóminas, activos fijos, tesorería, BI y aplicaciones de negocio.",
-                        "La migración especifica los históricos, saldos, terceros y datos maestros que se transferirán, así como los controles de integridad y conciliación.",
-                        "La facturación electrónica se integra en los flujos contables y las interfaces; su definición normativa detallada se aborda en la página dedicada a la reforma de la facturación electrónica."
-                    ],
-                    "showReadingPath": false,
-                    "clientTypesTitle": "Pruebas del sistema de información financiero",
-                    "positioningTitle": "Cuándo recurrir a una asesoría en SI Finanzas",
-                    "showHeroSideHtml": false,
-                    "deliverablesTitle": "Entregables funcionales y de gestión",
-                    "schemaServiceType": "Asesoría en SI Finanzas",
-                    "showAutomaticZones": false,
-                    "anonymousProofsIntro": "Esta referencia se mantiene anónima y se limita al alcance documentado del SI Finanzas.",
-                    "anonymousProofsTitle": "Proyecto anónimo relacionado",
-                    "projectContextsTitle": "Datos maestros, interfaces y migración"
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "8835a77fad1f150ed30c7c280b069d9cd0dc80f1e416e07a3dd68e51067df9a1",
-            "sourceUpdatedAt": "2026-10-02T22:19:18+00:00",
-            "translatedAt": "2026-10-02T22:19:18+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
-            "unpublishedAt": null,
-            "isOutdated": false
-        },
-        {
-            "source": {
-                "entity": "SitePage",
-                "slug": "team",
-                "externalId": null
-            },
-            "locale": "es",
-            "slug": "equipo",
-            "title": "El equipo | Expertos en asesoría de sistemas de información - OLING",
-            "seoTitle": "El equipo | Expertos en asesoría de sistemas de información - OLING",
-            "seoDescription": "Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos.",
-            "ogTitle": null,
-            "ogDescription": null,
-            "imageAlt": null,
-            "heroBadge": "Experiencia sectorial",
-            "heroTitle": "Un equipo de expertos multidisciplinares",
-            "heroIntro": null,
-            "heroSideHtml": null,
-            "bodyHtml": "<h4>Perfiles expertos para definir y dirigir sus proyectos</h4><p>OLING reúne a consultores especializados en asesoría de sistemas de información, cumplimiento, ciberseguridad, calidad y dirección de proyectos. Los equipos colaboran con las áreas de negocio y de TI para aclarar las necesidades, estructurar la toma de decisiones, garantizar una ejecución segura y facilitar la adopción sobre el terreno.</p><blockquote class=\"blockquote m-6\">Un equipo centrado en la definición de proyectos, la calidad de la ejecución y los resultados medibles.</blockquote>",
-            "structuredData": {
-                "corePage": {
-                    "intro": "Consultoría, asesoría ERP, riesgos, cumplimiento, ciberseguridad y transformación: los perfiles que se muestran aquí siguen vinculados al panel de administración y conservan su contenido existente.",
-                    "title": "Un equipo de expertos multidisciplinares",
-                    "eyebrow": "Equipo OLING",
-                    "seoTitle": "El equipo | Expertos en asesoría de sistemas de información - OLING",
-                    "highlights": [
-                        "Perfiles sénior",
-                        "Ejecución sobre el terreno",
-                        "Visión de negocio y de TI"
-                    ],
-                    "primaryCta": {
-                        "label": "Hablar con un consultor",
-                        "route": "contact"
-                    },
-                    "bodySection": {
-                        "enabled": true
-                    },
-                    "secondaryCta": {
-                        "label": "Conocer la consultora",
-                        "route": "apropos"
-                    },
-                    "metaDescription": "Un equipo de expertos en asesoría de sistemas de información, software empresarial, cumplimiento y ciberseguridad para acompañar sus proyectos estratégicos."
-                }
-            },
-            "status": "to_review",
-            "sourceContentHash": "f29dd9be5d12cbaf377f70b2099417624f69b54ab3fe2f6c7986a1b853fa5254",
-            "sourceUpdatedAt": "2026-10-02T21:11:56+00:00",
-            "translatedAt": "2026-10-02T21:11:56+00:00",
-            "reviewedAt": null,
-            "publishedAt": null,
             "unpublishedAt": null,
             "isOutdated": false
         }

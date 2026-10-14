@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\SitePageTranslation;
 use App\Repository\SitePageRepository;
 use App\Repository\SitePageTranslationRepository;
+use App\Service\I18n\AiTranslationService;
+use App\Service\I18n\TranslationReviewWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,12 +85,11 @@ final class TranslationAdminController extends AbstractController
 
             $action = (string) $request->request->get('action', 'save');
             if ($action === 'publish') {
-                $target->setTranslationStatus(SitePageTranslation::STATUS_PUBLISHED);
-                $target->setPublishedAt(new \DateTimeImmutable());
-                $target->setUnpublishedAt(null);
+                (new TranslationReviewWorkflow())->publish($target);
             } elseif ($action === 'review') {
-                $target->setTranslationStatus(SitePageTranslation::STATUS_REVIEWED);
-                $target->setReviewedAt(new \DateTimeImmutable());
+                (new TranslationReviewWorkflow())->markReviewed($target);
+            } elseif ($action === 'to_review') {
+                (new TranslationReviewWorkflow())->markToReview($target);
             } else {
                 $target
                     ->setTitle((string) $request->request->get('title'))
@@ -112,6 +113,48 @@ final class TranslationAdminController extends AbstractController
             'target' => $target,
             'practices' => [],
         ]);
+    }
+
+    #[Route('/site-page/{id}/{locale}/generate', name: 'admin_translations_site_page_generate', methods: ['POST'])]
+    public function generateSitePage(
+        int $id,
+        string $locale,
+        Request $request,
+        SitePageRepository $pages,
+        AiTranslationService $translationService,
+        EntityManagerInterface $entityManager
+    ): Response {
+        SitePageTranslation::assertSupportedLocale($locale);
+        if (!$this->isCsrfTokenValid('translation_generate_'.$id.'_'.$locale, (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $page = $pages->find($id);
+        if ($page === null) {
+            throw $this->createNotFoundException('Page introuvable.');
+        }
+
+        $overwrite = (string) $request->request->get('confirm_overwrite') === '1';
+        $existing = $page->getTranslation($locale);
+        if ($existing instanceof SitePageTranslation && !$overwrite) {
+            $this->addFlash('warning', 'Traduction existante non écrasée : confirmez la régénération.');
+
+            return $this->redirectToRoute('admin_translations_site_page_edit', ['id' => $existing->getId(), 'locale' => $locale]);
+        }
+
+        try {
+            $translation = $translationService->translateSitePage($page, $locale, $overwrite, false, false);
+            $entityManager->flush();
+            $this->addFlash('success', 'Traduction IA générée en statut ai_translated, non publiée.');
+
+            return $this->redirectToRoute('admin_translations_site_page_edit', ['id' => $translation->getId(), 'locale' => $locale]);
+        } catch (\Throwable $exception) {
+            $this->addFlash('danger', 'Génération IA impossible : '.$exception->getMessage());
+
+            return $existing instanceof SitePageTranslation
+                ? $this->redirectToRoute('admin_translations_site_page_edit', ['id' => $existing->getId(), 'locale' => $locale])
+                : $this->redirectToRoute('admin_translations_index');
+        }
     }
 
     private function isExpertiseOrSector(string $slug): bool

@@ -53,6 +53,45 @@ final class AiTranslationWorkflowTest extends TestCase
         self::assertNotNull($translation->getTranslatedAt());
     }
 
+    public function testExistingTranslationIsNotSilentlyOverwrittenWithoutOverwrite(): void
+    {
+        $page = $this->pageWithFrenchSource();
+        $existing = (new SitePageTranslation())
+            ->setLocale('en')
+            ->setSlug('existing-slug')
+            ->setTitle('Existing title')
+            ->setTranslationStatus(SitePageTranslation::STATUS_TO_REVIEW);
+        $page->addTranslation($existing);
+
+        try {
+            $this->service($this->validProvider())->translateSitePage($page, 'en');
+            self::fail('Existing translation should require explicit overwrite.');
+        } catch (\RuntimeException) {
+            self::assertSame('existing-slug', $existing->getSlug());
+            self::assertSame(SitePageTranslation::STATUS_TO_REVIEW, $existing->getTranslationStatus());
+        }
+    }
+
+    public function testProviderFailureLeavesExistingTranslationUnchanged(): void
+    {
+        $page = $this->pageWithFrenchSource();
+        $existing = (new SitePageTranslation())
+            ->setLocale('en')
+            ->setSlug('existing-slug')
+            ->setTitle('Existing title')
+            ->setTranslationStatus(SitePageTranslation::STATUS_REVIEWED);
+        $page->addTranslation($existing);
+
+        try {
+            $this->service(new FailingTranslationProvider())->translateSitePage($page, 'en', true);
+            self::fail('Provider failure should bubble up.');
+        } catch (\RuntimeException) {
+            self::assertSame('existing-slug', $existing->getSlug());
+            self::assertSame('Existing title', $existing->getTitle());
+            self::assertSame(SitePageTranslation::STATUS_REVIEWED, $existing->getTranslationStatus());
+        }
+    }
+
     public function testReviewedTranslationStillIsNotPublicWithoutPublishedStatus(): void
     {
         $translation = (new SitePageTranslation())
@@ -265,5 +304,13 @@ final class ArrayTranslationProvider implements AiTranslationProviderInterface
     public function translate(array $sourcePayload, string $targetLocale, array $glossary): AiTranslationResult
     {
         return new AiTranslationResult($this->payload, 'test', 'test-model');
+    }
+}
+
+final class FailingTranslationProvider implements AiTranslationProviderInterface
+{
+    public function translate(array $sourcePayload, string $targetLocale, array $glossary): AiTranslationResult
+    {
+        throw new \RuntimeException('Simulated provider failure.');
     }
 }

@@ -66,7 +66,10 @@
               {% if row.translation %}
                 <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_translations_site_page_edit', {id: row.translation.id, locale: row.locale}) }}">Comparer / éditer</a>
               {% else %}
-                <span class="text-muted">À générer via app:i18n:translate</span>
+                <form method="post" action="{{ path('admin_translations_site_page_generate', {id: row.page.id, locale: row.locale}) }}" class="d-inline">
+                  <input type="hidden" name="_token" value="{{ csrf_token('translation_generate_' ~ row.page.id ~ '_' ~ row.locale) }}">
+                  <button class="btn btn-sm btn-outline-secondary" type="submit">Générer avec l'IA</button>
+                </form>
               {% endif %}
             </td>
           </tr>

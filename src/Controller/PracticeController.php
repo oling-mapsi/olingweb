@@ -127,7 +127,7 @@ class PracticeController extends AbstractController
         });
         $homePractices = $this->localizePractices(array_slice($featuredPractices, 0, 4), $locale);
         [$featuredHomeProjects] = $this->resolveFeaturedProjects($repoprojet);
-        $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets), $locale);
+        $homeProjects = $this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets), $locale, true);
 
         $homePracticesSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'practices']), $locale);
         $homeHeroSection = $this->localizeHomeSection($homeSectionRepository->findOneBy(['slug' => 'hero']), $locale);
@@ -532,7 +532,7 @@ class PracticeController extends AbstractController
      * @param string[] $imagePool
      * @return array<int, array<string, mixed>>
      */
-    private function buildProjectCards(array $projects, array $imagePool, string $locale = SitePageTranslation::LOCALE_FR): array
+    private function buildProjectCards(array $projects, array $imagePool, string $locale = SitePageTranslation::LOCALE_FR, bool $allowImageFallback = false): array
     {
         $poolOffset = 0;
         if ($projects !== [] && $imagePool !== []) {
@@ -554,7 +554,7 @@ class PracticeController extends AbstractController
 
             $cards[] = [
                 'href' => $locale === SitePageTranslation::LOCALE_FR ? $this->resolveProjectCardHref($project, $projectService) : $this->localizedContactPath($locale),
-                'image' => $this->resolveProjectCardImage($project, $imagePool, $poolOffset + $position),
+                'image' => $this->resolveProjectCardImage($project, $imagePool, $poolOffset + $position, $allowImageFallback),
                 'title' => $title,
                 'eyebrow' => $locale === SitePageTranslation::LOCALE_FR ? $this->buildProjectCardEyebrow($project, $metadata) : $serviceContent?->getDesignation(),
                 'meta' => $projectContent->getTerritory() ?: ($serviceContent ? $serviceContent->getDesignation() : null),
@@ -656,11 +656,15 @@ class PracticeController extends AbstractController
     /**
      * @param string[] $imagePool
      */
-    private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex): ?string
+    private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex, bool $allowFallback = false): ?string
     {
         $image = $project->getImageHero() ?: $project->getImage();
         if (is_string($image) && trim($image) !== '') {
             return trim($image);
+        }
+
+        if ($allowFallback && $imagePool !== []) {
+            return $imagePool[$fallbackIndex % count($imagePool)];
         }
 
         return null;

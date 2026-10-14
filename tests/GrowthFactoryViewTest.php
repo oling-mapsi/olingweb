@@ -11,10 +11,10 @@ final class GrowthFactoryViewTest extends TestCase
     {
         $view = new GrowthFactoryView();
 
-        self::assertSame(['mapsi_site', 'linkedin_manual', 'email_manual'], $view->typeOptions()['MAPSI_USERS']['channels']);
+        self::assertSame(['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'], $view->typeOptions()['MAPSI_USERS']['channels']);
         self::assertSame(['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'], $view->typeOptions()['MAPSI_MARKETING']['channels']);
-        self::assertSame(['oling_site', 'linkedin_manual', 'email_manual'], $view->typeOptions()['OLING']['channels']);
-        self::assertSame(['oling_site'], $view->allowedChannels('OLING', ['mapsi_site', 'oling_site']));
+        self::assertSame(['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'], $view->typeOptions()['OLING']['channels']);
+        self::assertSame(['mapsi_site', 'oling_site'], $view->allowedChannels('OLING', ['mapsi_site', 'oling_site']));
     }
 
     public function testAssetsAreIndexedByChannelWithVersion(): void

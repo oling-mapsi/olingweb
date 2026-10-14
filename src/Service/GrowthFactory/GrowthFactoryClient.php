@@ -35,9 +35,19 @@ final class GrowthFactoryClient
         return $this->request($actor, 'GET', '/api/admin/v1/dashboard');
     }
 
-    public function listAdvancedCampaigns(UserInterface $actor): array
+    public function listAdvancedCampaigns(UserInterface $actor, int $page = 1, int $pageSize = 100): array
     {
-        return $this->request($actor, 'GET', '/api/admin/v1/campaigns?page_size=100');
+        return $this->request($actor, 'GET', '/api/admin/v1/campaigns?page='.max(1, $page).'&page_size='.max(1, min(100, $pageSize)));
+    }
+
+    public function getAdvancedCampaign(UserInterface $actor, string $id): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/campaigns/'.rawurlencode($id));
+    }
+
+    public function listAdvancedAssets(UserInterface $actor, string $id): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/campaigns/'.rawurlencode($id).'/assets?page_size=100');
     }
 
     public function listChannels(UserInterface $actor): array

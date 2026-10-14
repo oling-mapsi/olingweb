@@ -5,9 +5,9 @@ namespace App\Service\GrowthFactory;
 final class GrowthFactoryView
 {
     private const TYPE_CHANNELS = [
-        'MAPSI_USERS' => ['mapsi_site', 'linkedin_manual', 'email_manual'],
+        'MAPSI_USERS' => ['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'],
         'MAPSI_MARKETING' => ['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'],
-        'OLING' => ['oling_site', 'linkedin_manual', 'email_manual'],
+        'OLING' => ['mapsi_site', 'oling_site', 'linkedin_manual', 'email_manual'],
     ];
 
     public function typeOptions(): array

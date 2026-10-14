@@ -59,27 +59,53 @@
     <section class="card mb-4">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-          <h2 class="h5 mb-0">Campagnes simplifiées</h2>
-          <span class="small text-muted">{{ campaigns|length }} élément(s)</span>
+          <h2 class="h5 mb-0">Historique des campagnes</h2>
+          <span class="small text-muted">{{ history.total }} élément(s)</span>
         </div>
+        <form method="get" class="row g-2 mb-3">
+          <div class="col-md-6"><input class="form-control" name="q" value="{{ filters.q }}" placeholder="Rechercher"></div>
+          <div class="col-md-3">
+            <select class="form-select" name="status">
+              <option value="">Tous statuts</option>
+              {% for value in ['DRAFT','READY_FOR_REVIEW','APPROVED','PARTIALLY_PUBLISHED','PUBLISHED','ARCHIVED','ERROR'] %}
+                <option value="{{ value }}" {{ filters.status == value ? 'selected' : '' }}>{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3"><button class="btn btn-outline-primary w-100">Filtrer</button></div>
+        </form>
+        {% if section_errors.advanced|default('') %}
+          <div class="alert alert-warning">Historique avancé partiel : {{ section_errors.advanced }}</div>
+        {% endif %}
         <div class="table-responsive">
           <table class="table align-middle">
-            <thead><tr><th>Campagne</th><th>Type</th><th>Canaux</th><th>Statut</th><th></th></tr></thead>
+            <thead><tr><th>Campagne</th><th>Workflow</th><th>Canaux</th><th>Assets</th><th>Statut</th><th>Date</th><th></th></tr></thead>
             <tbody>
-            {% for campaign in campaigns %}
+            {% for campaign in history.items %}
               <tr>
-                <td>{{ campaign.name ?: campaign.theme }}</td>
-                <td>{{ campaign.campaign_type }}</td>
-                <td>{{ campaign.selected_channels|join(', ') }}</td>
+                <td>{{ campaign.title }}</td>
+                <td>{{ campaign.type }}</td>
+                <td>{{ campaign.channels }}</td>
+                <td>{{ campaign.asset_count }}</td>
                 <td><span class="badge bg-secondary">{{ campaign.status }}</span></td>
-                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('admin_growth_show', {id: campaign.id}) }}">Ouvrir</a></td>
+                <td class="small text-muted">{{ campaign.updated_at ?: campaign.created_at }}</td>
+                <td class="text-end">
+                  <a class="btn btn-sm btn-outline-primary" href="{{ campaign.kind == 'simple' ? path('admin_growth_show', {id: campaign.id}) : path('admin_growth_advanced_show', {id: campaign.id}) }}">Ouvrir</a>
+                </td>
               </tr>
             {% else %}
-              <tr><td colspan="5" class="text-muted">Aucune campagne disponible.</td></tr>
+              <tr><td colspan="7" class="text-muted">Aucune campagne disponible.</td></tr>
             {% endfor %}
             </tbody>
           </table>
         </div>
+        {% if history.pages > 1 %}
+          <div class="d-flex justify-content-between">
+            <a class="btn btn-sm btn-outline-secondary {{ history.page <= 1 ? 'disabled' : '' }}" href="{{ path('admin_growth_index', filters|merge({page: history.page - 1})) }}">Précédent</a>
+            <span class="small text-muted">Page {{ history.page }} / {{ history.pages }}</span>
+            <a class="btn btn-sm btn-outline-secondary {{ history.page >= history.pages ? 'disabled' : '' }}" href="{{ path('admin_growth_index', filters|merge({page: history.page + 1})) }}">Suivant</a>
+          </div>
+        {% endif %}
       </div>
     </section>
 
@@ -89,6 +115,9 @@
           <h2 class="h5 mb-0">Historique avancé</h2>
           <span class="small text-muted">{{ advanced_campaigns|length }} campagne(s)</span>
         </div>
+        {% if section_errors.dashboard|default('') %}
+          <div class="alert alert-warning">Tableau de bord indisponible : {{ section_errors.dashboard }}</div>
+        {% endif %}
         <div class="row g-3 mb-3">
           <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Total</div><strong>{{ dashboard.campaigns_total|default(0) }}</strong></div></div>
           <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">À valider</div><strong>{{ dashboard.assets_pending_validation|default(0) }}</strong></div></div>
@@ -101,7 +130,7 @@
             <tbody>
             {% for campaign in advanced_campaigns %}
               <tr>
-                <td>{{ campaign.title|default(campaign.id|default('')) }}</td>
+                <td><a href="{{ path('admin_growth_advanced_show', {id: campaign.id}) }}">{{ campaign.title|default(campaign.id|default('')) }}</a></td>
                 <td>{{ campaign.objective|default('') }}</td>
                 <td>{{ campaign.asset_count|default(0) }}</td>
                 <td><span class="badge bg-secondary">{{ campaign.status|default('') }}</span></td>
@@ -119,6 +148,9 @@
     <section class="card mb-4">
       <div class="card-body">
         <h2 class="h5">Fonctions avancées</h2>
+        {% if section_errors.channels|default('') %}
+          <div class="alert alert-warning">Canaux indisponibles : {{ section_errors.channels }}</div>
+        {% endif %}
         <div class="row g-3">
           {% for channel in channels %}
             <div class="col-lg-4">
@@ -153,7 +185,13 @@
           <div class="col-lg-4">
             <div class="border rounded p-3 h-100">
               <strong>Weekly Packs</strong>
-              <div class="small text-muted mt-2">{{ weekly_packs|length }} pack(s) récents accessibles via Growth Factory.</div>
+              <div class="small text-muted mt-2">
+                {% if section_errors.weekly|default('') %}
+                  Indisponible : {{ section_errors.weekly }}
+                {% else %}
+                  {{ weekly_packs|length }} pack(s) récents accessibles via Growth Factory.
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
@@ -163,6 +201,9 @@
     <section class="card mb-4">
       <div class="card-body">
         <h2 class="h5">Audit récent</h2>
+        {% if section_errors.audit|default('') %}
+          <div class="alert alert-warning">Audit indisponible : {{ section_errors.audit }}</div>
+        {% endif %}
         <div class="table-responsive">
           <table class="table table-sm">
             <thead><tr><th>Événement</th><th>Acteur</th><th>Résultat</th><th>Date</th></tr></thead>
@@ -207,8 +248,11 @@
   const sync = () => {
     const allowed = (type.selectedOptions[0]?.dataset.channels || '').split(',');
     boxes.forEach((box) => {
-      box.disabled = !allowed.includes(box.value);
-      box.checked = allowed.includes(box.value);
+      const enabled = allowed.includes(box.value);
+      box.disabled = !enabled;
+      if (!enabled) {
+        box.checked = false;
+      }
     });
   };
   type?.addEventListener('change', sync);

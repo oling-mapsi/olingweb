@@ -6,6 +6,7 @@ use App\Service\GrowthFactory\GrowthFactoryClient;
 use App\Service\GrowthFactory\GrowthFactoryConflictException;
 use App\Service\GrowthFactory\GrowthFactoryException;
 use App\Service\GrowthFactory\GrowthFactoryView;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GrowthAdminController extends AbstractController
 {
     public function __construct(
+        private readonly LoggerInterface $logger,
         #[Autowire(param: 'growth_factory_allowed_admin_emails')]
         private readonly ?string $allowedAdminEmails = null,
     ) {
@@ -23,27 +25,54 @@ class GrowthAdminController extends AbstractController
 
     #[Route('', name: 'admin_growth_index', methods: ['GET'])]
     #[Route('/', name: 'admin_growth_index_slash', methods: ['GET'])]
-    public function index(GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    public function index(Request $request, GrowthFactoryClient $client, GrowthFactoryView $view): Response
     {
+        $actor = $this->getUserOrDeny();
+        $query = trim((string) $request->query->get('q', ''));
+        $status = trim((string) $request->query->get('status', ''));
+        $page = max(1, (int) $request->query->get('page', 1));
+        $errors = [];
+        $campaigns = [];
+        $advancedCampaigns = [];
+        $dashboard = [];
+        $channels = [];
+        $auditEvents = [];
+        $weeklyPacks = [];
+        $available = true;
+        $message = '';
+
         try {
-            $campaigns = array_map([$view, 'normalizeCampaign'], $client->listCampaigns($this->getUserOrDeny()));
-            $advancedCampaigns = (array) (($client->listAdvancedCampaigns($this->getUserOrDeny())['data'] ?? []));
-            $dashboard = (array) (($client->dashboard($this->getUserOrDeny())['data'] ?? []));
-            $channels = (array) (($client->listChannels($this->getUserOrDeny())['data'] ?? []));
-            $auditEvents = (array) (($client->listAuditEvents($this->getUserOrDeny())['data'] ?? []));
-            $weeklyPacks = (array) (($client->listWeeklyPacks($this->getUserOrDeny())['data'] ?? []));
-            $available = true;
-            $message = '';
+            $campaigns = array_map([$view, 'normalizeCampaign'], $client->listCampaigns($actor));
         } catch (GrowthFactoryException $exception) {
-            $campaigns = [];
-            $advancedCampaigns = [];
-            $dashboard = [];
-            $channels = [];
-            $auditEvents = [];
-            $weeklyPacks = [];
             $available = false;
             $message = $exception->getMessage();
         }
+        try {
+            $advancedCampaigns = (array) (($client->listAdvancedCampaigns($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $errors['advanced'] = $exception->getMessage();
+        }
+        try {
+            $dashboard = (array) (($client->dashboard($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $errors['dashboard'] = $exception->getMessage();
+        }
+        try {
+            $channels = (array) (($client->listChannels($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $errors['channels'] = $exception->getMessage();
+        }
+        try {
+            $auditEvents = (array) (($client->listAuditEvents($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $errors['audit'] = $exception->getMessage();
+        }
+        try {
+            $weeklyPacks = (array) (($client->listWeeklyPacks($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $errors['weekly'] = $exception->getMessage();
+        }
+        $history = $this->paginateRows($this->filterHistoryRows($this->buildHistoryRows($campaigns, $advancedCampaigns), $query, $status), $page);
 
         return $this->render('admin/growth/index.html.twig', [
             'available' => $available,
@@ -54,6 +83,9 @@ class GrowthAdminController extends AbstractController
             'channels' => $channels,
             'audit_events' => $auditEvents,
             'weekly_packs' => $weeklyPacks,
+            'section_errors' => $errors,
+            'history' => $history,
+            'filters' => ['q' => $query, 'status' => $status, 'page' => $page],
             'type_options' => $view->typeOptions(),
             'channel_options' => $view->channelOptions(),
             'parity_matrix' => $view->parityMatrix(),
@@ -90,10 +122,17 @@ class GrowthAdminController extends AbstractController
 
         try {
             $campaign = $client->createCampaign($this->getUserOrDeny(), $type, $theme, $channels);
-            $campaign = $client->generateCampaign($this->getUserOrDeny(), (string) ($campaign['id'] ?? ''));
-            $this->addFlash('success', 'Campagne créée et contenus générés. Publication manuelle requise.');
+            $campaignId = (string) ($campaign['id'] ?? '');
+            try {
+                $client->generateCampaign($this->getUserOrDeny(), $campaignId);
+                $this->addFlash('success', 'Campagne créée et contenus générés. Publication manuelle requise.');
+            } catch (GrowthFactoryException $exception) {
+                $correlationId = bin2hex(random_bytes(8));
+                $this->logger->warning('growth_generation_failed_after_create', ['campaign_id' => $campaignId, 'correlation_id' => $correlationId, 'error' => $exception->getMessage()]);
+                $this->addFlash('danger', 'Campagne créée en brouillon, mais la génération a échoué. Vous pouvez réessayer depuis cette fiche. Référence '.$correlationId.'.');
+            }
 
-            return $this->redirectToRoute('admin_growth_show', ['id' => (string) ($campaign['id'] ?? '')]);
+            return $this->redirectToRoute('admin_growth_show', ['id' => $campaignId]);
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
             return $this->redirectToRoute('admin_growth_index');
@@ -118,6 +157,29 @@ class GrowthAdminController extends AbstractController
             'message' => $message,
             'campaign' => $campaign,
             'channel_options' => $view->channelOptions(),
+        ]);
+    }
+
+    #[Route('/advanced-campaigns/{id}', name: 'admin_growth_advanced_show', methods: ['GET'])]
+    public function showAdvanced(string $id, GrowthFactoryClient $client): Response
+    {
+        try {
+            $campaign = (array) (($client->getAdvancedCampaign($this->getUserOrDeny(), $id)['data'] ?? []));
+            $assets = (array) (($client->listAdvancedAssets($this->getUserOrDeny(), $id)['data'] ?? []));
+            $available = true;
+            $message = '';
+        } catch (GrowthFactoryException $exception) {
+            $campaign = [];
+            $assets = [];
+            $available = false;
+            $message = $exception->getMessage();
+        }
+
+        return $this->render('admin/growth/advanced_show.html.twig', [
+            'available' => $available,
+            'message' => $message,
+            'campaign' => $campaign,
+            'assets' => $assets,
         ]);
     }
 
@@ -287,6 +349,66 @@ class GrowthAdminController extends AbstractController
         if (!$this->isCsrfTokenValid($id, (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException();
         }
+    }
+
+    private function buildHistoryRows(array $campaigns, array $advancedCampaigns): array
+    {
+        $rows = [];
+        foreach ($campaigns as $campaign) {
+            $id = (string) ($campaign['id'] ?? '');
+            $rows[$id] = [
+                'id' => $id,
+                'kind' => 'simple',
+                'title' => (string) (($campaign['name'] ?? '') ?: ($campaign['theme'] ?? '')),
+                'type' => (string) ($campaign['campaign_type'] ?? 'SIMPLE'),
+                'status' => (string) ($campaign['status'] ?? ''),
+                'channels' => implode(', ', (array) ($campaign['selected_channels'] ?? [])),
+                'created_at' => (string) ($campaign['created_at'] ?? ''),
+                'updated_at' => (string) ($campaign['updated_at'] ?? ''),
+                'asset_count' => count((array) ($campaign['content_assets'] ?? [])),
+            ];
+        }
+        foreach ($advancedCampaigns as $campaign) {
+            $id = (string) ($campaign['id'] ?? '');
+            $rows[$id] ??= [
+                'id' => $id,
+                'kind' => 'advanced',
+                'title' => (string) (($campaign['title'] ?? '') ?: $id),
+                'type' => (string) ($campaign['objective'] ?? 'ADVANCED'),
+                'status' => (string) ($campaign['status'] ?? ''),
+                'channels' => '',
+                'created_at' => (string) ($campaign['created_at'] ?? ''),
+                'updated_at' => '',
+                'asset_count' => (int) ($campaign['asset_count'] ?? 0),
+            ];
+        }
+
+        return array_values($rows);
+    }
+
+    private function filterHistoryRows(array $rows, string $query, string $status): array
+    {
+        return array_values(array_filter($rows, static function (array $row) use ($query, $status): bool {
+            if ($status !== '' && strcasecmp((string) $row['status'], $status) !== 0) {
+                return false;
+            }
+            if ($query === '') {
+                return true;
+            }
+            return str_contains(mb_strtolower(implode(' ', $row)), mb_strtolower($query));
+        }));
+    }
+
+    private function paginateRows(array $rows, int $page): array
+    {
+        $pageSize = 20;
+        return [
+            'items' => array_slice($rows, ($page - 1) * $pageSize, $pageSize),
+            'page' => $page,
+            'page_size' => $pageSize,
+            'total' => count($rows),
+            'pages' => max(1, (int) ceil(count($rows) / $pageSize)),
+        ];
     }
 
     private function getUserOrDeny(): \Symfony\Component\Security\Core\User\UserInterface

@@ -13,6 +13,65 @@
 {% set navTeamPath = currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')) %}
 {% set navContactPath = currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')) %}
 {% set navResourcesPath = currentLocale == 'en' ? '/en/resources' : (currentLocale == 'es' ? '/es/recursos' : path('seo_resources_index')) %}
+{% set navAmoaSiPath = currentLocale == 'en' ? '/en/business-side-it-project-advisory' : (currentLocale == 'es' ? '/es/asesoria-proyectos-sistemas-informacion' : path('amoa_si')) %}
+{% set navServiceUrls = currentLocale == 'en' ? {
+    erp: '/en/services/erp-advisory',
+    crm: '/en/services/crm-customer-relationship-management',
+    gmao: '/en/services/cmms-computerized-maintenance-management-system',
+    finance: '/en/services/financial-information-systems',
+    eInvoice: '/en/services/e-invoicing-reform-project-advisory',
+    dataBi: '/en/services/business-intelligence-analytics',
+    aiAutomation: '/en/services/digital-transformation-automation-and-practical-ai',
+    strategy: '/en/services/digital-strategy-master-plan',
+    pmo: '/en/services/complex-it-project-management',
+    process: '/en/services/business-process-management',
+    dataGovernance: '/en/services/data-governance-information-systems-compliance',
+    infrastructure: '/en/services/tech-refresh-it-infrastructure-upgrade',
+    rgpd: '/en/services/gdpr',
+    cyber: '/en/services/information-systems-security',
+    pca: '/en/services/business-continuity-bcp-drp',
+    qse: '/en/services/quality-safety-environment-qse',
+    riskControl: '/en/services/internal-control-audit',
+    aiAct: '/en/services/ai-compliance-governance-and-ai-act'
+} : (currentLocale == 'es' ? {
+    erp: '/es/servicios/erp',
+    crm: '/es/servicios/crm-gestion-relacion-cliente',
+    gmao: '/es/servicios/gmao-gestion-mantenimiento-asistida-ordenador',
+    finance: '/es/servicios/sistemas-informacion-financieros',
+    eInvoice: '/es/servicios/asesoria-reforma-facturacion-electronica',
+    dataBi: '/es/servicios/business-intelligence-analitica',
+    aiAutomation: '/es/servicios/transformacion-digital-automatizacion-e-ia-util',
+    strategy: '/es/servicios/plan-estrategico-digital',
+    pmo: '/es/servicios/gestion-de-proyectos-informaticos-complejos',
+    process: '/es/servicios/gestion-mejora-procesos-negocio',
+    dataGovernance: '/es/servicios/gobernanza-de-datos',
+    infrastructure: '/es/servicios/renovacion-tecnologica-infraestructuras-ti',
+    rgpd: '/es/servicios/cumplimiento-rgpd',
+    cyber: '/es/servicios/seguridad-sistemas-informacion',
+    pca: '/es/servicios/mapsi-continuidad-negocio-pca-pra',
+    qse: '/es/servicios/qse-iso-9001',
+    riskControl: '/es/servicios/auditoria-control-interno',
+    aiAct: '/es/servicios/cumplimiento-ia-gobernanza-y-ai-act'
+} : {
+    erp: '/business-apps/erp',
+    crm: '/crm',
+    gmao: '/gmao',
+    finance: '/si-finance',
+    eInvoice: '/facturation-electronique-amoa',
+    dataBi: '/business-apps/bi-et-analytique',
+    aiAutomation: '/business-apps/transformation-digitale-automatisation-et-ia-utile',
+    strategy: '/consulting/plan-strategique',
+    pmo: '/consulting/pilotage-des-plans',
+    process: '/consulting/management-des-processus',
+    dataGovernance: '/consulting/gouvernance-des-donnees',
+    infrastructure: '/infrastructure-si-amoa',
+    rgpd: '/expertises-audit/rgpd',
+    cyber: '/cyber-securite',
+    pca: '/pca-pra-continuite-activite',
+    qse: '/expertises-audit/qse',
+    riskControl: '/gestion-risques-audit-controle-interne',
+    aiAct: '/expertises-audit/conformite-ia-gouvernance-et-ai-act'
+}) %}
 {% set languageAlternates = localizedAlternates is defined and localizedAlternates ? localizedAlternates : oling_language_alternates(app.request) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set languageNames = {'fr': 'Français', 'en': 'English', 'es': 'Español'} %}
@@ -40,31 +99,31 @@
     } %}
 {% endif %}
 {% set isAdminPage = currentRoute starts with 'admin_' or currentRoute in ['login', 'logout'] or app.request.pathinfo starts with '/admin' or app.request.pathinfo starts with '/login' or app.request.pathinfo starts with '/logout' %}
-{% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
+{% set expertisesActive = currentRoute in ['expertises_index', 'expertises_show', 'localized_service_en', 'localized_service_es'] or (currentRoute == 'practice_home' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'service' and currentPracticeSlug in ['consulting', 'expertises-audit', 'business-apps']) or (currentRoute == 'practice' and currentSlug in ['consulting', 'expertises-audit', 'business-apps']) %}
 {% set navigationUniverses = [
     {
         title: 'nav.universes.amoa.title',
         href: navServicesPath ~ '#amoa-applications-metiers',
         items: [
-            {label: 'nav.universes.amoa.items.amoa_si', href: path('amoa_si')},
-            {label: 'nav.universes.amoa.items.erp', href: '/business-apps/erp'},
-            {label: 'nav.universes.amoa.items.crm', href: '/crm'},
-            {label: 'nav.universes.amoa.items.gmao', href: '/gmao'},
-            {label: 'nav.universes.amoa.items.finance', href: '/si-finance'},
-            {label: 'nav.universes.amoa.items.e_invoice', href: '/facturation-electronique-amoa'},
-            {label: 'nav.universes.amoa.items.data_bi', href: '/business-apps/bi-et-analytique'},
-            {label: 'nav.universes.amoa.items.ai_automation', href: '/business-apps/transformation-digitale-automatisation-et-ia-utile'}
+            {label: 'nav.universes.amoa.items.amoa_si', href: navAmoaSiPath},
+            {label: 'nav.universes.amoa.items.erp', href: navServiceUrls.erp},
+            {label: 'nav.universes.amoa.items.crm', href: navServiceUrls.crm},
+            {label: 'nav.universes.amoa.items.gmao', href: navServiceUrls.gmao},
+            {label: 'nav.universes.amoa.items.finance', href: navServiceUrls.finance},
+            {label: 'nav.universes.amoa.items.e_invoice', href: navServiceUrls.eInvoice},
+            {label: 'nav.universes.amoa.items.data_bi', href: navServiceUrls.dataBi},
+            {label: 'nav.universes.amoa.items.ai_automation', href: navServiceUrls.aiAutomation}
         ]
     },
     {
         title: 'nav.universes.governance.title',
         href: navServicesPath ~ '#gouvernance-performance-dsi',
         items: [
-            {label: 'nav.universes.governance.items.strategy', href: '/consulting/plan-strategique'},
-            {label: 'nav.universes.governance.items.pmo', href: '/consulting/pilotage-des-plans'},
-            {label: 'nav.universes.governance.items.process', href: '/consulting/management-des-processus'},
-            {label: 'nav.universes.governance.items.data_governance', href: '/consulting/gouvernance-des-donnees'},
-            {label: 'nav.universes.governance.items.infrastructure', href: '/infrastructure-si-amoa'},
+            {label: 'nav.universes.governance.items.strategy', href: navServiceUrls.strategy},
+            {label: 'nav.universes.governance.items.pmo', href: navServiceUrls.pmo},
+            {label: 'nav.universes.governance.items.process', href: navServiceUrls.process},
+            {label: 'nav.universes.governance.items.data_governance', href: navServiceUrls.dataGovernance},
+            {label: 'nav.universes.governance.items.infrastructure', href: navServiceUrls.infrastructure},
             {label: 'nav.universes.governance.items.dsi', href: '/dsi-externalisee'}
         ]
     },
@@ -72,12 +131,12 @@
         title: 'nav.universes.risk.title',
         href: navServicesPath ~ '#conformite-risques-resilience',
         items: [
-            {label: 'nav.universes.risk.items.rgpd', href: '/expertises-audit/rgpd'},
-            {label: 'nav.universes.risk.items.cyber', href: '/cyber-securite'},
-            {label: 'nav.universes.risk.items.pca', href: '/pca-pra-continuite-activite'},
-            {label: 'nav.universes.risk.items.qse', href: '/expertises-audit/qse'},
-            {label: 'nav.universes.risk.items.risk_control', href: '/gestion-risques-audit-controle-interne'},
-            {label: 'nav.universes.risk.items.ai_act', href: '/expertises-audit/conformite-ia-gouvernance-et-ai-act'}
+            {label: 'nav.universes.risk.items.rgpd', href: navServiceUrls.rgpd},
+            {label: 'nav.universes.risk.items.cyber', href: navServiceUrls.cyber},
+            {label: 'nav.universes.risk.items.pca', href: navServiceUrls.pca},
+            {label: 'nav.universes.risk.items.qse', href: navServiceUrls.qse},
+            {label: 'nav.universes.risk.items.risk_control', href: navServiceUrls.riskControl},
+            {label: 'nav.universes.risk.items.ai_act', href: navServiceUrls.aiAct}
         ]
     }
 ] %}

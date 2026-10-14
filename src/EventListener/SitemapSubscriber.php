@@ -8,6 +8,7 @@ use App\Repository\SitePageTranslationRepository;
 use App\Repository\ServicesRepository;
 use App\Entity\SitePageTranslation;
 use App\Service\PublicSitePageResolver;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
@@ -27,7 +28,8 @@ class SitemapSubscriber implements EventSubscriberInterface
         ServicesRepository $servicesRepository,
         SitePageRepository $sitePageRepository,
         SitePageTranslationRepository $sitePageTranslationRepository,
-        PublicSitePageResolver $publicSitePageResolver
+        PublicSitePageResolver $publicSitePageResolver,
+        private readonly Connection $connection
     ) {
         $this->practiceRepository = $practiceRepository;
         $this->servicesRepository = $servicesRepository;
@@ -50,6 +52,7 @@ class SitemapSubscriber implements EventSubscriberInterface
         $this->registerPublicSiteUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerSeoResourceUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerLocalizedSitePageUrls($event->getUrlContainer(), $event->getUrlGenerator());
+        $this->registerLocalizedServiceUrls($event->getUrlContainer(), $event->getUrlGenerator());
         $this->registerWave5StaticUrls($event->getUrlContainer(), $event->getUrlGenerator());
     }
 
@@ -189,6 +192,35 @@ class SitemapSubscriber implements EventSubscriberInterface
                     $locale
                 );
             }
+        }
+    }
+
+    public function registerLocalizedServiceUrls(UrlContainerInterface $urls, UrlGeneratorInterface $router): void
+    {
+        $rows = $this->connection->fetchAllAssociative(
+            'SELECT locale, slug FROM service_translation WHERE locale IN (:locales) AND translation_status = :status AND slug IS NOT NULL AND slug <> :empty',
+            [
+                'locales' => [SitePageTranslation::LOCALE_EN, SitePageTranslation::LOCALE_ES],
+                'status' => 'published',
+                'empty' => '',
+            ],
+            ['locales' => Connection::PARAM_STR_ARRAY]
+        );
+
+        foreach ($rows as $row) {
+            $locale = (string) $row['locale'];
+            $route = $locale === SitePageTranslation::LOCALE_EN ? 'localized_service_en' : 'localized_service_es';
+
+            $urls->addUrl(
+                new UrlConcrete(
+                    $router->generate(
+                        $route,
+                        ['slug' => (string) $row['slug']],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    )
+                ),
+                $locale
+            );
         }
     }
 

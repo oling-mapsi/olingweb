@@ -77,6 +77,7 @@ services:
             - '@App\Repository\SitePageRepository'
             - '@App\Repository\SitePageTranslationRepository'
             - '@App\Service\PublicSitePageResolver'
+            - '@Doctrine\DBAL\Connection'
         tags:
             - { name: 'kernel.event_subscriber', priority: 100 }
 

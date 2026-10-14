@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Dto\GrowthNewsInput;
 use App\Entity\SitePage;
 use App\Entity\SitePageRevision;
+use App\Entity\SitePageTranslation;
 use App\Repository\SitePageRepository;
 use App\Repository\SitePageRevisionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,20 +38,25 @@ class GrowthPublishingService
     public function createOrUpdateDraft(GrowthNewsInput $input): array
     {
         $page = $this->sitePageRepository->findOneByExternalId($input->externalId);
+        if ($page === null && $input->contentGroupId !== '') {
+            $page = $this->sitePageRepository->findOneBy(['sourceCampaignId' => $input->contentGroupId]);
+        }
         $created = false;
         if ($page === null) {
             $page = new SitePage();
-            $page->setExternalId($input->externalId);
+            $page->setExternalId($input->contentGroupId !== '' ? $input->contentGroupId : $input->externalId);
             $page->setPublicationStatus(self::STATUS_DRAFT);
             $this->entityManager->persist($page);
             $created = true;
         }
+        $page->setSourceCampaignId($this->sanitizer->sanitizeText($input->contentGroupId ?: $input->sourceCampaignId, 190));
 
-        $this->assertSlugAvailable($input->slug, $page);
+        $this->assertSlugAvailable($input->slug, $page, $input->locale);
 
-        if ($page->getPublicationStatus() !== self::STATUS_PUBLISHED) {
+        if (($created || $input->locale === SitePageTranslation::LOCALE_FR) && $page->getPublicationStatus() !== self::STATUS_PUBLISHED) {
             $this->applyRevisionToProjection($page, $input, self::STATUS_DRAFT);
         }
+        $this->applyTranslationDraft($page, $input);
 
         $revision = $this->createRevision($page, $input, 'draft');
         $this->entityManager->flush();
@@ -165,12 +171,21 @@ class GrowthPublishingService
         return $page;
     }
 
-    private function assertSlugAvailable(string $publicSlug, SitePage $currentPage): void
+    private function assertSlugAvailable(string $publicSlug, SitePage $currentPage, string $locale = SitePageTranslation::LOCALE_FR): void
     {
         foreach (self::BLOCKED_PUBLIC_SLUG_PREFIXES as $prefix) {
             if (str_starts_with($publicSlug, $prefix)) {
                 throw new ConflictHttpException('This slug is blocked and cannot be published.');
             }
+        }
+
+        $existingTranslation = $this->entityManager->getRepository(SitePageTranslation::class)->findOneBy(['locale' => $locale, 'slug' => $publicSlug]);
+        if ($existingTranslation instanceof SitePageTranslation && $existingTranslation->getSitePage()?->getId() !== $currentPage->getId()) {
+            throw new ConflictHttpException('This localized slug is already used by another article.');
+        }
+
+        if ($locale !== SitePageTranslation::LOCALE_FR) {
+            return;
         }
 
         $existing = $this->sitePageRepository->findOneBy(['slug' => self::RESOURCE_PREFIX.$publicSlug]);
@@ -251,6 +266,30 @@ class GrowthPublishingService
         $page->setPublicationStatus($status);
     }
 
+    private function applyTranslationDraft(SitePage $page, GrowthNewsInput $input): void
+    {
+        $translation = $page->getTranslation($input->locale);
+        if (!$translation instanceof SitePageTranslation) {
+            $translation = (new SitePageTranslation())->setLocale($input->locale);
+            $page->addTranslation($translation);
+        }
+
+        $translation
+            ->setSlug($input->slug)
+            ->setTitle($this->sanitizer->sanitizeText($input->metaTitle, 255))
+            ->setHeroTitle($this->sanitizer->sanitizeText($input->title, 255))
+            ->setHeroIntro($this->sanitizer->sanitizeHtml($input->excerpt))
+            ->setHeroSideHtml($this->sanitizer->sanitizeHtml($input->contentHtml))
+            ->setBodyHtml($this->sanitizer->sanitizeHtml($input->contentHtml))
+            ->setSeoTitle($this->sanitizer->sanitizeText($input->metaTitle, 255))
+            ->setSeoDescription($this->sanitizer->sanitizeText($input->metaDescription, 2000))
+            ->setOgTitle($this->sanitizer->sanitizeText($input->metaTitle, 255))
+            ->setOgDescription($this->sanitizer->sanitizeText($input->metaDescription, 2000))
+            ->setImageAlt($this->sanitizer->sanitizeText($input->title, 255))
+            ->setTranslationStatus(SitePageTranslation::STATUS_DRAFT)
+            ->setUnpublishedAt(null);
+    }
+
     private function applyRevisionSnapshot(SitePage $page, SitePageRevision $revision, string $status): void
     {
         $page->setSlug(self::RESOURCE_PREFIX.$revision->getSlug());
@@ -275,11 +314,20 @@ class GrowthPublishingService
         $publishedRevision = $publishedRevisions[0] ?? null;
         $hasPendingDraft = $draftRevision !== null
             && ($publishedRevision === null || $draftRevision->getRevisionNumber() > $publishedRevision->getRevisionNumber());
+        $publicSlug = $draftRevision instanceof SitePageRevision
+            ? $draftRevision->getSlug()
+            : $this->extractPublicSlug((string) $page->getSlug());
 
         return [
             'http_code' => $httpCode,
             'external_id' => $page->getExternalId(),
-            'public_slug' => $this->extractPublicSlug((string) $page->getSlug()),
+            'locales' => array_map(static fn (SitePageTranslation $translation): array => [
+                'locale' => $translation->getLocale(),
+                'slug' => $translation->getSlug(),
+                'status' => $translation->getTranslationStatus(),
+                'published_at' => $translation->getPublishedAt()?->format(DATE_ATOM),
+            ], $page->getTranslations()->toArray()),
+            'public_slug' => $publicSlug,
             'publication_status' => $page->getPublicationStatus(),
             'has_pending_draft' => $hasPendingDraft,
             'draft_revision_number' => $hasPendingDraft ? $draftRevision?->getRevisionNumber() : null,

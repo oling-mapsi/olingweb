@@ -19,6 +19,12 @@ class GrowthNewsInput
     #[Assert\Length(max: 255)]
     public string $slug = '';
 
+    #[Assert\Choice(choices: ['fr', 'en', 'es'])]
+    public string $locale = 'fr';
+
+    #[Assert\Length(max: 190)]
+    public string $contentGroupId = '';
+
     #[Assert\NotBlank]
     #[Assert\Length(max: 2000)]
     public string $excerpt = '';
@@ -73,6 +79,8 @@ class GrowthNewsInput
         $input->externalId = self::stringValue($payload['external_id'] ?? null);
         $input->title = self::stringValue($payload['title'] ?? null);
         $input->slug = self::stringValue($payload['slug'] ?? null);
+        $input->locale = self::stringValue($payload['locale'] ?? 'fr') ?: 'fr';
+        $input->contentGroupId = self::stringValue($payload['content_group_id'] ?? null);
         $input->excerpt = self::stringValue($payload['excerpt'] ?? null);
         $input->contentHtml = self::stringValue($payload['content_html'] ?? null);
         $input->metaTitle = self::stringValue($payload['meta_title'] ?? null);

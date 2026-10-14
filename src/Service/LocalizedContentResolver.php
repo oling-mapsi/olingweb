@@ -18,6 +18,20 @@ use Doctrine\DBAL\Connection;
 
 class LocalizedContentResolver
 {
+    /**
+     * @var array<string, array<string, string>>
+     */
+    private const LOCALIZED_SOURCE_SLUG_ALIASES = [
+        SitePageTranslation::LOCALE_EN => [
+            'areas-of-expertise' => 'expertises-index',
+            'industries' => 'secteurs-index',
+        ],
+        SitePageTranslation::LOCALE_ES => [
+            'areas-de-especializacion' => 'expertises-index',
+            'sectores' => 'secteurs-index',
+        ],
+    ];
+
     public function __construct(
         private readonly SitePageTranslationRepository $sitePageTranslationRepository,
         private readonly LocalizedSlugHistoryRepository $localizedSlugHistoryRepository,
@@ -62,6 +76,12 @@ class LocalizedContentResolver
     {
         SitePageTranslation::assertSupportedLocale($locale);
         $translation = $this->sitePageTranslationRepository->findOnePublishedByLocaleAndSlug($locale, $slug);
+        if (!$translation instanceof SitePageTranslation) {
+            $sourceSlug = self::LOCALIZED_SOURCE_SLUG_ALIASES[$locale][$slug] ?? null;
+            $translation = $sourceSlug !== null
+                ? $this->sitePageTranslationRepository->findOnePublishedByLocaleAndSourceSlug($locale, $sourceSlug)
+                : null;
+        }
         $page = $translation?->getSitePage();
 
         return $page instanceof SitePage ? new SitePagePublicView($page, $translation) : null;

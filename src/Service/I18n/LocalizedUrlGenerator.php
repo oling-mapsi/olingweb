@@ -42,6 +42,11 @@ final class LocalizedUrlGenerator
             }
         }
 
+        $fixedLocalizedPath = $this->fixedLocalizedPath($page->getSlug(), $locale);
+        if ($fixedLocalizedPath !== null) {
+            return $fixedLocalizedPath;
+        }
+
         $slug = trim($translation->getSlug(), '/');
         if ($locale === SitePageTranslation::LOCALE_FR && $slug === 'home') {
             return '/';
@@ -114,6 +119,16 @@ final class LocalizedUrlGenerator
                 SitePageTranslation::LOCALE_EN => '/en/team',
                 SitePageTranslation::LOCALE_ES => '/es/equipo',
                 default => '/a-propos/team',
+            },
+            'expertises-index' => match ($locale) {
+                SitePageTranslation::LOCALE_EN => '/en/areas-of-expertise',
+                SitePageTranslation::LOCALE_ES => '/es/areas-de-especializacion',
+                default => '/expertises',
+            },
+            'secteurs-index' => match ($locale) {
+                SitePageTranslation::LOCALE_EN => '/en/industries',
+                SitePageTranslation::LOCALE_ES => '/es/sectores',
+                default => '/secteurs',
             },
             default => null,
         };

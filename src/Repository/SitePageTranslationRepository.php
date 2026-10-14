@@ -42,6 +42,21 @@ class SitePageTranslationRepository extends ServiceEntityRepository
         ]);
     }
 
+    public function findOnePublishedByLocaleAndSourceSlug(string $locale, string $sourceSlug): ?SitePageTranslation
+    {
+        return $this->createQueryBuilder('translation')
+            ->join('translation.sitePage', 'page')
+            ->andWhere('translation.locale = :locale')
+            ->andWhere('translation.translationStatus = :status')
+            ->andWhere('translation.unpublishedAt IS NULL')
+            ->andWhere('page.slug = :sourceSlug')
+            ->setParameter('locale', $locale)
+            ->setParameter('status', SitePageTranslation::STATUS_PUBLISHED)
+            ->setParameter('sourceSlug', $sourceSlug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /**
      * @return SitePageTranslation[]
      */

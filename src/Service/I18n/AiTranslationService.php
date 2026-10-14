@@ -270,7 +270,7 @@ final class AiTranslationService
             'team' => ['en' => 'team', 'es' => 'equipo'],
             'projets' => ['en' => 'case-studies', 'es' => 'casos-clientes'],
             'ressources' => ['en' => 'resources', 'es' => 'recursos'],
-            'expertises-index' => ['en' => 'expertise', 'es' => 'especialidades'],
+            'expertises-index' => ['en' => 'areas-of-expertise', 'es' => 'areas-de-especializacion'],
             'secteurs-index' => ['en' => 'industries', 'es' => 'sectores'],
             'si-finance' => ['en' => 'finance-it-systems', 'es' => 'sistemas-financieros'],
             'infrastructure-si-amoa' => ['en' => 'it-infrastructure-advisory', 'es' => 'asesoria-infraestructura-ti'],

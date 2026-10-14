@@ -133,6 +133,48 @@ final class I18nRoutingFoundationTest extends TestCase
         self::assertNull($resolver->getPublishedPublicViewByLocalizedSlug('en', 'erp-progiciel'));
     }
 
+    public function testHubUrlsUseCanonicalLocalizedAliases(): void
+    {
+        $expertises = (new SitePage())->setSlug('expertises-index')->setTitle('Hub expertises');
+        $expertises->addTranslation($this->translation('fr', 'expertises-index', SitePageTranslation::STATUS_PUBLISHED));
+        $expertises->addTranslation($this->translation('en', 'consulting-expertise', SitePageTranslation::STATUS_PUBLISHED));
+        $expertises->addTranslation($this->translation('es', 'areas-de-especializacion', SitePageTranslation::STATUS_PUBLISHED));
+
+        $sectors = (new SitePage())->setSlug('secteurs-index')->setTitle('Hub secteurs');
+        $sectors->addTranslation($this->translation('fr', 'secteurs-index', SitePageTranslation::STATUS_PUBLISHED));
+        $sectors->addTranslation($this->translation('en', 'industries', SitePageTranslation::STATUS_PUBLISHED));
+        $sectors->addTranslation($this->translation('es', 'sectores', SitePageTranslation::STATUS_PUBLISHED));
+
+        $generator = $this->urlGenerator();
+
+        self::assertSame('/en/areas-of-expertise', $generator->sitePagePath($expertises, 'en'));
+        self::assertSame('/es/areas-de-especializacion', $generator->sitePagePath($expertises, 'es'));
+        self::assertSame('/en/industries', $generator->sitePagePath($sectors, 'en'));
+        self::assertSame('/es/sectores', $generator->sitePagePath($sectors, 'es'));
+    }
+
+    public function testResolverAcceptsPublishedHubAliases(): void
+    {
+        $published = $this->translation('en', 'consulting-expertise', SitePageTranslation::STATUS_PUBLISHED);
+        $page = (new SitePage())->setSlug('expertises-index')->setTitle('Hub expertises');
+        $page->addTranslation($published);
+
+        $repository = $this->createMock(SitePageTranslationRepository::class);
+        $repository->method('findOnePublishedByLocaleAndSlug')->willReturn(null);
+        $repository->method('findOnePublishedByLocaleAndSourceSlug')->willReturnCallback(
+            static fn (string $locale, string $sourceSlug): ?SitePageTranslation => $locale === 'en' && $sourceSlug === 'expertises-index' ? $published : null
+        );
+
+        $resolver = new LocalizedContentResolver(
+            $repository,
+            $this->createMock(LocalizedSlugHistoryRepository::class),
+            $this->createMock(Connection::class)
+        );
+
+        self::assertSame($page, $resolver->getPublishedPublicViewByLocalizedSlug('en', 'areas-of-expertise')?->getSourcePage());
+        self::assertNull($resolver->getPublishedPublicViewByLocalizedSlug('en', 'unknown-hub'));
+    }
+
     /**
      * @param SitePageTranslation[] $translations
      */

@@ -263,15 +263,8 @@ class PublicSitePageResolver
     {
         SitePageTranslation::assertSupportedLocale($locale);
 
-        return $this->mergeIndexPage(
-            $this->sitePageRepository->findOneBy(['slug' => self::EXPERTISE_INDEX_SLUG]),
-            [
-                'seoTitle' => 'Expertises | OLING',
-                'metaDescription' => 'Découvrez les expertises OLING pour les PME, PMI et ETI : transformation SI, AMOA ERP, organisation, data, IA, cybersécurité et conformité.',
-                'eyebrow' => 'Expertises OLING',
-                'title' => 'AMOA SI, applications métiers, gouvernance DSI, risques et conformité',
-                'intro' => 'OLING structure son accompagnement autour des sujets qui exposent directement la direction : arbitrages SI, projets ERP, conformité, gouvernance des données, résilience et usages IA.',
-                'highlights' => ['AMO ERP et applications métiers', 'Risques, cyber et résilience', 'RGPD, gouvernance et IA'],
+        $defaults = [
+            SitePageTranslation::LOCALE_FR => [
                 'primaryCta' => ['route' => 'contact', 'label' => 'Parler à un consultant'],
                 'secondaryCta' => ['route' => 'projets', 'label' => 'Voir des cas clients'],
                 'section' => [
@@ -285,6 +278,46 @@ class PublicSitePageResolver
                     'primaryCta' => ['route' => 'contact', 'label' => 'Demander un échange'],
                 ],
             ],
+            SitePageTranslation::LOCALE_EN => [
+                'primaryCta' => ['route' => 'contact', 'label' => 'Talk to a consultant'],
+                'secondaryCta' => ['route' => 'projets', 'label' => 'View client cases'],
+                'section' => [
+                    'kicker' => 'Your needs',
+                    'title' => 'Expertise areas structure the issues to decide before choosing the right setup',
+                    'text' => 'This editorial layer helps qualify the problem first. Once the issue is clear, service pages detail the level of support available and sector pages show how these areas apply in each business context.',
+                ],
+                'cta' => [
+                    'title' => 'Need an independent view before restarting or securing a critical topic?',
+                    'text' => 'OLING steps in when an ERP project, an IT roadmap, a compliance risk or an AI topic needs to become steerable again quickly.',
+                    'primaryCta' => ['route' => 'contact', 'label' => 'Request a discussion'],
+                ],
+            ],
+            SitePageTranslation::LOCALE_ES => [
+                'primaryCta' => ['route' => 'contact', 'label' => 'Hablar con un consultor'],
+                'secondaryCta' => ['route' => 'projets', 'label' => 'Ver casos de cliente'],
+                'section' => [
+                    'kicker' => 'Sus necesidades',
+                    'title' => 'Las especializaciones estructuran los temas que deben decidirse antes de elegir el dispositivo adecuado',
+                    'text' => 'Esta capa editorial ayuda primero a calificar el problema. Una vez aclarado el tema, las páginas de servicios detallan el nivel de intervención disponible y las páginas sectoriales muestran cómo se aplican estas especializaciones según el contexto de negocio.',
+                ],
+                'cta' => [
+                    'title' => 'Necesita una mirada independiente antes de relanzar o asegurar un tema crítico?',
+                    'text' => 'OLING interviene cuando un proyecto ERP, una trayectoria SI, un riesgo de cumplimiento o un tema de IA deben volver a ser pilotables rápidamente.',
+                    'primaryCta' => ['route' => 'contact', 'label' => 'Solicitar una conversación'],
+                ],
+            ],
+        ];
+
+        return $this->mergeIndexPage(
+            $this->sitePageRepository->findOneBy(['slug' => self::EXPERTISE_INDEX_SLUG]),
+            array_merge([
+                'seoTitle' => 'Expertises | OLING',
+                'metaDescription' => 'Découvrez les expertises OLING pour les PME, PMI et ETI : transformation SI, AMOA ERP, organisation, data, IA, cybersécurité et conformité.',
+                'eyebrow' => 'Expertises OLING',
+                'title' => 'AMOA SI, applications métiers, gouvernance DSI, risques et conformité',
+                'intro' => 'OLING structure son accompagnement autour des sujets qui exposent directement la direction : arbitrages SI, projets ERP, conformité, gouvernance des données, résilience et usages IA.',
+                'highlights' => ['AMO ERP et applications métiers', 'Risques, cyber et résilience', 'RGPD, gouvernance et IA'],
+            ], $defaults[$locale]),
             $locale
         );
     }
@@ -312,15 +345,8 @@ class PublicSitePageResolver
     {
         SitePageTranslation::assertSupportedLocale($locale);
 
-        return $this->mergeIndexPage(
-            $this->sitePageRepository->findOneBy(['slug' => self::SECTOR_INDEX_SLUG]),
-            [
-                'seoTitle' => 'Secteurs | OLING',
-                'metaDescription' => 'Découvrez l’ensemble des secteurs servis par OLING et les points de vigilance connus selon chaque environnement métier.',
-                'eyebrow' => 'Secteurs servis',
-                'title' => 'Les secteurs métiers accompagnés par OLING',
-                'intro' => 'OLING intervient dans des environnements très différents, avec une même logique : comprendre les contraintes opérationnelles, clarifier les priorités et sécuriser les transformations utiles.',
-                'highlights' => ['11 secteurs servis', 'Références terrain publiées', 'Contraintes opérationnelles et réglementaires'],
+        $defaults = [
+            SitePageTranslation::LOCALE_FR => [
                 'primaryCta' => ['route' => 'contact', 'label' => 'Échanger sur votre contexte'],
                 'secondaryCta' => ['route' => 'expertises_index', 'label' => 'Voir nos expertises'],
                 'section' => [
@@ -334,6 +360,46 @@ class PublicSitePageResolver
                     'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre contexte'],
                 ],
             ],
+            SitePageTranslation::LOCALE_EN => [
+                'primaryCta' => ['route' => 'contact', 'label' => 'Discuss your context'],
+                'secondaryCta' => ['route' => 'expertises_index', 'label' => 'View our expertise'],
+                'section' => [
+                    'kicker' => 'Overview',
+                    'title' => 'A simple view of the sectors actually covered',
+                    'text' => 'This page lists the sectors present in the admin and connects them with contexts already handled by OLING. When business signals stand out in published references, they are shown directly.',
+                ],
+                'cta' => [
+                    'title' => 'Need framing adapted to your sector?',
+                    'text' => 'OLING can help qualify priorities, secure tooling choices and structure steering according to your environment.',
+                    'primaryCta' => ['route' => 'contact', 'label' => 'Discuss your context'],
+                ],
+            ],
+            SitePageTranslation::LOCALE_ES => [
+                'primaryCta' => ['route' => 'contact', 'label' => 'Hablar de su contexto'],
+                'secondaryCta' => ['route' => 'expertises_index', 'label' => 'Ver nuestras especializaciones'],
+                'section' => [
+                    'kicker' => 'Vista general',
+                    'title' => 'Una lectura simple de los sectores realmente cubiertos',
+                    'text' => 'Esta página retoma los sectores presentes en el admin y los pone en relación con contextos ya tratados por OLING. Cuando aparecen señales de negocio en referencias publicadas, se indican directamente.',
+                ],
+                'cta' => [
+                    'title' => 'Necesita un encuadre adaptado a su sector?',
+                    'text' => 'OLING puede intervenir para calificar prioridades, asegurar decisiones de herramientas y estructurar el pilotaje según su entorno.',
+                    'primaryCta' => ['route' => 'contact', 'label' => 'Hablar de su contexto'],
+                ],
+            ],
+        ];
+
+        return $this->mergeIndexPage(
+            $this->sitePageRepository->findOneBy(['slug' => self::SECTOR_INDEX_SLUG]),
+            array_merge([
+                'seoTitle' => 'Secteurs | OLING',
+                'metaDescription' => 'Découvrez l’ensemble des secteurs servis par OLING et les points de vigilance connus selon chaque environnement métier.',
+                'eyebrow' => 'Secteurs servis',
+                'title' => 'Les secteurs métiers accompagnés par OLING',
+                'intro' => 'OLING intervient dans des environnements très différents, avec une même logique : comprendre les contraintes opérationnelles, clarifier les priorités et sécuriser les transformations utiles.',
+                'highlights' => ['11 secteurs servis', 'Références terrain publiées', 'Contraintes opérationnelles et réglementaires'],
+            ], $defaults[$locale]),
             $locale
         );
     }

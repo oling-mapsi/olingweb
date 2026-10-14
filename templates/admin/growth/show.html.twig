@@ -2,12 +2,7 @@
 
 {% block title %}Article Growth | Admin{% endblock %}
 {% block meta_description %}Edition article Growth{% endblock %}
-{% block stylesheets %}
-  {{ parent() }}
-  {% if campaign.status|default('') == 'GENERATING' %}
-    <meta http-equiv="refresh" content="8">
-  {% endif %}
-{% endblock %}
+{% block stylesheets %}{{ parent() }}{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="admin">
@@ -42,7 +37,7 @@
           <button class="btn btn-outline-primary">Ameliorer avec l'IA</button>
         </form>
         <button class="btn btn-primary" disabled>Publier</button>
-        <span class="small text-muted align-self-center">Publication reelle bloquee tant que les connecteurs ne sont pas certifies.</span>
+        <span class="small text-muted align-self-center">Publication désactivée pendant la recette.</span>
         <form method="post" action="{{ path('admin_growth_archive', {id: campaign.id}) }}" onsubmit="return confirm('Archiver cet article ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('growth_archive_' ~ campaign.id) }}">
           <button class="btn btn-outline-secondary">Archiver</button>
@@ -53,9 +48,9 @@
         </form>
       </div>
 
-      <div class="alert alert-info">
+      <div class="alert alert-info" id="growth-generation-status" data-status-url="{{ path('admin_growth_status', {id: campaign.id}) }}">
         {% if campaign.status == 'GENERATING' %}
-          Generation en cours. Cette page se rafraichit automatiquement.
+          Création de vos articles en cours : {{ campaign.generation.stage|default('WAITING') }}.
         {% elseif campaign.generation|default(null) and campaign.generation.status|default('') == 'FAILED' %}
           {{ campaign.generation.error_message|default('Generation suspendue. Relance possible apres correction.') }}
         {% else %}
@@ -65,8 +60,12 @@
 
       <div class="row g-4">
         {% for channel in campaign.selected_channels %}
-          {% set asset = campaign.assets_by_channel[channel]|default(null) %}
           {% set links = editorial_links[channel]|default([]) %}
+          {% set channel_assets = campaign.assets_by_channel_list[channel]|default([]) %}
+          {% if channel_assets is empty %}
+            {% set channel_assets = [null] %}
+          {% endif %}
+          {% for asset in channel_assets %}
           {% set image = asset.image|default({}) %}
           {% set seo = asset.seo_geo|default({}) %}
           <div class="col-lg-6">
@@ -74,7 +73,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
                   <div>
-                    <h2 class="h5 mb-1">{{ channel_options[channel]|default(channel) }}</h2>
+                    <h2 class="h5 mb-1">{{ channel_options[channel]|default(channel) }}{% if asset and asset.locale|default('fr-FR') != 'fr-FR' %} · {{ asset.locale }}{% elseif channel == 'oling_site' and asset %} · FR{% endif %}</h2>
                     <span class="badge bg-secondary">{{ asset.status|default('A generer') }}</span>
                   </div>
                   {% if asset %}<span class="small text-muted">v{{ asset.version }}</span>{% endif %}
@@ -190,9 +189,41 @@
               </div>
             </section>
           </div>
+          {% endfor %}
         {% endfor %}
       </div>
     {% endif %}
   </div>
 </main>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {% if campaign.status|default('') == 'GENERATING' %}
+    <script>
+      (() => {
+        const node = document.getElementById('growth-generation-status');
+        if (!node || !node.dataset.statusUrl) return;
+        const labels = {'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES'};
+        const poll = async () => {
+          try {
+            const response = await fetch(node.dataset.statusUrl, {headers: {'Accept': 'application/json'}});
+            const data = await response.json();
+            if (!data.available) {
+              node.textContent = data.message || 'Growth Factory indisponible.';
+              return;
+            }
+            const assets = Array.isArray(data.assets) ? data.assets : [];
+            const done = assets.map((asset) => `${asset.channel === 'oling_site' ? 'OLING' : 'MAPSI'} ${labels[asset.locale] || asset.locale}: ${asset.status}`).join(' · ');
+            node.textContent = `Création de vos articles en cours : ${(data.generation && data.generation.stage) || 'WAITING'}${done ? ' · ' + done : ''}`;
+            if (data.status !== 'GENERATING') window.location.reload();
+            else window.setTimeout(poll, 5000);
+          } catch (e) {
+            window.setTimeout(poll, 10000);
+          }
+        };
+        window.setTimeout(poll, 3000);
+      })();
+    </script>
+  {% endif %}
 {% endblock %}

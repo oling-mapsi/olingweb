@@ -75,10 +75,10 @@ final class GrowthFactoryClient
         return $this->request($actor, 'GET', '/studio-simple/campaigns/'.rawurlencode($id));
     }
 
-    public function createCampaign(UserInterface $actor, string $type, string $theme, array $channels): array
+    public function createCampaign(UserInterface $actor, string $type, string $theme, array $channels, ?string $name = null): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns', [
-            'name' => $theme,
+            'name' => $name ?: $theme,
             'campaign_type' => $type,
             'theme' => $theme,
             'selected_channels' => array_values($channels),

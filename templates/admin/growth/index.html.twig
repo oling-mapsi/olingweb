@@ -1,17 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Growth | Admin{% endblock %}
-{% block meta_description %}Cockpit Growth OLING{% endblock %}
+{% block title %}Studio editorial IA | Admin{% endblock %}
+{% block meta_description %}Studio editorial IA OLING{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="admin">
   <div class="container content-space-2 content-space-lg-3">
-    <div class="mb-4">
-      <h1 class="h3 mb-1">Growth</h1>
-      <p class="text-muted mb-0">Cockpit OLING connecté à Growth Factory.</p>
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <h1 class="h3 mb-1">Studio editorial IA</h1>
+        <p class="text-muted mb-0">Articles OLING.fr et MAPSI.fr, generation assistee et validation humaine.</p>
+      </div>
+      <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_settings') }}">Parametres</a>
     </div>
 
     {% include 'admin/_nav.html.twig' %}
+
+    <nav class="nav nav-pills gap-2 mb-4" aria-label="Navigation Growth">
+      <a class="nav-link active" href="#create-article">Creer un article</a>
+      <a class="nav-link" href="#articles">Mes articles</a>
+      <a class="nav-link" href="{{ path('admin_growth_settings') }}">Parametres</a>
+    </nav>
 
     {% for label,messages in app.flashes %}
       {% for message in messages %}
@@ -23,240 +32,80 @@
       <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
     {% endif %}
 
-    <section class="card mb-4">
+    <section id="create-article" class="card mb-4">
       <div class="card-body">
-        <h2 class="h5">Nouvelle campagne</h2>
+        <h2 class="h5 mb-3">Creer un article</h2>
         <form method="post" action="{{ path('admin_growth_campaign_create') }}" class="row g-3">
           <input type="hidden" name="_token" value="{{ csrf_token('growth_campaign_create') }}">
-          <div class="col-lg-3">
-            <label class="form-label" for="growth-type">Type</label>
-            <select class="form-select" id="growth-type" name="campaign_type" required>
-              {% for type,option in type_options %}
-                <option value="{{ type }}" data-channels="{{ option.channels|join(',') }}">{{ option.label }}</option>
+          <div class="col-lg-4">
+            <label class="form-label" for="growth-destination">Destination</label>
+            <select class="form-select" id="growth-destination" name="destination" required>
+              {% for key,option in destination_options %}
+                <option value="{{ key }}">{{ option.label }}</option>
               {% endfor %}
             </select>
           </div>
-          <div class="col-lg-5">
-            <label class="form-label" for="growth-theme">Thème</label>
-            <input class="form-control" id="growth-theme" name="theme" required>
-          </div>
-          <div class="col-lg-4">
-            <span class="form-label d-block">Canaux</span>
-            {% for channel,label in channel_options %}
-              <label class="form-check form-check-inline">
-                <input class="form-check-input js-growth-channel" type="checkbox" name="channels[]" value="{{ channel }}">
-                <span class="form-check-label">{{ label }}</span>
-              </label>
-            {% endfor %}
+          <div class="col-lg-8">
+            <label class="form-label" for="growth-subject">Sujet</label>
+            <input class="form-control" id="growth-subject" name="subject" maxlength="180" required>
           </div>
           <div class="col-12">
-            <button class="btn btn-primary" {{ available ? '' : 'disabled' }}>Créer et générer</button>
+            <label class="form-label" for="growth-prompt">Brief detaille</label>
+            <textarea class="form-control" id="growth-prompt" name="prompt" rows="7" required placeholder="Angle, audience, points a traiter, ton souhaite, contraintes SEO ou exemples de liens internes."></textarea>
+          </div>
+          <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+            <button class="btn btn-primary" {{ available ? '' : 'disabled' }}>Generer mon article</button>
+            <span class="small text-muted">Publication externe desactivee tant que les connecteurs ne sont pas certifies.</span>
           </div>
         </form>
       </div>
     </section>
 
-    <section class="card mb-4">
+    <section id="articles" class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-          <h2 class="h5 mb-0">Historique des campagnes</h2>
-          <span class="small text-muted">{{ history.total }} élément(s)</span>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+          <h2 class="h5 mb-0">Mes articles</h2>
+          <span class="small text-muted">{{ history.total }} article(s)</span>
         </div>
-        <form method="get" class="row g-2 mb-3">
-          <div class="col-md-6"><input class="form-control" name="q" value="{{ filters.q }}" placeholder="Rechercher"></div>
+        <form method="get" action="{{ path('admin_growth_articles') }}" class="row g-2 mb-3">
+          <div class="col-md-6"><input class="form-control" name="q" value="{{ filters.q }}" placeholder="Rechercher un article"></div>
           <div class="col-md-3">
             <select class="form-select" name="status">
               <option value="">Tous statuts</option>
-              {% for value in ['DRAFT','READY_FOR_REVIEW','APPROVED','PARTIALLY_PUBLISHED','PUBLISHED','ARCHIVED','ERROR'] %}
-                <option value="{{ value }}" {{ filters.status == value ? 'selected' : '' }}>{{ value }}</option>
+              {% for value,label in {'DRAFT':'Brouillon','READY_FOR_REVIEW':'A relire','APPROVED':'Approuve','PUBLISHED':'Publie','ARCHIVED':'Archive','ERROR':'Erreur'} %}
+                <option value="{{ value }}" {{ filters.status == value ? 'selected' : '' }}>{{ label }}</option>
               {% endfor %}
             </select>
           </div>
           <div class="col-md-3"><button class="btn btn-outline-primary w-100">Filtrer</button></div>
         </form>
-        {% if section_errors.advanced|default('') %}
-          <div class="alert alert-warning">Historique avancé partiel : {{ section_errors.advanced }}</div>
-        {% endif %}
         <div class="table-responsive">
           <table class="table align-middle">
-            <thead><tr><th>Campagne</th><th>Workflow</th><th>Canaux</th><th>Assets</th><th>Statut</th><th>Date</th><th></th></tr></thead>
+            <thead><tr><th>Titre</th><th>Site</th><th>Statut</th><th>Derniere modification</th><th></th></tr></thead>
             <tbody>
             {% for campaign in history.items %}
               <tr>
                 <td>{{ campaign.title }}</td>
-                <td>{{ campaign.type }}</td>
                 <td>{{ campaign.channels }}</td>
-                <td>{{ campaign.asset_count }}</td>
                 <td><span class="badge bg-secondary">{{ campaign.status }}</span></td>
                 <td class="small text-muted">{{ campaign.updated_at ?: campaign.created_at }}</td>
-                <td class="text-end">
-                  <a class="btn btn-sm btn-outline-primary" href="{{ campaign.kind == 'simple' ? path('admin_growth_show', {id: campaign.id}) : path('admin_growth_advanced_show', {id: campaign.id}) }}">Ouvrir</a>
-                </td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('admin_growth_show', {id: campaign.id}) }}">Ouvrir</a></td>
               </tr>
             {% else %}
-              <tr><td colspan="7" class="text-muted">Aucune campagne disponible.</td></tr>
+              <tr><td colspan="5" class="text-muted">Aucun article disponible.</td></tr>
             {% endfor %}
             </tbody>
           </table>
         </div>
         {% if history.pages > 1 %}
           <div class="d-flex justify-content-between">
-            <a class="btn btn-sm btn-outline-secondary {{ history.page <= 1 ? 'disabled' : '' }}" href="{{ path('admin_growth_index', filters|merge({page: history.page - 1})) }}">Précédent</a>
+            <a class="btn btn-sm btn-outline-secondary {{ history.page <= 1 ? 'disabled' : '' }}" href="{{ path('admin_growth_articles', filters|merge({page: history.page - 1})) }}">Precedent</a>
             <span class="small text-muted">Page {{ history.page }} / {{ history.pages }}</span>
-            <a class="btn btn-sm btn-outline-secondary {{ history.page >= history.pages ? 'disabled' : '' }}" href="{{ path('admin_growth_index', filters|merge({page: history.page + 1})) }}">Suivant</a>
+            <a class="btn btn-sm btn-outline-secondary {{ history.page >= history.pages ? 'disabled' : '' }}" href="{{ path('admin_growth_articles', filters|merge({page: history.page + 1})) }}">Suivant</a>
           </div>
         {% endif %}
-      </div>
-    </section>
-
-    <section class="card mb-4">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-          <h2 class="h5 mb-0">Historique avancé</h2>
-          <span class="small text-muted">{{ advanced_campaigns|length }} campagne(s)</span>
-        </div>
-        {% if section_errors.dashboard|default('') %}
-          <div class="alert alert-warning">Tableau de bord indisponible : {{ section_errors.dashboard }}</div>
-        {% endif %}
-        <div class="row g-3 mb-3">
-          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Total</div><strong>{{ dashboard.campaigns_total|default(0) }}</strong></div></div>
-          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">À valider</div><strong>{{ dashboard.assets_pending_validation|default(0) }}</strong></div></div>
-          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Approuvées</div><strong>{{ dashboard.campaigns_approved|default(0) }}</strong></div></div>
-          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Erreurs</div><strong>{{ dashboard.assets_in_error|default(0) }}</strong></div></div>
-        </div>
-        <div class="table-responsive">
-          <table class="table align-middle">
-            <thead><tr><th>Campagne</th><th>Objectif</th><th>Assets</th><th>Statut</th><th>Dernier événement</th></tr></thead>
-            <tbody>
-            {% for campaign in advanced_campaigns %}
-              <tr>
-                <td><a href="{{ path('admin_growth_advanced_show', {id: campaign.id}) }}">{{ campaign.title|default(campaign.id|default('')) }}</a></td>
-                <td>{{ campaign.objective|default('') }}</td>
-                <td>{{ campaign.asset_count|default(0) }}</td>
-                <td><span class="badge bg-secondary">{{ campaign.status|default('') }}</span></td>
-                <td class="small text-muted">{{ campaign.last_event.event_type|default('') }}</td>
-              </tr>
-            {% else %}
-              <tr><td colspan="5" class="text-muted">Aucun historique avancé disponible dans la base connectée.</td></tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="card mb-4">
-      <div class="card-body">
-        <h2 class="h5">Fonctions avancées</h2>
-        {% if section_errors.channels|default('') %}
-          <div class="alert alert-warning">Canaux indisponibles : {{ section_errors.channels }}</div>
-        {% endif %}
-        <div class="row g-3">
-          {% for channel in channels %}
-            <div class="col-lg-4">
-              <div class="border rounded p-3 h-100">
-                <div class="d-flex justify-content-between gap-2">
-                  <strong>{{ channel.label|default(channel.key|default('Canal')) }}</strong>
-                  <span class="badge {{ channel.enabled|default(false) and not channel.emergency_kill_switch|default(false) ? 'bg-success' : 'bg-secondary' }}">{{ channel.enabled|default(false) ? 'actif' : 'inactif' }}</span>
-                </div>
-                <div class="small text-muted mt-2">{{ channel.asset_types|default([])|join(', ') }}</div>
-                <div class="small mt-2">
-                  Prévisualisation {{ channel.supports_preview|default(false) ? 'OK' : 'KO' }} · Publication {{ channel.supports_publication|default(false) ? 'OK' : 'KO' }}
-                </div>
-                {% if channel.last_error|default('') %}
-                  <div class="small text-danger mt-2">{{ channel.last_error }}</div>
-                {% endif %}
-                <form method="post" action="{{ path('admin_growth_channel_health_check', {channel: channel.key}) }}" class="mt-3">
-                  <input type="hidden" name="_token" value="{{ csrf_token('growth_channel_' ~ channel.key) }}">
-                  <button class="btn btn-sm btn-outline-primary">Tester le canal</button>
-                </form>
-              </div>
-            </div>
-          {% else %}
-            <div class="col-12 text-muted">Paramètres des canaux indisponibles.</div>
-          {% endfor %}
-          <div class="col-lg-4">
-            <div class="border rounded p-3 h-100">
-              <strong>Chatbox site onboarding</strong>
-              <div class="small text-muted mt-2">Rattaché aux paramètres de canaux et au générateur d'assets multicanaux.</div>
-              <a class="btn btn-sm btn-outline-primary mt-3" href="{{ path('admin_chat_index') }}">Ouvrir l'onboarding chat</a>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="border rounded p-3 h-100">
-              <strong>Weekly Packs</strong>
-              <div class="small text-muted mt-2">
-                {% if section_errors.weekly|default('') %}
-                  Indisponible : {{ section_errors.weekly }}
-                {% else %}
-                  {{ weekly_packs|length }} pack(s) récents accessibles via Growth Factory.
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card mb-4">
-      <div class="card-body">
-        <h2 class="h5">Audit récent</h2>
-        {% if section_errors.audit|default('') %}
-          <div class="alert alert-warning">Audit indisponible : {{ section_errors.audit }}</div>
-        {% endif %}
-        <div class="table-responsive">
-          <table class="table table-sm">
-            <thead><tr><th>Événement</th><th>Acteur</th><th>Résultat</th><th>Date</th></tr></thead>
-            <tbody>
-              {% for event in audit_events %}
-                <tr>
-                  <td>{{ event.event_type|default('') }}</td>
-                  <td>{{ event.actor_id|default('') }}</td>
-                  <td>{{ event.result|default('') }}</td>
-                  <td>{{ event.created_at|default('') }}</td>
-                </tr>
-              {% else %}
-                <tr><td colspan="4" class="text-muted">Aucun événement d'audit disponible.</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-body">
-        <h2 class="h5">Parité suivie</h2>
-        <div class="table-responsive">
-          <table class="table table-sm">
-            <thead><tr><th>Fonction</th><th>État</th><th>Phase</th></tr></thead>
-            <tbody>
-              {% for row in parity_matrix %}
-                <tr><td>{{ row.feature }}</td><td>{{ row.status }}</td><td>{{ row.phase }}</td></tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
       </div>
     </section>
   </div>
 </main>
-<script>
-(() => {
-  const type = document.getElementById('growth-type');
-  const boxes = Array.from(document.querySelectorAll('.js-growth-channel'));
-  const sync = () => {
-    const allowed = (type.selectedOptions[0]?.dataset.channels || '').split(',');
-    boxes.forEach((box) => {
-      const enabled = allowed.includes(box.value);
-      box.disabled = !enabled;
-      if (!enabled) {
-        box.checked = false;
-      }
-    });
-  };
-  type?.addEventListener('change', sync);
-  sync();
-})();
-</script>
 {% endblock %}

@@ -29,4 +29,14 @@ final class GrowthFactoryViewTest extends TestCase
         self::assertSame('asset', $campaign['assets_by_channel']['email_manual']['id']);
         self::assertSame(4, $campaign['assets_by_channel']['email_manual']['version']);
     }
+
+    public function testArticleDestinationsMapToSiteChannels(): void
+    {
+        $view = new GrowthFactoryView();
+
+        self::assertSame(['oling_site'], $view->articleDestination('oling')['channels']);
+        self::assertSame(['mapsi_site'], $view->articleDestination('mapsi')['channels']);
+        self::assertSame(['oling_site', 'mapsi_site'], $view->articleDestination('both')['channels']);
+        self::assertSame('OLING', $view->articleDestination('unknown')['campaign_type']);
+    }
 }

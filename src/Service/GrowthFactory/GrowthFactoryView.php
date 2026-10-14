@@ -29,6 +29,54 @@ final class GrowthFactoryView
         ];
     }
 
+    public function destinationOptions(): array
+    {
+        return [
+            'oling' => ['label' => 'OLING.fr', 'campaign_type' => 'OLING', 'channels' => ['oling_site']],
+            'mapsi' => ['label' => 'MAPSI.fr', 'campaign_type' => 'MAPSI_MARKETING', 'channels' => ['mapsi_site']],
+            'both' => ['label' => 'Les deux sites', 'campaign_type' => 'MAPSI_MARKETING', 'channels' => ['oling_site', 'mapsi_site']],
+        ];
+    }
+
+    public function articleDestination(string $destination): array
+    {
+        return $this->destinationOptions()[$destination] ?? $this->destinationOptions()['oling'];
+    }
+
+    public function articleStatusLabel(string $status): string
+    {
+        return [
+            'DRAFT' => 'Brouillon',
+            'READY_FOR_REVIEW' => 'À relire',
+            'APPROVED' => 'Approuvé',
+            'PARTIALLY_PUBLISHED' => 'Publication partielle',
+            'PUBLISHED' => 'Publié',
+            'ARCHIVED' => 'Archivé',
+            'ERROR' => 'Erreur',
+            'DELETED' => 'Supprimé',
+        ][strtoupper($status)] ?? $status;
+    }
+
+    public function channelLabel(string $channel): string
+    {
+        return $this->channelOptions()[$channel] ?? $channel;
+    }
+
+    public function editorialLinksForChannel(string $channel): array
+    {
+        if ($channel === 'mapsi_site') {
+            return [
+                ['label' => 'MAPSI', 'url' => 'https://mapsi.fr/'],
+                ['label' => 'Logiciel QHSE', 'url' => 'https://mapsi.fr/fr/'],
+            ];
+        }
+
+        return [
+            ['label' => 'OLING', 'url' => 'https://oling.fr/'],
+            ['label' => 'Ressources OLING', 'url' => 'https://oling.fr/ressources'],
+        ];
+    }
+
     public function allowedChannels(string $type, array $requested): array
     {
         $allowed = self::TYPE_CHANNELS[$type] ?? [];

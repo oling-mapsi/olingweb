@@ -31,13 +31,7 @@ class GrowthAdminController extends AbstractController
         $query = trim((string) $request->query->get('q', ''));
         $status = trim((string) $request->query->get('status', ''));
         $page = max(1, (int) $request->query->get('page', 1));
-        $errors = [];
         $campaigns = [];
-        $advancedCampaigns = [];
-        $dashboard = [];
-        $channels = [];
-        $auditEvents = [];
-        $weeklyPacks = [];
         $available = true;
         $message = '';
 
@@ -47,47 +41,58 @@ class GrowthAdminController extends AbstractController
             $available = false;
             $message = $exception->getMessage();
         }
-        try {
-            $advancedCampaigns = (array) (($client->listAdvancedCampaigns($actor)['data'] ?? []));
-        } catch (GrowthFactoryException $exception) {
-            $errors['advanced'] = $exception->getMessage();
-        }
-        try {
-            $dashboard = (array) (($client->dashboard($actor)['data'] ?? []));
-        } catch (GrowthFactoryException $exception) {
-            $errors['dashboard'] = $exception->getMessage();
-        }
-        try {
-            $channels = (array) (($client->listChannels($actor)['data'] ?? []));
-        } catch (GrowthFactoryException $exception) {
-            $errors['channels'] = $exception->getMessage();
-        }
-        try {
-            $auditEvents = (array) (($client->listAuditEvents($actor)['data'] ?? []));
-        } catch (GrowthFactoryException $exception) {
-            $errors['audit'] = $exception->getMessage();
-        }
-        try {
-            $weeklyPacks = (array) (($client->listWeeklyPacks($actor)['data'] ?? []));
-        } catch (GrowthFactoryException $exception) {
-            $errors['weekly'] = $exception->getMessage();
-        }
-        $history = $this->paginateRows($this->filterHistoryRows($this->buildHistoryRows($campaigns, $advancedCampaigns), $query, $status), $page);
+        $history = $this->paginateRows($this->filterHistoryRows($this->buildHistoryRows($campaigns, []), $query, $status), $page);
 
         return $this->render('admin/growth/index.html.twig', [
             'available' => $available,
             'message' => $message,
             'campaigns' => $campaigns,
+            'history' => $history,
+            'filters' => ['q' => $query, 'status' => $status, 'page' => $page],
+            'destination_options' => $view->destinationOptions(),
+        ]);
+    }
+
+    #[Route('/articles', name: 'admin_growth_articles', methods: ['GET'])]
+    public function articles(Request $request, GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    {
+        return $this->index($request, $client, $view);
+    }
+
+    #[Route('/settings', name: 'admin_growth_settings', methods: ['GET'])]
+    public function settings(GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    {
+        $actor = $this->getUserOrDeny();
+        $errors = [];
+        $advancedCampaigns = [];
+        $dashboard = [];
+        $channels = [];
+        $auditEvents = [];
+        $weeklyPacks = [];
+        $available = true;
+        $message = '';
+
+        try {
+            $advancedCampaigns = (array) (($client->listAdvancedCampaigns($actor)['data'] ?? []));
+            $dashboard = (array) (($client->dashboard($actor)['data'] ?? []));
+            $channels = (array) (($client->listChannels($actor)['data'] ?? []));
+            $auditEvents = (array) (($client->listAuditEvents($actor)['data'] ?? []));
+            $weeklyPacks = (array) (($client->listWeeklyPacks($actor)['data'] ?? []));
+        } catch (GrowthFactoryException $exception) {
+            $available = false;
+            $message = $exception->getMessage();
+            $errors['settings'] = $exception->getMessage();
+        }
+
+        return $this->render('admin/growth/settings.html.twig', [
+            'available' => $available,
+            'message' => $message,
             'advanced_campaigns' => $advancedCampaigns,
             'dashboard' => $dashboard,
             'channels' => $channels,
             'audit_events' => $auditEvents,
             'weekly_packs' => $weeklyPacks,
             'section_errors' => $errors,
-            'history' => $history,
-            'filters' => ['q' => $query, 'status' => $status, 'page' => $page],
-            'type_options' => $view->typeOptions(),
-            'channel_options' => $view->channelOptions(),
             'parity_matrix' => $view->parityMatrix(),
         ]);
     }
@@ -111,21 +116,34 @@ class GrowthAdminController extends AbstractController
     public function create(Request $request, GrowthFactoryClient $client, GrowthFactoryView $view): Response
     {
         $this->validateCsrf($request, 'growth_campaign_create');
+        $destination = (string) $request->request->get('destination', '');
+        $subject = trim((string) $request->request->get('subject', ''));
+        $prompt = trim((string) $request->request->get('prompt', ''));
         $type = (string) $request->request->get('campaign_type', '');
         $theme = trim((string) $request->request->get('theme', ''));
-        $channels = $view->allowedChannels($type, (array) $request->request->all('channels'));
+        $channels = [];
 
-        if ($theme === '' || $channels === []) {
-            $this->addFlash('danger', 'Type, thème et canaux compatibles sont obligatoires.');
+        if ($destination !== '') {
+            $article = $view->articleDestination($destination);
+            $type = (string) $article['campaign_type'];
+            $channels = (array) $article['channels'];
+            $theme = trim("Sujet : {$subject}\n\nBrief : {$prompt}");
+        } else {
+            $subject = $theme;
+            $channels = $view->allowedChannels($type, (array) $request->request->all('channels'));
+        }
+
+        if ($subject === '' || $theme === '' || $channels === []) {
+            $this->addFlash('danger', 'Destination, sujet et brief éditorial sont obligatoires.');
             return $this->redirectToRoute('admin_growth_index');
         }
 
         try {
-            $campaign = $client->createCampaign($this->getUserOrDeny(), $type, $theme, $channels);
+            $campaign = $client->createCampaign($this->getUserOrDeny(), $type, $theme, $channels, $subject);
             $campaignId = (string) ($campaign['id'] ?? '');
             try {
                 $client->generateCampaign($this->getUserOrDeny(), $campaignId);
-                $this->addFlash('success', 'Campagne créée et contenus générés. Publication manuelle requise.');
+                $this->addFlash('success', 'Article généré. Relisez, éditez et approuvez avant toute publication.');
             } catch (GrowthFactoryException $exception) {
                 $correlationId = bin2hex(random_bytes(8));
                 $this->logger->warning('growth_generation_failed_after_create', ['campaign_id' => $campaignId, 'correlation_id' => $correlationId, 'error' => $exception->getMessage()]);
@@ -157,6 +175,11 @@ class GrowthAdminController extends AbstractController
             'message' => $message,
             'campaign' => $campaign,
             'channel_options' => $view->channelOptions(),
+            'publication_enabled' => false,
+            'editorial_links' => [
+                'mapsi_site' => $view->editorialLinksForChannel('mapsi_site'),
+                'oling_site' => $view->editorialLinksForChannel('oling_site'),
+            ],
         ]);
     }
 

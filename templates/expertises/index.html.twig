@@ -124,7 +124,7 @@
             </div>
             <h3>{{ expertisePage.title }}</h3>
             <p>{{ expertisePage.intro }}</p>
-            <a class="oling-expertise-index-card__link" href="{{ path('expertises_show', {slug: slug}) }}">Voir la fiche</a>
+            <a class="oling-expertise-index-card__link" href="{{ expertisePage.href|default(path('expertises_show', {slug: slug})) }}">Voir la fiche</a>
           </article>
         {% endfor %}
       </div>

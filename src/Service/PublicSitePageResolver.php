@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\SitePage;
 use App\Entity\SitePageTranslation;
 use App\Entity\Metier;
+use App\Service\I18n\LocalizedUrlGenerator;
 use App\Repository\MetierRepository;
 use App\Repository\SiteGlobalContentRepository;
 use App\Repository\SiteGlobalContentTranslationRepository;
@@ -118,6 +119,7 @@ class PublicSitePageResolver
         private readonly LocalizedContentResolver $localizedContentResolver,
         private readonly SiteGlobalContentRepository $siteGlobalContentRepository,
         private readonly SiteGlobalContentTranslationRepository $siteGlobalContentTranslationRepository,
+        private readonly ?LocalizedUrlGenerator $localizedUrlGenerator = null,
     ) {
     }
 
@@ -257,8 +259,10 @@ class PublicSitePageResolver
         return $merged;
     }
 
-    public function getExpertisesIndex(): array
+    public function getExpertisesIndex(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
+
         return $this->mergeIndexPage(
             $this->sitePageRepository->findOneBy(['slug' => self::EXPERTISE_INDEX_SLUG]),
             [
@@ -280,17 +284,23 @@ class PublicSitePageResolver
                     'text' => 'OLING intervient quand un projet ERP, une trajectoire SI, un risque de conformité ou un sujet IA doivent redevenir pilotables rapidement.',
                     'primaryCta' => ['route' => 'contact', 'label' => 'Demander un échange'],
                 ],
-            ]
+            ],
+            $locale
         );
     }
 
-    public function getExpertisePages(): array
+    public function getExpertisePages(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         $pages = [];
 
         foreach (self::EXPERTISE_PAGE_SLUGS as $slug => $sitePageSlug) {
-            $page = $this->resolveStructuredPage($this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]), 'expertisePage');
+            $sitePage = $this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]);
+            $page = $this->resolveStructuredPage($sitePage, 'expertisePage', $locale);
             if ($page !== null) {
+                $page['publicSlug'] = $slug;
+                $page['sourceSlug'] = $sitePageSlug;
+                $page['href'] = $sitePage instanceof SitePage ? $this->localizedUrlGenerator?->sitePagePath($sitePage, $locale) : null;
                 $pages[$slug] = $page;
             }
         }
@@ -298,8 +308,10 @@ class PublicSitePageResolver
         return $pages;
     }
 
-    public function getSectorsIndex(): array
+    public function getSectorsIndex(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
+
         return $this->mergeIndexPage(
             $this->sitePageRepository->findOneBy(['slug' => self::SECTOR_INDEX_SLUG]),
             [
@@ -321,22 +333,52 @@ class PublicSitePageResolver
                     'text' => 'OLING peut intervenir pour qualifier les priorités, sécuriser les choix d’outillage et structurer le pilotage selon votre environnement.',
                     'primaryCta' => ['route' => 'contact', 'label' => 'Parler de votre contexte'],
                 ],
-            ]
+            ],
+            $locale
         );
     }
 
-    public function getSectorPages(): array
+    public function getSectorPages(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         $pages = [];
 
         foreach (self::SECTOR_PAGE_SLUGS as $slug => $sitePageSlug) {
-            $page = $this->resolveStructuredPage($this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]), 'sectorPage');
+            $sitePage = $this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]);
+            $page = $this->resolveStructuredPage($sitePage, 'sectorPage', $locale);
             if ($page !== null) {
+                $page['publicSlug'] = $slug;
+                $page['sourceSlug'] = $sitePageSlug;
+                $page['href'] = $sitePage instanceof SitePage ? $this->localizedUrlGenerator?->sitePagePath($sitePage, $locale) : null;
                 $pages[$slug] = $page;
             }
         }
 
         return $pages;
+    }
+
+    public function expertisePublicSlugForSource(string $sourceSlug): ?string
+    {
+        $slug = array_search($sourceSlug, self::EXPERTISE_PAGE_SLUGS, true);
+
+        return is_string($slug) ? $slug : null;
+    }
+
+    public function sectorPublicSlugForSource(string $sourceSlug): ?string
+    {
+        $slug = array_search($sourceSlug, self::SECTOR_PAGE_SLUGS, true);
+
+        return is_string($slug) ? $slug : null;
+    }
+
+    public function isExpertisesIndexSource(string $sourceSlug): bool
+    {
+        return $sourceSlug === self::EXPERTISE_INDEX_SLUG;
+    }
+
+    public function isSectorsIndexSource(string $sourceSlug): bool
+    {
+        return $sourceSlug === self::SECTOR_INDEX_SLUG;
     }
 
     public function getPracticeNarrative(\App\Entity\Practice $practice): array
@@ -373,14 +415,15 @@ class PublicSitePageResolver
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getSectorCatalogEntries(): array
+    public function getSectorCatalogEntries(string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        SitePageTranslation::assertSupportedLocale($locale);
         $entries = [];
 
         foreach ($this->getPublishedMetiers() as $metier) {
             $slug = (string) $metier->getSlug();
-            $designation = trim((string) $metier->getDesignation());
-            $summary = $this->getSectorSummary($slug, $designation);
+            $designation = $this->localizedSectorDesignation($slug, trim((string) $metier->getDesignation()), $locale);
+            $summary = $this->getSectorSummary($slug, $designation, $locale);
             $projectCount = $metier->getProjets()->count();
 
             $entries[] = [
@@ -390,20 +433,21 @@ class PublicSitePageResolver
                 'specifics' => $summary['specifics'],
                 'projectCount' => $projectCount,
                 'heroImage' => $metier->getImageHero() ?: $metier->getImage() ?: (self::SECTOR_HERO_FALLBACKS[$slug] ?? null),
-                'detailUrl' => $this->resolveSectorDetailUrl($slug),
+                'detailUrl' => $this->resolveSectorDetailUrl($slug, $locale),
             ];
         }
 
         return $entries;
     }
 
-    private function mergeIndexPage(?SitePage $sitePage, array $defaults): array
+    private function mergeIndexPage(?SitePage $sitePage, array $defaults, string $locale = SitePageTranslation::LOCALE_FR): array
     {
         if ($sitePage === null) {
             return $defaults;
         }
 
-        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $content = $this->localizedContentResolver->getPublicView($sitePage, $locale)
+            ?? $this->localizedContentResolver->getFrenchPublicView($sitePage);
         $payload = $this->decodeStructuredPayload($content->getBodyHtml());
         $merged = $this->mergeRecursive($defaults, $payload);
         $merged['seoTitle'] = $content->getTitle() ?: ($merged['seoTitle'] ?? $defaults['seoTitle']);
@@ -452,13 +496,14 @@ class PublicSitePageResolver
         return $merged;
     }
 
-    private function resolveStructuredPage(?SitePage $sitePage, string $payloadKey): ?array
+    private function resolveStructuredPage(?SitePage $sitePage, string $payloadKey, string $locale = SitePageTranslation::LOCALE_FR): ?array
     {
         if ($sitePage === null) {
             return null;
         }
 
-        $content = $this->localizedContentResolver->getFrenchPublicView($sitePage);
+        $content = $this->localizedContentResolver->getPublicView($sitePage, $locale)
+            ?? $this->localizedContentResolver->getFrenchPublicView($sitePage);
         $structuredData = $content->getStructuredData();
         $payload = is_array($structuredData[$payloadKey] ?? null)
             ? $structuredData[$payloadKey]
@@ -548,8 +593,47 @@ class PublicSitePageResolver
     /**
      * @return array{intro: string, specifics: array<int, string>}
      */
-    private function getSectorSummary(string $slug, string $designation): array
+    private function localizedSectorDesignation(string $slug, string $fallback, string $locale): string
     {
+        return [
+            SitePageTranslation::LOCALE_EN => [
+                'amenagementethabitats' => 'Planning, housing and asset management',
+                'banque' => 'Banking',
+                'cci' => 'Chambers of commerce',
+                'collectivites' => 'Local authorities',
+                'eauetassainissement' => 'Water and wastewater',
+                'formationprofessionnelle' => 'Vocational training',
+                'industrie' => 'Industry',
+                'mutuelle' => 'Mutual insurance and insurance',
+                'negoceetdistribution' => 'Wholesale and distribution',
+                'sante' => 'Healthcare',
+                'transport' => 'Transport',
+            ],
+            SitePageTranslation::LOCALE_ES => [
+                'amenagementethabitats' => 'Ordenación territorial, vivienda y patrimonio',
+                'banque' => 'Banca',
+                'cci' => 'Cámaras de comercio',
+                'collectivites' => 'Administraciones locales',
+                'eauetassainissement' => 'Agua y saneamiento',
+                'formationprofessionnelle' => 'Formación profesional',
+                'industrie' => 'Industria',
+                'mutuelle' => 'Mutuas y seguros',
+                'negoceetdistribution' => 'Comercio y distribución',
+                'sante' => 'Salud',
+                'transport' => 'Transporte',
+            ],
+        ][$locale][$slug] ?? $fallback;
+    }
+
+    private function getSectorSummary(string $slug, string $designation, string $locale = SitePageTranslation::LOCALE_FR): array
+    {
+        if ($locale === SitePageTranslation::LOCALE_EN) {
+            return $this->getEnglishSectorSummary($slug, $designation);
+        }
+        if ($locale === SitePageTranslation::LOCALE_ES) {
+            return $this->getSpanishSectorSummary($slug, $designation);
+        }
+
         return match ($slug) {
             'amenagementethabitats' => [
                 'intro' => 'Interventions sur des contextes d’aménagement, d’habitat et de gestion patrimoniale avec enjeux de gouvernance SI et d’organisation.',
@@ -638,13 +722,44 @@ class PublicSitePageResolver
         };
     }
 
-    private function resolveSectorDetailUrl(string $slug): ?string
+    private function getEnglishSectorSummary(string $slug, string $designation): array
     {
         return match ($slug) {
-            'industrie' => '/secteurs/industrie',
-            'transport', 'collectivites', 'cci', 'eauetassainissement', 'banque', 'mutuelle', 'sante' => '/secteurs/secteur-public',
-            'formationprofessionnelle', 'negoceetdistribution', 'amenagementethabitats' => '/secteurs/services',
+            'industrie' => ['intro' => 'Industrial engagements focused on ERP, CRM, compliance and structuring the IT function.', 'specifics' => ['ERP, business tools and production coordination', 'GDPR, outsourced CIO support and multi-site or critical-asset contexts']],
+            'collectivites' => ['intro' => 'Work with local authorities and public-sector bodies on IT transformation, telecoms, collaboration and governance.', 'specifics' => ['IT roadmaps, IT project advisory and service catalogues', 'Multi-stakeholder settings with pooling and traceability requirements']],
+            'transport' => ['intro' => 'Multiple references in transport, major ports and airport platforms across IT, quality, compliance and continuity topics.', 'specifics' => ['Finance ERP, payroll, HRIS, telecoms, EDM and IT roadmaps', 'ISO, GDPR, business continuity and multi-site governance']],
+            default => ['intro' => sprintf('OLING supports the %s sector with a scoping, steering and transformation-risk approach.', mb_strtolower($designation)), 'specifics' => ['Organisation, tools and governance', 'Business, IT and compliance constraints depending on context']],
+        };
+    }
+
+    private function getSpanishSectorSummary(string $slug, string $designation): array
+    {
+        return match ($slug) {
+            'industrie' => ['intro' => 'Intervenciones industriales centradas en ERP, CRM, cumplimiento y estructuración de la función SI.', 'specifics' => ['ERP, herramientas de negocio y coordinación con producción', 'RGPD, DSI externalizada y contextos multisede o activos críticos']],
+            'collectivites' => ['intro' => 'Trabajo con administraciones locales y entidades públicas en transformación SI, telecomunicaciones, colaboración y gobernanza.', 'specifics' => ['Planes directores SI, AMOA SI y catálogos de servicios', 'Entornos multiactor con mutualización y trazabilidad']],
+            'transport' => ['intro' => 'Referencias en transporte, grandes puertos y plataformas aeroportuarias sobre SI, calidad, cumplimiento y continuidad.', 'specifics' => ['ERP financiero, nómina, RR. HH., telecomunicaciones, GED y planes directores', 'ISO, RGPD, continuidad de actividad y gobernanza multisede']],
+            default => ['intro' => sprintf('OLING interviene en el sector %s con un enfoque de encuadre, pilotaje y securización de transformaciones.', mb_strtolower($designation)), 'specifics' => ['Organización, herramientas y gobernanza', 'Restricciones de negocio, SI y cumplimiento según el contexto']],
+        };
+    }
+
+    private function resolveSectorDetailUrl(string $slug, string $locale = SitePageTranslation::LOCALE_FR): ?string
+    {
+        $publicSlug = match ($slug) {
+            'industrie' => 'industrie',
+            'transport', 'collectivites', 'cci', 'eauetassainissement', 'banque', 'mutuelle', 'sante' => 'secteur-public',
+            'formationprofessionnelle', 'negoceetdistribution', 'amenagementethabitats' => 'services',
             default => null,
         };
+
+        if ($publicSlug === null) {
+            return null;
+        }
+
+        $sitePageSlug = self::SECTOR_PAGE_SLUGS[$publicSlug] ?? null;
+        $sitePage = $sitePageSlug ? $this->sitePageRepository->findOneBy(['slug' => $sitePageSlug]) : null;
+
+        return $sitePage instanceof SitePage
+            ? $this->localizedUrlGenerator?->sitePagePath($sitePage, $locale)
+            : ($locale === SitePageTranslation::LOCALE_FR ? '/secteurs/'.$publicSlug : null);
     }
 }

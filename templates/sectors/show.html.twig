@@ -38,7 +38,7 @@
         {% for slug in page.linkedExpertises %}
           {% set linkedPage = expertisePages[slug] ?? null %}
           {% if linkedPage %}
-            <a class="oling-editorial-card" href="{{ path('expertises_show', {slug: slug}) }}">
+            <a class="oling-editorial-card" href="{{ linkedPage.href|default(path('expertises_show', {slug: slug})) }}">
               <span class="oling-kicker">{{ linkedPage.eyebrow }}</span>
               <h3>{{ linkedPage.title }}</h3>
               <p>{{ linkedPage.intro }}</p>

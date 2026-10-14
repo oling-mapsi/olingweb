@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Traduction {{ target.locale|upper }}{% endblock %}
+
+{% block body %}
+{% include 'admin/_nav.html.twig' %}
+
+<div class="container py-4">
+  <a class="btn btn-sm btn-link px-0 mb-3" href="{{ path('admin_translations_index') }}">← Retour aux traductions</a>
+
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 mb-1">{{ target.locale|upper }} — {{ source.title }}</h1>
+      <p class="text-muted mb-0">Statut : <strong>{{ target.translationStatus }}</strong></p>
+    </div>
+    <div class="d-flex gap-2">
+      <form method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+        <input type="hidden" name="action" value="review">
+        <button class="btn btn-outline-success" type="submit">Marquer relue</button>
+      </form>
+      <form method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+        <input type="hidden" name="action" value="publish">
+        <button class="btn btn-success" type="submit">Publier</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <h2 class="h5">Source FR</h2>
+      <div class="card card-body">
+        <p><strong>Title</strong><br>{{ source.title }}</p>
+        <p><strong>Slug</strong><br><code>{{ source.slug }}</code></p>
+        <p><strong>Hero</strong><br>{{ source.heroTitle }}</p>
+        <p><strong>Intro</strong><br>{{ source.heroIntro|striptags }}</p>
+        <p><strong>SEO</strong><br>{{ source.seoTitle }}<br>{{ source.seoDescription }}</p>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <h2 class="h5">Cible {{ target.locale|upper }}</h2>
+      <form method="post" class="card card-body">
+        <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+        <input type="hidden" name="action" value="save">
+        <label class="form-label">Title</label>
+        <input class="form-control mb-3" name="title" value="{{ target.title }}">
+        <label class="form-label">Slug</label>
+        <input class="form-control mb-3" name="slug" value="{{ target.slug }}">
+        <label class="form-label">Hero badge</label>
+        <input class="form-control mb-3" name="heroBadge" value="{{ target.heroBadge }}">
+        <label class="form-label">Hero title</label>
+        <input class="form-control mb-3" name="heroTitle" value="{{ target.heroTitle }}">
+        <label class="form-label">Hero intro</label>
+        <textarea class="form-control mb-3" name="heroIntro" rows="4">{{ target.heroIntro }}</textarea>
+        <label class="form-label">SEO title</label>
+        <input class="form-control mb-3" name="seoTitle" value="{{ target.seoTitle }}">
+        <label class="form-label">SEO description</label>
+        <textarea class="form-control mb-3" name="seoDescription" rows="3">{{ target.seoDescription }}</textarea>
+        <label class="form-label">Body HTML / JSON structuré</label>
+        <textarea class="form-control font-monospace mb-3" name="bodyHtml" rows="12">{{ target.bodyHtml }}</textarea>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

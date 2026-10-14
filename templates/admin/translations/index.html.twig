@@ -1,0 +1,80 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Traductions{% endblock %}
+
+{% block body %}
+{% include 'admin/_nav.html.twig' %}
+
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 mb-1">Traductions</h1>
+      <p class="text-muted mb-0">Source FR, EN/ES, statuts, revue et publication contrôlée.</p>
+    </div>
+  </div>
+
+  <form class="row g-2 mb-4" method="get">
+    <div class="col-md-4">
+      <select class="form-select" name="family">
+        <option value="expertises-secteurs" {{ family == 'expertises-secteurs' ? 'selected' : '' }}>Expertises + secteurs</option>
+        <option value="all" {{ family == 'all' ? 'selected' : '' }}>Toutes les pages éditoriales</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" name="locale">
+        <option value="all" {{ locale == 'all' ? 'selected' : '' }}>EN + ES</option>
+        <option value="en" {{ locale == 'en' ? 'selected' : '' }}>EN</option>
+        <option value="es" {{ locale == 'es' ? 'selected' : '' }}>ES</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" name="status">
+        <option value="all" {{ status == 'all' ? 'selected' : '' }}>Tous statuts</option>
+        <option value="missing" {{ status == 'missing' ? 'selected' : '' }}>Manquantes</option>
+        <option value="to_review" {{ status == 'to_review' ? 'selected' : '' }}>À relire</option>
+        <option value="reviewed" {{ status == 'reviewed' ? 'selected' : '' }}>Relues</option>
+        <option value="published" {{ status == 'published' ? 'selected' : '' }}>Publiées</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" type="submit">Filtrer</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-sm align-middle">
+      <thead>
+        <tr>
+          <th>Page FR</th>
+          <th>Locale</th>
+          <th>Statut</th>
+          <th>Slug cible</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>
+              <strong>{{ row.source ? row.source.title : row.page.slug }}</strong><br>
+              <code>{{ row.page.slug }}</code>
+            </td>
+            <td>{{ row.locale|upper }}</td>
+            <td><span class="badge bg-secondary">{{ row.status }}</span></td>
+            <td>{{ row.translation ? row.translation.slug : '—' }}</td>
+            <td class="text-end">
+              {% if row.translation %}
+                <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_translations_site_page_edit', {id: row.translation.id, locale: row.locale}) }}">Comparer / éditer</a>
+              {% else %}
+                <span class="text-muted">À générer via app:i18n:translate</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5" class="text-muted">Aucune traduction trouvée.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

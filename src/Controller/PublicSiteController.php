@@ -7,6 +7,7 @@ use App\Repository\ProjetRepository;
 use App\Repository\ServicesRepository;
 use App\Service\LocalizedContentResolver;
 use App\Service\PublicSitePageResolver;
+use App\Entity\SitePageTranslation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,8 +28,8 @@ class PublicSiteController extends AbstractController
         return $this->render('expertises/index.html.twig', [
             'practices' => $this->localizePractices($practiceRepository->findAll()),
             'services' => $this->localizeServices($servicesRepository->findAll()),
-            'page' => $this->publicSitePageResolver->getExpertisesIndex(),
-            'expertisePages' => $this->publicSitePageResolver->getExpertisePages(),
+            'page' => $this->publicSitePageResolver->getExpertisesIndex(SitePageTranslation::LOCALE_FR),
+            'expertisePages' => $this->publicSitePageResolver->getExpertisePages(SitePageTranslation::LOCALE_FR),
         ]);
     }
 
@@ -39,7 +40,7 @@ class PublicSiteController extends AbstractController
         ServicesRepository $servicesRepository,
         ProjetRepository $projetRepository
     ): Response {
-        $pages = $this->publicSitePageResolver->getExpertisePages();
+        $pages = $this->publicSitePageResolver->getExpertisePages(SitePageTranslation::LOCALE_FR);
         $page = $pages[$slug] ?? null;
 
         if ($page === null) {
@@ -61,15 +62,15 @@ class PublicSiteController extends AbstractController
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository
     ): Response {
-        $page = $this->publicSitePageResolver->getSectorsIndex();
-        $sectorPages = $this->publicSitePageResolver->getSectorPages();
+        $page = $this->publicSitePageResolver->getSectorsIndex(SitePageTranslation::LOCALE_FR);
+        $sectorPages = $this->publicSitePageResolver->getSectorPages(SitePageTranslation::LOCALE_FR);
 
         return $this->render('sectors/index.html.twig', [
             'practices' => $this->localizePractices($practiceRepository->findAll()),
             'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $page,
             'sectorPages' => $sectorPages,
-            'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries(),
+            'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries(SitePageTranslation::LOCALE_FR),
         ]);
     }
 
@@ -79,7 +80,7 @@ class PublicSiteController extends AbstractController
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository
     ): Response {
-        $pages = $this->publicSitePageResolver->getSectorPages();
+        $pages = $this->publicSitePageResolver->getSectorPages(SitePageTranslation::LOCALE_FR);
         $page = $pages[$slug] ?? null;
 
         if ($page === null) {
@@ -91,7 +92,7 @@ class PublicSiteController extends AbstractController
             'services' => $this->localizeServices($servicesRepository->findAll()),
             'page' => $page,
             'pageSlug' => $slug,
-            'expertisePages' => $this->publicSitePageResolver->getExpertisePages(),
+            'expertisePages' => $this->publicSitePageResolver->getExpertisePages(SitePageTranslation::LOCALE_FR),
         ]);
     }
 

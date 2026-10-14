@@ -76,7 +76,7 @@
         </div>
         <div class="oling-sector-angles">
           {% for slug, sectorPage in sectorPages %}
-            <a class="oling-sector-angle" href="{{ path('sectors_show', {slug: slug}) }}">
+            <a class="oling-sector-angle" href="{{ sectorPage.href|default(path('sectors_show', {slug: slug})) }}">
               <div class="oling-sector-angle__top">
                 <span class="oling-kicker">{{ sectorPage.eyebrow }}</span>
                 <span class="oling-sector-angle__index" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>

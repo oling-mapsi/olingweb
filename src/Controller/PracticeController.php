@@ -304,7 +304,9 @@ class PracticeController extends AbstractController
         $historicalProjects = array_values(array_filter($projets, static fn (Projet $projet) => $projet->getExternalId() === null));
         $projectPool = $importedProjects !== [] ? $importedProjects : $projets;
 
-        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
+        $projectMediaPool = $this->filterProjectsWithOwnImage($projets);
+        [$featuredProjects] = $this->resolveFeaturedProjectsFromCollection($projectMediaPool !== [] ? $projectMediaPool : $projectPool);
+        [, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
         $imagePool = $this->buildProjectImagePool($projets);
 
         $perPage = 12;
@@ -360,6 +362,19 @@ class PracticeController extends AbstractController
     private function resolveFeaturedProjects(ProjetRepository $repository): array
     {
         return $this->resolveFeaturedProjectsFromCollection($repository->findAll());
+    }
+
+    /**
+     * @param Projet[] $projects
+     * @return Projet[]
+     */
+    private function filterProjectsWithOwnImage(array $projects): array
+    {
+        return array_values(array_filter($projects, static function (Projet $project): bool {
+            $image = $project->getImageHero() ?: $project->getImage();
+
+            return is_string($image) && trim($image) !== '';
+        }));
     }
 
     /**

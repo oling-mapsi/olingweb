@@ -229,6 +229,8 @@ projects:
   library_kicker: "OLING assignments"
   library_title: "Documented assignments"
   library_intro: "Each assignment presents a real context, the scope of OLING's intervention and the elements actually documented. Organizations are anonymized."
+  media_title: "References in pictures"
+  media_intro: "A selection of OLING assignments illustrated with the media associated with each project."
   filter_aria: "Filter assignments"
   filter_all: "All"
   context: "Context"

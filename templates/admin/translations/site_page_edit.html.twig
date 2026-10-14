@@ -6,6 +6,12 @@
 {% include 'admin/_nav.html.twig' %}
 
 <div class="container py-4">
+  {% for label, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-{{ label }}">{{ message }}</div>
+    {% endfor %}
+  {% endfor %}
+
   <a class="btn btn-sm btn-link px-0 mb-3" href="{{ path('admin_translations_index') }}">← Retour aux traductions</a>
 
   <div class="d-flex align-items-center justify-content-between mb-4">

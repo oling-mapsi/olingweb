@@ -75,11 +75,19 @@ class SitePagePublicView
 
     public function getHeroImage(): ?string
     {
+        $growth = $this->translation->getStructuredData()['growth'] ?? [];
+        if (array_key_exists('featured_image', $growth)) {
+            return $growth['featured_image'];
+        }
         return $this->page->getHeroImage();
     }
 
     public function getCanonicalUrl(): ?string
     {
+        $growth = $this->translation->getStructuredData()['growth'] ?? [];
+        if (array_key_exists('canonical_url', $growth)) {
+            return $growth['canonical_url'];
+        }
         return $this->page->getCanonicalUrl();
     }
 

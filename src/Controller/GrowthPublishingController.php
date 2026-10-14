@@ -93,7 +93,8 @@ class GrowthPublishingController extends AbstractController
     {
         $this->authenticator->assertAuthorized($request);
 
-        return $this->json($this->publishingService->publish($externalId, (string) $request->query->get('locale', 'fr')), Response::HTTP_OK);
+        $payload = $request->getContent() !== '' ? $request->toArray() : [];
+        return $this->json($this->publishingService->publish($externalId, (string) $request->query->get('locale', 'fr'), isset($payload['expected_revision']) ? (int) $payload['expected_revision'] : null), Response::HTTP_OK);
     }
 
     #[Route('/{externalId}/unpublish', name: 'growth_api_news_unpublish', methods: ['POST'])]
@@ -130,6 +131,13 @@ class GrowthPublishingController extends AbstractController
 
             throw new BadRequestHttpException(json_encode(['errors' => $errors], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: 'Validation failed.');
         }
+
+        $prefix = match ($input->locale) {
+            'en' => '/en/resources/',
+            'es' => '/es/recursos/',
+            default => '/ressources/',
+        };
+        $input->canonicalUrl = $request->getSchemeAndHttpHost().$prefix.$input->slug;
 
         return $input;
     }

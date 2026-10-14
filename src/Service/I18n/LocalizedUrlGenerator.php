@@ -81,10 +81,12 @@ final class LocalizedUrlGenerator
 
         $slug = trim($translation->getSlug(), '/');
         if ($locale === SitePageTranslation::LOCALE_FR) {
-            if (!str_starts_with($slug, 'ressource-')) {
+            if (!str_starts_with($slug, 'ressource-') && !str_starts_with((string) $page->getSlug(), 'ressource-')) {
                 return null;
             }
-            $slug = substr($slug, strlen('ressource-'));
+            if (str_starts_with($slug, 'ressource-')) {
+                $slug = substr($slug, strlen('ressource-'));
+            }
         }
 
         return $slug === '' ? null : $this->resourceIndexPath($locale).'/'.$slug;

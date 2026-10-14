@@ -79,6 +79,21 @@ final class GrowthFactoryClientTest extends TestCase
         $factory->updateAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'camp', 'asset', []);
     }
 
+    public function testStructuredConflictDisplaysTheBusinessMessage(): void
+    {
+        $factory = $this->factory(new MockHttpClient(new MockResponse('{"detail":{"code":"PUBLICATION_CONFLICT","message":"This slug is already used."}}', ['http_code' => 409])));
+        $this->expectException(GrowthFactoryConflictException::class);
+        $this->expectExceptionMessage('This slug is already used.');
+        $factory->publishAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'asset');
+    }
+
+    public function testInvalidSuccessPayloadIsNotAcceptedAsSuccess(): void
+    {
+        $factory = $this->factory(new MockHttpClient(new MockResponse('<html>gateway error</html>', ['http_code' => 200])));
+        $this->expectException(GrowthFactoryUnavailableException::class);
+        $factory->getCampaign(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign');
+    }
+
     public function testValidationStatusIsExplicit(): void
     {
         $factory = $this->factory(new MockHttpClient(new MockResponse('{"detail":"invalid channel"}', ['http_code' => 422])));

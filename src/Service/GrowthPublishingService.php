@@ -80,13 +80,16 @@ class GrowthPublishingService
         return $this->buildStatusPayload($page, $draft, 200, $locale);
     }
 
-    public function publish(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): array
+    public function publish(string $externalId, string $locale = SitePageTranslation::LOCALE_FR, ?int $expectedRevision = null): array
     {
         $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
         $draft = $this->findActiveDraftForLocale($page, $locale);
         if ($draft === null) {
             throw new ConflictHttpException('No draft available for publication.');
+        }
+        if ($expectedRevision !== null && $draft->getRevisionNumber() !== $expectedRevision) {
+            throw new ConflictHttpException('Destination draft revision changed; publication refused.');
         }
 
         $this->mediaStore->publishHtmlMedia($draft->getContentHtml());
@@ -170,7 +173,7 @@ class GrowthPublishingService
     {
         $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        $draft = $this->findActiveDraftForLocale($page, $locale);
+        $draft = $this->findActiveDraftForLocale($page, $locale) ?? ($this->findPublishedRevisionsForLocale($page, $locale, 1)[0] ?? null);
         if ($draft === null) {
             throw new ConflictHttpException('No draft available for preview.');
         }
@@ -209,7 +212,8 @@ class GrowthPublishingService
             }
         }
 
-        $existingTranslation = $this->entityManager->getRepository(SitePageTranslation::class)->findOneBy(['locale' => $locale, 'slug' => $publicSlug]);
+        $translationSlug = $locale === SitePageTranslation::LOCALE_FR ? self::RESOURCE_PREFIX.$publicSlug : $publicSlug;
+        $existingTranslation = $this->entityManager->getRepository(SitePageTranslation::class)->findOneBy(['locale' => $locale, 'slug' => $translationSlug]);
         if ($existingTranslation instanceof SitePageTranslation && $existingTranslation->getSitePage()?->getId() !== $currentPage->getId()) {
             throw new ConflictHttpException('This localized slug is already used by another article.');
         }
@@ -299,13 +303,16 @@ class GrowthPublishingService
     private function applyTranslationDraft(SitePage $page, GrowthNewsInput $input): void
     {
         $translation = $page->getTranslation($input->locale);
+        if ($translation instanceof SitePageTranslation && $this->isTranslationPublic($translation)) {
+            return;
+        }
         if (!$translation instanceof SitePageTranslation) {
             $translation = (new SitePageTranslation())->setLocale($input->locale);
             $page->addTranslation($translation);
         }
 
         $translation
-            ->setSlug($input->slug)
+            ->setSlug($input->locale === SitePageTranslation::LOCALE_FR ? self::RESOURCE_PREFIX.$input->slug : $input->slug)
             ->setTitle($this->sanitizer->sanitizeText($input->metaTitle, 255))
             ->setHeroTitle($this->sanitizer->sanitizeText($input->title, 255))
             ->setHeroIntro($this->sanitizer->sanitizeHtml($input->excerpt))
@@ -346,8 +353,11 @@ class GrowthPublishingService
             $page->addTranslation($translation);
         }
 
+        $translation->setStructuredData(array_replace($translation->getStructuredData() ?? [], [
+            'growth' => ['canonical_url' => $revision->getCanonicalUrl(), 'featured_image' => $revision->getFeaturedImage()],
+        ]));
         $translation
-            ->setSlug($revision->getSlug())
+            ->setSlug($locale === SitePageTranslation::LOCALE_FR ? self::RESOURCE_PREFIX.$revision->getSlug() : $revision->getSlug())
             ->setTitle($revision->getMetaTitle())
             ->setHeroTitle($revision->getTitle())
             ->setHeroIntro($revision->getExcerpt())
@@ -450,7 +460,7 @@ class GrowthPublishingService
     {
         $translation = $page->getTranslation($locale);
         if ($translation instanceof SitePageTranslation && $translation->getSlug() !== '') {
-            return $translation->getSlug();
+            return $locale === SitePageTranslation::LOCALE_FR ? $this->extractPublicSlug($translation->getSlug()) : $translation->getSlug();
         }
 
         return $locale === SitePageTranslation::LOCALE_FR ? $this->extractPublicSlug((string) $page->getSlug()) : '';

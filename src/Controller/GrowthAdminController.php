@@ -184,6 +184,12 @@ class GrowthAdminController extends AbstractController
                     ];
                 }
             }
+            foreach ($campaign['content_assets'] as $asset) {
+                if (($publicationReadiness[$asset['id']]['asset_status'] ?? '') === 'PUBLISHED' && $asset['status'] !== 'PUBLISHED') {
+                    $campaign = $view->normalizeCampaign($client->getCampaign($actor, $id));
+                    break;
+                }
+            }
             $available = true;
             $message = '';
         } catch (GrowthFactoryException $exception) {
@@ -443,7 +449,12 @@ class GrowthAdminController extends AbstractController
         $this->validateCsrf($request, 'growth_publish_asset_'.$id.'_'.$assetId);
 
         try {
-            $client->publishAsset($this->getUserOrDeny(), $assetId);
+            $actor = $this->getUserOrDeny();
+            $campaign = $client->getCampaign($actor, $id);
+            if (!in_array($assetId, array_column($campaign['content_assets'] ?? [], 'id'), true)) {
+                throw $this->createAccessDeniedException('Article hors campagne.');
+            }
+            $client->publishAsset($actor, $assetId, (int) $request->request->get('expected_version', 0), (string) $request->request->get('approved_content_hash', ''));
             $this->addFlash('success', 'Publication de l’article demandée à Growth Factory.');
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
@@ -463,9 +474,11 @@ class GrowthAdminController extends AbstractController
         if (!$selected || count($selected) > 4 || array_diff($selected, $ids)) {
             throw $this->createAccessDeniedException('Selection d’articles invalide.');
         }
+        $versions = $request->request->all('expected_versions');
+        $hashes = $request->request->all('approved_hashes');
         foreach ($selected as $assetId) {
             try {
-                $client->publishAsset($actor, $assetId);
+                $client->publishAsset($actor, $assetId, (int) ($versions[$assetId] ?? 0), (string) ($hashes[$assetId] ?? ''));
                 $this->addFlash('success', 'Resultat de publication enregistre pour '.$assetId.'.');
             } catch (GrowthFactoryException $exception) {
                 $this->addFlash('danger', $assetId.' : '.$exception->getMessage());
@@ -480,7 +493,12 @@ class GrowthAdminController extends AbstractController
         $this->validateCsrf($request, 'growth_unpublish_asset_'.$id.'_'.$assetId);
 
         try {
-            $client->unpublishAsset($this->getUserOrDeny(), $assetId);
+            $actor = $this->getUserOrDeny();
+            $campaign = $client->getCampaign($actor, $id);
+            if (!in_array($assetId, array_column($campaign['content_assets'] ?? [], 'id'), true)) {
+                throw $this->createAccessDeniedException('Article hors campagne.');
+            }
+            $client->unpublishAsset($actor, $assetId);
             $this->addFlash('success', 'Dépublication de l’article demandée à Growth Factory.');
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());

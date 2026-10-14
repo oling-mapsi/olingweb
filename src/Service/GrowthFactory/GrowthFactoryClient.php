@@ -167,10 +167,11 @@ final class GrowthFactoryClient
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/publish', ['channels' => array_values($channels)]);
     }
 
-    public function publishAsset(UserInterface $actor, string $assetId): array
+    public function publishAsset(UserInterface $actor, string $assetId, ?int $expectedVersion = null, ?string $approvedHash = null): array
     {
         return $this->request($actor, 'POST', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publish', [
             'idempotency_key' => bin2hex(random_bytes(16)), 'comment' => 'Publication manuelle OLING Admin',
+            'expected_version' => $expectedVersion, 'approved_content_hash' => $approvedHash,
         ], max(60, $this->timeoutSeconds));
     }
 
@@ -227,7 +228,7 @@ final class GrowthFactoryClient
             $response = $this->httpClient->request($method, rtrim($this->baseUrl, '/').$path, $options);
             $status = $response->getStatusCode();
             $body = trim($response->getContent(false));
-            $payload = $body !== '' ? json_decode($body, true) : [];
+            $payload = $body !== '' ? json_decode($body, true, 512, JSON_THROW_ON_ERROR) : [];
         } catch (TransportExceptionInterface|\JsonException|\RuntimeException $exception) {
             $this->logger->warning('growth_factory_unavailable', ['method' => $method, 'path' => $path, 'error' => $exception->getMessage()]);
             throw new GrowthFactoryUnavailableException('Growth Factory est indisponible.', previous: $exception);
@@ -236,7 +237,11 @@ final class GrowthFactoryClient
         if ($status >= 200 && $status < 300) {
             return is_array($payload) ? $payload : [];
         }
-        $message = is_array($payload) ? (string) ($payload['detail'] ?? $payload['message'] ?? 'Erreur Growth Factory.') : 'Erreur Growth Factory.';
+        $detail = is_array($payload) ? ($payload['detail'] ?? $payload['message'] ?? null) : null;
+        if (is_array($detail)) {
+            $detail = $detail['message'] ?? $detail['detail'] ?? $detail['code'] ?? null;
+        }
+        $message = is_string($detail) && $detail !== '' ? $detail : 'Erreur Growth Factory.';
 
         throw match ($status) {
             404 => new GrowthFactoryNotFoundException($message),

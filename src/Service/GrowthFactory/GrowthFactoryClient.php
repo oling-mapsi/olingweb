@@ -137,9 +137,24 @@ final class GrowthFactoryClient
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/publish', ['channels' => array_values($channels)]);
     }
 
+    public function publishAsset(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'POST', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publish', [
+            'idempotency_key' => bin2hex(random_bytes(16)),
+            'comment' => 'Publication manuelle OLING Admin',
+        ]);
+    }
+
     public function unpublishCampaign(UserInterface $actor, string $id, array $channels): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/unpublish', ['channels' => array_values($channels)]);
+    }
+
+    public function unpublishAsset(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'POST', '/api/admin/v1/assets/'.rawurlencode($assetId).'/unpublish', [
+            'comment' => 'Dépublication manuelle OLING Admin',
+        ]);
     }
 
     public function archiveCampaign(UserInterface $actor, string $id): array

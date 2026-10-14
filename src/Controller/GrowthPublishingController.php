@@ -55,14 +55,15 @@ class GrowthPublishingController extends AbstractController
     {
         $this->authenticator->assertAuthorized($request);
 
-        return $this->json($this->publishingService->getStatus($externalId));
+        return $this->json($this->publishingService->getStatus($externalId, (string) $request->query->get('locale', 'fr')));
     }
 
     #[Route('/{externalId}/preview-url', name: 'growth_api_news_preview_url', methods: ['POST'])]
     public function previewUrl(string $externalId, Request $request): JsonResponse
     {
         $this->authenticator->assertAuthorized($request);
-        $revision = $this->publishingService->buildPreviewPage($externalId);
+        $locale = (string) $request->query->get('locale', 'fr');
+        $revision = $this->publishingService->buildPreviewPage($externalId, $locale);
         $signature = $this->previewSigner->generateParameters($externalId, (int) $revision->getId());
 
         return $this->json([
@@ -72,6 +73,7 @@ class GrowthPublishingController extends AbstractController
                 'revisionId' => $revision->getId(),
                 'expires' => $signature['expires'],
                 'signature' => $signature['signature'],
+                'locale' => $locale,
             ], UrlGeneratorInterface::ABSOLUTE_URL),
             'expires_at' => gmdate(DATE_ATOM, $signature['expires']),
         ]);
@@ -82,7 +84,7 @@ class GrowthPublishingController extends AbstractController
     {
         $this->authenticator->assertAuthorized($request);
 
-        return $this->json($this->publishingService->publish($externalId), Response::HTTP_OK);
+        return $this->json($this->publishingService->publish($externalId, (string) $request->query->get('locale', 'fr')), Response::HTTP_OK);
     }
 
     #[Route('/{externalId}/unpublish', name: 'growth_api_news_unpublish', methods: ['POST'])]
@@ -90,7 +92,7 @@ class GrowthPublishingController extends AbstractController
     {
         $this->authenticator->assertAuthorized($request);
 
-        return $this->json($this->publishingService->unpublish($externalId), Response::HTTP_OK);
+        return $this->json($this->publishingService->unpublish($externalId, (string) $request->query->get('locale', 'fr')), Response::HTTP_OK);
     }
 
     #[Route('/{externalId}/restore-previous', name: 'growth_api_news_restore_previous', methods: ['POST'])]
@@ -98,7 +100,7 @@ class GrowthPublishingController extends AbstractController
     {
         $this->authenticator->assertAuthorized($request);
 
-        return $this->json($this->publishingService->restorePreviousPublishedVersion($externalId), Response::HTTP_OK);
+        return $this->json($this->publishingService->restorePreviousPublishedVersion($externalId, (string) $request->query->get('locale', 'fr')), Response::HTTP_OK);
     }
 
     private function validatePayload(Request $request): GrowthNewsInput

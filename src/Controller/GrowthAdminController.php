@@ -371,6 +371,21 @@ class GrowthAdminController extends AbstractController
         }
     }
 
+    #[Route('/campaigns/{id}/assets/{assetId}/publish', name: 'admin_growth_asset_publish', methods: ['POST'])]
+    public function publishAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_publish_asset_'.$id.'_'.$assetId);
+
+        try {
+            $client->publishAsset($this->getUserOrDeny(), $assetId);
+            $this->addFlash('success', 'Publication de l’article demandée à Growth Factory.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
     #[Route('/campaigns/{id}/publish', name: 'admin_growth_publish', methods: ['POST'])]
     public function publish(string $id, Request $request, GrowthFactoryClient $client): Response
     {

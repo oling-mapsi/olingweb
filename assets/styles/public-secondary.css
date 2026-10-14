@@ -358,3 +358,88 @@ body.oling-body:not(.admin) #header .oling-language-switcher__toggle:focus-visib
     pointer-events: none !important;
   }
 }
+
+
+/* Editorial media: reuse CMS/service/practice images without turning the hero into a banner. */
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media {
+  grid-template-columns: minmax(0, 1.08fr) minmax(18rem, .92fr);
+  gap: clamp(1.8rem, 4vw, 4.75rem);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .oling-shell-hero__copy {
+  max-width: 49rem;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(18, 43, 64, .12);
+  background: #eaf1f7;
+  box-shadow: 0 34px 70px -52px rgba(17, 48, 72, .58);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 55% 0 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(10, 35, 55, .2), transparent);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media figcaption {
+  position: absolute;
+  z-index: 2;
+  right: .8rem;
+  bottom: .7rem;
+  left: .8rem;
+  padding: .55rem .7rem;
+  border-radius: .55rem;
+  background: rgba(9, 37, 60, .74);
+  color: #fff;
+  font-size: .78rem;
+  line-height: 1.35;
+  backdrop-filter: blur(10px);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .oling-shell-hero__highlights {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 1rem 0 0;
+  border-left: 0;
+  border-top: 1px solid var(--oling-secondary-line);
+}
+
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .oling-shell-hero__highlights span {
+  width: auto;
+  flex: 1 1 14rem;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+    aspect-ratio: 16 / 9;
+    max-height: 31rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+    aspect-ratio: 4 / 3;
+    border-radius: .95rem;
+  }
+}

@@ -15,6 +15,45 @@
     highlights: page.highlights
   } %}
 
+  {% if featuredProjects|default([])|length > 0 %}
+    <section class="oling-shell-section oling-project-media-showcase" aria-labelledby="project-media-showcase-title">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
+          <h2 id="project-media-showcase-title">{{ 'projects.media_title'|trans }}</h2>
+          <p>{{ 'projects.media_intro'|trans }}</p>
+        </div>
+        <div class="oling-project-media-grid">
+          {% for project in featuredProjects|slice(0, 6) %}
+            {% set projectImageRaw = project.image|default('')|trim %}
+            {% set projectImageSrc = projectImageRaw ? (projectImageRaw starts with 'http://' or projectImageRaw starts with 'https://' or projectImageRaw starts with 'data:' or projectImageRaw starts with '/' ? projectImageRaw : asset(projectImageRaw)) : null %}
+            <a class="oling-project-media-card" href="{{ project.href }}">
+              {% if projectImageSrc %}
+                <div class="oling-project-media-card__visual">
+                  <img src="{{ projectImageSrc }}" alt="{{ project.title }}" width="720" height="480" loading="{{ loop.index <= 2 ? 'eager' : 'lazy' }}" decoding="async">
+                </div>
+              {% endif %}
+              <div class="oling-project-media-card__body">
+                {% if project.eyebrow %}<span class="oling-kicker">{{ project.eyebrow }}</span>{% endif %}
+                <h3>{{ project.title }}</h3>
+                {% if project.excerpt %}<p>{{ project.excerpt }}</p>{% endif %}
+                <div class="oling-project-media-card__meta">
+                  {% if project.meta %}<span>{{ project.meta }}</span>{% endif %}
+                  {% if project.period %}<span>{{ project.period }}</span>{% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+        {% if miniProjects|default([])|length > 0 %}
+          <div class="oling-projects-mini-grid mt-4">
+            {% include 'projets/_mini_cards.html.twig' with {miniProjects: miniProjects|slice(0, 6)} %}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+
   <section class="oling-proof-library oling-projects-redesign" aria-labelledby="proof-library-title">
     <div class="container">
       <div class="oling-proof-library__intro">

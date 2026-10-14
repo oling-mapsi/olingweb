@@ -8,8 +8,10 @@
     expertises_index: currentLocale == 'en' ? '/en/areas-of-expertise' : (currentLocale == 'es' ? '/es/areas-de-especializacion' : path('expertises_index')),
     services_index: currentLocale == 'en' ? '/en/services' : (currentLocale == 'es' ? '/es/servicios-y-ofertas' : path('services_index'))
   } %}
+  {% set heroImageRaw = image is defined and image ? image|trim : '' %}
+  {% set heroImageSrc = heroImageRaw ? (heroImageRaw starts with 'http://' or heroImageRaw starts with 'https://' or heroImageRaw starts with 'data:' or heroImageRaw starts with '/' ? heroImageRaw : asset(heroImageRaw)) : null %}
   <div class="container">
-    <div class="oling-shell-hero__inner">
+    <div class="oling-shell-hero__inner{{ heroImageSrc ? ' oling-shell-hero__inner--media' : '' }}">
       <div class="oling-shell-hero__copy">
         {% if eyebrow is defined and eyebrow %}
           <span class="oling-shell-hero__eyebrow">{{ eyebrow }}</span>
@@ -34,6 +36,14 @@
           </div>
         {% endif %}
       </div>
+      {% if heroImageSrc %}
+        <figure class="oling-shell-hero__media">
+          <img src="{{ heroImageSrc }}" alt="{{ imageAlt|default(title)|striptags }}" width="960" height="640" decoding="async" fetchpriority="high">
+          {% if imageCaption is defined and imageCaption %}
+            <figcaption>{{ imageCaption }}</figcaption>
+          {% endif %}
+        </figure>
+      {% endif %}
       {% if highlights is defined and highlights|length > 0 %}
         <div class="oling-shell-hero__highlights">
           {% for item in highlights %}

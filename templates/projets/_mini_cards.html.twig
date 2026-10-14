@@ -1,8 +1,12 @@
 {% for projet in miniProjects %}
+  {% set projectImageRaw = projet.image|default('')|trim %}
+  {% set projectImageSrc = projectImageRaw ? (projectImageRaw starts with 'http://' or projectImageRaw starts with 'https://' or projectImageRaw starts with 'data:' or projectImageRaw starts with '/' ? projectImageRaw : asset(projectImageRaw)) : null %}
   <a class="oling-project-mini-card" href="{{ projet.href }}">
-    <div class="oling-project-mini-card__media">
-      <img class="card-img" src="{{ projet.image }}" alt="{{ projet.title }}">
-    </div>
+    {% if projectImageSrc %}
+      <div class="oling-project-mini-card__media">
+        <img class="card-img" src="{{ projectImageSrc }}" alt="{{ projet.title }}" width="480" height="300" loading="lazy" decoding="async">
+      </div>
+    {% endif %}
     <div class="oling-project-mini-card__body">
       <h4>{{ projet.title }}</h4>
       {% if projet.meta %}

@@ -83,6 +83,23 @@ final class PublicEditorialDesignSourceTest extends TestCase
         self::assertStringContainsString('stroke=', $language);
     }
 
+    public function testStoredEditorialMediaRemainConnectedToPublicTemplates(): void
+    {
+        $hero = (string) file_get_contents(dirname(__DIR__) . '/templates/public/_page_hero.html.twig');
+        $service = (string) file_get_contents(dirname(__DIR__) . '/templates/services.html.twig');
+        $practice = (string) file_get_contents(dirname(__DIR__) . '/templates/practice-home.html.twig');
+        $projects = (string) file_get_contents(dirname(__DIR__) . '/templates/projets.html.twig');
+        $miniProjects = (string) file_get_contents(dirname(__DIR__) . '/templates/projets/_mini_cards.html.twig');
+
+        self::assertStringContainsString('oling-shell-hero__media', $hero);
+        self::assertStringContainsString('service.getImageHero()', $service);
+        self::assertStringContainsString('service.getImage1()', $service);
+        self::assertStringContainsString('practice.getImage1()', $practice);
+        self::assertStringContainsString('featuredProjects', $projects);
+        self::assertStringContainsString('oling-project-media-card__visual', $projects);
+        self::assertStringContainsString('projectImageSrc', $miniProjects);
+    }
+
     public function testFunctionalProjectFiltersAndContactFormMarkupRemain(): void
     {
         $projects = (string) file_get_contents(dirname(__DIR__) . '/templates/projets.html.twig');

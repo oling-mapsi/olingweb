@@ -229,6 +229,8 @@ projects:
   library_kicker: "Misiones OLING"
   library_title: "Misiones documentadas"
   library_intro: "Cada mision presenta un contexto real, el alcance de la intervencion de OLING y los elementos efectivamente documentados. Las organizaciones estan anonimizadas."
+  media_title: "Referencias en imágenes"
+  media_intro: "Una selección de misiones de OLING ilustradas con los medios asociados a cada proyecto."
   filter_aria: "Filtrar misiones"
   filter_all: "Todas"
   context: "Contexto"

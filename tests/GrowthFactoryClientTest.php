@@ -16,6 +16,53 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class GrowthFactoryClientTest extends TestCase
 {
+    public function testValidateAndPublishUsesOnlyTheSelectedArticleAndItsApprovedHash(): void
+    {
+        $calls = [];
+        $http = new MockHttpClient(function (string $method, string $url, array $options) use (&$calls): MockResponse {
+            $body = isset($options['body']) && is_string($options['body']) ? json_decode($options['body'], true) : null;
+            $calls[] = [$method, $url, $body];
+            $asset = ['id' => 'selected-fr', 'version' => 4, 'status' => 'READY_FOR_REVIEW'];
+            if (str_ends_with($url, '/publication-readiness')) {
+                return new MockResponse(json_encode(['data' => ['metadata' => [
+                    'mode' => 'live', 'connector_configured' => true, 'feature_enabled' => true,
+                    'reasons' => ['Asset is not approved.', 'Approved content hash no longer matches the current asset.'],
+                ]]]));
+            }
+            if (str_ends_with($url, '/approve')) {
+                $asset['status'] = 'APPROVED';
+                $asset['approved_content_hash'] = 'exact-approved-hash';
+            }
+            return new MockResponse(json_encode(['id' => 'campaign', 'content_assets' => [$asset, ['id' => 'other-es', 'status' => 'READY_FOR_REVIEW']]]));
+        });
+        $this->factory($http)->validateAndPublishAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'selected-fr', 4);
+        self::assertCount(5, $calls);
+        self::assertStringEndsWith('/selected-fr/review', $calls[2][1]);
+        self::assertStringEndsWith('/selected-fr/approve', $calls[3][1]);
+        self::assertStringEndsWith('/selected-fr/publish', $calls[4][1]);
+        self::assertSame(4, $calls[4][2]['expected_version']);
+        self::assertSame('exact-approved-hash', $calls[4][2]['approved_content_hash']);
+        self::assertStringNotContainsString('other-es', implode(' ', array_column($calls, 1)));
+    }
+
+    public function testMockConnectorIsRefusedBeforeAnyApprovalOrPublication(): void
+    {
+        $calls = 0;
+        $http = new MockHttpClient(function (string $method, string $url) use (&$calls): MockResponse {
+            ++$calls;
+            self::assertSame('GET', $method);
+            return new MockResponse(json_encode(str_ends_with($url, '/publication-readiness')
+                ? ['data' => ['metadata' => ['mode' => 'mock', 'reasons' => []]]]
+                : ['content_assets' => [['id' => 'asset', 'version' => 1, 'status' => 'READY_FOR_REVIEW']]]));
+        });
+        try {
+            $this->factory($http)->validateAndPublishAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'asset', 1);
+            self::fail('Mock mode must never publish.');
+        } catch (GrowthFactoryException $exception) {
+            self::assertSame(2, $calls);
+        }
+    }
+
     public function testCreateGenerateUpdateAndPublishUseStudioSimpleContract(): void
     {
         $requests = [];

@@ -127,9 +127,10 @@ Captures formulaire non produites. A realiser apres lancement local sur base de 
 3. Ouvrir `/admin/pages` pour les pages SEO du lot A :
    - `/cyber-securite`
    - `/conseil-qualite`
-   - `/consulting/reforme-facturation-electronique-amoa`
 4. Renseigner les champs de `Contenu SEO avance` selon `OLING_SEO_P1A_CHANGEMENTS_VALIDABLES.md`.
-5. Ouvrir `/admin/services` pour `/business-apps/erp`.
+5. Ouvrir `/admin/services` pour les services du lot A :
+   - `/business-apps/erp`
+   - `/consulting/reforme-facturation-electronique-amoa`
 6. Renseigner les champs de `Contenu SEO avance` selon `OLING_SEO_P1A_CHANGEMENTS_VALIDABLES.md`.
 7. Verifier le rendu public HTML avant/apres : HTTP 200, title, meta description, H1, canonical, robots, liens internes.
 8. Ne pas saisir les champs non mappes, les champs identiques, les changements AMOA structurels ni les enrichissements CRM/GMAO/SI Finance sans validation separee.
@@ -148,16 +149,10 @@ Captures formulaire non produites. A realiser apres lancement local sur base de 
 Rollback Git du correctif applicatif :
 
 ```bash
-git restore src/Service/SeoStructuredContentAdminMapper.php \
-  src/Form/SitePageTranslationType.php \
-  src/Form/ServicesType.php \
-  src/Dto/StructuredContentAdminFormData.php \
-  src/Service/StructuredContentTranslationSynchronizer.php \
-  templates/admin/pages/edit.html.twig \
-  templates/admin/services/_form.html.twig \
-  tests/SitePageTranslationTypeTest.php \
-  tests/SeoStructuredContentAdminMapperTest.php
+git revert --no-commit <sha_commit_correctif_admin_p1a>
 ```
+
+Ne pas utiliser `git restore .`, `git reset --hard` ou une restauration globale du worktree.
 
 Rollback contenu P1A apres saisie admin :
 

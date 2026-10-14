@@ -81,7 +81,13 @@
                     {% if image.data_url|default('') %}
                       <div class="border rounded p-3 mb-3">
                         <strong>Illustration retenue</strong>
-                        <img class="img-fluid rounded mt-2" src="{{ image.data_url }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <img class="img-fluid rounded mt-2" src="{{ image.image_url|default(image.data_url) }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
+                      </div>
+                    {% elseif image.image_url|default('') %}
+                      <div class="border rounded p-3 mb-3">
+                        <strong>Illustration retenue</strong>
+                        <img class="img-fluid rounded mt-2" src="{{ image.image_url }}" alt="{{ image.alt_text|default('Illustration article') }}">
                         <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
                       </div>
                     {% endif %}

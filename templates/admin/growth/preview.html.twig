@@ -18,9 +18,9 @@
 
     <section class="card">
       <div class="card-body">
-        {% if asset.image.data_url|default('') %}
+        {% if asset.image.image_url|default(asset.image.data_url|default('')) %}
           <figure class="mb-4">
-            <img class="img-fluid rounded" src="{{ asset.image.data_url }}" alt="{{ asset.image.alt_text|default('Illustration article') }}">
+            <img class="img-fluid rounded" src="{{ asset.image.image_url|default(asset.image.data_url) }}" alt="{{ asset.image.alt_text|default('Illustration article') }}">
             {% if asset.image.alt_text|default('') %}
               <figcaption class="small text-muted mt-2">{{ asset.image.alt_text }}</figcaption>
             {% endif %}

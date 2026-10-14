@@ -106,7 +106,10 @@ final class PublicEditorialDesignSourceTest extends TestCase
 
         self::assertStringContainsString('private function resolveProjectCardImage', $controller);
         self::assertStringContainsString('): ?string', $controller);
-        self::assertStringNotContainsString('$imagePool[$fallbackIndex % count($imagePool)]', $controller);
+        self::assertStringContainsString('bool $allowImageFallback = false', $controller);
+        self::assertStringContainsString('$this->buildProjectCards($featuredProjects, $imagePool, $locale)', $controller);
+        self::assertStringContainsString('$this->buildProjectCards($miniProjects, $imagePool, $locale)', $controller);
+        self::assertStringContainsString('$this->buildProjectCards($featuredHomeProjects, $this->buildProjectImagePool($projets), $locale, true)', $controller);
         self::assertStringNotContainsString("return '/img/1920x1080/img5.jpg';", $controller);
     }
 

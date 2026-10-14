@@ -13,7 +13,7 @@
 {% set navTeamPath = currentLocale == 'en' ? '/en/team' : (currentLocale == 'es' ? '/es/equipo' : path('team')) %}
 {% set navContactPath = currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')) %}
 {% set navResourcesPath = currentLocale == 'en' ? '/en/resources' : (currentLocale == 'es' ? '/es/recursos' : path('seo_resources_index')) %}
-{% set languageAlternates = localizedAlternates|default({}) %}
+{% set languageAlternates = localizedAlternates is defined and localizedAlternates ? localizedAlternates : oling_language_alternates(app.request) %}
 {% set languageLocales = {'fr': 'FR', 'en': 'EN', 'es': 'ES'} %}
 {% set languageNames = {'fr': 'Français', 'en': 'English', 'es': 'Español'} %}
 {% set languageAriaLabel = currentLocale == 'en' ? 'Change language' : (currentLocale == 'es' ? 'Cambiar idioma' : 'Changer de langue') %}
@@ -93,7 +93,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="canonical" href="{% block canonical_url %}{{ app.request.schemeAndHttpHost ~ app.request.pathInfo }}{% endblock %}" />
-    {% set hreflangAlternates = localizedAlternates|default({'fr': app.request.pathInfo, 'x-default': app.request.pathInfo}) %}
+    {% set hreflangAlternates = languageAlternates|default({'fr': app.request.pathInfo, 'x-default': app.request.pathInfo}) %}
     {% for hreflangLocale, hreflangPath in hreflangAlternates %}
       <link rel="alternate" hreflang="{{ hreflangLocale }}" href="{{ app.request.schemeAndHttpHost ~ hreflangPath }}" />
     {% endfor %}

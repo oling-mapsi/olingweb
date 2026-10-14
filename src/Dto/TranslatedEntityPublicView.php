@@ -62,6 +62,26 @@ final class TranslatedEntityPublicView
         throw new \BadMethodCallException(sprintf('Method "%s" is not available on translated view for "%s".', $name, $this->entity::class));
     }
 
+    public function __get(string $name): mixed
+    {
+        $getter = 'get'.ucfirst($name);
+        if (method_exists($this, $getter) || isset($this->relationResolvers[$getter]) || method_exists($this->entity, $getter)) {
+            return $this->{$getter}();
+        }
+
+        $isser = 'is'.ucfirst($name);
+        if (isset($this->relationResolvers[$isser]) || method_exists($this->entity, $isser)) {
+            return $this->{$isser}();
+        }
+
+        return null;
+    }
+
+    public function __isset(string $name): bool
+    {
+        return $this->__get($name) !== null;
+    }
+
     private function resolveGetter(string $field, string $method): mixed
     {
         if (array_key_exists($field, $this->translatedFields)) {

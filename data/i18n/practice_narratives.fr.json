@@ -172,53 +172,109 @@
             ]
         },
         "mapsi": {
-            "eyebrow": "Domaine OLING",
-            "headline": "MAPSI, outillage de pilotage, conformité et traçabilité",
-            "metaTitle": "MAPSI : pilotage, conformité et traçabilité | OLING",
-            "metaDescription": "MAPSI relie pilotage, conformité, workflows, preuves et tableaux de bord pour industrialiser les dispositifs de gouvernance.",
-            "intro": "MAPSI complète les accompagnements OLING lorsque les processus, preuves, plans d’action et indicateurs doivent être outillés durablement.",
-            "promise": "Une pratique structuree pour relier enjeux operationnels, outils et execution.",
-            "focus": [],
+            "eyebrow": "Plateforme GRC et expertise OLING",
+            "headline": "MAPSI – Plateforme GRC pour piloter conformité, risques et systèmes de management",
+            "metaTitle": "MAPSI | Plateforme GRC, RGPD, QSE, risques & conformité | OLING",
+            "metaDescription": "MAPSI est la plateforme GRC développée par OLING pour piloter RGPD, QSE, ISO 27001, NIS2, risques, contrôle interne, PCA/PRA, audits, actions et preuves.",
+            "intro": "MAPSI est la plateforme SaaS développée par OLING pour centraliser les référentiels, processus, risques, contrôles, audits, incidents, documents, actions et indicateurs des organisations.",
+            "promise": "MAPSI combine un socle logiciel GRC et l’expertise métier OLING pour transformer les obligations, contrôles et plans d’actions en pilotage opérationnel.",
+            "focus": [
+                "Référentiel → Risque → Contrôle → Audit → Écart → Action → Preuve → Indicateur",
+                "Complémentarité entre plateforme logicielle MAPSI et consultants OLING",
+                "Pilotage RGPD, QSE, cyber, risques, PCA/PRA, SI et ITSM"
+            ],
+            "domainsTitle": "Six domaines fonctionnels MAPSI",
+            "domains": [
+                {
+                    "title": "Qualité & QSE",
+                    "description": "ISO 9001, ISO 14001, Qualiopi : référentiels, processus, audits, écarts, actions et preuves."
+                },
+                {
+                    "title": "RGPD & protection des données",
+                    "description": "Registres, DPIA, droits, incidents, documentation, plans d’actions et gouvernance DPO."
+                },
+                {
+                    "title": "Cybersécurité",
+                    "description": "ISO 27001, NIS2, DORA : risques, contrôles, plans de traitement, preuves et suivi."
+                },
+                {
+                    "title": "Risques & contrôle interne",
+                    "description": "Cartographies, contrôles, audits, écarts, preuves et pilotage des plans d’amélioration."
+                },
+                {
+                    "title": "PCA/PRA",
+                    "description": "BIA, continuité, reprise, exercices, responsabilités, documentation et suivi des actions."
+                },
+                {
+                    "title": "SI & ITSM",
+                    "description": "Applications, flux, actifs, incidents, problèmes, changements et amélioration des services."
+                }
+            ],
+            "differentiatorTitle": "MAPSI + l’expertise OLING",
+            "differentiatorQuote": "Un logiciel seul ne fait pas vivre un système de management.",
+            "differentiatorText": "OLING relie diagnostic, cadrage, configuration, audit, formation, pilotage des actions et accompagnement continu. MAPSI structure les données, workflows, preuves et indicateurs ; les consultants OLING sécurisent la méthode, l’adoption et la cohérence métier.",
+            "citablePassagesTitle": "Réponses courtes sur MAPSI",
+            "citablePassages": [
+                {
+                    "title": "À quoi sert MAPSI ?",
+                    "text": "MAPSI centralise référentiels, risques, contrôles, audits, écarts, actions, preuves et indicateurs pour piloter les systèmes de management."
+                },
+                {
+                    "title": "Quels domaines MAPSI couvre-t-il ?",
+                    "text": "MAPSI couvre notamment RGPD, QSE, cybersécurité, risques, contrôle interne, PCA/PRA, SI et ITSM."
+                },
+                {
+                    "title": "Pourquoi associer OLING à MAPSI ?",
+                    "text": "OLING apporte le cadrage, la méthode, l’audit, la formation et l’accompagnement métier qui rendent la plateforme réellement exploitable."
+                }
+            ],
+            "supportLinksTitle": "Approfondir les usages de MAPSI",
+            "supportLinksIntro": "Parcours complémentaires OLING et pages produits MAPSI pour relier conformité, risques, systèmes de management et outillage.",
             "supportLinks": [
                 {
-                    "href": "/mapsi/automatisation-et-workflow",
-                    "label": "Automatisation et workflow MAPSI",
-                    "description": "Pour piloter circuits de validation, tâches, alertes et plans d’actions."
+                    "href": "/rgpd",
+                    "label": "RGPD et DPO",
+                    "description": "Pour structurer registres, droits, incidents, DPIA, preuves et gouvernance des données."
                 },
                 {
-                    "href": "/mapsi/integration-progiciel",
-                    "label": "Intégration progiciel MAPSI",
-                    "description": "Pour raccorder MAPSI aux référentiels et outils existants."
+                    "href": "/conseil-qualite",
+                    "label": "QSE, qualité et systèmes de management",
+                    "description": "Pour relier référentiels ISO, audits, écarts, plans d’actions et amélioration continue."
                 },
                 {
-                    "href": "/mapsi/mapsi-audit",
-                    "label": "MAPSI Audit",
-                    "description": "Pour organiser audits, constats, preuves et actions correctives."
+                    "href": "/cyber-securite",
+                    "label": "Cybersécurité, ISO 27001, NIS2 et DORA",
+                    "description": "Pour piloter risques cyber, contrôles, preuves et plans de traitement."
                 },
                 {
-                    "href": "/mapsi/mapsi-risques",
-                    "label": "MAPSI Risques",
-                    "description": "Pour suivre cartographies, contrôles et plans de traitement."
+                    "href": "/pca-pra-continuite-activite",
+                    "label": "PCA/PRA et continuité d’activité",
+                    "description": "Pour documenter BIA, continuité, reprise, exercices et responsabilités."
                 },
                 {
-                    "href": "/mapsi/mapsi-qualiopi",
-                    "label": "MAPSI Qualiopi",
-                    "description": "Pour structurer preuves, indicateurs et préparation des audits."
+                    "href": "/conformite-reglementaire",
+                    "label": "Conformité réglementaire et IA Act",
+                    "description": "Pour articuler obligations, risques, contrôles et preuves dans une gouvernance exploitable."
                 },
                 {
-                    "href": "/mapsi/mapsi-pca",
-                    "label": "MAPSI PCA",
-                    "description": "Pour documenter continuité, plans, exercices et responsabilités."
+                    "href": "/gestion-risques-audit-controle-interne",
+                    "label": "Risques, audit et contrôle interne",
+                    "description": "Pour structurer cartographies, contrôles, audits, écarts, preuves et actions."
                 },
                 {
-                    "href": "/mapsi/mapsi-portfolio",
-                    "label": "MAPSI Portfolio",
-                    "description": "Pour suivre portefeuille, priorités, décisions et avancement."
+                    "href": "/mapsi-progiciel",
+                    "label": "MAPSI progiciel",
+                    "description": "Page produit OLING dédiée à l’intention progiciel et logiciel métier."
                 },
                 {
-                    "href": "/mapsi/mapsi-secu",
-                    "label": "MAPSI Sécurité SI",
-                    "description": "Pour piloter actions sécurité, preuves et conformité."
+                    "href": "https://mapsi.fr/fr/logiciel-grc",
+                    "label": "MAPSI SaaS GRC",
+                    "description": "Présentation produit MAPSI pour la gouvernance, les risques et la conformité."
+                },
+                {
+                    "href": "https://mapsi.fr/fr/expertises/privacy-rgpd",
+                    "label": "MAPSI Privacy RGPD",
+                    "description": "Usage MAPSI pour la protection des données, les registres et la conformité RGPD."
                 }
             ]
         }

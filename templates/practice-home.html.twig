@@ -60,6 +60,25 @@
     </section>
   {% endif %}
 
+  {% if practiceNarrative.domains is defined and practiceNarrative.domains|length > 0 %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">{{ practiceNarrative.eyebrow }}</span>
+          <h2>{{ practiceNarrative.domainsTitle|default('Domaines fonctionnels') }}</h2>
+        </div>
+        <div class="oling-service-link-grid">
+          {% for domain in practiceNarrative.domains %}
+            <article class="oling-surface oling-surface--light">
+              <h3>{{ domain.title }}</h3>
+              <p class="mb-0">{{ domain.description }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   {% if practiceNarrative.projectContexts is defined and practiceNarrative.projectContexts|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
@@ -185,13 +204,36 @@
     </section>
   {% endif %}
 
+  {% if practiceNarrative.differentiatorTitle is defined %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-two-col">
+          <article class="oling-surface oling-surface--light">
+            <span class="oling-kicker">{{ practiceNarrative.eyebrow }}</span>
+            <h2>{{ practiceNarrative.differentiatorTitle }}</h2>
+            <p class="oling-lede">{{ practiceNarrative.differentiatorQuote }}</p>
+            <p>{{ practiceNarrative.differentiatorText }}</p>
+          </article>
+          <article class="oling-surface oling-surface--light">
+            <span class="oling-kicker">MAPSI</span>
+            <h2>Démo et produit</h2>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-outline-primary" href="https://mapsi.fr" target="_blank" rel="noopener">Découvrir MAPSI</a>
+              <a class="btn btn-primary" href="{{ path('contact') }}">Demander une démonstration</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   {% if practiceNarrative.supportLinks is defined and practiceNarrative.supportLinks|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">{{ 'service.support_links.kicker'|trans }}</span>
-          <h2>{{ 'practice.support_links_title'|trans }}</h2>
-          <p>{{ 'practice.support_links_intro'|trans }}</p>
+          <h2>{{ practiceNarrative.supportLinksTitle|default('practice.support_links_title'|trans) }}</h2>
+          <p>{{ practiceNarrative.supportLinksIntro|default('practice.support_links_intro'|trans) }}</p>
         </div>
         <div class="oling-service-link-grid">
           {% for item in practiceNarrative.supportLinks %}
@@ -201,6 +243,25 @@
               <p>{{ item.description }}</p>
               <span class="oling-service-link-card__more">{{ 'practice.open_related_page'|trans }}</span>
             </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if practiceNarrative.citablePassages is defined and practiceNarrative.citablePassages|length > 0 %}
+    <section class="oling-shell-section oling-shell-section--tint">
+      <div class="container">
+        <div class="oling-section-head">
+          <span class="oling-kicker">FAQ courte</span>
+          <h2>{{ practiceNarrative.citablePassagesTitle|default('Questions fréquentes') }}</h2>
+        </div>
+        <div class="oling-service-link-grid">
+          {% for item in practiceNarrative.citablePassages %}
+            <article class="oling-surface oling-surface--light">
+              <h3>{{ item.title }}</h3>
+              <p class="mb-0">{{ item.text }}</p>
+            </article>
           {% endfor %}
         </div>
       </div>
@@ -230,6 +291,23 @@
     "url": "https://oling.fr/amoa-si",
     "areaServed": ["France", "Guadeloupe", "Martinique", "Guyane", "Réunion", "Saint-Pierre-et-Miquelon"],
     "description": "{{ 'practice.schema.description'|trans|e('js') }}"
+  }
+  </script>
+{% elseif practice.slug == 'mapsi' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MAPSI",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://oling.fr/practice/mapsi",
+    "publisher": {
+      "@type": "Organization",
+      "name": "OLING Management et Technologie",
+      "url": "https://oling.fr"
+    },
+    "description": "{{ practiceNarrative.metaDescription|e('js') }}"
   }
   </script>
 {% endif %}

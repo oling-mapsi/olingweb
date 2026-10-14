@@ -39,15 +39,16 @@ class CorePagesSourceTest extends TestCase
         }
     }
 
-    public function testMapsiPracticeLinksToInternalMapsiServicePages(): void
+    public function testMapsiPracticeLinksToRelevantUsagePages(): void
     {
         $source = json_decode((string) file_get_contents(dirname(__DIR__) . '/data/i18n/practice_narratives.fr.json'), true, 512, JSON_THROW_ON_ERROR);
         $hrefs = array_column($source['narratives']['mapsi']['supportLinks'], 'href');
 
-        self::assertContains('/mapsi/automatisation-et-workflow', $hrefs);
-        self::assertContains('/mapsi/mapsi-audit', $hrefs);
-        self::assertContains('/mapsi/mapsi-risques', $hrefs);
-        self::assertContains('/mapsi/mapsi-secu', $hrefs);
+        self::assertContains('/rgpd', $hrefs);
+        self::assertContains('/conseil-qualite', $hrefs);
+        self::assertContains('/cyber-securite', $hrefs);
+        self::assertContains('/gestion-risques-audit-controle-interne', $hrefs);
+        self::assertContains('https://mapsi.fr/fr/logiciel-grc', $hrefs);
     }
 
     public function testHomePageLinksToSeoAiOwnerPages(): void

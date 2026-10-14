@@ -12,7 +12,9 @@
     primaryCta: {route: 'contact', label: 'service.hero.primary_cta'|trans},
     secondaryCta: {route: 'expertises_index', label: 'home.hero.default_secondary_cta'|trans},
     externalCta: practice.slug == 'mapsi' ? {href: 'https://mapsi.fr', label: 'nav.mapsi_access'|trans} : null,
-    highlights: practiceNarrative.focus|slice(0, 3)
+    highlights: practiceNarrative.focus|slice(0, 3),
+    image: practice.getImage1() ?: practice.getImage2(),
+    imageAlt: practice.getDesignation()
   } %}
 
   <section class="oling-shell-section">

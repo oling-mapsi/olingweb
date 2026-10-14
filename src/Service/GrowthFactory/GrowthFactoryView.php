@@ -104,6 +104,8 @@ final class GrowthFactoryView
                 'approved_version' => null,
                 'published_at' => null,
                 'public_url' => '',
+                'image' => [],
+                'seo_geo' => [],
             ];
         }
 

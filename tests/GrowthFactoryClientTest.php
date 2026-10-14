@@ -28,6 +28,7 @@ final class GrowthFactoryClientTest extends TestCase
                 'name' => 'Theme',
                 'campaign_type' => 'MAPSI_MARKETING',
                 'theme' => 'Theme',
+                'brief' => 'Brief',
                 'status' => 'READY',
                 'selected_channels' => ['mapsi_site', 'oling_site'],
                 'content_assets' => [],
@@ -38,7 +39,7 @@ final class GrowthFactoryClientTest extends TestCase
         $factory = $this->factory($client);
         $actor = new InMemoryUser('admin@oling.fr', null, ['ROLE_ADMIN']);
 
-        $factory->createCampaign($actor, 'MAPSI_MARKETING', 'Theme', ['mapsi_site', 'oling_site']);
+        $factory->createCampaign($actor, 'MAPSI_MARKETING', 'Theme', ['mapsi_site', 'oling_site'], 'Theme', 'Brief');
         $factory->generateCampaign($actor, 'camp_1');
         $factory->updateAsset($actor, 'camp_1', 'asset_1', ['expected_version' => 3]);
         $factory->reviewAsset($actor, 'camp_1', 'asset_1', 4, 'ok');
@@ -50,6 +51,7 @@ final class GrowthFactoryClientTest extends TestCase
         self::assertSame('POST', $requests[0][0]);
         self::assertStringEndsWith('/studio-simple/campaigns', $requests[0][1]);
         self::assertSame(['mapsi_site', 'oling_site'], $requests[0][2]['selected_channels']);
+        self::assertSame('Brief', $requests[0][2]['brief']);
         self::assertStringContainsString('/studio-simple/campaigns/camp_1/generate', $requests[1][1]);
         self::assertSame('PUT', $requests[2][0]);
         self::assertSame(['expected_version' => 3], $requests[2][2]);

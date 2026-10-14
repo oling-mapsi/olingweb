@@ -75,12 +75,13 @@ final class GrowthFactoryClient
         return $this->request($actor, 'GET', '/studio-simple/campaigns/'.rawurlencode($id));
     }
 
-    public function createCampaign(UserInterface $actor, string $type, string $theme, array $channels, ?string $name = null): array
+    public function createCampaign(UserInterface $actor, string $type, string $theme, array $channels, ?string $name = null, string $brief = ''): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns', [
             'name' => $name ?: $theme,
             'campaign_type' => $type,
             'theme' => $theme,
+            'brief' => $brief,
             'selected_channels' => array_values($channels),
         ]);
     }
@@ -109,6 +110,21 @@ final class GrowthFactoryClient
             'comment' => $comment,
             'expected_version' => $expectedVersion,
         ]);
+    }
+
+    public function generateAssetImage(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $visualBrief = ''): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/image', [
+            'visual_brief' => $visualBrief,
+            'expected_version' => $expectedVersion,
+        ], $this->generateTimeoutSeconds);
+    }
+
+    public function prepareAssetSeoGeo(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/seo-geo', [
+            'expected_version' => $expectedVersion,
+        ], $this->generateTimeoutSeconds);
     }
 
     public function publishCampaign(UserInterface $actor, string $id, array $channels): array

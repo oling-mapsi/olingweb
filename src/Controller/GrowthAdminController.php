@@ -127,7 +127,7 @@ class GrowthAdminController extends AbstractController
             $article = $view->articleDestination($destination);
             $type = (string) $article['campaign_type'];
             $channels = (array) $article['channels'];
-            $theme = trim("Sujet : {$subject}\n\nBrief : {$prompt}");
+            $theme = $subject;
         } else {
             $subject = $theme;
             $channels = $view->allowedChannels($type, (array) $request->request->all('channels'));
@@ -139,7 +139,7 @@ class GrowthAdminController extends AbstractController
         }
 
         try {
-            $campaign = $client->createCampaign($this->getUserOrDeny(), $type, $theme, $channels, $subject);
+            $campaign = $client->createCampaign($this->getUserOrDeny(), $type, $theme, $channels, $subject, $prompt);
             $campaignId = (string) ($campaign['id'] ?? '');
             try {
                 $client->generateCampaign($this->getUserOrDeny(), $campaignId);
@@ -272,6 +272,40 @@ class GrowthAdminController extends AbstractController
             $this->addFlash('success', 'Contenu approuvé.');
         } catch (GrowthFactoryConflictException) {
             $this->addFlash('danger', 'Approbation impossible : la version ou l’état du contenu a changé.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/image', name: 'admin_growth_asset_image', methods: ['POST'])]
+    public function generateAssetImage(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_image_'.$id.'_'.$assetId);
+
+        try {
+            $client->generateAssetImage($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('visual_brief', '')));
+            $this->addFlash('success', 'Illustration générée et conservée.');
+        } catch (GrowthFactoryConflictException) {
+            $this->addFlash('danger', 'Conflit de version : rechargez la campagne avant de générer l’illustration.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/seo-geo', name: 'admin_growth_asset_seo_geo', methods: ['POST'])]
+    public function prepareAssetSeoGeo(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_seo_geo_'.$id.'_'.$assetId);
+
+        try {
+            $client->prepareAssetSeoGeo($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0));
+            $this->addFlash('success', 'Contrôles SEO/GEO calculés et liens enregistrés.');
+        } catch (GrowthFactoryConflictException) {
+            $this->addFlash('danger', 'Conflit de version : rechargez la campagne avant le contrôle SEO/GEO.');
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }

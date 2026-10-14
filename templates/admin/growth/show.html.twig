@@ -2,6 +2,12 @@
 
 {% block title %}Article Growth | Admin{% endblock %}
 {% block meta_description %}Edition article Growth{% endblock %}
+{% block stylesheets %}
+  {{ parent() }}
+  {% if campaign.status|default('') == 'GENERATING' %}
+    <meta http-equiv="refresh" content="8">
+  {% endif %}
+{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="admin">
@@ -9,7 +15,12 @@
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
       <div>
         <h1 class="h3 mb-1">{{ campaign.name|default('Article') }}</h1>
-        {% if campaign %}<p class="text-muted mb-0">{{ campaign.status }} · {{ campaign.selected_channels|join(', ') }}</p>{% endif %}
+        {% if campaign %}
+          <p class="text-muted mb-0">{{ campaign.status }} · {{ campaign.selected_channels|join(', ') }}</p>
+          {% if campaign.generation|default(null) %}
+            <p class="small text-muted mb-0">Generation : {{ campaign.generation.stage|default('WAITING') }} · {{ campaign.generation.status|default('PENDING') }}</p>
+          {% endif %}
+        {% endif %}
       </div>
       <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_growth_index') }}#articles">Retour aux articles</a>
     </div>
@@ -43,7 +54,11 @@
       </div>
 
       <div class="alert alert-info">
-        Brief original conserve dans Growth Factory. Relire chaque version, verifier les liens internes et approuver avant publication.
+        {% if campaign.status == 'GENERATING' %}
+          Generation en cours. Cette page se rafraichit automatiquement.
+        {% else %}
+          Brief original conserve dans Growth Factory. Relire chaque version, verifier les liens internes et approuver avant publication.
+        {% endif %}
       </div>
 
       <div class="row g-4">
@@ -123,6 +138,19 @@
                         <p class="small text-muted mb-0">{{ asset.illustration_suggestion }}</p>
                       </div>
                     {% endif %}
+                    {% set quality = asset.editorial_quality|default({}) %}
+                    {% if quality %}
+                      <div class="border rounded p-3 mb-3">
+                        <strong>Qualite editoriale : {{ quality.passed|default(false) ? 'conforme' : 'non conforme' }}</strong>
+                        {% if quality.issues|default([]) %}
+                          <ul class="small mt-2 mb-0">
+                            {% for issue in quality.issues %}
+                              <li>{{ issue.severity|default('info') }} - {{ issue.code|default('controle') }} : {{ issue.message|default('') }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    {% endif %}
                     {% if asset.public_url|default('') %}
                       <p class="small text-muted">URL publique : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
                     {% endif %}
@@ -151,7 +179,7 @@
                     <form method="post" action="{{ path('admin_growth_asset_approve', {id: campaign.id, assetId: asset.id}) }}">
                       <input type="hidden" name="_token" value="{{ csrf_token('growth_approve_' ~ campaign.id ~ '_' ~ asset.id) }}">
                       <input type="hidden" name="expected_version" value="{{ asset.version }}">
-                      <button class="btn btn-success btn-sm">Approuver</button>
+                      <button class="btn btn-success btn-sm" {% if asset.quality_blocking|default(false) %}disabled{% endif %}>Approuver</button>
                     </form>
                   </div>
                 {% else %}

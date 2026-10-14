@@ -47,6 +47,7 @@ final class GrowthFactoryView
     {
         return [
             'DRAFT' => 'Brouillon',
+            'GENERATING' => 'Génération en cours',
             'READY_FOR_REVIEW' => 'À relire',
             'APPROVED' => 'Approuvé',
             'PARTIALLY_PUBLISHED' => 'Publication partielle',
@@ -106,6 +107,8 @@ final class GrowthFactoryView
                 'public_url' => '',
                 'image' => [],
                 'seo_geo' => [],
+                'editorial_quality' => [],
+                'quality_blocking' => false,
             ];
         }
 
@@ -118,6 +121,7 @@ final class GrowthFactoryView
             'selected_channels' => [],
             'content_assets' => [],
             'publications' => [],
+            'generation' => null,
             'assets_by_channel' => $assets,
         ];
     }

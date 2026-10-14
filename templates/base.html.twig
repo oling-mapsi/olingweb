@@ -527,7 +527,7 @@
                 <div>
                     <span class="oling-footer__title">{{ 'footer.sectors'|trans }}</span>
                     <ul>
-                        {% for sector in public_site_page_resolver.getSectorCatalogEntries()|slice(0, 8) %}
+                        {% for sector in public_site_page_resolver.getSectorCatalogEntries(currentLocale)|slice(0, 8) %}
                             <li><a href="{{ sector.detailUrl ?: path('sectors_index') }}">{{ sector.designation }}</a></li>
                         {% endfor %}
                         <li><a href="{{ navSectorsPath }}">{{ 'footer.all_sectors'|trans }}</a></li>

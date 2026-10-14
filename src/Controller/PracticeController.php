@@ -656,18 +656,14 @@ class PracticeController extends AbstractController
     /**
      * @param string[] $imagePool
      */
-    private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex): string
+    private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex): ?string
     {
         $image = $project->getImageHero() ?: $project->getImage();
         if (is_string($image) && trim($image) !== '') {
             return trim($image);
         }
 
-        if ($imagePool !== []) {
-            return $imagePool[$fallbackIndex % count($imagePool)];
-        }
-
-        return '/img/1920x1080/img5.jpg';
+        return null;
     }
 
     private function buildHomeResourceCard(\App\Entity\SitePage $page): ?array

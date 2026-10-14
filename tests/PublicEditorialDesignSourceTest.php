@@ -100,6 +100,16 @@ final class PublicEditorialDesignSourceTest extends TestCase
         self::assertStringContainsString('projectImageSrc', $miniProjects);
     }
 
+    public function testProjectCardsDoNotReuseAnotherProjectImageAsFallback(): void
+    {
+        $controller = (string) file_get_contents(dirname(__DIR__) . '/src/Controller/PracticeController.php');
+
+        self::assertStringContainsString('private function resolveProjectCardImage', $controller);
+        self::assertStringContainsString('): ?string', $controller);
+        self::assertStringNotContainsString('$imagePool[$fallbackIndex % count($imagePool)]', $controller);
+        self::assertStringNotContainsString("return '/img/1920x1080/img5.jpg';", $controller);
+    }
+
     public function testFunctionalProjectFiltersAndContactFormMarkupRemain(): void
     {
         $projects = (string) file_get_contents(dirname(__DIR__) . '/templates/projets.html.twig');

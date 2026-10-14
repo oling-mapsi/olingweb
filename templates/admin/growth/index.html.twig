@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Studio editorial IA | Admin{% endblock %}
+{% block meta_description %}Studio editorial IA OLING{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <h1 class="h3 mb-1">Studio editorial IA</h1>
+        <p class="text-muted mb-0">Articles OLING.fr et MAPSI.fr, generation assistee et validation humaine.</p>
+      </div>
+      <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_settings') }}">Parametres</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    <nav class="nav nav-pills gap-2 mb-4" aria-label="Navigation Growth">
+      <a class="nav-link active" href="#create-article">Creer un article</a>
+      <a class="nav-link" href="#articles">Mes articles</a>
+      <a class="nav-link" href="{{ path('admin_growth_settings') }}">Parametres</a>
+    </nav>
+
+    {% for label,messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label == 'danger' ? 'danger' : 'success' }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if not available %}
+      <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
+    {% endif %}
+
+    <section id="create-article" class="card mb-4">
+      <div class="card-body">
+        <h2 class="h5 mb-3">Creer un article</h2>
+        <form method="post" action="{{ path('admin_growth_campaign_create') }}" class="row g-3">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_campaign_create') }}">
+          <div class="col-lg-4">
+            <label class="form-label" for="growth-destination">Destination</label>
+            <select class="form-select" id="growth-destination" name="destination" required>
+              {% for key,option in destination_options %}
+                <option value="{{ key }}">{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-8">
+            <label class="form-label" for="growth-subject">Sujet</label>
+            <input class="form-control" id="growth-subject" name="subject" maxlength="180" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="growth-prompt">Brief detaille</label>
+            <textarea class="form-control" id="growth-prompt" name="prompt" rows="7" required placeholder="Angle, audience, points a traiter, ton souhaite, contraintes SEO ou exemples de liens internes."></textarea>
+          </div>
+          <div class="col-12 d-flex flex-wrap gap-2 align-items-center">
+            <button class="btn btn-primary" {{ available ? '' : 'disabled' }}>Generer mon article</button>
+            <span class="small text-muted">Publication externe desactivee tant que les connecteurs ne sont pas certifies.</span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="articles" class="card">
+      <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+          <h2 class="h5 mb-0">Mes articles</h2>
+          <span class="small text-muted">{{ history.total }} article(s)</span>
+        </div>
+        <form method="get" action="{{ path('admin_growth_articles') }}" class="row g-2 mb-3">
+          <div class="col-md-6"><input class="form-control" name="q" value="{{ filters.q }}" placeholder="Rechercher un article"></div>
+          <div class="col-md-3">
+            <select class="form-select" name="status">
+              <option value="">Tous statuts</option>
+              {% for value,label in {'DRAFT':'Brouillon','READY_FOR_REVIEW':'A relire','APPROVED':'Approuve','PUBLISHED':'Publie','ARCHIVED':'Archive','ERROR':'Erreur'} %}
+                <option value="{{ value }}" {{ filters.status == value ? 'selected' : '' }}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3"><button class="btn btn-outline-primary w-100">Filtrer</button></div>
+        </form>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Titre</th><th>Site</th><th>Statut</th><th>Derniere modification</th><th></th></tr></thead>
+            <tbody>
+            {% for campaign in history.items %}
+              <tr>
+                <td>{{ campaign.title }}</td>
+                <td>{{ campaign.channels }}</td>
+                <td><span class="badge bg-secondary">{{ campaign.status }}</span></td>
+                <td class="small text-muted">{{ campaign.updated_at ?: campaign.created_at }}</td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('admin_growth_show', {id: campaign.id}) }}">Ouvrir</a></td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-muted">Aucun article disponible.</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if history.pages > 1 %}
+          <div class="d-flex justify-content-between">
+            <a class="btn btn-sm btn-outline-secondary {{ history.page <= 1 ? 'disabled' : '' }}" href="{{ path('admin_growth_articles', filters|merge({page: history.page - 1})) }}">Precedent</a>
+            <span class="small text-muted">Page {{ history.page }} / {{ history.pages }}</span>
+            <a class="btn btn-sm btn-outline-secondary {{ history.page >= history.pages ? 'disabled' : '' }}" href="{{ path('admin_growth_articles', filters|merge({page: history.page + 1})) }}">Suivant</a>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

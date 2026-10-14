@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article Growth | Admin{% endblock %}
+{% block meta_description %}Edition article Growth{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+      <div>
+        <h1 class="h3 mb-1">{{ campaign.name|default('Article') }}</h1>
+        {% if campaign %}<p class="text-muted mb-0">{{ campaign.status }} · {{ campaign.selected_channels|join(', ') }}</p>{% endif %}
+      </div>
+      <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_growth_index') }}#articles">Retour aux articles</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% for label,messages in app.flashes %}
+      {% for message in messages %}
+        <div class="alert alert-{{ label == 'danger' ? 'danger' : 'success' }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% if not available or not campaign %}
+      <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
+    {% else %}
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <form method="post" action="{{ path('admin_growth_generate', {id: campaign.id}) }}">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_generate_' ~ campaign.id) }}">
+          <button class="btn btn-outline-primary">Ameliorer avec l'IA</button>
+        </form>
+        <button class="btn btn-primary" disabled>Publier</button>
+        <span class="small text-muted align-self-center">Publication reelle bloquee tant que les connecteurs ne sont pas certifies.</span>
+        <form method="post" action="{{ path('admin_growth_archive', {id: campaign.id}) }}" onsubmit="return confirm('Archiver cet article ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_archive_' ~ campaign.id) }}">
+          <button class="btn btn-outline-secondary">Archiver</button>
+        </form>
+        <form method="post" action="{{ path('admin_growth_delete', {id: campaign.id}) }}" onsubmit="return confirm('Supprimer cet article jamais publie ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('growth_delete_' ~ campaign.id) }}">
+          <button class="btn btn-outline-danger">Supprimer</button>
+        </form>
+      </div>
+
+      <div class="alert alert-info">
+        Brief original conserve dans Growth Factory. Relire chaque version, verifier les liens internes et approuver avant publication.
+      </div>
+
+      <div class="row g-4">
+        {% for channel in campaign.selected_channels %}
+          {% set asset = campaign.assets_by_channel[channel]|default(null) %}
+          {% set links = editorial_links[channel]|default([]) %}
+          {% set image = asset.image|default({}) %}
+          {% set seo = asset.seo_geo|default({}) %}
+          <div class="col-lg-6">
+            <section class="card h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                  <div>
+                    <h2 class="h5 mb-1">{{ channel_options[channel]|default(channel) }}</h2>
+                    <span class="badge bg-secondary">{{ asset.status|default('A generer') }}</span>
+                  </div>
+                  {% if asset %}<span class="small text-muted">v{{ asset.version }}</span>{% endif %}
+                </div>
+                {% if asset %}
+                  <form method="post" action="{{ path('admin_growth_asset_update', {id: campaign.id, assetId: asset.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('growth_asset_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                    <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                    <div class="mb-3">
+                      <label class="form-label">Titre / H1</label>
+                      <input class="form-control" name="title" value="{{ asset.title }}">
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Article editable</label>
+                      <textarea class="form-control" name="content_text" rows="12">{{ asset.content_text }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">HTML public</label>
+                      <textarea class="form-control" name="content_html" rows="10">{{ asset.content_html }}</textarea>
+                    </div>
+                    {% if image.data_url|default('') %}
+                      <div class="border rounded p-3 mb-3">
+                        <strong>Illustration retenue</strong>
+                        <img class="img-fluid rounded mt-2" src="{{ image.image_url|default(image.data_url) }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
+                      </div>
+                    {% elseif image.image_url|default('') %}
+                      <div class="border rounded p-3 mb-3">
+                        <strong>Illustration retenue</strong>
+                        <img class="img-fluid rounded mt-2" src="{{ image.image_url }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
+                      </div>
+                    {% endif %}
+                    {% set seo_ready = seo.status|default('') == 'READY' %}
+                    <div class="border rounded p-3 mb-3">
+                      <div class="d-flex justify-content-between gap-2">
+                        <strong>Referencement : {{ seo.status|default('Corrections necessaires') == 'READY' ? 'Pret' : 'Corrections necessaires' }}</strong>
+                        <span class="badge {{ seo_ready ? 'bg-success' : 'bg-warning text-dark' }}">{{ seo.status|default('A verifier') }}</span>
+                      </div>
+                      {% if seo.checks|default([]) %}
+                        <ul class="small mt-2 mb-0">
+                          {% for check in seo.checks %}
+                            <li>{{ check.passed ? 'OK' : 'A corriger' }} - {{ check.label }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% else %}
+                        <div class="small text-muted mt-2">Lancez le controle SEO/GEO pour enregistrer les metadonnees et le maillage.</div>
+                      {% endif %}
+                    </div>
+                    <div class="border rounded p-3 mb-3">
+                      <strong>Liens internes proposes</strong>
+                      <ul class="mb-0 mt-2">
+                        {% for link in links %}
+                          <li><a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.label }}</a></li>
+                        {% else %}
+                          <li class="text-muted">Aucun lien disponible pour ce canal.</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% if asset.illustration_suggestion|default('') %}
+                      <div class="border rounded p-3 mb-3">
+                        <strong>Brief illustration</strong>
+                        <p class="small text-muted mb-0">{{ asset.illustration_suggestion }}</p>
+                      </div>
+                    {% endif %}
+                    {% if asset.public_url|default('') %}
+                      <p class="small text-muted">URL publique : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
+                    {% endif %}
+                    <div class="d-flex flex-wrap gap-2">
+                      <button class="btn btn-outline-primary btn-sm">Enregistrer le brouillon</button>
+                      <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Preview</a>
+                    </div>
+                  </form>
+                  <div class="d-flex flex-wrap gap-2 mt-2">
+                    <form method="post" action="{{ path('admin_growth_asset_image', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_image_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <input type="hidden" name="visual_brief" value="{{ asset.illustration_suggestion|default('') }}">
+                      <button class="btn btn-outline-secondary btn-sm">Generer une illustration</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_growth_asset_seo_geo', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_seo_geo_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-outline-primary btn-sm">Verifier SEO/GEO</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_growth_asset_review', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_review_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-outline-secondary btn-sm">Valider la revue</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_growth_asset_approve', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_approve_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-success btn-sm">Approuver</button>
+                    </form>
+                  </div>
+                {% else %}
+                  <p class="text-muted mb-0">Aucun contenu recu pour ce site.</p>
+                {% endif %}
+              </div>
+            </section>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

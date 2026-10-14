@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Preview Growth | Admin{% endblock %}
+{% block meta_description %}Preview interne Growth{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+      <div>
+        <h1 class="h3 mb-1">{{ asset.title|default(campaign.name) }}</h1>
+        <p class="text-muted mb-0">{{ channel_options[asset.channel]|default(asset.channel) }} · v{{ asset.version|default(0) }} · preview interne</p>
+      </div>
+      <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_growth_show', {id: campaign.id}) }}">Retour</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    <section class="card">
+      <div class="card-body">
+        {% if asset.image.image_url|default(asset.image.data_url|default('')) %}
+          <figure class="mb-4">
+            <img class="img-fluid rounded" src="{{ asset.image.image_url|default(asset.image.data_url) }}" alt="{{ asset.image.alt_text|default('Illustration article') }}">
+            {% if asset.image.alt_text|default('') %}
+              <figcaption class="small text-muted mt-2">{{ asset.image.alt_text }}</figcaption>
+            {% endif %}
+          </figure>
+        {% endif %}
+        <iframe class="w-100 border rounded" style="min-height: 520px" sandbox srcdoc="{{ asset.content_html|default(asset.content_text)|e('html_attr') }}"></iframe>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

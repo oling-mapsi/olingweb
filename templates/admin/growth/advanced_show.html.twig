@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Growth | Historique{% endblock %}
+{% block meta_description %}Historique Growth{% endblock %}
+
+{% block body %}
+<main id="content" role="main" class="admin">
+  <div class="container content-space-2 content-space-lg-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+      <div>
+        <h1 class="h3 mb-1">{{ campaign.title|default(campaign.id|default('Growth')) }}</h1>
+        {% if campaign %}<p class="text-muted mb-0">{{ campaign.objective|default('') }} · {{ campaign.status|default('') }}</p>{% endif %}
+      </div>
+      <a class="btn btn-outline-primary btn-sm" href="{{ path('admin_growth_index') }}">Retour</a>
+    </div>
+
+    {% include 'admin/_nav.html.twig' %}
+
+    {% if not available %}
+      <div class="alert alert-warning">Growth indisponible : {{ message }}</div>
+    {% else %}
+      <section class="card mb-4">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Assets</div><strong>{{ campaign.asset_count|default(assets|length) }}</strong></div></div>
+            <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">À valider</div><strong>{{ campaign.assets_pending_validation|default(0) }}</strong></div></div>
+            <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Approuvés</div><strong>{{ campaign.assets_approved|default(0) }}</strong></div></div>
+            <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Publiés</div><strong>{{ campaign.assets_published|default(0) }}</strong></div></div>
+          </div>
+          {% if campaign.last_event|default(null) %}
+            <p class="small text-muted mt-3 mb-0">Dernier événement : {{ campaign.last_event.event_type }} · {{ campaign.last_event.created_at }}</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-body">
+          <h2 class="h5">Assets, statuts et validations</h2>
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead><tr><th>Canal</th><th>Titre</th><th>Version</th><th>Statut</th><th>Validation</th><th>Publication</th></tr></thead>
+              <tbody>
+              {% for asset in assets %}
+                <tr>
+                  <td>{{ asset.channel|default('') }}</td>
+                  <td>{{ asset.title|default('') }}</td>
+                  <td>v{{ asset.version|default(0) }}</td>
+                  <td><span class="badge bg-secondary">{{ asset.status|default('') }}</span></td>
+                  <td>{{ asset.approval.status|default('') }}{% if asset.approval.approved_by|default('') %} · {{ asset.approval.approved_by }}{% endif %}</td>
+                  <td>{{ asset.public_url|default('') ?: 'Non publiée' }}</td>
+                </tr>
+              {% else %}
+                <tr><td colspan="6" class="text-muted">Aucun asset disponible.</td></tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

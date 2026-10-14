@@ -2,17 +2,24 @@
 
 namespace App\Service\GrowthFactory;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class GrowthFactoryJwtEncoder
 {
     public function __construct(
         private readonly GrowthFactoryRoleMapper $roleMapper,
+        #[Autowire(param: 'growth_factory_jwt_issuer')]
         private readonly string $issuer,
+        #[Autowire(param: 'growth_factory_jwt_audience')]
         private readonly string $audience,
+        #[Autowire(param: 'growth_factory_jwt_ttl_seconds')]
         private readonly int $ttlSeconds,
+        #[Autowire(param: 'growth_factory_jwt_kid')]
         private readonly ?string $keyId,
+        #[Autowire(param: 'growth_factory_private_key')]
         private readonly ?string $privateKeyPem,
+        #[Autowire(param: 'growth_factory_private_key_file')]
         private readonly ?string $privateKeyFile,
     ) {
     }

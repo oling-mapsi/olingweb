@@ -3,6 +3,7 @@
 namespace App\Service\GrowthFactory;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -13,9 +14,13 @@ final class GrowthFactoryClient
         private readonly HttpClientInterface $httpClient,
         private readonly GrowthFactoryJwtEncoder $jwtEncoder,
         private readonly LoggerInterface $logger,
+        #[Autowire(param: 'growth_factory_enabled')]
         private readonly bool $enabled,
+        #[Autowire(param: 'growth_factory_base_url')]
         private readonly string $baseUrl,
+        #[Autowire(param: 'growth_factory_timeout_seconds')]
         private readonly float $timeoutSeconds,
+        #[Autowire(param: 'growth_factory_generate_timeout_seconds')]
         private readonly float $generateTimeoutSeconds,
     ) {
     }

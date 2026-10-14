@@ -161,8 +161,29 @@ class GrowthAdminController extends AbstractController
     #[Route('/campaigns/{id}', name: 'admin_growth_show', methods: ['GET'])]
     public function show(string $id, GrowthFactoryClient $client, GrowthFactoryView $view): Response
     {
+        $actor = $this->getUserOrDeny();
+        $publicationReadiness = [];
         try {
-            $campaign = $view->normalizeCampaign($client->getCampaign($this->getUserOrDeny(), $id));
+            $campaign = $view->normalizeCampaign($client->getCampaign($actor, $id));
+            foreach ($campaign['content_assets'] as $asset) {
+                if (!is_array($asset) || empty($asset['id'])) {
+                    continue;
+                }
+                try {
+                    $response = $client->getAssetPublicationReadiness($actor, (string) $asset['id']);
+                    $operation = (array) ($response['data'] ?? []);
+                    $metadata = (array) ($operation['metadata'] ?? []);
+                    $metadata['user_allowed'] = $this->isGranted('ROLE_ADMIN');
+                    $metadata['publishable'] = $this->isGranted('ROLE_ADMIN') && (bool) ($metadata['publishable'] ?? false);
+                    $publicationReadiness[(string) $asset['id']] = $metadata;
+                } catch (GrowthFactoryException $exception) {
+                    $publicationReadiness[(string) $asset['id']] = [
+                        'publishable' => false,
+                        'user_allowed' => $this->isGranted('ROLE_ADMIN'),
+                        'reasons' => [$exception->getMessage()],
+                    ];
+                }
+            }
             $available = true;
             $message = '';
         } catch (GrowthFactoryException $exception) {
@@ -176,7 +197,8 @@ class GrowthAdminController extends AbstractController
             'message' => $message,
             'campaign' => $campaign,
             'channel_options' => $view->channelOptions(),
-            'publication_enabled' => false,
+            'publication_readiness' => $publicationReadiness,
+            'publication_enabled' => count(array_filter($publicationReadiness, static fn (array $item): bool => (bool) ($item['publishable'] ?? false))) > 0,
             'editorial_links' => [
                 'mapsi_site' => $view->editorialLinksForChannel('mapsi_site'),
                 'oling_site' => $view->editorialLinksForChannel('oling_site'),
@@ -369,6 +391,36 @@ class GrowthAdminController extends AbstractController
             $this->addFlash('danger', $exception->getMessage());
             return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
         }
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/publish', name: 'admin_growth_asset_publish', methods: ['POST'])]
+    public function publishAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_publish_asset_'.$id.'_'.$assetId);
+
+        try {
+            $client->publishAsset($this->getUserOrDeny(), $assetId);
+            $this->addFlash('success', 'Publication de l’article demandée à Growth Factory.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/unpublish', name: 'admin_growth_asset_unpublish', methods: ['POST'])]
+    public function unpublishAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_unpublish_asset_'.$id.'_'.$assetId);
+
+        try {
+            $client->unpublishAsset($this->getUserOrDeny(), $assetId);
+            $this->addFlash('success', 'Dépublication de l’article demandée à Growth Factory.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 
     #[Route('/campaigns/{id}/publish', name: 'admin_growth_publish', methods: ['POST'])]

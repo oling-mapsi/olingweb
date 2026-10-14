@@ -67,84 +67,107 @@ class GrowthPublishingService
             'created' => $created,
         ]);
 
-        return $this->buildStatusPayload($page, $revision, $created ? 201 : 200);
+        return $this->buildStatusPayload($page, $revision, $created ? 201 : 200, $input->locale);
     }
 
-    public function getStatus(string $externalId): array
+    public function getStatus(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        $draft = $this->findActiveDraft($page);
+        $draft = $this->findActiveDraftForLocale($page, $locale);
 
-        return $this->buildStatusPayload($page, $draft, 200);
+        return $this->buildStatusPayload($page, $draft, 200, $locale);
     }
 
-    public function publish(string $externalId): array
+    public function publish(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        $draft = $this->findActiveDraft($page);
+        $draft = $this->findActiveDraftForLocale($page, $locale);
         if ($draft === null) {
             throw new ConflictHttpException('No draft available for publication.');
         }
 
         $publishedRevision = $this->cloneRevision($page, $draft, 'published');
         $draft->setRevisionState('consumed');
-        $this->applyRevisionSnapshot($page, $publishedRevision, self::STATUS_PUBLISHED);
-        $page->setPublishedAt(new \DateTimeImmutable());
-        $page->setUnpublishedAt(null);
+        $this->applyRevisionToTranslation($page, $locale, $publishedRevision);
+        if ($locale === SitePageTranslation::LOCALE_FR) {
+            $this->applyRevisionSnapshot($page, $publishedRevision, self::STATUS_PUBLISHED);
+            $page->setPublishedAt(new \DateTimeImmutable());
+            $page->setUnpublishedAt(null);
+        }
         $this->entityManager->flush();
 
         $this->logger->info('growth_draft_published', [
             'external_id' => $externalId,
+            'locale' => $locale,
             'revision' => $publishedRevision->getRevisionNumber(),
         ]);
 
-        return $this->buildStatusPayload($page, null, 200);
+        return $this->buildStatusPayload($page, null, 200, $locale);
     }
 
-    public function unpublish(string $externalId): array
+    public function unpublish(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        if ($page->getPublicationStatus() !== self::STATUS_PUBLISHED) {
+        $translation = $page->getTranslation($locale);
+        if ($translation instanceof SitePageTranslation) {
+            if (!$this->isTranslationPublic($translation)) {
+                throw new ConflictHttpException('Only a published article can be unpublished.');
+            }
+            $translation->setUnpublishedAt(new \DateTimeImmutable());
+            if ($locale === SitePageTranslation::LOCALE_FR) {
+                $page->setPublicationStatus(self::STATUS_UNPUBLISHED);
+                $page->setUnpublishedAt(new \DateTimeImmutable());
+            }
+        } elseif ($locale === SitePageTranslation::LOCALE_FR && $page->getPublicationStatus() === self::STATUS_PUBLISHED) {
+            $page->setPublicationStatus(self::STATUS_UNPUBLISHED);
+            $page->setUnpublishedAt(new \DateTimeImmutable());
+        } else {
             throw new ConflictHttpException('Only a published article can be unpublished.');
         }
-
-        $page->setPublicationStatus(self::STATUS_UNPUBLISHED);
-        $page->setUnpublishedAt(new \DateTimeImmutable());
         $this->entityManager->flush();
 
-        $this->logger->info('growth_article_unpublished', ['external_id' => $externalId]);
+        $this->logger->info('growth_article_unpublished', ['external_id' => $externalId, 'locale' => $locale]);
 
-        return $this->buildStatusPayload($page, $this->findActiveDraft($page), 200);
+        return $this->buildStatusPayload($page, $this->findActiveDraftForLocale($page, $locale), 200, $locale);
     }
 
-    public function restorePreviousPublishedVersion(string $externalId): array
+    public function restorePreviousPublishedVersion(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): array
     {
+        $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        $publishedRevisions = $this->revisionRepository->findPublishedRevisions($page, 2);
+        $publishedRevisions = $this->findPublishedRevisionsForLocale($page, $locale, 2);
         if (count($publishedRevisions) < 2) {
             throw new ConflictHttpException('No previous published version is available.');
         }
 
         $previousRevision = $publishedRevisions[1];
         $restoredRevision = $this->cloneRevision($page, $previousRevision, 'published');
-        $this->applyRevisionSnapshot($page, $restoredRevision, self::STATUS_PUBLISHED);
-        $page->setPublishedAt(new \DateTimeImmutable());
-        $page->setUnpublishedAt(null);
+        $this->applyRevisionToTranslation($page, $locale, $restoredRevision);
+        if ($locale === SitePageTranslation::LOCALE_FR) {
+            $this->applyRevisionSnapshot($page, $restoredRevision, self::STATUS_PUBLISHED);
+            $page->setPublishedAt(new \DateTimeImmutable());
+            $page->setUnpublishedAt(null);
+        }
         $this->entityManager->flush();
 
         $this->logger->info('growth_article_restored', [
             'external_id' => $externalId,
+            'locale' => $locale,
             'restored_from_revision' => $previousRevision->getRevisionNumber(),
             'new_revision' => $restoredRevision->getRevisionNumber(),
         ]);
 
-        return $this->buildStatusPayload($page, $this->findActiveDraft($page), 200);
+        return $this->buildStatusPayload($page, $this->findActiveDraftForLocale($page, $locale), 200, $locale);
     }
 
-    public function buildPreviewPage(string $externalId): SitePageRevision
+    public function buildPreviewPage(string $externalId, string $locale = SitePageTranslation::LOCALE_FR): SitePageRevision
     {
+        $locale = $this->normalizeLocale($locale);
         $page = $this->findPage($externalId);
-        $draft = $this->findActiveDraft($page);
+        $draft = $this->findActiveDraftForLocale($page, $locale);
         if ($draft === null) {
             throw new ConflictHttpException('No draft available for preview.');
         }
@@ -308,32 +331,59 @@ class GrowthPublishingService
         $page->setPublicationStatus($status);
     }
 
-    private function buildStatusPayload(SitePage $page, ?SitePageRevision $draftRevision, int $httpCode): array
+    private function applyRevisionToTranslation(SitePage $page, string $locale, SitePageRevision $revision): void
     {
-        $publishedRevisions = $this->revisionRepository->findPublishedRevisions($page, 1);
+        $translation = $page->getTranslation($locale);
+        if (!$translation instanceof SitePageTranslation) {
+            $translation = (new SitePageTranslation())->setLocale($locale);
+            $page->addTranslation($translation);
+        }
+
+        $translation
+            ->setSlug($revision->getSlug())
+            ->setTitle($revision->getMetaTitle())
+            ->setHeroTitle($revision->getTitle())
+            ->setHeroIntro($revision->getExcerpt())
+            ->setHeroSideHtml($revision->getContentHtml())
+            ->setBodyHtml($revision->getContentHtml())
+            ->setSeoTitle($revision->getMetaTitle())
+            ->setSeoDescription($revision->getMetaDescription())
+            ->setOgTitle($revision->getMetaTitle())
+            ->setOgDescription($revision->getMetaDescription())
+            ->setImageAlt($revision->getTitle())
+            ->setTranslationStatus(SitePageTranslation::STATUS_PUBLISHED)
+            ->setPublishedAt(new \DateTimeImmutable())
+            ->setUnpublishedAt(null);
+    }
+
+    private function buildStatusPayload(SitePage $page, ?SitePageRevision $draftRevision, int $httpCode, string $locale = SitePageTranslation::LOCALE_FR): array
+    {
+        $locale = $this->normalizeLocale($locale);
+        $publishedRevisions = $this->findPublishedRevisionsForLocale($page, $locale, 1);
         $publishedRevision = $publishedRevisions[0] ?? null;
         $hasPendingDraft = $draftRevision !== null
             && ($publishedRevision === null || $draftRevision->getRevisionNumber() > $publishedRevision->getRevisionNumber());
-        $publicSlug = $draftRevision instanceof SitePageRevision
-            ? $draftRevision->getSlug()
-            : $this->extractPublicSlug((string) $page->getSlug());
+        $translation = $page->getTranslation($locale);
+        $publicSlug = $draftRevision instanceof SitePageRevision ? $draftRevision->getSlug() : $this->publicSlugForLocale($page, $locale);
 
         return [
             'http_code' => $httpCode,
             'external_id' => $page->getExternalId(),
-            'locales' => array_map(static fn (SitePageTranslation $translation): array => [
+            'locale' => $locale,
+            'locales' => array_map(fn (SitePageTranslation $translation): array => [
                 'locale' => $translation->getLocale(),
                 'slug' => $translation->getSlug(),
-                'status' => $translation->getTranslationStatus(),
+                'status' => $this->translationPublicationStatus($translation),
                 'published_at' => $translation->getPublishedAt()?->format(DATE_ATOM),
+                'unpublished_at' => $translation->getUnpublishedAt()?->format(DATE_ATOM),
             ], $page->getTranslations()->toArray()),
             'public_slug' => $publicSlug,
-            'publication_status' => $page->getPublicationStatus(),
+            'publication_status' => $translation instanceof SitePageTranslation ? $this->translationPublicationStatus($translation) : $page->getPublicationStatus(),
             'has_pending_draft' => $hasPendingDraft,
             'draft_revision_number' => $hasPendingDraft ? $draftRevision?->getRevisionNumber() : null,
             'published_revision_number' => $publishedRevision?->getRevisionNumber(),
-            'published_at' => $page->getPublishedAt()?->format(DATE_ATOM),
-            'unpublished_at' => $page->getUnpublishedAt()?->format(DATE_ATOM),
+            'published_at' => $translation instanceof SitePageTranslation ? $translation->getPublishedAt()?->format(DATE_ATOM) : $page->getPublishedAt()?->format(DATE_ATOM),
+            'unpublished_at' => $translation instanceof SitePageTranslation ? $translation->getUnpublishedAt()?->format(DATE_ATOM) : $page->getUnpublishedAt()?->format(DATE_ATOM),
         ];
     }
 
@@ -352,6 +402,89 @@ class GrowthPublishingService
         }
 
         return $draft;
+    }
+
+    private function findActiveDraftForLocale(SitePage $page, string $locale): ?SitePageRevision
+    {
+        $slug = $this->publicSlugForLocale($page, $locale);
+        $draft = null;
+        if ($slug !== '') {
+            $draft = $this->revisionRepository->findLatestDraftForSlugAndCanonicalFragment($page, $slug, $this->canonicalFragmentForLocale($locale))
+                ?? $this->revisionRepository->findLatestDraftForSlug($page, $slug);
+        }
+        if (!$draft instanceof SitePageRevision && $locale === SitePageTranslation::LOCALE_FR) {
+            return $this->findActiveDraft($page);
+        }
+
+        if (!$draft instanceof SitePageRevision) {
+            return null;
+        }
+
+        $publishedRevision = $this->findPublishedRevisionsForLocale($page, $locale, 1)[0] ?? null;
+        if ($publishedRevision !== null && $draft->getRevisionNumber() <= $publishedRevision->getRevisionNumber()) {
+            return null;
+        }
+
+        return $draft;
+    }
+
+    private function findPublishedRevisionsForLocale(SitePage $page, string $locale, int $limit = 10): array
+    {
+        $slug = $this->publicSlugForLocale($page, $locale);
+        if ($slug !== '') {
+            $localized = $this->revisionRepository->findPublishedRevisionsForSlugAndCanonicalFragment($page, $slug, $this->canonicalFragmentForLocale($locale), $limit);
+            return $localized !== [] ? $localized : $this->revisionRepository->findPublishedRevisionsForSlug($page, $slug, $limit);
+        }
+
+        return $locale === SitePageTranslation::LOCALE_FR ? $this->revisionRepository->findPublishedRevisions($page, $limit) : [];
+    }
+
+    private function publicSlugForLocale(SitePage $page, string $locale): string
+    {
+        $translation = $page->getTranslation($locale);
+        if ($translation instanceof SitePageTranslation && $translation->getSlug() !== '') {
+            return $translation->getSlug();
+        }
+
+        return $locale === SitePageTranslation::LOCALE_FR ? $this->extractPublicSlug((string) $page->getSlug()) : '';
+    }
+
+    private function normalizeLocale(string $locale): string
+    {
+        return match ($locale) {
+            'en-US', 'en_GB', 'en' => SitePageTranslation::LOCALE_EN,
+            'es-ES', 'es_MX', 'es' => SitePageTranslation::LOCALE_ES,
+            default => SitePageTranslation::LOCALE_FR,
+        };
+    }
+
+    private function canonicalFragmentForLocale(string $locale): string
+    {
+        return match ($locale) {
+            SitePageTranslation::LOCALE_EN => '/en/resources/',
+            SitePageTranslation::LOCALE_ES => '/es/recursos/',
+            default => '/ressources/',
+        };
+    }
+
+    private function translationPublicationStatus(SitePageTranslation $translation): string
+    {
+        if ($translation->getUnpublishedAt() instanceof \DateTimeInterface) {
+            return self::STATUS_UNPUBLISHED;
+        }
+
+        if ($this->isTranslationPublic($translation)) {
+            return self::STATUS_PUBLISHED;
+        }
+
+        return self::STATUS_DRAFT;
+    }
+
+    private function isTranslationPublic(SitePageTranslation $translation): bool
+    {
+        return $translation->getTranslationStatus() === SitePageTranslation::STATUS_PUBLISHED
+            && $translation->getPublishedAt() instanceof \DateTimeInterface
+            && !($translation->getUnpublishedAt() instanceof \DateTimeInterface);
     }
 
     private function extractPublicSlug(string $storedSlug): string

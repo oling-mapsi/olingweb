@@ -37,7 +37,7 @@
           <button class="btn btn-outline-primary">Ameliorer avec l'IA</button>
         </form>
         <button class="btn btn-primary" disabled>Publier</button>
-        <span class="small text-muted align-self-center">Publication désactivée pendant la recette.</span>
+        <span class="small text-muted align-self-center">Publication manuelle par article.</span>
         <form method="post" action="{{ path('admin_growth_archive', {id: campaign.id}) }}" onsubmit="return confirm('Archiver cet article ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('growth_archive_' ~ campaign.id) }}">
           <button class="btn btn-outline-secondary">Archiver</button>
@@ -155,6 +155,12 @@
                     {% if asset.public_url|default('') %}
                       <p class="small text-muted">URL publique : <a href="{{ asset.public_url }}" rel="noopener" target="_blank">{{ asset.public_url }}</a></p>
                     {% endif %}
+                    {% set locale_label = {'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES'}[asset.locale|default('fr-FR')]|default(asset.locale|default('FR')) %}
+                    {% set site_label = channel == 'mapsi_site' ? 'MAPSI.fr' : 'OLING.fr' %}
+                    {% set readiness = publication_readiness[asset.id]|default({}) %}
+                    {% set readiness_reasons = readiness.reasons|default([]) %}
+                    {% set can_publish = readiness.publishable|default(false) and asset.status|default('') == 'APPROVED' and not asset.quality_blocking|default(false) %}
+                    {% set public_url = asset.public_url|default(readiness.public_url|default('')) %}
                     <div class="d-flex flex-wrap gap-2">
                       <button class="btn btn-outline-primary btn-sm">Enregistrer le brouillon</button>
                       <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Preview</a>
@@ -182,7 +188,22 @@
                       <input type="hidden" name="expected_version" value="{{ asset.version }}">
                       <button class="btn btn-success btn-sm" {% if asset.quality_blocking|default(false) %}disabled{% endif %}>Approuver</button>
                     </form>
+                    {% if asset.status|default('') == 'PUBLISHED' %}
+                      <a class="btn btn-success btn-sm{% if not public_url %} disabled{% endif %}" href="{{ public_url ?: '#' }}" target="_blank" rel="noopener">Publié</a>
+                      <form method="post" action="{{ path('admin_growth_asset_unpublish', {id: campaign.id, assetId: asset.id}) }}" onsubmit="return confirm('Dépublier cet article de {{ site_label|e('js') }} en {{ locale_label|e('js') }} : {{ asset.title|e('js') }} ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('growth_unpublish_asset_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                        <button class="btn btn-outline-danger btn-sm">Dépublier</button>
+                      </form>
+                    {% else %}
+                      <form method="post" action="{{ path('admin_growth_asset_publish', {id: campaign.id, assetId: asset.id}) }}" onsubmit="return confirm('Publier cet article sur {{ site_label|e('js') }} en {{ locale_label|e('js') }} : {{ asset.title|e('js') }}{% if public_url %} ({{ public_url|e('js') }}){% endif %} ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('growth_publish_asset_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                        <button class="btn btn-primary btn-sm" {% if not can_publish %}disabled{% endif %}>Publier cet article</button>
+                      </form>
+                    {% endif %}
                   </div>
+                  {% if readiness_reasons %}
+                    <p class="small text-muted mt-2 mb-0">{{ readiness_reasons|join(' ') }}</p>
+                  {% endif %}
                 {% else %}
                   <p class="text-muted mb-0">Aucun contenu recu pour ce site.</p>
                 {% endif %}

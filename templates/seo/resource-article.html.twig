@@ -5,6 +5,7 @@
 {% block canonical_url %}{{ page and page.canonicalUrl ? page.canonicalUrl : app.request.schemeAndHttpHost ~ canonicalPath|default(path('seo_resource', {slug: publicSlug})) }}{% endblock %}
 
 {% block body %}
+<style>.oling-resource-content img {max-width:100%;height:auto;display:block}.oling-resource-content figure {max-width:100%;margin:1.5rem 0}</style>
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 <main id="content" role="main" class="oling-seo-cabinet oling-public-editorial oling-public-editorial--resources">
   <section class="oling-shell-hero">

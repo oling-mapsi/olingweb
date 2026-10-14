@@ -2,6 +2,7 @@
 
 {% block title %}Preview Growth | Admin{% endblock %}
 {% block meta_description %}Preview interne Growth{% endblock %}
+{% block stylesheets %}{{ parent() }}<style>.growth-article-preview img{max-width:100%;height:auto}.growth-article-preview{overflow-wrap:anywhere}</style>{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="admin">
@@ -18,15 +19,7 @@
 
     <section class="card">
       <div class="card-body">
-        {% if asset.image.image_url|default(asset.image.data_url|default('')) %}
-          <figure class="mb-4">
-            <img class="img-fluid rounded" src="{{ asset.image.image_url|default(asset.image.data_url) }}" alt="{{ asset.image.alt_text|default('Illustration article') }}">
-            {% if asset.image.alt_text|default('') %}
-              <figcaption class="small text-muted mt-2">{{ asset.image.alt_text }}</figcaption>
-            {% endif %}
-          </figure>
-        {% endif %}
-        <iframe class="w-100 border rounded" style="min-height: 520px" sandbox srcdoc="{{ asset.content_html|default(asset.content_text)|e('html_attr') }}"></iframe>
+        <article class="growth-article-preview">{{ preview_html|raw }}</article>
       </div>
     </section>
   </div>

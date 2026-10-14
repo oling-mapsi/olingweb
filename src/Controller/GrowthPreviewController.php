@@ -42,6 +42,13 @@ class GrowthPreviewController extends AbstractController
         }
 
         $page = $publishingService->buildPreviewView($revision);
+        $revisionLocale = str_contains((string) $revision->getCanonicalUrl(), '/en/resources/') ? 'en' : (str_contains((string) $revision->getCanonicalUrl(), '/es/recursos/') ? 'es' : 'fr');
+        $locale = (string) $request->query->get('locale', $revisionLocale);
+        \App\Entity\SitePageTranslation::assertSupportedLocale($locale);
+        if ($locale !== $revisionLocale) {
+            throw new AccessDeniedHttpException('Preview locale does not match the signed revision.');
+        }
+        $request->setLocale($locale);
         $related = array_values(array_filter(array_map(
             fn (\App\Entity\SitePage $resourcePage): ?array => $this->buildResourceCard($resourcePage),
             $sitePageRepository->findRelatedResourceArticles((string) $revision->getSitePage()?->getSlug(), 4)
@@ -58,6 +65,8 @@ class GrowthPreviewController extends AbstractController
             'isPreview' => true,
         ]);
         $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        $response->headers->set('Cache-Control', 'private, no-store');
+        $response->headers->set('Referrer-Policy', 'no-referrer');
 
         return $response;
     }

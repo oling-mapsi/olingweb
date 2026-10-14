@@ -18,6 +18,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/growth/news')]
 class GrowthPublishingController extends AbstractController
 {
+    #[Route('/media', name: 'growth_api_media_import', methods: ['POST'], priority: 100)]
+    public function importMedia(Request $request, \App\Service\GrowthMediaStore $media): JsonResponse
+    {
+        $this->authenticator->assertAuthorized($request);
+        $result = $media->import($request->toArray());
+        $result['public_url'] = $request->getSchemeAndHttpHost().$result['public_path'];
+        return $this->json($result);
+    }
+
     public function __construct(
         private readonly GrowthApiAuthenticator $authenticator,
         private readonly GrowthPublishingService $publishingService,

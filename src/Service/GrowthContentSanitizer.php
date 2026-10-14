@@ -10,6 +10,8 @@ class GrowthContentSanitizer
         'br' => [],
         'code' => [],
         'em' => [],
+        'figure' => [],
+        'figcaption' => [],
         'h2' => [],
         'h3' => [],
         'h4' => [],
@@ -67,13 +69,15 @@ class GrowthContentSanitizer
         if ($node instanceof \DOMElement) {
             $tag = strtolower($node->tagName);
             if (!isset(self::ALLOWED_TAGS[$tag]) && $tag !== 'div') {
+                for ($child = $node->firstChild; $child !== null; $child = $next) {
+                    $next = $child->nextSibling;
+                    $this->sanitizeNode($child);
+                }
                 $this->unwrapNode($node);
                 return;
             }
 
-            if ($tag !== 'div') {
-                $this->sanitizeAttributes($node, self::ALLOWED_TAGS[$tag]);
-            }
+            $this->sanitizeAttributes($node, self::ALLOWED_TAGS[$tag] ?? []);
         }
 
         for ($child = $node->firstChild; $child !== null; $child = $next) {

@@ -159,7 +159,7 @@ class GrowthAdminController extends AbstractController
     }
 
     #[Route('/campaigns/{id}', name: 'admin_growth_show', methods: ['GET'])]
-    public function show(string $id, GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    public function show(string $id, Request $request, GrowthFactoryClient $client, GrowthFactoryView $view): Response
     {
         $actor = $this->getUserOrDeny();
         $publicationReadiness = [];
@@ -192,7 +192,7 @@ class GrowthAdminController extends AbstractController
             $message = $exception->getMessage();
         }
 
-        return $this->render('admin/growth/show.html.twig', [
+        $context = [
             'available' => $available,
             'message' => $message,
             'campaign' => $campaign,
@@ -203,7 +203,12 @@ class GrowthAdminController extends AbstractController
                 'mapsi_site' => $view->editorialLinksForChannel('mapsi_site'),
                 'oling_site' => $view->editorialLinksForChannel('oling_site'),
             ],
-        ]);
+        ];
+        if ($request->query->get('fragment') === 'articles') {
+            $html = $this->container->get('twig')->load('admin/growth/show.html.twig')->renderBlock('articles', $context);
+            return new Response($html, $available ? 200 : 503, ['Cache-Control' => 'private, no-store']);
+        }
+        return $this->render('admin/growth/show.html.twig', $context);
     }
 
     #[Route('/campaigns/{id}/status', name: 'admin_growth_status', methods: ['GET'])]
@@ -229,6 +234,7 @@ class GrowthAdminController extends AbstractController
                 'available' => true,
                 'status' => (string) ($campaign['status'] ?? ''),
                 'generation' => $campaign['generation'] ?? null,
+                'channels' => $campaign['selected_channels'] ?? [],
                 'assets' => $assets,
             ]);
         } catch (GrowthFactoryException $exception) {
@@ -287,6 +293,7 @@ class GrowthAdminController extends AbstractController
                 'content_html' => (string) $request->request->get('content_html', ''),
                 'content_text' => (string) $request->request->get('content_text', ''),
                 'expected_version' => (int) $request->request->get('expected_version', 0),
+                'image_placement' => (string) $request->request->get('image_placement', 'after_intro'),
             ]);
             $this->addFlash('success', 'Contenu mis à jour.');
         } catch (GrowthFactoryConflictException) {
@@ -332,6 +339,19 @@ class GrowthAdminController extends AbstractController
         return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 
+    #[Route('/campaigns/{id}/assets/{assetId}/repair', name: 'admin_growth_asset_repair', methods: ['POST'])]
+    public function repairAsset(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_repair_'.$id.'_'.$assetId);
+        try {
+            $client->repairAsset($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0));
+            $this->addFlash('success', 'Correction de cet article en attente. Les autres versions sont conservees.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
     #[Route('/campaigns/{id}/assets/{assetId}/image', name: 'admin_growth_asset_image', methods: ['POST'])]
     public function generateAssetImage(string $id, string $assetId, Request $request, GrowthFactoryClient $client): Response
     {
@@ -339,7 +359,7 @@ class GrowthAdminController extends AbstractController
 
         try {
             $client->generateAssetImage($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('visual_brief', '')));
-            $this->addFlash('success', 'Illustration générée et conservée.');
+            $this->addFlash('success', 'Illustration en cours. Elle apparaîtra automatiquement après son enregistrement.');
         } catch (GrowthFactoryConflictException) {
             $this->addFlash('danger', 'Conflit de version : rechargez la campagne avant de générer l’illustration.');
         } catch (GrowthFactoryException $exception) {
@@ -367,7 +387,7 @@ class GrowthAdminController extends AbstractController
     }
 
     #[Route('/campaigns/{id}/assets/{assetId}/preview', name: 'admin_growth_asset_preview', methods: ['GET'])]
-    public function previewAsset(string $id, string $assetId, GrowthFactoryClient $client, GrowthFactoryView $view): Response
+    public function previewAsset(string $id, string $assetId, GrowthFactoryClient $client, GrowthFactoryView $view, \App\Service\GrowthContentSanitizer $sanitizer): Response
     {
         try {
             $campaign = $view->normalizeCampaign($client->getCampaign($this->getUserOrDeny(), $id));
@@ -382,15 +402,39 @@ class GrowthAdminController extends AbstractController
                 throw $this->createNotFoundException();
             }
 
+            $previewHtml = $sanitizer->sanitizeHtml($asset['content_html'] ?? '');
+            if (!empty($asset['image']['image_url'])) {
+                $imageUrl = $this->generateUrl('admin_growth_asset_image_binary', ['id' => $id, 'assetId' => $assetId]);
+                $oldUrl = '/studio-simple/assets/'.$assetId.'/image';
+                $previewHtml = str_replace($oldUrl, $imageUrl, $previewHtml);
+                if (!str_contains($previewHtml, $imageUrl)) {
+                    $figure = '<figure><img class="img-fluid" src="'.htmlspecialchars($imageUrl, ENT_QUOTES).'" alt="'.htmlspecialchars((string) ($asset['image']['alt_text'] ?? $asset['title']), ENT_QUOTES).'"></figure>';
+                    $previewHtml = $figure.$previewHtml;
+                }
+            }
+
             return $this->render('admin/growth/preview.html.twig', [
                 'campaign' => $campaign,
                 'asset' => $asset,
                 'channel_options' => $view->channelOptions(),
+                'preview_html' => $previewHtml,
             ]);
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
             return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
         }
+    }
+
+    #[Route('/campaigns/{id}/assets/{assetId}/image', name: 'admin_growth_asset_image_binary', methods: ['GET'])]
+    public function assetImage(string $id, string $assetId, GrowthFactoryClient $client): Response
+    {
+        $actor = $this->getUserOrDeny();
+        $campaign = $client->getCampaign($actor, $id);
+        if (!array_filter($campaign['content_assets'] ?? [], static fn (array $asset): bool => ($asset['id'] ?? '') === $assetId)) {
+            throw $this->createNotFoundException();
+        }
+        $image = $client->getAssetImage($actor, $assetId);
+        return new Response($image['content'], 200, ['Content-Type' => $image['content_type'], 'Cache-Control' => 'private, no-store', 'X-Content-Type-Options' => 'nosniff']);
     }
 
     #[Route('/campaigns/{id}/assets/{assetId}/publish', name: 'admin_growth_asset_publish', methods: ['POST'])]
@@ -405,6 +449,28 @@ class GrowthAdminController extends AbstractController
             $this->addFlash('danger', $exception->getMessage());
         }
 
+        return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
+    }
+
+    #[Route('/campaigns/{id}/publish-selected', name: 'admin_growth_publish_selected', methods: ['POST'])]
+    public function publishSelected(string $id, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_publish_selected_'.$id);
+        $actor = $this->getUserOrDeny();
+        $selected = array_values(array_unique(array_map('strval', $request->request->all('asset_ids'))));
+        $campaign = $client->getCampaign($actor, $id);
+        $ids = array_column($campaign['content_assets'] ?? [], 'id');
+        if (!$selected || count($selected) > 4 || array_diff($selected, $ids)) {
+            throw $this->createAccessDeniedException('Selection d’articles invalide.');
+        }
+        foreach ($selected as $assetId) {
+            try {
+                $client->publishAsset($actor, $assetId);
+                $this->addFlash('success', 'Resultat de publication enregistre pour '.$assetId.'.');
+            } catch (GrowthFactoryException $exception) {
+                $this->addFlash('danger', $assetId.' : '.$exception->getMessage());
+            }
+        }
         return $this->redirectToRoute('admin_growth_show', ['id' => $id]);
     }
 

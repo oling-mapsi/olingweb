@@ -2,7 +2,7 @@
 
 {% block title %}Article Growth | Admin{% endblock %}
 {% block meta_description %}Edition article Growth{% endblock %}
-{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block stylesheets %}{{ parent() }}<style>.growth-editor{min-height:320px;max-height:680px;overflow:auto;overflow-wrap:anywhere}.growth-editor img,.growth-article-preview img{max-width:100%;height:auto}.growth-editor h2{font-size:1.25rem}.growth-editor h3{font-size:1.1rem}</style>{% endblock %}
 
 {% block body %}
 <main id="content" role="main" class="admin">
@@ -13,7 +13,7 @@
         {% if campaign %}
           <p class="text-muted mb-0">{{ campaign.status }} · {{ campaign.selected_channels|join(', ') }}</p>
           {% if campaign.generation|default(null) %}
-            <p class="small text-muted mb-0">Generation : {{ campaign.generation.stage|default('WAITING') }} · {{ campaign.generation.status|default('PENDING') }}</p>
+            <p class="small text-muted mb-0">{{ campaign.generation.status|default('') in ['PENDING', 'RUNNING'] ? 'Creation des articles en cours' : 'Articles sauvegardes' }}</p>
           {% endif %}
         {% endif %}
       </div>
@@ -36,8 +36,6 @@
           <input type="hidden" name="_token" value="{{ csrf_token('growth_generate_' ~ campaign.id) }}">
           <button class="btn btn-outline-primary">Ameliorer avec l'IA</button>
         </form>
-        <button class="btn btn-primary" disabled>Publier</button>
-        <span class="small text-muted align-self-center">Publication manuelle par article.</span>
         <form method="post" action="{{ path('admin_growth_archive', {id: campaign.id}) }}" onsubmit="return confirm('Archiver cet article ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('growth_archive_' ~ campaign.id) }}">
           <button class="btn btn-outline-secondary">Archiver</button>
@@ -49,18 +47,22 @@
       </div>
 
       <div class="alert alert-info" id="growth-generation-status" data-status-url="{{ path('admin_growth_status', {id: campaign.id}) }}">
-        {% if campaign.status == 'GENERATING' %}
-          Création de vos articles en cours : {{ campaign.generation.stage|default('WAITING') }}.
+        {% if campaign.generation.status|default('') in ['PENDING', 'RUNNING'] %}
+          Creation de vos articles en cours.
         {% elseif campaign.generation|default(null) and campaign.generation.status|default('') == 'FAILED' %}
           {{ campaign.generation.error_message|default('Generation suspendue. Relance possible apres correction.') }}
         {% else %}
           Brief original conserve dans Growth Factory. Relire chaque version, verifier les liens internes et approuver avant publication.
         {% endif %}
       </div>
+      <form id="growth-batch-publish" method="post" action="{{ path('admin_growth_publish_selected', {id: campaign.id}) }}" class="mb-3" onsubmit="const selected = [...this.elements].filter(el => el.name === 'asset_ids[]' &amp;&amp; el.checked); return selected.length &gt; 0 &amp;&amp; confirm(selected.map(el => el.dataset.confirmation).join('\n\n'));">
+        <input type="hidden" name="_token" value="{{ csrf_token('growth_publish_selected_' ~ campaign.id) }}">
+        <button class="btn btn-outline-primary">Publier les articles selectionnes</button>
+      </form>
 
-      <div class="row g-4">
+      {% block articles %}
+      <div class="row g-4" id="growth-articles">
         {% for channel in campaign.selected_channels %}
-          {% set links = editorial_links[channel]|default([]) %}
           {% set channel_assets = campaign.assets_by_channel_list[channel]|default([]) %}
           {% if channel_assets is empty %}
             {% set channel_assets = [null] %}
@@ -68,7 +70,8 @@
           {% for asset in channel_assets %}
           {% set image = asset.image|default({}) %}
           {% set seo = asset.seo_geo|default({}) %}
-          <div class="col-lg-6">
+          {% set links = seo.internal_links|default([]) %}
+          <div class="col-lg-6" data-article-key="{{ asset.id|default(channel ~ '_pending') }}">
             <section class="card h-100">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
@@ -79,6 +82,8 @@
                   {% if asset %}<span class="small text-muted">v{{ asset.version }}</span>{% endif %}
                 </div>
                 {% if asset %}
+                  <h3 class="h5">{{ asset.title }}</h3>
+                  <p class="small text-muted">{{ asset.excerpt|default('') }}</p>
                   <form method="post" action="{{ path('admin_growth_asset_update', {id: campaign.id, assetId: asset.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('growth_asset_' ~ campaign.id ~ '_' ~ asset.id) }}">
                     <input type="hidden" name="expected_version" value="{{ asset.version }}">
@@ -87,25 +92,38 @@
                       <input class="form-control" name="title" value="{{ asset.title }}">
                     </div>
                     <div class="mb-3">
-                      <label class="form-label">Article editable</label>
-                      <textarea class="form-control" name="content_text" rows="12">{{ asset.content_text }}</textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">HTML public</label>
-                      <textarea class="form-control" name="content_html" rows="10">{{ asset.content_html }}</textarea>
+                      <label class="form-label">Article</label>
+                      <div class="btn-group mb-2" role="toolbar" aria-label="Mise en forme">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-growth-command="bold" title="Gras"><strong>B</strong></button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-growth-command="italic" title="Italique"><em>I</em></button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-growth-command="formatBlock" data-value="h2" title="Intertitre">H2</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-growth-command="insertUnorderedList" title="Liste">Liste</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" data-growth-command="createLink" title="Lien">Lien</button>
+                      </div>
+                      <div class="form-control growth-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Contenu de l'article">{{ asset.editable_html|raw }}</div>
+                      <input type="hidden" name="content_text" value="{{ asset.content_text }}">
+                      <input type="hidden" name="content_html" value="{{ asset.content_html }}">
                     </div>
                     {% if image.data_url|default('') %}
                       <div class="border rounded p-3 mb-3">
                         <strong>Illustration retenue</strong>
-                        <img class="img-fluid rounded mt-2" src="{{ image.image_url|default(image.data_url) }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <img class="img-fluid rounded mt-2" src="{{ path('admin_growth_asset_image_binary', {id: campaign.id, assetId: asset.id}) }}" alt="{{ image.alt_text|default('Illustration article') }}">
                         <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
                       </div>
                     {% elseif image.image_url|default('') %}
                       <div class="border rounded p-3 mb-3">
                         <strong>Illustration retenue</strong>
-                        <img class="img-fluid rounded mt-2" src="{{ image.image_url }}" alt="{{ image.alt_text|default('Illustration article') }}">
+                        <img class="img-fluid rounded mt-2" src="{{ path('admin_growth_asset_image_binary', {id: campaign.id, assetId: asset.id}) }}" alt="{{ image.alt_text|default('Illustration article') }}">
                         <div class="small text-muted mt-2">{{ image.alt_text|default('') }} · {{ image.model|default('') }}</div>
                       </div>
+                    {% endif %}
+                    {% if image.image_url|default('') %}
+                      <label class="form-label" for="image-position-{{ asset.id }}">Emplacement de l'illustration</label>
+                      <select class="form-select mb-3" name="image_placement" id="image-position-{{ asset.id }}">
+                        {% for value, label in {'after_intro': "Apres l'introduction", 'after_heading': 'Apres le premier intertitre', 'end': "Fin de l'article"} %}
+                          <option value="{{ value }}" {{ image.placement|default('after_intro') == value ? 'selected' : '' }}>{{ label }}</option>
+                        {% endfor %}
+                      </select>
                     {% endif %}
                     {% set seo_ready = seo.status|default('') == 'READY' %}
                     <div class="border rounded p-3 mb-3">
@@ -142,11 +160,11 @@
                     {% set quality = asset.editorial_quality|default({}) %}
                     {% if quality %}
                       <div class="border rounded p-3 mb-3">
-                        <strong>Qualite editoriale : {{ quality.passed|default(false) ? 'conforme' : 'non conforme' }}</strong>
+                        <strong>Qualite editoriale : {{ quality.passed|default(false) ? (quality.issues|default([]) ? 'conforme avec recommandations' : 'conforme') : 'corrections necessaires' }}</strong>
                         {% if quality.issues|default([]) %}
                           <ul class="small mt-2 mb-0">
-                            {% for issue in quality.issues %}
-                              <li>{{ issue.severity|default('info') }} - {{ issue.code|default('controle') }} : {{ issue.message|default('') }}</li>
+                            {% for issue in asset.quality_issues|default(quality.issues) %}
+                              <li>{{ issue.label|default(issue.message|default('Controle editorial')) }}{% if issue.count|default(1) > 1 %} ({{ issue.count }} affirmations){% endif %}</li>
                             {% endfor %}
                           </ul>
                         {% endif %}
@@ -161,6 +179,12 @@
                     {% set readiness_reasons = readiness.reasons|default([]) %}
                     {% set can_publish = readiness.publishable|default(false) and asset.status|default('') == 'APPROVED' and not asset.quality_blocking|default(false) %}
                     {% set public_url = asset.public_url|default(readiness.public_url|default('')) %}
+                    {% if can_publish %}
+                      <label class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="asset_ids[]" value="{{ asset.id }}" form="growth-batch-publish" data-confirmation="{{ site_label }} · {{ locale_label }} · {{ asset.title }} · v{{ asset.version }} · URL prevue : {{ public_url ?: seo.metadata.canonical|default('A confirmer par le site') }} · Illustration : {{ image.image_url|default('') ? 'oui' : 'non' }} · Qualite conforme · SEO : {{ seo.status|default('A verifier') }}">
+                        <span class="form-check-label">Selectionner cet article approuve</span>
+                      </label>
+                    {% endif %}
                     <div class="d-flex flex-wrap gap-2">
                       <button class="btn btn-outline-primary btn-sm">Enregistrer le brouillon</button>
                       <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Preview</a>
@@ -172,6 +196,11 @@
                       <input type="hidden" name="expected_version" value="{{ asset.version }}">
                       <input type="hidden" name="visual_brief" value="{{ asset.illustration_suggestion|default('') }}">
                       <button class="btn btn-outline-secondary btn-sm">Generer une illustration</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_growth_asset_repair', {id: campaign.id, assetId: asset.id}) }}">
+                      <input type="hidden" name="_token" value="{{ csrf_token('growth_repair_' ~ campaign.id ~ '_' ~ asset.id) }}">
+                      <input type="hidden" name="expected_version" value="{{ asset.version }}">
+                      <button class="btn btn-outline-primary btn-sm">Corriger avec l'IA</button>
                     </form>
                     <form method="post" action="{{ path('admin_growth_asset_seo_geo', {id: campaign.id, assetId: asset.id}) }}">
                       <input type="hidden" name="_token" value="{{ csrf_token('growth_seo_geo_' ~ campaign.id ~ '_' ~ asset.id) }}">
@@ -204,6 +233,7 @@
                   {% if readiness_reasons %}
                     <p class="small text-muted mt-2 mb-0">{{ readiness_reasons|join(' ') }}</p>
                   {% endif %}
+                  {% if asset.quality_blocking|default(false) %}<p class="small text-danger mt-2">Approbation impossible : corrigez les anomalies editoriales bloquantes.</p>{% endif %}
                 {% else %}
                   <p class="text-muted mb-0">Aucun contenu recu pour ce site.</p>
                 {% endif %}
@@ -213,6 +243,7 @@
           {% endfor %}
         {% endfor %}
       </div>
+      {% endblock %}
     {% endif %}
   </div>
 </main>
@@ -220,25 +251,89 @@
 
 {% block javascripts %}
   {{ parent() }}
-  {% if campaign.status|default('') == 'GENERATING' %}
+  <script>
+    document.addEventListener('mousedown', event => { if (event.target.closest('[data-growth-command]')) event.preventDefault(); });
+    document.addEventListener('click', event => {
+      const button = event.target.closest('[data-growth-command]');
+      if (!button) return;
+      const command = button.dataset.growthCommand;
+      let value = button.dataset.value || null;
+      if (command === 'createLink') {
+        value = prompt('URL du lien');
+        if (!value || !/^(https?:\/\/|\/[^\/])/i.test(value)) return;
+      }
+      document.execCommand(command, false, value);
+    });
+    document.addEventListener('paste', event => {
+      if (!event.target.closest('.growth-editor')) return;
+      event.preventDefault();
+      document.execCommand('insertText', false, event.clipboardData.getData('text/plain'));
+    });
+    document.addEventListener('submit', event => {
+      const form = event.target;
+      const editor = form.querySelector('.growth-editor');
+      if (!editor) return;
+      const content = editor.cloneNode(true);
+      for (const image of content.querySelectorAll('img')) {
+        const match = image.getAttribute('src')?.match(/^\/admin\/growth\/campaigns\/[^/]+\/assets\/([^/]+)\/image$/);
+        if (match) image.setAttribute('src', '/studio-simple/assets/'+match[1]+'/image');
+      }
+      for (const div of content.querySelectorAll('div')) {
+        const paragraph = document.createElement('p');
+        paragraph.append(...div.childNodes);
+        div.replaceWith(paragraph);
+      }
+      form.elements.content_html.value = content.innerHTML;
+      form.elements.content_text.value = editor.innerText;
+    });
+  </script>
+  {% if campaign.generation.status|default('') in ['PENDING', 'RUNNING'] %}
     <script>
       (() => {
         const node = document.getElementById('growth-generation-status');
         if (!node || !node.dataset.statusUrl) return;
         const labels = {'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES'};
+        const stages = {WAITING: 'Analyse du brief', DRAFTING: "Redaction de l'article", REWRITING: 'Revision editoriale', QUALITY_CHECK: 'Verification des sources', SAVING: "Enregistrement de l'article", READY_FOR_REVIEW: 'Article disponible', FAILED: 'Generation suspendue'};
+        document.addEventListener('input', (event) => {
+          const card = event.target.closest('[data-article-key]');
+          if (card) card.dataset.dirty = 'true';
+        });
+        const refreshArticles = async () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set('fragment', 'articles');
+          const response = await fetch(url, {headers: {'Accept': 'text/html'}});
+          if (!response.ok || response.redirected) return;
+          const documentPart = new DOMParser().parseFromString(await response.text(), 'text/html');
+          const incoming = documentPart.getElementById('growth-articles');
+          const current = document.getElementById('growth-articles');
+          if (!incoming || !current) return;
+          const oldCards = new Map([...current.children].map(card => [card.dataset.articleKey, card]));
+          for (const fresh of [...incoming.children]) {
+            const old = oldCards.get(fresh.dataset.articleKey);
+            oldCards.delete(fresh.dataset.articleKey);
+            if (old && (old.dataset.dirty || old.contains(document.activeElement))) continue;
+            if (old) old.replaceWith(fresh); else current.append(fresh);
+          }
+          for (const old of oldCards.values()) if (!old.dataset.dirty) old.remove();
+        };
         const poll = async () => {
           try {
             const response = await fetch(node.dataset.statusUrl, {headers: {'Accept': 'application/json'}});
             const data = await response.json();
             if (!data.available) {
               node.textContent = data.message || 'Growth Factory indisponible.';
+              window.setTimeout(poll, 10000);
               return;
             }
             const assets = Array.isArray(data.assets) ? data.assets : [];
-            const done = assets.map((asset) => `${asset.channel === 'oling_site' ? 'OLING' : 'MAPSI'} ${labels[asset.locale] || asset.locale}: ${asset.status}`).join(' · ');
-            node.textContent = `Création de vos articles en cours : ${(data.generation && data.generation.stage) || 'WAITING'}${done ? ' · ' + done : ''}`;
-            if (data.status !== 'GENERATING') window.location.reload();
-            else window.setTimeout(poll, 5000);
+            const done = assets.map((asset) => `${asset.channel === 'oling_site' ? 'OLING' : 'MAPSI'} ${labels[asset.locale] || asset.locale}: article disponible`).join(' · ');
+            const parts = (data.generation?.stage || 'WAITING').split(':');
+            const stage = parts.at(-1);
+            const active = parts.length === 3 ? `${parts[0] === 'oling_site' ? 'OLING' : 'MAPSI'} ${labels[parts[1]] || parts[1]} : ` : '';
+            node.textContent = `${active}${stages[stage] || 'Creation des articles en cours'}. ${done}`;
+            if (data.generation?.status === 'FAILED') node.textContent = `${data.generation.error_message || 'Generation suspendue.'} ${done}`;
+            await refreshArticles();
+            if (['PENDING', 'RUNNING'].includes(data.generation?.status)) window.setTimeout(poll, 5000);
           } catch (e) {
             window.setTimeout(poll, 10000);
           }

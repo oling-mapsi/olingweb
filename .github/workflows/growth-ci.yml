@@ -1,0 +1,32 @@
+name: Growth tests
+on:
+  push:
+    branches: [codex/growth-real-manual]
+  pull_request:
+    paths: ['src/**', 'templates/**', 'tests/**', 'composer.*', '.github/workflows/growth-ci.yml']
+permissions:
+  contents: read
+jobs:
+  growth:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: test
+      APP_SECRET: isolated-growth-ci
+      GROWTH_FACTORY_ENABLED: '0'
+      SYMFONY_DEPRECATIONS_HELPER: disabled
+      MAILER_DSN: 'null://null'
+      MESSENGER_TRANSPORT_DSN: 'sync://'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, pdo_mysql, dom, intl, fileinfo
+          tools: composer:v2
+          coverage: none
+      - name: Install clean dependencies
+        run: |
+          if [ -d vendor ]; then mv vendor "$RUNNER_TEMP/growth-vendor"; fi
+          composer install --no-interaction --no-progress --prefer-dist --no-scripts
+      - name: Growth tests
+        run: php bin/phpunit --filter Growth

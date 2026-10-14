@@ -31,7 +31,8 @@ class GrowthPublishingService
         private readonly SitePageRepository $sitePageRepository,
         private readonly SitePageRevisionRepository $revisionRepository,
         private readonly GrowthContentSanitizer $sanitizer,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly GrowthMediaStore $mediaStore,
     ) {
     }
 
@@ -87,6 +88,8 @@ class GrowthPublishingService
         if ($draft === null) {
             throw new ConflictHttpException('No draft available for publication.');
         }
+
+        $this->mediaStore->publishHtmlMedia($draft->getContentHtml());
 
         $publishedRevision = $this->cloneRevision($page, $draft, 'published');
         $draft->setRevisionState('consumed');
@@ -180,6 +183,10 @@ class GrowthPublishingService
         $page = new SitePage();
         $page->setExternalId($revision->getSitePage()?->getExternalId());
         $this->applyRevisionSnapshot($page, $revision, self::STATUS_DRAFT);
+        $page->setHeroSideHtml($this->mediaStore->privatePreviewHtml($revision->getContentHtml()));
+        if (str_contains($revision->getContentHtml(), '/uploads/growth/')) {
+            $page->setHeroImage(null);
+        }
 
         return $page;
     }
@@ -454,7 +461,8 @@ class GrowthPublishingService
         return match ($locale) {
             'en-US', 'en_GB', 'en' => SitePageTranslation::LOCALE_EN,
             'es-ES', 'es_MX', 'es' => SitePageTranslation::LOCALE_ES,
-            default => SitePageTranslation::LOCALE_FR,
+            'fr-FR', 'fr_FR', 'fr' => SitePageTranslation::LOCALE_FR,
+            default => throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException('Unsupported Growth locale.'),
         };
     }
 

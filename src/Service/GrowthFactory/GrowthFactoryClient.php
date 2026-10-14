@@ -30,6 +30,31 @@ final class GrowthFactoryClient
         return $this->enabled;
     }
 
+    public function getAssetImage(UserInterface $actor, string $assetId): array
+    {
+        if (!$this->enabled || trim($this->baseUrl) === '') {
+            throw new GrowthFactoryUnavailableException('Growth est indisponible.');
+        }
+        try {
+            $response = $this->httpClient->request('GET', rtrim($this->baseUrl, '/').'/studio-simple/assets/'.rawurlencode($assetId).'/image', [
+                'headers' => ['Authorization' => 'Bearer '.$this->jwtEncoder->encode($actor, bin2hex(random_bytes(16)))],
+                'timeout' => $this->timeoutSeconds,
+                'max_redirects' => 0,
+            ]);
+            if ($response->getStatusCode() !== 200) {
+                throw new GrowthFactoryException('Illustration indisponible.');
+            }
+            $content = $response->getContent(false);
+            $info = @getimagesizefromstring($content);
+            if (!$info || !in_array($info['mime'], ['image/png', 'image/jpeg', 'image/webp'], true) || strlen($content) > 12582912) {
+                throw new GrowthFactoryException('Format d’illustration invalide.');
+            }
+            return ['content' => $content, 'content_type' => $info['mime']];
+        } catch (TransportExceptionInterface $exception) {
+            throw new GrowthFactoryUnavailableException('Illustration temporairement indisponible.', previous: $exception);
+        }
+    }
+
     public function listCampaigns(UserInterface $actor): array
     {
         return $this->request($actor, 'GET', '/studio-simple/campaigns');
@@ -109,6 +134,11 @@ final class GrowthFactoryClient
         ]);
     }
 
+    public function repairAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion): array
+    {
+        return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/repair', ['expected_version' => $expectedVersion]);
+    }
+
     public function approveAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $comment = ''): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/approve', [
@@ -135,6 +165,23 @@ final class GrowthFactoryClient
     public function publishCampaign(UserInterface $actor, string $id, array $channels): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($id).'/publish', ['channels' => array_values($channels)]);
+    }
+
+    public function publishAsset(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'POST', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publish', [
+            'idempotency_key' => bin2hex(random_bytes(16)), 'comment' => 'Publication manuelle OLING Admin',
+        ], max(60, $this->timeoutSeconds));
+    }
+
+    public function getAssetPublicationReadiness(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publication-readiness');
+    }
+
+    public function unpublishAsset(UserInterface $actor, string $assetId): array
+    {
+        return $this->request($actor, 'POST', '/api/admin/v1/assets/'.rawurlencode($assetId).'/unpublish', ['comment' => 'Depublication manuelle OLING Admin'], max(60, $this->timeoutSeconds));
     }
 
     public function unpublishCampaign(UserInterface $actor, string $id, array $channels): array

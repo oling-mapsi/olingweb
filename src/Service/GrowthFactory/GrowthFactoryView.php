@@ -114,6 +114,34 @@ final class GrowthFactoryView
                 'editorial_quality' => [],
                 'quality_blocking' => false,
             ];
+            $messages = [
+                'claim_without_source' => "Cette affirmation n'est associee a aucune source verifiable.",
+                'claim_unknown_source' => "La source de cette affirmation ne fait pas partie des preuves fournies.",
+                'unknown_source_id' => "Une reference de source est inconnue.",
+                'unverified_claim' => "Une affirmation reste a verifier avec une source fiable.",
+                'unauthorized_client_reference' => "Une reference client non autorisee doit etre retiree.",
+                'content_too_similar' => "L'article ressemble trop a un contenu existant.",
+                'body_too_short' => "L'article est trop court.",
+                'body_too_long' => "L'article depasse la longueur editoriale prevue.",
+                'manual_content_changed' => "Le texte a change : ses affirmations doivent etre controlees a nouveau.",
+            ];
+            $grouped = [];
+            foreach ($normalizedAsset['editorial_quality']['issues'] ?? [] as $issue) {
+                $code = $issue['code'] ?? 'editorial';
+                $grouped[$code] ??= ['label' => $messages[$code] ?? ($issue['message'] ?? 'Controle editorial'), 'count' => 0];
+                ++$grouped[$code]['count'];
+            }
+            $normalizedAsset['quality_issues'] = array_values($grouped);
+            $html = (new \App\Service\GrowthContentSanitizer())->sanitizeHtml($normalizedAsset['content_html']);
+            if (!empty($normalizedAsset['image']['image_url'])) {
+                $original = '/studio-simple/assets/'.$normalizedAsset['id'].'/image';
+                $proxy = '/admin/growth/campaigns/'.rawurlencode((string) $campaign['id']).'/assets/'.rawurlencode((string) $normalizedAsset['id']).'/image';
+                if (!str_contains($html,$original)) {
+                    $html = '<figure><img src="'.$original.'" alt="'.htmlspecialchars((string) ($normalizedAsset['image']['alt_text'] ?? $normalizedAsset['title']), ENT_QUOTES).'"></figure>'.$html;
+                }
+                $html = str_replace($original,$proxy,$html);
+            }
+            $normalizedAsset['editable_html'] = $html;
             $assets[$channel] ??= $normalizedAsset;
             $assetsByChannelList[$channel][] = $normalizedAsset;
             $assetsByChannelLocale[$channel][$locale] = $normalizedAsset;

@@ -56,6 +56,8 @@
       <div class="alert alert-info">
         {% if campaign.status == 'GENERATING' %}
           Generation en cours. Cette page se rafraichit automatiquement.
+        {% elseif campaign.generation|default(null) and campaign.generation.status|default('') == 'FAILED' %}
+          {{ campaign.generation.error_message|default('Generation suspendue. Relance possible apres correction.') }}
         {% else %}
           Brief original conserve dans Growth Factory. Relire chaque version, verifier les liens internes et approuver avant publication.
         {% endif %}

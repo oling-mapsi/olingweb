@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ serviceNarrative.metaTitle ?? (service.designation ~ ' | OLING') }}{% endblock %}
+{% block title %}{{ serviceNarrative.metaTitle ?? (service.getDesignation() ~ ' | OLING') }}{% endblock %}
 {% block meta_description %}{{ serviceNarrative.metaDescription ?? serviceNarrative.intro|striptags }}{% endblock %}
 {% block body_class %} service-detail-page{% endblock %}
 
@@ -29,7 +29,7 @@
       <div class="oling-two-col">
         <article class="oling-surface oling-surface--light">
           <span class="oling-kicker">{{ 'service.coverage.kicker'|trans }}</span>
-          <h2>{{ serviceNarrative.coverageTitle|default(service.designation) }}</h2>
+          <h2>{{ serviceNarrative.coverageTitle|default(service.getDesignation()) }}</h2>
           {% if serviceNarrative.hideLegacyDescription|default(false) %}
             {% if serviceNarrative.coverageText is defined %}
               <p>{{ serviceNarrative.coverageText }}</p>
@@ -42,7 +42,7 @@
               </ul>
             {% endif %}
           {% else %}
-            <div class="oling-richtext">{{ service.description|raw }}</div>
+            <div class="oling-richtext">{{ service.getDescription()|raw }}</div>
           {% endif %}
         </article>
         <article class="oling-surface oling-surface--light">
@@ -202,7 +202,7 @@
       title: serviceNarrative.anonymousProofsTitle|default('service.proofs.default_title'|trans),
       intro: serviceNarrative.anonymousProofsIntro|default('service.proofs.default_intro'|trans)
     } %}
-  {% elseif service.projets|length > 0 %}
+  {% elseif service.getProjets()|length > 0 %}
     <section class="oling-shell-section">
       <div class="container">
         <div class="oling-section-head">
@@ -210,7 +210,7 @@
           <h2>{{ 'service.related_cases.title'|trans }}</h2>
         </div>
         <div class="oling-project-proof-grid">
-          {% for project in service.projets|slice(0, 3) %}
+          {% for project in service.getProjets()|slice(0, 3) %}
             <article class="oling-proof-card">
               <span class="oling-kicker">{{ project.metier ? project.metier.designation : 'common.project'|trans }}</span>
               <h3>{{ project.designation }}</h3>
@@ -222,7 +222,7 @@
     </section>
   {% endif %}
 
-  {% if service.teams|length > 0 %}
+  {% if service.getTeams()|length > 0 %}
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
@@ -230,7 +230,7 @@
           <h2>{{ 'service.experts.title'|trans }}</h2>
         </div>
         <div class="oling-team-mini-list">
-          {% for team in service.teams %}
+          {% for team in service.getTeams() %}
             <div class="oling-team-mini">
               <img class="oling-team-mini__avatar" src="{{ team.photo ?: asset('img/160x160/img1.jpg') }}" alt="Photo de {{ team.noncomplet }}">
               <div class="oling-team-mini__meta">
@@ -264,8 +264,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "{{ (serviceNarrative.schemaName ?? service.designation)|striptags|e('js') }}",
-  "serviceType": "{{ (serviceNarrative.schemaServiceType ?? service.practice.designation)|striptags|e('js') }}",
+  "name": "{{ (serviceNarrative.schemaName ?? service.getDesignation())|striptags|e('js') }}",
+  "serviceType": "{{ (serviceNarrative.schemaServiceType ?? service.getPractice().getDesignation())|striptags|e('js') }}",
   "provider": {
     "@type": "ProfessionalService",
     "name": "OLING Management et Technologie",

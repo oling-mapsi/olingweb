@@ -195,6 +195,57 @@
                 </div>
             </div>
 
+            {% if editorMode == 'seo' and form.seoAdvancedMetaTitle is defined %}
+                <div class="card admin-form-card mt-4">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Contenu SEO avancé</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                {{ form_label(form.seoAdvancedMetaTitle) }}
+                                {{ form_widget(form.seoAdvancedMetaTitle) }}
+                                {{ form_errors(form.seoAdvancedMetaTitle) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.seoAdvancedHeroTitle) }}
+                                {{ form_widget(form.seoAdvancedHeroTitle) }}
+                                {{ form_errors(form.seoAdvancedHeroTitle) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_label(form.seoAdvancedMetaDescription) }}
+                                {{ form_widget(form.seoAdvancedMetaDescription) }}
+                                {{ form_errors(form.seoAdvancedMetaDescription) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_label(form.seoAdvancedHeroIntro) }}
+                                {{ form_widget(form.seoAdvancedHeroIntro) }}
+                                {{ form_errors(form.seoAdvancedHeroIntro) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_label(form.seoAdvancedPromise) }}
+                                {{ form_widget(form.seoAdvancedPromise) }}
+                                {{ form_errors(form.seoAdvancedPromise) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.seoAdvancedFocus) }}
+                                {{ form_widget(form.seoAdvancedFocus) }}
+                                {{ form_errors(form.seoAdvancedFocus) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.seoAdvancedCitablePassages) }}
+                                {{ form_widget(form.seoAdvancedCitablePassages) }}
+                                {{ form_errors(form.seoAdvancedCitablePassages) }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.seoAdvancedSupportLinks) }}
+                                {{ form_widget(form.seoAdvancedSupportLinks) }}
+                                {{ form_errors(form.seoAdvancedSupportLinks) }}
+                            </div>
+                        </div>
+                        {{ form_widget(form.seoAdvancedSourceHash) }}
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="d-flex gap-2 mt-4">
                 <button class="btn btn-primary">Enregistrer</button>
                 <a class="btn btn-outline-secondary" href="{{ editorMode == 'home' ? path('admin_index') : path('admin_pages_index') }}">Retour</a>

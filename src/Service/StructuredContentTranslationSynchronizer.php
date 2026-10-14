@@ -119,6 +119,8 @@ final class StructuredContentTranslationSynchronizer
         $data->setImage2($service->getImage2());
         $data->setImageHero($service->getImageHero());
         $data->setTeams($service->getTeams());
+        $data->setPublicNarrative($this->decodeJsonObject($row['public_narrative'] ?? null));
+        $data->setSeoSourceUpdatedAt($row['source_updated_at'] ?? null);
 
         return $data;
     }
@@ -136,14 +138,18 @@ final class StructuredContentTranslationSynchronizer
         foreach ($data->getTeams() ?? [] as $team) {
             $service->addTeam($team);
         }
-        $this->upsert('service_translation', 'service_id', $service->getId(), [
+        $fields = [
             'designation' => $data->getDesignation(),
             'slug' => $service->getSlug(),
             'designation_short' => $data->getDesignationShort(),
             'introduction_short' => $data->getIntroductionShort(),
             'description' => $data->getDescription(),
             'description_short' => $data->getDescriptionShort(),
-        ]);
+        ];
+        if ($data->getPublicNarrative() !== null) {
+            $fields['public_narrative'] = json_encode($data->getPublicNarrative(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+        }
+        $this->upsert('service_translation', 'service_id', $service->getId(), $fields);
         $this->syncServiceTranslationToLegacy($service);
     }
 
@@ -156,6 +162,20 @@ final class StructuredContentTranslationSynchronizer
             ->setIntroductionShort($row['introduction_short'])
             ->setDescription($row['description'])
             ->setDescriptionShort($row['description_short']);
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function decodeJsonObject(mixed $value): ?array
+    {
+        if (!is_string($value) || trim($value) === '') {
+            return null;
+        }
+
+        $decoded = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+
+        return is_array($decoded) ? $decoded : null;
     }
 
     public function syncProjet(Projet $project): void
@@ -400,16 +420,20 @@ final class StructuredContentTranslationSynchronizer
             'created_at' => (new \DateTimeImmutable())->format('Y-m-d H:i:s'),
         ], $fields);
 
-        $columns = array_keys($insert);
-        $updates = array_filter($columns, static fn (string $column): bool => !in_array($column, [$ownerColumn, 'locale', 'created_at'], true));
+        $criteria = [
+            $ownerColumn => $ownerId,
+            'locale' => SitePageTranslation::LOCALE_FR,
+        ];
+        $update = $fields;
 
-        $this->connection->executeStatement(sprintf(
-            'INSERT INTO %s (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s',
-            $table,
-            implode(', ', $columns),
-            implode(', ', array_map(static fn (string $column): string => ':' . $column, $columns)),
-            implode(', ', array_map(static fn (string $column): string => $column . ' = VALUES(' . $column . ')', $updates))
-        ), $insert);
+        $updatedRows = $this->connection->update($table, $update, $criteria);
+        if ($updatedRows === 0) {
+            try {
+                $this->connection->insert($table, $insert);
+            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException) {
+                $this->connection->update($table, $update, $criteria);
+            }
+        }
 
         $newSlug = $fields['slug'] ?? null;
         if (is_string($oldSlug) && is_string($newSlug) && $oldSlug !== '' && $newSlug !== '' && $oldSlug !== $newSlug) {

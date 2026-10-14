@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Entity\SitePageTranslation;
 use App\Form\SitePageTranslationType;
 use App\Repository\SitePageTranslationRepository;
+use App\Service\SeoStructuredContentAdminMapper;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -58,7 +59,7 @@ class SitePageTranslationTypeTest extends TypeTestCase
 
         return [
             new PreloadedExtension([
-                new SitePageTranslationType($this->translationRepository),
+                new SitePageTranslationType($this->translationRepository, new SeoStructuredContentAdminMapper()),
             ], []),
             new ValidatorExtension(Validation::createValidator()),
         ];

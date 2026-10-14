@@ -88,14 +88,18 @@ final class GrowthFactoryView
     public function normalizeCampaign(array $campaign): array
     {
         $assets = [];
+        $assetsByChannelList = [];
+        $assetsByChannelLocale = [];
         foreach (($campaign['content_assets'] ?? []) as $asset) {
             if (!is_array($asset)) {
                 continue;
             }
             $channel = (string) ($asset['channel'] ?? '');
-            $assets[$channel] = $asset + [
+            $locale = (string) ($asset['locale'] ?? 'fr-FR');
+            $normalizedAsset = $asset + [
                 'id' => '',
                 'title' => '',
+                'locale' => 'fr-FR',
                 'content_html' => '',
                 'content_text' => '',
                 'status' => 'DRAFT',
@@ -110,6 +114,9 @@ final class GrowthFactoryView
                 'editorial_quality' => [],
                 'quality_blocking' => false,
             ];
+            $assets[$channel] ??= $normalizedAsset;
+            $assetsByChannelList[$channel][] = $normalizedAsset;
+            $assetsByChannelLocale[$channel][$locale] = $normalizedAsset;
         }
 
         return $campaign + [
@@ -123,6 +130,8 @@ final class GrowthFactoryView
             'publications' => [],
             'generation' => null,
             'assets_by_channel' => $assets,
+            'assets_by_channel_list' => $assetsByChannelList,
+            'assets_by_channel_locale' => $assetsByChannelLocale,
         ];
     }
 

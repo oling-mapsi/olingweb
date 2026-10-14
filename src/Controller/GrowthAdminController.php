@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -181,6 +182,36 @@ class GrowthAdminController extends AbstractController
                 'oling_site' => $view->editorialLinksForChannel('oling_site'),
             ],
         ]);
+    }
+
+    #[Route('/campaigns/{id}/status', name: 'admin_growth_status', methods: ['GET'])]
+    public function status(string $id, GrowthFactoryClient $client, GrowthFactoryView $view): JsonResponse
+    {
+        try {
+            $campaign = $view->normalizeCampaign($client->getCampaign($this->getUserOrDeny(), $id));
+            $assets = [];
+            foreach ($campaign['content_assets'] as $asset) {
+                if (!is_array($asset)) {
+                    continue;
+                }
+                $assets[] = [
+                    'id' => (string) ($asset['id'] ?? ''),
+                    'channel' => (string) ($asset['channel'] ?? ''),
+                    'locale' => (string) ($asset['locale'] ?? 'fr-FR'),
+                    'status' => (string) ($asset['status'] ?? ''),
+                    'title' => (string) ($asset['title'] ?? ''),
+                ];
+            }
+
+            return $this->json([
+                'available' => true,
+                'status' => (string) ($campaign['status'] ?? ''),
+                'generation' => $campaign['generation'] ?? null,
+                'assets' => $assets,
+            ]);
+        } catch (GrowthFactoryException $exception) {
+            return $this->json(['available' => false, 'message' => $exception->getMessage()], 503);
+        }
     }
 
     #[Route('/advanced-campaigns/{id}', name: 'admin_growth_advanced_show', methods: ['GET'])]

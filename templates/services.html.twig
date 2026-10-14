@@ -21,7 +21,9 @@
     intro: serviceNarrative.intro,
     primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: 'service.hero.primary_cta'|trans},
     secondaryCta: null,
-    highlights: serviceNarrative.outcomes|slice(0, 3)
+    highlights: serviceNarrative.outcomes|slice(0, 3),
+    image: service.getImageHero() ?: service.getImage1() ?: service.getImage2(),
+    imageAlt: service.getDesignation()
   } %}
 
   <section class="oling-shell-section">

@@ -44,6 +44,8 @@ class StructuredContentAdminFormData
     public ?string $intro = null;
     public ?string $ctaLabel = null;
     public ?string $ctaUrl = null;
+    public ?array $publicNarrative = null;
+    public ?string $seoSourceUpdatedAt = null;
 
     public function __call(string $name, array $arguments): mixed
     {

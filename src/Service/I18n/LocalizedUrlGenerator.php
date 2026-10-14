@@ -95,7 +95,10 @@ final class LocalizedUrlGenerator
             'team' => '/a-propos/team',
             'projets' => '/projets',
             'secteurs-index' => '/secteurs',
-            default => str_starts_with($sourceSlug, 'secteur-') ? '/secteurs/'.$sourceSlug : null,
+            'secteur-industrie' => '/secteurs/industrie',
+            'secteur-services' => '/secteurs/services',
+            'secteur-secteur-public' => '/secteurs/secteur-public',
+            default => str_starts_with($sourceSlug, 'expertise-') ? '/expertises/'.substr($sourceSlug, strlen('expertise-')) : null,
         };
     }
 

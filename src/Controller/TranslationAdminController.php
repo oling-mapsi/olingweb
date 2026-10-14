@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\SitePageTranslation;
+use App\Entity\User;
 use App\Repository\SitePageRepository;
 use App\Repository\SitePageTranslationRepository;
 use App\Service\I18n\AiTranslationService;
+use App\Service\I18n\AiTranslationValidationException;
 use App\Service\I18n\TranslationReviewWorkflow;
 use App\Service\TranslationSourceHasher;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -97,29 +100,41 @@ final class TranslationAdminController extends AbstractController
                 throw $this->createAccessDeniedException('Token CSRF invalide.');
             }
 
+            $sourceHash = $sourceHasher->hashSitePageTranslation($source);
             $action = (string) $request->request->get('action', 'save');
-            if ($action === 'publish') {
-                (new TranslationReviewWorkflow())->publish($target);
-            } elseif ($action === 'unpublish') {
-                (new TranslationReviewWorkflow())->unpublish($target);
-            } elseif ($action === 'review') {
-                (new TranslationReviewWorkflow())->markReviewed($target);
-            } elseif ($action === 'to_review') {
-                (new TranslationReviewWorkflow())->markToReview($target);
-            } else {
-                $target
-                    ->setTitle((string) $request->request->get('title'))
-                    ->setSlug((string) $request->request->get('slug'))
-                    ->setHeroBadge($this->nullableString($request->request->get('heroBadge')))
-                    ->setHeroTitle($this->nullableString($request->request->get('heroTitle')))
-                    ->setHeroIntro($this->nullableString($request->request->get('heroIntro')))
-                    ->setSeoTitle($this->nullableString($request->request->get('seoTitle')))
-                    ->setSeoDescription($this->nullableString($request->request->get('seoDescription')))
-                    ->setBodyHtml($this->nullableString($request->request->get('bodyHtml')));
-            }
+            $workflow = new TranslationReviewWorkflow();
 
-            $entityManager->flush();
-            $this->addFlash('success', 'Traduction mise à jour.');
+            try {
+                if ($action === 'publish') {
+                    $user = $this->getUser();
+                    $workflow->publishFromAdmin($target, $sourceHash, $user instanceof User ? $user : null);
+                } elseif ($action === 'unpublish') {
+                    $workflow->unpublish($target);
+                } elseif ($action === 'review') {
+                    $user = $this->getUser();
+                    $workflow->markReviewed($target, $user instanceof User ? $user : null);
+                    $target->setSourceContentHash($sourceHash);
+                } elseif ($action === 'to_review') {
+                    $workflow->markToReview($target);
+                } else {
+                    $target
+                        ->setTitle((string) $request->request->get('title'))
+                        ->setSlug((string) $request->request->get('slug'))
+                        ->setHeroBadge($this->nullableString($request->request->get('heroBadge')))
+                        ->setHeroTitle($this->nullableString($request->request->get('heroTitle')))
+                        ->setHeroIntro($this->nullableString($request->request->get('heroIntro')))
+                        ->setSeoTitle($this->nullableString($request->request->get('seoTitle')))
+                        ->setSeoDescription($this->nullableString($request->request->get('seoDescription')))
+                        ->setBodyHtml($this->nullableString($request->request->get('bodyHtml')));
+                }
+
+                $entityManager->flush();
+                $this->addFlash('success', $this->successMessage($action, $target->getLocale()));
+            } catch (UniqueConstraintViolationException) {
+                $this->addFlash('danger', sprintf('Impossible de publier : le slug "%s" est déjà utilisé pour cette langue.', $target->getSlug()));
+            } catch (AiTranslationValidationException $exception) {
+                $this->addFlash('danger', 'Impossible de publier : '.$exception->getMessage());
+            }
 
             return $this->redirectToRoute('admin_translations_site_page_edit', ['id' => $target->getId(), 'locale' => $locale]);
         }
@@ -260,5 +275,16 @@ final class TranslationAdminController extends AbstractController
         $value = trim((string) $value);
 
         return $value === '' ? null : $value;
+    }
+
+    private function successMessage(string $action, string $locale): string
+    {
+        return match ($action) {
+            'publish' => sprintf('Traduction %s publiée.', strtoupper($locale)),
+            'unpublish' => sprintf('Traduction %s dépubliée.', strtoupper($locale)),
+            'review' => sprintf('Traduction %s marquée comme relue.', strtoupper($locale)),
+            'to_review' => sprintf('Traduction %s passée à relire.', strtoupper($locale)),
+            default => 'Traduction mise à jour.',
+        };
     }
 }

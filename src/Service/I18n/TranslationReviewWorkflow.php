@@ -32,6 +32,17 @@ final class TranslationReviewWorkflow
             ->setUnpublishedAt(null);
     }
 
+    public function publishFromAdmin(SitePageTranslation $translation, string $sourceContentHash, ?User $reviewer = null): void
+    {
+        $this->assertNotFrench($translation);
+        if ($translation->getTranslationStatus() !== SitePageTranslation::STATUS_REVIEWED) {
+            $this->markReviewed($translation, $reviewer);
+        }
+
+        $translation->setSourceContentHash($sourceContentHash);
+        $this->publish($translation);
+    }
+
     public function unpublish(SitePageTranslation $translation): void
     {
         $this->assertNotFrench($translation);

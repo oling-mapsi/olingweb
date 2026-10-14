@@ -35,12 +35,13 @@
         <input type="hidden" name="action" value="review">
         <button class="btn btn-outline-success" type="submit">Marquer relue</button>
       </form>
-      <form method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
-        <input type="hidden" name="action" value="publish">
-        <button class="btn btn-success" type="submit">Publier</button>
-      </form>
-      {% if target.translationStatus == 'published' %}
+      {% if target.translationStatus != 'published' %}
+        <form method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
+          <input type="hidden" name="action" value="publish">
+          <button class="btn btn-success" type="submit">Publier</button>
+        </form>
+      {% else %}
         <form method="post">
           <input type="hidden" name="_token" value="{{ csrf_token('translation_edit_' ~ target.id) }}">
           <input type="hidden" name="action" value="unpublish">

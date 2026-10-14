@@ -135,6 +135,25 @@ final class AiTranslationWorkflowTest extends TestCase
         self::assertTrue($translation->isPublished());
     }
 
+    public function testAdminPublishPerformsFinalReviewAndStoresSourceHash(): void
+    {
+        $workflow = new TranslationReviewWorkflow();
+        $translation = (new SitePageTranslation())
+            ->setLocale('es')
+            ->setSlug('software-erp')
+            ->setTitle('Software ERP')
+            ->setTranslationStatus(SitePageTranslation::STATUS_AI_TRANSLATED);
+
+        $workflow->publishFromAdmin($translation, 'source-hash');
+
+        self::assertTrue($translation->isPublished());
+        self::assertSame(SitePageTranslation::STATUS_PUBLISHED, $translation->getTranslationStatus());
+        self::assertSame('source-hash', $translation->getSourceContentHash());
+        self::assertNotNull($translation->getReviewedAt());
+        self::assertNotNull($translation->getPublishedAt());
+        self::assertNull($translation->getUnpublishedAt());
+    }
+
     public function testSourceHashDetectsOutdatedTranslationAfterFrenchChange(): void
     {
         $page = $this->pageWithFrenchSource();

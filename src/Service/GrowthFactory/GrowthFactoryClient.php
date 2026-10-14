@@ -30,6 +30,36 @@ final class GrowthFactoryClient
         return $this->request($actor, 'GET', '/studio-simple/campaigns');
     }
 
+    public function dashboard(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/dashboard');
+    }
+
+    public function listAdvancedCampaigns(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/campaigns?page_size=100');
+    }
+
+    public function listChannels(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/channels');
+    }
+
+    public function listAuditEvents(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/audit-events?page_size=20');
+    }
+
+    public function listWeeklyPacks(UserInterface $actor): array
+    {
+        return $this->request($actor, 'GET', '/api/admin/v1/weekly-packs?page_size=20');
+    }
+
+    public function healthCheckChannel(UserInterface $actor, string $channel): array
+    {
+        return $this->request($actor, 'POST', '/api/admin/v1/channels/'.rawurlencode($channel).'/health-check', []);
+    }
+
     public function getCampaign(UserInterface $actor, string $id): array
     {
         return $this->request($actor, 'GET', '/studio-simple/campaigns/'.rawurlencode($id));

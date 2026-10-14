@@ -59,7 +59,7 @@
     <section class="card mb-4">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-          <h2 class="h5 mb-0">Campagnes</h2>
+          <h2 class="h5 mb-0">Campagnes simplifiées</h2>
           <span class="small text-muted">{{ campaigns|length }} élément(s)</span>
         </div>
         <div class="table-responsive">
@@ -77,6 +77,106 @@
             {% else %}
               <tr><td colspan="5" class="text-muted">Aucune campagne disponible.</td></tr>
             {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+          <h2 class="h5 mb-0">Historique avancé</h2>
+          <span class="small text-muted">{{ advanced_campaigns|length }} campagne(s)</span>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Total</div><strong>{{ dashboard.campaigns_total|default(0) }}</strong></div></div>
+          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">À valider</div><strong>{{ dashboard.assets_pending_validation|default(0) }}</strong></div></div>
+          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Approuvées</div><strong>{{ dashboard.campaigns_approved|default(0) }}</strong></div></div>
+          <div class="col-md-3"><div class="border rounded p-3"><div class="small text-muted">Erreurs</div><strong>{{ dashboard.assets_in_error|default(0) }}</strong></div></div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Campagne</th><th>Objectif</th><th>Assets</th><th>Statut</th><th>Dernier événement</th></tr></thead>
+            <tbody>
+            {% for campaign in advanced_campaigns %}
+              <tr>
+                <td>{{ campaign.title|default(campaign.id|default('')) }}</td>
+                <td>{{ campaign.objective|default('') }}</td>
+                <td>{{ campaign.asset_count|default(0) }}</td>
+                <td><span class="badge bg-secondary">{{ campaign.status|default('') }}</span></td>
+                <td class="small text-muted">{{ campaign.last_event.event_type|default('') }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-muted">Aucun historique avancé disponible dans la base connectée.</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card mb-4">
+      <div class="card-body">
+        <h2 class="h5">Fonctions avancées</h2>
+        <div class="row g-3">
+          {% for channel in channels %}
+            <div class="col-lg-4">
+              <div class="border rounded p-3 h-100">
+                <div class="d-flex justify-content-between gap-2">
+                  <strong>{{ channel.label|default(channel.key|default('Canal')) }}</strong>
+                  <span class="badge {{ channel.enabled|default(false) and not channel.emergency_kill_switch|default(false) ? 'bg-success' : 'bg-secondary' }}">{{ channel.enabled|default(false) ? 'actif' : 'inactif' }}</span>
+                </div>
+                <div class="small text-muted mt-2">{{ channel.asset_types|default([])|join(', ') }}</div>
+                <div class="small mt-2">
+                  Prévisualisation {{ channel.supports_preview|default(false) ? 'OK' : 'KO' }} · Publication {{ channel.supports_publication|default(false) ? 'OK' : 'KO' }}
+                </div>
+                {% if channel.last_error|default('') %}
+                  <div class="small text-danger mt-2">{{ channel.last_error }}</div>
+                {% endif %}
+                <form method="post" action="{{ path('admin_growth_channel_health_check', {channel: channel.key}) }}" class="mt-3">
+                  <input type="hidden" name="_token" value="{{ csrf_token('growth_channel_' ~ channel.key) }}">
+                  <button class="btn btn-sm btn-outline-primary">Tester le canal</button>
+                </form>
+              </div>
+            </div>
+          {% else %}
+            <div class="col-12 text-muted">Paramètres des canaux indisponibles.</div>
+          {% endfor %}
+          <div class="col-lg-4">
+            <div class="border rounded p-3 h-100">
+              <strong>Chatbox site onboarding</strong>
+              <div class="small text-muted mt-2">Rattaché aux paramètres de canaux et au générateur d'assets multicanaux.</div>
+              <a class="btn btn-sm btn-outline-primary mt-3" href="{{ path('admin_chat_index') }}">Ouvrir l'onboarding chat</a>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="border rounded p-3 h-100">
+              <strong>Weekly Packs</strong>
+              <div class="small text-muted mt-2">{{ weekly_packs|length }} pack(s) récents accessibles via Growth Factory.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card mb-4">
+      <div class="card-body">
+        <h2 class="h5">Audit récent</h2>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead><tr><th>Événement</th><th>Acteur</th><th>Résultat</th><th>Date</th></tr></thead>
+            <tbody>
+              {% for event in audit_events %}
+                <tr>
+                  <td>{{ event.event_type|default('') }}</td>
+                  <td>{{ event.actor_id|default('') }}</td>
+                  <td>{{ event.result|default('') }}</td>
+                  <td>{{ event.created_at|default('') }}</td>
+                </tr>
+              {% else %}
+                <tr><td colspan="4" class="text-muted">Aucun événement d'audit disponible.</td></tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

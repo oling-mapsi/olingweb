@@ -27,10 +27,20 @@ class GrowthAdminController extends AbstractController
     {
         try {
             $campaigns = array_map([$view, 'normalizeCampaign'], $client->listCampaigns($this->getUserOrDeny()));
+            $advancedCampaigns = (array) (($client->listAdvancedCampaigns($this->getUserOrDeny())['data'] ?? []));
+            $dashboard = (array) (($client->dashboard($this->getUserOrDeny())['data'] ?? []));
+            $channels = (array) (($client->listChannels($this->getUserOrDeny())['data'] ?? []));
+            $auditEvents = (array) (($client->listAuditEvents($this->getUserOrDeny())['data'] ?? []));
+            $weeklyPacks = (array) (($client->listWeeklyPacks($this->getUserOrDeny())['data'] ?? []));
             $available = true;
             $message = '';
         } catch (GrowthFactoryException $exception) {
             $campaigns = [];
+            $advancedCampaigns = [];
+            $dashboard = [];
+            $channels = [];
+            $auditEvents = [];
+            $weeklyPacks = [];
             $available = false;
             $message = $exception->getMessage();
         }
@@ -39,10 +49,30 @@ class GrowthAdminController extends AbstractController
             'available' => $available,
             'message' => $message,
             'campaigns' => $campaigns,
+            'advanced_campaigns' => $advancedCampaigns,
+            'dashboard' => $dashboard,
+            'channels' => $channels,
+            'audit_events' => $auditEvents,
+            'weekly_packs' => $weeklyPacks,
             'type_options' => $view->typeOptions(),
             'channel_options' => $view->channelOptions(),
             'parity_matrix' => $view->parityMatrix(),
         ]);
+    }
+
+    #[Route('/channels/{channel}/health-check', name: 'admin_growth_channel_health_check', methods: ['POST'])]
+    public function healthCheckChannel(string $channel, Request $request, GrowthFactoryClient $client): Response
+    {
+        $this->validateCsrf($request, 'growth_channel_'.$channel);
+
+        try {
+            $client->healthCheckChannel($this->getUserOrDeny(), $channel);
+            $this->addFlash('success', 'Contrôle du canal exécuté.');
+        } catch (GrowthFactoryException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('admin_growth_index');
     }
 
     #[Route('/campaigns', name: 'admin_growth_campaign_create', methods: ['POST'])]

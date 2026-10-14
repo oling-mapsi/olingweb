@@ -47,12 +47,17 @@ final class LocalizedSitePageController extends AbstractController
 
         $sourceSlug = (string) $page->getSourcePage()->getSlug();
         if ($this->publicSitePageResolver->isExpertisesIndexSource($sourceSlug)) {
+            $canonicalPath = $this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale);
+            if ($canonicalPath !== null && $request->getPathInfo() !== $canonicalPath) {
+                return $this->redirect($canonicalPath, Response::HTTP_MOVED_PERMANENTLY);
+            }
+
             return $this->render('expertises/index.html.twig', [
                 'page' => $this->publicSitePageResolver->getExpertisesIndex($_locale),
                 'expertisePages' => $this->publicSitePageResolver->getExpertisePages($_locale),
                 'practices' => $this->localizePractices($_locale),
                 'services' => $this->localizeServices($_locale),
-                'canonicalPath' => $this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale),
+                'canonicalPath' => $canonicalPath,
                 'localizedAlternates' => $this->localizedUrlGenerator->sitePageAlternates($page->getSourcePage()),
             ]);
         }
@@ -74,13 +79,18 @@ final class LocalizedSitePageController extends AbstractController
         }
 
         if ($this->publicSitePageResolver->isSectorsIndexSource($sourceSlug)) {
+            $canonicalPath = $this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale);
+            if ($canonicalPath !== null && $request->getPathInfo() !== $canonicalPath) {
+                return $this->redirect($canonicalPath, Response::HTTP_MOVED_PERMANENTLY);
+            }
+
             return $this->render('sectors/index.html.twig', [
                 'page' => $this->publicSitePageResolver->getSectorsIndex($_locale),
                 'sectorPages' => $this->publicSitePageResolver->getSectorPages($_locale),
                 'sectorCatalog' => $this->publicSitePageResolver->getSectorCatalogEntries($_locale),
                 'practices' => $this->localizePractices($_locale),
                 'services' => $this->localizeServices($_locale),
-                'canonicalPath' => $this->localizedUrlGenerator->sitePagePath($page->getSourcePage(), $_locale),
+                'canonicalPath' => $canonicalPath,
                 'localizedAlternates' => $this->localizedUrlGenerator->sitePageAlternates($page->getSourcePage()),
             ]);
         }

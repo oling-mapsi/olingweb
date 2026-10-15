@@ -189,13 +189,15 @@
                       <a class="btn btn-outline-secondary btn-sm" href="{{ path('admin_growth_asset_preview', {id: campaign.id, assetId: asset.id}) }}" target="_blank" rel="noopener">Apercu</a>
                     </div>
                   </form>
-                  <details class="mt-2"><summary>Ajustements</summary><div class="d-flex flex-wrap gap-2 mt-2">
-                    <form method="post" action="{{ path('admin_growth_asset_image', {id: campaign.id, assetId: asset.id}) }}">
+                  <div class="mt-2">
+                    <form method="post" action="{{ path('admin_growth_asset_image', {id: campaign.id, assetId: asset.id}) }}" data-growth-image-form>
                       <input type="hidden" name="_token" value="{{ csrf_token('growth_image_' ~ campaign.id ~ '_' ~ asset.id) }}">
                       <input type="hidden" name="expected_version" value="{{ asset.version }}">
                       <input type="hidden" name="visual_brief" value="{{ asset.illustration_suggestion|default('') }}">
-                      <button class="btn btn-outline-secondary btn-sm">Generer une illustration</button>
+                      <button class="btn btn-outline-primary btn-sm"{% if campaign.generation.status|default('') in ['PENDING', 'RUNNING'] %} disabled{% endif %}>Générer une illustration</button>
                     </form>
+                  </div>
+                  <details class="mt-2"><summary>Ajustements</summary><div class="d-flex flex-wrap gap-2 mt-2">
                     <form method="post" action="{{ path('admin_growth_asset_repair', {id: campaign.id, assetId: asset.id}) }}">
                       <input type="hidden" name="_token" value="{{ csrf_token('growth_repair_' ~ campaign.id ~ '_' ~ asset.id) }}">
                       <input type="hidden" name="expected_version" value="{{ asset.version }}">
@@ -264,6 +266,15 @@
     });
     document.addEventListener('submit', event => {
       const form = event.target;
+      if (form.matches('[data-growth-image-form]')) {
+        const card = form.closest('[data-article-key]');
+        if (card?.dataset.dirty) {
+          event.preventDefault();
+          window.alert("Enregistrez le brouillon avant de générer son illustration.");
+          return;
+        }
+        form.querySelector('button').disabled = true;
+      }
       const editor = form.querySelector('.growth-editor');
       if (!editor) return;
       const content = editor.cloneNode(true);

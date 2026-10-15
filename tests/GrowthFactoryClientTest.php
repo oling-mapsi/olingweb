@@ -16,6 +16,20 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class GrowthFactoryClientTest extends TestCase
 {
+    public function testIllustrationUsesTheExistingAsyncEndpointAndExactAssetVersion(): void
+    {
+        $calls = [];
+        $http = new MockHttpClient(function (string $method, string $url, array $options) use (&$calls): MockResponse {
+            $calls[] = [$method, $url, json_decode($options['body'], true)];
+            return new MockResponse('{"id":"campaign","generation":{"status":"PENDING"}}', ['http_code' => 202]);
+        });
+        $result = $this->factory($http)->generateAssetImage(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'oling-fr', 7, 'Article illustration');
+        self::assertSame('PENDING', $result['generation']['status']);
+        self::assertSame([['POST', 'https://growth.test/studio-simple/campaigns/campaign/assets/oling-fr/image', [
+            'visual_brief' => 'Article illustration', 'expected_version' => 7,
+        ]]], $calls);
+    }
+
     public function testValidateAndPublishUsesOnlyTheSelectedArticleAndItsApprovedHash(): void
     {
         $calls = [];

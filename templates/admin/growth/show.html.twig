@@ -322,7 +322,8 @@
           for (const fresh of [...incoming.children]) {
             const old = oldCards.get(fresh.dataset.articleKey);
             oldCards.delete(fresh.dataset.articleKey);
-            if (old && (old.dataset.dirty || old.contains(document.activeElement))) continue;
+            const editing = old?.contains(document.activeElement) && document.activeElement.matches('input, textarea, select, [contenteditable="true"]');
+            if (old && (old.dataset.dirty || editing)) continue;
             if (old) old.replaceWith(fresh); else current.append(fresh);
           }
           for (const old of oldCards.values()) if (!old.dataset.dirty) old.remove();

@@ -176,7 +176,7 @@ class GrowthAdminController extends AbstractController
                     $metadata['user_allowed'] = $this->isGranted('ROLE_ADMIN');
                     $metadata['publishable'] = $this->isGranted('ROLE_ADMIN') && (bool) ($metadata['publishable'] ?? false);
                     $blocking = array_diff($metadata['reasons'] ?? [], ['Asset is not approved.', 'Approved content hash no longer matches the current asset.']);
-                    $humanReviewPending = GrowthFactoryClient::humanEditReviewPending($asset);
+                    $humanReviewPending = !empty($metadata['human_review_pending']);
                     $metadata['human_review_pending'] = $humanReviewPending;
                     if ($humanReviewPending) {
                         $blocking = array_diff($blocking, ['Blocking editorial quality issues remain.']);
@@ -375,8 +375,9 @@ class GrowthAdminController extends AbstractController
         $this->validateCsrf($request, 'growth_image_'.$id.'_'.$assetId);
 
         try {
-            $client->generateAssetImage($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('visual_brief', '')));
-            $this->addFlash('success', 'Illustration en cours. Elle apparaîtra automatiquement après son enregistrement.');
+            $sourceAssetId = trim((string) $request->request->get('source_asset_id', ''));
+            $client->generateAssetImage($this->getUserOrDeny(), $id, $assetId, (int) $request->request->get('expected_version', 0), trim((string) $request->request->get('visual_brief', '')), $sourceAssetId ?: null);
+            $this->addFlash('success', $sourceAssetId ? 'Illustration française réutilisée avec un texte alternatif localisé.' : 'Illustration en cours. Elle apparaîtra automatiquement après son enregistrement.');
         } catch (GrowthFactoryConflictException) {
             $this->addFlash('danger', 'Conflit de version : rechargez la campagne avant de générer l’illustration.');
         } catch (GrowthFactoryException $exception) {

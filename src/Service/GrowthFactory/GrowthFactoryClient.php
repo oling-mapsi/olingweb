@@ -148,11 +148,12 @@ final class GrowthFactoryClient
         ]);
     }
 
-    public function generateAssetImage(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $visualBrief = ''): array
+    public function generateAssetImage(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $visualBrief = '', ?string $sourceAssetId = null): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/image', [
             'visual_brief' => $visualBrief,
             'expected_version' => $expectedVersion,
+            ...($sourceAssetId ? ['source_asset_id' => $sourceAssetId] : []),
         ], $this->generateTimeoutSeconds);
     }
 
@@ -201,7 +202,7 @@ final class GrowthFactoryClient
         $blocking = array_diff($readiness['reasons'] ?? ['Publication indisponible.'], [
             'Asset is not approved.', 'Approved content hash no longer matches the current asset.',
         ]);
-        $humanReviewPending = self::humanEditReviewPending($asset);
+        $humanReviewPending = !empty($readiness['human_review_pending']);
         if ($humanReviewPending) {
             $blocking = array_diff($blocking, ['Blocking editorial quality issues remain.']);
         }
@@ -216,12 +217,6 @@ final class GrowthFactoryClient
             $asset = $find($campaign);
         }
         return $this->publishAsset($actor, $assetId, $expectedVersion, (string) ($asset['approved_content_hash'] ?? ''));
-    }
-
-    public static function humanEditReviewPending(array $asset): bool
-    {
-        $issues = array_filter($asset['editorial_quality']['issues'] ?? [], static fn (array $issue): bool => in_array($issue['severity'] ?? '', ['error', 'blocking'], true));
-        return $issues && !array_filter($issues, static fn (array $issue): bool => !in_array($issue['code'] ?? '', ['manual_content_changed', 'editorial_content_mismatch'], true));
     }
 
     public function unpublishAsset(UserInterface $actor, string $assetId): array

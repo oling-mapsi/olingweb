@@ -79,7 +79,7 @@
                 <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
                   <div>
                     <h2 class="h5 mb-1">{{ channel_options[channel]|default(channel) }}{% if asset and asset.locale|default('fr-FR') != 'fr-FR' %} · {{ asset.locale }}{% elseif channel == 'oling_site' and asset %} · FR{% endif %}</h2>
-                    <span class="badge bg-secondary">{{ {'READY_FOR_REVIEW':'A relire','REVIEWED':'A relire','QUALITY_FAILED':'A corriger','APPROVED':'Valide','PUBLISHING':'Publication en cours','PUBLISHED':'Publie','DRAFT':'Brouillon','FAILED':'A reprendre'}[asset.status|default('')]|default('En preparation') }}</span>
+                    <span class="badge bg-secondary">{{ asset.status|default('') != 'PUBLISHED' and asset.quality_blocking|default(false) and not publication_readiness[asset.id].human_review_pending|default(false) ? 'A corriger' : {'GENERATED':'A relire','READY':'A relire','READY_FOR_REVIEW':'A relire','REVIEWED':'A relire','QUALITY_FAILED':'A corriger','APPROVED':'Valide','PUBLISHING':'Publication en cours','PUBLISHED':'Publie','DRAFT':'Brouillon','FAILED':'A reprendre','ERROR':'A reprendre'}[asset.status|default('')]|default('En preparation') }}</span>
                   </div>
                   {% if asset %}<span class="small text-muted">v{{ asset.version }}</span>{% endif %}
                 </div>

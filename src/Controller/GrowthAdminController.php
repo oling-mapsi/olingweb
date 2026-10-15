@@ -144,7 +144,7 @@ class GrowthAdminController extends AbstractController
             $campaignId = (string) ($campaign['id'] ?? '');
             try {
                 $client->generateCampaign($this->getUserOrDeny(), $campaignId);
-                $this->addFlash('success', 'Article généré. Relisez, éditez et approuvez avant toute publication.');
+                $this->addFlash('success', 'Preparation des articles en cours. Ils apparaitront automatiquement.');
             } catch (GrowthFactoryException $exception) {
                 $correlationId = bin2hex(random_bytes(8));
                 $this->logger->warning('growth_generation_failed_after_create', ['campaign_id' => $campaignId, 'correlation_id' => $correlationId, 'error' => $exception->getMessage()]);
@@ -175,6 +175,17 @@ class GrowthAdminController extends AbstractController
                     $metadata = (array) ($operation['metadata'] ?? []);
                     $metadata['user_allowed'] = $this->isGranted('ROLE_ADMIN');
                     $metadata['publishable'] = $this->isGranted('ROLE_ADMIN') && (bool) ($metadata['publishable'] ?? false);
+                    $blocking = array_diff($metadata['reasons'] ?? [], ['Asset is not approved.', 'Approved content hash no longer matches the current asset.']);
+                    $humanReviewPending = GrowthFactoryClient::humanEditReviewPending($asset);
+                    $metadata['human_review_pending'] = $humanReviewPending;
+                    if ($humanReviewPending) {
+                        $blocking = array_diff($blocking, ['Blocking editorial quality issues remain.']);
+                    }
+                    $metadata['can_validate_publish'] = $this->isGranted('ROLE_ADMIN') && !$blocking
+                        && ($metadata['mode'] ?? '') === 'live' && !empty($metadata['connector_configured']) && !empty($metadata['feature_enabled'])
+                        && empty($metadata['channel_kill_switch']) && empty($metadata['global_kill_switch']) && (empty($metadata['quality_blocking']) || $humanReviewPending)
+                        && !in_array($campaign['generation']['status'] ?? '', ['PENDING', 'RUNNING'], true);
+                    $metadata['blocking_reasons'] = array_values($blocking);
                     $publicationReadiness[(string) $asset['id']] = $metadata;
                 } catch (GrowthFactoryException $exception) {
                     $publicationReadiness[(string) $asset['id']] = [
@@ -454,8 +465,8 @@ class GrowthAdminController extends AbstractController
             if (!in_array($assetId, array_column($campaign['content_assets'] ?? [], 'id'), true)) {
                 throw $this->createAccessDeniedException('Article hors campagne.');
             }
-            $client->publishAsset($actor, $assetId, (int) $request->request->get('expected_version', 0), (string) $request->request->get('approved_content_hash', ''));
-            $this->addFlash('success', 'Publication de l’article demandée à Growth Factory.');
+            $client->validateAndPublishAsset($actor, $id, $assetId, (int) $request->request->get('expected_version', 0));
+            $this->addFlash('success', 'Article valide. Le resultat confirme par le site est affiche ci-dessous.');
         } catch (GrowthFactoryException $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
@@ -475,10 +486,9 @@ class GrowthAdminController extends AbstractController
             throw $this->createAccessDeniedException('Selection d’articles invalide.');
         }
         $versions = $request->request->all('expected_versions');
-        $hashes = $request->request->all('approved_hashes');
         foreach ($selected as $assetId) {
             try {
-                $client->publishAsset($actor, $assetId, (int) ($versions[$assetId] ?? 0), (string) ($hashes[$assetId] ?? ''));
+                $client->validateAndPublishAsset($actor, $id, $assetId, (int) ($versions[$assetId] ?? 0));
                 $this->addFlash('success', 'Resultat de publication enregistre pour '.$assetId.'.');
             } catch (GrowthFactoryException $exception) {
                 $this->addFlash('danger', $assetId.' : '.$exception->getMessage());

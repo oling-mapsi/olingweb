@@ -139,9 +139,10 @@ final class GrowthFactoryClient
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/repair', ['expected_version' => $expectedVersion]);
     }
 
-    public function approveAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $comment = ''): array
+    public function approveAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion, string $comment = '', bool $confirmEditorialReview = false): array
     {
         return $this->request($actor, 'POST', '/studio-simple/campaigns/'.rawurlencode($campaignId).'/assets/'.rawurlencode($assetId).'/approve', [
+            'confirm_editorial_review' => $confirmEditorialReview,
             'comment' => $comment,
             'expected_version' => $expectedVersion,
         ]);
@@ -178,6 +179,49 @@ final class GrowthFactoryClient
     public function getAssetPublicationReadiness(UserInterface $actor, string $assetId): array
     {
         return $this->request($actor, 'GET', '/api/admin/v1/assets/'.rawurlencode($assetId).'/publication-readiness');
+    }
+
+    public function validateAndPublishAsset(UserInterface $actor, string $campaignId, string $assetId, int $expectedVersion): array
+    {
+        $campaign = $this->getCampaign($actor, $campaignId);
+        $find = static function (array $campaign) use ($assetId, $expectedVersion): array {
+            foreach ($campaign['content_assets'] ?? [] as $asset) {
+                if (($asset['id'] ?? '') === $assetId && (int) ($asset['version'] ?? 0) === $expectedVersion) {
+                    return $asset;
+                }
+            }
+            throw new GrowthFactoryConflictException('Cet article a change. Rechargez-le avant de valider sa publication.');
+        };
+        $asset = $find($campaign);
+        if (($asset['status'] ?? '') === 'PUBLISHED') {
+            return ['already_published' => true, 'public_url' => $asset['public_url'] ?? ''];
+        }
+        $response = $this->getAssetPublicationReadiness($actor, $assetId);
+        $readiness = (array) ($response['data']['metadata'] ?? []);
+        $blocking = array_diff($readiness['reasons'] ?? ['Publication indisponible.'], [
+            'Asset is not approved.', 'Approved content hash no longer matches the current asset.',
+        ]);
+        $humanReviewPending = self::humanEditReviewPending($asset);
+        if ($humanReviewPending) {
+            $blocking = array_diff($blocking, ['Blocking editorial quality issues remain.']);
+        }
+        if ($blocking || ($readiness['mode'] ?? '') !== 'live' || empty($readiness['connector_configured']) || empty($readiness['feature_enabled']) || !empty($readiness['channel_kill_switch']) || !empty($readiness['global_kill_switch']) || (!empty($readiness['quality_blocking']) && !$humanReviewPending)) {
+            throw new GrowthFactoryException('Publication impossible : '.implode(' ', $blocking ?: ['Le connecteur reel doit etre active.']));
+        }
+        if (($asset['status'] ?? '') !== 'APPROVED') {
+            if (($asset['status'] ?? '') !== 'REVIEWED') {
+                $this->reviewAsset($actor, $campaignId, $assetId, $expectedVersion, 'Relu et valide avant publication manuelle');
+            }
+            $campaign = $this->approveAsset($actor, $campaignId, $assetId, $expectedVersion, 'Validation du texte et de ses affirmations, puis publication confirmees dans OLING', true);
+            $asset = $find($campaign);
+        }
+        return $this->publishAsset($actor, $assetId, $expectedVersion, (string) ($asset['approved_content_hash'] ?? ''));
+    }
+
+    public static function humanEditReviewPending(array $asset): bool
+    {
+        $issues = array_filter($asset['editorial_quality']['issues'] ?? [], static fn (array $issue): bool => in_array($issue['severity'] ?? '', ['error', 'blocking'], true));
+        return $issues && !array_filter($issues, static fn (array $issue): bool => !in_array($issue['code'] ?? '', ['manual_content_changed', 'editorial_content_mismatch'], true));
     }
 
     public function unpublishAsset(UserInterface $actor, string $assetId): array

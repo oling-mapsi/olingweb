@@ -16,6 +16,64 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class GrowthFactoryClientTest extends TestCase
 {
+    public function testHumanConfirmationUsesBackendWarningPolicyWithoutRewritingQuality(): void
+    {
+        $calls = [];
+        $http = new MockHttpClient(function (string $method, string $url, array $options) use (&$calls): MockResponse {
+            $body = isset($options['body']) ? json_decode($options['body'], true) : null;
+            $calls[] = [$method, $url, $body];
+            if (str_ends_with($url, '/publication-readiness')) {
+                return new MockResponse(json_encode(['data' => ['metadata' => [
+                    'mode' => 'live', 'connector_configured' => true, 'feature_enabled' => true,
+                    'quality_blocking' => true, 'human_review_pending' => true,
+                    'reasons' => ['Asset is not approved.', 'Approved content hash no longer matches the current asset.', 'Blocking editorial quality issues remain.'],
+                ]]]));
+            }
+            $asset = ['id' => 'english', 'version' => 1, 'status' => 'QUALITY_FAILED', 'editorial_quality' => ['passed' => false]];
+            if (str_ends_with($url, '/approve')) {
+                self::assertTrue($body['confirm_editorial_review']);
+                $asset['status'] = 'APPROVED';
+                $asset['approved_content_hash'] = 'approved-current-english';
+            }
+            return new MockResponse(json_encode(['content_assets' => [$asset]]));
+        });
+        $this->factory($http)->validateAndPublishAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'english', 1);
+        self::assertCount(5, $calls);
+        self::assertStringEndsWith('/english/review', $calls[2][1]);
+        self::assertStringEndsWith('/english/approve', $calls[3][1]);
+        self::assertSame('approved-current-english', $calls[4][2]['approved_content_hash']);
+    }
+
+    public function testCriticalQualityStillBlocksBeforeAnyWrite(): void
+    {
+        $calls = 0;
+        $http = new MockHttpClient(function (string $method, string $url) use (&$calls): MockResponse {
+            ++$calls;
+            self::assertSame('GET', $method);
+            return new MockResponse(json_encode(str_ends_with($url, '/publication-readiness')
+                ? ['data' => ['metadata' => ['mode' => 'live', 'connector_configured' => true, 'feature_enabled' => true,
+                    'quality_blocking' => true, 'human_review_pending' => false, 'reasons' => ['Blocking editorial quality issues remain.']]]]
+                : ['content_assets' => [['id' => 'english', 'version' => 1, 'status' => 'QUALITY_FAILED']]]));
+        });
+        try {
+            $this->factory($http)->validateAndPublishAsset(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'english', 1);
+            self::fail('Critical issues cannot be human-accepted.');
+        } catch (GrowthFactoryException) {
+            self::assertSame(2, $calls);
+        }
+    }
+
+    public function testImageReusePassesOnlyTheExplicitFrenchSourceAndTargetVersion(): void
+    {
+        $http = new MockHttpClient(function (string $method, string $url, array $options): MockResponse {
+            self::assertSame('POST', $method);
+            self::assertStringEndsWith('/campaigns/campaign/assets/english/image', $url);
+            self::assertSame(['visual_brief' => '', 'expected_version' => 1, 'source_asset_id' => 'french'], json_decode($options['body'], true));
+            return new MockResponse('{"id":"campaign"}', ['http_code' => 202]);
+        });
+        $this->factory($http)->generateAssetImage(new InMemoryUser('admin', null, ['ROLE_ADMIN']), 'campaign', 'english', 1, '', 'french');
+    }
+
     public function testIllustrationUsesTheExistingAsyncEndpointAndExactAssetVersion(): void
     {
         $calls = [];

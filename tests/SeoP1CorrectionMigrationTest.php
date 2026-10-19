@@ -76,4 +76,31 @@ final class SeoP1CorrectionMigrationTest extends TestCase
         }
         self::assertSame($before, $db->fetchAllAssociative('SELECT * FROM site_page_translation'));
     }
+
+    /** @dataProvider productionJsonRows */
+    public function testExactProductionPassageKeyOrderDoesNotQueueAnUpdate(int $id, int $fixtureId, int $passage): void
+    {
+        $db = $this->database();
+        $db->update('site_page_translation', ['id' => $id], ['id' => $fixtureId]);
+        $first = new \DoctrineMigrations\Version20261019220000($db, new NullLogger());
+        $first->up(new Schema());
+        foreach ($first->getSql() as $query) {
+            $db->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
+        }
+        $payload = json_decode($db->fetchOne('SELECT structured_data FROM site_page_translation WHERE id = ?', [$id]), true, 512, JSON_THROW_ON_ERROR);
+        $original = $payload['landingNarrative']['citablePassages'][$passage];
+        $payload['landingNarrative']['citablePassages'][$passage] = array_reverse($original, true);
+        self::assertNotSame(array_keys($original), array_keys($payload['landingNarrative']['citablePassages'][$passage]));
+        $db->update('site_page_translation', ['structured_data' => json_encode($payload, JSON_THROW_ON_ERROR)], ['id' => $id]);
+        $second = new \DoctrineMigrations\Version20261019220000($db, new NullLogger());
+        $second->up(new Schema());
+        self::assertSame([], $second->getSql(), 'Key order in production row '.$id.' must not create an UPDATE.');
+    }
+
+    public static function productionJsonRows(): iterable
+    {
+        yield 'quality row 11 passage 1' => [11, 3, 1];
+        yield 'ERP row 6 passage 0' => [6, 1, 0];
+    }
+
 }

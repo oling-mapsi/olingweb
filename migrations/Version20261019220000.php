@@ -51,7 +51,7 @@ final class Version20261019220000 extends AbstractMigration
                 }
             }
             $payload = $this->rewriteLinks($payload);
-            if ($payload !== $this->decode($original[$jsonColumn] ?? null)) {
+            if (!self::valuesAreEquivalent('json', $payload, $this->decode($original[$jsonColumn] ?? null))) {
                 $row[$jsonColumn] = json_encode($payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             }
             foreach (['body_html', 'hero_side_html', 'description', 'description_short', 'introduction', 'introduction_short'] as $column) {
@@ -61,7 +61,11 @@ final class Version20261019220000 extends AbstractMigration
             }
             $changes = [];
             foreach ($row as $column => $value) {
-                if ($column !== 'source_slug' && $value !== $original[$column]) {
+                if ($column !== 'source_slug' && !self::valuesAreEquivalent(
+                    $column === $jsonColumn ? 'json' : 'scalar',
+                    $column === $jsonColumn ? $this->decode($value) : $value,
+                    $column === $jsonColumn ? $this->decode($original[$column]) : $original[$column],
+                )) {
                     $changes[$column] = $value;
                 }
             }
@@ -76,19 +80,27 @@ final class Version20261019220000 extends AbstractMigration
     private function mergePatch(array $current, array $patch, array $expected, string $path): array
     {
         foreach ($patch as $key => $after) {
-            $this->guard($current[$key] ?? null, $expected[$key] ?? null, $after, $path.'.'.$key);
+            $this->guard($current[$key] ?? null, $expected[$key] ?? null, $after, $path.'.'.$key, 'json');
             $current[$key] = $after;
         }
 
         return $current;
     }
 
-    private function guard(mixed $current, mixed $expected, mixed $after, string $path): void
+    private function guard(mixed $current, mixed $expected, mixed $after, string $path, string $fieldType = 'scalar'): void
     {
-        $this->abortIf($this->normalized($current) !== $this->normalized($expected) && $this->normalized($current) !== $this->normalized($after), 'Editorial drift at '.$path.'; review instead of overwriting CMS edits.');
+        $this->abortIf(!self::valuesAreEquivalent($fieldType, $current, $expected) && !self::valuesAreEquivalent($fieldType, $current, $after), 'Editorial drift at '.$path.'; review instead of overwriting CMS edits.');
     }
 
-    private function normalized(mixed $value): mixed
+    /** Compare decoded JSON structures; ordinary SQL fields remain strictly typed. */
+    public static function valuesAreEquivalent(string $fieldType, mixed $current, mixed $expected): bool
+    {
+        return $fieldType === 'json'
+            ? self::normalizeJsonForComparison($current) === self::normalizeJsonForComparison($expected)
+            : $current === $expected;
+    }
+
+    public static function normalizeJsonForComparison(mixed $value): mixed
     {
         if (!is_array($value)) {
             return $value;
@@ -97,7 +109,7 @@ final class Version20261019220000 extends AbstractMigration
             ksort($value);
         }
 
-        return array_map(fn (mixed $child): mixed => $this->normalized($child), $value);
+        return array_map(self::normalizeJsonForComparison(...), $value);
     }
 
     private function decode(mixed $value): array

@@ -290,7 +290,9 @@ class GrowthPublishingService
         $page->setHeroTitle($this->sanitizer->sanitizeText($input->title, 255));
         $page->setHeroIntro($this->sanitizer->sanitizeHtml($input->excerpt));
         $page->setHeroSideHtml($this->sanitizer->sanitizeHtml($input->contentHtml));
-        $page->setHeroImage($this->normalizeMediaPath($input->featuredImage));
+        if ($this->growthMayUpdateHeroImage($page)) {
+            $page->setHeroImage($this->normalizeMediaPath($input->featuredImage));
+        }
         $page->setCanonicalUrl($this->normalizeUrl($input->canonicalUrl));
         $page->setCategories($this->sanitizeTerms($input->categories));
         $page->setTags($this->sanitizeTerms($input->tags));
@@ -335,7 +337,9 @@ class GrowthPublishingService
         $page->setHeroTitle($revision->getTitle());
         $page->setHeroIntro($revision->getExcerpt());
         $page->setHeroSideHtml($revision->getContentHtml());
-        $page->setHeroImage($revision->getFeaturedImage());
+        if ($this->growthMayUpdateHeroImage($page)) {
+            $page->setHeroImage($revision->getFeaturedImage());
+        }
         $page->setCanonicalUrl($revision->getCanonicalUrl());
         $page->setCategories($revision->getCategories());
         $page->setTags($revision->getTags());
@@ -371,6 +375,11 @@ class GrowthPublishingService
             ->setTranslationStatus(SitePageTranslation::STATUS_PUBLISHED)
             ->setPublishedAt(new \DateTimeImmutable())
             ->setUnpublishedAt(null);
+    }
+
+    private function growthMayUpdateHeroImage(SitePage $page): bool
+    {
+        return $page->getHeroMediaMode() === SitePage::HERO_MEDIA_MODE_INHERIT;
     }
 
     private function buildStatusPayload(SitePage $page, ?SitePageRevision $draftRevision, int $httpCode, string $locale = SitePageTranslation::LOCALE_FR): array
@@ -549,5 +558,37 @@ class GrowthPublishingService
         }
 
         return array_values(array_unique($normalized));
+    }
+    public function recordAdminEdit(SitePage $page): void
+    {
+        $this->assertAdminEditAllowed($page);
+        $draft = $this->findActiveDraftForLocale($page, SitePageTranslation::LOCALE_FR);
+        if ($draft !== null) { $draft->setRevisionState('consumed'); }
+        $input = new GrowthNewsInput();
+        $input->externalId = (string) $page->getExternalId();
+        $input->slug = preg_replace('/^ressource-/', '', (string) $page->getSlug());
+        $input->title = (string) $page->getHeroTitle();
+        $input->excerpt = (string) $page->getHeroIntro();
+        $input->contentHtml = (string) $page->getHeroSideHtml();
+        $input->metaTitle = (string) $page->getTitle();
+        $input->metaDescription = (string) $page->getMetaDescription();
+        $input->canonicalUrl = $page->getCanonicalUrl();
+        $input->featuredImage = $page->getHeroImage();
+        $input->categories = $page->getCategories() ?? [];
+        $input->tags = $page->getTags() ?? [];
+        $input->publicationDate = $page->getPublicationDate();
+        $input->authorDisplayName = (string) $page->getAuthorDisplayName();
+        $input->sourceCampaignId = (string) $page->getSourceCampaignId();
+        $narrative = $page->getTranslation('fr')?->getStructuredData()['landingNarrative'] ?? [];
+        $input->title = $narrative['heroTitle'] ?? $input->title;
+        $input->excerpt = $narrative['heroIntro'] ?? $input->excerpt;
+        $input->metaTitle = $narrative['metaTitle'] ?? $input->metaTitle;
+        $input->metaDescription = $narrative['metaDescription'] ?? $input->metaDescription;
+        $state = $page->getPublicationStatus() === 'published' ? 'published' : 'draft';
+        $this->createRevision($page, $input, $state);
+    }
+    public function assertAdminEditAllowed(SitePage $page): void
+    {
+        $this->assertSlugAvailable(preg_replace('/^ressource-/', '', (string) $page->getSlug()), $page, SitePageTranslation::LOCALE_FR);
     }
 }

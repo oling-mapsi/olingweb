@@ -52,11 +52,19 @@
           {% if landingNarrative.heroIntro is defined or (page and page.heroIntro) %}
             <p class="oling-lede">{{ (landingNarrative.heroIntro ?? page.heroIntro)|raw }}</p>
           {% endif %}
+          {% if landingNarrative.heroCtaLabel is defined %}
+            <a class="btn btn-primary" href="{{ path('contact') }}" data-demand-cta="pca-pra-hero" data-chat-bypass="true">{{ landingNarrative.heroCtaLabel }}</a>
+          {% endif %}
         </div>
         {% if hasHeroImage %}
-          <aside class="oling-seo-cabinet__hero-media" aria-hidden="true">
-            <img src="{{ heroImageSrc }}" alt="">
-          </aside>
+          {% include 'public/_hero_media.html.twig' with {
+            imageSrc: heroImageSrc,
+            imageAlt: page.translation.imageAlt|default(page.heroTitle|default('')),
+            imageDisplayMode: page.heroImageDisplayMode|default('auto'),
+            imageSize: page.heroImageSize|default('auto'),
+            imageCaption: page.heroImageCaption|default(null),
+            imageFocalPoint: page.heroImageFocalPoint|default(null)
+          } %}
         {% endif %}
       </div>
     </div>

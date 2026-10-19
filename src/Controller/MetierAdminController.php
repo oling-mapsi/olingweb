@@ -83,7 +83,7 @@ class MetierAdminController extends AbstractController
             if ($imageFile) {
                 try {
                     $metier->setImage($uploadManager->upload($imageFile, 'metiers/images'));
-                    $uploadManager->remove($originalImage);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image.");
                 }
@@ -92,7 +92,7 @@ class MetierAdminController extends AbstractController
             if ($imageHeroFile) {
                 try {
                     $metier->setImageHero($uploadManager->upload($imageHeroFile, 'metiers/hero'));
-                    $uploadManager->remove($originalImageHero);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image hero.");
                 }
@@ -116,8 +116,8 @@ class MetierAdminController extends AbstractController
     public function delete(Request $request, Metier $metier, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$metier->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($metier->getImage());
-            $uploadManager->remove($metier->getImageHero());
+
+
             $entityManager->remove($metier);
             $entityManager->flush();
             $this->addFlash('success', 'Métier supprimé.');

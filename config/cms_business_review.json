@@ -1,0 +1,874 @@
+{
+  "auditDate": "2026-10-15",
+  "classificationProposals": {
+    "5": {
+      "slug": "amoa-si",
+      "practice": 6,
+      "role": "AMOA SI et pilotage des transformations",
+      "referenceService": 1
+    },
+    "6": {
+      "slug": "erp-progiciel",
+      "practice": 12,
+      "role": "AMOA ERP",
+      "referenceService": 15
+    },
+    "7": {
+      "slug": "crm",
+      "practice": 12,
+      "role": "AMOA CRM",
+      "referenceService": null
+    },
+    "8": {
+      "slug": "gmao",
+      "practice": 12,
+      "role": "AMOA GMAO",
+      "referenceService": null
+    },
+    "9": {
+      "slug": "rgpd",
+      "practice": 7,
+      "role": "Conseil RGPD / DPO : rôle à arbitrer",
+      "referenceService": null
+    },
+    "10": {
+      "slug": "cyber-securite",
+      "practice": 7,
+      "role": "Gouvernance cybersécurité et résilience",
+      "referenceService": null
+    },
+    "11": {
+      "slug": "conseil-qualite",
+      "practice": 7,
+      "role": "Qualité / QSE — spécialisation ISO 9001",
+      "referenceService": 12
+    },
+    "12": {
+      "slug": "conformite-reglementaire",
+      "practice": 7,
+      "role": "Conformité réglementaire transverse",
+      "referenceService": null
+    },
+    "13": {
+      "slug": "si-finance",
+      "practice": 12,
+      "role": "AMOA SI Finance",
+      "referenceService": null
+    },
+    "14": {
+      "slug": "facturation-electronique-amoa",
+      "practice": 6,
+      "role": "AMOA facturation électronique",
+      "referenceService": 34
+    },
+    "15": {
+      "slug": "infrastructure-si-amoa",
+      "practice": 6,
+      "role": "AMOA infrastructures SI",
+      "referenceService": null
+    },
+    "33": {
+      "slug": "mapsi-progiciel",
+      "practice": 14,
+      "role": "MAPSI — progiciel GRC",
+      "referenceService": null
+    },
+    "34": {
+      "slug": "gestion-risques-audit-controle-interne",
+      "practice": 7,
+      "role": "Risques, audit et contrôle interne",
+      "referenceService": null
+    },
+    "35": {
+      "slug": "direction-qualite-deleguee",
+      "practice": 7,
+      "role": "Direction qualité déléguée",
+      "referenceService": null
+    },
+    "36": {
+      "slug": "direction-conformite-externalisee",
+      "practice": 7,
+      "role": "Direction conformité externalisée",
+      "referenceService": null
+    },
+    "37": {
+      "slug": "dsi-externalisee",
+      "practice": 6,
+      "role": "DSI externalisée",
+      "referenceService": null
+    },
+    "69": {
+      "slug": "expertise-amoa-ia-pilotage-projets-agents",
+      "practice": 6,
+      "role": "Expertise de famille — AMOA IA",
+      "referenceService": 35
+    },
+    "70": {
+      "slug": "expertise-conformite-ia-gouvernance-ai-act",
+      "practice": 7,
+      "role": "Expertise de famille — conformité IA",
+      "referenceService": 36
+    },
+    "71": {
+      "slug": "expertise-transformation-digitale-ia-pme-pmi",
+      "practice": 12,
+      "role": "Expertise de famille — transformation digitale",
+      "referenceService": 37
+    },
+    "79": {
+      "slug": "expertise-transformation-si-pme-eti",
+      "practice": 6,
+      "role": "Expertise de famille — transformation SI",
+      "referenceService": null
+    },
+    "80": {
+      "slug": "expertise-amoa-erp-applications-metiers",
+      "practice": 12,
+      "role": "Expertise de famille — ERP et applications métiers",
+      "referenceService": null
+    },
+    "81": {
+      "slug": "expertise-organisation-processus-conduite-du-changement",
+      "practice": 6,
+      "role": "Expertise de famille — organisation et changement",
+      "referenceService": null
+    },
+    "82": {
+      "slug": "expertise-data-automatisation-intelligence-artificielle",
+      "practice": 12,
+      "role": "Expertise de famille — data et IA",
+      "referenceService": null
+    },
+    "83": {
+      "slug": "expertise-cybersecurite-conformite-resilience",
+      "practice": 7,
+      "role": "Expertise de famille — cybersécurité / résilience",
+      "referenceService": null
+    },
+    "84": {
+      "slug": "expertise-rgpd-dpo-gouvernance",
+      "practice": 7,
+      "role": "Expertise de famille — DPO et gouvernance continue",
+      "referenceService": null
+    }
+  },
+  "observations": {
+    "practice:6": {
+      "slug": "consulting",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/practice/consulting"
+    },
+    "practice:7": {
+      "slug": "expertises-audit",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/practice/expertises-audit"
+    },
+    "practice:12": {
+      "slug": "business-apps",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/practice/business-apps"
+    },
+    "practice:14": {
+      "slug": "mapsi",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/practice/mapsi"
+    },
+    "service:1": {
+      "slug": "assistance-a-maitrise-douvrage",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/consulting/assistance-a-maitrise-douvrage"
+    },
+    "service:3": {
+      "slug": "gouvernance-des-donnees",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/consulting/gouvernance-des-donnees"
+    },
+    "service:4": {
+      "slug": "management-des-processus",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/consulting/management-des-processus"
+    },
+    "service:5": {
+      "slug": "plan-strategique",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/consulting/plan-strategique"
+    },
+    "service:7": {
+      "slug": "pilotage-des-plans",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/consulting/pilotage-des-plans"
+    },
+    "service:8": {
+      "slug": "finance",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/finance"
+    },
+    "service:9": {
+      "slug": "controle-de-gestion",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/controle-de-gestion"
+    },
+    "service:10": {
+      "slug": "controle-interne",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/controle-interne"
+    },
+    "service:11": {
+      "slug": "rgpd",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/rgpd"
+    },
+    "service:12": {
+      "slug": "qse",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/qse"
+    },
+    "service:13": {
+      "slug": "qualiopi",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/qualiopi"
+    },
+    "service:14": {
+      "slug": "rse",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/rse"
+    },
+    "service:15": {
+      "slug": "erp",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/erp"
+    },
+    "service:16": {
+      "slug": "bi-et-analytique",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/bi-et-analytique"
+    },
+    "service:17": {
+      "slug": "systeme-dinformation-geographique",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/systeme-dinformation-geographique"
+    },
+    "service:18": {
+      "slug": "developpements-specifiques",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/developpements-specifiques"
+    },
+    "service:19": {
+      "slug": "integration-progiciel",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:20": {
+      "slug": "arborescence",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:21": {
+      "slug": "automatisation-et-workflow",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:22": {
+      "slug": "tech-refresh",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/consulting/tech-refresh"
+    },
+    "service:23": {
+      "slug": "achats-marches",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/achats-marches"
+    },
+    "service:24": {
+      "slug": "si",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/si"
+    },
+    "service:25": {
+      "slug": "ms365",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/ms365"
+    },
+    "service:26": {
+      "slug": "mapsi-qualiopi",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:27": {
+      "slug": "mapsi-risques",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:28": {
+      "slug": "mapsi-portfolio",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:29": {
+      "slug": "mapsi-audit",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:30": {
+      "slug": "mapsi-pca",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:31": {
+      "slug": "mapsi-secu",
+      "menu": false,
+      "http": null,
+      "url": null
+    },
+    "service:33": {
+      "slug": "msbi",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/msbi"
+    },
+    "service:34": {
+      "slug": "reforme-facturation-electronique-amoa",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/consulting/reforme-facturation-electronique-amoa"
+    },
+    "service:35": {
+      "slug": "amoa-ia-pilotage-de-projets-ia-et-agents-metier",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier"
+    },
+    "service:36": {
+      "slug": "conformite-ia-gouvernance-et-ai-act",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/expertises-audit/conformite-ia-gouvernance-et-ai-act"
+    },
+    "service:37": {
+      "slug": "transformation-digitale-automatisation-et-ia-utile",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/business-apps/transformation-digitale-automatisation-et-ia-utile"
+    },
+    "service:38": {
+      "slug": "cadrage-conception-systemes-management",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/cadrage-conception-systemes-management"
+    },
+    "service:39": {
+      "slug": "deploiement-parametrage-mapsi",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/deploiement-parametrage-mapsi"
+    },
+    "service:40": {
+      "slug": "reprise-import-structuration-donnees",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/reprise-import-structuration-donnees"
+    },
+    "service:41": {
+      "slug": "accompagnement-metier-conformite",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/accompagnement-metier-conformite"
+    },
+    "service:42": {
+      "slug": "formation-conduite-changement",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/formation-conduite-changement"
+    },
+    "service:43": {
+      "slug": "exploitation-support-amelioration-continue",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi/exploitation-support-amelioration-continue"
+    },
+    "page:5": {
+      "slug": "amoa-si",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/amoa-si"
+    },
+    "page:6": {
+      "slug": "erp-progiciel",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/erp-progiciel"
+    },
+    "page:7": {
+      "slug": "crm",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/crm"
+    },
+    "page:8": {
+      "slug": "gmao",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/gmao"
+    },
+    "page:9": {
+      "slug": "rgpd",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/rgpd"
+    },
+    "page:10": {
+      "slug": "cyber-securite",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/cyber-securite"
+    },
+    "page:11": {
+      "slug": "conseil-qualite",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/conseil-qualite"
+    },
+    "page:12": {
+      "slug": "conformite-reglementaire",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/conformite-reglementaire"
+    },
+    "page:13": {
+      "slug": "si-finance",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/si-finance"
+    },
+    "page:14": {
+      "slug": "facturation-electronique-amoa",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/facturation-electronique-amoa"
+    },
+    "page:15": {
+      "slug": "infrastructure-si-amoa",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/infrastructure-si-amoa"
+    },
+    "page:33": {
+      "slug": "mapsi-progiciel",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/mapsi-progiciel"
+    },
+    "page:34": {
+      "slug": "gestion-risques-audit-controle-interne",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/gestion-risques-audit-controle-interne"
+    },
+    "page:35": {
+      "slug": "direction-qualite-deleguee",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/direction-qualite-deleguee"
+    },
+    "page:36": {
+      "slug": "direction-conformite-externalisee",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/direction-conformite-externalisee"
+    },
+    "page:37": {
+      "slug": "dsi-externalisee",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/dsi-externalisee"
+    },
+    "page:69": {
+      "slug": "expertise-amoa-ia-pilotage-projets-agents",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/amoa-ia-pilotage-projets-agents"
+    },
+    "page:70": {
+      "slug": "expertise-conformite-ia-gouvernance-ai-act",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/conformite-ia-gouvernance-ai-act"
+    },
+    "page:71": {
+      "slug": "expertise-transformation-digitale-ia-pme-pmi",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/transformation-digitale-ia-pme-pmi"
+    },
+    "page:79": {
+      "slug": "expertise-transformation-si-pme-eti",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/transformation-si-pme-eti"
+    },
+    "page:80": {
+      "slug": "expertise-amoa-erp-applications-metiers",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/amoa-erp-applications-metiers"
+    },
+    "page:81": {
+      "slug": "expertise-organisation-processus-conduite-du-changement",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/organisation-processus-conduite-du-changement"
+    },
+    "page:82": {
+      "slug": "expertise-data-automatisation-intelligence-artificielle",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/data-automatisation-intelligence-artificielle"
+    },
+    "page:83": {
+      "slug": "expertise-cybersecurite-conformite-resilience",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/cybersecurite-conformite-resilience"
+    },
+    "page:84": {
+      "slug": "expertise-rgpd-dpo-gouvernance",
+      "menu": false,
+      "http": 200,
+      "url": "https://oling.fr/expertises/rgpd-dpo-gouvernance"
+    },
+    "page:76": {
+      "slug": "services",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/services"
+    },
+    "page:78": {
+      "slug": "expertises-index",
+      "menu": true,
+      "http": 200,
+      "url": "https://oling.fr/expertises"
+    }
+  },
+  "review": [
+    {
+      "service": 1,
+      "serviceSlug": "assistance-a-maitrise-douvrage",
+      "page": 5,
+      "pageSlug": "amoa-si",
+      "role": "Association métier justifiée",
+      "reason": "Même offre AMOA SI : cadrage, consultation, gouvernance et recette ; la SitePage porte l’entrée transverse, le Service le détail de la mission.",
+      "rejected": false
+    },
+    {
+      "service": 1,
+      "serviceSlug": "assistance-a-maitrise-douvrage",
+      "page": 6,
+      "pageSlug": "erp-progiciel",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "AMOA SI est plus large que l’ERP. Le référent métier ERP pertinent est Service 15 ; conserver une relation éditoriale avec AMOA SI.",
+      "rejected": false
+    },
+    {
+      "service": 4,
+      "serviceSlug": "management-des-processus",
+      "page": 81,
+      "pageSlug": "expertise-organisation-processus-conduite-du-changement",
+      "role": "Expertise transversale relevant plutôt d’une Practice",
+      "reason": "L’expertise couvre organisation, rôles et changement, au-delà de l’optimisation des processus de Service 4. Son linkedServices actuel vise Tech Refresh : à revoir, pas à migrer automatiquement.",
+      "rejected": false
+    },
+    {
+      "service": 8,
+      "serviceSlug": "finance",
+      "page": 12,
+      "pageSlug": "conformite-reglementaire",
+      "role": "Correspondance erronée à abandonner",
+      "reason": "Le titre du Service 8 annonce conformité, mais son corps historique traite finance, BI et SI. Cela ne justifie pas son assimilation à la conformité réglementaire transverse.",
+      "rejected": true
+    },
+    {
+      "service": 8,
+      "serviceSlug": "finance",
+      "page": 36,
+      "pageSlug": "direction-conformite-externalisee",
+      "role": "Correspondance erronée à abandonner",
+      "reason": "La direction conformité externalisée est une fonction continue ; le corps finance/BI du Service 8 ne démontre pas cette offre.",
+      "rejected": true
+    },
+    {
+      "service": 10,
+      "serviceSlug": "controle-interne",
+      "page": 34,
+      "pageSlug": "gestion-risques-audit-controle-interne",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "L’audit de contrôle interne est une intervention précise ; la SitePage couvre aussi gouvernance des risques, contrôle et plans de traitement.",
+      "rejected": false
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 7,
+      "pageSlug": "crm",
+      "role": "Correspondance erronée à abandonner",
+      "reason": "Le CRM traite relation client et données commerciales ; le RGPD peut encadrer le projet, mais ce lien ne constitue pas une même offre.",
+      "rejected": true
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 9,
+      "pageSlug": "rgpd",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "Même discipline RGPD, mais Service 11 se distingue explicitement de la fonction DPO continue. La SitePage mélange conseil RGPD, DPO et AIPD : rôle à arbitrer avant tout rattachement exclusif.",
+      "rejected": false
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 10,
+      "pageSlug": "cyber-securite",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "Protection des données et cybersécurité sont liées, sans identité de mission ni de périmètre.",
+      "rejected": false
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 12,
+      "pageSlug": "conformite-reglementaire",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "RGPD est une composante de la conformité transverse ; pas un propriétaire unique de cette page.",
+      "rejected": false
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 36,
+      "pageSlug": "direction-conformite-externalisee",
+      "role": "Page autonome sans Service historique correspondant",
+      "reason": "Direction conformité externalisée : gouvernance continue multi-obligations, différente du diagnostic/projet RGPD de Service 11.",
+      "rejected": false
+    },
+    {
+      "service": 11,
+      "serviceSlug": "rgpd",
+      "page": 84,
+      "pageSlug": "expertise-rgpd-dpo-gouvernance",
+      "role": "Expertise transversale relevant plutôt d’une Practice",
+      "reason": "DPO externalisé et gouvernance continue relèvent de la famille conformité. linkedServices vers RGPD est enregistré dans le JSON public ; ce renvoi n’impose pas une offre unique.",
+      "rejected": false
+    },
+    {
+      "service": 12,
+      "serviceSlug": "qse",
+      "page": 11,
+      "pageSlug": "conseil-qualite",
+      "role": "Page SEO spécialisée appartenant à une offre",
+      "reason": "Qualité ISO 9001 est un périmètre spécialisé cohérent de l’offre qualité/QSE du Service 12 ; garder ses intentions, contenus et URL propres.",
+      "rejected": false
+    },
+    {
+      "service": 12,
+      "serviceSlug": "qse",
+      "page": 35,
+      "pageSlug": "direction-qualite-deleguee",
+      "role": "Page autonome sans Service historique correspondant",
+      "reason": "Direction qualité déléguée : animation récurrente de la fonction, distincte de la préparation d’un système à la certification QSE/ISO.",
+      "rejected": false
+    },
+    {
+      "service": 15,
+      "serviceSlug": "erp",
+      "page": 6,
+      "pageSlug": "erp-progiciel",
+      "role": "Page SEO spécialisée appartenant à une offre",
+      "reason": "Même cycle AMOA ERP : besoins, choix, gouvernance, recette, adoption ; Service 15 garde méthode, livrables et intervenants, SitePage 6 son entrée SEO et ses traductions.",
+      "rejected": false
+    },
+    {
+      "service": 15,
+      "serviceSlug": "erp",
+      "page": 7,
+      "pageSlug": "crm",
+      "role": "Page autonome sans Service historique correspondant",
+      "reason": "CRM : processus clients, référentiel et adoption spécifiques. Le titre large du Service 15 ne suffit pas à absorber cette offre ; lien connexe ERP/CRM pertinent.",
+      "rejected": false
+    },
+    {
+      "service": 15,
+      "serviceSlug": "erp",
+      "page": 8,
+      "pageSlug": "gmao",
+      "role": "Page autonome sans Service historique correspondant",
+      "reason": "GMAO : actifs, maintenance et interventions terrain ; offre autonome dans Business Apps, avec lien connexe ERP.",
+      "rejected": false
+    },
+    {
+      "service": 15,
+      "serviceSlug": "erp",
+      "page": 13,
+      "pageSlug": "si-finance",
+      "role": "Page autonome sans Service historique correspondant",
+      "reason": "SI Finance : besoins DAF, interfaces, clôture et reporting ; ni le Service ERP général ni le Service 8 au titre incohérent ne sont un référent exclusif démontré.",
+      "rejected": false
+    },
+    {
+      "service": 15,
+      "serviceSlug": "erp",
+      "page": 80,
+      "pageSlug": "expertise-amoa-erp-applications-metiers",
+      "role": "Expertise transversale relevant plutôt d’une Practice",
+      "reason": "Expertise ERP et applications métiers couvrant aussi CRM/GMAO. linkedServices JSON vers Service 15 existe ; conserver ce lien explicite sans l’assimiler à cms_page_service ni enfermer l’expertise dans l’ERP seul.",
+      "rejected": false
+    },
+    {
+      "service": 22,
+      "serviceSlug": "tech-refresh",
+      "page": 15,
+      "pageSlug": "infrastructure-si-amoa",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "Tech Refresh décrit une transformation technologique assez large ; la SitePage AMOA infrastructure précise architecture, cloud et résilience. Parentage unique à confirmer.",
+      "rejected": false
+    },
+    {
+      "service": 24,
+      "serviceSlug": "si",
+      "page": 10,
+      "pageSlug": "cyber-securite",
+      "role": "Simple lien entre prestations connexes",
+      "reason": "Service 24 porte explicitement la trajectoire SMSI/ISO 27001 ; la SitePage couvre la gouvernance cyber et la résilience plus générales.",
+      "rejected": false
+    },
+    {
+      "service": 24,
+      "serviceSlug": "si",
+      "page": 83,
+      "pageSlug": "expertise-cybersecurite-conformite-resilience",
+      "role": "Expertise transversale relevant plutôt d’une Practice",
+      "reason": "Cyber, conformité et résilience dépassent la certification ISO 27001 ; expertise de famille, avec plusieurs prestations mobilisables.",
+      "rejected": false
+    },
+    {
+      "service": 34,
+      "serviceSlug": "reforme-facturation-electronique-amoa",
+      "page": 14,
+      "pageSlug": "facturation-electronique-amoa",
+      "role": "Association métier justifiée",
+      "reason": "Même prestation AMOA réforme de la facturation électronique, de la préparation des flux et processus au pilotage du déploiement.",
+      "rejected": false
+    },
+    {
+      "service": 35,
+      "serviceSlug": "amoa-ia-pilotage-de-projets-ia-et-agents-metier",
+      "page": 69,
+      "pageSlug": "expertise-amoa-ia-pilotage-projets-agents",
+      "role": "Association métier justifiée",
+      "reason": "Même cadrage et pilotage du cycle de vie des projets IA et agents. Le JSON actuel pointe d’autres Services : correspondance métier proposée, non relation déjà appliquée.",
+      "rejected": false
+    },
+    {
+      "service": 36,
+      "serviceSlug": "conformite-ia-gouvernance-et-ai-act",
+      "page": 70,
+      "pageSlug": "expertise-conformite-ia-gouvernance-ai-act",
+      "role": "Association métier justifiée",
+      "reason": "Même gouvernance de conformité IA / AI Act et preuves ; l’expertise garde un rôle transverse et ses liens avec RGPD/cyber.",
+      "rejected": false
+    },
+    {
+      "service": 37,
+      "serviceSlug": "transformation-digitale-automatisation-et-ia-utile",
+      "page": 71,
+      "pageSlug": "expertise-transformation-digitale-ia-pme-pmi",
+      "role": "Association métier justifiée",
+      "reason": "Automatisation et IA utile pour TPE/PME/PMI : offre cohérente, à préciser autour des usages et de l’intégration, sans confondre avec l’AMOA IA ni l’AI Act.",
+      "rejected": false
+    },
+    {
+      "service": 37,
+      "serviceSlug": "transformation-digitale-automatisation-et-ia-utile",
+      "page": 82,
+      "pageSlug": "expertise-data-automatisation-intelligence-artificielle",
+      "role": "Expertise transversale relevant plutôt d’une Practice",
+      "reason": "Data, automatisation et IA articulent gouvernance, BI, usages et intégration ; plusieurs Services de deux familles peuvent intervenir. Le JSON courant RFE/ISO ne doit pas devenir une classification automatique.",
+      "rejected": false
+    }
+  ],
+  "commercialGroups": [
+    [
+      1,
+      5
+    ],
+    [
+      12,
+      11
+    ],
+    [
+      15,
+      6
+    ],
+    [
+      34,
+      14
+    ]
+  ],
+  "transverseProposals": [
+    [
+      35,
+      69
+    ],
+    [
+      36,
+      70
+    ],
+    [
+      37,
+      71
+    ]
+  ],
+  "rejected": [
+    [
+      8,
+      12
+    ],
+    [
+      8,
+      36
+    ],
+    [
+      11,
+      7
+    ]
+  ]
+}

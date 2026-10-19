@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contenus de l’accueil · Administration OLING{% endblock %}
+{% block body %}<main class="admin">
+<h1>Textes et contenus de l’accueil</h1><p class="cms-intro">Modifiez les champs existants de la version française. Les traductions restent accessibles depuis la rubrique Accueil.</p>
+{% for label,messages in app.flashes %}{% for message in messages %}<div class="alert alert-{{ label }}">{{ message }}</div>{% endfor %}{% endfor %}
+{{ form_start(form,{'attr':{'id':'home-content-editor'}}) }}{{ form_errors(form) }}
+<section class="cms-card"><h2>Message principal</h2>{{ form_row(form.heroBadge) }}{{ form_row(form.heroTitle) }}{{ form_row(form.heroIntro) }}</section>
+<section class="cms-card" id="illustrations"><h2>Image principale</h2>{% if page.heroImage %}<img class="cms-editor-image" src="{{ asset(page.heroImage) }}" alt="Image de l’accueil">{% endif %}{{ form_row(form.heroImageFile) }}{{ form_row(form.heroImage) }}<p class="small">Si un métier est sélectionné dans le héros, son illustration reste prioritaire. Ce choix se modifie dans l’onglet Héros.</p></section>
+<section class="cms-card"><h2>Référencement</h2>{{ form_row(form.title) }}{{ form_row(form.metaDescription) }}</section>
+<details class="cms-secondary" id="configuration"><summary>Configuration des blocs existants</summary><p class="small">Configuration avancée de la page : accompagnements, preuves, ressources et appel à l’action final. Conservez la structure JSON existante.</p>{{ form_row(form.bodyHtml) }}{{ form_row(form.heroSideHtml) }}</details>
+<div class="cms-editor-actions"><button class="btn btn-primary">Enregistrer</button><a class="btn btn-outline-secondary" href="{{ path('admin_home_index') }}">Retour à l’accueil</a><a href="/" target="_blank" rel="noopener">Voir le site</a></div>
+{{ form_end(form) }}
+</main>{% endblock %}

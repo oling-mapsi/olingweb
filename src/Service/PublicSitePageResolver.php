@@ -119,6 +119,7 @@ class PublicSitePageResolver
         private readonly LocalizedContentResolver $localizedContentResolver,
         private readonly SiteGlobalContentRepository $siteGlobalContentRepository,
         private readonly SiteGlobalContentTranslationRepository $siteGlobalContentTranslationRepository,
+        private readonly ?PublicMediaResolver $publicMediaResolver = null,
         private readonly ?LocalizedUrlGenerator $localizedUrlGenerator = null,
     ) {
     }
@@ -246,7 +247,15 @@ class PublicSitePageResolver
         $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? '');
         $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $content->getTitle() ?: '');
         $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? '');
-        $merged['heroImage'] = $sitePage->getHeroImage() ?: ($merged['heroImage'] ?? null);
+        $heroMedia = $this->mediaResolver()->resolveSitePageHero($sitePage, $content, $merged['heroImage'] ?? null, $merged['title'] ?? $content->getTitle(), 'Configuration editoriale');
+        $merged['heroImage'] = $heroMedia->getImage();
+        $merged['heroImageAlt'] = $heroMedia->getAlt();
+        $merged['heroImageCaption'] = $heroMedia->getCaption();
+        $merged['heroImageFocalPoint'] = $heroMedia->getFocalPoint();
+        $merged['heroImageSource'] = $heroMedia->getSource();
+        $merged['heroImageDisplayMode'] = $heroMedia->getDisplayMode();
+        $merged['heroImageSize'] = $heroMedia->getSize();
+        $merged['heroFrame'] = $content->getStructuredData()['heroPresentation']['frame'] ?? 'none';
 
         if ($content->getHeroSideHtml()) {
             $merged['legacySideHtml'] = $content->getHeroSideHtml();
@@ -269,12 +278,12 @@ class PublicSitePageResolver
                 'secondaryCta' => ['route' => 'projets', 'label' => 'Voir des cas clients'],
                 'section' => [
                     'kicker' => 'Vos besoins',
-                    'title' => 'Les expertises structurent les sujets à arbitrer avant de choisir le bon dispositif',
-                    'text' => 'Cette couche éditoriale aide à qualifier le problème à traiter. Une fois le sujet clarifié, les pages services détaillent le niveau d’intervention mobilisable, et les pages secteurs montrent comment ces expertises s’appliquent selon le contexte métier.',
+                    'title' => 'Choisir les compétences adaptées à votre projet',
+                    'text' => 'Nos consultants interviennent sur le cadrage SI, le choix des applications métier, la gouvernance, les données, l’IA et la conformité. Découvrez le contenu des missions et les expertises à mobiliser avec vos équipes.',
                 ],
                 'cta' => [
                     'title' => 'Besoin d\'un regard indépendant avant de relancer ou sécuriser un sujet critique ?',
-                    'text' => 'OLING intervient quand un projet ERP, une trajectoire SI, un risque de conformité ou un sujet IA doivent redevenir pilotables rapidement.',
+                    'text' => 'Nos consultants vous aident à cadrer un projet SI, choisir une solution ou organiser les actions de conformité et leur suivi.',
                     'primaryCta' => ['route' => 'contact', 'label' => 'Demander un échange'],
                 ],
             ],
@@ -283,8 +292,8 @@ class PublicSitePageResolver
                 'secondaryCta' => ['route' => 'projets', 'label' => 'View client cases'],
                 'section' => [
                     'kicker' => 'Your needs',
-                    'title' => 'Expertise areas structure the issues to decide before choosing the right setup',
-                    'text' => 'This editorial layer helps qualify the problem first. Once the issue is clear, service pages detail the level of support available and sector pages show how these areas apply in each business context.',
+                    'title' => 'Expertise for your IT projects and compliance requirements',
+                    'text' => 'Our consultants support IT project scoping, business software selection, governance, data, AI and compliance. Explore the scope of our assignments and the expertise available to your teams.',
                 ],
                 'cta' => [
                     'title' => 'Need an independent view before restarting or securing a critical topic?',
@@ -297,8 +306,8 @@ class PublicSitePageResolver
                 'secondaryCta' => ['route' => 'projets', 'label' => 'Ver casos de cliente'],
                 'section' => [
                     'kicker' => 'Sus necesidades',
-                    'title' => 'Las especializaciones estructuran los temas que deben decidirse antes de elegir el dispositivo adecuado',
-                    'text' => 'Esta capa editorial ayuda primero a calificar el problema. Una vez aclarado el tema, las páginas de servicios detallan el nivel de intervención disponible y las páginas sectoriales muestran cómo se aplican estas especializaciones según el contexto de negocio.',
+                    'title' => 'Especialidades para sus proyectos SI y su cumplimiento normativo',
+                    'text' => 'Nuestros consultores acompañan la definición de proyectos SI, la selección de software, la gobernanza, los datos, la IA y el cumplimiento normativo.',
                 ],
                 'cta' => [
                     'title' => 'Necesita una mirada independiente antes de relanzar o asegurar un tema crítico?',
@@ -351,8 +360,8 @@ class PublicSitePageResolver
                 'secondaryCta' => ['route' => 'expertises_index', 'label' => 'Voir nos expertises'],
                 'section' => [
                     'kicker' => 'Vue d’ensemble',
-                    'title' => 'Une lecture simple des secteurs réellement couverts',
-                    'text' => 'Cette page reprend les secteurs présents dans l’admin et les met en regard des contextes déjà traités par OLING. Quand des signaux métier ressortent des références publiées, ils sont indiqués directement.',
+                    'title' => 'Comprendre votre activité pour accompagner vos projets',
+                    'text' => 'Les enjeux de production, de service public, de relation client et de conformité appellent des réponses différentes. Nos consultants associent la connaissance de votre secteur à leurs compétences en AMOA SI, progiciels et gouvernance.',
                 ],
                 'cta' => [
                     'title' => 'Besoin d’un cadrage adapté à votre secteur',
@@ -366,7 +375,7 @@ class PublicSitePageResolver
                 'section' => [
                     'kicker' => 'Overview',
                     'title' => 'A simple view of the sectors actually covered',
-                    'text' => 'This page lists the sectors present in the admin and connects them with contexts already handled by OLING. When business signals stand out in published references, they are shown directly.',
+                    'text' => 'Production, public services, customer relationships and compliance call for different approaches. OLING combines knowledge of your industry with IT project advisory, business software and governance expertise.',
                 ],
                 'cta' => [
                     'title' => 'Need framing adapted to your sector?',
@@ -380,7 +389,7 @@ class PublicSitePageResolver
                 'section' => [
                     'kicker' => 'Vista general',
                     'title' => 'Una lectura simple de los sectores realmente cubiertos',
-                    'text' => 'Esta página retoma los sectores presentes en el admin y los pone en relación con contextos ya tratados por OLING. Cuando aparecen señales de negocio en referencias publicadas, se indican directamente.',
+                    'text' => 'La producción, los servicios públicos, la relación con los clientes y el cumplimiento normativo requieren enfoques diferentes. OLING combina el conocimiento de su sector con la asesoría en proyectos SI, software empresarial y gobernanza.',
                 ],
                 'cta' => [
                     'title' => 'Necesita un encuadre adaptado a su sector?',
@@ -395,10 +404,10 @@ class PublicSitePageResolver
             array_merge([
                 'seoTitle' => 'Secteurs | OLING',
                 'metaDescription' => 'Découvrez l’ensemble des secteurs servis par OLING et les points de vigilance connus selon chaque environnement métier.',
-                'eyebrow' => 'Secteurs servis',
+                'eyebrow' => 'Nos secteurs',
                 'title' => 'Les secteurs métiers accompagnés par OLING',
                 'intro' => 'OLING intervient dans des environnements très différents, avec une même logique : comprendre les contraintes opérationnelles, clarifier les priorités et sécuriser les transformations utiles.',
-                'highlights' => ['11 secteurs servis', 'Références terrain publiées', 'Contraintes opérationnelles et réglementaires'],
+                'highlights' => ['Organisations publiques et privées', 'Missions ponctuelles et grands programmes', 'AMOA SI, progiciels et conformité'],
             ], $defaults[$locale]),
             $locale
         );
@@ -449,6 +458,9 @@ class PublicSitePageResolver
 
     public function getPracticeNarrative(\App\Entity\Practice $practice): array
     {
+        $native = $this->localizedContentResolver->getFrenchPracticeView($practice)->getPublicNarrative();
+        // Only these two practices are part of this editorial integration.
+        if (in_array($practice->getSlug(), ['consulting', 'mapsi'], true) && is_array($native) && $native !== []) { return $native; }
         $slug = (string) $practice->getSlug();
         if ($slug === '') {
             return [];
@@ -486,11 +498,25 @@ class PublicSitePageResolver
         SitePageTranslation::assertSupportedLocale($locale);
         $entries = [];
 
+        $missions = $locale === SitePageTranslation::LOCALE_FR ? ($this->getEditorialPage('projets', $locale)['proofLibrary']['missions'] ?? []) : [];
         foreach ($this->getPublishedMetiers() as $metier) {
             $slug = (string) $metier->getSlug();
             $designation = $this->localizedSectorDesignation($slug, trim((string) $metier->getDesignation()), $locale);
             $summary = $this->getSectorSummary($slug, $designation, $locale);
             $projectCount = $metier->getProjets()->count();
+            $references = [];
+            $sectorNeedle = match ($slug) {
+                'industrie' => 'industrie', 'eauetassainissement' => 'eau et assainissement',
+                'transport' => 'transport', 'formationprofessionnelle' => 'formation',
+                'collectivités', 'collectivites' => 'public local', 'mutuelle' => 'assurance',
+                'amenagementethabitats' => 'immobilier', default => null,
+            };
+            foreach ($missions as $mission) {
+                if ($sectorNeedle !== null && str_contains(mb_strtolower((string) ($mission['sector'] ?? '')), $sectorNeedle) && !empty($mission['id']) && !empty($mission['title'])) {
+                    $references[] = ['href' => '/projets#'.rawurlencode($mission['id']), 'title' => $mission['title']];
+                    break;
+                }
+            }
 
             $entries[] = [
                 'slug' => $slug,
@@ -498,6 +524,7 @@ class PublicSitePageResolver
                 'intro' => $summary['intro'],
                 'specifics' => $summary['specifics'],
                 'projectCount' => $projectCount,
+                'references' => $references,
                 'heroImage' => $metier->getImageHero() ?: $metier->getImage() ?: (self::SECTOR_HERO_FALLBACKS[$slug] ?? null),
                 'detailUrl' => $this->resolveSectorDetailUrl($slug, $locale),
             ];
@@ -521,6 +548,15 @@ class PublicSitePageResolver
         $merged['eyebrow'] = $content->getHeroBadge() ?: ($merged['eyebrow'] ?? $defaults['eyebrow']);
         $merged['title'] = $content->getHeroTitle() ?: ($merged['title'] ?? $defaults['title']);
         $merged['intro'] = $this->plainText($content->getHeroIntro()) ?: ($merged['intro'] ?? $defaults['intro']);
+
+        $heroMedia = $this->mediaResolver()->resolveSitePageHero($sitePage, $content, $payload['heroImage'] ?? null, $merged['title'], 'Configuration du hub');
+        $merged['heroImage'] = $heroMedia->getImage();
+        $merged['heroImageAlt'] = $heroMedia->getAlt();
+        $merged['heroImageCaption'] = $heroMedia->getCaption();
+        $merged['heroImageFocalPoint'] = $heroMedia->getFocalPoint();
+        $merged['heroImageDisplayMode'] = $heroMedia->getDisplayMode();
+        $merged['heroImageSize'] = $heroMedia->getSize();
+        $merged['heroFrame'] = $content->getStructuredData()['heroPresentation']['frame'] ?? 'none';
 
         if (array_key_exists('highlights', $defaults)) {
             $merged['highlights'] = $this->normalizeStringList($payload['highlights'] ?? null, $merged['highlights'] ?? $defaults['highlights']);
@@ -583,7 +619,14 @@ class PublicSitePageResolver
         $payload['metaDescription'] = $content->getMetaDescription() ?: ($payload['metaDescription'] ?? '');
         $payload['eyebrow'] = $content->getHeroBadge() ?: ($payload['eyebrow'] ?? '');
         $payload['intro'] = $this->plainText($content->getHeroIntro()) ?: ($payload['intro'] ?? '');
-        $payload['heroImage'] = $sitePage->getHeroImage() ?: ($payload['heroImage'] ?? null);
+        $heroMedia = $this->mediaResolver()->resolveSitePageHero($sitePage, $content, $payload['heroImage'] ?? null, $payload['title'] ?? $content->getTitle(), 'Payload structure');
+        $payload['heroImage'] = $heroMedia->getImage();
+        $payload['heroImageAlt'] = $heroMedia->getAlt();
+        $payload['heroImageCaption'] = $heroMedia->getCaption();
+        $payload['heroImageFocalPoint'] = $heroMedia->getFocalPoint();
+        $payload['heroImageSource'] = $heroMedia->getSource();
+        $payload['heroImageDisplayMode'] = $heroMedia->getDisplayMode();
+        $payload['heroImageSize'] = $heroMedia->getSize();
 
         return $payload;
     }
@@ -601,6 +644,11 @@ class PublicSitePageResolver
         }
 
         return is_array($decoded) ? $decoded : [];
+    }
+
+    private function mediaResolver(): PublicMediaResolver
+    {
+        return $this->publicMediaResolver ?? new PublicMediaResolver();
     }
 
     /**
@@ -704,109 +752,86 @@ class PublicSitePageResolver
 
         return match ($slug) {
             'amenagementethabitats' => [
-                'intro' => 'Interventions sur des contextes d’aménagement, d’habitat et de gestion patrimoniale avec enjeux de gouvernance SI et d’organisation.',
-                'specifics' => [
-                    'Bailleurs sociaux et structures d’aménagement',
-                    'Gouvernance SI, direction des systèmes d’information et structuration du pilotage',
-                ],
+                'intro' => 'Bailleurs sociaux et aménageurs doivent coordonner la gestion du patrimoine, leurs outils et les acteurs de leurs projets. OLING les accompagne dans la gouvernance SI et l’organisation de leurs transformations.',
+                'specifics' => ['Gouvernance SI et coordination des projets', 'Organisation et pilotage des systèmes d’information'],
             ],
             'banque' => [
-                'intro' => 'Contextes bancaires exposés à des exigences fortes de continuité, d’infrastructure critique et de pilotage de trajectoires techniques.',
-                'specifics' => [
-                    'Datacenter, virtualisation et schémas de transformation techniques',
-                    'Exigence de fiabilité, de sécurité et de planification pluriannuelle',
-                ],
+                'intro' => 'La disponibilité des infrastructures et la continuité des services sont essentielles aux activités bancaires. Les missions OLING portent notamment sur les datacenters, la virtualisation et les plans de transformation SI.',
+                'specifics' => ['Pilotage des évolutions d’infrastructure', 'PCA/PRA et planification des transformations'],
             ],
             'cci' => [
-                'intro' => 'Accompagnements auprès de chambres consulaires sur les sujets de digitalisation, d’ERP, de stockage et de conformité.',
-                'specifics' => [
-                    'Refonte de processus et d’outils pour centres de formation et guichets',
-                    'Schéma directeur, RGPD et modernisation du système d’information',
-                ],
+                'intro' => 'Les chambres consulaires font évoluer leurs services aux entreprises et leurs outils de formation. OLING les accompagne sur les processus, les ERP, le schéma directeur SI et la conformité RGPD.',
+                'specifics' => ['Modernisation des outils de gestion et des services numériques', 'AMOA SI et protection des données'],
             ],
-            'collectivites' => [
-                'intro' => 'Travail avec des collectivités et structures parapubliques sur la transformation SI, les télécoms, la collaboration et la gouvernance.',
-                'specifics' => [
-                    'Schémas directeurs, AMOA SI et catalogues de services',
-                    'Environnements multi-acteurs avec enjeux de mutualisation et de traçabilité',
-                ],
+            'collectivites', 'collectivités' => [
+                'intro' => 'Les collectivités doivent moderniser leurs services numériques tout en organisant la mutualisation et le suivi des projets publics. OLING intervient en AMOA SI, gouvernance et RGPD/DPO.',
+                'specifics' => ['Schémas directeurs SI et catalogues de services', 'DPO externalisé et gouvernance des services mutualisés'],
             ],
             'eauetassainissement' => [
-                'intro' => 'Interventions sur des organisations eau et assainissement avec enjeux de convergence SI, continuité et exploitation.',
-                'specifics' => [
-                    'Convergence de systèmes hérités ou dispersés',
-                    'Pilotage d’activités critiques de réseau et de service public',
-                ],
+                'intro' => 'Les opérateurs de l’eau doivent relier les interventions sur le réseau aux données techniques, clients et financières. OLING accompagne la convergence SI et les projets de GMAO en lien avec le SIG et l’exploitation.',
+                'specifics' => ['GMAO, SI interventions et échanges avec les SI Clients', 'Interfaces avec le SIG, les RH et le SI Finance'],
             ],
             'formationprofessionnelle' => [
-                'intro' => 'Expérience forte dans la formation professionnelle, à l’interface entre qualité, conformité, outils de gestion et organisation.',
-                'specifics' => [
-                    'Qualiopi, QSE, RGPD et direction qualité externalisée',
-                    'Sites web, plateaux techniques, outils de gestion et gouvernance documentaire',
-                ],
+                'intro' => 'Organismes de formation et CFA doivent suivre leurs processus et leurs obligations qualité dans la durée. OLING intervient en direction qualité déléguée, QSE, Qualiopi et conformité RGPD.',
+                'specifics' => ['Pilotage qualité et suivi des indicateurs Qualiopi', 'Organisation, documentation et outils de gestion'],
             ],
             'industrie' => [
-                'intro' => 'Interventions industrielles centrées sur l’ERP, le CRM, la conformité et la structuration de la fonction SI.',
-                'specifics' => [
-                    'ERP, outils métiers et coordination avec la production',
-                    'RGPD, DSI externalisée et contextes multi-sites ou actifs critiques',
-                ],
+                'intro' => 'Un projet ERP industriel engage la production, les flux et les équipes métier. OLING accompagne le cadrage, le choix des progiciels et le pilotage des projets ERP, CRM et GMAO.',
+                'specifics' => ['AMOA ERP et coordination avec la production et la maintenance', 'Gouvernance SI, intérim DSI et conformité RGPD'],
             ],
             'mutuelle' => [
-                'intro' => 'Accompagnements dans la mutuelle et l’assurance sur le pilotage, la donnée, la continuité et le contrôle de gestion.',
-                'specifics' => [
-                    'PCA, BIA et dispositifs de résilience',
-                    'Données santé, prévoyance et suivi de gestion',
-                ],
+                'intro' => 'Les mutuelles et les assureurs doivent protéger leurs données et assurer la continuité de leurs activités. OLING les accompagne sur l’analyse d’impact, le PCA/PRA, les exigences DORA et le pilotage SI.',
+                'specifics' => ['Analyse d’impact métier et plans de continuité', 'Gouvernance, données et contrôle de gestion'],
             ],
             'negoceetdistribution' => [
-                'intro' => 'Missions auprès d’acteurs du négoce et de la distribution sur l’ERP, Office 365, la normalisation comptable et la fonction SI.',
-                'specifics' => [
-                    'Gestion commerciale, comptabilité, achats et collaboration',
-                    'Déploiement ou reprise d’ERP dans des environnements opérationnels',
-                ],
+                'intro' => 'Achats, stocks, ventes et comptabilité doivent s’appuyer sur des outils cohérents. OLING accompagne les acteurs du négoce et de la distribution dans leurs projets ERP et l’organisation de leur fonction SI.',
+                'specifics' => ['ERP, gestion commerciale et processus financiers', 'Outils collaboratifs Microsoft 365 et pilotage SI'],
             ],
             'sante' => [
-                'intro' => 'Présence sur des sujets santé mêlant SI métier, ERP et coordination d’acteurs à fortes contraintes de fiabilité.',
-                'specifics' => [
-                    'Vaccination, répartition pharmaceutique et processus sensibles',
-                    'Pilotage SI avec exigences de continuité et de qualité de données',
-                ],
+                'intro' => 'La fiabilité des données et la coordination des acteurs sont centrales dans les projets de santé. OLING intervient notamment sur les SI métier, les ERP et le pilotage de programmes liés à la vaccination ou à la répartition pharmaceutique.',
+                'specifics' => ['AMOA des progiciels et coordination des projets SI', 'Continuité de service et qualité des données'],
             ],
             'transport' => [
-                'intro' => 'Références nombreuses dans le transport, les grands ports et les plateformes aéroportuaires, sur des sujets SI, qualité, conformité et continuité.',
-                'specifics' => [
-                    'ERP finance, paie, GRH, télécoms, GED et schémas directeurs',
-                    'ISO, RGPD, continuité d’activité et gouvernance multi-sites',
-                ],
+                'intro' => 'Ports, aéroports et opérateurs de transport doivent coordonner exploitation, fonctions support et obligations réglementaires. OLING intervient sur le SI Finance, les ERP, la gouvernance, le QSE et le RGPD.',
+                'specifics' => ['AMOA SI Finance, paie, GRH et schémas directeurs', 'QSE, cybersécurité, RGPD et continuité d’activité'],
             ],
-            default => [
-                'intro' => sprintf('OLING intervient dans le secteur %s avec une approche de cadrage, de pilotage et de sécurisation des transformations.', mb_strtolower($designation)),
-                'specifics' => [
-                    'Organisation, outils et gouvernance',
-                    'Contraintes métier, SI et conformité selon le contexte',
-                ],
-            ],
+            default => ['intro' => 'OLING accompagne les projets SI et les démarches de conformité de votre organisation.', 'specifics' => []],
         };
     }
 
     private function getEnglishSectorSummary(string $slug, string $designation): array
     {
         return match ($slug) {
-            'industrie' => ['intro' => 'Industrial engagements focused on ERP, CRM, compliance and structuring the IT function.', 'specifics' => ['ERP, business tools and production coordination', 'GDPR, outsourced CIO support and multi-site or critical-asset contexts']],
-            'collectivites' => ['intro' => 'Work with local authorities and public-sector bodies on IT transformation, telecoms, collaboration and governance.', 'specifics' => ['IT roadmaps, IT project advisory and service catalogues', 'Multi-stakeholder settings with pooling and traceability requirements']],
-            'transport' => ['intro' => 'Multiple references in transport, major ports and airport platforms across IT, quality, compliance and continuity topics.', 'specifics' => ['Finance ERP, payroll, HRIS, telecoms, EDM and IT roadmaps', 'ISO, GDPR, business continuity and multi-site governance']],
-            default => ['intro' => sprintf('OLING supports the %s sector with a scoping, steering and transformation-risk approach.', mb_strtolower($designation)), 'specifics' => ['Organisation, tools and governance', 'Business, IT and compliance constraints depending on context']],
+            'amenagementethabitats' => ['intro' => 'OLING supports housing providers and property development organisations with IT governance and project coordination.', 'specifics' => ['IT governance', 'Project organisation and coordination']],
+            'banque' => ['intro' => 'Banking IT projects require careful planning of infrastructure changes and service continuity. OLING supports datacentre, virtualisation and IT roadmap work.', 'specifics' => ['Infrastructure project management', 'Business continuity and transformation planning']],
+            'cci' => ['intro' => 'Chambers of commerce are modernising services to businesses and training organisations. OLING supports ERP, IT roadmap and GDPR projects.', 'specifics' => ['Business software and digital services', 'IT project advisory and data protection']],
+            'collectivites', 'collectivités' => ['intro' => 'Local authorities need to modernise digital services while coordinating shared IT and public projects. OLING supports IT project advisory, governance and GDPR/DPO work.', 'specifics' => ['IT roadmaps and service catalogues', 'Outsourced DPO and shared-service governance']],
+            'eauetassainissement' => ['intro' => 'Water operators must connect field interventions with technical, customer and finance data. OLING supports IT convergence and CMMS projects linked to GIS and operations.', 'specifics' => ['CMMS, field interventions and customer systems', 'GIS, HR and finance interfaces']],
+            'formationprofessionnelle' => ['intro' => 'Training providers and apprenticeship centres need to maintain quality processes and evidence. OLING supports outsourced quality management, QHSE, Qualiopi and GDPR work.', 'specifics' => ['Quality management and Qualiopi indicators', 'Organisation, documentation and management tools']],
+            'industrie' => ['intro' => 'Industrial ERP projects involve production, processes and business teams. OLING supports ERP, CRM and CMMS scoping, software selection and project management.', 'specifics' => ['ERP advisory and production coordination', 'IT governance, outsourced CIO support and GDPR']],
+            'mutuelle' => ['intro' => 'Mutual insurers and insurance organisations must protect data and maintain business continuity. OLING supports impact analysis, continuity planning and IT governance.', 'specifics' => ['Business impact analysis and continuity plans', 'Governance, data and management control']],
+            'negoceetdistribution' => ['intro' => 'Wholesale and distribution businesses need consistent purchasing, stock, sales and accounting tools. OLING supports ERP projects and the organisation of the IT function.', 'specifics' => ['ERP, sales management and finance processes', 'Microsoft 365 and IT management']],
+            'sante' => ['intro' => 'Healthcare IT projects depend on reliable data and coordination between stakeholders. OLING supports business systems, ERP and programme management.', 'specifics' => ['Business software advisory and IT project coordination', 'Service continuity and data quality']],
+            'transport' => ['intro' => 'Ports, airports and transport operators must coordinate operations, support functions and regulatory obligations. OLING supports finance systems, ERP, QHSE and GDPR work.', 'specifics' => ['Finance ERP, HR and IT roadmaps', 'QHSE, cybersecurity, GDPR and continuity']],
+            default => ['intro' => 'Discuss your IT project and compliance requirements with OLING.', 'specifics' => []],
         };
     }
 
     private function getSpanishSectorSummary(string $slug, string $designation): array
     {
         return match ($slug) {
-            'industrie' => ['intro' => 'Intervenciones industriales centradas en ERP, CRM, cumplimiento y estructuración de la función SI.', 'specifics' => ['ERP, herramientas de negocio y coordinación con producción', 'RGPD, DSI externalizada y contextos multisede o activos críticos']],
-            'collectivites' => ['intro' => 'Trabajo con administraciones locales y entidades públicas en transformación SI, telecomunicaciones, colaboración y gobernanza.', 'specifics' => ['Planes directores SI, AMOA SI y catálogos de servicios', 'Entornos multiactor con mutualización y trazabilidad']],
-            'transport' => ['intro' => 'Referencias en transporte, grandes puertos y plataformas aeroportuarias sobre SI, calidad, cumplimiento y continuidad.', 'specifics' => ['ERP financiero, nómina, RR. HH., telecomunicaciones, GED y planes directores', 'ISO, RGPD, continuidad de actividad y gobernanza multisede']],
-            default => ['intro' => sprintf('OLING interviene en el sector %s con un enfoque de encuadre, pilotaje y securización de transformaciones.', mb_strtolower($designation)), 'specifics' => ['Organización, herramientas y gobernanza', 'Restricciones de negocio, SI y cumplimiento según el contexto']],
+            'amenagementethabitats' => ['intro' => 'OLING acompaña a entidades de vivienda y urbanismo en la gobernanza SI y la coordinación de sus proyectos.', 'specifics' => ['Gobernanza SI', 'Organización y coordinación de proyectos']],
+            'banque' => ['intro' => 'Los proyectos SI bancarios requieren planificar la evolución de las infraestructuras y la continuidad del servicio. OLING acompaña los trabajos de centros de datos, virtualización y planificación SI.', 'specifics' => ['Dirección de proyectos de infraestructura', 'Continuidad y planificación de las transformaciones']],
+            'cci' => ['intro' => 'Las cámaras de comercio modernizan sus servicios a empresas y organismos de formación. OLING acompaña proyectos ERP, planes directores SI y RGPD.', 'specifics' => ['Software de gestión y servicios digitales', 'Asesoría SI y protección de datos']],
+            'collectivites', 'collectivités' => ['intro' => 'Las administraciones locales deben modernizar sus servicios digitales y coordinar los servicios SI compartidos. OLING acompaña proyectos SI, gobernanza y trabajos RGPD/DPO.', 'specifics' => ['Planes directores SI y catálogos de servicios', 'DPO externo y gobernanza de servicios compartidos']],
+            'eauetassainissement' => ['intro' => 'Los operadores de agua deben relacionar las intervenciones con los datos técnicos, de clientes y financieros. OLING acompaña la convergencia SI y los proyectos GMAO vinculados al SIG y a la explotación.', 'specifics' => ['GMAO, intervenciones y sistemas de clientes', 'Interfaces con SIG, RR. HH. y finanzas']],
+            'formationprofessionnelle' => ['intro' => 'Los organismos de formación y los centros de aprendizaje deben mantener sus procesos y evidencias de calidad. OLING acompaña la dirección de calidad, QSE, Qualiopi y RGPD.', 'specifics' => ['Gestión de calidad e indicadores Qualiopi', 'Organización, documentación y herramientas de gestión']],
+            'industrie' => ['intro' => 'Los proyectos ERP industriales afectan a la producción, los procesos y los equipos de negocio. OLING acompaña la definición, la selección y la dirección de proyectos ERP, CRM y GMAO.', 'specifics' => ['Asesoría ERP y coordinación con producción', 'Gobernanza SI, dirección SI externa y RGPD']],
+            'mutuelle' => ['intro' => 'Las mutuas y aseguradoras deben proteger los datos y mantener la continuidad de sus actividades. OLING acompaña el análisis de impacto, los planes de continuidad y la gobernanza SI.', 'specifics' => ['Análisis de impacto y planes de continuidad', 'Gobernanza, datos y control de gestión']],
+            'negoceetdistribution' => ['intro' => 'Las empresas de distribución necesitan herramientas coherentes para compras, existencias, ventas y contabilidad. OLING acompaña los proyectos ERP y la organización de la función SI.', 'specifics' => ['ERP, gestión comercial y procesos financieros', 'Microsoft 365 y dirección SI']],
+            'sante' => ['intro' => 'Los proyectos SI sanitarios requieren datos fiables y coordinación entre los actores. OLING acompaña los sistemas de negocio, los ERP y la dirección de programas.', 'specifics' => ['Asesoría de software y coordinación de proyectos SI', 'Continuidad del servicio y calidad de los datos']],
+            'transport' => ['intro' => 'Puertos, aeropuertos y operadores de transporte deben coordinar explotación, funciones de soporte y obligaciones normativas. OLING acompaña los sistemas financieros, los ERP, QSE y RGPD.', 'specifics' => ['ERP financiero, RR. HH. y planes directores SI', 'QSE, ciberseguridad, RGPD y continuidad']],
+            default => ['intro' => 'Hable con OLING sobre su proyecto SI y sus necesidades de cumplimiento.', 'specifics' => []],
         };
     }
 
@@ -814,7 +839,7 @@ class PublicSitePageResolver
     {
         $publicSlug = match ($slug) {
             'industrie' => 'industrie',
-            'transport', 'collectivites', 'cci', 'eauetassainissement', 'banque', 'mutuelle', 'sante' => 'secteur-public',
+            'transport', 'collectivites', 'collectivités', 'cci', 'eauetassainissement', 'banque', 'mutuelle', 'sante' => 'secteur-public',
             'formationprofessionnelle', 'negoceetdistribution', 'amenagementethabitats' => 'services',
             default => null,
         };

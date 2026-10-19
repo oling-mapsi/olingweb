@@ -1,0 +1,15 @@
+<div class="table-responsive"><table class="table align-middle">
+<thead><tr><th>Image</th><th>Titre</th><th>Practice</th><th>URL</th><th>Statut</th><th>Hub</th><th>Navigation</th><th>Indexation</th><th>Dernière modification</th><th>Actions</th></tr></thead>
+<tbody>{% for row in rows %}<tr>
+<td>{% include 'admin/catalogue/_thumbnail.html.twig' with {row:cms_admin_item(row.object)} %}</td><td>{{ row.title }} <small class="d-block text-muted">{{ row.technical }} #{{ row.id }} · {{ row.origin }}</small>{% for alert in row.anomalies %}<small class="d-block text-warning">{{ alert.message }}</small>{% endfor %}</td>
+<td>{% if row.practice %}<a href="{{ path('admin_catalogue_practice', {id:row.practice.id}) }}">{{ row.practice.designation }}</a>{% else %}Non classé{% endif %}</td>
+<td>{{ row.url ?: 'Aucune URL identifiée' }}</td>
+<td>{{ {'published':'Publié','draft':'Brouillon','unpublished':'Non publié','legacy':'Historique : sans statut explicite'}[row.status]|default(row.status) }}</td>
+<td title="{{ row.hubReason }}">{{ {'yes':'Visible dans le hub','no':'Absent du hub','unknown':'À vérifier'}[row.hub] }}</td><td>{{ {'yes':'Visible (référence)','no':'Absent (référence)','unknown':'À vérifier'}[row.navigation] }}</td><td title="Référence publique : {{ row.observation.captured_at|default('Non capturée') }}">{{ {'yes':'Indexable (référence)','no':'Non indexable (référence)','unknown':'À vérifier'}[row.indexation] }}</td><td>{{ row.updated ? row.updated|date('d/m/Y H:i') : 'Non disponible' }}</td>
+<td><a href="{{ path('admin_catalogue_media', {technical:row.technical,id:row.id}) }}">Médias</a> <a href="{{ row.edit }}">Modifier {{ row.technical == 'service' ? 'Service historique' : row.technical == 'page' ? 'SitePage' : row.technical }} #{{ row.id }} — {{ row.url ?: row.slug }}</a>
+{% if row.technical == 'service' %}<a class="d-block" href="{{ path('admin_catalogue_service',{id:row.id}) }}">Fiche métier et pages associées</a>{% endif %}
+{% if row.technical == 'page' %}{% for service in row.object.catalogServices %}<a class="d-block" href="{{ path('admin_catalogue_service',{id:service.id}) }}">Fiche métier : {{ service.designation }}</a>{% endfor %}{% endif %}
+{% if row.technical in ['service','page','project'] %}<a class="d-block" href="{{ path('admin_catalogue_relations',{technical:row.technical,id:row.id}) }}">Relations</a>{% endif %}
+{% if row.technical == 'practice' %}<a class="d-block" href="{{ path('admin_catalogue_practice',{id:row.id}) }}">Catalogue Practice</a>{% endif %}
+{% if row.url %}<a class="d-block" href="{{ row.url }}">Voir la page publique</a>{% endif %}</td></tr>
+{% else %}<tr><td colspan="10">{{ type|default('') == 'resource' ? 'Aucune ressource.' : 'Aucun contenu.' }}</td></tr>{% endfor %}</tbody></table></div>

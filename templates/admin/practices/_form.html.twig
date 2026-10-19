@@ -123,6 +123,8 @@
         </div>
     </div>
 
+    {% include 'admin/_seo_narrative.html.twig' %}
+
     <div class="d-flex gap-2 mt-4">
         <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
         <a class="btn btn-outline-secondary" href="{{ path('admin_practices_index') }}">Retour</a>

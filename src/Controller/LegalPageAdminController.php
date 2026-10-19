@@ -28,7 +28,7 @@ class LegalPageAdminController extends AbstractController
     public function edit(string $slug, Request $request, EntityManagerInterface $entityManager, LegalPageRepository $repository, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
     {
         $defaults = LegalPageDefaults::defaults();
-        if (!isset($defaults[$slug])) {
+        if (!isset($defaults[$slug]) && !$repository->findOneBy(['slug' => $slug])) {
             throw $this->createNotFoundException('Page légale introuvable.');
         }
 
@@ -54,7 +54,7 @@ class LegalPageAdminController extends AbstractController
             }
         }
 
-        $page = $pages[$slug];
+        $page = $pages[$slug] ?? $repository->findOneBy(['slug' => $slug]);
         $formData = $translationSynchronizer->legalPageFormData($page);
         $form = $this->createForm(LegalPageType::class, $formData, [
             'data_class' => StructuredContentAdminFormData::class,

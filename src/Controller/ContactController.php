@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use App\Service\ContactNotificationService;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -25,10 +23,11 @@ class ContactController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator,
-        MailerInterface $mailer,
+        ContactNotificationService $notifications,
         CsrfTokenManagerInterface $csrfTokenManager,
         RateLimiterFactory $contactFormLimiter,
-        AnalyticsConversionAttributionService $attributionService
+        AnalyticsConversionAttributionService $attributionService,
+        \Psr\Log\LoggerInterface $logger
     ): JsonResponse {
         $csrfToken = (string) $request->request->get('_token', '');
         if (!$csrfTokenManager->isTokenValid(new CsrfToken('contact_form', $csrfToken))) {
@@ -44,6 +43,26 @@ class ContactController extends AbstractController
                 'success' => false,
                 'message' => 'La demande n’a pas pu être validée.',
             ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $submissionId = $request->request->get('contactSubmissionId', '');
+        if (empty($request->request->get('consent', ''))) {
+            return new JsonResponse(['success'=>false,'message'=>'Votre consentement est nécessaire.'],400);
+        }
+        if (!is_string($submissionId) || ($submissionId !== '' && !preg_match('/^[a-f0-9]{32}$/D', $submissionId))) {
+            return new JsonResponse(['success' => false, 'message' => 'Identifiant de demande invalide.'], 400);
+        }
+        $submissionId = $submissionId !== '' ? $submissionId : bin2hex(random_bytes(16));
+        $existing = $entityManager->getRepository(Messagerie::class)->findOneBy(['submissionId' => $submissionId]);
+        if ($existing instanceof Messagerie) {
+            foreach (['contactFirstName'=>'getFirstName', 'contactLastName'=>'getLastName', 'contactCompany'=>'getCompany', 'contactWorkEmail'=>'getWorkEmail', 'contactDetails'=>'getDetails'] as $field=>$getter) {
+                $limit = in_array($field, ['contactCompany', 'contactWorkEmail'], true) ? 180 : 100;
+                [$clean, $tooLong] = $field === 'contactDetails' ? $this->multiLineValue($request, $field, 200) : $this->singleLineValue($request, $field, $limit);
+                if ($tooLong || $clean !== $existing->$getter()) {
+                    return new JsonResponse(['success'=>false, 'message'=>'Cette demande ne correspond pas à l’envoi initial.'], 409);
+                }
+            }
+            return $this->receipt($existing, true);
         }
 
         $clientKey = $request->getClientIp() ?: 'anonymous';
@@ -106,55 +125,42 @@ class ContactController extends AbstractController
         $message->setWorkEmail($workEmail);
         $message->setDetails($details);
         $message->setConsentAt(new \DateTimeImmutable());
+        $message->setSubmissionId($submissionId);
 
         // Vérifier si l'entité Messagerie est valide
         $validationErrors = $validator->validate($message);
         if (count($validationErrors) === 0) {
             // Enregistrer le message dans la base de données
             $entityManager->persist($message);
-            $entityManager->flush();
-
-            // Envoyer un email via Office 365
             try {
-                $email = (new Email())
-                    ->from('florestan.rouet@oling.fr')
-                    ->to('florestan.rouet@oling.fr')
-                    ->replyTo($workEmail)
-                    ->subject('Nouveau message — Formulaire contact OLING')
-                    ->text(
-                        "Prénom: {$firstName}\n" .
-                        "Nom: {$lastName}\n" .
-                        "Société: {$company}\n" .
-                        "Email: {$workEmail}\n\n" .
-                        "Message:\n{$details}\n\n" .
-                        "Attribution de la demande:\n" .
-                        implode("\n", array_map(
-                            static fn (string $label, string $value): string => "{$label}: ".($value !== '' ? $value : 'non disponible'),
-                            array_keys($demand),
-                            array_values($demand)
-                        )) . "\n"
-                    );
-
-                $mailer->send($email);
-            } catch (TransportExceptionInterface $e) {
-                return new JsonResponse([
-                    'success' => false,
-                    'message' => 'Le message a bien été enregistré, mais l’envoi email a échoué. Merci de réessayer.',
-                ]);
+                $entityManager->flush();
+            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+                // A concurrent retry won the unique submission key. No second email.
+                $saved = $entityManager->getConnection()->fetchAssociative('SELECT submission_id, notification_status, first_name, last_name, company, work_email, details FROM messagerie WHERE submission_id = ?', [$submissionId]);
+                if (!$saved) { throw $e; }
+                foreach (['first_name'=>$firstName, 'last_name'=>$lastName, 'company'=>$company, 'work_email'=>$workEmail, 'details'=>$details] as $field=>$value) {
+                    if ($saved[$field] !== $value) {
+                        return new JsonResponse(['success'=>false, 'message'=>'Cette demande ne correspond pas à l’envoi initial.'], 409);
+                    }
+                }
+                return new JsonResponse(['success'=>true, 'persisted'=>true, 'submission_id'=>$saved['submission_id'], 'notification_status'=>$saved['notification_status'], 'replayed'=>true, 'message'=>'Votre demande est déjà enregistrée.']);
             }
 
-            $attributionService->attribute(
+            $notifications->notify($message, $demand);
+
+            try {
+                $attributionService->attribute(
                 'contact',
                 (string) $message->getId(),
                 $request->request->get('analyticsSessionId'),
                 $request->getPathInfo(),
                 new \DateTimeImmutable()
-            );
+                );
+            } catch (\Throwable $e) {
+                $logger->warning('contact_attribution_failed', ['submission_id'=>$submissionId,'exception_type'=>get_class($e)]);
+            }
 
-            return new JsonResponse([
-                'success' => true,
-                'message' => 'Votre message a été envoyé avec succès.',
-            ]);
+            return $this->receipt($message);
         } else {
             // Retourner une réponse JSON avec les erreurs de validation
             return new JsonResponse([
@@ -162,6 +168,15 @@ class ContactController extends AbstractController
                 'message' => 'Une erreur s\'est produite lors de la validation du message.',
             ]);
         }
+    }
+
+    private function receipt(Messagerie $message, bool $replayed = false): JsonResponse
+    {
+        return new JsonResponse([
+            'success'=>true, 'persisted'=>true, 'submission_id'=>$message->getSubmissionId(),
+            'notification_status'=>$message->getNotificationStatus(), 'replayed'=>$replayed,
+            'message'=>$message->getNotificationStatus()==='sent' ? 'Votre demande est enregistrée.' : 'Votre demande est enregistrée ; la notification est à vérifier par notre équipe. Il est inutile de la renvoyer.',
+        ]);
     }
 
     private function demandValue(Request $request, string $name, int $maxLength): string

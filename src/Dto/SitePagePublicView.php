@@ -82,6 +82,16 @@ class SitePagePublicView
         return $this->page->getHeroImage();
     }
 
+    public function getHeroImageDisplayMode(): string
+    {
+        return $this->page->getHeroImageDisplayMode();
+    }
+
+    public function getHeroImageSize(): string
+    {
+        return $this->page->getHeroImageSize();
+    }
+
     public function getCanonicalUrl(): ?string
     {
         $growth = $this->translation->getStructuredData()['growth'] ?? [];

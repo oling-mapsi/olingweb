@@ -4,22 +4,35 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ canonicalPath|default(app.request.pathInfo) }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('styles/hub-heroes.css') }}?v=20261017b">
+{% endblock %}
+
 {% block body %}
 {% set locale = app.request.locale|default('fr') %}
 {% set ui = {
-  fr: {primary: 'Échanger sur votre contexte', secondary: 'Voir nos expertises', sector: 'Secteur servi', specifics: 'Spécificités connues :', missions: 'Missions associées :', more: 'Voir l’approche associée', empty: 'Aucun secteur n’est disponible pour le moment.', angles: 'Angles sectoriels', angles_title: 'Quelques lectures transverses déjà détaillées', angles_text: 'Certains environnements disposent déjà d’une page de cadrage plus développée quand plusieurs secteurs partagent des contraintes proches.', vigilance: 'Points de vigilance :', page: 'Voir la page'},
-  en: {primary: 'Discuss your context', secondary: 'View our expertise', sector: 'Sector served', specifics: 'Known specificities:', missions: 'Related assignments:', more: 'View the related approach', empty: 'No sector is available at the moment.', angles: 'Sector angles', angles_title: 'A few cross-sector readings already detailed', angles_text: 'Some environments already have a more detailed scoping page when several sectors share similar constraints.', vigilance: 'Points of attention:', page: 'View page'},
-  es: {primary: 'Hablar de su contexto', secondary: 'Ver nuestras especializaciones', sector: 'Sector atendido', specifics: 'Especificidades conocidas:', missions: 'Misiones asociadas:', more: 'Ver el enfoque asociado', empty: 'No hay sectores disponibles por el momento.', angles: 'Enfoques sectoriales', angles_title: 'Algunas lecturas transversales ya detalladas', angles_text: 'Algunos entornos ya disponen de una página de encuadre más desarrollada cuando varios sectores comparten restricciones similares.', vigilance: 'Puntos de vigilancia:', page: 'Ver página'}
+  fr: {primary: 'Échanger sur votre contexte', secondary: 'Voir nos expertises', sector: 'Secteur d’activité', specifics: 'Enjeux métier :', missions: 'Missions associées :', more: 'Découvrir notre accompagnement', empty: 'Aucun secteur n’est disponible pour le moment.', angles: 'Nos accompagnements', angles_title: 'Transformation SI, organisation et conformité', angles_text: 'Industrie, services et organisations réglementées : découvrez les enjeux et les expertises associés à votre activité.', vigilance: 'Enjeux métier :', page: 'Voir la page'},
+  en: {primary: 'Discuss your context', secondary: 'View our expertise', sector: 'Sector served', specifics: 'Business priorities:', missions: 'Related assignments:', more: 'View the related approach', empty: 'No sector is available at the moment.', angles: 'Sector angles', angles_title: 'IT, organisation and compliance support', angles_text: 'Explore our work with manufacturers, service businesses and regulated organisations.', vigilance: 'Points of attention:', page: 'View page'},
+  es: {primary: 'Hablar de su contexto', secondary: 'Ver nuestras especializaciones', sector: 'Sector atendido', specifics: 'Prioridades del sector:', missions: 'Misiones asociadas:', more: 'Ver el enfoque asociado', empty: 'No hay sectores disponibles por el momento.', angles: 'Enfoques sectoriales', angles_title: 'Sistemas de información, organización y cumplimiento normativo', angles_text: 'Consulte nuestro acompañamiento a industriales, empresas de servicios y organizaciones reguladas.', vigilance: 'Puntos de vigilancia:', page: 'Ver página'}
 }[locale]|default({}) %}
 <main id="content" role="main" class="oling-public-editorial oling-public-editorial--sectors-hub">
   {% set indexPage = page %}
   {% include 'public/_page_hero.html.twig' with {
+    mediaFrame: indexPage.heroFrame|default('none'),
+    variant: 'hub-sectors',
     eyebrow: indexPage.eyebrow,
     title: indexPage.title,
     intro: indexPage.intro,
     primaryCta: {route: 'contact', label: ui.primary},
     secondaryCta: {route: 'expertises_index', label: ui.secondary},
-    highlights: indexPage.highlights
+    highlights: indexPage.highlights,
+    image: indexPage.heroImage|default(null),
+    imageAlt: indexPage.heroImageAlt|default(indexPage.title),
+    imageCaption: indexPage.heroImageCaption|default(null),
+    imageFocalPoint: indexPage.heroImageFocalPoint|default(null),
+    imageDisplayMode: indexPage.heroImageDisplayMode|default('auto'),
+    imageSize: indexPage.heroImageSize|default('auto')
   } %}
 
   <section class="oling-shell-section oling-sectors-overview">
@@ -31,8 +44,8 @@
       </div>
       <div class="oling-sectors-grid">
         {% for sector in sectorCatalog %}
-          {% set tag = sector.detailUrl ? 'a' : 'article' %}
-          <{{ tag }} class="oling-sector-card{{ sector.heroImage ? ' oling-sector-card--photographic' : '' }}"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
+          {% set tag = 'article' %}
+          <{{ tag }} class="oling-sector-card{{ sector.heroImage ? ' oling-sector-card--photographic' : '' }}">
             <div class="oling-sector-card__visual" aria-hidden="true">
               {% if sector.heroImage %}
                 <img src="{{ asset(sector.heroImage) }}" alt="" width="640" height="360" loading="lazy" decoding="async">
@@ -42,7 +55,7 @@
             </div>
             <div class="oling-sector-card__body">
               <span class="oling-kicker">{{ ui.sector }}</span>
-              <h2>{{ sector.designation }}</h2>
+              <h2>{% if sector.detailUrl %}<a class="text-reset text-decoration-none" href="{{ sector.detailUrl }}">{{ sector.designation }}</a>{% else %}{{ sector.designation }}{% endif %}</h2>
               <p class="oling-sector-card__intro">{{ sector.intro }}</p>
               {% if sector.specifics is not empty %}
                 <div class="oling-sector-card__details">
@@ -54,12 +67,12 @@
                   </ul>
                 </div>
               {% endif %}
+              {% for reference in sector.references|default([]) %}
+                <p class="oling-sector-card__caption"><a href="{{ reference.href }}">{{ reference.title }}</a></p>
+              {% endfor %}
               <div class="oling-sector-card__footer">
-                {% if sector.projectCount > 0 %}
-                  <span class="oling-sector-card__proof"><strong>{{ ui.missions }}</strong> {{ sector.projectCount }}</span>
-                {% endif %}
                 {% if sector.detailUrl %}
-                  <span class="oling-sector-card__more">{{ ui.more }} <span aria-hidden="true">↗</span></span>
+                  <a class="oling-sector-card__more" href="{{ sector.detailUrl }}">{{ ui.more }} <span aria-hidden="true">↗</span></a>
                 {% endif %}
               </div>
             </div>

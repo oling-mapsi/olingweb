@@ -4,15 +4,28 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('styles/hub-heroes.css') }}?v=20261017b">
+{% endblock %}
+
 {% block body %}
 <main id="content" role="main">
   {% include 'public/_page_hero.html.twig' with {
+    mediaFrame: page.heroFrame|default('none'),
+    variant: 'hub-about',
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.intro,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
-    highlights: page.highlights
+    highlights: page.highlights,
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null),
+    imageDisplayMode: page.heroImageDisplayMode|default('auto'),
+    imageSize: page.heroImageSize|default('auto')
   } %}
 
   {% for block in page.sections %}
@@ -31,7 +44,7 @@
                     <li>{{ entry }}</li>
                   {% endfor %}
                 </ul>
-              {% elseif loop.last and page.legacySideHtml is defined and page.legacySideHtml %}
+              {% elseif loop.last and item.text is not defined and page.legacySideHtml is defined and page.legacySideHtml %}
                 <div class="oling-richtext">{{ page.legacySideHtml|raw }}</div>
               {% elseif item.text is defined %}
                 <p>{{ item.text }}</p>
@@ -53,9 +66,9 @@
         <div class="oling-about-leadership__heading">
           <div>
             <span class="oling-kicker">{{ 'leadership.eyebrow'|trans }}</span>
-            <h2 id="oling-about-leadership-heading">{{ 'leadership.about_title'|trans }}</h2>
+            <h2 id="oling-about-leadership-heading">{{ app.request.locale == 'fr' ? page.teamSection.title : 'leadership.about_title'|trans }}</h2>
           </div>
-          <p>{{ 'leadership.about_intro'|trans }}</p>
+          <p>{{ app.request.locale == 'fr' ? page.teamSection.intro : 'leadership.about_intro'|trans }}</p>
         </div>
         <div class="oling-leadership-grid oling-leadership-grid--preview">
           {% for member in teamPreview %}

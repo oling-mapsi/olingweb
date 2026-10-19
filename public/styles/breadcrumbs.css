@@ -1,0 +1,17 @@
+/* A separate neutral band keeps the same contrast on light and dark hero pages. */
+body.oling-body:not(.admin) .oling-public-breadcrumbs { display:block; position:relative; background:#f4f7fa; border-bottom:1px solid #dce5ec; color:#344d62; font-family:inherit; font-size:.8rem; line-height:1.5; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs>.container { width:100%; max-width:1216px!important; margin-inline:auto; padding-inline:1rem; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__list { display:flex; flex-wrap:nowrap!important; align-items:center; overflow-x:auto; gap:0; list-style:none; margin:0; padding:.8rem 0; white-space:nowrap!important; scrollbar-width:thin; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__item { display:flex; align-items:center; flex:0 0 auto; min-width:0; margin:0; padding:0; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__item::before { content:none!important; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__item--current { flex:1 1 auto; min-width:5ch; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__divider { flex:0 0 auto; margin-inline:.7rem; color:#526b7e!important; font-size:1rem; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs a,
+body.oling-body:not(.admin) .oling-public-breadcrumbs a:visited { display:block; color:#1c587e!important; -webkit-text-fill-color:#1c587e; opacity:1!important; background:transparent!important; text-decoration:none; font-size:inherit; font-weight:500; white-space:nowrap; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs a:is(:hover,:focus,:active) { color:#123c58!important; -webkit-text-fill-color:#123c58; text-decoration:underline; text-underline-offset:.2em; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs a:focus-visible { outline:2px solid #1262a5; outline-offset:3px; border-radius:2px; }
+body.oling-body:not(.admin) .oling-public-breadcrumbs__current { display:block; min-width:0; overflow:hidden; text-overflow:ellipsis; color:#344d62!important; -webkit-text-fill-color:#344d62; opacity:1!important; font-weight:500; white-space:nowrap!important; background:transparent!important; }
+@media(max-width:575.98px) { body.oling-body:not(.admin) .oling-public-breadcrumbs { font-size:.75rem; } body.oling-body:not(.admin) .oling-public-breadcrumbs__divider { margin-inline:.5rem; } }
+
+/* Neutralize legacy typography applied to all public list items. */
+body.oling-body:not(.admin) .oling-public-breadcrumbs :is(ol,li,a,.oling-public-breadcrumbs__current) { font-size:inherit!important; line-height:1.5!important; }

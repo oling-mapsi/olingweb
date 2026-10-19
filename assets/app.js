@@ -11,6 +11,7 @@ import 'cropperjs/dist/cropper.css';
 import './styles/app.css';
 import './styles/public-secondary.css';
 import './styles/public-leadership.css';
+import { contactReceiptEvent } from './js/contact-receipt.mjs';
 import './styles/public-interior.css';
 import './styles/public-editorial-v3.css';
 import './styles/public-evidence-v4.css';
@@ -389,7 +390,7 @@ $(document).ready(function () {
 
   // DEMAND ATTRIBUTION
   // =======================================================
-  const analyticsExcluded = document.body?.dataset?.analyticsExcluded === '1';
+  const analyticsExcluded = document.body?.dataset?.analyticsExcluded === '1' || ['localhost', '127.0.0.1', '[::1]', '::1'].includes(window.location.hostname) || window.location.hostname.endsWith('.localhost');
   const analyticsCollectUrl = document.body?.dataset?.analyticsCollectUrl || '/analytics/collect';
   const demandAttributionKey = 'oling_demand_attribution';
   const analyticsSessionKey = 'oling_analytics_session';
@@ -397,6 +398,7 @@ $(document).ready(function () {
   const analyticsPreviousPathKey = 'oling_analytics_previous_path';
   const demandOwnerByPath = {
     '/amoa-si': 'amoa-si',
+    '/pca-pra-continuite-activite': 'pca-pra',
     '/business-apps/erp': 'erp',
     '/crm': 'crm',
     '/gmao': 'gmao',
@@ -519,7 +521,7 @@ $(document).ready(function () {
     const attribution = demandAttributionForForm();
     const payload = {
       eventName,
-      eventId: parameters.eventId || randomAnalyticsId(),
+      eventId: parameters.event_id || parameters.eventId || randomAnalyticsId(),
       sessionId,
       pagePath: parameters.pagePath || window.location.pathname,
       previousPagePath: parameters.previousPagePath || sessionStorage.getItem(analyticsPreviousPathKey) || '',
@@ -1583,6 +1585,11 @@ $(document).ready(function () {
        // email
   // =======================================================
 
+  let confirmedContactReceipts = new Set();
+  try {
+    const storedReceipts = JSON.parse(sessionStorage.getItem('oling_confirmed_contact_receipts') || '[]');
+    if (Array.isArray(storedReceipts)) confirmedContactReceipts = new Set(storedReceipts);
+  } catch (_) { /* Unavailable analytics storage must not block a contact. */ }
   $('#button-send').on('click', function () {
     const $form = $('#contact-form');
     const $loading = $('#contact-loading');
@@ -1597,17 +1604,31 @@ $(document).ready(function () {
     $loading.removeClass('d-none').addClass('d-flex');
     $button.prop('disabled', true);
 
+    let $submissionId = $form.find('input[name="contactSubmissionId"]');
+    if (!$submissionId.length) {
+        $submissionId = $('<input>', { type: 'hidden', name: 'contactSubmissionId' }).appendTo($form);
+    }
+    if (!$submissionId.val()) $submissionId.val(crypto.randomUUID().replace(/-/g, ''));
+
     $.ajax({
         url: '/send-email',
         type: 'POST',
         data: $form.serialize(),
         success: function (response) {
             if (response.success) {
-                trackCommercialEvent('contact_confirmed', {
+                const receiptEvent = contactReceiptEvent(response, confirmedContactReceipts, analyticsExcluded, localStorage.getItem('oling_cookie_consent') === 'all');
+                if (receiptEvent) {
+                  try { sessionStorage.setItem('oling_confirmed_contact_receipts', JSON.stringify([...confirmedContactReceipts].slice(-100))); } catch (_) {}
+                  trackCommercialEvent(receiptEvent.name, {
+                      event_id: receiptEvent.event_id,
+                      submission_id: receiptEvent.submission_id,
+                      notification_status: receiptEvent.notification_status,
 	                  demand_source: demandAttribution.source,
 	                  demand_cluster: demandAttribution.ctaSource || 'contact-page',
 	                  landing_page: demandAttribution.landingPage,
-                });
+                  });
+                }
+                $success.find('p').text(response.message);
                 $form.addClass('d-none');
                 $success.removeClass('d-none');
                 $form[0].reset();

@@ -56,8 +56,22 @@ class Services
     #[ORM\ManyToMany(targetEntity: Team::class, inversedBy: 'services')]
     private Collection $teams;
 
+    #[ORM\ManyToOne(targetEntity: Practice::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Practice $catalogPractice = null;
+    #[ORM\ManyToMany(targetEntity: Practice::class)]
+    #[ORM\JoinTable(name: 'cms_service_secondary_practice')]
+    private Collection $secondaryPractices;
+
+    /** Administrative associations only; pages retain their own content and renderer. */
+    #[ORM\ManyToMany(targetEntity: SitePage::class, mappedBy: 'catalogServices')]
+    private Collection $catalogPages;
+
     public function __construct()
     {
+        $this->catalogPages = new ArrayCollection();
+        $this->secondaryPractices = new ArrayCollection();
+
         $this->projets = new ArrayCollection();
         $this->teams = new ArrayCollection();
     }
@@ -76,6 +90,14 @@ class Services
     {
         $this->Designation = $Designation;
 
+        return $this;
+    }
+
+    /** Creation only: never regenerate the slug of an existing service. */
+    public function initializeSlug(string $slug): self
+    {
+        if ($this->id !== null || isset($this->slug)) { throw new \LogicException('Le slug existant est immuable.'); }
+        $this->slug = $slug;
         return $this;
     }
 
@@ -240,6 +262,23 @@ class Services
     {
         $this->teams->removeElement($team);
 
+        return $this;
+    }
+    public function getCatalogPractice(): ?Practice { return $this->catalogPractice ?? $this->practice; }
+    public function setCatalogPractice(?Practice $value): self { $this->catalogPractice = $value; return $this; }
+    public function getSecondaryPractices(): Collection { return $this->secondaryPractices; }
+    public function addSecondaryPractices(Practice $value): self { if (!$this->secondaryPractices->contains($value)) { $this->secondaryPractices->add($value); } return $this; }
+    public function removeSecondaryPractices(Practice $value): self { $this->secondaryPractices->removeElement($value); return $this; }
+    public function getCatalogPages(): Collection { return $this->catalogPages; }
+    public function addCatalogPage(SitePage $page): self
+    {
+        if (!$this->catalogPages->contains($page)) { $this->catalogPages->add($page); $page->addCatalogServices($this); }
+        return $this;
+    }
+    public function removeCatalogPage(SitePage $page): self
+    {
+        $this->catalogPages->removeElement($page);
+        $page->removeCatalogServices($this);
         return $this;
     }
 }

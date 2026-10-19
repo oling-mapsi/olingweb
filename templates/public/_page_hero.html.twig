@@ -1,4 +1,4 @@
-<section class="oling-shell-hero{% if variant is defined and variant %} oling-shell-hero--{{ variant }}{% endif %}">
+<section class="oling-shell-hero{% if variant is defined and variant %} oling-shell-hero--{{ variant }}{% endif %}{% if mediaFrame|default('none') == 'framed' %} oling-shell-hero--framed{% endif %}">
   {% set currentLocale = app.request.locale|default('fr') %}
   {% set localizedRoutePaths = {
     contact: currentLocale == 'en' ? '/en/contact' : (currentLocale == 'es' ? '/es/contacto' : path('contact')),
@@ -24,7 +24,7 @@
           <div class="oling-shell-hero__actions">
             {% if primaryCta is defined and primaryCta %}
               {% set primaryRoute = primaryCta.route ?? 'contact' %}
-              <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+              <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}"{% if primaryCta.bypass|default(false) %} data-chat-bypass="true"{% endif %}>{{ primaryCta.label }}</a>
             {% endif %}
             {% if secondaryCta is defined and secondaryCta %}
               {% set secondaryRoute = secondaryCta.route ?? 'contact' %}
@@ -37,12 +37,14 @@
         {% endif %}
       </div>
       {% if heroImageSrc %}
-        <figure class="oling-shell-hero__media">
-          <img src="{{ heroImageSrc }}" alt="{{ imageAlt|default(title)|striptags }}" width="960" height="640" decoding="async" fetchpriority="high">
-          {% if imageCaption is defined and imageCaption %}
-            <figcaption>{{ imageCaption }}</figcaption>
-          {% endif %}
-        </figure>
+        {% include 'public/_hero_media.html.twig' with {
+          imageSrc: heroImageSrc,
+          imageAlt: imageAlt|default(title),
+          imageDisplayMode: imageDisplayMode|default(heroMedia.displayMode|default(page.heroImageDisplayMode|default('auto'))),
+          imageSize: imageSize|default(heroMedia.size|default(page.heroImageSize|default('auto'))),
+          imageCaption: imageCaption|default(null),
+          imageFocalPoint: imageFocalPoint|default(null)
+        } %}
       {% endif %}
       {% if highlights is defined and highlights|length > 0 %}
         <div class="oling-shell-hero__highlights">

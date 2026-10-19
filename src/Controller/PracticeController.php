@@ -19,6 +19,7 @@ use App\Repository\HomeSectionRepository;
 use App\Repository\ContentItemRepository;
 use App\Repository\LegalPageRepository;
 use App\Repository\SitePageRepository;
+use App\Service\PublicMediaResolver;
 use App\Service\PublicSitePageResolver;
 use App\Service\PublicLeadershipSelector;
 use App\Service\SeoGeoInternalLinkService;
@@ -27,6 +28,7 @@ use App\Service\LocalizedContentResolver;
 use App\Service\I18n\LocalizedUrlGenerator;
 use App\Service\LegalPageDefaults;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +44,7 @@ class PracticeController extends AbstractController
         private readonly LocalizedContentResolver $localizedContentResolver,
         private readonly LocalizedUrlGenerator $localizedUrlGenerator,
         private readonly PublicLeadershipSelector $publicLeadershipSelector,
+        private readonly ?PublicMediaResolver $publicMediaResolver = null,
     )
     {
     }
@@ -113,7 +116,7 @@ class PracticeController extends AbstractController
     ): Response {
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $projets = $repoprojet->findAll();
+        $projets = $this->filterPublicProjects($repoprojet->findAll());
         $metiers = $repometier->findAll();
         $homeHeroMetiers = $this->buildHomeHeroMetiers($repometier->findHomeHeroCandidates(), $locale);
         $featuredPractices = $repopractice->findBy(['featuredHome' => true]);
@@ -290,13 +293,14 @@ class PracticeController extends AbstractController
         MetierRepository $repometier,
         SitePageRepository $sitePageRepository,
         Request $request,
+        Connection $connection,
         ?string $_locale = SitePageTranslation::LOCALE_FR,
     ): Response {
         $locale = $_locale ?: SitePageTranslation::LOCALE_FR;
         $request->setLocale($locale);
         $practices = $this->localizePractices($repopractice->findAll(), $locale);
         $services = $this->localizeServices($reposervices->findAll(), $locale);
-        $projets = $repoprojet->findAll();
+        $projets = $this->filterPublicProjects($repoprojet->findAll());
         $metiers = $repometier->findAll();
         $pageEntity = $sitePageRepository->findOneBy(['slug' => 'projets']);
 
@@ -308,6 +312,8 @@ class PracticeController extends AbstractController
         [$featuredProjects] = $this->resolveFeaturedProjectsFromCollection($projectMediaPool !== [] ? $projectMediaPool : $projectPool);
         [, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
         $imagePool = $this->buildProjectImagePool($projets);
+        $catalogue = $locale === 'fr' ? $this->buildPublicProjectCatalogue($projets, $request, $connection) : null;
+        if ($catalogue !== null) $featuredProjects = $catalogue['featuredSources'];
 
         $perPage = 12;
         $miniProjectsAll = array_values(array_filter($projectPool, static fn (Projet $projet) => !in_array($projet->getId(), $featuredIds, true)));
@@ -316,6 +322,7 @@ class PracticeController extends AbstractController
         $hasMoreMini = count($miniProjectsAll) > $perPage;
 
         return $this->render('projets.html.twig', [
+            'catalogue' => $catalogue,
             'controller_name' => 'PracticeController',
             'practices' => $practices,
             'services' => $services,
@@ -333,30 +340,87 @@ class PracticeController extends AbstractController
     }
 
     #[Route('/projets/more', name: 'projets_more', methods: ['GET'])]
-    public function projetsMore(ProjetRepository $repoprojet, Request $request): JsonResponse
+    public function projetsMore(ProjetRepository $repoprojet, Request $request, Connection $connection): JsonResponse
     {
         $page = max(1, (int) $request->query->get('page', 1));
         $perPage = 12;
-        $projects = $repoprojet->findAll();
-        $importedProjects = array_values(array_filter($projects, static fn (Projet $projet) => $projet->getExternalId() !== null));
-        $projectPool = $importedProjects !== [] ? $importedProjects : $projects;
-        $imagePool = $this->buildProjectImagePool($projects);
-        [$featuredProjects, $featuredIds] = $this->resolveFeaturedProjectsFromCollection($projectPool);
-        $miniProjectsAll = array_values(array_filter($projectPool, static fn (Projet $projet) => !in_array($projet->getId(), $featuredIds, true)));
-        usort($miniProjectsAll, [$this, 'sortProjectsForListing']);
-        $offset = ($page - 1) * $perPage;
-        $miniProjects = array_slice($miniProjectsAll, $offset, $perPage);
-        $hasMoreMini = count($miniProjectsAll) > ($offset + $perPage);
-
-        $html = $this->renderView('projets/_mini_cards.html.twig', [
-            'miniProjects' => $this->buildProjectCards($miniProjects, $imagePool),
-        ]);
-
+        $projects = $this->filterPublicProjects($repoprojet->findAll());
+        $catalogue = $this->buildPublicProjectCatalogue($projects, $request, $connection);
         return new JsonResponse([
-            'html' => $html,
-            'nextPage' => $page + 1,
-            'hasMore' => $hasMoreMini,
+            'html' => $this->renderView('projets/_catalogue_cards.html.twig', ['catalogue' => $catalogue]),
+            'nextPage' => $catalogue['page'] + 1,
+            'hasMore' => $catalogue['page'] < $catalogue['pages'],
+            'total' => $catalogue['total'], 'page' => $catalogue['page'], 'pages' => $catalogue['pages'],
         ]);
+    }
+
+
+    /** One public catalogue; grouping never changes the CMS or its historical associations. */
+    private function buildPublicProjectCatalogue(array $projects, Request $request, Connection $connection): array
+    {
+        $published = array_fill_keys(array_map('intval', $connection->fetchFirstColumn("SELECT projet_id FROM projet_translation WHERE locale='fr' AND translation_status='published'")), true);
+        $eligible = []; $views = []; $byExternal = [];
+        foreach ($projects as $project) {
+            $id = $project->getId();
+            if (!isset($published[$id]) || preg_match('/base interne|brouillon|draft|priv|archiv|unpublished|non publi|retir/iu', (string) $project->getPublicationStatus())) continue;
+            $view = $this->localizedContentResolver->getProjetView($project, 'fr');
+            if (($view->getPublicNarrative()['anonymized'] ?? false) !== true) continue;
+            $eligible[$id] = $project; $views[$id] = $view;
+            if ($project->getExternalId()) $byExternal[$project->getExternalId()] = $project;
+        }
+        $clientKey = static fn (Projet $p): string => hash('sha256', mb_strtolower(trim((string) $p->getClientName())));
+        $projectCodes = static fn (Projet $p): array => array_values(array_filter($p->getMetadata()['project_codes'] ?? [], static fn ($code): bool => is_string($code) && preg_match('/^PJ\d{4}-\d{4}$/', $code)));
+        // Exact historical copies and one invoicing record identified by its original RCS project label.
+        $copies = [300=>512,257=>509,261=>498,270=>476,271=>494,279=>481,298=>421,301=>432,315=>353,427=>493];
+        $groups = []; $sourceGroup = []; $parents = [];
+        foreach ($eligible as $id => $project) {
+            if (str_starts_with((string) $project->getExternalId(), 'PH-')) { $parents[$id] = $project; continue; }
+            if (isset($copies[$id], $eligible[$copies[$id]])) continue;
+            $codes = $projectCodes($project);
+            $linked = $byExternal[$project->getMetadata()['linked_featured_project'] ?? ''] ?? null;
+            if ($codes === [] && $linked && $clientKey($linked) === $clientKey($project) && count($projectCodes($linked)) === 1) $codes = $projectCodes($linked);
+            $key = count($codes) === 1 && trim((string) $project->getClientName()) !== '' ? $clientKey($project).':'.$codes[0] : 'record:'.$id;
+            $groups[$key][] = $id; $sourceGroup[$id] = $key;
+        }
+        foreach ($copies as $source => $target) {
+            if (isset($eligible[$source], $sourceGroup[$target])) { $key=$sourceGroup[$target]; $groups[$key][]=$source; $sourceGroup[$source]=$key; }
+        }
+        $parentGroups=[];
+        foreach ($parents as $id=>$parent) {
+            $keys=[];
+            foreach ($eligible as $childId=>$child) {
+                if (($child->getMetadata()['linked_featured_project'] ?? '') === $parent->getExternalId() && $clientKey($parent)===$clientKey($child) && isset($sourceGroup[$childId])) $keys[]=$sourceGroup[$childId];
+            }
+            $parentGroups[$id]=array_values(array_unique($keys));
+            if ($keys===[]) { $key='record:'.$id; $groups[$key]=[$id];$sourceGroup[$id]=$key; }
+        }
+        $sectorLabel = static function (string $name): string {
+            foreach (['Ports et transport maritime'=>'port maritime|transport maritime', 'Transport aérien'=>'aéroport', 'Eau et assainissement'=>'eau|assainissement', 'Formation et compétences'=>'formation|portage', 'Collectivités et organismes publics'=>'collectivité|communauté|consulaire|chambre|centre de gestion|autorité', 'Santé et protection sociale'=>'santé|protection sociale', 'Industrie'=>'industr|matériaux|agroaliment', 'Commerce et distribution'=>'négoce|distribution|restauration', 'Aménagement et immobilier'=>'aménagement|foncier|logement', 'Organisations professionnelles'=>'sportive|agricole|organisation professionnelle', 'Services et numérique'=>'services numériques|conseil en systèmes'] as $label=>$regex) if (preg_match('/'.$regex.'/iu',$name)) return $label;
+            return 'Autres organisations';
+        };
+        $domainLabels=static function(string $text):array {
+            $labels=[];
+            foreach (['ERP et progiciels'=>'\bERP\b|Divalto|Sage X3|Sigma|So.Wave|Gescof', 'CRM'=>'\bCRM\b|Dolibarr', 'GMAO'=>'\bGMAO\b|SI Interventions', 'SI Finance et décisionnel'=>'finance|financier|GBCP|INFINOE|PEP|analytique|contrôle de gestion|budgets|Power BI', 'RGPD et DPO'=>'RGPD|\bDPO\b|privacy', 'QSE et certification'=>'\bQSE|ISO|Qualiopi|qualité|DUERP|risques professionnels|QualiEnr|QualiPV', 'Cybersécurité et continuité'=>'cyber|PCA|PRA|continuité|résilience|DORA', 'Gouvernance et transformation SI'=>'\bDSI\b|gouvernance|schéma directeur|transformation|AMOA SI|stratég', 'Collaboration, GED et infrastructure'=>'Microsoft 365|\bM365\b|Teams|GED|GEC|SAE|VoIP|télécom|Internet|collaborati|arborescence', 'SIG et géomatique'=>'\bSIG\b|géomatique|cartoth', 'Formation et processus'=>'formation|jury|processus|méthodolog|entretiens métier|RH|télétravail|e-marketing', 'Applications métier'=>'application web|développement|plateforme|plateau technique'] as $label=>$regex) if(preg_match('/'.$regex.'/iu',$text))$labels[]=$label;
+            return $labels ?: ['Conseil et accompagnement'];
+        };
+        $slug=static fn(string $text):string=>(string)(new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($text)->lower();
+        $imagePool=$this->buildProjectImagePool(array_values($eligible));$cards=[];$sectors=[];$domains=[];
+        foreach($groups as $key=>$ids){
+            usort($ids,fn($a,$b)=>$this->sortProjectsForListing($eligible[$a],$eligible[$b]));$id=$ids[0];$project=$eligible[$id];$view=$views[$id];$card=$this->buildProjectCards([$project],$imagePool,'fr')[0];
+            $sector=$sectorLabel((string)$view->getClientName());$domain=[];$details=[];
+            foreach($ids as $member){$v=$views[$member];$domain=array_merge($domain,$domainLabels((string)$v->getDesignation()));$description=trim(strip_tags((string)$v->getDescription()));$details[]=['title'=>$v->getDesignation(),'description'=>$description ?: (string)$v->getShortDescription()];}
+            $domain=array_values(array_unique($domain));$domainKeys=[];foreach($domain as $label){$k=$slug($label);$domains[$k]=$label;$domainKeys[]=$k;}
+            $sectorKey=$slug($sector);$sectors[$sectorKey]=$sector;
+            $cards[]=$card+['id'=>$id,'sourceIds'=>$ids,'sector'=>$sector,'sectorKey'=>$sectorKey,'domains'=>$domain,'domainKeys'=>$domainKeys,'details'=>$details];
+        }
+        uasort($sectors,'strnatcasecmp');uasort($domains,'strnatcasecmp');
+        $selectedSector=$request->query->getString('secteur');$selectedDomain=$request->query->getString('expertise');
+        $filtered=array_values(array_filter($cards,static fn($c)=>($selectedSector===''||$c['sectorKey']===$selectedSector)&&($selectedDomain===''||in_array($selectedDomain,$c['domainKeys'],true))));
+        $perPage=$request->query->getInt('par_page',12)===24?24:12;$total=count($filtered);$pages=max(1,(int)ceil($total/$perPage));$page=min($pages,max(1,$request->query->getInt('page',1)));
+        $featured=array_values(array_filter($eligible,static fn($p)=>$p->isFeaturedProjects()));
+        // The six imported PH selections are the CMS catalogue's existing featured set; no native flag is rewritten.
+        usort($featured,fn($a,$b)=>(str_starts_with((string)$a->getExternalId(),'PH-')?0:1)<=>(str_starts_with((string)$b->getExternalId(),'PH-')?0:1) ?: $this->sortFeaturedProjects($a,$b));$featured=array_slice($featured,0,6);
+        return ['cards'=>array_slice($filtered,($page-1)*$perPage,$perPage),'total'=>$total,'allTotal'=>count($cards),'page'=>$page,'pages'=>$pages,'perPage'=>$perPage,'from'=>$total?($page-1)*$perPage+1:0,'to'=>min($page*$perPage,$total),'sectors'=>$sectors,'domains'=>$domains,'sector'=>$selectedSector,'domain'=>$selectedDomain,'featuredSources'=>$featured,'eligibleRecords'=>count($eligible),'sourceGroups'=>$groups,'parentGroups'=>$parentGroups];
     }
 
     private function resolveFeaturedProjects(ProjetRepository $repository): array
@@ -457,6 +521,14 @@ class PracticeController extends AbstractController
         };
     }
 
+    /** @param Projet[] $projects @return Projet[] */
+    private function filterPublicProjects(array $projects): array
+    {
+        return array_values(array_filter($projects, static fn (Projet $project): bool =>
+            !str_contains(mb_strtolower((string) $project->getPublicationStatus()), 'base interne')
+        ));
+    }
+
     private function publicationBucket(string $publicationStatus): int
     {
         $value = mb_strtolower(trim($publicationStatus));
@@ -532,7 +604,7 @@ class PracticeController extends AbstractController
         $images = [];
 
         foreach ($projects as $project) {
-            $image = $project->getImageHero() ?: $project->getImage();
+            $image = $this->localizedContentResolver->getProjetPublicImage($project);
             if (!is_string($image) || trim($image) === '') {
                 continue;
             }
@@ -624,6 +696,9 @@ class PracticeController extends AbstractController
     private function buildProjectCardTitle(mixed $project): string
     {
         $designation = trim((string) $project->getDesignation());
+        if (($project->getPublicNarrative()['anonymized'] ?? false) === true) {
+            return $designation;
+        }
         if ($project->getExternalId() !== null && str_contains($designation, ' – ')) {
             $parts = explode(' – ', $designation, 2);
 
@@ -638,6 +713,11 @@ class PracticeController extends AbstractController
      */
     private function buildProjectCardExcerpt(mixed $project, array $metadata, string $locale = SitePageTranslation::LOCALE_FR): string
     {
+        // Do not reintroduce client names from internal source metadata.
+        if (($project->getPublicNarrative()['anonymized'] ?? false) === true) {
+            return trim((string) ($project->getShortDescription() ?? ''));
+        }
+
         $editorialAngle = $locale === SitePageTranslation::LOCALE_FR ? trim((string) ($metadata['editorial_angle'] ?? '')) : '';
         if ($editorialAngle !== '') {
             return $editorialAngle;
@@ -656,7 +736,7 @@ class PracticeController extends AbstractController
             }
         }
 
-        return $locale === SitePageTranslation::LOCALE_FR ? 'Projet de transformation, de cadrage ou de mise en œuvre mené par les équipes OLING.' : '';
+        return '';
     }
 
     private function localizedContactPath(string $locale): string
@@ -673,6 +753,10 @@ class PracticeController extends AbstractController
      */
     private function resolveProjectCardImage(Projet $project, array $imagePool, int $fallbackIndex, bool $allowFallback = false): ?string
     {
+        if ($this->localizedContentResolver->isProjetAnonymized($project)) {
+            return $this->localizedContentResolver->getProjetPublicImage($project) ?: ($allowFallback ? '/svg/projects/mission.svg' : null);
+        }
+
         $image = $project->getImageHero() ?: $project->getImage();
         if (is_string($image) && trim($image) !== '') {
             return trim($image);
@@ -783,7 +867,8 @@ class PracticeController extends AbstractController
     #[Route('/amoa-si', name: 'amoa_si', options: ["sitemap" => true])]
     public function amoaSi(
         PracticeRepository $repopractice,
-        ServicesRepository $reposervices
+        ServicesRepository $reposervices,
+        SitePageRepository $sitePageRepository
     ): Response
     {
         $practice = $repopractice->findOneBy(['slug' => 'consulting']);
@@ -792,7 +877,7 @@ class PracticeController extends AbstractController
             throw $this->createNotFoundException('La pratique n\'existe pas.');
         }
 
-        return $this->renderPracticeHome($practice, $repopractice, $reposervices);
+        return $this->renderPracticeHome($practice, $repopractice, $reposervices, $sitePageRepository->findOneBy(['slug' => 'amoa-si']));
     }
 
    
@@ -1042,7 +1127,8 @@ class PracticeController extends AbstractController
         }
 
         $servicePractice = $service->getPractice();
-        $expectedPracticeSlug = $servicePractice?->getSlug();
+        $legacyMapsiUsage = $practice === 'mapsi' && \App\Service\LegacyMapsiPublicUsage::isPreservedUsage($service);
+        $expectedPracticeSlug = $servicePractice?->getSlug() ?? ($legacyMapsiUsage ? 'mapsi' : null);
 
         if (!$expectedPracticeSlug) {
             throw $this->createNotFoundException('Le service n\'est rattaché à aucune practice publiée.');
@@ -1061,7 +1147,7 @@ class PracticeController extends AbstractController
             throw $this->createNotFoundException('La practice n\'existe pas.');
         }
 
-        if ($servicePractice?->getId() !== $practiceEntity->getId()) {
+        if (!$legacyMapsiUsage && $servicePractice?->getId() !== $practiceEntity->getId()) {
             throw $this->createNotFoundException('Le service ne correspond pas à la practice demandée.');
         }
 
@@ -1073,10 +1159,31 @@ class PracticeController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
+        $serviceNarrative = $serviceContent->getPublicNarrative();
+        if ($legacyMapsiUsage) {
+            $serviceNarrative['schemaServiceType'] = 'Usage de la plateforme MAPSI';
+        }
+        if ($expectedPracticeSlug === 'mapsi') {
+            $serviceNarrative += [
+                'eyebrow' => $legacyMapsiUsage ? 'Usages MAPSI' : 'Accompagnement MAPSI',
+                'headline' => $serviceContent->getDesignation(),
+                'intro' => $serviceContent->getIntroductionShort(),
+                'outcomes' => [],
+                'promiseTitle' => $legacyMapsiUsage ? 'Outiller ce processus avec MAPSI' : 'Accompagner la mise en œuvre de MAPSI',
+                'focusTitle' => 'Périmètre : '.$serviceContent->getDesignation(),
+                'missionPhasesTitle' => 'Les étapes de l’accompagnement MAPSI',
+                'deliverablesTitle' => 'Les livrables de l’intervention MAPSI',
+            ];
+        }
         return $this->render('services.html.twig', [
             'controller_name' => 'PracticeController',
             'service' => $serviceContent,
-            'serviceNarrative' => $serviceContent->getPublicNarrative(),
+            'serviceNarrative' => $serviceNarrative,
+            'heroMedia' => $this->mediaResolver()->resolveEntityHero(
+                $serviceContent->getImageHero() ?: $serviceContent->getImage1() ?: $serviceContent->getImage2(),
+                $serviceContent->getDesignation(),
+                sprintf('Service %s', $serviceContent->getDesignation())
+            ),
             'pract' => $practice,
             'practices' => $practices,
             'services' => $services,
@@ -1168,7 +1275,8 @@ class PracticeController extends AbstractController
     private function renderPracticeHome(
         \App\Entity\Practice $practice,
         PracticeRepository $practiceRepository,
-        ServicesRepository $servicesRepository
+        ServicesRepository $servicesRepository,
+        ?\App\Entity\SitePage $publicPage = null
     ): Response {
         $practices = $this->localizePractices($practiceRepository->findAll());
         $services = $this->localizeServices($servicesRepository->findAll());
@@ -1188,10 +1296,34 @@ class PracticeController extends AbstractController
         }
         $projects = array_values($projectsMap);
 
+        $practiceView = $this->localizedContentResolver->getFrenchPracticeView($practice);
+        $publicTranslation = $publicPage?->getPublishedTranslation(SitePageTranslation::LOCALE_FR) ?: $publicPage?->getTranslation(SitePageTranslation::LOCALE_FR);
+        $heroMedia = $publicPage
+            ? $this->mediaResolver()->resolveSitePageHero(
+                $publicPage,
+                $publicTranslation,
+                $practiceView->getImage1() ?: $practiceView->getImage2(),
+                $practiceView->getDesignation(),
+                sprintf('Practice %s', $practiceView->getDesignation())
+            )
+            : $this->mediaResolver()->resolveEntityHero($practiceView->getImage1() ?: $practiceView->getImage2(), $practiceView->getDesignation(), sprintf('Practice %s', $practiceView->getDesignation()));
+
+        $legacyMapsiUsages = [];
+        if ($practice->getSlug() === 'mapsi') {
+            foreach (\App\Service\LegacyMapsiPublicUsage::slugs() as $usageSlug) {
+                $usage = $servicesRepository->findOneBy(['slug' => $usageSlug]);
+                if ($usage && \App\Service\LegacyMapsiPublicUsage::isPreservedUsage($usage)) {
+                    $usageView = $this->localizedContentResolver->getFrenchServiceView($usage);
+                    $legacyMapsiUsages[] = ['url' => '/mapsi/'.$usageSlug, 'label' => $usageView->getDesignation()];
+                }
+            }
+        }
         return $this->render('practice-home.html.twig', [
+            'legacyMapsiUsages' => $legacyMapsiUsages,
             'controller_name' => 'PracticeController',
-            'practice' => $this->localizedContentResolver->getFrenchPracticeView($practice),
+            'practice' => $practiceView,
             'practiceNarrative' => $this->publicSitePageResolver->getPracticeNarrative($practice),
+            'heroMedia' => $heroMedia,
             'expertisePages' => $this->publicSitePageResolver->getExpertisePages(),
             'pract' => $practice->getSlug(),
             'practices' => $practices,
@@ -1199,6 +1331,11 @@ class PracticeController extends AbstractController
             'teams' => $this->localizeTeams($teams),
             'projects' => $this->localizeProjects($projects),
         ]);
+    }
+
+    private function mediaResolver(): PublicMediaResolver
+    {
+        return $this->publicMediaResolver ?? new PublicMediaResolver();
     }
 
     /**

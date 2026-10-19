@@ -1,0 +1,83 @@
+/* Services hub: scoped identities, native CMS hero, no global overrides. */
+body.oling-body main.oling-services-page { --services-ink:#152f47; }
+.oling-services-page .services-theme--applications { --domain:#1262a5; --domain-deep:#174568; --domain-wash:#eff6fc; --domain-line:#c7dced; }
+.oling-services-page .services-theme--governance { --domain:#16796e; --domain-deep:#17473f; --domain-wash:#eef7f3; --domain-line:#bddbd2; }
+.oling-services-page .services-theme--resilience { --domain:#9d4c32; --domain-deep:#653529; --domain-wash:#faf3ed; --domain-line:#e5cec0; }
+body.oling-body main.oling-services-page > .oling-shell-hero { background:#f1f6fa; border-bottom:1px solid #dce6ed; }
+body.oling-body main.oling-services-page .oling-shell-hero h1 { max-width:19ch; }
+body.oling-body main.oling-services-page .oling-shell-hero__highlights { background:transparent!important; border:0!important; box-shadow:none; }
+body.oling-body main.oling-services-page .services-compass { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; padding-top:2rem; padding-bottom:2rem; }
+body.oling-body main.oling-services-page .services-compass__item { position:relative; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:.9rem; padding:1.3rem; border:1px solid var(--domain-line); border-top:3px solid var(--domain); border-radius:.75rem; background:var(--domain-wash); text-decoration:none; color:var(--domain-deep); transition:transform .18s,border-color .18s; }
+.oling-services-page .services-compass__number { font-size:.75rem; font-weight:700; letter-spacing:.08em; opacity:.75; }
+.oling-services-page .services-compass__title { font-size:.95rem; font-weight:700; line-height:1.4; }
+.oling-services-page .services-compass__arrow { font-size:1.5rem; padding:.6rem; }
+body.oling-body main.oling-services-page .services-compass__item:hover { transform:translateY(-3px); border-color:var(--domain); }
+.oling-services-page .services-universe { padding:4rem 0; scroll-margin-top:7rem; border-top:1px solid var(--domain-line); background:var(--domain-wash); }
+.oling-services-page .services-universe__layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr); gap:3.5rem; align-items:start; }
+.oling-services-page .services-universe__intro { position:sticky; top:8rem; padding:1.6rem 1.65rem 2rem; border-radius:1rem; background:var(--domain-deep); overflow:hidden; }
+.oling-services-page .services-universe__identity { display:flex; justify-content:space-between; align-items:center; padding-bottom:2.2rem; color:#fff; }
+.oling-services-page .services-universe__identity>span { font-size:3.4rem; letter-spacing:-.07em; font-weight:300; line-height:1; opacity:.65; }
+.oling-services-page .services-universe__identity>svg { display:grid; place-items:center; width:3rem; height:3rem; border:1px solid #ffffff50; border-radius:.7rem; font-size:1.5rem; }
+body.oling-body main.oling-services-page .services-universe__intro h2 { color:#fff!important; font-size:clamp(1.6rem,2.4vw,2.1rem)!important; line-height:1.18; letter-spacing:-.035em; margin-bottom:1rem; }
+body.oling-body main.oling-services-page .services-universe__intro p { color:#f0f5f7!important; font-size:.97rem; line-height:1.65; margin:0; }
+.oling-services-page .services-universe__motif { display:flex; gap:.55rem; margin-top:2rem; height:2.4rem; opacity:.65; }
+.oling-services-page .services-universe__motif span { width:2.4rem; border:1px solid #ffffff90; }
+.oling-services-page .services-theme--applications .services-universe__motif span { border-radius:.4rem; }
+.oling-services-page .services-theme--applications .services-universe__motif span:nth-child(2) { transform:translateY(.5rem); }
+.oling-services-page .services-theme--governance .services-universe__motif span { border-radius:50%; margin-right:-1rem; }
+.oling-services-page .services-theme--resilience .services-universe__motif span { transform:rotate(-12deg); border-radius:.2rem .2rem 1rem 1rem; }
+.oling-services-page .services-universe__cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+body.oling-body main.oling-services-page .services-expertise-card { display:flex; flex-direction:column; min-width:0; min-height:205px; padding:1.4rem; background:#fff; border:1px solid var(--domain-line); border-radius:.85rem; text-decoration:none; color:var(--services-ink); position:relative; box-shadow:0 3px 0 #152f4705; transition:transform .18s,border-color .18s,box-shadow .18s; }
+.oling-services-page .services-expertise-card__top { display:flex; align-items:center; justify-content:space-between; color:var(--domain); margin-bottom:1.5rem; }
+.oling-services-page .services-expertise-card__index { font-size:.72rem; font-weight:700; letter-spacing:.08em; }
+.oling-services-page .services-expertise-card__arrow { display:grid; place-items:center; height:1.9rem; width:1.9rem; border-radius:50%; background:var(--domain-wash); font-size:1.15rem; transition:background .18s,color .18s; }
+body.oling-body main.oling-services-page .services-expertise-card h3 { color:var(--domain-deep)!important; font-size:1.12rem!important; font-weight:700; line-height:1.3; letter-spacing:-.018em; margin:0 0 .65rem; }
+body.oling-body main.oling-services-page .services-expertise-card p { color:#486073!important; font-size:.9rem; line-height:1.6; margin:0; }
+body.oling-body main.oling-services-page .services-expertise-card:hover { transform:translateY(-3px); border-color:var(--domain); box-shadow:0 12px 28px -18px var(--domain-deep); }
+.oling-services-page .services-expertise-card:hover .services-expertise-card__arrow { background:var(--domain); color:#fff; }
+.oling-services-page :is(.services-expertise-card,.services-compass__item):focus-visible { outline:3px solid var(--domain); outline-offset:4px; }
+.oling-services-page .services-mapsi { background:#eaf1f6; border-bottom:1px solid #dce6ed; }
+.oling-services-page .services-mapsi>.container { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); align-items:center; gap:3rem; }
+body.oling-body main.oling-services-page .services-mapsi .link { display:inline-flex; padding:.75rem 1.1rem; border:1px solid #aec6d8; border-radius:.5rem; background:#fff; text-decoration:none; color:#193e59; }
+body.oling-body main.oling-services-page .services-mapsi .link:hover { background:#193e59; color:#fff; }
+.oling-services-page .services-specialist-card { height:100%; padding:1.5rem; border-left:3px solid #8eabc0; background:#f3f6f8; border-radius:0 .7rem .7rem 0; }
+body.oling-body main.oling-services-page .services-specialist-card h3 { font-size:1.05rem!important; line-height:1.35; }
+body.oling-body main.oling-services-page .services-specialist-card p { font-size:.9rem; line-height:1.6; }
+@media(max-width:991.98px) {
+ .oling-services-page .services-universe__layout { grid-template-columns:1fr; gap:1.5rem; }
+ .oling-services-page .services-universe__intro { position:static; }
+ .oling-services-page .services-universe__identity { padding-bottom:1rem; }
+ .oling-services-page .services-universe__motif { display:none; }
+ body.oling-body main.oling-services-page .services-compass { gap:.65rem; }
+ body.oling-body main.oling-services-page .services-compass__item { grid-template-columns:1fr auto; padding:1rem; }
+ .oling-services-page .services-compass__number { grid-column:1/-1; }
+}
+@media(max-width:575.98px) {
+ body.oling-body main.oling-services-page .services-compass { grid-template-columns:1fr; padding-top:1.25rem; padding-bottom:1.25rem; }
+ body.oling-body main.oling-services-page .services-compass__item { grid-template-columns:auto 1fr auto; gap:.8rem; }
+ .oling-services-page .services-compass__number { grid-column:auto; }
+ .oling-services-page .services-universe { padding:2.25rem 0; }
+ .oling-services-page .services-universe__cards { grid-template-columns:1fr; }
+ body.oling-body main.oling-services-page .services-expertise-card { min-height:0; padding:1.2rem; }
+ .oling-services-page .services-expertise-card__top { margin-bottom:1rem; }
+ .oling-services-page .services-mapsi>.container { grid-template-columns:1fr; gap:1.5rem; }
+}
+@media(prefers-reduced-motion:reduce) {
+ body.oling-body main.oling-services-page :is(.services-expertise-card,.services-compass__item),.oling-services-page .services-expertise-card__arrow { transition:none; }
+ body.oling-body main.oling-services-page :is(.services-expertise-card,.services-compass__item):hover { transform:none; }
+}
+
+body.oling-body main.oling-services-page .services-compass { max-width:1216px!important; width:calc(100% - 2rem); }
+body.oling-body main.oling-services-page :is(.services-universe__intro h2,.services-expertise-card h3) { font-family:inherit!important; hyphens:none; }
+body.oling-body main.oling-services-page .services-expertise-card p { hyphens:none; }
+.oling-services-page .services-mapsi__copy { min-width:0; }
+.oling-services-page .services-mapsi__visual { margin:0; min-width:0; width:100%; }
+.oling-services-page .services-mapsi__visual img { display:block; width:100%; height:auto; object-fit:contain; border-radius:1rem; }
+body.oling-body main.oling-services-page .services-specialist-card h3 a { color:#193e59!important; text-decoration:none; }
+body.oling-body main.oling-services-page .services-specialist-card h3 a:is(:hover,:focus,:focus-visible,:active) { color:#125d95!important; text-decoration:underline; text-underline-offset:.2em; }
+body.oling-body main.oling-services-page .services-specialist-card h3 a:focus-visible { outline:2px solid #125d95; outline-offset:4px; border-radius:2px; }
+@media(max-width:991.98px) { .oling-services-page .services-mapsi>.container { grid-template-columns:1fr; gap:2rem; } .oling-services-page .services-mapsi__visual { max-width:40rem; justify-self:center; } }
+
+body.oling-body main.oling-services-page .services-mapsi .oling-section-head { display:block!important; }
+.oling-services-page .services-mapsi { scroll-margin-top:7rem; }
+body.oling-body main.oling-services-page .services-specialist-card h3 { font-family:inherit!important; }

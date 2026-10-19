@@ -1,0 +1,30 @@
+{% set expertiseIcons = {
+  'rgpd-et-dpo': 'M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Zm-4 9 3 3 5-6',
+  'erp-et-progiciels': 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+  'crm': 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M13 3a4 4 0 0 1 0 8M22 21v-2a4 4 0 0 0-3-3.9M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
+  'gmao': 'm14 6 4-4a6 6 0 0 1-7 8L4 17a2.1 2.1 0 0 0 3 3l7-7a6 6 0 0 0 8-7l-4 4-4-4Z',
+  'si-finance-et-decisionnel': 'M3 3v18h18M7 16v-5M12 16V7M17 16v-8',
+  'cybersecurite-et-continuite': 'M6 10h12v11H6zM8 10V7a4 4 0 0 1 8 0v3M12 14v3',
+  'gouvernance-et-transformation-si': 'M3 3h6v6H3zM15 15h6v6h-6zM3 15h6v6H3zM15 3h6v6h-6zM9 6h6M6 9v6M18 9v6M9 18h6',
+  'qse-et-certification': 'm12 3 3 3 4 1v5l-2 4-5 5-5-5-2-4V7l4-1 3-3Zm-4 9 3 3 5-6',
+  'collaboration-ged-et-infrastructure': 'M4 3h11l5 5v13H4zM14 3v6h6M8 13h8M8 17h5',
+  'sig-et-geomatique': 'm3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5ZM9 3v16M15 5v16',
+  'formation-et-processus': 'm2 9 10-6 10 6-10 6L2 9Zm4 3v6l6 3 6-3v-6M22 9v8',
+  'applications-metier': 'M3 4h18v16H3zM3 9h18M7 6h.01M10 6h.01M8 13l-2 2 2 2M16 13l2 2-2 2',
+  'conseil-et-accompagnement': 'M4 4h16v12H9l-5 4V4ZM8 8h8M8 12h5'
+} %}
+<div class="oling-catalogue-grid">
+{% for reference in catalogue.cards %}
+  {% set theme = catalogue.domain in reference.domainKeys ? catalogue.domain : reference.domainKeys|first %}
+  <article id="reference-{{ reference.id }}" class="oling-catalogue-card" data-expertise="{{ theme }}">
+    <div class="oling-catalogue-card-top"><span class="oling-kicker">{{ reference.sector }}</span><span class="oling-catalogue-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="{{ expertiseIcons[theme]|default(expertiseIcons['conseil-et-accompagnement']) }}"/></svg></span></div>
+    <span class="oling-catalogue-domain">{{ catalogue.domains[theme] }}</span>
+    <h3>{{ reference.title }}</h3>
+    {% if reference.excerpt %}<p class="oling-catalogue-excerpt">{{ reference.excerpt }}</p>{% endif %}
+    {% if loop.index % 12 in [3,7] %}<div class="oling-catalogue-story"><span>Le périmètre de la mission</span><p>{{ reference.excerpt }}</p></div>{% endif %}
+    {% if reference.domains|length > 1 %}<ul class="oling-catalogue-tags" aria-label="Expertises complémentaires">{% for domain in reference.domains %}{% if domain != catalogue.domains[theme] %}<li>{{ domain }}</li>{% endif %}{% endfor %}</ul>{% endif %}
+    <details><summary>Détails de la mission</summary>{% for detail in reference.details %}{% if reference.details|length > 1 %}<h4>{{ detail.title }}</h4>{% endif %}<p>{{ detail.description }}</p>{% endfor %}</details>
+    <a class="oling-catalogue-link" href="{{ reference.href }}">{{ reference.href == '/contact' ? 'Parler d’une mission similaire' : 'Découvrir l’expertise associée' }} <span aria-hidden="true">↗</span></a>
+  </article>
+{% else %}<p class="oling-catalogue-empty">Aucune référence ne correspond à ces filtres. Vous pouvez élargir votre recherche.</p>{% endfor %}
+</div>

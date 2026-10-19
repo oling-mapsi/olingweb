@@ -1,0 +1,9 @@
+<div class="card admin-form-card mt-4"><div class="card-body">
+    <h2 class="h5">Contenu SEO / GEO avancé</h2>
+    <div class="row g-3">
+        {% for key in ['MetaTitle','MetaDescription','Eyebrow','Headline','Intro','Promise','HeroCtaLabel','MissionPhases','Deliverables','ProjectContexts','ClientTypes','Focus','CitablePassages','SupportLinks'] %}
+            <div class="col-md-6">{{ form_row(attribute(form, 'seoAdvanced' ~ key)) }}</div>
+        {% endfor %}
+    </div>
+    {{ form_widget(form.seoAdvancedSourceHash) }}
+</div></div>

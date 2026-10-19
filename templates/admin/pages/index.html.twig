@@ -22,7 +22,7 @@
                 <table class="table table-hover align-middle js-admin-table">
                     <thead>
                         <tr>
-                            <th>Slug</th>
+                            <th>Image</th><th>Slug</th>
                             <th>Titre</th>
                             <th>FR</th>
                             <th>EN</th>
@@ -33,7 +33,7 @@
                     <tbody>
                         {% for page in pages %}
                             <tr>
-                                <td class="fw-semibold">
+                                <td>{% include 'admin/catalogue/_thumbnail.html.twig' with {row:cms_admin_item(page)} %}</td><td class="fw-semibold">
                                     <a href="{{ path('admin_pages_edit', {id: page.id}) }}">{{ page.slug }}</a>
                                 </td>
                                 <td>{{ page.title }}</td>

@@ -4,21 +4,26 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ canonicalPath|default(app.request.pathInfo) }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('styles/hub-heroes.css') }}?v=20261017b">
+{% endblock %}
+
 {% block body %}
 {% set locale = app.request.locale|default('fr') %}
 {% set ui = {
   fr: {
     cards_kicker: 'Fiches expertise',
-    cards_title: 'Expertises transverses',
+    cards_title: 'Nos domaines d’intervention',
     cards_lead: 'Neuf expertises structurées pour cadrer, piloter et déployer',
-    cards_text: 'Chaque fiche aide d’abord à qualifier un sujet. Une fois le bon angle identifié, les pages services détaillent l’intervention, et les pages secteurs montrent dans quels contextes métier cette expertise devient prioritaire.',
+    cards_text: 'Pour chaque domaine, retrouvez les enjeux traités et les missions proposées. Les prestations et les références vous permettent de préciser l’accompagnement recherché.',
     card_more: 'Voir la fiche'
   },
   en: {
     cards_kicker: 'Expertise pages',
     cards_title: 'Cross-functional expertise',
     cards_lead: 'Nine structured areas of expertise to scope, steer and deliver',
-    cards_text: 'Each page helps qualify the issue first. Once the right angle is clear, service pages detail the intervention and sector pages show where this expertise becomes a priority.',
+    cards_text: 'Explore the scope of our services and the expertise available to your teams.',
     card_more: 'View page'
   },
   es: {
@@ -75,12 +80,20 @@
 
 <main id="content" class="oling-expertises-index oling-public-editorial oling-public-editorial--expertises" role="main">
   {% include 'public/_page_hero.html.twig' with {
+    mediaFrame: page.heroFrame|default('none'),
+    variant: 'hub-expertises',
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.intro,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
-    highlights: page.highlights
+    highlights: page.highlights,
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null),
+    imageDisplayMode: page.heroImageDisplayMode|default('auto'),
+    imageSize: page.heroImageSize|default('auto')
   } %}
 
   {% if locale == 'fr' %}
@@ -174,7 +187,7 @@
       <div class="oling-section-head">
         <span class="oling-kicker">Audit et pilotage</span>
         <h2 id="expertises-audit-complementaires-title">Expertises complémentaires</h2>
-        <p>Ces interventions complètent les pages owner lorsque le besoin porte sur un contrôle, une fonction ou une preuve spécifique.</p>
+        <p>Ces missions portent sur des besoins précis de contrôle, de gouvernance ou de conformité.</p>
       </div>
       <div class="oling-expertise-index-grid">
         <article class="oling-expertise-index-card oling-expertise-index-card--secondary">

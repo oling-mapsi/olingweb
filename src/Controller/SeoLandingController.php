@@ -211,8 +211,19 @@ class SeoLandingController extends AbstractController
         ServicesRepository $servicesRepository
     ): Response {
         $page = $this->sitePageRepository->findOneBy(['slug' => $pageSlug]);
-        $content = $page ? $this->localizedContentResolver->getFrenchPublicView($page) : null;
+        // PCA/PRA keeps its validated A fallback while a new CMS record is draft or unpublished.
+        $content = $page
+            ? ($pageSlug === 'pca-pra-continuite-activite'
+                ? $this->localizedContentResolver->getPublicView($page, 'fr')
+                : $this->localizedContentResolver->getFrenchPublicView($page))
+            : null;
         $pageFaqItems = $this->sitePageFaqParser->parse($content?->getBodyHtml());
+        $landingNarrative = $content?->getStructuredData()['landingNarrative'] ?? [];
+        if ($pageSlug === 'pca-pra-continuite-activite' && $landingNarrative === []) {
+            $landingNarrative = json_decode(file_get_contents($this->getParameter('kernel.project_dir').'/config/pca_pra_public_fallback.json'), true, 512, JSON_THROW_ON_ERROR);
+            // Emergency fallback only: native CMS content takes precedence when present.
+            $pageFaqItems = [];
+        }
 
         return $this->render($template, [
             'practices' => array_map(fn ($practice) => $this->localizedContentResolver->getFrenchPracticeView($practice), $practiceRepository->findAll()),
@@ -221,7 +232,7 @@ class SeoLandingController extends AbstractController
             'pageFaqItems' => $pageFaqItems,
             'zoneMaillage' => $this->seoGeoInternalLinkService->build($content?->getSlug()),
             'zoneExpertises' => $this->seoGeoInternalLinkService->buildExpertiseLinksForZone($content?->getSlug(), 10),
-            'landingNarrative' => $content?->getStructuredData()['landingNarrative'] ?? [],
+            'landingNarrative' => $landingNarrative,
             'landingPageSlug' => $pageSlug,
             'localizedAlternates' => $page ? $this->localizedUrlGenerator->sitePageAlternates($page) : null,
             'pract' => '',

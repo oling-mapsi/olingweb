@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}Méthode d’intervention · Accueil{% endblock %}
+{% block body %}{% form_theme form 'bootstrap_5_layout.html.twig' %}<main class="admin">
+<h1>Méthode d’intervention</h1><p class="cms-intro">Modifiez directement les textes et l’illustration de cette section de l’accueil.</p>
+{% for label,messages in app.flashes %}{% for message in messages %}<div class="alert alert-{{ label }}">{{ message }}</div>{% endfor %}{% endfor %}
+{{ form_start(form) }}{{ form_errors(form) }}
+<section class="cms-card"><h2>Présentation de la section</h2>{{ form_row(form.eyebrow) }}{{ form_row(form.title) }}</section>
+{% for item in form.items %}<section class="cms-card"><h2>Bloc {{ loop.index }}</h2>{{ form_row(item.title) }}{{ form_row(item.text) }}</section>{% endfor %}
+<section class="cms-card"><h2>Illustration</h2>{% if methodImage %}<img class="cms-editor-image mb-3" src="{{ asset(methodImage) }}" alt="Illustration actuelle">{% endif %}{{ form_row(form.imageFile) }}{{ form_row(form.imageAlt) }}{{ form_row(form.imageFit) }}{{ form_row(form.imageSize) }}{{ form_row(form.imagePosition) }}<details><summary>Adresse de l’image</summary>{{ form_row(form.image) }}</details></section>
+<div class="cms-editor-actions"><button class="btn btn-primary">Enregistrer</button><a class="btn btn-outline-secondary" href="{{ path('admin_home_index') }}">Retour à l’accueil</a><a href="/" target="_blank" rel="noopener">Voir le site</a></div>
+{{ form_end(form) }}</main>{% endblock %}

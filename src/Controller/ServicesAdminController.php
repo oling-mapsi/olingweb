@@ -21,20 +21,20 @@ class ServicesAdminController extends AbstractController
 {
     #[Route('', name: 'admin_services_index', methods: ['GET'])]
     #[Route('/', name: 'admin_services_index_slash', methods: ['GET'])]
-    public function index(ServicesRepository $repository): Response
+    public function index(Request $request, ServicesRepository $repository): Response
     {
-        return $this->render('admin/services/index.html.twig', [
-            'services' => $repository->findBy([], ['id' => 'DESC']),
-            'practices' => [],
-        ]);
+        return $this->forward(CmsCatalogueAdminController::class.'::index', ['type' => 'service'], $request->query->all());
     }
 
     #[Route('/new', name: 'admin_services_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadManager $uploadManager, StructuredContentTranslationSynchronizer $translationSynchronizer, \Symfony\Component\String\Slugger\SluggerInterface $slugger): Response
     {
         $service = new Services();
         $formData = new StructuredContentAdminFormData();
-        $form = $this->createForm(ServicesType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
+        if ($request->query->getInt('practice') > 0) {
+            $formData->setPractice($entityManager->find(\App\Entity\Practice::class, $request->query->getInt('practice')));
+        }
+        $form = $this->createForm(ServicesType::class, $formData, ['data_class' => StructuredContentAdminFormData::class, 'require_practice' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -72,9 +72,18 @@ class ServicesAdminController extends AbstractController
                 }
 
                 $service->setDesignation((string) $formData->getDesignation());
+                $baseSlug = (string) $slugger->slug((string) $formData->getDesignation())->lower();
+                $baseSlug = $baseSlug !== '' ? substr($baseSlug, 0, 240) : 'service';
+                $newSlug = $baseSlug; $suffix = 2;
+                while ($entityManager->getRepository(Services::class)->findOneBy(['slug' => $newSlug])) { $newSlug = $baseSlug.'-'.$suffix++; }
+                $service->initializeSlug($newSlug);
                 $service->setImage1((string) $formData->getImage1());
                 $entityManager->persist($service);
                 $entityManager->flush();
+                if ($form->get('imageHeroUseMain')->getData() && !$imageHeroFile) {
+                    $formData->setImageHero(null);
+                }
+
                 $translationSynchronizer->saveServiceFromForm($service, $formData);
                 $entityManager->flush();
 
@@ -105,7 +114,7 @@ class ServicesAdminController extends AbstractController
         $originalImageHero = $service->getImageHero();
 
         $formData = $translationSynchronizer->serviceFormData($service);
-        $form = $this->createForm(ServicesType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
+        $form = $this->createForm(ServicesType::class, $formData, ['data_class' => StructuredContentAdminFormData::class, 'lock_route_practice' => true, 'require_practice' => !\App\Service\LegacyMapsiPublicUsage::isPreservedUsage($service)]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -122,7 +131,7 @@ class ServicesAdminController extends AbstractController
                 if ($image1File) {
                     try {
                         $formData->setImage1($uploadManager->upload($image1File, 'services/images'));
-                        $uploadManager->remove($originalImage1);
+                        // Retain the old file for other pages and rollback.
                     } catch (FileException $exception) {
                         $this->addFlash('danger', "Impossible d'envoyer l'image principale.");
                     }
@@ -131,7 +140,7 @@ class ServicesAdminController extends AbstractController
                 if ($image2File) {
                     try {
                         $formData->setImage2($uploadManager->upload($image2File, 'services/images'));
-                        $uploadManager->remove($originalImage2);
+                        // Retain the old file for other pages and rollback.
                     } catch (FileException $exception) {
                         $this->addFlash('danger', "Impossible d'envoyer l'image secondaire.");
                     }
@@ -140,16 +149,20 @@ class ServicesAdminController extends AbstractController
                 if ($imageHeroFile) {
                     try {
                         $formData->setImageHero($uploadManager->upload($imageHeroFile, 'services/hero'));
-                        $uploadManager->remove($originalImageHero);
+                        // Retain the old file for other pages and rollback.
                     } catch (FileException $exception) {
                         $this->addFlash('danger', "Impossible d'envoyer l'image hero.");
                     }
                 }
 
+                if ($form->get('imageHeroUseMain')->getData() && !$imageHeroFile) {
+                    $formData->setImageHero(null);
+                }
+
                 $translationSynchronizer->saveServiceFromForm($service, $formData);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Service mis à jour.');
+                $this->addFlash('success', 'Service historique #'.$service->getId().' mis à jour : /'.$service->getPractice()?->getSlug().'/'.$service->getSlug());
 
                 return $this->redirectToRoute('admin_services_index');
             }
@@ -172,9 +185,9 @@ class ServicesAdminController extends AbstractController
         }
 
         if ($this->isCsrfTokenValid('delete'.$service->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($service->getImage1());
-            $uploadManager->remove($service->getImage2());
-            $uploadManager->remove($service->getImageHero());
+
+
+
             $entityManager->remove($service);
             $entityManager->flush();
             $this->addFlash('success', 'Service supprimé.');

@@ -115,4 +115,20 @@ class SitePageRepository extends ServiceEntityRepository
 
         return false;
     }
+    public function findAdminResourceArticles(string $search = '', string $status = ''): array
+    {
+        $qb = $this->createQueryBuilder('p')->where('p.slug LIKE :prefix')
+            ->setParameter('prefix', self::RESOURCE_ARTICLE_PREFIX . '%')
+            ->orderBy('p.publicationDate', 'DESC')->addOrderBy('p.id', 'DESC');
+        if (in_array($status, ['published', 'draft', 'unpublished'], true)) {
+            $qb->andWhere('p.publicationStatus = :status')->setParameter('status', $status);
+        }
+        $pages = $qb->getQuery()->getResult();
+        if ($search === '') { return $pages; }
+        return array_values(array_filter($pages, static function (SitePage $page) use ($search): bool {
+            $narrative = $page->getTranslation('fr')?->getStructuredData()['landingNarrative'] ?? [];
+            $haystack = implode(' ', [$page->getTitle(), $page->getHeroTitle(), $page->getSlug(), $narrative['heroTitle'] ?? '', $narrative['metaTitle'] ?? '']);
+            return mb_stripos($haystack, $search) !== false;
+        }));
+    }
 }

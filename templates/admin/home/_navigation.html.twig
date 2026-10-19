@@ -1,0 +1,15 @@
+<nav class="cms-tabs" aria-label="Modifier l’accueil" style="padding:0 24px">
+{% for label,url in {
+ 'Vue d’ensemble':path('admin_home_index'),
+ 'Héros':path('admin_home_hero'),
+ 'Méthode d’intervention':path('admin_home_method'),
+ 'Textes et contenus':path('admin_home_content'),
+ 'Domaines':path('admin_home_practices'),
+ 'Projets':path('admin_home_projects'),
+ 'Cartes':path('admin_home_cards_index'),
+ 'Chiffres clés':path('admin_home_projects_kpis_index'),
+ 'Distinctions':path('admin_home_awards'),
+ 'Médias':path('admin_home_index')~'#medias',
+ 'Traductions':path('admin_home_index')~'#traductions'
+} %}<a href="{{ url }}"{% if app.request.pathInfo==url %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
+</nav>

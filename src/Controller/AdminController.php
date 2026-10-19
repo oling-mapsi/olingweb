@@ -9,10 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'admin_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(\App\Service\CmsBusinessNavigation $business, \App\Service\CmsSiteNavigation $site): Response
     {
         return $this->render('admin/index.html.twig', [
-            'practices' => [],
+            'practices' => [],'siteSections'=>$site->sections(),
+            'families' => $business->families(),
+            'decisionCount' => count($business->decisions()),
         ]);
     }
 }

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ family ? family.title : 'Prestations & expertises' }} | Admin{% endblock %}
+{% block body %}{% include 'admin/business/_style.html.twig' %}<main class="admin"><a class="cms-back" href="{{ path('admin_site_section',{section:'expertises'}) }}">← Nos expertises</a>
+<div class="cms-editor-head"><div><h1>{{ family ? family.title : 'Prestations & expertises' }}</h1><p>Nos expertises et prestations, avec leurs pages complémentaires SEO/GEO.</p></div></div>
+
+<form method="get" class="cms-toolbar"><div class="cms-search"><label for="business-search">Rechercher une offre ou une URL</label><input id="business-search" class="form-control" name="q" value="{{ q }}" type="search" placeholder="ERP, CRM, GMAO, Finance…"></div><div><label for="business-family">Famille métier</label><select id="business-family" class="form-select" name="practice"><option value="">Toutes les familles</option>{% for item in families %}<option value="{{ item.id }}" {{ family and family.id==item.id ? 'selected' : '' }}>{{ item.title }}</option>{% endfor %}</select></div><button class="btn btn-primary">Rechercher</button></form>
+
+{% for category,label in {'expertise':'Expertises','prestation':'Prestations'} %}{% set sectionRows=rows|filter(row=>category=='expertise' ? row.kind=='expertise' : row.kind!='expertise') %}{% if sectionRows|length %}<section class="cms-business-section" data-business-section="{{ category }}"><h2>{{ label }} <small class="text-muted">{{ sectionRows|length }}</small></h2>{% include 'admin/business/_rows.html.twig' with {rows:sectionRows} %}</section>{% endif %}{% endfor %}
+{% if rows is empty %}<p>Aucun résultat. Retirez un filtre ou recherchez une autre URL.</p>{% endif %}
+<div class="cms-business-links"><a href="{{ path('admin_catalogue_site_pages') }}">Notre société</a></div>
+</main>{% endblock %}

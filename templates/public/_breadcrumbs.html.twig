@@ -1,0 +1,12 @@
+<nav class="oling-public-breadcrumbs" aria-label="{{ breadcrumbLabel }}">
+  <div class="container">
+    <ol class="oling-public-breadcrumbs__list">
+      {% for item in items %}
+        <li class="oling-public-breadcrumbs__item{{ loop.last ? ' oling-public-breadcrumbs__item--current' : '' }}">
+          {% if not loop.first %}<span class="oling-public-breadcrumbs__divider" aria-hidden="true">›</span>{% endif %}
+          {% if item.href %}<a href="{{ item.href }}" title="{{ item.label }}">{{ item.label }}</a>{% else %}<span class="oling-public-breadcrumbs__current" aria-current="page" title="{{ item.label }}">{{ item.label }}</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</nav>

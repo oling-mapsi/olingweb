@@ -1,0 +1,105 @@
+.oling-catalogue{background:#f3f7f8;scroll-margin-top:110px}.oling-catalogue-count{color:#294e60}.oling-catalogue-count strong{font-size:1.6rem}.oling-catalogue-filters{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin:28px 0}.oling-catalogue-filters label{display:flex;flex:1;min-width:180px;flex-direction:column;gap:7px;font-weight:600;color:#204455}.oling-catalogue-filters select{width:100%;min-height:46px;border:1px solid #b9cbd1;border-radius:9px;background:white;padding:10px;color:#193d50}.oling-catalogue-filters>a{padding:12px 0}.oling-catalogue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.oling-catalogue-card{display:flex;flex-direction:column;align-items:start;gap:14px;padding:26px;border:1px solid #d5e1e6;border-radius:18px;background:#fff;min-width:0;overflow-wrap:anywhere}.oling-catalogue-card h3{font-size:1.15rem;line-height:1.45;margin:0}.oling-catalogue-card p{font-size:.94rem;line-height:1.65;margin:0}.oling-catalogue-tags{display:flex;gap:6px;flex-wrap:wrap;list-style:none;padding:0;margin:0}.oling-catalogue-tags li{font-size:.76rem;border-radius:6px;background:#eaf2f5;padding:5px 8px;color:#254c60}.oling-catalogue-card details{width:100%;font-size:.92rem}.oling-catalogue-card summary{cursor:pointer;font-weight:600;color:#245c71;min-height:40px}.oling-catalogue-card details p{padding:10px 0}.oling-catalogue-card h4{font-size:1rem;margin-top:12px}.oling-catalogue-link{margin-top:auto;padding-top:8px;font-size:.9rem}.oling-catalogue-pagination{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:32px 0}.oling-catalogue-pagination a{display:grid;place-items:center;min-width:42px;min-height:44px;border:1px solid #bdcfd7;border-radius:8px;background:#fff;color:#204b60}.oling-catalogue-pagination a[aria-current=page]{background:#204b60;color:#fff}.oling-catalogue-examples{margin-top:36px;border-top:1px solid #c8d8df;padding-top:24px}.oling-catalogue-examples>summary{font-size:1.1rem;font-weight:600;cursor:pointer}.oling-catalogue-empty{grid-column:1/-1;padding:32px;background:white;border-radius:12px} @media(max-width:991px){.oling-catalogue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:575px){.oling-catalogue-grid{grid-template-columns:1fr}.oling-catalogue-card{padding:22px}.oling-catalogue-filters{gap:14px}.oling-catalogue-filters label{flex-basis:100%;min-width:0}.oling-catalogue-filters button{width:100%}.oling-catalogue-filters>a{width:100%;text-align:center}}
+
+.oling-catalogue .oling-section-head h2,.oling-catalogue .oling-catalogue-card h3,.oling-catalogue .oling-catalogue-card h4{color:#193d50}.oling-catalogue .oling-catalogue-card p,.oling-catalogue .oling-catalogue-empty{color:#375668}.oling-catalogue a.oling-catalogue-link,.oling-catalogue-filters>a{color:#17617e}
+
+/* Catalogue: readable actions and an expertise palette, without changing CMS content. */
+.oling-catalogue .oling-catalogue-filters>a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border:1px solid #a8bec8;border-radius:9px;color:#245166;background:#fff;font-weight:600;text-decoration:none;transition:background .18s,color .18s,border-color .18s}
+.oling-catalogue .oling-catalogue-filters>a:hover,.oling-catalogue .oling-catalogue-filters>a:focus-visible{color:#153c50;background:#e0edf2;border-color:#537c90;text-decoration:underline;text-underline-offset:4px}
+.oling-catalogue :is(a,select,summary,button):focus-visible{outline:3px solid #236b91;outline-offset:4px}
+.oling-catalogue-card{--expertise:#40566e;--expertise-soft:#edf1f6;position:relative;gap:16px;padding:26px;border-radius:18px;border:1px solid #d7e1e7;border-top:4px solid var(--expertise);background:#fff;box-shadow:0 5px 18px rgba(25,61,80,.045);transition:box-shadow .2s,transform .2s,border-color .2s}
+.oling-catalogue-card[data-expertise=rgpd-et-dpo]{--expertise:#09655f;--expertise-soft:#e8f5f1}
+.oling-catalogue-card[data-expertise=erp-et-progiciels]{--expertise:#245ca6;--expertise-soft:#ebf2fd}
+.oling-catalogue-card[data-expertise=crm]{--expertise:#7951a2;--expertise-soft:#f4edfb}
+.oling-catalogue-card[data-expertise=gmao]{--expertise:#96511c;--expertise-soft:#fbf0e5}
+.oling-catalogue-card[data-expertise=si-finance-et-decisionnel]{--expertise:#4b4b9d;--expertise-soft:#efeffb}
+.oling-catalogue-card[data-expertise=cybersecurite-et-continuite]{--expertise:#923c55;--expertise-soft:#fbeef1}
+.oling-catalogue-card[data-expertise=gouvernance-et-transformation-si]{--expertise:#34546e;--expertise-soft:#eaf1f7}
+.oling-catalogue-card[data-expertise=qse-et-certification]{--expertise:#3d6b35;--expertise-soft:#edf5e9}
+.oling-catalogue-card[data-expertise=collaboration-ged-et-infrastructure]{--expertise:#076880;--expertise-soft:#e7f5f8}
+.oling-catalogue-card[data-expertise=sig-et-geomatique]{--expertise:#68601d;--expertise-soft:#f6f4e4}
+.oling-catalogue-card[data-expertise=formation-et-processus]{--expertise:#8a5418;--expertise-soft:#fcf2e4}
+.oling-catalogue-card[data-expertise=applications-metier]{--expertise:#63449d;--expertise-soft:#f1edfa}
+.oling-catalogue-card[data-expertise=conseil-et-accompagnement]{--expertise:#40566e;--expertise-soft:#edf1f6}
+.oling-catalogue-card-top{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%}
+.oling-catalogue-card .oling-kicker{font-size:.67rem;line-height:1.6;letter-spacing:.1em;color:#4b6474}
+.oling-catalogue-icon{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border:1px solid currentColor;border-radius:13px;color:var(--expertise);background:#ffffffa6}
+.oling-catalogue-domain{font-size:.72rem;font-weight:700;line-height:1.5;color:var(--expertise);letter-spacing:.025em}
+.oling-catalogue .oling-catalogue-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.06rem;font-weight:800;line-height:1.55;letter-spacing:-.02em;color:#193d50}
+.oling-catalogue .oling-catalogue-card p{font-size:.88rem;line-height:1.8;color:#415c6c}
+.oling-catalogue-tags li{background:var(--expertise-soft);color:var(--expertise);font-size:.7rem;font-weight:600}
+.oling-catalogue-card details{width:100%;padding-top:15px;border-top:1px solid #dfe7eb}
+.oling-catalogue-card summary{color:var(--expertise);font-size:.8rem;min-height:30px}
+.oling-catalogue-card details[open] summary{margin-bottom:10px}
+.oling-catalogue-card details p{padding:0 0 10px}
+.oling-catalogue a.oling-catalogue-link{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding-top:16px;min-height:44px;color:var(--expertise);font-size:.78rem;line-height:1.6;font-weight:700;text-decoration:none}
+.oling-catalogue a.oling-catalogue-link:hover,.oling-catalogue a.oling-catalogue-link:focus-visible{color:var(--expertise);text-decoration:underline;text-underline-offset:4px}
+.oling-catalogue-link span{font-size:1.2rem}
+.oling-catalogue .oling-catalogue-pagination a:hover,.oling-catalogue .oling-catalogue-pagination a:focus-visible{color:#153c50;background:#e0edf2;border-color:#537c90}
+.oling-catalogue .oling-catalogue-pagination a[aria-current=page]:hover{color:#fff;background:#204b60}
+@media(hover:hover){.oling-catalogue-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(25,61,80,.1);border-top-color:var(--expertise)}}
+@media(max-width:575px){.oling-catalogue-card{padding:22px;gap:14px}.oling-catalogue .oling-catalogue-card h3{font-size:1.04rem}.oling-catalogue .oling-catalogue-filters>a{width:100%}}
+@media(prefers-reduced-motion:reduce){.oling-catalogue-card,.oling-catalogue-filters>a{transition:none}.oling-catalogue-card:hover{transform:none}}
+
+/* Compact references: flat surfaces, restrained domain accents. */
+.oling-catalogue .oling-catalogue-grid{gap:16px}
+.oling-catalogue .oling-catalogue-card{gap:10px;padding:20px;border:1px solid #dce4e9;border-radius:12px;background:#fff;box-shadow:0 2px 6px rgba(25,61,80,.025);overflow:hidden}
+.oling-catalogue .oling-catalogue-card-top{gap:10px;min-height:32px}
+.oling-catalogue .oling-catalogue-card .oling-kicker{font-size:.59rem;letter-spacing:.07em;line-height:1.5;color:#62727e}
+.oling-catalogue .oling-catalogue-card .oling-catalogue-icon{flex-basis:32px;width:32px;height:32px;border:0;border-radius:8px;background:var(--expertise-soft);color:var(--expertise)}
+.oling-catalogue-icon svg{width:19px;height:19px}
+.oling-catalogue .oling-catalogue-card .oling-catalogue-domain{display:flex;align-items:center;gap:7px;color:var(--expertise);font-size:.65rem;line-height:1.4;letter-spacing:0}
+.oling-catalogue-domain:before{content:'';display:block;flex:0 0 5px;width:5px;height:5px;border-radius:50%;background:var(--expertise)}
+.oling-catalogue .oling-catalogue-card h3{font-size:.94rem;line-height:1.5;font-weight:700;letter-spacing:-.025em}
+.oling-catalogue .oling-catalogue-card p{font-size:.8rem;line-height:1.65}
+.oling-catalogue .oling-catalogue-excerpt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.oling-catalogue .oling-catalogue-tags{gap:5px}
+.oling-catalogue .oling-catalogue-tags li{padding:4px 6px;font-size:.61rem;line-height:1.4;border-radius:5px}
+.oling-catalogue .oling-catalogue-card details{margin-top:auto;padding-top:10px;border-top:1px solid #e8edf0}
+.oling-catalogue .oling-catalogue-card summary{display:list-item;min-height:28px;font-size:.72rem;line-height:1.6}
+.oling-catalogue .oling-catalogue-card details p{font-size:.8rem;padding-bottom:8px}
+.oling-catalogue .oling-catalogue-card details h4{font-size:.85rem}
+.oling-catalogue a.oling-catalogue-link{margin-top:0;min-height:36px;padding-top:4px;font-size:.69rem;line-height:1.55}
+.oling-catalogue .oling-catalogue-link span{font-size:1rem;color:var(--expertise)}
+@media(min-width:1200px){.oling-catalogue .oling-catalogue-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(hover:hover){.oling-catalogue .oling-catalogue-card:hover{border-color:var(--expertise);box-shadow:0 6px 18px rgba(25,61,80,.07);transform:translateY(-2px)}}
+@media(max-width:575px){.oling-catalogue .oling-catalogue-card{padding:18px;gap:10px}.oling-catalogue .oling-catalogue-card h3{font-size:1rem}.oling-catalogue .oling-catalogue-card summary{min-height:36px}.oling-catalogue a.oling-catalogue-link{min-height:44px}}
+@media(prefers-reduced-motion:reduce){.oling-catalogue .oling-catalogue-card:hover{transform:none}}
+
+.oling-catalogue .oling-catalogue-card a.oling-catalogue-link{font-size:.74rem!important;font-weight:600;line-height:1.5;letter-spacing:0}
+
+/* Editorial mosaic. DOM order is preserved: no dense packing or CSS reordering. */
+.oling-catalogue .oling-catalogue-grid{gap:18px;align-items:stretch}
+.oling-catalogue .oling-catalogue-card{position:relative;border:1px solid #cddae1;border-radius:16px;box-shadow:none;isolation:isolate}
+.oling-catalogue .oling-catalogue-card:before{content:'';position:absolute;left:0;top:24px;width:4px;height:42px;border-radius:0 4px 4px 0;background:var(--expertise);pointer-events:none}
+.oling-catalogue .oling-catalogue-card .oling-catalogue-icon{width:38px;height:38px;flex-basis:38px;border-radius:11px}
+.oling-catalogue .oling-catalogue-card .oling-catalogue-domain{font-weight:700}
+.oling-catalogue .oling-catalogue-card h3{font-size:1rem;font-weight:800;line-height:1.45}
+.oling-catalogue .oling-catalogue-story{display:none}
+.oling-catalogue .oling-catalogue-card:nth-child(12n+1),.oling-catalogue .oling-catalogue-card:nth-child(12n+9){background:var(--expertise);border-color:var(--expertise);padding:24px}
+.oling-catalogue .oling-catalogue-card:nth-child(12n+1):after,.oling-catalogue .oling-catalogue-card:nth-child(12n+9):after{content:'';position:absolute;right:-32px;bottom:65px;width:150px;height:150px;border:1px solid #ffffff24;border-radius:30px;transform:rotate(-18deg);pointer-events:none;z-index:-1}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)):before{background:#fff;opacity:.5}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) :is(h3,h4,p,.oling-kicker,.oling-catalogue-domain,summary,.oling-catalogue-link,.oling-catalogue-link span){color:#fff!important}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) .oling-kicker{opacity:.8}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) .oling-catalogue-domain:before{background:#fff}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) .oling-catalogue-icon{color:#fff;background:#ffffff18;border:1px solid #ffffff38}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) details{border-color:#ffffff38}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) .oling-catalogue-tags li{background:#ffffff1c;color:#fff}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)){background:var(--expertise-soft);border-color:transparent}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) .oling-catalogue-icon{background:#fff}
+@media(min-width:768px){.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)){grid-column:span 2}.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) h3{font-size:1.28rem;max-width:32ch}.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) .oling-catalogue-excerpt{max-width:56ch}}
+@media(min-width:1200px){
+.oling-catalogue .oling-catalogue-grid{grid-auto-rows:minmax(270px,auto);grid-auto-flow:row}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)){grid-row:span 2;padding:24px}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) h3{font-size:1.2rem;line-height:1.5}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) .oling-catalogue-excerpt{display:none}
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) .oling-catalogue-story{display:block;margin:14px 0}
+.oling-catalogue .oling-catalogue-story>span{display:block;font-size:.62rem;line-height:1.5;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--expertise);margin-bottom:10px}
+.oling-catalogue .oling-catalogue-story p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:16;overflow:hidden;font-size:.85rem;line-height:1.8}
+}
+@media(hover:hover){.oling-catalogue .oling-catalogue-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px #173c5012}}
+@media(max-width:767px){.oling-catalogue .oling-catalogue-card{grid-column:auto;grid-row:auto}.oling-catalogue .oling-catalogue-card:nth-child(n){padding:20px}}
+@media(prefers-reduced-motion:reduce){.oling-catalogue .oling-catalogue-card:hover{transform:none}}
+
+@media(min-width:1200px){.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) .oling-catalogue-icon{width:54px;height:54px;flex-basis:54px;border-radius:16px}.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)) .oling-catalogue-icon svg{width:29px;height:29px}.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+3),:nth-child(12n+7)):after{content:'';position:absolute;right:-38px;bottom:115px;width:170px;height:170px;border:1px solid var(--expertise);opacity:.12;border-radius:44px;transform:rotate(-20deg);pointer-events:none;z-index:-1}}
+
+.oling-catalogue .oling-catalogue-card:is(:nth-child(12n+1),:nth-child(12n+9)) :is(a,summary):focus-visible{outline-color:#fff}

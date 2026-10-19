@@ -37,6 +37,8 @@ final class StructuredContentTranslationSynchronizer
         $data->setIco($practice->getIco());
         $data->setImage1($practice->getImage1());
         $data->setImage2($practice->getImage2());
+        $data->setPublicNarrative($this->decodeJsonObject($row['public_narrative'] ?? null) ?? $this->practiceFallback($practice));
+        $data->seoNarrativeSourceHash = hash('sha256', (string) ($row['public_narrative'] ?? ''));
 
         return $data;
     }
@@ -49,7 +51,8 @@ final class StructuredContentTranslationSynchronizer
         $practice->setIco($data->getIco());
         $practice->setImage1($data->getImage1());
         $practice->setImage2($data->getImage2());
-        $this->upsert('practice_translation', 'practice_id', $practice->getId(), [
+        $this->saveNarrative('practice_translation', 'practice_id', $practice->getId(), $data);
+        $fields = [
             'designation' => $data->getDesignation(),
             'slug' => $practice->getSlug(),
             'designation_short' => $data->getDesignationShort(),
@@ -59,7 +62,11 @@ final class StructuredContentTranslationSynchronizer
             'description' => $data->getDescription(),
             'description_short' => $data->getDescriptionShort(),
             'tags' => json_encode($data->getTags(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
-        ]);
+        ];
+        if ($this->fetch('practice_translation', 'practice_id', $practice->getId()) === null && $data->getPublicNarrative() !== null) {
+            $fields['public_narrative'] = json_encode($data->getPublicNarrative(), JSON_THROW_ON_ERROR);
+        }
+        $this->upsert('practice_translation', 'practice_id', $practice->getId(), $fields);
         $this->syncPracticeTranslationToLegacy($practice);
     }
 
@@ -121,12 +128,14 @@ final class StructuredContentTranslationSynchronizer
         $data->setTeams($service->getTeams());
         $data->setPublicNarrative($this->decodeJsonObject($row['public_narrative'] ?? null));
         $data->setSeoSourceUpdatedAt($row['source_updated_at'] ?? null);
+        $data->seoNarrativeSourceHash = hash('sha256', (string) ($row['public_narrative'] ?? ''));
 
         return $data;
     }
 
     public function saveServiceFromForm(Services $service, StructuredContentAdminFormData $data): void
     {
+        $previousTranslation = $this->fetch('service_translation', 'service_id', $service->getId());
         $service->setPractice($data->getPractice());
         $service->setIco($data->getIco());
         $service->setImage1($data->getImage1());
@@ -146,11 +155,28 @@ final class StructuredContentTranslationSynchronizer
             'description' => $data->getDescription(),
             'description_short' => $data->getDescriptionShort(),
         ];
-        if ($data->getPublicNarrative() !== null) {
-            $fields['public_narrative'] = json_encode($data->getPublicNarrative(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+        $this->saveNarrative('service_translation', 'service_id', $service->getId(), $data);
+        if ($this->fetch('service_translation', 'service_id', $service->getId()) === null && $data->getPublicNarrative() !== null) {
+            $fields['public_narrative'] = json_encode($data->getPublicNarrative(), JSON_THROW_ON_ERROR);
+        }
+        if ($previousTranslation !== null) {
+            // This editor does not edit slugs. Keep the existing FR page identity.
+            $fields['slug'] = $previousTranslation['slug'];
+            foreach (['designation','designation_short','introduction_short','description','description_short'] as $column) {
+                if (trim(str_replace(["\r\n", "\r"], "\n", (string) $fields[$column])) === trim(str_replace(["\r\n", "\r"], "\n", (string) $previousTranslation[$column]))) {
+                    $fields[$column] = $previousTranslation[$column];
+                }
+            }
         }
         $this->upsert('service_translation', 'service_id', $service->getId(), $fields);
-        $this->syncServiceTranslationToLegacy($service);
+        if ($previousTranslation === null) {
+            $this->syncServiceTranslationToLegacy($service);
+        } else {
+            // SEO-only changes must not silently replace the historical business blocks.
+            foreach (['designation'=>'setDesignation','designation_short'=>'setDesignationShort','introduction_short'=>'setIntroductionShort','description'=>'setDescription','description_short'=>'setDescriptionShort'] as $column=>$setter) {
+                if ($fields[$column] !== $previousTranslation[$column]) { $service->{$setter}($fields[$column]); }
+            }
+        }
     }
 
     public function syncServiceTranslationToLegacy(Services $service): void
@@ -162,6 +188,38 @@ final class StructuredContentTranslationSynchronizer
             ->setIntroductionShort($row['introduction_short'])
             ->setDescription($row['description'])
             ->setDescriptionShort($row['description_short']);
+    }
+
+    private function practiceFallback(Practice $practice): ?array
+    {
+        $value = $this->connection->fetchOne("SELECT t.body_html FROM site_global_content_translation t JOIN site_global_content g ON g.id=t.site_global_content_id WHERE g.identifier=:identifier AND g.enabled=1 AND t.locale='fr'", ['identifier' => 'practice_narrative_' . $practice->getSlug()]);
+        return $this->decodeJsonObject($value);
+    }
+
+    private function saveNarrative(string $table, string $ownerColumn, ?int $id, StructuredContentAdminFormData $data): void
+    {
+        if ($data->getPublicNarrative() === null) {
+            return;
+        }
+        $row = $this->fetch($table, $ownerColumn, $id);
+        $old = $row['public_narrative'] ?? null;
+        if ($data->seoNarrativeSourceHash !== null && !hash_equals($data->seoNarrativeSourceHash, hash('sha256', (string) $old))) {
+            throw new \RuntimeException('Le contenu SEO/GEO a changé. Rechargez le formulaire.');
+        }
+        if ($this->decodeJsonObject($old) === $data->getPublicNarrative()) {
+            return;
+        }
+        $new = json_encode($data->getPublicNarrative(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+        if ($row === null) {
+            return;
+        }
+        $comparable = $this->connection->getDatabasePlatform()->getName() === 'mysql' ? 'CAST(public_narrative AS CHAR)' : 'public_narrative';
+        $condition = $old === null ? 'public_narrative IS NULL' : $comparable . ' = :old';
+        $params = ['new' => $new, 'id' => $id, 'locale' => 'fr'];
+        if ($old !== null) { $params['old'] = $old; }
+        if ($this->connection->executeStatement("UPDATE $table SET public_narrative=:new WHERE $ownerColumn=:id AND locale=:locale AND $condition", $params) !== 1) {
+            throw new \RuntimeException('Modification concurrente du contenu SEO/GEO.');
+        }
     }
 
     /**
@@ -180,6 +238,13 @@ final class StructuredContentTranslationSynchronizer
 
     public function syncProjet(Projet $project): void
     {
+        // Public anonymisation must never flow back into the native CRM/source record.
+        $published = $this->fetch('projet_translation', 'projet_id', $project->getId());
+        $publicProfile = $this->decodeJsonObject($published['public_narrative'] ?? null);
+        if (($publicProfile['anonymized'] ?? false) === true) {
+            return;
+        }
+
         $this->upsert('projet_translation', 'projet_id', $project->getId(), [
             'designation' => $project->getDesignation(),
             'slug' => $project->getSlug(),
@@ -202,6 +267,8 @@ final class StructuredContentTranslationSynchronizer
         $data->setTerritory($row['territory'] ?? $project->getTerritory());
         $data->setPeriodLabel($row['period_label'] ?? $project->getPeriodLabel());
         $data->setPublicUrl($project->getPublicUrl());
+        $data->setPublicNarrative($this->decodeJsonObject($row['public_narrative'] ?? null));
+        $data->seoNarrativeSourceHash = hash('sha256', (string) ($row['public_narrative'] ?? ''));
         $data->setClass($project->getClass());
         $data->setMetier($project->getMetier());
         $data->setServices($project->getServices());
@@ -233,7 +300,8 @@ final class StructuredContentTranslationSynchronizer
         foreach ($data->getTeams() ?? [] as $team) {
             $project->addTeam($team);
         }
-        $this->upsert('projet_translation', 'projet_id', $project->getId(), [
+        $this->saveNarrative('projet_translation', 'projet_id', $project->getId(), $data);
+        $fields = [
             'designation' => $data->getDesignation(),
             'slug' => $project->getSlug(),
             'description' => $data->getDescription(),
@@ -241,12 +309,23 @@ final class StructuredContentTranslationSynchronizer
             'client_name' => $data->getClientName(),
             'territory' => $data->getTerritory(),
             'period_label' => $data->getPeriodLabel(),
-        ]);
+        ];
+        if ($this->fetch('projet_translation', 'projet_id', $project->getId()) === null && $data->getPublicNarrative() !== null) {
+            $fields['public_narrative'] = json_encode($data->getPublicNarrative(), JSON_THROW_ON_ERROR);
+        }
+        $this->upsert('projet_translation', 'projet_id', $project->getId(), $fields);
         $this->syncProjetTranslationToLegacy($project);
     }
 
     public function syncProjetTranslationToLegacy(Projet $project): void
     {
+        // Public anonymisation must never flow back into the native CRM/source record.
+        $published = $this->fetch('projet_translation', 'projet_id', $project->getId());
+        $publicProfile = $this->decodeJsonObject($published['public_narrative'] ?? null);
+        if (($publicProfile['anonymized'] ?? false) === true) {
+            return;
+        }
+
         $row = $this->fetchRequired('projet_translation', 'projet_id', $project->getId());
         $project
             ->setDesignation((string) $row['designation'])
@@ -286,7 +365,7 @@ final class StructuredContentTranslationSynchronizer
         $team->setNoncomplet((string) $data->getNoncomplet());
         $team->setLinkedin($data->getLinkedin());
         $team->setPhoto($data->getPhoto());
-        $team->setIsPublic($data->isPublic());
+        $team->setIsPublic((bool) $data->getIsPublic());
         $team->setDisplayOrder($data->getDisplayOrder());
         foreach ($team->getServices()->toArray() as $service) {
             $team->removeService($service);
@@ -299,6 +378,13 @@ final class StructuredContentTranslationSynchronizer
             'shortcv' => $data->getShortcv(),
         ]);
         $this->syncTeamTranslationToLegacy($team);
+    }
+
+    /** Explicit public profile edits only; retain slug, areas, affiliations and other existing keys. */
+    public function saveTeamPublicProfile(Team $team,array $profile): void
+    {
+        $row=$this->fetchRequired('team_translation','team_id',$team->getId());
+        $this->upsert('team_translation','team_id',$team->getId(),['titre'=>$row['titre'],'shortcv'=>$row['shortcv'],'public_profile'=>json_encode($profile,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_THROW_ON_ERROR)]);
     }
 
     public function syncTeamTranslationToLegacy(Team $team): void

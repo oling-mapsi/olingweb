@@ -29,7 +29,9 @@ class SitemapFallbackController extends AbstractController
     #[Route('/sitemap.services.xml', name: 'sitemap_fallback_services', priority: 1000)]
     public function sitemapServices(): Response
     {
-        return $this->serveXmlFileOrForward('sitemap.services.xml', 'services');
+        // Read current published services, including the explicitly preserved MAPSI usages.
+        // Do not serve the stale on-disk services snapshot.
+        return $this->forward(\Presta\SitemapBundle\Controller\SitemapController::class.'::sectionAction', ['name' => 'services']);
     }
 
     private function serveXmlFileOrForward(string $filename, ?string $section = null): Response

@@ -12,6 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'site_page')]
 class SitePage
 {
+    public const HERO_MEDIA_MODE_INHERIT = 'inherit';
+    public const HERO_MEDIA_MODE_CUSTOM = 'custom';
+    public const HERO_MEDIA_MODE_HIDDEN = 'hidden';
+    public const HERO_MEDIA_MODES = [
+        self::HERO_MEDIA_MODE_INHERIT,
+        self::HERO_MEDIA_MODE_CUSTOM,
+        self::HERO_MEDIA_MODE_HIDDEN,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,6 +52,21 @@ class SitePage
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $heroImage = null;
+
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $heroMediaMode = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $heroImageCaption = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $heroImageFocalPoint = null;
+
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $heroImageDisplayMode = null;
+
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $heroImageSize = null;
 
     #[ORM\Column(length: 190, nullable: true, unique: true)]
     private ?string $externalId = null;
@@ -80,8 +104,23 @@ class SitePage
     #[ORM\OneToMany(mappedBy: 'sitePage', targetEntity: SitePageTranslation::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $translations;
 
+    #[ORM\ManyToOne(targetEntity: Practice::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Practice $catalogPractice = null;
+    #[ORM\ManyToMany(targetEntity: Services::class, inversedBy: 'catalogPages')]
+    #[ORM\JoinTable(name: 'cms_page_service')]
+    private Collection $catalogServices;
+    #[ORM\ManyToMany(targetEntity: SitePage::class)]
+    #[ORM\JoinTable(name: 'cms_page_expertise')]
+    private Collection $catalogExpertises;
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $catalogType = null;
+
     public function __construct()
     {
+        $this->catalogServices = new ArrayCollection();
+        $this->catalogExpertises = new ArrayCollection();
+
         $this->translations = new ArrayCollection();
     }
 
@@ -191,9 +230,72 @@ class SitePage
         return $this->heroImage;
     }
 
+    public function getHeroImageDisplayMode(): string
+    {
+        return in_array($this->heroImageDisplayMode, ['cover', 'contain', 'free'], true)
+            ? $this->heroImageDisplayMode : 'auto';
+    }
+
+    public function getHeroImageSize(): string
+    {
+        return in_array($this->heroImageSize, ['standard', 'large', 'xlarge'], true) ? $this->heroImageSize : 'auto';
+    }
+
+    public function setHeroImageSize(?string $size): self
+    {
+        $this->heroImageSize = in_array($size, ['standard', 'large', 'xlarge'], true) ? $size : null;
+        return $this;
+    }
+
+    public function setHeroImageDisplayMode(?string $mode): self
+    {
+        $this->heroImageDisplayMode = in_array($mode, ['cover', 'contain', 'free'], true) ? $mode : null;
+        return $this;
+    }
+
     public function setHeroImage(?string $heroImage): self
     {
         $this->heroImage = $heroImage;
+
+        return $this;
+    }
+
+    public function getHeroMediaMode(): string
+    {
+        return in_array($this->heroMediaMode, self::HERO_MEDIA_MODES, true)
+            ? $this->heroMediaMode
+            : self::HERO_MEDIA_MODE_INHERIT;
+    }
+
+    public function setHeroMediaMode(?string $heroMediaMode): self
+    {
+        $this->heroMediaMode = in_array($heroMediaMode, self::HERO_MEDIA_MODES, true)
+            ? $heroMediaMode
+            : self::HERO_MEDIA_MODE_INHERIT;
+
+        return $this;
+    }
+
+    public function getHeroImageCaption(): ?string
+    {
+        return $this->heroImageCaption;
+    }
+
+    public function setHeroImageCaption(?string $heroImageCaption): self
+    {
+        $this->heroImageCaption = $heroImageCaption;
+
+        return $this;
+    }
+
+    public function getHeroImageFocalPoint(): ?string
+    {
+        return $this->heroImageFocalPoint;
+    }
+
+    public function setHeroImageFocalPoint(?string $heroImageFocalPoint): self
+    {
+        $this->heroImageFocalPoint = $heroImageFocalPoint;
 
         return $this;
     }
@@ -362,4 +464,22 @@ class SitePage
 
         return $translation?->isPublished() ? $translation : null;
     }
+    public function getCatalogPractice(): ?Practice { return $this->catalogPractice; }
+    public function setCatalogPractice(?Practice $value): self { $this->catalogPractice = $value; return $this; }
+    public function getCatalogServices(): Collection { return $this->catalogServices; }
+    public function addCatalogServices(Services $value): self
+    {
+        if (!$this->catalogServices->contains($value)) { $this->catalogServices->add($value); $value->addCatalogPage($this); }
+        return $this;
+    }
+    public function removeCatalogServices(Services $value): self
+    {
+        if ($this->catalogServices->removeElement($value)) { $value->removeCatalogPage($this); }
+        return $this;
+    }
+    public function getCatalogExpertises(): Collection { return $this->catalogExpertises; }
+    public function addCatalogExpertises(SitePage $value): self { if (!$this->catalogExpertises->contains($value)) { $this->catalogExpertises->add($value); } return $this; }
+    public function removeCatalogExpertises(SitePage $value): self { $this->catalogExpertises->removeElement($value); return $this; }
+    public function getCatalogType(): ?string { return $this->catalogType; }
+    public function setCatalogType(?string $value): self { $this->catalogType = $value; return $this; }
 }

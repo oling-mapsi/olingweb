@@ -310,7 +310,7 @@
   </script>
   {% if campaign.generation.status|default('') in ['PENDING', 'RUNNING'] %}
     <script>
-      (() => {
+      document.addEventListener('DOMContentLoaded', () => {
         const node = document.getElementById('growth-generation-status');
         if (!node || !node.dataset.statusUrl) return;
         const labels = {'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES'};
@@ -368,7 +368,7 @@
           }
         };
         window.setTimeout(poll, 3000);
-      })();
+      }, {once: true});
     </script>
   {% endif %}
 {% endblock %}

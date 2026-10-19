@@ -8,6 +8,7 @@ use App\Repository\SitePageRepository;
 use App\Repository\SitePageRevisionRepository;
 use App\Service\GrowthPreviewSigner;
 use App\Service\GrowthPublishingService;
+use App\Service\PublicMediaResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class GrowthPreviewController extends AbstractController
         GrowthPreviewSigner $previewSigner,
         SitePageRevisionRepository $revisionRepository,
         GrowthPublishingService $publishingService,
+        PublicMediaResolver $publicMediaResolver,
         SitePageRepository $sitePageRepository,
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
@@ -59,6 +61,7 @@ class GrowthPreviewController extends AbstractController
             'services' => $servicesRepository->findAll(),
             'pract' => '',
             'page' => $page,
+            'pageHeroMedia' => $publicMediaResolver->resolveSitePageHero($page, null, null, $page->getHeroTitle() ?: $page->getTitle(), null),
             'pageFaqItems' => [],
             'publicSlug' => $revision->getSlug(),
             'related' => $related,

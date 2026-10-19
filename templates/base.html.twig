@@ -115,8 +115,10 @@
     <meta name="twitter:description" content="{{ meta_description|striptags|trim }}">
     <meta name="twitter:image" content="{{ social_image_url|trim }}">
     <meta name="theme-color" content="#2F5D62">
+    {% if not isAdminPage %}<link rel="stylesheet" href="{{ asset('styles/breadcrumbs.css') }}?v=20261018">{% endif %}
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
+        {% if currentRoute in ['apropos', 'localized_apropos', 'team', 'localized_team'] %}<link rel="stylesheet" href="{{ asset('styles/leadership-portraits.css') }}?v=20261017-fullbleed">{% endif %}
     {% endblock %}
     <style>
       @media (min-width: 992px) {
@@ -448,7 +450,7 @@
     </header>
     {% endif %}
 
-    {% block body %}{% endblock %}
+    {% if isAdminPage and (currentRoute starts with 'admin_' or app.request.pathinfo starts with '/admin') %}{% include 'admin/_nav.html.twig' %}{% set adminNavigationRendered = true %}{% for label,messages in app.flashes %}{% for message in messages %}<div class="alert alert-{{ label }} m-3" role="status">{{ message }}</div>{% endfor %}{% endfor %}{% endif %}{% block body %}{% endblock %}
 
     {% if not isAdminPage %}
     {% include 'includes/_chat_widget_v2.html.twig' %}

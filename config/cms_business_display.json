@@ -1,0 +1,79 @@
+{
+  "shortTitles": {
+    "service:1": {
+      "slug": "assistance-a-maitrise-douvrage",
+      "label": "AMOA SI"
+    },
+    "service:15": {
+      "slug": "erp",
+      "label": "AMOA ERP et progiciels métiers"
+    }
+  },
+  "localSeoPages": {
+    "32": {
+      "slug": "hexagone-drom-dom-tom",
+      "owner": "service:1",
+      "role": "Couverture géographique AMOA SI"
+    },
+    "38": {
+      "slug": "cabinet-conseil-paris",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "39": {
+      "slug": "metropoles-hexagone",
+      "owner": "service:1",
+      "role": "Couverture géographique AMOA SI"
+    },
+    "52": {
+      "slug": "cabinet-conseil-lyon",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "53": {
+      "slug": "cabinet-conseil-toulouse",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "54": {
+      "slug": "cabinet-conseil-montpellier",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "55": {
+      "slug": "cabinet-conseil-nantes",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "56": {
+      "slug": "cabinet-conseil-bordeaux",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "57": {
+      "slug": "cabinet-conseil-guadeloupe",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "58": {
+      "slug": "cabinet-conseil-martinique",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "59": {
+      "slug": "cabinet-conseil-reunion",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "60": {
+      "slug": "cabinet-conseil-guyane",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    },
+    "61": {
+      "slug": "cabinet-conseil-saint-pierre-et-miquelon",
+      "owner": "service:1",
+      "role": "Référencement territorial AMOA SI"
+    }
+  }
+}

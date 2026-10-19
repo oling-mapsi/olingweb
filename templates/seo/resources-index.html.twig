@@ -5,6 +5,8 @@
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ canonicalPath|default(app.request.pathInfo) }}{% endblock %}
 {% block stylesheets %}
   {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('styles/hub-heroes.css') }}?v=20261017b">
+  <link rel="stylesheet" href="{{ asset('styles/resources-navigation.css') }}?v=20261017b">
   <link rel="alternate" type="application/rss+xml" title="Ressources OLING" href="{{ site_base_url ~ path('seo_resources_rss') }}">
 {% endblock %}
 
@@ -12,12 +14,20 @@
 {% set faqItems = pageFaqItems is defined and pageFaqItems is not empty ? pageFaqItems : [] %}
 <main id="content" role="main" class="oling-seo-cabinet oling-public-editorial oling-public-editorial--resources">
   {% include 'public/_page_hero.html.twig' with {
+    mediaFrame: page.structuredData.heroPresentation.frame|default('none'),
+    variant: 'hub-resources',
     eyebrow: page and page.heroBadge ? page.heroBadge : 'Ressources OLING',
     title: page and page.heroTitle ? page.heroTitle : 'Des ressources pour cadrer plus vite, arbitrer plus proprement et sécuriser les transformations',
     intro: page and page.heroIntro ? page.heroIntro|striptags : "Cette bibliothèque rassemble des contenus de cadrage, des retours terrain et des points de vigilance sur les sujets ERP, SI, conformité, RGPD, cyber et IA.",
     primaryCta: {route: 'contact', label: 'Parler de votre sujet'},
     secondaryCta: {route: 'expertises_index', label: 'Voir les expertises'},
-    highlights: ['AMO ERP et SI', 'Conformité, RGPD, cyber', 'IA cadrée et gouvernée']
+    highlights: ['AMO ERP et SI', 'Conformité, RGPD, cyber', 'IA cadrée et gouvernée'],
+    imageDisplayMode: pageHeroMedia.displayMode|default('auto'),
+    imageSize: pageHeroMedia.size|default('auto'),
+    image: pageHeroMedia.image|default(null),
+    imageAlt: pageHeroMedia.alt|default(page.heroTitle|default(page.title|default('Ressources OLING'))),
+    imageCaption: pageHeroMedia.caption|default(null),
+    imageFocalPoint: pageHeroMedia.focalPoint|default(null)
   } %}
 
   {% if articles is not empty %}
@@ -36,6 +46,10 @@
                 <span class="oling-resource-story__number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
               </div>
               <h2 class="oling-resource-story__title"><a class="link" href="{{ article.href }}">{{ article.h1 }}</a></h2>
+              {% if article.image|default(null) %}
+                {% set articleImageSrc = article.image starts with 'http' ? article.image : asset(article.image|trim('/', 'left')) %}
+                <img class="img-fluid rounded-3 mb-3" src="{{ articleImageSrc }}" alt="{{ article.imageAlt ?: article.h1 }}" loading="lazy" decoding="async">
+              {% endif %}
               {% if article.intro is not empty %}
                 <p>{{ article.intro }}</p>
               {% endif %}
@@ -48,11 +62,10 @@
   {% endif %}
 
   {% if page and page.heroSideHtml %}
-    <section class="oling-shell-section oling-resources-curation" aria-label="{{ 'resources.library_kicker'|trans }}">
+    <section class="oling-shell-section oling-resources-curation oling-resources-curation--navigation">
       <div class="container">
         <div class="oling-resources-curation__inner">
-          {# CMS-authored content remains unchanged for SEO. Dedicated layout
-             centers its heading, introduction and linked expertises. #}
+          {# Navigation remains editable in the existing localized CMS field. #}
           <div class="oling-richtext oling-resource-content oling-resources-curation__content">{{ page.heroSideHtml|raw }}</div>
         </div>
       </div>

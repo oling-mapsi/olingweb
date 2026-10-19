@@ -37,6 +37,17 @@ class Messagerie
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $consentAt = null;
 
+    #[ORM\Column(length: 32, nullable: true, unique: true)]
+    private ?string $submissionId = null;
+
+    #[ORM\Column(length: 16, options: ['default' => 'unknown'])]
+    private string $notificationStatus = 'pending';
+
+    public function getSubmissionId(): ?string { return $this->submissionId; }
+    public function setSubmissionId(string $id): self { $this->submissionId = $id; return $this; }
+    public function getNotificationStatus(): string { return $this->notificationStatus; }
+    public function setNotificationStatus(string $status): self { $this->notificationStatus = $status; return $this; }
+
     public function getId(): ?int
     {
         return $this->id;

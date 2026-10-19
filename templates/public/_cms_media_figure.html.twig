@@ -1,0 +1,4 @@
+{% if media.path %}<figure class="cms-media cms-media--{{ media.slot }} cms-media--{{ media.size }}{% if insideHero|default(false) %} oling-shell-hero__media oling-shell-hero__media--{{ media.displayMode }} oling-shell-hero__media--size-{{ media.size }}{% endif %}" data-cms-media="{{ media.id }}" style="width:100%;max-width:{{ media.size == 'xlarge' ? '1200' : media.size == 'large' ? '960' : '720' }}px;margin:{{ insideHero|default(false) ? '0' : '1rem auto' }}">
+<img src="{{ media.path }}" alt="{{ media.alt }}" decoding="async" loading="{{ media.slot == 'hero' ? 'eager' : 'lazy' }}" style="display:block;width:100%;max-width:100%;height:{{ media.displayMode == 'cover' ? 'clamp(160px,35vw,480px)' : 'auto' }};object-fit:{{ media.displayMode == 'free' ? 'contain' : media.displayMode }};object-position:{{ media.focalX }}% {{ media.focalY }}%;background:transparent">
+{% if media.caption %}<figcaption>{{ media.caption }}</figcaption>{% endif %}
+</figure>{% endif %}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% block title %}Médias · {{ technical }} #{{ ownerId }}{% endblock %}
+{% block body %}
+<main class="admin">
+  <div class="cms-editor-head">
+    <div><h1>Personnaliser {{ form.slot.vars.data == 'hero' ? 'le héros' : 'un média' }}</h1><p>{{ url ?: technical ~ ' #' ~ ownerId }} · Les fichiers existants sont conservés.</p></div>
+    <div>{% if backUrl %}<a class="btn btn-outline-secondary" href="{{ backUrl }}">Retour à la page</a>{% endif %}{% if url %} <a class="btn btn-outline-secondary" href="{{ url }}" target="_blank" rel="noopener">Voir la page</a>{% endif %} <button class="btn btn-primary" type="submit" form="cms-media-form">Enregistrer le média</button></div>
+  </div>
+  {{ form_start(form, {attr: {id: 'cms-media-form'}}) }}
+  {{ form_errors(form) }}
+  <section class="cms-card">
+    <h2>Image et légende</h2>
+    <div class="row g-4"><div class="col-lg-7">
+      {{ form_row(form.upload) }}{{ form_row(form.existingImage) }}
+      <details class="mb-3"><summary>Adresse de l’image</summary>{{ form_row(form.path) }}</details>
+      {{ form_row(form.alt, {help: 'Facultatif. Peut rester vide pour une image décorative.'}) }}
+      {{ form_row(form.caption) }}
+    </div><div class="col-lg-5">
+      <figure><img id="cms-media-preview" src="{{ form.path.vars.value ?: nativeHero }}" alt="Aperçu du fichier choisi" class="img-fluid" style="max-height:320px;object-fit:contain"{% if not form.path.vars.value and not nativeHero %} hidden{% endif %}><figcaption class="small text-muted mt-2">Aperçu de l’image sélectionnée</figcaption></figure>
+    </div></div>
+  </section>
+  <section class="cms-card">
+    <h2>Présentation de l’image</h2>
+    <div class="row g-3">
+      <div class="col-md-4">{{ form_row(form.displayMode) }}</div>
+      <div class="col-md-4">{{ form_row(form.size) }}</div>
+      {% if form.heroFrame is defined %}<div class="col-md-4">{{ form_row(form.heroFrame) }}</div>{% endif %}
+      <div class="col-md-6">{{ form_row(form.focalX) }}</div><div class="col-md-6">{{ form_row(form.focalY) }}</div>
+    </div>
+    {{ form_row(form.hidden) }}
+  </section>
+  <details class="cms-secondary"><summary>Langue, rôle et position</summary><div class="row g-3 mt-1"><div class="col-md-6">{{ form_row(form.slot) }}</div><div class="col-md-6">{{ form_row(form.locale) }}</div><div class="col-md-6">{{ form_row(form.placement) }}</div><div class="col-md-6">{{ form_row(form.sortOrder) }}</div></div></details>
+  <div class="cms-editor-actions"><button class="btn btn-primary">Enregistrer le média</button>{% if backUrl %}<a class="btn btn-outline-secondary" href="{{ backUrl }}">Retour à la page</a>{% endif %}</div>
+  {{ form_end(form) }}
+  {% if media is not empty %}<details class="cms-secondary"><summary>Médias associés à cette page</summary><div class="row g-3 mt-1">{% for item in media %}<article class="col-md-4"><div class="cms-card">
+    {% if item.path %}<img src="{{ item.path }}" alt="{{ item.alt }}" class="img-fluid" style="max-height:140px;object-fit:contain">{% endif %}
+    <p>{{ item.slot == 'hero' ? 'Héros' : 'Illustration' }} · {{ item.locale|upper }}{% if item.caption %}<br>{{ item.caption }}{% endif %}</p>
+    <a href="{{ path('admin_catalogue_media',{technical:technical,id:ownerId,media:item.id}) }}">Modifier / remplacer</a>
+    <form method="post" class="mt-2"><input type="hidden" name="_token" value="{{ csrf_token('cms_media_unlink_' ~ technical ~ '_' ~ ownerId) }}"><button name="unlink" value="{{ item.id }}" class="btn btn-outline-danger btn-sm">Retirer l’association</button></form>
+  </div></article>{% endfor %}</div></details>{% endif %}
+</main>
+<script>
+(function(){
+const library=document.getElementById('form_existingImage'),field=document.getElementById('form_path'),preview=document.getElementById('cms-media-preview'),upload=document.getElementById('form_upload'),hidden=document.getElementById('form_hidden');
+if(!library||!field||!preview)return;
+const reveal=()=>{if(hidden)hidden.checked=false;};
+const show=()=>{const value=field.value;if(value.startsWith('/')&&!value.startsWith('//')){preview.src=value;preview.hidden=false;}else{preview.hidden=true;}};
+library.addEventListener('change',()=>{const option=library.options[library.selectedIndex],value=option?option.getAttribute('data-path'):'';if(value){field.value=value;reveal();show();}});
+field.addEventListener('input',()=>{if(field.value.trim())reveal();show();});
+if(upload)upload.addEventListener('change',()=>{if(upload.files.length){reveal();preview.src=URL.createObjectURL(upload.files[0]);preview.hidden=false;}});
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+/* CMS navigation on the resources hub: expertise, software and geography stay distinct. */
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-curation--navigation{padding-block:clamp(3rem,5vw,5rem)!important;background:#f6f8fb!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-public-editorial--resources .oling-resources-curation--navigation>.container{width:100%;max-width:1320px;padding-inline:clamp(1rem,3vw,2.5rem)}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation :is(.oling-resources-curation__inner,.oling-resources-curation__content){display:block;width:100%;max-width:none;margin:0;padding:0!important;border:0;border-radius:0;background:none;box-shadow:none;text-align:left}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation section{padding:0;margin:0;border:0;box-shadow:none;background:none!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation :is(h2,h3){max-width:none;margin:0 0 .8rem!important;text-align:left!important;color:#17384c!important;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-.035em;line-height:1.3}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation h2{font-size:clamp(1.7rem,2.7vw,2.5rem)!important;font-weight:800}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation p{margin:0!important;max-width:none;text-align:left!important;font-size:.91rem;line-height:1.75;color:#506575!important}
+.oling-resource-navigation>section>header{max-width:780px;margin-bottom:28px}
+.oling-resource-navigation .oling-kicker{display:block;margin-bottom:12px;font-size:.68rem;letter-spacing:.12em;color:#9d365d}
+.oling-resource-navigation__groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation .oling-resource-expertise-group{--resource-accent:#245c91;min-width:0;padding:26px;border:1px solid #dce4eb;border-top:3px solid var(--resource-accent);border-radius:14px;background:#fff!important}
+.oling-resource-expertise-group[data-universe="2"]{--resource-accent:#17685e!important}.oling-resource-expertise-group[data-universe="3"]{--resource-accent:#a43b65!important}
+.oling-resource-navigation__number{display:block;margin-bottom:20px;font-size:.75rem;font-weight:700;color:var(--resource-accent);letter-spacing:.08em}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-expertise-group h3{font-size:1.15rem!important;font-weight:800;min-height:3em}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-expertise-group>p{min-height:5.25em;font-size:.85rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation ul{display:block;width:100%;max-width:none;margin:18px 0 0!important;padding:0!important;list-style:none;text-align:left}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation li{display:block;min-height:0;margin:0!important;padding:0;border:0;border-radius:0;background:none;font-size:.87rem;font-weight:600}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation li:before{display:none!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation a{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:11px 0;min-height:44px;border-bottom:1px solid #e8edf1;color:#244b65!important;text-decoration:none!important;font-size:.86rem;font-weight:600;line-height:1.55;text-align:left}
+.oling-resource-navigation a>span{flex-shrink:0;color:inherit!important;font-size:1rem}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation a:hover{color:#123b56!important;background:#eff5f9;text-decoration:underline!important;text-underline-offset:4px}
+.oling-resource-navigation a:focus-visible{outline:3px solid #286e9c;outline-offset:4px;border-radius:3px}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation__all{margin-top:16px!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation__all a{display:inline-flex;gap:16px;border:0}
+.oling-resource-navigation__practical{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:30px}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation .oling-resource-practical-panel{padding:26px;border:1px solid #dce4eb;border-radius:14px;background:#fff!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-practical-panel h2{font-size:1.25rem!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation .oling-resource-navigation__contact{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-top:30px;padding:30px;border-radius:14px;background:#173b50!important}
+.oling-resource-navigation__contact>div{max-width:760px}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation__contact h2{font-size:1.65rem!important;color:#fff!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation__contact p{color:#e2eaf0!important}
+body.oling-body:not(.oling-home):not(.admin) .oling-resources-curation--navigation .oling-resource-navigation__contact>a{flex-shrink:0;gap:20px;padding:13px 20px;border:1px solid #fff;border-radius:8px;background:#fff;color:#173b50!important}
+@media(max-width:991px){.oling-resource-navigation__groups{grid-template-columns:1fr}.oling-resource-expertise-group h3,.oling-resource-expertise-group>p{min-height:0!important}.oling-resource-navigation__contact{align-items:flex-start!important;flex-direction:column;gap:20px!important}}
+@media(max-width:575px){.oling-resource-navigation__practical{grid-template-columns:1fr}.oling-resource-expertise-group,.oling-resource-practical-panel{padding:20px!important}.oling-resource-navigation__contact{padding:24px!important}.oling-resource-navigation__contact>a{width:100%}}
+
+body.oling-body:not(.oling-home):not(.admin) main.oling-public-editorial--resources .oling-resources-curation--navigation .oling-resources-curation__inner>.oling-resources-curation__content{width:100%!important;max-width:none!important;margin-inline:0!important}

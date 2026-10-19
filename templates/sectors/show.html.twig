@@ -6,9 +6,9 @@
 {% block body %}
 {% set locale = app.request.locale|default('fr') %}
 {% set ui = {
-  fr: {primary: 'Parler de votre contexte', all: 'Voir tous les secteurs', issues: 'Enjeux types', issues_title: 'Points de vigilance fréquents dans ce terrain', recommended: 'Expertises recommandées', recommended_title: 'Les sujets à prioriser en premier', more: "Voir l'expertise", cta_title: 'Construire une trajectoire adaptée à votre environnement', cta_text: 'OLING peut intervenir en diagnostic ou en pilotage pour remettre de la clarté sur les enjeux, les dépendances, les risques et les décisions structurantes.', cta_label: 'Demander un échange'},
-  en: {primary: 'Discuss your context', all: 'View all sectors', issues: 'Typical issues', issues_title: 'Frequent points of attention in this environment', recommended: 'Recommended expertise', recommended_title: 'Topics to prioritise first', more: 'View expertise', cta_title: 'Build a roadmap suited to your environment', cta_text: 'OLING can step in for diagnosis or steering to restore clarity on issues, dependencies, risks and structuring decisions.', cta_label: 'Request a discussion'},
-  es: {primary: 'Hablar de su contexto', all: 'Ver todos los sectores', issues: 'Retos típicos', issues_title: 'Puntos de vigilancia frecuentes en este terreno', recommended: 'Especializaciones recomendadas', recommended_title: 'Temas que deben priorizarse primero', more: 'Ver especialización', cta_title: 'Construir una trayectoria adaptada a su entorno', cta_text: 'OLING puede intervenir en diagnóstico o pilotaje para recuperar claridad sobre retos, dependencias, riesgos y decisiones estructurantes.', cta_label: 'Solicitar una conversación'}
+  fr: {primary: 'Parler de votre contexte', all: 'Voir tous les secteurs', issues: 'Vos enjeux', issues_title: 'Les priorités de votre secteur', recommended: 'Expertises recommandées', recommended_title: 'Nos expertises pour vous accompagner', more: "Voir l'expertise", cta_title: 'Parlons de vos priorités', cta_text: 'Du diagnostic au pilotage de projet, nos consultants vous aident à définir les actions à engager et à coordonner leur mise en œuvre.', cta_label: 'Demander un échange'},
+  en: {primary: 'Discuss your context', all: 'View all sectors', issues: 'Typical issues', issues_title: 'Priorities for your industry', recommended: 'Recommended expertise', recommended_title: 'Expertise for your project', more: 'View expertise', cta_title: 'Build a roadmap suited to your environment', cta_text: 'Our consultants support diagnostics, project scoping and coordination with your business and IT teams.', cta_label: 'Request a discussion'},
+  es: {primary: 'Hablar de su contexto', all: 'Ver todos los sectores', issues: 'Retos típicos', issues_title: 'Las prioridades de su sector', recommended: 'Especializaciones recomendadas', recommended_title: 'Especialidades para su proyecto', more: 'Ver especialización', cta_title: 'Construir una trayectoria adaptada a su entorno', cta_text: 'Nuestros consultores acompañan el diagnóstico, la definición y la coordinación del proyecto con los equipos de negocio y SI.', cta_label: 'Solicitar una conversación'}
 }[locale]|default({}) %}
 <main id="content" role="main" class="oling-public-editorial oling-public-editorial--detail oling-public-editorial--sector-detail">
   {% include 'public/_page_hero.html.twig' with {
@@ -17,7 +17,11 @@
     intro: page.intro,
     primaryCta: {route: 'contact', label: ui.primary},
     secondaryCta: {route: 'sectors_index', label: ui.all},
-    highlights: page.issues|slice(0, 3)
+    highlights: page.issues|slice(0, 3),
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null)
   } %}
 
   <section class="oling-shell-section">

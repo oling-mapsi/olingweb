@@ -3,10 +3,16 @@
 {% block title %}{{ page.seoTitle }}{% endblock %}
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('styles/services-hub.css') }}?v=20261018b">
+{% endblock %}
+
 {% block body %}
 {% set serviceUniverses = [
   {
     slug: 'amoa-applications-metiers',
+    theme: 'applications',
     title: 'nav.universes.amoa.title',
     intro: 'services_index.amoa.intro',
     items: [
@@ -22,6 +28,7 @@
   },
   {
     slug: 'gouvernance-performance-dsi',
+    theme: 'governance',
     title: 'nav.universes.governance.title',
     intro: 'services_index.governance.intro',
     items: [
@@ -35,6 +42,7 @@
   },
   {
     slug: 'conformite-risques-resilience',
+    theme: 'resilience',
     title: 'nav.universes.risk.title',
     intro: 'services_index.risk.intro',
     items: [
@@ -48,51 +56,74 @@
   }
 ] %}
 
-<main id="content" role="main" class="oling-public-editorial oling-public-editorial--services-hub">
+<main id="content" role="main" class="oling-public-editorial oling-public-editorial--services-hub oling-services-page">
   {% include 'public/_page_hero.html.twig' with {
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.intro,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
-    highlights: page.highlights
+    highlights: page.highlights,
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null),
+    mediaFrame: page.heroFrame|default('none')
   } %}
 
-  <section class="oling-shell-section">
-    <div class="container">
-      <div class="d-flex flex-column gap-5">
-        {% for universe in serviceUniverses %}
-          <div id="{{ universe.slug }}" aria-labelledby="services-universe-{{ loop.index }}">
-            <div class="oling-section-head">
-              <h2 id="services-universe-{{ loop.index }}">{{ universe.title|trans }}</h2>
-              <p>{{ universe.intro|trans }}</p>
-            </div>
-            <div class="row g-4">
-              {% for item in universe.items %}
-                <div class="col-md-6 col-xl-4">
-                  <div class="border-top pt-3 h-100">
-                    <h3 class="h5 mb-2"><a class="link" href="{{ item.href }}">{{ item.label|trans }}</a></h3>
-                    <p class="mb-0">{{ item.text|trans }}</p>
-                  </div>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
+  <nav class="services-compass container" aria-label="{{ app.request.locale == 'en' ? 'Explore our areas of expertise' : (app.request.locale == 'es' ? 'Explorar nuestras especialidades' : 'Explorer nos univers métiers') }}">
+    {% for universe in serviceUniverses %}
+      <a class="services-compass__item services-theme--{{ universe.theme }}" href="#{{ universe.slug }}">
+        <span class="services-compass__number" aria-hidden="true">0{{ loop.index }}</span>
+        <span class="services-compass__title">{{ universe.title|trans }}</span>
+        <span class="services-compass__arrow" aria-hidden="true">↘</span>
+      </a>
+    {% endfor %}
+  </nav>
 
-  <section class="oling-shell-section oling-shell-section--tint">
-    <div class="container">
-      <div class="oling-section-head">
-        <h2>MAPSI</h2>
-        <p>{{ 'services_index.mapsi.intro'|trans }}</p>
+  <div class="services-universes">
+    {% for universe in serviceUniverses %}
+      <section class="services-universe services-theme--{{ universe.theme }}" id="{{ universe.slug }}" aria-labelledby="services-universe-{{ loop.index }}">
+        <div class="container services-universe__layout">
+          <header class="services-universe__intro">
+            <div class="services-universe__identity" aria-hidden="true"><span>0{{ loop.index }}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">{% if universe.theme == 'applications' %}<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>{% elseif universe.theme == 'governance' %}<circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6 6-2Z"/>{% else %}<path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Z"/><path d="m8 12 3 3 5-6"/>{% endif %}</svg></div>
+            <h2 id="services-universe-{{ loop.index }}">{{ universe.title|trans }}</h2>
+            <p>{{ universe.intro|trans }}</p>
+            <div class="services-universe__motif" aria-hidden="true"><span></span><span></span><span></span></div>
+          </header>
+          <div class="services-universe__cards">
+            {% for item in universe.items %}
+              <a class="services-expertise-card" href="{{ item.href }}">
+                <span class="services-expertise-card__top" aria-hidden="true"><span class="services-expertise-card__index">{{ loop.index < 10 ? '0' : '' }}{{ loop.index }}</span><span class="services-expertise-card__arrow">↗</span></span>
+                <h3>{{ item.label|trans }}</h3>
+                <p>{{ item.text|trans }}</p>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+
+  {% set mapsiPractice = practices|filter(practice => practice.slug == 'mapsi')|first %}
+  {% set mapsiImage = mapsiPractice ? (mapsiPractice.image1 ?: mapsiPractice.image2) : null %}
+  <section class="oling-shell-section services-mapsi" id="services-mapsi" aria-labelledby="services-mapsi-title">
+    <div class="container services-mapsi__layout">
+      <div class="services-mapsi__copy">
+        <div class="oling-section-head">
+          <h2 id="services-mapsi-title">MAPSI</h2>
+          <p>{{ 'services_index.mapsi.intro'|trans }}</p>
+        </div>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">{{ 'services_index.mapsi.external'|trans }}</a>
+          <a class="link" href="/mapsi-progiciel">{{ 'services_index.mapsi.internal'|trans }}</a>
+        </div>
       </div>
-      <div class="d-flex flex-wrap gap-3">
-        <a class="link" href="https://mapsi.fr/" target="_blank" rel="noopener">{{ 'services_index.mapsi.external'|trans }}</a>
-        <a class="link" href="/mapsi-progiciel">{{ 'services_index.mapsi.internal'|trans }}</a>
-      </div>
+      {% if mapsiImage %}
+        <figure class="services-mapsi__visual">
+          <img src="{{ mapsiImage starts with '/' or mapsiImage starts with 'https://' or mapsiImage starts with 'http://' ? mapsiImage : asset(mapsiImage) }}" alt="MAPSI : risques, contrôles, audits et plans d’action" width="1448" height="1086" loading="lazy" decoding="async">
+        </figure>
+      {% endif %}
     </div>
   </section>
 
@@ -104,25 +135,25 @@
       </div>
       <div class="row g-4">
         <div class="col-md-6 col-xl-3">
-          <div class="border-top pt-3 h-100">
+          <div class="services-specialist-card">
             <h3 class="h5 mb-2"><a class="link" href="/business-apps/systeme-dinformation-geographique">Systèmes d’information géographique</a></h3>
             <p class="mb-0">Cartographie, données spatiales, SIG et usages métier territoriaux.</p>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
-          <div class="border-top pt-3 h-100">
+          <div class="services-specialist-card">
             <h3 class="h5 mb-2"><a class="link" href="/business-apps/ms365">Microsoft 365</a></h3>
             <p class="mb-0">Collaboration, gouvernance documentaire, usages et adoption.</p>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
-          <div class="border-top pt-3 h-100">
+          <div class="services-specialist-card">
             <h3 class="h5 mb-2"><a class="link" href="/business-apps/developpements-specifiques">Développements spécifiques</a></h3>
             <p class="mb-0">Applications ciblées, intégrations et automatisations adaptées au contexte.</p>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
-          <div class="border-top pt-3 h-100">
+          <div class="services-specialist-card">
             <h3 class="h5 mb-2"><a class="link" href="/consulting/tech-refresh">Tech refresh</a></h3>
             <p class="mb-0">Modernisation technique, trajectoire applicative et réduction de dette SI.</p>
           </div>

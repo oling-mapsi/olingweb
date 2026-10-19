@@ -1,0 +1,90 @@
+/* Five navigation hubs. Content and native media settings remain CMS-owned. */
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] {
+  --hub-accent: #b82f61;
+  --hub-tint: #f8edf3;
+  --hub-ink: #182d41;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2.8rem, 5.5vw, 5.5rem);
+  background: radial-gradient(ellipse at 90% 10%, var(--hub-tint), transparent 60%), linear-gradient(120deg, #fff 10%, #f5f8fb 100%);
+  border-bottom: 1px solid color-mix(in srgb, var(--hub-accent) 14%, transparent);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero.oling-shell-hero--hub-expertises { --hub-accent: #3254a2; --hub-tint: #e4eafb; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero.oling-shell-hero--hub-sectors { --hub-accent: #16746b; --hub-tint: #dcefeb; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero.oling-shell-hero--hub-projects { --hub-accent: #9a6323; --hub-tint: #f7ead7; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero.oling-shell-hero--hub-about { --hub-accent: #b82f61; --hub-tint: #f9e0ec; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero.oling-shell-hero--hub-resources { --hub-accent: #6850a1; --hub-tint: #eae4f8; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"]::before {
+  content: ""; position: absolute; z-index: -1; width: 27rem; aspect-ratio: 1; right: -11rem; top: -13rem;
+  border: 1px solid color-mix(in srgb, var(--hub-accent) 20%, transparent); border-radius: 50%;
+  box-shadow: 0 0 0 3rem color-mix(in srgb, var(--hub-accent) 3%, transparent), 0 0 0 6rem color-mix(in srgb, var(--hub-accent) 3%, transparent);
+  pointer-events: none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__inner--media {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: clamp(1.6rem, 4vw, 4.5rem); align-items: center;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem; color: var(--hub-accent);
+  font-size: .75rem; letter-spacing: .13em;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__eyebrow::before {
+  content: ""; width: .55rem; height: .55rem; flex: 0 0 auto; background: currentColor; border-radius: 50%;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] h1 {
+  max-width: 21ch; font-size: clamp(2.25rem, 3.8vw, 4.1rem); line-height: 1.08; letter-spacing: -.045em; color: var(--hub-ink); text-wrap: balance;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__intro { font-size: clamp(1rem, 1.3vw, 1.13rem); line-height: 1.65; max-width: 56ch; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media {
+  width: 100%; min-width: 0; margin: 0; border-radius: 1.5rem; border: 1px solid color-mix(in srgb, var(--hub-accent) 16%, #fff);
+  background: #fff; box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, var(--hub-accent) 65%, transparent);
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media--contain,
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media--free { background: transparent; }
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .65rem; border: 0; padding: 0; margin-top: .25rem;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights span {
+  flex: 0 1 auto; width: auto; padding: .65rem .9rem; border-radius: .65rem; border: 1px solid color-mix(in srgb, var(--hub-accent) 14%, transparent);
+  background: color-mix(in srgb, #fff 75%, transparent); color: var(--hub-ink); font-size: .8rem; line-height: 1.4;
+}
+@media (max-width: 991.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__inner--media { grid-template-columns: minmax(0, 1fr); }
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] h1 { max-width: 25ch; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media { max-width: 42rem; justify-self: center; border-radius: 1rem; }
+}
+@media (max-width: 575.98px) {
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] { padding-block: 2.4rem; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] h1 { font-size: clamp(2rem, 8vw, 2.7rem); }
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__actions { display: flex; align-items: stretch; flex-direction: column; }
+  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero[class*="--hub-"] .oling-shell-hero__actions a { white-space: normal; text-align: center; }
+}
+
+/* Existing secondary styles use !important; confine their override to these five hubs. */
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero.oling-shell-hero[class*="--hub-"] .oling-shell-hero__eyebrow { color: var(--hub-accent) !important; }
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero.oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights {
+  grid-column: 1 / -1; flex-direction: row; gap: .65rem; padding: 0; border: 0 !important; border-radius: 0; background: transparent !important; box-shadow: none;
+}
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero.oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights::before { display: none; }
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero.oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights span {
+  flex: 0 1 auto; width: auto; padding: .65rem .9rem !important; border-radius: .65rem !important;
+  border: 1px solid color-mix(in srgb, var(--hub-accent) 18%, transparent) !important;
+  background: color-mix(in srgb, #fff 80%, transparent) !important; color: var(--hub-ink) !important;
+  font-size: .8rem !important; line-height: 1.4 !important;
+}
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero.oling-shell-hero[class*="--hub-"] .oling-shell-hero__highlights span::before { display: none; }
+
+/* Native illustrations sit directly on the hero; a frame is an explicit CMS choice. */
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media {
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; overflow: visible;
+}
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media::after { display: none !important; }
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero[class*="--hub-"] .oling-shell-hero__media figcaption {
+  position: static; margin-top: .5rem; padding: .4rem 0; background: transparent; color: var(--hub-ink); backdrop-filter: none;
+}
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero[class*="--hub-"].oling-shell-hero--framed .oling-shell-hero__media {
+  border: 1px solid color-mix(in srgb, var(--hub-accent) 16%, #fff) !important; border-radius: 1.25rem !important;
+  background: #fff !important; box-shadow: 0 1.5rem 3rem -2rem color-mix(in srgb, var(--hub-accent) 65%, transparent) !important; overflow: hidden;
+}
+body.oling-body:not(.oling-home):not(.admin) main .oling-shell-hero[class*="--hub-"].oling-shell-hero--framed .oling-shell-hero__media figcaption { padding: .65rem .8rem; }

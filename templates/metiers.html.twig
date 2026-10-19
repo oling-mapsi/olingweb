@@ -18,22 +18,21 @@
     <div class="container">
       <div class="oling-section-head">
         <span class="oling-kicker">Vue d’ensemble</span>
-        <h2>Secteurs présents dans l’admin et visibles publiquement</h2>
-        <p>Cette page reprend les secteurs réellement enregistrés dans le back-office et les replace dans les contextes déjà traités par OLING.</p>
+        <h2>Des compétences adaptées à votre activité</h2>
+        <p>Les contraintes de production, de service public, de gestion ou de conformité varient selon votre activité. OLING accompagne les directions et leurs équipes dans le choix des solutions et la conduite de leurs projets SI.</p>
       </div>
       <div class="oling-editorial-grid">
         {% for sector in sectorCatalog %}
           {% set tag = sector.detailUrl ? 'a' : 'article' %}
           <{{ tag }} class="oling-editorial-card"{% if sector.detailUrl %} href="{{ sector.detailUrl }}"{% endif %}>
-            <span class="oling-kicker">Secteur servi</span>
+            <span class="oling-kicker">Secteur d’activité</span>
             <h2>{{ sector.designation }}</h2>
             <p>{{ sector.intro }}</p>
             {% if sector.specifics is not empty %}
-              <p><strong>Spécificités connues :</strong> {{ sector.specifics|join(' · ') }}</p>
+              <p><strong>Enjeux métier :</strong> {{ sector.specifics|join(' · ') }}</p>
             {% endif %}
-            <p><strong>Références publiées :</strong> {{ sector.projectCount }}</p>
             {% if sector.detailUrl %}
-              <span class="oling-editorial-card__more">Voir la page associée</span>
+              <span class="oling-editorial-card__more">Découvrir notre accompagnement</span>
             {% endif %}
           </{{ tag }}>
         {% else %}
@@ -49,9 +48,9 @@
     <section class="oling-shell-section oling-shell-section--tint">
       <div class="container">
         <div class="oling-section-head">
-          <span class="oling-kicker">Pages détaillées</span>
-          <h2>Lectures complémentaires déjà structurées</h2>
-          <p>Ces pages regroupent plusieurs secteurs quand les enjeux sont proches et déjà documentés côté site.</p>
+          <span class="oling-kicker">Nos accompagnements</span>
+          <h2>Transformation SI, organisation et conformité</h2>
+          <p>Découvrez nos interventions auprès des industriels, des entreprises de services et des organisations soumises à des exigences réglementaires fortes.</p>
         </div>
         <div class="oling-editorial-grid">
           {% for slug, sectorPage in sectorPages %}
@@ -60,7 +59,7 @@
               <h2>{{ sectorPage.title }}</h2>
               <p>{{ sectorPage.intro }}</p>
               {% if sectorPage.issues is not empty %}
-                <p><strong>Points de vigilance :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
+                <p><strong>Enjeux métier :</strong> {{ sectorPage.issues|slice(0, 2)|join(' · ') }}</p>
               {% endif %}
               <span class="oling-editorial-card__more">Voir la page</span>
             </a>

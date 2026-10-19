@@ -45,6 +45,17 @@
             <p class="alert alert-warning mt-3 mb-0">Preview protegee Growth. Cette URL n’est pas publique.</p>
           {% endif %}
         </div>
+        {% if pageHeroMedia.image|default(null) and pageHeroMedia.image not in page.heroSideHtml|default('') %}
+          {% set imageSrc = pageHeroMedia.image starts with 'http' ? pageHeroMedia.image : asset(pageHeroMedia.image|trim('/', 'left')) %}
+          {% include 'public/_hero_media.html.twig' with {
+            imageSrc: imageSrc,
+            imageAlt: pageHeroMedia.alt ?: (page.heroTitle ?: page.title),
+            imageDisplayMode: pageHeroMedia.displayMode,
+            imageSize: pageHeroMedia.size,
+            imageCaption: pageHeroMedia.caption,
+            imageFocalPoint: pageHeroMedia.focalPoint
+          } %}
+        {% endif %}
         <div class="oling-shell-hero__highlights">
           {% if page and page.tags is not empty %}
             {% for tag in page.tags|slice(0, 3) %}
@@ -60,14 +71,6 @@
     </div>
   </section>
 
-  {% if page and page.heroImage and '/uploads/growth/' not in page.heroSideHtml|default('') %}
-    {% set imageSrc = page.heroImage starts with 'http' ? page.heroImage : asset(page.heroImage|trim('/', 'left')) %}
-    <section class="oling-shell-section pt-0">
-      <div class="container">
-        <img class="img-fluid rounded-5 w-100 oling-resource-hero-image" src="{{ imageSrc }}" alt="{{ page.heroTitle ?: page.title }}">
-      </div>
-    </section>
-  {% endif %}
 
   {% if page and page.heroSideHtml %}
     <section class="oling-shell-section">
@@ -165,8 +168,8 @@
       'publisher': {'@id': site_base_url ~ '/#professional-service'},
       'mainEntityOfPage': {'@type': 'WebPage', '@id': resourceUrl}
     } %}
-    {% if page.heroImage %}
-      {% set articleImage = page.heroImage starts with 'http' ? page.heroImage : absolute_url(asset(page.heroImage|trim('/', 'left'))) %}
+    {% if pageHeroMedia.image|default(null) %}
+      {% set articleImage = pageHeroMedia.image starts with 'http' ? pageHeroMedia.image : absolute_url(asset(pageHeroMedia.image|trim('/', 'left'))) %}
       {% set articleSchema = articleSchema|merge({'image': articleImage}) %}
     {% endif %}
     {% set structuredDataGraph = structuredDataGraph|merge([articleSchema]) %}

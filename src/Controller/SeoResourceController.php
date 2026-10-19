@@ -10,6 +10,7 @@ use App\Repository\ServicesRepository;
 use App\Service\I18n\LocalizedUrlGenerator;
 use App\Service\SitePageFaqParser;
 use App\Service\LocalizedContentResolver;
+use App\Service\PublicMediaResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class SeoResourceController extends AbstractController
         private SitePageFaqParser $sitePageFaqParser,
         private LocalizedContentResolver $localizedContentResolver,
         private LocalizedUrlGenerator $localizedUrlGenerator,
+        private PublicMediaResolver $publicMediaResolver,
     ) {
     }
 
@@ -71,6 +73,7 @@ class SeoResourceController extends AbstractController
             'services' => array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $servicesRepository->findAll()),
             'pract' => '',
             'page' => $content,
+            'pageHeroMedia' => $this->publicMediaResolver->resolveSitePageHero($page, $content, null, $content->getHeroTitle() ?: $content->getTitle(), null),
             'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),
             'articles' => $articles,
             'locale' => $locale,
@@ -167,6 +170,7 @@ class SeoResourceController extends AbstractController
             'services' => array_map(fn ($service) => $this->localizedContentResolver->getFrenchServiceView($service), $servicesRepository->findAll()),
             'pract' => '',
             'page' => $content,
+            'pageHeroMedia' => $this->publicMediaResolver->resolveSitePageHero($page, $content, null, $content->getHeroTitle() ?: $content->getTitle(), null),
             'pageFaqItems' => $this->sitePageFaqParser->parse($content->getBodyHtml()),
             'publicSlug' => $publicSlug,
             'related' => $related,
@@ -201,12 +205,16 @@ class SeoResourceController extends AbstractController
             return null;
         }
 
+        $heroMedia = $this->publicMediaResolver->resolveSitePageHero($page, $content, null, $content->getHeroTitle() ?: $content->getTitle(), null);
+
         return [
             'slug' => $publicSlug,
             'href' => $this->localizedUrlGenerator->resourceArticlePath($page, $locale),
             'title' => $content->getTitle(),
             'h1' => (string) ($content->getHeroTitle() ?: $content->getTitle()),
             'intro' => (string) ($content->getHeroIntro() ?: ''),
+            'image' => $heroMedia->getImage(),
+            'imageAlt' => $heroMedia->getAlt(),
         ];
     }
 

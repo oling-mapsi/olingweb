@@ -4,30 +4,48 @@
 {% block meta_description %}{{ page.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  {% if catalogue|default(null) %}<link rel="stylesheet" href="{{ asset('styles/projects-catalogue.css') }}?v=20261017-bento4">{% endif %}
+  <link rel="stylesheet" href="{{ asset('styles/hub-heroes.css') }}?v=20261017b">
+  <link rel="stylesheet" href="{{ asset('styles/projects-featured.css') }}?v=20261017">
+{% endblock %}
+
 {% block body %}
 <main id="content" role="main" class="oling-case-studies-page oling-public-editorial oling-public-editorial--projects">
   {% include 'public/_page_hero.html.twig' with {
+    mediaFrame: page.heroFrame|default('none'),
+    variant: 'hub-projects',
     eyebrow: page.eyebrow,
     title: page.title,
     intro: page.proofLibrary.heroIntro,
     primaryCta: page.primaryCta,
     secondaryCta: page.secondaryCta,
-    highlights: page.highlights
+    highlights: page.highlights,
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null),
+    imageDisplayMode: page.heroImageDisplayMode|default('auto'),
+    imageSize: page.heroImageSize|default('auto')
   } %}
 
   {% if featuredProjects|default([])|length > 0 %}
-    <section class="oling-shell-section oling-project-media-showcase" aria-labelledby="project-media-showcase-title">
+    <section class="oling-shell-section oling-project-media-showcase oling-project-media-showcase--editorial" aria-labelledby="project-media-showcase-title">
       <div class="container">
         <div class="oling-section-head">
           <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
-          <h2 id="project-media-showcase-title">{{ 'projects.media_title'|trans }}</h2>
-          <p>{{ 'projects.media_intro'|trans }}</p>
+          <h2 id="project-media-showcase-title">{{ catalogue|default(null) ? 'Réalisations à la une' : (app.request.locale == 'fr' ? page.cards.title : 'projects.media_title'|trans) }}</h2>
+          <p>{{ app.request.locale == 'fr' ? page.cards.intro : 'projects.media_intro'|trans }}</p>
         </div>
         <div class="oling-project-media-grid">
           {% for project in featuredProjects|slice(0, 6) %}
             {% set projectImageRaw = project.image|default('')|trim %}
             {% set projectImageSrc = projectImageRaw ? (projectImageRaw starts with 'http://' or projectImageRaw starts with 'https://' or projectImageRaw starts with 'data:' or projectImageRaw starts with '/' ? projectImageRaw : asset(projectImageRaw)) : null %}
-            <a class="oling-project-media-card" href="{{ project.href }}">
+            {% set expertise = project.eyebrow|default('')|lower %}
+            {% set visualTheme = 'erp' in expertise ? 'erp' : ('factur' in expertise ? 'finance' : ('rgpd' in expertise or 'privacy' in expertise ? 'rgpd' : ('gmao' in expertise ? 'gmao' : ('ged' in expertise or 'démat' in expertise ? 'documents' : 'si')))) %}
+            <a class="oling-project-media-card" data-featured-theme="{{ visualTheme }}" href="{{ project.href }}">
+              <div class="oling-featured-card-top"><span class="oling-featured-index" aria-hidden="true">{{ '%02d'|format(loop.index) }}<span> / {{ '%02d'|format(featuredProjects|length > 6 ? 6 : featuredProjects|length) }}</span></span><span class="oling-featured-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">{% if visualTheme == 'rgpd' %}<path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Zm-4 9 3 3 5-6"/>{% elseif visualTheme == 'finance' %}<path d="M3 3v18h18M7 16v-5M12 16V7M17 16v-8"/>{% elseif visualTheme == 'gmao' %}<path d="m14 6 4-4a6 6 0 0 1-7 8L4 17a2.1 2.1 0 0 0 3 3l7-7a6 6 0 0 0 8-7l-4 4-4-4Z"/>{% elseif visualTheme == 'documents' %}<path d="M4 3h11l5 5v13H4zM14 3v6h6M8 13h8M8 17h5"/>{% else %}<path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>{% endif %}</svg></span></div>
               {% if projectImageSrc %}
                 <div class="oling-project-media-card__visual">
                   <img src="{{ projectImageSrc }}" alt="{{ project.title }}" width="720" height="480" loading="{{ loop.index <= 2 ? 'eager' : 'lazy' }}" decoding="async">
@@ -37,15 +55,16 @@
                 {% if project.eyebrow %}<span class="oling-kicker">{{ project.eyebrow }}</span>{% endif %}
                 <h3>{{ project.title }}</h3>
                 {% if project.excerpt %}<p>{{ project.excerpt }}</p>{% endif %}
-                <div class="oling-project-media-card__meta">
+                {% if project.meta or project.period %}<div class="oling-project-media-card__meta">
                   {% if project.meta %}<span>{{ project.meta }}</span>{% endif %}
                   {% if project.period %}<span>{{ project.period }}</span>{% endif %}
-                </div>
+                </div>{% endif %}
+                <span class="oling-featured-card-action">{{ app.request.locale == 'en' ? 'Discuss a similar project' : (app.request.locale == 'es' ? 'Hablemos de un proyecto similar' : 'Parlons de votre projet') }}<span class="oling-featured-card-arrow" aria-hidden="true">↗</span></span>
               </div>
             </a>
           {% endfor %}
         </div>
-        {% if miniProjects|default([])|length > 0 %}
+        {% if not catalogue|default(null) and miniProjects|default([])|length > 0 %}
           <div class="oling-projects-mini-grid mt-4">
             {% include 'projets/_mini_cards.html.twig' with {miniProjects: miniProjects|slice(0, 6)} %}
           </div>
@@ -54,13 +73,20 @@
     </section>
   {% endif %}
 
+  {% if catalogue|default(null) %}
+    <section id="catalogue" class="oling-shell-section oling-catalogue" aria-labelledby="catalogue-title">
+      <div class="container">
+        {% include 'projets/_catalogue.html.twig' %}
+      </div>
+    </section>
+  {% else %}
   <section class="oling-proof-library oling-projects-redesign" aria-labelledby="proof-library-title">
     <div class="container">
       <div class="oling-proof-library__intro">
         <span class="oling-kicker">{{ 'projects.library_kicker'|trans }}</span>
         <h2 id="proof-library-title">{{ 'projects.library_title'|trans }}</h2>
         <p>{{ 'projects.library_intro'|trans }}</p>
-        <div class="oling-proof-library__count"><strong>{{ page.proofLibrary.missions|length }}</strong><span>missions documentées</span></div>
+        <div class="oling-proof-library__count"><strong>{{ page.proofLibrary.missions|length }}</strong><span>{{ catalogue|default(null) ? "exemples décrits, indépendants du compteur du catalogue" : "missions documentées" }}</span></div>
       </div>
 
       <div class="oling-proof-filters" role="group" aria-label="{{ 'projects.filter_aria'|trans }}">
@@ -139,6 +165,8 @@
     </div>
   </section>
 
+  {% endif %}
+
   {% include 'public/_cta_band.html.twig' with {
     eyebrow: 'projects.cta_eyebrow'|trans,
     title: 'projects.cta_title'|trans,
@@ -147,6 +175,7 @@
     phoneCta: true
   } %}
 
+  {% if not catalogue|default(null) %}
   <script>
     document.querySelectorAll('[data-proof-filter]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -165,5 +194,6 @@
       });
     });
   </script>
+  {% endif %}
 </main>
 {% endblock %}

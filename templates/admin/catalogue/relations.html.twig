@@ -1,0 +1,4 @@
+{% extends 'base.html.twig' %}{% block title %}Relations métier{% endblock %}
+{% block body %}<main class="admin container content-space-2">{% include 'admin/_nav.html.twig' %}<h1>Relations métier</h1><p>Relations de {{ technical }} #{{ object.id }} · {{ publicUrl ?: object.slug }}</p><p>Les associations organisent la fiche métier. Chaque page conserve son URL et son éditeur.</p>
+{% if technical == 'service' %}<p>Rattachement de l’URL historique : {{ object.practice ? object.practice.designation : 'Absent' }}. La Practice de classification organise le catalogue.</p>{% endif %}
+{{ form_start(form) }}{{ form_widget(form) }}<button class="btn btn-primary">Enregistrer la classification</button>{{ form_end(form) }}{% if relatedRows %}<h2 class="mt-4">Expertises, Projets et Ressources associés</h2>{% include 'admin/catalogue/_table.html.twig' with {rows:relatedRows} %}{% endif %}</main>{% endblock %}

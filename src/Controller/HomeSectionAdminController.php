@@ -27,6 +27,84 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/home')]
 class HomeSectionAdminController extends AbstractController
 {
+    #[Route('', name: 'admin_home_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_home_index_slash', methods: ['GET'])]
+    public function index(SitePageRepository $repository): Response
+    {
+        $page = $repository->findOneBy(['slug' => 'home']);
+        if (!$page) { throw $this->createNotFoundException('Accueil introuvable.'); }
+        return $this->render('admin/home/index.html.twig', ['page' => $page, 'practices' => []]);
+    }
+
+    #[Route('/method', name: 'admin_home_method', methods: ['GET', 'POST'])]
+    public function method(SitePageRepository $repository, EntityManagerInterface $entityManager, Request $request, UploadManager $uploadManager): Response
+    {
+        $page = $repository->findOneBy(['slug' => 'home']);
+        if (!$page) { throw $this->createNotFoundException('Accueil introuvable.'); }
+        $this->loadHomeEditorialState($page);
+        $payload = $this->decodeStructuredPayload($page->getBodyHtml());
+        $method = $payload['proof'] ?? [];
+        $data = ['eyebrow' => $method['eyebrow'] ?? '', 'title' => $method['title'] ?? '', 'image' => $method['image'] ?? '', 'imageAlt' => $method['imageAlt'] ?? '', 'imageFit' => $method['imageFit'] ?? 'contain', 'imageSize' => $method['imageSize'] ?? 'full', 'imagePosition' => $method['imagePosition'] ?? 'center', 'items' => []];
+        foreach ($method['items'] ?? [] as $key => $item) {
+            $data['items'][$key] = ['title' => $item['title'] ?? '', 'text' => $item['text'] ?? ''];
+        }
+        $sourceHash = $this->homeEditorialHash($page);
+        $builder = $this->createFormBuilder($data)
+            ->add('eyebrow', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Surtitre', 'required' => false])
+            ->add('title', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Titre de la section'])
+            ->add('image', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Adresse de l’illustration', 'required' => false])
+            ->add('imageAlt', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Texte alternatif de l’illustration', 'required' => false])
+            ->add('imageFit', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, ['label' => 'Disposition de l’image', 'choices' => ['Image entière — sans recadrage' => 'contain', 'Remplir le cadre — image recadrée' => 'cover'], 'help' => 'Image entière conserve les proportions et affiche toute l’illustration.'])
+            ->add('imageSize', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, ['label' => 'Taille dans la colonne', 'choices' => ['Toute la largeur' => 'full', 'Moyenne (80 %)' => 'medium', 'Petite (60 %)' => 'small']])
+            ->add('imagePosition', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, ['label' => 'Zone à privilégier si l’image est recadrée', 'choices' => ['Centre' => 'center', 'Gauche' => 'left', 'Droite' => 'right', 'Haut' => 'top', 'Bas' => 'bottom']])
+            ->add('imageFile', \Symfony\Component\Form\Extension\Core\Type\FileType::class, ['label' => 'Remplacer l’illustration', 'mapped' => false, 'required' => false, 'constraints' => [new \Symfony\Component\Validator\Constraints\File(['maxSize' => '5M', 'mimeTypes' => ['image/png','image/jpeg','image/webp','image/avif']])]])
+            ->add('homeEditorSourceHash', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class, ['mapped' => false, 'data' => $sourceHash]);
+        $items = $builder->create('items', \Symfony\Component\Form\Extension\Core\Type\FormType::class, ['label' => false]);
+        foreach ($data['items'] as $key => $item) {
+            $entry = $builder->create((string) $key, \Symfony\Component\Form\Extension\Core\Type\FormType::class, ['label' => false])
+                ->add('title', \Symfony\Component\Form\Extension\Core\Type\TextType::class, ['label' => 'Titre'])
+                ->add('text', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, ['label' => 'Description', 'attr' => ['rows' => 3]]);
+            $items->add($entry);
+        }
+        $builder->add($items);
+        $form = $builder->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && !hash_equals($sourceHash, (string) $form->get('homeEditorSourceHash')->getData())) {
+            $form->addError(new \Symfony\Component\Form\FormError('L’accueil a changé. Rechargez le formulaire avant de réessayer.'));
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $submitted = $form->getData();
+            $file = $form->get('imageFile')->getData();
+            if ($file) {
+                try { $submitted['image'] = $uploadManager->upload($file, 'pages/home'); }
+                catch (FileException) { $form->addError(new \Symfony\Component\Form\FormError('Impossible d’envoyer l’illustration. Aucune modification n’a été enregistrée.')); }
+            }
+            if ($form->isValid()) {
+                $payload['proof'] = $this->mergeHomeMethod($method, $submitted);
+                $page->setBodyHtml($this->encodeStructuredPayload($payload));
+                $this->saveHomeEditorialState($page);
+                $entityManager->flush();
+                $this->addFlash('success', 'Méthode d’intervention mise à jour.');
+                return $this->redirectToRoute('admin_home_method');
+            }
+        }
+        return $this->render('admin/home/method.html.twig', ['form' => $form->createView(), 'methodImage' => $method['image'] ?? null, 'practices' => []]);
+    }
+
+    private function mergeHomeMethod(array $existing, array $submitted): array
+    {
+        foreach (['eyebrow', 'title', 'image', 'imageAlt'] as $field) { $existing[$field] = trim((string) ($submitted[$field] ?? '')); }
+        foreach (['imageFit' => ['contain', 'cover'], 'imageSize' => ['full', 'medium', 'small'], 'imagePosition' => ['center', 'left', 'right', 'top', 'bottom']] as $field => $allowed) {
+            $value = $submitted[$field] ?? $existing[$field] ?? $allowed[0];
+            $existing[$field] = in_array($value, $allowed, true) ? $value : $allowed[0];
+        }
+        foreach (array_keys($existing['items'] ?? []) as $key) {
+            $existing['items'][$key]['title'] = trim((string) $submitted['items'][$key]['title']);
+            $existing['items'][$key]['text'] = trim((string) $submitted['items'][$key]['text']);
+        }
+        return $existing;
+    }
+
     #[Route('/hero', name: 'admin_home_hero', methods: ['GET', 'POST'])]
     public function hero(
         SitePageRepository $sitePageRepository,
@@ -37,6 +115,7 @@ class HomeSectionAdminController extends AbstractController
     ): Response
     {
         $page = $this->findOrCreateHomePage($sitePageRepository, $entityManager, $publicSiteConfig);
+        $this->loadHomeEditorialState($page);
         $payload = $this->decodeStructuredPayload($page->getBodyHtml());
         $heroConfig = $payload['hero'] ?? [];
         $selectedMetier = null;
@@ -53,7 +132,13 @@ class HomeSectionAdminController extends AbstractController
             'selected_metier' => $selectedMetier,
             'metier_intro_default' => is_string($heroConfig['metierIntro'] ?? null) ? $heroConfig['metierIntro'] : null,
         ]);
+        $sourceHash = $this->homeEditorialHash($page);
+        $form->add('homeEditorSourceHash', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class, ['mapped' => false, 'data' => $sourceHash]);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && !hash_equals($sourceHash, (string) $form->get('homeEditorSourceHash')->getData())) {
+            $form->addError(new \Symfony\Component\Form\FormError('L’accueil a changé depuis l’ouverture du formulaire. Rechargez-le avant de réessayer.'));
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $selectedMetier = $form->get('metier')->getData();
@@ -79,6 +164,7 @@ class HomeSectionAdminController extends AbstractController
             $page->setHeroImage(null);
             $page->setBodyHtml($this->encodeStructuredPayload($payload));
 
+            $this->saveHomeEditorialState($page);
             $entityManager->flush();
             $this->addFlash('success', 'Hero mis à jour.');
 
@@ -101,10 +187,17 @@ class HomeSectionAdminController extends AbstractController
         Request $request
     ): Response {
         $page = $this->findOrCreateHomePage($sitePageRepository, $entityManager, $publicSiteConfig);
+        $this->loadHomeEditorialState($page);
         $form = $this->createForm(\App\Form\SitePageType::class, $page, [
             'editor_mode' => 'home',
         ]);
+        $sourceHash = $this->homeEditorialHash($page);
+        $form->add('homeEditorSourceHash', \Symfony\Component\Form\Extension\Core\Type\HiddenType::class, ['mapped' => false, 'data' => $sourceHash]);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && !hash_equals($sourceHash, (string) $form->get('homeEditorSourceHash')->getData())) {
+            $form->addError(new \Symfony\Component\Form\FormError('L’accueil a changé depuis l’ouverture du formulaire. Rechargez-le avant de réessayer.'));
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $heroImageFile = $form->get('heroImageFile')->getData();
@@ -112,7 +205,7 @@ class HomeSectionAdminController extends AbstractController
                 try {
                     $oldPath = $page->getHeroImage();
                     $page->setHeroImage($uploadManager->upload($heroImageFile, 'pages/hero'));
-                    $uploadManager->remove($oldPath);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', 'Impossible d\'envoyer l\'image hero.');
 
@@ -120,13 +213,14 @@ class HomeSectionAdminController extends AbstractController
                 }
             }
 
+            $this->saveHomeEditorialState($page);
             $entityManager->flush();
             $this->addFlash('success', 'Contenu de la home mis à jour.');
 
             return $this->redirectToRoute('admin_home_content');
         }
 
-        return $this->render('admin/pages/edit.html.twig', [
+        return $this->render('admin/home/content.html.twig', [
             'form' => $form,
             'page' => $page,
             'editorMode' => 'home',
@@ -320,6 +414,47 @@ class HomeSectionAdminController extends AbstractController
             'awards' => $awardRepository->findBy([], ['position' => 'ASC', 'id' => 'ASC']),
             'practices' => [],
         ]);
+    }
+
+    private function loadHomeEditorialState(SitePage $page): void
+    {
+        $fr = $page->getTranslation('fr');
+        if (!$fr) { return; }
+        $payload = $fr->getStructuredData()['homePage'] ?? $this->decodeStructuredPayload($fr->getBodyHtml());
+        $page->setTitle($fr->getSeoTitle() ?: $fr->getTitle());
+        $page->setMetaDescription($fr->getSeoDescription());
+        $page->setHeroBadge($fr->getHeroBadge());
+        $page->setHeroTitle($fr->getHeroTitle());
+        $page->setHeroIntro($fr->getHeroIntro());
+        $page->setHeroSideHtml($fr->getHeroSideHtml());
+        $page->setBodyHtml($this->encodeStructuredPayload($payload));
+    }
+
+    private function homeEditorialHash(SitePage $page): string
+    {
+        $fr = $page->getTranslation('fr');
+        return hash('sha256', serialize([$page->getHeroImage(), $fr?->getTitle(), $fr?->getSeoTitle(), $fr?->getSeoDescription(), $fr?->getHeroTitle(), $fr?->getHeroIntro(), $fr?->getHeroBadge(), $fr?->getHeroSideHtml(), $fr?->getStructuredData(), $fr?->getBodyHtml()]));
+    }
+
+    private function saveHomeEditorialState(SitePage $page): void
+    {
+        $fr = $page->getTranslation('fr');
+        if (!$fr) { throw new \LogicException('La traduction française de l’accueil est nécessaire.'); }
+        $structured = $fr->getStructuredData() ?? [];
+        $structured['homePage'] = $this->decodeStructuredPayload($page->getBodyHtml());
+        if ($page->getTitle() !== ($fr->getSeoTitle() ?: $fr->getTitle())) {
+            $fr->setTitle((string) $page->getTitle());
+            $fr->setSeoTitle($page->getTitle());
+        }
+        $fr->setSeoDescription($page->getMetaDescription());
+        $fr->setHeroBadge($page->getHeroBadge());
+        $fr->setHeroTitle($page->getHeroTitle());
+        $fr->setHeroIntro($page->getHeroIntro());
+        $fr->setHeroSideHtml($page->getHeroSideHtml());
+        $fr->setBodyHtml($page->getBodyHtml());
+        $fr->setStructuredData($structured);
+        $fr->setSourceContentHash((new \App\Service\TranslationSourceHasher())->hashSitePage($page));
+        $fr->setSourceUpdatedAt(new \DateTimeImmutable());
     }
 
     private function findOrCreateHomePage(SitePageRepository $sitePageRepository, EntityManagerInterface $entityManager, PublicSiteConfig $publicSiteConfig): SitePage

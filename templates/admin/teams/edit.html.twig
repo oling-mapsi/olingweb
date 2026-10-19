@@ -7,8 +7,8 @@
 <main id="content" role="main" class="admin">
     <div class="container content-space-2 content-space-lg-3">
         <div class="mb-4">
-            <h1 class="h3">Modifier le membre</h1>
-            <p class="text-muted mb-0">Mettez à jour les informations et la photo.</p>
+            <h1 class="h3">{{ form.publicDisplayName.vars.value|default(team.noncomplet) }}</h1>
+            <p class="text-muted mb-0">Fonction, biographie, photo publique et ordre d’affichage.</p>
         </div>
 
         {% include 'admin/_nav.html.twig' %}

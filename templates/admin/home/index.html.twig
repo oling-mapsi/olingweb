@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil · Administration OLING{% endblock %}
+{% block body %}<main class="admin">
+<h1>Modifier l’accueil</h1><p class="cms-intro">Retrouvez les contenus, les sections mises en avant, les médias et les traductions de la page d’accueil.</p>
+<div class="cms-dashboard">
+{% for label,item in {
+ 'Héros et message principal':{route:'admin_home_hero',text:'Titre, introduction, bouton, tags et métier mis en avant.'},
+ 'Méthode d’intervention':{route:'admin_home_method',text:'Surtitre, titre, étapes et illustration de la méthode.'},
+ 'Textes et contenus de la page':{route:'admin_home_content',text:'Contenus de l’accueil, référencement et réglages des blocs existants.'},
+ 'Domaines mis en avant':{route:'admin_home_practices',text:'Présentation, sélection et ordre des domaines.'},
+ 'Projets et références':{route:'admin_home_projects',text:'Présentation et sélection des réalisations de l’accueil.'},
+ 'Cartes de l’accueil':{route:'admin_home_cards_index',text:'Modifier les cartes existantes.'},
+ 'Chiffres clés':{route:'admin_home_projects_kpis_index',text:'Modifier les indicateurs déjà enregistrés.'},
+ 'Distinctions':{route:'admin_home_awards',text:'Présentation et liste des distinctions existantes.'}
+} %}<a class="cms-card" href="{{ path(item.route) }}"><h2>{{ label }}</h2><p>{{ item.text }}</p></a>{% endfor %}
+</div>
+<section id="medias" class="cms-card"><h2>Médias de l’accueil</h2><p>Retrouvez les illustrations de la page et la médiathèque. Le choix du métier dans le héros se règle dans « Héros et message principal ».</p><a class="btn btn-outline-primary" href="{{ path('admin_home_content') }}#illustrations">Image principale</a> <a class="btn btn-outline-primary" href="{{ path('admin_catalogue_media',{technical:'page',id:page.id}) }}">Illustrations de l’accueil</a> <a class="btn btn-outline-secondary" href="{{ path('admin_site_section',{section:'medias'}) }}">Médiathèque</a></section>
+<section id="traductions" class="cms-card"><h2>Traductions de l’accueil</h2><a class="btn btn-outline-primary" href="{{ path('admin_home_content') }}">Français</a>{% for code,label in {'en':'English','es':'Español'} %}{% set translation=page.translation(code) %}{% if translation %} <a class="btn btn-outline-primary" href="{{ path('admin_translations_site_page_edit',{id:translation.id,locale:code}) }}">{{ label }}</a>{% else %}<span>{{ label }} : traduction absente</span>{% endif %}{% endfor %}</section>
+<a class="btn btn-outline-secondary" href="/" target="_blank" rel="noopener">Voir l’accueil sur le site</a>
+</main>{% endblock %}

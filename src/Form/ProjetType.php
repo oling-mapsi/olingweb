@@ -18,8 +18,12 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ProjetType extends AbstractType
 {
+    public function __construct(private readonly SeoNarrativeAdminFields $seoFields) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $data = $options['data'] ?? null;
+        $this->seoFields->add($builder, is_object($data) && is_callable([$data, 'getPublicNarrative']) ? $data->getPublicNarrative() : null, 'project');
         $builder
             ->add('designation', TextType::class, [
                 'label' => 'Désignation',

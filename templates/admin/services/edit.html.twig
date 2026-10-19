@@ -1,39 +1,10 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Backoffice - Modifier service{% endblock %}
-{% block meta_description %}Modification de service Oling{% endblock %}
-
-{% block body %}
-<main id="content" role="main" class="admin">
-    <div class="container content-space-2 content-space-lg-3">
-        <div class="mb-4">
-            <h1 class="h3">Modifier le service</h1>
-            <p class="text-muted mb-0">Mettez à jour les informations et médias.</p>
-        </div>
-
-        {% include 'admin/_nav.html.twig' %}
-
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}">{{ message }}</div>
-            {% endfor %}
-        {% endfor %}
-
-        <div class="card admin-form-card">
-            <div class="card-body">
-                {% include 'admin/services/_form.html.twig' with {
-                    form: form,
-                    service: service,
-                    button_label: 'Mettre à jour',
-                    form_action: path('admin_services_edit', {id: service.id})
-                } %}
-            </div>
-        </div>
-
-        <div class="admin-danger-zone mt-4">
-            <h2 class="h5 mb-2">Suppression</h2>
-            <p class="text-muted mb-3">Cette action est irreversible.</p>
-            <form method="post" action="{{ path('admin_services_delete', {id: service.id}) }}" onsubmit="return confirm('Supprimer ce service ?');">
+{% block title %}{{ service.designation }} | Admin{% endblock %}
+{% block body %}<main class="admin">
+{% set preview=cms_admin_item(service) %}<div class="cms-editor-head"><div><h1>{{ service.designation }}</h1><p>Service historique #{{ service.id }} · {{ preview.url ?: 'URL non renseignée' }}</p><a class="small" href="{{ path('admin_catalogue_service',{id:service.id}) }}">← Fiche de la prestation et pages associées</a></div>{% if preview.thumbnail %}<img class="cms-editor-image" src="{{ preview.thumbnail }}" alt="{{ service.designation }}">{% endif %}<div class="d-flex gap-2"><button class="btn btn-primary" type="submit" form="service-editor">Enregistrer</button>{% if preview.url %}<a class="btn btn-outline-secondary" href="{{ preview.url }}" target="_blank" rel="noopener">Voir la page</a>{% endif %}</div></div>
+{% for label,messages in app.flashes %}{% for message in messages %}<div class="alert alert-{{ label }}">{{ message }}</div>{% endfor %}{% endfor %}
+{% include 'admin/services/_form.html.twig' with {form:form,service:service,form_action:path('admin_services_edit',{id:service.id})} %}
+<details class="cms-secondary"><summary>Suppression — réglages avancés</summary>            <form method="post" action="{{ path('admin_services_delete', {id: service.id}) }}" onsubmit="return confirm('Supprimer ce service ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ service.id) }}">
                 <div class="form-check mb-2">
                     <input class="form-check-input" type="checkbox" id="confirm-delete-service-{{ service.id }}" required>
@@ -42,8 +13,5 @@
                     </label>
                 </div>
                 <button class="btn btn-outline-danger">Supprimer</button>
-            </form>
-        </div>
-    </div>
-</main>
-{% endblock %}
+            </form></details>
+</main>{% endblock %}

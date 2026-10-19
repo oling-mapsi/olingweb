@@ -1,0 +1,10 @@
+{% set presentation = hero_media_presentation(imageSrc, imageDisplayMode|default('auto'), imageSize|default('auto')) %}
+{% set bounds = presentation.mode != 'cover' and presentation.size != 'standard' ? presentation.bounds|default(null) : null %}
+<figure class="oling-shell-hero__media oling-shell-hero__media--{{ presentation.mode }} oling-shell-hero__media--size-{{ presentation.size }}">
+  {% if bounds %}
+    <span class="oling-shell-hero__canvas" style="aspect-ratio: {{ bounds.width }}/{{ bounds.height }}; --hero-canvas-width: {{ presentation.width / bounds.width * 100 }}%; --hero-canvas-height: {{ presentation.height / bounds.height * 100 }}%; --hero-canvas-left: {{ -bounds.x / bounds.width * 100 }}%; --hero-canvas-top: {{ -bounds.y / bounds.height * 100 }}%;">
+  {% endif %}
+  <img src="{{ imageSrc }}" alt="{{ imageAlt|default('')|striptags }}"{% if presentation.width and presentation.height %} width="{{ presentation.width }}" height="{{ presentation.height }}"{% endif %} decoding="async" fetchpriority="high"{% if presentation.mode == 'cover' and imageFocalPoint|default(null) %} style="object-position: {{ imageFocalPoint }}"{% endif %}>
+  {% if bounds %}</span>{% endif %}
+  {% if imageCaption|default(null) %}<figcaption>{{ imageCaption }}</figcaption>{% endif %}
+</figure>

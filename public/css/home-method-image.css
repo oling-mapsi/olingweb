@@ -1,0 +1,19 @@
+/* Only the homepage method illustration: natural proportions by default. */
+body.oling-body.oling-home .method-image-layout {
+  display: flex; align-items: center; justify-content: center; min-width: 0;
+}
+body.oling-body.oling-home .method-image-layout .oling-home-proof-tile--image {
+  width: 100%; min-height: 0; height: auto; flex: none; background: transparent !important; box-shadow: none;
+}
+body.oling-body.oling-home .method-image-layout[data-size="medium"] .oling-home-proof-tile--image { width: 80%; }
+body.oling-body.oling-home .method-image-layout[data-size="small"] .oling-home-proof-tile--image { width: 60%; }
+body.oling-body.oling-home .method-image-layout .oling-home-panel__media { height: auto; min-height: 0; }
+body.oling-body.oling-home .method-image-layout .oling-home-proof-tile--image img {
+  width: 100% !important; height: auto !important; object-fit: contain !important; filter: none;
+}
+body.oling-body.oling-home .method-image-layout[data-fit="cover"] .oling-home-panel__media { aspect-ratio: 4 / 3; }
+body.oling-body.oling-home .method-image-layout[data-fit="cover"] .oling-home-proof-tile--image img { height: 100% !important; object-fit: cover !important; }
+body.oling-body.oling-home .method-image-layout[data-position="left"] img { object-position: left center; }
+body.oling-body.oling-home .method-image-layout[data-position="right"] img { object-position: right center; }
+body.oling-body.oling-home .method-image-layout[data-position="top"] img { object-position: center top; }
+body.oling-body.oling-home .method-image-layout[data-position="bottom"] img { object-position: center bottom; }

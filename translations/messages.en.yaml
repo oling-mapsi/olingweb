@@ -1,273 +1,392 @@
 common:
-  home: "Home"
-  page: "Page"
-  faq: "FAQ"
-  project: "Project"
-  view_page: "View page"
-  illustration: "Illustration"
-  project_discussion: "Discuss your project"
-  call_us: "Or call us at +33 1 89 70 15 60"
-
+  home: Home
+  page: Page
+  faq: FAQ
+  project: Project
+  view_page: View page
+  illustration: Illustration
+  project_discussion: Discuss your project
+  call_us: Or call us at +33 1 89 70 15 60
 schema:
   organization:
-    description: "Consulting firm for SMEs, mid-sized companies and public organizations: IT transformation, ERP, operations, compliance, cybersecurity and artificial intelligence."
-
+    description: 'Consulting firm for SMEs, mid-sized companies and public organizations: IT transformation, ERP, operations, compliance, cybersecurity and artificial
+      intelligence.'
 nav:
-  open_menu: "Open menu"
-  expertises: "Expertise"
-  all_expertises: "View all expertise"
-  achievements: "Case studies"
-  sectors: "Industries"
-  projects: "Projects"
-  case_studies: "Case studies"
-  about: "About us"
-  resources: "Resources"
-  mapsi_access: "Open MAPSI"
-  consultant_cta: "Talk to a consultant"
+  open_menu: Open menu
+  expertises: Expertise
+  all_expertises: View all expertise
+  achievements: Case studies
+  sectors: Industries
+  projects: Projects
+  case_studies: Case studies
+  about: About us
+  resources: Resources
+  mapsi_access: Open MAPSI
+  consultant_cta: Talk to a consultant
   universes:
     amoa:
-      title: "IT advisory & business applications"
+      title: IT advisory & business applications
       items:
-        amoa_si: "IT project advisory"
-        erp: "ERP"
-        crm: "CRM"
-        gmao: "CMMS"
-        finance: "Finance systems"
-        e_invoice: "E-invoicing"
-        data_bi: "Data / BI"
-        ai_automation: "AI & automation"
+        amoa_si: IT project advisory
+        erp: ERP
+        crm: CRM
+        gmao: CMMS
+        finance: Finance systems
+        e_invoice: E-invoicing
+        data_bi: Data / BI
+        ai_automation: AI & automation
     governance:
-      title: "IT governance & performance"
+      title: IT governance & performance
       items:
-        strategy: "IT roadmap"
-        pmo: "Project steering / PMO"
-        process: "Organization & processes"
-        data_governance: "Data governance"
-        infrastructure: "Infrastructure & IT modernization"
-        dsi: "Outsourced CIO"
+        strategy: IT roadmap
+        pmo: Project steering / PMO
+        process: Organization & processes
+        data_governance: Data governance
+        infrastructure: Infrastructure & IT modernization
+        dsi: Outsourced CIO
     risk:
-      title: "Compliance, risk & resilience"
+      title: Compliance, risk & resilience
       items:
-        rgpd: "GDPR / DPO"
-        cyber: "Cybersecurity / ISO 27001"
-        pca: "BCP / DRP / ISO 22301"
-        qse: "ISO 9001 / QHSE"
-        risk_control: "Risk & internal control"
-        ai_act: "AI Act compliance"
-
+        rgpd: GDPR / DPO
+        cyber: Cybersecurity / ISO 27001
+        pca: BCP / DRP / ISO 22301
+        qse: ISO 9001 / QHSE
+        risk_control: Risk & internal control
+        ai_act: AI Act compliance
 resources:
-  library_kicker: "Library"
-  resource_kicker: "Resource"
-  read_article: "Read article"
-  faq_title: "Frequently asked questions"
-  related_axes: "Related topics"
-  next_kicker: "Next"
-  related_articles: "Related articles"
-
+  library_kicker: Library
+  resource_kicker: Resource
+  read_article: Read article
+  faq_title: Frequently asked questions
+  related_axes: Related topics
+  next_kicker: Next
+  related_articles: Related articles
 footer:
-  baseline: "Consulting firm for business, IT, compliance and resilience transformations."
-  exchange_cta: "Request a conversation"
-  universes: "Our areas"
-  all_expertises: "All expertise"
-  all_services: "All services"
-  sectors: "Industries"
-  all_sectors: "All industries"
-  company: "Firm"
-  team: "Team"
-  jobs: "Careers"
-  rse: "CSR approach"
-  contact_details: "Contact details"
-  contact_form: "Contact form"
-  presence: "Presence in mainland France and overseas regions."
-  rgpd_policy: "GDPR policy"
-  security_policy: "Security policy"
-  legal_notice: "Legal notice"
-  ai_charter: "AI charter"
-  manage_cookies: "Manage cookies"
-
+  baseline: Consulting firm for business, IT, compliance and resilience transformations.
+  exchange_cta: Request a conversation
+  universes: Our areas
+  all_expertises: All expertise
+  all_services: All services
+  sectors: Industries
+  all_sectors: All industries
+  company: Firm
+  team: Team
+  jobs: Careers
+  rse: CSR approach
+  contact_details: Contact details
+  contact_form: Contact form
+  presence: Presence in mainland France and overseas regions.
+  rgpd_policy: GDPR policy
+  security_policy: Security policy
+  legal_notice: Legal notice
+  ai_charter: AI charter
+  manage_cookies: Manage cookies
 cookies:
-  aria_label: "Cookie settings"
-  title: "Cookie settings"
-  intro: "We use essential cookies for the website to work. You can accept analytics or refuse everything except the minimum required."
-  details: "View cookies"
-  accept_all: "Accept all"
-  refuse_all: "Refuse all"
-  essential_title: "Essential cookies"
-  essential_choice: "Essential cookies"
-  consent_cookie: "stores your choice."
-  session_cookie: "session cookie."
-  analytics_title: "Analytics cookies"
-  analytics_choice: "Analytics"
-  ga_cookie: "Google Analytics identifier."
-  ga4_cookie: "GA4 cookie."
-  gid_cookie: "analytics cookie."
-  save: "Save choices"
-
+  aria_label: Cookie settings
+  title: Cookie settings
+  intro: We use essential cookies for the website to work. You can accept analytics or refuse everything except the minimum required.
+  details: View cookies
+  accept_all: Accept all
+  refuse_all: Refuse all
+  essential_title: Essential cookies
+  essential_choice: Essential cookies
+  consent_cookie: stores your choice.
+  session_cookie: session cookie.
+  analytics_title: Analytics cookies
+  analytics_choice: Analytics
+  ga_cookie: Google Analytics identifier.
+  ga4_cookie: GA4 cookie.
+  gid_cookie: analytics cookie.
+  save: Save choices
 chat:
-  launcher_aria: "Open OLING AI consultant"
-  title: "OLING AI consultant"
-  launcher_subtitle: "AI support for exploring OLING activities."
-  close: "Close chat"
-  close_short: "Close"
-  contact_title: "Contact details"
-  contact_intro: "This information is only used to send a useful summary to an OLING consultant."
-  full_name: "Full name"
-  email: "Business email"
-  phone: "Phone"
-  company: "Company"
-  need: "Brief need description"
-  consent: "I agree that OLING may use the information submitted to handle my contact request."
-  privacy: "GDPR policy"
-  submit_lead: "Send request"
-  placeholder: "Describe your context, challenge or blocker..."
-  send: "Send"
-  ai_notice: "AI can make mistakes. Contact us if you need confirmation."
-  contact_form: "Contact form"
-  reset: "Reset chat"
-  loading_open_erp: "Opening the ERP questionnaire..."
-  loading_generate_erp: "Generating the ERP summary..."
-  loading_reset: "Resetting..."
-  error_open_erp: "Unable to open the ERP questionnaire."
-  error_submit_erp: "Unable to submit the ERP questionnaire."
-  erp_sent: "ERP qualification submitted."
+  launcher_aria: Open OLING AI consultant
+  title: OLING AI consultant
+  launcher_subtitle: AI support for exploring OLING activities.
+  close: Close chat
+  close_short: Close
+  contact_title: Contact details
+  contact_intro: This information is only used to send a useful summary to an OLING consultant.
+  full_name: Full name
+  email: Business email
+  phone: Phone
+  company: Company
+  need: Brief need description
+  consent: I agree that OLING may use the information submitted to handle my contact request.
+  privacy: GDPR policy
+  submit_lead: Send request
+  placeholder: Describe your context, challenge or blocker...
+  send: Send
+  ai_notice: AI can make mistakes. Contact us if you need confirmation.
+  contact_form: Contact form
+  reset: Reset chat
+  loading_open_erp: Opening the ERP questionnaire...
+  loading_generate_erp: Generating the ERP summary...
+  loading_reset: Resetting...
+  error_open_erp: Unable to open the ERP questionnaire.
+  error_submit_erp: Unable to submit the ERP questionnaire.
+  erp_sent: ERP qualification submitted.
   erp:
-    title: "ERP / business software questionnaire"
-    intro: "OLING AMOA qualification path built into PromptIA. 5 short steps, under 15 minutes."
-    organization: "Organization"
-    function: "Role"
-    sector: "Industry"
-    solution_type: "Solution type"
-    context: "Context"
-    need: "Expressed need"
-    irritants: "Main pain points"
-    scope: "Target scope"
-    project_organization: "Project organization"
-    interfaces: "Interfaces"
-    no_major_interface: "No major interface"
-    few_interfaces: "A few interfaces"
-    several_systems: "Several systems"
-    many_interfaces: "Highly integrated IS"
-    data_interfaces: "Data and interfaces"
-    security_rgpd: "Security / GDPR"
-    constraints: "Constraints"
-    expected_planning: "Expected timeline"
-    urgency: "Urgency"
-    organization_size: "Size"
-    user_count: "Users"
-    functional_scope: "Functional scope"
-    data_migration: "Data migration?"
-    budget: "AMOA budget"
-    expectations: "OLING AMOA expectations"
-    consent: "I agree that the information may be used by OLING to process my request."
-    submit: "Generate ERP summary"
-    result_title: "ERP / business software summary"
-    maturity: "Maturity"
-    complexity: "Complexity"
-    charge: "AMOA workload"
-    budget_estimate: "AMOA budget"
-    deliverables: "Recommended deliverables"
-    clarifications: "Points to clarify"
-    download_pdf: "Download PDF"
-    notice: "At this stage, estimates are indicative and must be confirmed after a scoping conversation with OLING."
+    title: ERP / business software questionnaire
+    intro: Describe your ERP requirements and project constraints to prepare a discussion with a consultant.
+    organization: Organization
+    function: Role
+    sector: Industry
+    solution_type: Solution type
+    context: Context
+    need: Expressed need
+    irritants: Main pain points
+    scope: Target scope
+    project_organization: Project organization
+    interfaces: Interfaces
+    no_major_interface: No major interface
+    few_interfaces: A few interfaces
+    several_systems: Several systems
+    many_interfaces: Highly integrated IS
+    data_interfaces: Data and interfaces
+    security_rgpd: Security / GDPR
+    constraints: Constraints
+    expected_planning: Expected timeline
+    urgency: Urgency
+    organization_size: Size
+    user_count: Users
+    functional_scope: Functional scope
+    data_migration: Data migration?
+    budget: AMOA budget
+    expectations: OLING AMOA expectations
+    consent: I agree that the information may be used by OLING to process my request.
+    submit: Generate ERP summary
+    result_title: ERP / business software summary
+    maturity: Maturity
+    complexity: Complexity
+    charge: AMOA workload
+    budget_estimate: AMOA budget
+    deliverables: Recommended deliverables
+    clarifications: Points to clarify
+    download_pdf: Download PDF
+    notice: At this stage, estimates are indicative and must be confirmed after a scoping conversation with OLING.
     options:
-      yes: "Yes"
-      no: "No"
-      reflection: "Exploration"
-      scoping: "Scoping"
-      consultation: "Consultation"
-      running: "In progress"
-      blocked: "Blocked"
-      finance: "Finance"
-      purchasing: "Purchasing"
-      sales: "Sales"
-      stock: "Inventory"
-      production: "Production"
-      reporting: "BI"
-      requirements: "Requirements"
-      spec: "Specifications"
-      vendor: "Vendor selection"
-      data: "Data / interfaces"
-      change: "Change management"
-      pilotage: "Steering"
-      immediate: "Immediate"
-      short_term: "Short term"
-      planned: "Planned"
-      exploratory: "Exploratory"
+      'yes': 'Yes'
+      'no': 'No'
+      reflection: Exploration
+      scoping: Scoping
+      consultation: Consultation
+      running: In progress
+      blocked: Blocked
+      finance: Finance
+      purchasing: Purchasing
+      sales: Sales
+      stock: Inventory
+      production: Production
+      reporting: BI
+      requirements: Requirements
+      spec: Specifications
+      vendor: Vendor selection
+      data: Data / interfaces
+      change: Change management
+      pilotage: Steering
+      immediate: Immediate
+      short_term: Short term
+      planned: Planned
+      exploratory: Exploratory
   js:
-    contact_intro: "To contact OLING:"
-    source_expertise: "Expertise"
-    source_service: "Service"
-    source_reference: "OLING reference"
-    source_team: "Team"
-    source_resource: "Resource"
-    assistant_meta: "OLING"
-    visitor_meta: "You"
-    welcome_badge: "AI expert assistant"
-    welcome_text: "The assistant can guide you through OLING expertise, experience, team profiles and support approaches."
-    welcome_item_1: "IT, ERP, CMMS, compliance, data or cybersecurity expertise"
-    welcome_item_2: "Anonymized references by industry, assignment or technology"
-    welcome_item_3: "Relevant OLING profiles for your topic"
-    sending: "Sending"
-    lead_submitted: "Request sent. You can keep the conversation going, add details or ask another question."
-    followup_placeholder: "Add details, a clarification or another need..."
-    lead_offer: "If you would like to be contacted, leave your details below. You can also keep clarifying your need."
-    generic_error: "An error occurred."
-    open_chat: "Opening chat..."
-    open_chat_error: "Unable to open chat."
-    launch_questionnaire_error: "Unable to launch the questionnaire."
-    typing: "OLING is writing a response..."
-    send_error: "Unable to send the message."
-    lead_sending: "Sending..."
-    lead_submit_error: "Unable to submit the request."
-    reset_error: "Unable to reset the conversation."
-
+    contact_intro: 'To contact OLING:'
+    source_expertise: Expertise
+    source_service: Service
+    source_reference: OLING reference
+    source_team: Team
+    source_resource: Resource
+    assistant_meta: OLING
+    visitor_meta: You
+    welcome_badge: AI expert assistant
+    welcome_text: The assistant can guide you through OLING expertise, experience, team profiles and support approaches.
+    welcome_item_1: IT, ERP, CMMS, compliance, data or cybersecurity expertise
+    welcome_item_2: Anonymized references by industry, assignment or technology
+    welcome_item_3: Relevant OLING profiles for your topic
+    sending: Sending
+    lead_submitted: Request sent. You can keep the conversation going, add details or ask another question.
+    followup_placeholder: Add details, a clarification or another need...
+    lead_offer: If you would like to be contacted, leave your details below. You can also keep clarifying your need.
+    generic_error: An error occurred.
+    open_chat: Opening chat...
+    open_chat_error: Unable to open chat.
+    launch_questionnaire_error: Unable to launch the questionnaire.
+    typing: OLING is writing a response...
+    send_error: Unable to send the message.
+    lead_sending: Sending...
+    lead_submit_error: Unable to submit the request.
+    reset_error: Unable to reset the conversation.
 contact_page:
-  exchange_title: "Talk to OLING"
-  privacy_prefix: "For GDPR requests:"
-
+  exchange_title: Talk to OLING
+  privacy_prefix: 'For GDPR requests:'
 projects:
-  library_kicker: "OLING assignments"
-  library_title: "Documented assignments"
-  library_intro: "Each assignment presents a real context, the scope of OLING's intervention and the elements actually documented. Organizations are anonymized."
-  media_title: "References in pictures"
-  media_intro: "A selection of OLING assignments illustrated with the media associated with each project."
-  filter_aria: "Filter assignments"
-  filter_all: "All"
-  context: "Context"
-  intervention: "OLING intervention"
-  scope: "Scope"
-  deliverables: "Deliverables and documented elements"
-  systems: "Systems and technologies"
-  quotes_aria: "Factual summary"
-  owner_prefix: "View expertise:"
-  empty: "No sufficiently documented anonymized assignment is published in this category."
-  cta_eyebrow: "Your context"
-  cta_title: "Discuss your project"
-  cta_text: "Tell us about the scope, systems involved and decisions to prepare."
-  cta_label: "Request a conversation"
-
+  library_kicker: OLING assignments
+  library_title: Documented assignments
+  library_intro: Each assignment presents a real context, the scope of OLING's intervention and the elements actually documented. Organizations are anonymized.
+  media_title: References in pictures
+  media_intro: A selection of OLING assignments illustrated with the media associated with each project.
+  filter_aria: Filter assignments
+  filter_all: All
+  context: Context
+  intervention: OLING intervention
+  scope: Scope
+  deliverables: Deliverables and documented elements
+  systems: Systems and technologies
+  quotes_aria: Factual summary
+  owner_prefix: 'View expertise:'
+  empty: No sufficiently documented anonymized assignment is published in this category.
+  cta_eyebrow: Your context
+  cta_title: Discuss your project
+  cta_text: Tell us about the scope, systems involved and decisions to prepare.
+  cta_label: Request a conversation
 team:
-  areas_label: "Areas of work"
-  publications: "View publications"
-  section_label: "Team"
-  generic_profile: "Leadership profile involved in the firm's transformation, governance and execution topics."
-  linkedin: "View %name%'s LinkedIn profile"
-
+  areas_label: Areas of work
+  publications: View publications
+  section_label: Team
+  generic_profile: Leadership profile involved in the firm's transformation, governance and execution topics.
+  linkedin: View %name%'s LinkedIn profile
 proofs:
-  kicker: "Evidence"
-  default_title: "Anonymized assignments"
-  scope_label: "Scope"
-
+  kicker: Evidence
+  default_title: Anonymized assignments
+  scope_label: Scope
 leadership:
-  eyebrow: "OLING leadership"
-  about_title: "Two complementary perspectives, one commitment to delivery"
-  about_intro: "Our leadership stays involved in scoping, decision-making and delivery. IT governance, transformation, compliance and quality are approached with the same hands-on focus."
-  team_title: "OLING leadership, committed to your IT and compliance projects"
-  team_intro: "Meet the two leadership profiles behind our approach: understanding priorities, securing decisions and working with teams through to delivery."
-  detail_heading: "Your leadership contacts"
-  profile_area_label: "Areas of expertise"
-  portrait_alt: "Portrait of %name%"
-  publications: "Read publications"
-  meet_label: "Meet the leadership team"
-  contact_label: "Discuss your project"
-  empty: "Leadership profiles are temporarily unavailable."
+  eyebrow: OLING leadership
+  about_title: Two complementary perspectives, one commitment to delivery
+  about_intro: Our leadership stays involved in scoping, decision-making and delivery. IT governance, transformation, compliance and quality are approached with the
+    same hands-on focus.
+  team_title: OLING leadership, committed to your IT and compliance projects
+  team_intro: Meet the OLING team and explore its expertise in IT project advisory, software, governance, compliance and quality.
+  detail_heading: Your leadership contacts
+  profile_area_label: Areas of expertise
+  portrait_alt: Portrait of %name%
+  publications: Read publications
+  meet_label: Meet the leadership team
+  contact_label: Discuss your project
+  empty: Leadership profiles are temporarily unavailable.
+home.hero.default_secondary_cta: View our expertise
+practice.default_domain: OLING expertise
+practice.amoa_role_title: Our role in your IT project
+practice.key_services: Key services
+practice.amoa_expertise_title: Expertise available for your IT project
+practice.available_interventions: How we can help
+practice.amoa_si: IT project advisory
+practice.amoa_scope_title: The scope of our IT project advisory services
+practice.amoa_scope_intro: We provide independent advice on requirements, decisions and project management.
+practice.project_contexts_title: Projects we support
+practice.deliverables_title: Deliverables agreed for your project
+practice.client_types_title: Teams and organisations we work with
+practice.offers: Services
+practice.services_pending: Contact us to discuss your requirements.
+practice.cases_contexts: Examples of assignments
+practice.default_project_description: IT project advisory and project management.
+practice.available_experts: Our consultants
+practice.support_links_title: Explore related expertise
+practice.support_links_intro: Find services, project examples and resources related to your requirements.
+practice.open_related_page: Learn more
+practice.final_cta.title: Scope and manage your IT project
+practice.final_cta.text: Discuss your requirements, priorities and constraints with our consultants.
+practice.schema.name: IT project advisory and transformation project management
+practice.schema.service_type: IT project advisory
+practice.schema.description: Requirements, solution selection, supplier coordination, acceptance testing, migration and change management.
+practice.services.default_title: OLING services
+practice.services.default_intro: Explore the scope, methods and deliverables of our services.
+services_index.amoa.intro: 'ERP, CRM, CMMS, finance, HR, data and AI: requirements, selection, acceptance testing and deployment.'
+services_index.amoa.items.amoa_si: Define requirements, organise tenders and oversee acceptance testing and deployment.
+services_index.amoa.items.erp: Select software, define processes, prepare data migration and coordinate the integrator.
+services_index.amoa.items.crm: Define sales processes, customer data, adoption and reporting.
+services_index.amoa.items.gmao: Define maintenance processes, assets, equipment data, mobile use and acceptance testing.
+services_index.amoa.items.finance: Connect finance processes, ERP/EPM, reporting, internal controls and interfaces.
+services_index.amoa.items.e_invoice: Define invoice flows, formats, platforms, IT impacts and change management.
+services_index.amoa.items.data_bi: Define indicators, data models, dashboards and reporting requirements.
+services_index.amoa.items.ai_automation: Identify use cases, automate processes and integrate business agents.
+services_index.governance.intro: Organise IT governance, prioritise work and manage delivery.
+services_index.governance.items.strategy: Define target systems, priorities, budgets and the implementation roadmap.
+services_index.governance.items.pmo: Track schedules, budgets, risks, suppliers and project decisions.
+services_index.governance.items.process: Clarify responsibilities, processes and working practices.
+services_index.governance.items.data_governance: Define master data, quality requirements, business rules and responsibilities.
+services_index.governance.items.infrastructure: Assess technical options, risks, schedules and transition governance.
+services_index.governance.items.dsi: Support IT management on priorities, suppliers, budgets and business continuity.
+services_index.risk.intro: 'GDPR, cybersecurity, QHSE, continuity, internal control and AI: obligations, controls and action plans.'
+services_index.risk.items.rgpd: Manage records, DPIAs, contracts, rights requests and DPO governance.
+services_index.risk.items.cyber: Organise security governance, risk management, ISO 27001, NIS2 and DORA work.
+services_index.risk.items.pca: Identify critical activities, define recovery objectives and test continuity plans.
+services_index.risk.items.qse: Organise processes, audits, nonconformities and certification preparation.
+services_index.risk.items.risk_control: Map risks, test controls and monitor action plans.
+services_index.risk.items.ai_act: Define AI use cases, responsibilities, risks, human oversight and evidence.
+services_index.mapsi.intro: OLING's GRC platform for records, risks, audits, actions, incidents and reporting.
+services_index.mapsi.external: Visit mapsi.fr
+services_index.mapsi.internal: Discover MAPSI
+service.hero.primary_cta: Discuss your project
+service.coverage.kicker: Scope of the service
+service.outcomes.kicker: Objectives
+service.outcomes.title: Objectives agreed with your teams
+service.outcomes.default_deliverable: Deliverables defined during project scoping.
+service.promise.kicker: Our role
+service.promise.default_title: Our role in your assignment
+service.focus.kicker: Scope
+service.focus.default_title: Scope of the assignment
+service.mission_phases.kicker: Project stages
+service.mission_phases.default_title: When to involve our consultants
+service.deliverables.kicker: Deliverables
+service.deliverables.default_title: Requirements, decisions and project deliverables
+service.project_contexts.kicker: Project context
+service.project_contexts.default_title: When this service is useful
+service.client_types.kicker: Your teams
+service.client_types.default_title: Teams and organisations involved
+service.citable.kicker: Practical questions
+service.support_links.kicker: Related expertise
+service.support_links.default_title: Related services and resources
+service.support_links.default_intro: Explore related expertise, applications and project examples.
+service.support_links.card_kicker: Related resource
+service.proofs.default_title: Examples of assignments
+service.proofs.default_intro: These examples describe assignments without naming the clients.
+service.related_cases.kicker: Related projects
+service.related_cases.title: Examples of assignments
+service.related_cases.default_description: See the scope of the OLING assignment.
+service.experts.kicker: Consultants
+service.experts.title: Meet our consultants
+service.final_cta.eyebrow: Discuss your project
+service.final_cta.default_title: Define the support your project needs
+service.final_cta.default_text: Tell us about your requirements, priorities and constraints so we can agree the scope of the assignment.
+service.final_cta.default_label: Discuss your requirements
+service.card.default_kicker: OLING service
+service.card.default_intro: Discover the scope of this service.
+service.card.view_offer: View service
+expertise.final_cta.default_title: Define your priorities and next steps
+expertise.final_cta.default_text: Our consultants help scope the project, assess options and plan the work with your teams.
+expertise.final_cta.default_label: Request a discussion
+seo.landing.default_meta_description: IT project advisory and compliance consulting.
+seo.landing.default_positioning_title: Our role in your project
+seo.landing.default_scope_title: Scope of the assignment
+seo.landing.project_phases: Project stages
+seo.landing.default_mission_phases_title: When to start
+seo.landing.deliverables: Deliverables
+seo.landing.default_deliverables_title: Requirements, selection and deployment deliverables
+seo.landing.complementary_expertise: Related expertise
+seo.landing.default_links_title: Explore related expertise
+seo.landing.default_links_intro: Services, project examples and expertise related to your requirements.
+seo.landing.reading_path: Related services
+seo.landing.reading_path_title: Services and resources for your project
+seo.landing.reading_path_text: Explore the services, project examples and resources that can help you prepare your project.
+seo.landing.framing_exchange: Initial discussion
+seo.landing.default_final_cta_title: Define your requirements and next steps
+seo.landing.default_final_cta_text: An initial discussion helps establish the scope, responsibilities and support needed.
+seo.landing.default_service_type: IT project advisory
+seo.landing.default_schema_description: IT project advisory, transformation and compliance.
+seo.landing.cta.erp: Discuss your ERP project
+seo.landing.cta.crm: Discuss your CRM project
+seo.landing.cta.gmao: Scope your CMMS project
+seo.landing.cta.finance: Discuss your finance information system
+seo.landing.cta.e_invoice: Discuss your e-invoicing project
+seo.landing.cta.rgpd: Speak with a DPO
+seo.landing.cta.cyber: Discuss your cybersecurity project
+seo.landing.cta.qse: Discuss your QHSE approach
+certification_proof.eyebrow: Verifiable certification
+certification_proof.heading: ISO/IEC 27001:2022 certification
+certification_proof.company: OLING Management et Technologie is certified to ISO/IEC 27001:2022 by Bureau Veritas Certification Holding SAS - UK Branch.
+certification_proof.scope: The certification covers its information security management system for information systems and organisational project advisory services,
+  data protection officer services and GDPR projects.
+certification_proof.number: Certificate FR092915
+certification_proof.validity: Valid until 12 November 2027
+certification_proof.status: 'Status: Certified'
+certification_proof.verify: Verify certificate FR092915 in the Bureau Veritas directory
+certification_proof.search: 'Search: OLING MANAGEMENT ET TECHNOLOGIE - certificate FR092915'

@@ -117,6 +117,7 @@ final class TranslationAdminController extends AbstractController
                 } elseif ($action === 'to_review') {
                     $workflow->markToReview($target);
                 } else {
+                    $this->updateHomeTranslationPayload($target, $this->nullableString($request->request->get('bodyHtml')));
                     $target
                         ->setTitle((string) $request->request->get('title'))
                         ->setSlug((string) $request->request->get('slug'))
@@ -125,11 +126,14 @@ final class TranslationAdminController extends AbstractController
                         ->setHeroIntro($this->nullableString($request->request->get('heroIntro')))
                         ->setSeoTitle($this->nullableString($request->request->get('seoTitle')))
                         ->setSeoDescription($this->nullableString($request->request->get('seoDescription')))
+                        ->setImageAlt($this->nullableString($request->request->get('imageAlt')))
                         ->setBodyHtml($this->nullableString($request->request->get('bodyHtml')));
                 }
 
                 $entityManager->flush();
                 $this->addFlash('success', $this->successMessage($action, $target->getLocale()));
+            } catch (\JsonException $exception) {
+                $this->addFlash('danger', 'Configuration de l’accueil invalide : '.$exception->getMessage());
             } catch (UniqueConstraintViolationException) {
                 $this->addFlash('danger', sprintf('Impossible de publier : le slug "%s" est déjà utilisé pour cette langue.', $target->getSlug()));
             } catch (AiTranslationValidationException $exception) {
@@ -137,6 +141,11 @@ final class TranslationAdminController extends AbstractController
             }
 
             return $this->redirectToRoute('admin_translations_site_page_edit', ['id' => $target->getId(), 'locale' => $locale]);
+        }
+
+        if ($target->getSitePage()?->getSlug() === 'home' && is_array($target->getStructuredData()['homePage'] ?? null)) {
+            $target = clone $target;
+            $target->setBodyHtml(json_encode($target->getStructuredData()['homePage'], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         }
 
         return $this->render('admin/translations/site_page_edit.html.twig', [
@@ -287,4 +296,14 @@ final class TranslationAdminController extends AbstractController
             default => 'Traduction mise à jour.',
         };
     }
+    private function updateHomeTranslationPayload(SitePageTranslation $target, ?string $body): void
+    {
+        if ($target->getSitePage()?->getSlug() !== 'home') { return; }
+        $payload = json_decode((string) $body, true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($payload)) { throw new \JsonException('Un objet JSON est nécessaire.'); }
+        $structured = $target->getStructuredData() ?? [];
+        $structured['homePage'] = $payload;
+        $target->setStructuredData($structured);
+    }
+
 }

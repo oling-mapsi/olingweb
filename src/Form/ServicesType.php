@@ -8,6 +8,7 @@ use App\Entity\Team;
 use App\Service\SeoStructuredContentAdminMapper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,10 +56,12 @@ class ServicesType extends AbstractType
                 'attr' => ['rows' => 6],
             ])
             ->add('practice', EntityType::class, [
-                'label' => 'Practice',
+                'label' => 'Practice de l’URL historique',
+                'disabled' => $options['lock_route_practice'],
                 'class' => Practice::class,
                 'choice_label' => 'designation',
-                'required' => false,
+                'required' => $options['require_practice'],
+                'constraints' => $options['require_practice'] ? [new \Symfony\Component\Validator\Constraints\NotNull()] : [],
                 'placeholder' => 'Choisir une practice',
             ])
             ->add('ico', TextType::class, [
@@ -97,12 +100,19 @@ class ServicesType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('imageHeroUseMain', CheckboxType::class, [
+                'label' => 'Utiliser automatiquement l’image principale dans le héros',
+                'mapped' => false,
+                'required' => false,
+                'data' => empty($options['data']?->getImageHero()),
+                'help' => 'Le héros suivra les changements de l’image principale. Décochez cette option pour utiliser une image dédiée.',
+            ])
             ->add('imageHero', TextType::class, [
-                'label' => 'Image recadrée pour les cartes hero (chemin ou URL)',
+                'label' => 'Image dédiée au héros (chemin ou URL)',
                 'required' => false,
             ])
             ->add('imageHeroFile', FileType::class, [
-                'label' => 'Téléverser l\'image recadrée (cartes hero)',
+                'label' => 'Téléverser l\'image du héros, sans recadrage',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -121,84 +131,15 @@ class ServicesType extends AbstractType
                 'required' => false,
                 'by_reference' => false,
             ])
-            ->add('seoAdvancedMetaTitle', TextType::class, [
-                'label' => 'SEO avance - Title',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['metaTitle'] ?? '',
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('seoAdvancedMetaDescription', TextareaType::class, [
-                'label' => 'SEO avance - Meta description',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['metaDescription'] ?? '',
-                'attr' => ['rows' => 2],
-            ])
-            ->add('seoAdvancedEyebrow', TextType::class, [
-                'label' => 'SEO avance - Eyebrow',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['eyebrow'] ?? '',
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('seoAdvancedHeadline', TextType::class, [
-                'label' => 'SEO avance - H1 / headline',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['headline'] ?? '',
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('seoAdvancedIntro', TextareaType::class, [
-                'label' => 'SEO avance - Introduction',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['intro'] ?? '',
-                'attr' => ['rows' => 3],
-            ])
-            ->add('seoAdvancedPromise', TextareaType::class, [
-                'label' => 'SEO avance - Promesse',
-                'mapped' => false,
-                'required' => false,
-                'data' => $seoAdvanced['promise'] ?? '',
-                'attr' => ['rows' => 3],
-            ])
-            ->add('seoAdvancedSourceHash', HiddenType::class, [
-                'mapped' => false,
-                'required' => false,
-                'data' => hash('sha256', json_encode($seoAdvanced, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)),
-            ])
         ;
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($publicNarrative, $seoAdvanced): void {
-            $form = $event->getForm();
-            $data = $event->getData();
-            if (!is_object($data) || !is_callable([$data, 'setPublicNarrative'])) {
-                return;
-            }
-
-            $currentSourceHash = hash('sha256', json_encode($seoAdvanced, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
-            if ($form->get('seoAdvancedSourceHash')->getData() !== $currentSourceHash) {
-                $form->get('seoAdvancedMetaTitle')->addError(new \Symfony\Component\Form\FormError('Le contenu SEO avance a ete modifie depuis l’ouverture du formulaire. Rechargez la page avant de sauvegarder.'));
-
-                return;
-            }
-
-            $mergedNarrative = $this->seoMapper->mergeServiceNarrative(is_array($publicNarrative) ? $publicNarrative : null, [
-                'metaTitle' => $form->get('seoAdvancedMetaTitle')->getData(),
-                'metaDescription' => $form->get('seoAdvancedMetaDescription')->getData(),
-                'eyebrow' => $form->get('seoAdvancedEyebrow')->getData(),
-                'headline' => $form->get('seoAdvancedHeadline')->getData(),
-                'intro' => $form->get('seoAdvancedIntro')->getData(),
-                'promise' => $form->get('seoAdvancedPromise')->getData(),
-            ]);
-            $data->setPublicNarrative($mergedNarrative === [] && !is_array($publicNarrative) ? null : $mergedNarrative);
-        });
+        (new SeoNarrativeAdminFields($this->seoMapper))->add($builder, is_array($publicNarrative) ? $publicNarrative : null);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'require_practice' => false,
+            'lock_route_practice' => false,
             'data_class' => Services::class,
         ]);
     }

@@ -1,0 +1,36 @@
+/* Shared About / Team portraits: fill the media panel without an inset frame. */
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media {
+  display:block;
+  position:relative;
+  align-self:stretch;
+  min-width:0;
+  min-height:100%;
+  padding:0;
+  margin:0;
+  background:none;
+}
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media::after {display:none}
+body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media img {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:0;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  padding:0;
+  aspect-ratio:auto;
+  object-fit:cover;
+  object-position:50% 35%;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+@media(max-width:767.98px){
+  body.oling-body:not(.oling-home):not(.admin) .oling-leadership-card__media {
+    height:clamp(19rem,88vw,26rem);
+    min-height:0;
+  }
+}

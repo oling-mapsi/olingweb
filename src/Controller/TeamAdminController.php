@@ -22,10 +22,7 @@ class TeamAdminController extends AbstractController
     #[Route('/', name: 'admin_teams_index_slash', methods: ['GET'])]
     public function index(TeamRepository $repository): Response
     {
-        return $this->render('admin/teams/index.html.twig', [
-            'teams' => $repository->findBy([], ['id' => 'DESC']),
-            'practices' => [],
-        ]);
+        return $this->redirectToRoute('admin_site_section',['section'=>'societe','_fragment'=>'equipe']);
     }
 
     #[Route('/new', name: 'admin_teams_new', methods: ['GET', 'POST'])]
@@ -72,6 +69,11 @@ class TeamAdminController extends AbstractController
 
         $formData = $translationSynchronizer->teamFormData($team);
         $form = $this->createForm(TeamType::class, $formData, ['data_class' => StructuredContentAdminFormData::class]);
+        $profileRaw=$entityManager->getConnection()->fetchOne('SELECT public_profile FROM team_translation WHERE team_id=? AND locale=?',[$team->getId(),'fr']);
+        $profile=$profileRaw?json_decode($profileRaw,true,512,JSON_THROW_ON_ERROR):[];$profile=is_array($profile)?$profile:[];
+        $visibleName=$profile['displayName']??$team->getNoncomplet();$visiblePhoto=$profile['photo']??$team->getPhoto();
+        $form->add('publicDisplayName',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped'=>false,'required'=>false,'label'=>'Nom affiché sur le site','data'=>$visibleName]);
+        $form->add('publicPhoto',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped'=>false,'required'=>false,'label'=>'Photo affichée sur le site (chemin ou URL)','data'=>$visiblePhoto]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,13 +82,20 @@ class TeamAdminController extends AbstractController
             if ($photoFile) {
                 try {
                     $formData->setPhoto($uploadManager->upload($photoFile, 'teams/photos'));
-                    $uploadManager->remove($originalPhoto);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer la photo.");
                 }
             }
 
             $translationSynchronizer->saveTeamFromForm($team, $formData);
+            $updatedProfile=$profile;
+            $newName=trim((string)$form->get('publicDisplayName')->getData());$newPhoto=trim((string)$form->get('publicPhoto')->getData());
+            if($newName!==(string)$visibleName){if($newName==='')unset($updatedProfile['displayName']);else $updatedProfile['displayName']=$newName;}
+            if($newPhoto!==(string)$visiblePhoto){if($newPhoto==='')unset($updatedProfile['photo']);else $updatedProfile['photo']=$newPhoto;}
+            if($photoFile && $newPhoto===(string)$visiblePhoto)$updatedProfile['photo']=$formData->getPhoto();
+            if($updatedProfile!==$profile)$translationSynchronizer->saveTeamPublicProfile($team,$updatedProfile);
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Membre mis à jour.');
@@ -105,7 +114,7 @@ class TeamAdminController extends AbstractController
     public function delete(Request $request, Team $team, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($team->getPhoto());
+
             $entityManager->remove($team);
             $entityManager->flush();
             $this->addFlash('success', 'Membre supprimé.');

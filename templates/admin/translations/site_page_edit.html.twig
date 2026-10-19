@@ -90,6 +90,8 @@
         <input class="form-control mb-3" name="seoTitle" value="{{ target.seoTitle }}">
         <label class="form-label">SEO description</label>
         <textarea class="form-control mb-3" name="seoDescription" rows="3">{{ target.seoDescription }}</textarea>
+        <label class="form-label">Texte alternatif image</label>
+        <input class="form-control mb-3" name="imageAlt" value="{{ target.imageAlt }}">
         <label class="form-label">Body HTML / JSON structuré</label>
         <textarea class="form-control font-monospace mb-3" name="bodyHtml" rows="12">{{ target.bodyHtml }}</textarea>
         <button class="btn btn-primary" type="submit">Enregistrer</button>

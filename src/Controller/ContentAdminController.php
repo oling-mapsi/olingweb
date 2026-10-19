@@ -91,7 +91,7 @@ class ContentAdminController extends AbstractController
                 try {
                     $oldPath = $contentItem->getImagePath();
                     $contentItem->setImagePath($uploadManager->upload($imageFile, 'content/images'));
-                    $uploadManager->remove($oldPath);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image.");
                 }
@@ -101,7 +101,7 @@ class ContentAdminController extends AbstractController
                 try {
                     $oldPath = $contentItem->getImageHero();
                     $contentItem->setImageHero($uploadManager->upload($imageHeroFile, 'content/hero'));
-                    $uploadManager->remove($oldPath);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image recadrée.");
                 }
@@ -111,7 +111,7 @@ class ContentAdminController extends AbstractController
                 try {
                     $oldPath = $contentItem->getIconPath();
                     $contentItem->setIconPath($uploadManager->upload($iconFile, 'content/icons'));
-                    $uploadManager->remove($oldPath);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'icône.");
                 }
@@ -135,9 +135,9 @@ class ContentAdminController extends AbstractController
     public function delete(Request $request, ContentItem $contentItem, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$contentItem->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($contentItem->getImagePath());
-            $uploadManager->remove($contentItem->getImageHero());
-            $uploadManager->remove($contentItem->getIconPath());
+
+
+
             $entityManager->remove($contentItem);
             $entityManager->flush();
             $this->addFlash('success', 'Contenu supprimé.');

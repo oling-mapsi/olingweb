@@ -105,7 +105,7 @@ class PracticeAdminController extends AbstractController
             if ($image1File) {
                 try {
                     $formData->setImage1($uploadManager->upload($image1File, 'practices/images'));
-                    $uploadManager->remove($originalImage1);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 1.");
                 }
@@ -114,7 +114,7 @@ class PracticeAdminController extends AbstractController
             if ($image2File) {
                 try {
                     $formData->setImage2($uploadManager->upload($image2File, 'practices/images'));
-                    $uploadManager->remove($originalImage2);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image 2.");
                 }
@@ -139,8 +139,8 @@ class PracticeAdminController extends AbstractController
     public function delete(Request $request, Practice $practice, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$practice->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($practice->getImage1());
-            $uploadManager->remove($practice->getImage2());
+
+
             $entityManager->remove($practice);
             $entityManager->flush();
             $this->addFlash('success', 'Practice supprimée.');

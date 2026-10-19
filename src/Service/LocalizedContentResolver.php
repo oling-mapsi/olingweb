@@ -18,6 +18,9 @@ use Doctrine\DBAL\Connection;
 
 class LocalizedContentResolver
 {
+    /** Published presentation only. Native project records remain untouched. */
+    private ?array $anonymousProjectProfiles = null;
+
     /**
      * @var array<string, array<string, string>>
      */
@@ -107,6 +110,7 @@ class LocalizedContentResolver
             'slug',
             'designationShort' => 'designation_short',
             'h1Title' => 'h1_title',
+            'publicNarrative' => 'public_narrative',
             'introduction',
             'introductionShort' => 'introduction_short',
             'description',
@@ -146,7 +150,7 @@ class LocalizedContentResolver
 
     public function getProjetView(Projet $project, string $locale): TranslatedEntityPublicView
     {
-        return new TranslatedEntityPublicView($project, $this->fetchTranslation('projet_translation', 'projet_id', $project->getId(), [
+        $fields = $this->fetchTranslation('projet_translation', 'projet_id', $project->getId(), [
             'designation',
             'slug',
             'description',
@@ -154,10 +158,48 @@ class LocalizedContentResolver
             'clientName' => 'client_name',
             'territory',
             'periodLabel' => 'period_label',
-        ], $locale), [
+            'publicNarrative' => 'public_narrative',
+        ], $locale);
+        if ($this->isProjetAnonymized($project)) {
+            $fields['image'] = $this->getProjetPublicImage($project);
+            $fields['imageHero'] = $fields['image'];
+            $fields['territory'] = null;
+            $fields['periodLabel'] = null;
+            $fields['metadata'] = ['anonymized' => true];
+        }
+
+        return new TranslatedEntityPublicView($project, $fields, [
             'getServices' => fn () => array_map(fn (Services $service) => $this->getServiceView($service, $locale), $project->getServices()->toArray()),
             'getTeams' => fn () => array_map(fn (Team $team) => $this->getTeamView($team, $locale), $this->publishedTeams($project->getTeams()->toArray())),
         ]);
+    }
+
+    public function isProjetAnonymized(Projet $project): bool
+    {
+        return isset($this->anonymousProjectProfiles()[$project->getId()]);
+    }
+
+    public function getProjetPublicImage(Projet $project): ?string
+    {
+        $profile = $this->anonymousProjectProfiles()[$project->getId()] ?? null;
+        if (is_array($profile)) {
+            return trim((string) ($profile['publicImage'] ?? '')) ?: null;
+        }
+
+        return $project->getImageHero() ?: $project->getImage();
+    }
+
+    private function anonymousProjectProfiles(): array
+    {
+        if ($this->anonymousProjectProfiles === null) {
+            $this->anonymousProjectProfiles = [];
+            $rows = $this->connection->fetchAllAssociative("SELECT projet_id, public_narrative FROM projet_translation WHERE locale='fr' AND translation_status='published' AND JSON_UNQUOTE(JSON_EXTRACT(public_narrative, '$.anonymized'))='true'");
+            foreach ($rows as $row) {
+                $this->anonymousProjectProfiles[(int) $row['projet_id']] = json_decode($row['public_narrative'], true, 512, JSON_THROW_ON_ERROR);
+            }
+        }
+
+        return $this->anonymousProjectProfiles;
     }
 
     public function getFrenchTeamView(Team $team): TranslatedEntityPublicView

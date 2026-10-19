@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints\File;
 
 class PracticeType extends AbstractType
 {
+    public function __construct(private readonly SeoNarrativeAdminFields $seoFields) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -110,6 +112,9 @@ class PracticeType extends AbstractType
                 ],
             ])
         ;
+
+        $data = $options['data'] ?? null;
+        $this->seoFields->add($builder, is_object($data) && is_callable([$data, 'getPublicNarrative']) ? $data->getPublicNarrative() : null);
 
         $builder->get('tags')->addModelTransformer(new CallbackTransformer(
             function ($tagsArray): string {

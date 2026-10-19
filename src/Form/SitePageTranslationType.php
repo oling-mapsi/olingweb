@@ -41,7 +41,15 @@ class SitePageTranslationType extends AbstractType
         $bodyClass = ($isHomePage || $isEditorialPage || $isSeoPage || $isStructuredPage) ? 'form-control' : 'form-control js-wysiwyg';
         $heroSideLabel = $isSeoPage ? 'Contenu principal (HTML)' : 'Bloc hero droit (HTML)';
         $translation = $options['data'] instanceof SitePageTranslation ? $options['data'] : null;
+        // Migrated editorial pages keep their historical HTML alongside corePage JSON.
+        $editorialLegacyHtml = $isEditorialPage
+            && is_array($translation?->getStructuredData()['corePage'] ?? null)
+            && str_starts_with(ltrim((string) $translation?->getBodyHtml()), '<');
+        if ($editorialLegacyHtml) { $bodyLabel = 'Contenu historique (HTML)'; }
+
         $seoAdvanced = $this->seoMapper->landingNarrativeToFormData($translation?->getStructuredData());
+        $originalTitle = $translation?->getTitle();
+        $originalBasics = ['metaTitle' => $translation?->getTitle(), 'metaDescription' => $translation?->getSeoDescription(), 'heroTitle' => $translation?->getHeroTitle(), 'heroIntro' => $translation?->getHeroIntro()];
 
         $builder
             ->add('translationStatus', ChoiceType::class, [
@@ -127,15 +135,17 @@ class SitePageTranslationType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ]);
 
-        if ($isSeoPage) {
-            $this->addSeoAdvancedFields($builder, $seoAdvanced);
-        }
+        if (!$isHomePage) { $this->addSeoAdvancedFields($builder, $seoAdvanced); }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($isHomePage, $isEditorialPage, $isSeoPage, $isStructuredPage, $seoAdvanced): void {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($editorMode, $isHomePage, $isEditorialPage, $isSeoPage, $isStructuredPage, $editorialLegacyHtml, $seoAdvanced, $originalTitle, $originalBasics): void {
             $form = $event->getForm();
             $translation = $event->getData();
             if (!$translation instanceof SitePageTranslation) {
                 return;
+            }
+
+            if ($translation->getTitle() !== $originalTitle) {
+                $translation->setSeoTitle($translation->getTitle());
             }
 
             $existing = $this->translationRepository->findOneBy([
@@ -147,7 +157,7 @@ class SitePageTranslationType extends AbstractType
                 $form->get('slug')->addError(new FormError('Ce slug existe deja pour cette langue.'));
             }
 
-            if ($isSeoPage && $form->has('seoAdvancedMetaTitle')) {
+            if ($form->has('seoAdvancedMetaTitle')) {
                 $currentSourceHash = hash('sha256', json_encode($seoAdvanced, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
                 if ($form->get('seoAdvancedSourceHash')->getData() !== $currentSourceHash) {
                     $form->get('seoAdvancedMetaTitle')->addError(new FormError('Le contenu SEO avance a ete modifie depuis l’ouverture du formulaire. Rechargez la page avant de sauvegarder.'));
@@ -156,16 +166,39 @@ class SitePageTranslationType extends AbstractType
                 }
 
                 try {
-                    $translation->setStructuredData($this->seoMapper->mergeLandingNarrative($translation->getStructuredData(), [
+                    $mergedStructured = $this->seoMapper->mergeLandingNarrative($translation->getStructuredData(), [
                         'metaTitle' => $form->get('seoAdvancedMetaTitle')->getData(),
                         'metaDescription' => $form->get('seoAdvancedMetaDescription')->getData(),
                         'heroTitle' => $form->get('seoAdvancedHeroTitle')->getData(),
                         'heroIntro' => $form->get('seoAdvancedHeroIntro')->getData(),
                         'promise' => $form->get('seoAdvancedPromise')->getData(),
+                        'heroCtaLabel' => $form->get('seoAdvancedHeroCtaLabel')->getData(),
+                        'missionPhases' => $form->get('seoAdvancedMissionPhases')->getData(),
+                        'deliverables' => $form->get('seoAdvancedDeliverables')->getData(),
+                        'projectContexts' => $form->get('seoAdvancedProjectContexts')->getData(),
+                        'clientTypes' => $form->get('seoAdvancedClientTypes')->getData(),
+
                         'focus' => $form->get('seoAdvancedFocus')->getData(),
                         'citablePassages' => $form->get('seoAdvancedCitablePassages')->getData(),
                         'supportLinks' => $form->get('seoAdvancedSupportLinks')->getData(),
-                    ]));
+                    ]);
+                    foreach (['metaTitle' => 'title', 'metaDescription' => 'seoDescription', 'heroTitle' => 'heroTitle', 'heroIntro' => 'heroIntro'] as $key => $baseField) {
+                        $value = $form->get($baseField)->getData();
+                        $advancedField = $form->get('seoAdvanced' . ucfirst($key));
+                        $advancedValue = $advancedField->getData();
+                        // Resources render the native fields: mirror only an explicit advanced edit.
+                        if ($editorMode === 'resource' && $advancedField->isSubmitted()
+                            && $advancedValue !== null && $advancedValue !== ''
+                            && $advancedValue !== $seoAdvanced[$key] && $value === $originalBasics[$key]) {
+                            $setter = 'set' . ucfirst($baseField);
+                            $translation->{$setter}($advancedValue);
+                            if ($key === 'metaTitle') { $translation->setSeoTitle($advancedValue); }
+                        }
+                        if ($seoAdvanced[$key] !== '' && $value !== $originalBasics[$key] && $form->get('seoAdvanced' . ucfirst($key))->getData() === $seoAdvanced[$key]) {
+                            $mergedStructured['landingNarrative'][$key] = $value;
+                        }
+                    }
+                    $translation->setStructuredData($mergedStructured);
                 } catch (\InvalidArgumentException $exception) {
                     $form->get('seoAdvancedCitablePassages')->addError(new FormError($exception->getMessage()));
                 }
@@ -174,6 +207,8 @@ class SitePageTranslationType extends AbstractType
             if (!($isHomePage || $isEditorialPage || $isSeoPage || $isStructuredPage)) {
                 return;
             }
+
+            if ($editorialLegacyHtml) { return; }
 
             $bodyHtml = (string) $form->get('bodyHtml')->getData();
             if (trim($bodyHtml) === '') {
@@ -199,6 +234,9 @@ class SitePageTranslationType extends AbstractType
      */
     private function addSeoAdvancedFields(FormBuilderInterface $builder, array $data): void
     {
+        foreach (['heroCtaLabel' => 'CTA principal', 'missionPhases' => 'Méthode — une étape par ligne', 'deliverables' => 'Livrables — un par ligne', 'projectContexts' => 'Contextes — un par ligne', 'clientTypes' => 'Interlocuteurs — un par ligne'] as $key => $label) {
+            $builder->add('seoAdvanced'.ucfirst($key), TextareaType::class, ['mapped'=>false, 'required'=>false, 'label'=>$label, 'data'=>$data[$key] ?? '', 'attr'=>['class'=>'form-control','rows'=>$key==='heroCtaLabel' ? 1 : 4]]);
+        }
         $builder
             ->add('seoAdvancedMetaTitle', TextType::class, [
                 'label' => 'SEO avance - Title',

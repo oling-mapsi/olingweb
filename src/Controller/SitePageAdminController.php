@@ -88,18 +88,7 @@ class SitePageAdminController extends AbstractController
     #[Route('/', name: 'admin_pages_index_slash', methods: ['GET'])]
     public function index(SitePageRepository $repository, EntityManagerInterface $entityManager, TranslationSourceHasher $sourceHasher): Response
     {
-        $this->ensureManagedPages($repository, $entityManager);
-
-        $pages = array_values(array_filter(
-            $repository->findBy([], ['slug' => 'ASC']),
-            static fn (SitePage $page): bool => $page->getSlug() !== 'home'
-        ));
-
-        return $this->render('admin/pages/index.html.twig', [
-            'pages' => $pages,
-            'translationStates' => $this->buildTranslationStates($pages, $sourceHasher),
-            'practices' => [],
-        ]);
+        return $this->forward(CmsCatalogueAdminController::class.'::index', ['type' => 'institutional']);
     }
 
     #[Route('/{id}/edit', name: 'admin_pages_edit', methods: ['GET', 'POST'])]
@@ -109,8 +98,13 @@ class SitePageAdminController extends AbstractController
         EntityManagerInterface $entityManager,
         UploadManager $uploadManager,
         SitePageTranslationSynchronizer $translationSynchronizer,
-        TranslationSourceHasher $sourceHasher
+        TranslationSourceHasher $sourceHasher,
+        \App\Service\GrowthPublishingService $growthPublishing,
+        \App\Service\CmsCatalogue $catalogue
     ): Response {
+        if ($page->getSlug() === 'home' && $request->isMethod('GET')) {
+            return $this->redirectToRoute('admin_home_index');
+        }
         $frTranslation = $translationSynchronizer->ensureFrenchTranslation($page);
         $editorMode = $this->getEditorMode($page->getSlug());
         $form = $this->createForm(SitePageTranslationType::class, $frTranslation, [
@@ -120,23 +114,33 @@ class SitePageAdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (str_starts_with((string) $page->getSlug(), 'ressource-') && $page->getExternalId()) {
+                $growthPublishing->assertAdminEditAllowed($page);
+            }
             $heroImageFile = $form->get('heroImageFile')->getData();
             if ($heroImageFile) {
                 try {
                     $oldPath = $page->getHeroImage();
-                    $page->setHeroImage($uploadManager->upload($heroImageFile, 'pages/hero'));
-                    $uploadManager->remove($oldPath);
+                    $page->setHeroImage($uploadManager->upload($heroImageFile, 'pages/hero'))->setHeroMediaMode('custom');
+                    // Retain the old file for autonomous pages and rollback.
                 } catch (FileException $exception) {
                     $this->addFlash('danger', 'Impossible d\'envoyer l\'image hero.');
                 }
             } else {
-                $page->setHeroImage($form->get('heroImage')->getData());
+                $selectedPath = $form->get('heroImage')->getData();
+                $previousPath = $page->getHeroImage();
+                $page->setHeroImage($selectedPath);
+                if ($selectedPath && $selectedPath !== $previousPath) { $page->setHeroMediaMode('custom'); }
+                elseif (!$selectedPath && $previousPath) { $page->setHeroMediaMode('hidden'); }
             }
 
             $user = $this->getUser();
             $translationSynchronizer->syncFrenchTranslationToLegacyFields($page, $user instanceof User ? $user : null);
+            if (str_starts_with((string) $page->getSlug(), 'ressource-') && $page->getExternalId()) {
+                $growthPublishing->recordAdminEdit($page);
+            }
             $entityManager->flush();
-            $this->addFlash('success', 'Page mise à jour.');
+            $this->addFlash('success', 'SitePage #'.$page->getId().' mise à jour : '.($catalogue->publicPath($page) ?? $page->getSlug()));
             return $this->redirectToRoute('admin_pages_index');
         }
 
@@ -148,6 +152,7 @@ class SitePageAdminController extends AbstractController
             'esTranslation' => $page->getTranslation(SitePageTranslation::LOCALE_ES),
             'translationStates' => $this->buildTranslationStates([$page], $sourceHasher)[$page->getId()] ?? [],
             'editorMode' => $editorMode,
+            'publicUrl' => $catalogue->publicPath($page),
             'practices' => [],
         ]);
     }
@@ -157,12 +162,11 @@ class SitePageAdminController extends AbstractController
         SitePage $page,
         string $locale,
         SitePageTranslationRepository $translationRepository,
-        SitePageTranslationSynchronizer $translationSynchronizer
+        Request $request
     ): Response {
         SitePageTranslation::assertSupportedLocale($locale);
-        $translation = $locale === SitePageTranslation::LOCALE_FR
-            ? $translationSynchronizer->ensureFrenchTranslation($page)
-            : $translationRepository->findOneByPageAndLocale($page, $locale);
+        $request->setLocale($locale);
+        $translation = $translationRepository->findOneByPageAndLocale($page, $locale);
 
         if (!$translation instanceof SitePageTranslation) {
             throw $this->createNotFoundException('Traduction introuvable.');
@@ -242,6 +246,10 @@ class SitePageAdminController extends AbstractController
 
     private function getEditorMode(?string $slug): string
     {
+        if (is_string($slug) && str_starts_with($slug, 'ressource-')) {
+            return 'resource';
+        }
+
         if ($slug === null) {
             return 'default';
         }
@@ -275,6 +283,7 @@ class SitePageAdminController extends AbstractController
             'hexagone-drom-dom-tom',
             'gestion-risques-audit-controle-interne',
             'direction-qualite-deleguee',
+            'pca-pra-continuite-activite',
             'direction-conformite-externalisee',
             'dsi-externalisee',
             'cabinet-conseil-paris',

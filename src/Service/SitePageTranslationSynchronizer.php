@@ -53,6 +53,9 @@ class SitePageTranslationSynchronizer
         $translation = $this->ensureFrenchTranslation($page);
         $oldSlug = (string) $page->getSlug();
         $newSlug = $translation->getSlug();
+        if (str_starts_with($oldSlug, 'ressource-')) {
+            $newSlug = 'ressource-' . preg_replace('/^ressource-/', '', $newSlug);
+        }
         $wasPublished = $this->isLegacyPublished($page) || $translation->isPublished();
 
         $page

@@ -1,4 +1,5 @@
 {{ form_start(form) }}
+{% if form.publicDisplayName is defined %}<p class="cms-site-source">Les champs de nom et de photo ci-dessous modifient les valeurs réellement utilisées par le profil public. Les identifiants, ancres, expertises et affiliations existants sont conservés.</p><div class="row g-3 mb-3"><div class="col-md-6">{{ form_row(form.publicDisplayName, {'attr': {'class': 'form-control'}}) }}</div><div class="col-md-6">{{ form_row(form.publicPhoto, {'attr': {'class': 'form-control'}}) }}</div></div>{% endif %}
     <div class="row g-4">
         <div class="col-lg-8">
             <div class="mb-3">
@@ -52,6 +53,7 @@
         </div>
     </div>
 
+    <section class="cms-card mt-3"><h2>Affichage sur la page Équipe</h2>{{ form_row(form.isPublic) }}{{ form_row(form.displayOrder) }}<p class="small">Le profil public et la traduction française publiée sont également nécessaires. Une fiche enregistrée n’est pas automatiquement affichée sur le site.</p></section>
     <div class="d-flex gap-2 mt-4">
         <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
         <a class="btn btn-outline-secondary" href="{{ path('admin_teams_index') }}">Retour</a>

@@ -17,18 +17,12 @@
     intro: page.intro,
     primaryCta: {route: 'contact', label: ui.primary},
     secondaryCta: {route: 'expertises_index', label: ui.all},
-    highlights: page.deliverables|slice(0, 3)
+    highlights: page.deliverables|slice(0, 3),
+    image: page.heroImage|default(null),
+    imageAlt: page.heroImageAlt|default(page.title),
+    imageCaption: page.heroImageCaption|default(null),
+    imageFocalPoint: page.heroImageFocalPoint|default(null)
   } %}
-
-  {% if page.heroImage is defined and page.heroImage %}
-    <section class="oling-shell-section">
-      <div class="container">
-        <div class="oling-surface oling-surface--light">
-          <img class="img-fluid rounded-3 w-100" src="{{ page.heroImage }}" alt="{{ page.title }}">
-        </div>
-      </div>
-    </section>
-  {% endif %}
 
   <section class="oling-shell-section">
     <div class="container">

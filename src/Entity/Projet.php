@@ -93,8 +93,21 @@ class Projet
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $metadata = null;
 
+    #[ORM\ManyToOne(targetEntity: Practice::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Practice $catalogPractice = null;
+    #[ORM\ManyToMany(targetEntity: SitePage::class)]
+    #[ORM\JoinTable(name: 'cms_project_expertise')]
+    private Collection $catalogExpertises;
+    #[ORM\ManyToMany(targetEntity: Metier::class)]
+    #[ORM\JoinTable(name: 'cms_project_sector')]
+    private Collection $secondarySectors;
+
     public function __construct()
     {
+        $this->catalogExpertises = new ArrayCollection();
+        $this->secondarySectors = new ArrayCollection();
+
         $this->services = new ArrayCollection();
         $this->teams = new ArrayCollection();
     }
@@ -431,4 +444,12 @@ class Projet
         return $this;
     }
 
+    public function getCatalogPractice(): ?Practice { return $this->catalogPractice; }
+    public function setCatalogPractice(?Practice $value): self { $this->catalogPractice = $value; return $this; }
+    public function getCatalogExpertises(): Collection { return $this->catalogExpertises; }
+    public function addCatalogExpertises(SitePage $value): self { if (!$this->catalogExpertises->contains($value)) { $this->catalogExpertises->add($value); } return $this; }
+    public function removeCatalogExpertises(SitePage $value): self { $this->catalogExpertises->removeElement($value); return $this; }
+    public function getSecondarySectors(): Collection { return $this->secondarySectors; }
+    public function addSecondarySectors(Metier $value): self { if (!$this->secondarySectors->contains($value)) { $this->secondarySectors->add($value); } return $this; }
+    public function removeSecondarySectors(Metier $value): self { $this->secondarySectors->removeElement($value); return $this; }
 }

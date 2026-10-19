@@ -4,6 +4,8 @@
 {% block meta_description %}{{ homePage.metaDescription }}{% endblock %}
 {% block canonical_url %}{{ app.request.schemeAndHttpHost ~ (canonicalPath|default(app.request.pathInfo)) }}{% endblock %}
 
+{% block stylesheets %}{{ parent() }}<link rel="stylesheet" href="{{ asset('css/home-method-image.css') }}?v=20261018">{% endblock %}
+
 {% block body %}
 <main id="content" role="main" class="oling-home-radical">
   <section class="oling-home-hero">
@@ -189,7 +191,10 @@
             {% endfor %}
           </div>
         </div>
-        <div class="oling-home-proof__visuals">
+        {% set proofFit = homePage.proof.imageFit|default('contain') in ['contain','cover'] ? homePage.proof.imageFit|default('contain') : 'contain' %}
+          {% set proofSize = homePage.proof.imageSize|default('full') in ['full','medium','small'] ? homePage.proof.imageSize|default('full') : 'full' %}
+          {% set proofPosition = homePage.proof.imagePosition|default('center') in ['center','left','right','top','bottom'] ? homePage.proof.imagePosition|default('center') : 'center' %}
+          <div class="oling-home-proof__visuals method-image-layout" data-fit="{{ proofFit }}" data-size="{{ proofSize }}" data-position="{{ proofPosition }}">
           <article class="oling-home-proof-tile oling-home-proof-tile--image">
             <div class="oling-home-panel__media">
               {% set proofImage = homePage.proof.image %}

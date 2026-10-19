@@ -120,7 +120,7 @@ class ProjetAdminController extends AbstractController
             if ($imageFile) {
                 try {
                     $formData->setImage($uploadManager->upload($imageFile, 'projets/images'));
-                    $uploadManager->remove($originalImage);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image.");
                 }
@@ -129,7 +129,7 @@ class ProjetAdminController extends AbstractController
             if ($imageHeroFile) {
                 try {
                     $formData->setImageHero($uploadManager->upload($imageHeroFile, 'projets/hero'));
-                    $uploadManager->remove($originalImageHero);
+
                 } catch (FileException $exception) {
                     $this->addFlash('danger', "Impossible d'envoyer l'image hero.");
                 }
@@ -167,8 +167,8 @@ class ProjetAdminController extends AbstractController
     public function delete(Request $request, Projet $projet, EntityManagerInterface $entityManager, UploadManager $uploadManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$projet->getId(), $request->request->get('_token'))) {
-            $uploadManager->remove($projet->getImage());
-            $uploadManager->remove($projet->getImageHero());
+
+
             $entityManager->remove($projet);
             $entityManager->flush();
             $this->addFlash('success', 'Projet supprimé.');

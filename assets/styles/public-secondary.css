@@ -286,6 +286,51 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__actions .btn-out
   }
 }
 
+/* Standard keeps P1D; Large balances the columns; Extra Large uses the outer gutter. */
+body.oling-body main#content :is(.oling-shell-hero__inner, .oling-seo-cabinet__hero-shell):has(> .oling-shell-hero__media--size-large),
+body.oling-body main#content :is(.oling-shell-hero__inner, .oling-seo-cabinet__hero-shell):has(> .oling-shell-hero__media--size-xlarge) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+body.oling-body .oling-shell-hero__media--size-xlarge {
+  --hero-outer-space: clamp(0px, calc(50vw - 608px), 8rem);
+  width: calc(100% + var(--hero-outer-space));
+  max-width: none;
+}
+
+body.oling-body .oling-shell-hero__canvas {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Only alpha-zero margins are outside this viewport; the original raster stays intact. */
+body.oling-body .oling-shell-hero__media .oling-shell-hero__canvas img {
+  position: absolute;
+  width: var(--hero-canvas-width);
+  height: var(--hero-canvas-height);
+  max-width: none;
+  left: var(--hero-canvas-left);
+  top: var(--hero-canvas-top);
+  object-fit: contain;
+}
+
+@media (max-width: 991.98px) {
+  body.oling-body main#content :is(.oling-shell-hero__inner, .oling-seo-cabinet__hero-shell):has(> .oling-shell-hero__media--size-large),
+  body.oling-body main#content :is(.oling-shell-hero__inner, .oling-seo-cabinet__hero-shell):has(> .oling-shell-hero__media--size-xlarge) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  body.oling-body .oling-shell-hero__media--size-xlarge {
+    width: 100%;
+  }
+}
+
 /* PUBLIC language dropdown — accessible light-slate chip, including the homepage.
    One deliberately scoped source of truth replaces the old invisible white
    arrow on a light background; the component remains Bootstrap-driven. */
@@ -370,11 +415,16 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .ol
   max-width: 49rem;
 }
 
-body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+body.oling-body .oling-shell-hero__media {
   position: relative;
   min-width: 0;
-  aspect-ratio: 4 / 3;
   margin: 0;
+  align-self: center;
+  background: transparent;
+}
+
+body.oling-body .oling-shell-hero__media--cover {
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 1.25rem;
   border: 1px solid rgba(18, 43, 64, .12);
@@ -382,7 +432,7 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
   box-shadow: 0 34px 70px -52px rgba(17, 48, 72, .58);
 }
 
-body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media::after {
+body.oling-body .oling-shell-hero__media--cover::after {
   content: "";
   position: absolute;
   inset: 55% 0 0;
@@ -390,14 +440,41 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media::after {
   background: linear-gradient(0deg, rgba(10, 35, 55, .2), transparent);
 }
 
-body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media img {
+body.oling-body .oling-shell-hero__media img {
   display: block;
   width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+body.oling-body .oling-shell-hero__media--cover img {
   height: 100%;
   object-fit: cover;
 }
 
-body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media figcaption {
+body.oling-body .oling-shell-hero__media--contain,
+body.oling-body .oling-shell-hero__media--free {
+  aspect-ratio: auto;
+  overflow: visible;
+  max-height: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.oling-body .oling-shell-hero__media--contain::after,
+body.oling-body .oling-shell-hero__media--free::after {
+  content: none;
+}
+
+body.oling-body .oling-shell-hero__media figcaption {
+  padding-top: .5rem;
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
+body.oling-body .oling-shell-hero__media--cover figcaption {
   position: absolute;
   z-index: 2;
   right: .8rem;
@@ -410,6 +487,13 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media figcaption
   font-size: .78rem;
   line-height: 1.35;
   backdrop-filter: blur(10px);
+}
+
+body.oling-body.admin .oling-shell-hero__inner--media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  align-items: center;
+  gap: 2rem;
 }
 
 body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .oling-shell-hero__highlights {
@@ -431,14 +515,18 @@ body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__inner--media .ol
     grid-template-columns: minmax(0, 1fr);
   }
 
-  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+  body.oling-body .oling-shell-hero__media--cover {
     aspect-ratio: 16 / 9;
     max-height: 31rem;
+  }
+
+  body.oling-body.admin .oling-shell-hero__inner--media {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (max-width: 575.98px) {
-  body.oling-body:not(.oling-home):not(.admin) .oling-shell-hero__media {
+  body.oling-body .oling-shell-hero__media--cover {
     aspect-ratio: 4 / 3;
     border-radius: .95rem;
   }

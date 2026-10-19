@@ -1,0 +1,76 @@
+{
+  "metaTitle": "PCA / PRA : continuité d’activité et ISO 22301 | OLING",
+  "metaDescription": "Diagnostic, analyse des activités critiques, PCA, PRA et exercices : OLING cadre votre continuité, de la mission ciblée au programme multisites.",
+  "heroBadge": "Continuité d’activité et reprise informatique",
+  "heroTitle": "PCA / PRA : cadrer la continuité et préparer la reprise",
+  "heroIntro": "OLING accompagne les directions métiers et les DSI pour identifier les activités critiques, clarifier les dépendances et structurer des plans de continuité et de reprise mobilisables. La mission peut cibler un diagnostic ou un exercice, comme coordonner un programme de continuité multisites.",
+  "promise": "Une démarche de continuité doit éclairer les priorités, les responsabilités et les décisions en situation dégradée. Le PCA organise la poursuite des activités ; le PRA précise la reprise des services informatiques. Les deux doivent être cohérents et testés.",
+  "positioningTitle": "PCA et PRA : deux périmètres complémentaires",
+  "scopeTitle": "Un accompagnement adapté au besoin",
+  "focus": [
+    "Diagnostic ponctuel ou revue de plans existants",
+    "Analyse des activités critiques et dépendances SI",
+    "Structuration des plans, scénarios et responsabilités",
+    "Exercices et coordination d’un dispositif multisites"
+  ],
+  "missionPhases": [
+    "Cadrer les objectifs, le périmètre et les responsables",
+    "Analyser les activités critiques, dépendances et besoins de reprise",
+    "Formaliser les scénarios et plans avec les équipes",
+    "Préparer un exercice et suivre les actions d’amélioration"
+  ],
+  "deliverables": [
+    "Note de cadrage et synthèse des priorités",
+    "Cartographie des activités et dépendances critiques",
+    "Plans PCA/PRA, rôles et procédures de mobilisation",
+    "Scénario d’exercice, compte rendu et plan d’amélioration"
+  ],
+  "projectContextsTitle": "De la mission ponctuelle au programme complexe",
+  "projectContexts": [
+    "Mission ciblée : diagnostic, revue d’un plan ou préparation d’un exercice",
+    "Projet intermédiaire : analyse d’impact, plans et organisation de la reprise",
+    "Programme complexe : coordination multi-entités, arbitrages et exercices multisites"
+  ],
+  "clientTypesTitle": "Des organisations et des contraintes variées",
+  "clientTypes": [
+    "PME, ETI et grands groupes",
+    "Organismes publics, collectivités et établissements de santé",
+    "Organisations multisites et dispositifs impliquant plusieurs prestataires"
+  ],
+  "schemaServiceType": "Conseil en continuité d’activité et reprise informatique",
+  "citablePassagesTitle": "Repères pour cadrer votre projet",
+  "citablePassages": [
+    {
+      "title": "Comment articuler PCA et PRA ?",
+      "text": "Le PCA vise la continuité des activités prioritaires. Le PRA organise la reprise des moyens et services informatiques nécessaires. Leur articulation suppose de connaître les dépendances et de tester les scénarios retenus."
+    },
+    {
+      "title": "Quel lien avec ISO 22301 ?",
+      "text": "ISO 22301 fournit un cadre de management de la continuité. Le périmètre, les écarts et les livrables attendus doivent être définis avec l’organisation ; un accompagnement ne constitue pas une certification ni une garantie de disponibilité totale."
+    }
+  ],
+  "supportLinks": [
+    {
+      "label": "Gouvernance cybersécurité et ISO 27001",
+      "href": "/cyber-securite",
+      "description": "Relier risques SSI et continuité."
+    },
+    {
+      "label": "AMOA SI et pilotage des transformations",
+      "href": "/amoa-si",
+      "description": "Cadrer les dépendances et les responsabilités."
+    }
+  ],
+  "finalCtaTitle": "Échanger sur votre besoin de continuité",
+  "finalCtaText": "Diagnostic ciblé, plan à structurer ou coordination multisites : précisons le périmètre et les livrables utiles.",
+  "finalCtaLabel": "Parler de votre projet PCA / PRA",
+  "missionPhasesTitle": "Construire et éprouver le dispositif de continuité",
+  "deliverablesTitle": "Des livrables pour décider et agir en situation dégradée",
+  "linksIntro": "Articuler la continuité avec les risques de sécurité et le pilotage du système d’information.",
+  "showReadingPath": false,
+  "heroCtaLabel": "Échanger sur votre PCA/PRA",
+  "showHeroImage": false,
+  "showHeroSideHtml": false,
+  "showAutomaticZones": false,
+  "showFaq": false
+}

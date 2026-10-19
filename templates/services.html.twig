@@ -19,11 +19,11 @@
     eyebrow: serviceNarrative.eyebrow,
     title: serviceNarrative.headline,
     intro: serviceNarrative.intro,
-    primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: 'service.hero.primary_cta'|trans},
+    primaryCta: serviceNarrative.showHeroCta is defined and not serviceNarrative.showHeroCta ? null : {route: 'contact', label: serviceNarrative.heroCtaLabel|default('service.hero.primary_cta'|trans), bypass: serviceNarrative.heroCtaLabel is defined},
     secondaryCta: null,
     highlights: serviceNarrative.outcomes|slice(0, 3),
-    image: service.getImageHero() ?: service.getImage1() ?: service.getImage2(),
-    imageAlt: service.getDesignation()
+    image: heroMedia.image|default(service.getImageHero() ?: service.getImage1() ?: service.getImage2()),
+    imageAlt: heroMedia.alt ?: service.getDesignation()
   } %}
 
   <section class="oling-shell-section">
@@ -165,7 +165,7 @@
         </div>
         <div class="row g-4">
           {% for passage in serviceNarrative.citablePassages %}
-            <article class="col-lg-6">
+            <article class="col-lg-6"{% if passage.id|default(null) %} id="{{ passage.id }}"{% endif %}>
               <h3 class="h5">{{ passage.title }}</h3>
               <p class="mb-0">{{ passage.text }}</p>
             </article>

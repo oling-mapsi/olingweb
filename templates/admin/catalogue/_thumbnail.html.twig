@@ -1,0 +1,1 @@
+{% if row.thumbnail|default(null) %}<img class="cms-thumb" src="{{ row.thumbnail }}" alt="{{ row.title }}" width="68" height="52" loading="lazy">{% else %}<span class="cms-thumb cms-no-image" role="img" aria-label="Aucune image associée">▧</span>{% endif %}

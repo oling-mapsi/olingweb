@@ -82,12 +82,13 @@
             "supportLinks": [
                 {
                     "href": "/expertises-audit/qse",
-                    "label": "ISO 9001 et QSE",
-                    "description": "Pour traiter les volets QSE intégrés, audits et préparation à la certification."
+                    "label": "Conseil et pilotage QSE",
+                    "description": "Pour intégrer qualité, sécurité et environnement dans un système de management commun."
                 },
                 {
                     "href": "/conformite-reglementaire",
-                    "label": "Conformité réglementaire"
+                    "label": "Conformité réglementaire",
+                    "description": ""
                 }
             ],
             "triggerTitle": "Ce qu’OLING réalise",
@@ -105,7 +106,26 @@
             "showHeroSideHtml": false,
             "deliverablesTitle": "Documents remis",
             "schemaServiceType": "Conseil ISO 9001 et qualité",
-            "showAutomaticZones": false
+            "showAutomaticZones": false,
+            "citablePassagesTitle": "Réponses courtes sur ISO 9001 et le management de la qualité",
+            "citablePassages": [
+                {
+                    "text": "ISO 9001 porte sur le management de la qualité. Une démarche QSE élargit le pilotage à la qualité, la sécurité et l’environnement selon les référentiels réellement applicables.",
+                    "title": "Quelle différence entre ISO 9001 et QSE ?"
+                },
+                {
+                    "title": "Quand lancer un diagnostic ISO 9001 ?",
+                    "text": "Un diagnostic ISO 9001 précise les écarts du système de management de la qualité, les responsabilités, les indicateurs et les actions à prioriser avant les audits et la revue de direction."
+                },
+                {
+                    "text": "OLING produit une cartographie des processus, un diagnostic des écarts, un plan d’amélioration priorisé, des indicateurs et des supports de revue ou d’audit.",
+                    "title": "Quels livrables attendre ?"
+                },
+                {
+                    "text": "La méthode relie chaque procédure, preuve et indicateur à une responsabilité, un risque ou une décision opérationnelle afin que le système reste utile aux équipes.",
+                    "title": "Comment éviter une démarche trop documentaire ?"
+                }
+            ]
         }
     },
     {

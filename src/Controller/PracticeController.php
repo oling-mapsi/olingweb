@@ -1193,17 +1193,9 @@ class PracticeController extends AbstractController
 
 
     #[Route('/practice/consulting', name: 'practice_home_consulting', methods: ['GET'], priority: 10)]
-    public function practiceHomeConsulting(
-        PracticeRepository $practiceRepository,
-        ServicesRepository $servicesRepository
-    ): Response {
-        $practice = $practiceRepository->findOneBy(['slug' => 'consulting']);
-
-        if (!$practice) {
-            throw $this->createNotFoundException('La pratique n\'existe pas.');
-        }
-
-        return $this->renderPracticeHome($practice, $practiceRepository, $servicesRepository);
+    public function practiceHomeConsulting(Request $request): Response
+    {
+        return $this->redirectToRoute('amoa_si', $request->query->all(), Response::HTTP_MOVED_PERMANENTLY);
     }
 
     #[Route('/practice/expertises-audit', name: 'practice_home_expertises_audit', methods: ['GET'], priority: 10)]
@@ -1526,7 +1518,7 @@ class PracticeController extends AbstractController
 
     private function isAmoaAlias(string $slug): bool
     {
-        return $slug === 'amoa-si';
+        return in_array($slug, ['amoa-si', 'consulting'], true);
     }
 
 

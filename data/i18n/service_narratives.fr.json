@@ -351,13 +351,40 @@
         },
         "consulting/assistance-a-maitrise-douvrage": {
             "eyebrow": "Offre OLING",
-            "headline": "Assistance à maîtrise d’ouvrage ERP et métiers",
-            "intro": "Assistance à maîtrise d’ouvrage ERP et SI : cadrage, expression des besoins, choix solution, conduite de projet et recette.",
+            "headline": "Assistance à maîtrise d’ouvrage métier : besoins et recette",
+            "intro": "OLING accompagne les métiers pour analyser leurs processus, exprimer leurs besoins, préparer le cahier des charges et définir la recette. Pour le choix et le pilotage complet d’un ERP, consultez notre accompagnement AMOA ERP.",
             "outcomes": [
                 "Des decisions plus claires",
                 "Un dispositif plus robuste",
                 "Une mise en oeuvre mieux pilotee"
-            ]
+            ],
+            "metaTitle": "AMOA métier : besoins, cahier des charges et recette | OLING",
+            "heroCtaLabel": "Cadrer votre besoin métier",
+            "schemaServiceType": "Assistance à maîtrise d’ouvrage métier",
+            "schemaName": "AMOA métier : besoins et recette",
+            "supportLinks": [
+                {
+                    "href": "/business-apps/erp",
+                    "label": "Notre accompagnement AMOA ERP",
+                    "description": "Pour le choix et le pilotage complet d’un projet ERP."
+                },
+                {
+                    "href": "/amoa-si",
+                    "label": "Notre accompagnement AMOA SI",
+                    "description": "Pour la gouvernance et le pilotage transverse des projets SI."
+                },
+                {
+                    "href": "/a-propos",
+                    "label": "À propos d’OLING",
+                    "description": "Comprendre le positionnement et les expertises OLING."
+                },
+                {
+                    "href": "/contact",
+                    "label": "Contact",
+                    "description": "Qualifier un projet avec OLING."
+                }
+            ],
+            "metaDescription": "AMOA métier : analyse des processus, expression des besoins, cahier des charges et recette. Retrouvez notre accompagnement spécialisé pour les projets ERP."
         },
         "consulting/gouvernance-des-donnees": {
             "eyebrow": "Offre OLING",
@@ -634,26 +661,26 @@
             ]
         },
         "expertises-audit/qse": {
-            "metaTitle": "ISO 9001 et QSE : système qualité, audits et préparation à la certification | OLING",
-            "metaDescription": "Conseil ISO 9001 et QSE : diagnostic, processus, indicateurs, audits internes, non-conformités, revue de direction et préparation à la certification.",
-            "eyebrow": "Management de la qualité et QSE",
-            "headline": "ISO 9001 et QSE : construire un système de management pilotable",
-            "intro": "Accompagnement ISO 9001 : OLING aide les organisations à structurer ou remettre sous contrôle leur système qualité, puis à intégrer les volets sécurité et environnement lorsque le périmètre QSE le justifie.",
+            "metaTitle": "Pilotage QSE et système de management intégré | OLING",
+            "metaDescription": "Conseil et pilotage QSE : système de management intégré, gouvernance, indicateurs, reporting, audits et suivi des plans d’action avec vos équipes.",
+            "eyebrow": "Conseil et pilotage QSE",
+            "headline": "Pilotage QSE : structurer, animer et améliorer votre système de management",
+            "intro": "OLING accompagne la direction et le responsable QSE pour structurer et animer le système de management Qualité, Sécurité et Environnement : gouvernance, indicateurs, reporting, audits et suivi des plans d’action dans une démarche d’amélioration continue.",
             "hideLegacyDescription": true,
-            "coverageTitle": "Du diagnostic au fonctionnement réel du système",
-            "coverageText": "L’accompagnement porte sur le système de management et sa préparation à l’audit. OLING peut diagnostiquer les écarts, structurer les processus et les preuves, préparer les équipes et suivre les actions ; la décision de certification appartient à un organisme certificateur indépendant.",
+            "coverageTitle": "Du diagnostic à l’animation du système QSE",
+            "coverageText": "OLING aide la direction QSE à définir les responsabilités, organiser les rituels de suivi et relier les indicateurs aux décisions. L’accompagnement peut couvrir le diagnostic initial, l’animation récurrente du système et la préparation des audits ; la certification relève d’un organisme indépendant.",
             "coverageItems": [
-                "Contexte, parties intéressées, périmètre, processus, responsabilités et risques ou opportunités à traiter.",
-                "Objectifs, indicateurs, maîtrise documentaire, compétences et contrôles nécessaires au fonctionnement du système.",
-                "Audits internes, non-conformités, causes, actions correctives, revue de direction et amélioration continue.",
-                "Intégration des exigences qualité, sécurité et environnement dans un système QSE cohérent lorsque plusieurs référentiels sont visés."
+                "Définir le périmètre Qualité, Sécurité et Environnement et les référentiels applicables, dont ISO 9001, ISO 14001 et ISO 45001 selon les activités.",
+                "Installer les responsabilités, revues, indicateurs et tableaux de bord utiles à la direction et au responsable QSE.",
+                "Suivre les audits, les non-conformités et les plans d’action avec responsables, échéances et vérification d’efficacité.",
+                "Animer le reporting et l’amélioration continue avec les pilotes de processus et les équipes de terrain."
             ],
             "outcomes": [
                 "Processus, responsabilités et preuves clarifiés",
                 "Écarts priorisés avant l’audit",
                 "Pilotage qualité ou QSE utilisable par les équipes"
             ],
-            "promiseTitle": "ISO 9001 et QSE ne désignent pas la même chose",
+            "promiseTitle": "Un système intégré au service du pilotage QSE",
             "promise": "ISO 9001 définit des exigences pour le management de la qualité. QSE désigne une approche intégrée couvrant la qualité, la sécurité et l’environnement ; ce n’est pas une norme unique. Le périmètre doit donc préciser les référentiels applicables, les responsabilités communes et les exigences propres à chaque discipline.",
             "focusTitle": "Éléments à mettre sous contrôle",
             "focus": [
@@ -662,19 +689,19 @@
                 "Documents et enregistrements utiles, règles de validation, versions, diffusion, conservation et preuves d’application.",
                 "Écarts d’audit, non-conformités, analyse des causes, actions correctives, délais, responsables et vérification d’efficacité."
             ],
-            "missionPhasesTitle": "Préparer l’organisation sans produire une documentation de façade",
+            "missionPhasesTitle": "Structurer, animer et suivre le système de management",
             "missionPhases": [
-                "Cadrer le périmètre et réaliser un diagnostic fondé sur les pratiques, les documents, les indicateurs et les entretiens.",
-                "Prioriser les écarts selon leur impact, leur récurrence, leur criticité et l’échéance éventuelle d’audit.",
-                "Mettre à jour les processus, responsabilités, contrôles et preuves avec les équipes qui les appliquent.",
-                "Conduire les audits internes, préparer la revue de direction, suivre les actions et vérifier leur efficacité."
+                "Diagnostiquer les pratiques et cadrer le périmètre QSE, les responsabilités et les référentiels applicables.",
+                "Définir les objectifs, indicateurs, rituels et modalités de reporting avec la direction et le responsable QSE.",
+                "Animer les revues, coordonner les audits et suivre les écarts, les actions et leurs échéances.",
+                "Vérifier l’efficacité des actions et faire évoluer le système dans une démarche d’amélioration continue."
             ],
-            "deliverablesTitle": "Livrables de management qualité et QSE",
+            "deliverablesTitle": "Livrables de pilotage QSE",
             "deliverables": [
-                "Diagnostic d’écarts et feuille de route priorisée par processus, exigence, responsable et échéance.",
-                "Cartographie des processus, fiches utiles, matrice des responsabilités et architecture documentaire.",
-                "Programme et rapports d’audits internes, registre des non-conformités et plan d’actions correctives.",
-                "Tableau de bord, trame de revue de direction et dossier de préparation à l’audit de certification."
+                "Diagnostic QSE et feuille de route priorisée par processus, responsable et échéance.",
+                "Cartographie des processus, responsabilités et calendrier des revues et audits.",
+                "Tableau de bord QSE, reporting et suivi des non-conformités et plans d’action.",
+                "Supports de revue de direction, rapports d’audit et vérification de l’efficacité des actions."
             ],
             "projectContextsTitle": "Décisions à prendre avant un audit",
             "projectContexts": [
@@ -710,44 +737,50 @@
                 }
             ],
             "supportLinksTitle": "Faire fonctionner le système dans la durée",
-            "supportLinksIntro": "La construction ou l’amélioration du système qualité reste distincte de son animation opérationnelle continue et du pilotage transverse des risques.",
+            "supportLinksIntro": "Le pilotage QSE intégré reste distinct d’un accompagnement consacré au seul management de la qualité selon ISO 9001.",
             "supportLinks": [
                 {
                     "href": "/conseil-qualite",
-                    "label": "Conseil ISO 9001 et qualité",
-                    "description": "Page propriétaire pour relier processus, audits, indicateurs, non-conformités et performance opérationnelle."
+                    "label": "Accompagnement ISO 9001 et management de la qualité",
+                    "description": "Pour un système de management de la qualité, les processus, les audits internes et la revue de direction selon ISO 9001."
+                },
+                {
+                    "href": "/rgpd",
+                    "label": "RGPD et gouvernance",
+                    "description": "Structurer les obligations, preuves, actions et responsabilités de conformité."
+                },
+                {
+                    "href": "/cyber-securite",
+                    "label": "Cybersécurité et résilience",
+                    "description": "Articuler sécurité, continuité, risques et systèmes de management."
                 },
                 {
                     "href": "/direction-qualite-deleguee",
-                    "label": "Direction qualité déléguée",
-                    "description": "Pour animer durablement les rituels, audits, indicateurs et plans d’actions."
+                    "label": "Direction qualité deleguee : gouvernance, audits et amélioration continue",
+                    "description": ""
                 },
                 {
-                    "href": "/pca-pra-continuite-activite",
-                    "label": "PCA, PRA et continuité d’activité",
-                    "description": "Pour structurer le BIA, les objectifs de reprise, les plans et les exercices dans une trajectoire distincte du système QSE."
+                    "href": "/practice/mapsi",
+                    "label": "MAPSI – Plateforme GRC pour piloter conformité, risques et systèmes de management",
+                    "description": ""
                 },
                 {
-                    "href": "/ressources/indicateurs-qualite-si",
-                    "label": "Indicateurs qualité SI",
-                    "description": "Pour distinguer les KPI utiles au pilotage des indicateurs qui n’aident pas la décision."
+                    "href": "/expertises-audit/controle-interne",
+                    "label": "Audit de contrôle interne",
+                    "description": ""
                 },
                 {
-                    "href": "/gestion-risques-audit-controle-interne",
-                    "label": "Risques et contrôle interne",
-                    "description": "Pour articuler cartographie des risques, contrôles, audits et plans de maîtrise."
-                },
-                {
-                    "href": "/mapsi-progiciel",
-                    "label": "Pilotage des plans d’actions",
-                    "description": "Pour suivre les écarts, responsables, échéances, preuves et décisions lorsque l’outillage devient nécessaire."
+                    "href": "/ressources/qse-performance-et-controle-interne-installer-ladhesion-dans-un-cadre-portuaire-public",
+                    "label": "QSE, performance et contrôle interne : installer l’adhésion dans un cadre portuaire public",
+                    "description": ""
                 }
             ],
-            "schemaServiceType": "Conseil ISO 9001 et management QSE",
-            "schemaName": "Conseil ISO 9001 et management QSE",
-            "finalCtaTitle": "Qualifier le système, les écarts et l’échéance d’audit",
-            "finalCtaText": "L’échange initial porte sur le périmètre, les référentiels visés, les audits déjà menés, les écarts ouverts et les responsabilités internes.",
-            "finalCtaLabel": "Faire le point sur votre système QSE"
+            "schemaServiceType": "Conseil et pilotage QSE",
+            "schemaName": "Pilotage QSE et système de management intégré",
+            "finalCtaTitle": "Qualifier votre gouvernance et vos priorités QSE",
+            "finalCtaText": "L’échange initial porte sur votre périmètre QSE, les responsabilités, les indicateurs, les audits et le suivi des plans d’action.",
+            "finalCtaLabel": "Faire le point sur votre pilotage QSE",
+            "heroCtaLabel": "Échanger sur votre pilotage QSE"
         },
         "expertises-audit/qualiopi": {
             "eyebrow": "Offre OLING",

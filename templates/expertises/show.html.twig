@@ -24,6 +24,22 @@
     imageFocalPoint: page.heroImageFocalPoint|default(null)
   } %}
 
+  {% if page.applicationLinks|default([]) is not empty %}
+    <section class="oling-shell-section">
+      <div class="container">
+        <h2>{{ page.applicationLinksTitle }}</h2>
+        <div class="oling-two-col">
+          {% for application in page.applicationLinks %}
+            <article class="oling-surface oling-surface--light">
+              <h3><a href="{{ application.href }}">{{ application.label }}</a></h3>
+              <p>{{ application.description }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   <section class="oling-shell-section">
     <div class="container">
       <div class="oling-two-col">

@@ -14,24 +14,33 @@ OLING Management & Technologie is an independent consulting firm based in France
 - Data, BI and useful AI
 - GDPR / DPO / privacy governance
 - ISO 27001 / NIS2 / DORA / cybersecurity
-- ISO 9001 / QSE
+- ISO 9001 / Quality management
+- QSE / integrated management systems
 - Risk management and internal control
 - Business continuity / disaster recovery (PCA / PRA)
 - AI governance / AI Act compliance
 
-## Primary SEO / AI Owner Paths
+## Primary Expertise Paths
 
 - AMOA SI: /amoa-si
 - AMOA ERP: /business-apps/erp
-- GDPR / DPO: /expertises-audit/rgpd
+- AMOA GMAO: /gmao
+- AMOA SI Finance: /si-finance
+- QSE / integrated management system: /expertises-audit/qse
 - ISO 9001 / Quality management: /conseil-qualite
-- Cybersecurity / ISO 27001 governance: /cyber-securite
+- RGPD / GDPR compliance: /expertises-audit/rgpd
+- Cybersecurity / governance: /cyber-securite
+
+SI Client / customer information systems: covered across AMOA SI, CRM, Finance and billing content; no dedicated primary owner yet.
 
 ## Supporting French Paths
 
+- ERP needs scoping, qualification and selection preparation: /erp-progiciel
+- Business applications expertise hub (ERP, CRM, GMAO, Finance): /expertises/amoa-erp-applications-metiers
+- Business requirements and acceptance support: /consulting/assistance-a-maitrise-douvrage
 - SMSI / ISO 27001 audit support: /expertises-audit/si
-- QSE integrated management systems: /expertises-audit/qse
 - GDPR synthesis: /rgpd
+- DPO ongoing governance: /expertises/rgpd-dpo-gouvernance
 
 ## Main French URLs
 
@@ -94,11 +103,3 @@ OLING Management & Technologie is an independent consulting firm based in France
 ## Sitemap
 
 https://oling.fr/sitemap.xml
-
-## SEO/AI owner pages (2026-10-05)
-- AMOA SI owner: see Main French URLs for AMOA SI, AMOA IT, cadrage SI, transformation SI and project governance.
-- AMOA ERP owner: see Main French URLs for cabinet conseil ERP, choix ERP, cahier des charges, consultation, reprise de données, interfaces, recette and deployment.
-- RGPD owner: see Main French URLs for audit RGPD, mise en conformité, registre, DPIA/AIPD, droits, violations, CNIL and links to DPO externalisé.
-- DPO externalisé support: https://oling.fr/expertises/rgpd-dpo-gouvernance for ongoing DPO/DPD governance.
-- ISO 9001 / qualité owner: https://oling.fr/expertises-audit/qse for ISO 9001, SMQ, audits internes, non-conformités, actions correctives, revue de direction and QSE articulation.
-- Cyber / ISO 27001 owner: see Main French URLs for cybersecurity governance, SMSI, ISO 27001, NIS2, DORA, PCA/PRA and risk management. OLING is ISO 27001:2022 certified.

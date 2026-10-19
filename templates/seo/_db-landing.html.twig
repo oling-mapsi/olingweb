@@ -457,6 +457,17 @@
 {% if schemaOfferCatalog %}
   {% set serviceSchema = serviceSchema|merge({'offers': schemaOfferCatalog}) %}
 {% endif %}
+{% if landingNarrative.schemaType|default('Service') == 'WebPage' %}
+  {% set serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    'name': landingNarrative.heroTitle,
+    'url': currentUrl,
+    'description': landingNarrative.metaDescription,
+    'publisher': {'@id': globalProfessionalServiceId},
+    'about': {'@type': 'Thing', 'name': 'Cadrage du besoin et choix d’un ERP'}
+  } %}
+{% endif %}
 <script type="application/ld+json">
 {{ serviceSchema|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}
 </script>

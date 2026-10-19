@@ -62,7 +62,7 @@ class SitemapSubscriber implements EventSubscriberInterface
 
         foreach ($practices as $practice) {
             $slug = $practice->getSlug();
-            if (!$slug || $slug === 'amoa-si') {
+            if (!$slug || in_array($slug, ['amoa-si', 'consulting'], true)) {
                 continue;
             }
 

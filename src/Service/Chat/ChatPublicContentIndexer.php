@@ -88,7 +88,7 @@ class ChatPublicContentIndexer
                 $practice->getId(),
                 (string) $practice->getDesignation(),
                 $text,
-                $this->urlGenerator->generate('practice_home', ['slug' => $practice->getSlug()]),
+                $practice->getSlug() === 'consulting' ? $this->urlGenerator->generate('amoa_si') : $this->urlGenerator->generate('practice_home', ['slug' => $practice->getSlug()]),
                 $keywords,
                 false,
                 $practice->getImage1() ?: $practice->getImage2()
@@ -249,7 +249,7 @@ class ChatPublicContentIndexer
                 $practice->getId(),
                 (string) $practice->getDesignation(),
                 $text,
-                $this->urlGenerator->generate('practice_home', ['slug' => $practice->getSlug()]),
+                $practice->getSlug() === 'consulting' ? $this->urlGenerator->generate('amoa_si') : $this->urlGenerator->generate('practice_home', ['slug' => $practice->getSlug()]),
                 $keywords,
                 false,
                 $practice->getImage1() ?: $practice->getImage2()

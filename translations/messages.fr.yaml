@@ -49,7 +49,8 @@ nav:
         rgpd: RGPD / DPO
         cyber: Cybersécurité / ISO 27001
         pca: PCA / PRA / ISO 22301
-        qse: ISO 9001 / QSE
+        qse: QSE / pilotage QSE
+        quality: Qualité / ISO 9001
         risk_control: Risques & contrôle interne
         ai_act: Conformité IA / AI Act
 resources:
@@ -308,7 +309,8 @@ services_index:
       rgpd: Tenir registre, DPIA, contrats, droits, gouvernance et dispositif DPO.
       cyber: Structurer gouvernance sécurité, risques, PSSI, ISO 27001, NIS2 et DORA.
       pca: Identifier les activités critiques, fixer RTO/RPO, formaliser les plans et organiser les tests.
-      qse: Structurer processus, audits, non-conformités, revue de direction et préparation à la certification.
+      qse: Animer le système QSE, les indicateurs, les audits, le reporting et le suivi des plans d’action.
+      quality: 'Accompagner ISO 9001 : processus, audits internes, non-conformités et revue de direction.'
       risk_control: Cartographier les risques, tester les contrôles et suivre les plans de maîtrise.
       ai_act: Cadrer usages IA, responsabilités, registres, risques, supervision humaine et preuves.
   mapsi:

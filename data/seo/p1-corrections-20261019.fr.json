@@ -1,0 +1,559 @@
+{
+    "version": "2026-10-19-p1",
+    "pages": [
+        {
+            "slug": "erp-progiciel",
+            "fields": {
+                "title": "Choisir son ERP : besoins, cadrage et aide au choix | OLING",
+                "seo_title": "Choisir son ERP : besoins, cadrage et aide au choix | OLING",
+                "seo_description": "Préparez votre choix ERP : besoins métier, processus, données, interfaces et critères de sélection. Questionnaire de cadrage et accompagnement AMOA ERP OLING.",
+                "hero_badge": "Préparer le choix d’un ERP",
+                "hero_title": "Cadrer vos besoins avant de choisir un ERP",
+                "hero_intro": "Identifiez vos processus prioritaires, vos données, vos interfaces et vos critères de choix avant de consulter les éditeurs. Le questionnaire ERP aide à préparer cet échange ; notre accompagnement AMOA ERP couvre ensuite le choix et le pilotage du projet."
+            },
+            "expected_fields": {
+                "title": "AMOA ERP | Cadrage, choix progiciel et deploiement | OLING",
+                "seo_title": "AMOA ERP | Cadrage, choix progiciel et deploiement | OLING",
+                "seo_description": "AMOA ERP et progiciel : cadrage, choix de solution, gouvernance, recette, conduite du changement et deploiement pour secteur public, PME et ETI.",
+                "hero_badge": "AMOA ERP",
+                "hero_title": "AMOA ERP : cadrer, choisir et déployer sans rework",
+                "hero_intro": "Nous accompagnons vos programmes ERP/progiciel avec une AMOA SI orientée résultats: besoins métiers, choix de solution, gouvernance, recette et adoption opérationnelle."
+            },
+            "payloads": {
+                "landingNarrative": {
+                    "heroBadge": "Préparer le choix d’un ERP",
+                    "heroTitle": "Cadrer vos besoins avant de choisir un ERP",
+                    "metaTitle": "Choisir son ERP : besoins, cadrage et aide au choix | OLING",
+                    "heroIntro": "Identifiez vos processus prioritaires, vos données, vos interfaces et vos critères de choix avant de consulter les éditeurs. Le questionnaire ERP aide à préparer cet échange ; notre accompagnement AMOA ERP couvre ensuite le choix et le pilotage du projet.",
+                    "metaDescription": "Préparez votre choix ERP : besoins métier, processus, données, interfaces et critères de sélection. Questionnaire de cadrage et accompagnement AMOA ERP OLING.",
+                    "heroCtaLabel": "Échanger sur mes besoins ERP",
+                    "promise": "Cette page prépare la qualification du besoin et le choix du progiciel. La mission complète, du diagnostic à la bascule, est présentée dans notre accompagnement AMOA ERP.",
+                    "scopeTitle": "Les questions à préciser avant de comparer les ERP",
+                    "focus": [
+                        "Quels processus et équipes doivent être couverts en priorité ?",
+                        "Quelles données reprendre et quelles interfaces maintenir ?",
+                        "Quels critères permettront de comparer les solutions sur des cas métier ?"
+                    ],
+                    "triggerTitle": "Préparer une consultation utile",
+                    "missionPhases": [
+                        "Décrire l’existant, les irritants et les résultats attendus.",
+                        "Délimiter les processus, les données et les interfaces du premier périmètre.",
+                        "Formaliser les critères de choix avant les démonstrations des solutions."
+                    ],
+                    "deliverablesTitle": "Les éléments à réunir",
+                    "deliverables": [
+                        "Périmètre fonctionnel et processus prioritaires.",
+                        "Questions sur les données, les interfaces et les contraintes.",
+                        "Critères de choix et décisions à approfondir avec les équipes."
+                    ],
+                    "supportLinks": [
+                        {
+                            "href": "/business-apps/erp",
+                            "label": "Notre accompagnement AMOA ERP",
+                            "description": "Du cadrage et du cahier des charges au choix, à la recette et au déploiement."
+                        },
+                        {
+                            "href": "/expertises/amoa-erp-applications-metiers",
+                            "label": "Explorer les applications métiers",
+                            "description": "Distinguer les besoins ERP, CRM, GMAO et SI Finance."
+                        }
+                    ],
+                    "linksTitle": "Passer du besoin au bon accompagnement",
+                    "finalCtaTitle": "Préparer le cadrage de votre besoin ERP",
+                    "finalCtaText": "Partagez vos processus prioritaires, vos contraintes et les décisions à prendre avant de comparer les progiciels.",
+                    "finalCtaLabel": "Échanger sur mes besoins ERP",
+                    "citablePassagesTitle": "Avant le choix du progiciel",
+                    "citablePassages": [
+                        {
+                            "title": "Que faut-il qualifier avant de choisir un ERP ?",
+                            "text": "Le périmètre fonctionnel, les processus prioritaires, les données, les interfaces et les critères de comparaison doivent être précisés avant les démonstrations."
+                        }
+                    ],
+                    "compactLanding": true,
+                    "showHeroSideHtml": false,
+                    "showReadingPath": false,
+                    "showAutomaticZones": false,
+                    "showFaq": false,
+                    "schemaType": "WebPage",
+                    "schemaServiceType": "Qualification du besoin ERP"
+                }
+            },
+            "expected_payloads": {
+                "landingNarrative": {
+                    "heroBadge": null,
+                    "heroTitle": "AMOA ERP : cadrer, choisir et déployer sans rework",
+                    "metaTitle": "AMOA ERP | Cadrage, choix progiciel et deploiement | OLING",
+                    "heroIntro": "Nous accompagnons vos programmes ERP/progiciel avec une AMOA SI orientée résultats: besoins métiers, choix de solution, gouvernance, recette et adoption opérationnelle.",
+                    "metaDescription": "AMOA ERP et progiciel : cadrage, choix de solution, gouvernance, recette, conduite du changement et deploiement pour secteur public, PME et ETI.",
+                    "heroCtaLabel": null,
+                    "promise": null,
+                    "scopeTitle": null,
+                    "focus": null,
+                    "triggerTitle": null,
+                    "missionPhases": null,
+                    "deliverablesTitle": null,
+                    "deliverables": null,
+                    "supportLinks": null,
+                    "linksTitle": null,
+                    "finalCtaTitle": null,
+                    "finalCtaText": null,
+                    "finalCtaLabel": null,
+                    "citablePassagesTitle": "Repères pour votre projet",
+                    "citablePassages": [
+                        {
+                            "text": "Nous accompagnons vos programmes ERP/progiciel avec une AMOA SI orientée résultats: besoins métiers, choix de solution, gouvernance, recette et adoption opérationnelle.",
+                            "title": "AMOA ERP : cadrer, choisir et déployer sans rework"
+                        },
+                        {
+                            "text": "Retrouvez les prestations, les exemples de missions et les ressources utiles pour préparer votre projet.",
+                            "title": "Cette page oriente vers le bon niveau de réponse"
+                        },
+                        {
+                            "text": "Un échange permet de qualifier le contexte, les risques, les acteurs à mobiliser et le bon niveau d’accompagnement.",
+                            "title": "Clarifier votre besoin et les prochaines décisions"
+                        },
+                        {
+                            "text": "Le consultant IA reprend le cadre AMOA OLING pour structurer le besoin, la maturité projet, les modules, le périmètre, les risques, les données, les interfaces, les livrables, le macro-planning et les prochaines étapes.",
+                            "title": "Qualifier un besoin ERP ou progiciel"
+                        }
+                    ],
+                    "compactLanding": null,
+                    "showHeroSideHtml": null,
+                    "showReadingPath": null,
+                    "showAutomaticZones": null,
+                    "showFaq": null,
+                    "schemaType": null,
+                    "schemaServiceType": null
+                }
+            }
+        },
+        {
+            "slug": "expertise-amoa-erp-applications-metiers",
+            "fields": {
+                "title": "Cadrer la transformation de vos applications métiers",
+                "seo_title": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+                "seo_description": "Explorez les accompagnements ERP, CRM, GMAO et SI Finance : processus, données, interfaces et transformation de vos applications métiers.",
+                "hero_title": "Cadrer la transformation de vos applications métiers",
+                "hero_intro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information."
+            },
+            "expected_fields": {
+                "title": "AMOA ERP et applications metiers",
+                "seo_title": "AMOA ERP et applications metiers pour PME et ETI | OLING",
+                "seo_description": "OLING accompagne le choix, le cadrage, la mise en oeuvre et la securisation des projets ERP, CRM, GMAO et applications metiers.",
+                "hero_title": "AMOA ERP et applications métiers",
+                "hero_intro": "OLING accompagne le cadrage des besoins, le choix d’un ERP et le pilotage du projet jusqu’à la recette et à l’adoption par les utilisateurs."
+            },
+            "payloads": {
+                "expertisePage": {
+                    "nav": "Applications métiers",
+                    "title": "Cadrer la transformation de vos applications métiers",
+                    "heroTitle": "Cadrer la transformation de vos applications métiers",
+                    "seoTitle": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+                    "metaTitle": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+                    "intro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information.",
+                    "heroIntro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information.",
+                    "eyebrow": "ERP, CRM, GMAO et SI Finance",
+                    "metaDescription": "Explorez les accompagnements ERP, CRM, GMAO et SI Finance : processus, données, interfaces et transformation de vos applications métiers.",
+                    "situations": [
+                        "Plusieurs applications métiers à faire évoluer sans multiplier les ruptures de données.",
+                        "Besoin de distinguer le rôle de l’ERP, du CRM, de la GMAO ou du SI Finance.",
+                        "Trajectoire applicative impliquant métiers, DSI et plusieurs fournisseurs."
+                    ],
+                    "interventions": [
+                        "Cartographier les processus, les applications et leurs interfaces.",
+                        "Délimiter les périmètres et les dépendances entre les chantiers.",
+                        "Orienter chaque besoin vers l’accompagnement applicatif adapté.",
+                        "Coordonner les arbitrages, les données et l’adoption entre les projets."
+                    ],
+                    "applicationLinks": [
+                        {
+                            "href": "/business-apps/erp",
+                            "label": "Notre accompagnement AMOA ERP",
+                            "description": "Processus intégrés, choix du progiciel et pilotage du projet ERP."
+                        },
+                        {
+                            "href": "/crm",
+                            "label": "AMOA CRM",
+                            "description": "Processus commerciaux, relation client et référentiel partagé."
+                        },
+                        {
+                            "href": "/gmao",
+                            "label": "AMOA GMAO",
+                            "description": "Patrimoine, maintenance, mobilité et interventions."
+                        },
+                        {
+                            "href": "/si-finance",
+                            "label": "AMOA SI Finance",
+                            "description": "Processus financiers, contrôles, reporting et interfaces."
+                        }
+                    ],
+                    "applicationLinksTitle": "Choisir l’accompagnement adapté à votre application",
+                    "finalCtaTitle": "Identifier vos priorités applicatives",
+                    "finalCtaText": "Précisez les processus, les applications et les interfaces à faire évoluer pour orienter votre projet.",
+                    "finalCtaLabel": "Orienter ma transformation applicative"
+                },
+                "landingNarrative": {
+                    "metaTitle": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+                    "heroTitle": "Cadrer la transformation de vos applications métiers",
+                    "heroIntro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information.",
+                    "schemaServiceType": "Orientation applications métiers"
+                }
+            },
+            "expected_payloads": {
+                "expertisePage": {
+                    "nav": "AMOA ERP",
+                    "title": "AMOA ERP et applications métiers",
+                    "heroTitle": "AMOA ERP et applications métiers",
+                    "seoTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
+                    "metaTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
+                    "intro": "OLING intervient en amont des projets ERP et applicatifs pour clarifier les besoins, arbitrer les scénarios et piloter des trajectoires credibles jusqu'a la recette et l'adoption.",
+                    "heroIntro": "OLING intervient en amont des projets ERP et applicatifs pour clarifier les besoins, arbitrer les scénarios et piloter des trajectoires credibles jusqu'a la recette et l'adoption.",
+                    "eyebrow": "ERP, CRM, GMAO et applications métiers",
+                    "metaDescription": "OLING accompagne le choix, le cadrage, la mise en oeuvre et la securisation des projets ERP, CRM, GMAO et applications metiers.",
+                    "situations": [
+                        "Choix ou remplacement d'un ERP devenu limitant.",
+                        "Projet CRM ou GMAO mal cadre, mal specifie ou mal approprie.",
+                        "Besoin de neutralite entre les métiers, les editeurs, les intégrateurs et la DSI."
+                    ],
+                    "interventions": [
+                        "Cadrage AMOA, expression de besoin et strategie de consultation.",
+                        "Analyse des processus et scénarios de cible.",
+                        "Selection de solutions et pilotage des intégrateurs.",
+                        "Recette, conduite du changement et suivi de mise en production."
+                    ],
+                    "applicationLinks": null,
+                    "applicationLinksTitle": null,
+                    "finalCtaTitle": null,
+                    "finalCtaText": null,
+                    "finalCtaLabel": null
+                },
+                "landingNarrative": {
+                    "metaTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
+                    "heroTitle": "AMOA ERP et applications métiers",
+                    "heroIntro": "OLING intervient en amont des projets ERP et applicatifs pour clarifier les besoins, arbitrer les scénarios et piloter des trajectoires credibles jusqu'a la recette et l'adoption.",
+                    "schemaServiceType": null
+                }
+            }
+        },
+        {
+            "slug": "conseil-qualite",
+            "fields": {},
+            "expected_fields": {},
+            "payloads": {
+                "landingNarrative": {
+                    "supportLinks": [
+                        {
+                            "href": "/expertises-audit/qse",
+                            "label": "Conseil et pilotage QSE",
+                            "description": "Pour intégrer qualité, sécurité et environnement dans un système de management commun."
+                        },
+                        {
+                            "href": "/conformite-reglementaire",
+                            "label": "Conformité réglementaire",
+                            "description": ""
+                        }
+                    ],
+                    "citablePassagesTitle": "Réponses courtes sur ISO 9001 et le management de la qualité",
+                    "citablePassages": [
+                        {
+                            "text": "ISO 9001 porte sur le management de la qualité. Une démarche QSE élargit le pilotage à la qualité, la sécurité et l’environnement selon les référentiels réellement applicables.",
+                            "title": "Quelle différence entre ISO 9001 et QSE ?"
+                        },
+                        {
+                            "title": "Quand lancer un diagnostic ISO 9001 ?",
+                            "text": "Un diagnostic ISO 9001 précise les écarts du système de management de la qualité, les responsabilités, les indicateurs et les actions à prioriser avant les audits et la revue de direction."
+                        },
+                        {
+                            "text": "OLING produit une cartographie des processus, un diagnostic des écarts, un plan d’amélioration priorisé, des indicateurs et des supports de revue ou d’audit.",
+                            "title": "Quels livrables attendre ?"
+                        },
+                        {
+                            "text": "La méthode relie chaque procédure, preuve et indicateur à une responsabilité, un risque ou une décision opérationnelle afin que le système reste utile aux équipes.",
+                            "title": "Comment éviter une démarche trop documentaire ?"
+                        }
+                    ]
+                }
+            },
+            "expected_payloads": {
+                "landingNarrative": {
+                    "supportLinks": [
+                        {
+                            "href": "/expertises-audit/qse",
+                            "label": "ISO 9001 et QSE",
+                            "description": "Pour traiter les volets QSE intégrés, audits et préparation à la certification."
+                        },
+                        {
+                            "href": "/conformite-reglementaire",
+                            "label": "Conformité réglementaire"
+                        }
+                    ],
+                    "citablePassagesTitle": "Réponses courtes sur ISO 9001, QSE et systèmes de management",
+                    "citablePassages": [
+                        {
+                            "text": "ISO 9001 porte sur le management de la qualité. Une démarche QSE élargit le pilotage à la qualité, la sécurité et l’environnement selon les référentiels réellement applicables.",
+                            "title": "Quelle différence entre ISO 9001 et QSE ?"
+                        },
+                        {
+                            "text": "Un diagnostic QSE est pertinent lorsque les processus, les preuves, les indicateurs ou les plans d’actions existent mais ne permettent plus de piloter clairement les écarts et les priorités.",
+                            "title": "Quand lancer un diagnostic QSE ?"
+                        },
+                        {
+                            "text": "OLING produit une cartographie des processus, un diagnostic des écarts, un plan d’amélioration priorisé, des indicateurs et des supports de revue ou d’audit.",
+                            "title": "Quels livrables attendre ?"
+                        },
+                        {
+                            "text": "La méthode relie chaque procédure, preuve et indicateur à une responsabilité, un risque ou une décision opérationnelle afin que le système reste utile aux équipes.",
+                            "title": "Comment éviter une démarche trop documentaire ?"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "services": [
+        {
+            "slug": "qse",
+            "fields": {
+                "designation": "Conseil et pilotage QSE",
+                "designation_short": "Pilotage QSE",
+                "introduction_short": "Conseil QSE : gouvernance, indicateurs, audits, reporting et animation du système de management intégré."
+            },
+            "expected_fields": {
+                "designation": "Certification QSE / ISO",
+                "designation_short": "QSE / ISO",
+                "introduction_short": "Certification QSE / ISO : audit, documentation, mise en conformité et préparation aux audits de certification."
+            },
+            "narrative": {
+                "metaTitle": "Pilotage QSE et système de management intégré | OLING",
+                "headline": "Pilotage QSE : structurer, animer et améliorer votre système de management",
+                "eyebrow": "Conseil et pilotage QSE",
+                "intro": "OLING accompagne la direction et le responsable QSE pour structurer et animer le système de management Qualité, Sécurité et Environnement : gouvernance, indicateurs, reporting, audits et suivi des plans d’action dans une démarche d’amélioration continue.",
+                "metaDescription": "Conseil et pilotage QSE : système de management intégré, gouvernance, indicateurs, reporting, audits et suivi des plans d’action avec vos équipes.",
+                "heroCtaLabel": "Échanger sur votre pilotage QSE",
+                "coverageTitle": "Du diagnostic à l’animation du système QSE",
+                "coverageText": "OLING aide la direction QSE à définir les responsabilités, organiser les rituels de suivi et relier les indicateurs aux décisions. L’accompagnement peut couvrir le diagnostic initial, l’animation récurrente du système et la préparation des audits ; la certification relève d’un organisme indépendant.",
+                "coverageItems": [
+                    "Définir le périmètre Qualité, Sécurité et Environnement et les référentiels applicables, dont ISO 9001, ISO 14001 et ISO 45001 selon les activités.",
+                    "Installer les responsabilités, revues, indicateurs et tableaux de bord utiles à la direction et au responsable QSE.",
+                    "Suivre les audits, les non-conformités et les plans d’action avec responsables, échéances et vérification d’efficacité.",
+                    "Animer le reporting et l’amélioration continue avec les pilotes de processus et les équipes de terrain."
+                ],
+                "promiseTitle": "Un système intégré au service du pilotage QSE",
+                "missionPhasesTitle": "Structurer, animer et suivre le système de management",
+                "missionPhases": [
+                    "Diagnostiquer les pratiques et cadrer le périmètre QSE, les responsabilités et les référentiels applicables.",
+                    "Définir les objectifs, indicateurs, rituels et modalités de reporting avec la direction et le responsable QSE.",
+                    "Animer les revues, coordonner les audits et suivre les écarts, les actions et leurs échéances.",
+                    "Vérifier l’efficacité des actions et faire évoluer le système dans une démarche d’amélioration continue."
+                ],
+                "deliverablesTitle": "Livrables de pilotage QSE",
+                "deliverables": [
+                    "Diagnostic QSE et feuille de route priorisée par processus, responsable et échéance.",
+                    "Cartographie des processus, responsabilités et calendrier des revues et audits.",
+                    "Tableau de bord QSE, reporting et suivi des non-conformités et plans d’action.",
+                    "Supports de revue de direction, rapports d’audit et vérification de l’efficacité des actions."
+                ],
+                "supportLinksIntro": "Le pilotage QSE intégré reste distinct d’un accompagnement consacré au seul management de la qualité selon ISO 9001.",
+                "finalCtaTitle": "Qualifier votre gouvernance et vos priorités QSE",
+                "finalCtaText": "L’échange initial porte sur votre périmètre QSE, les responsabilités, les indicateurs, les audits et le suivi des plans d’action.",
+                "finalCtaLabel": "Faire le point sur votre pilotage QSE",
+                "schemaServiceType": "Conseil et pilotage QSE",
+                "schemaName": "Pilotage QSE et système de management intégré",
+                "supportLinks": [
+                    {
+                        "href": "/conseil-qualite",
+                        "label": "Accompagnement ISO 9001 et management de la qualité",
+                        "description": "Pour un système de management de la qualité, les processus, les audits internes et la revue de direction selon ISO 9001."
+                    },
+                    {
+                        "href": "/rgpd",
+                        "label": "RGPD et gouvernance",
+                        "description": "Structurer les obligations, preuves, actions et responsabilités de conformité."
+                    },
+                    {
+                        "href": "/cyber-securite",
+                        "label": "Cybersécurité et résilience",
+                        "description": "Articuler sécurité, continuité, risques et systèmes de management."
+                    },
+                    {
+                        "href": "/direction-qualite-deleguee",
+                        "label": "Direction qualité deleguee : gouvernance, audits et amélioration continue",
+                        "description": ""
+                    },
+                    {
+                        "href": "/practice/mapsi",
+                        "label": "MAPSI – Plateforme GRC pour piloter conformité, risques et systèmes de management",
+                        "description": ""
+                    },
+                    {
+                        "href": "/expertises-audit/controle-interne",
+                        "label": "Audit de contrôle interne",
+                        "description": ""
+                    },
+                    {
+                        "href": "/ressources/qse-performance-et-controle-interne-installer-ladhesion-dans-un-cadre-portuaire-public",
+                        "label": "QSE, performance et contrôle interne : installer l’adhésion dans un cadre portuaire public",
+                        "description": ""
+                    }
+                ]
+            },
+            "expected_narrative": {
+                "metaTitle": "ISO 9001, QSE et systèmes de management | OLING",
+                "headline": "ISO 9001 et QSE : construire un système de management pilotable",
+                "eyebrow": "Management de la qualité et QSE",
+                "intro": "OLING aide les organisations à structurer ou remettre sous contrôle leur système qualité, puis à intégrer les volets sécurité et environnement lorsque le périmètre QSE le justifie.",
+                "metaDescription": "Diagnostic QSE, processus, ISO 9001 et préparation des audits : structurez un système de management utile, du besoin ponctuel au multisite.",
+                "heroCtaLabel": "Échanger sur votre démarche QSE",
+                "coverageTitle": "Du diagnostic au fonctionnement réel du système",
+                "coverageText": "L’accompagnement porte sur le système de management et sa préparation à l’audit. OLING peut diagnostiquer les écarts, structurer les processus et les preuves, préparer les équipes et suivre les actions ; la décision de certification appartient à un organisme certificateur indépendant.",
+                "coverageItems": [
+                    "Contexte, parties intéressées, périmètre, processus, responsabilités et risques ou opportunités à traiter.",
+                    "Objectifs, indicateurs, maîtrise documentaire, compétences et contrôles nécessaires au fonctionnement du système.",
+                    "Audits internes, non-conformités, causes, actions correctives, revue de direction et amélioration continue.",
+                    "Intégration des exigences qualité, sécurité et environnement dans un système QSE cohérent lorsque plusieurs référentiels sont visés."
+                ],
+                "promiseTitle": "ISO 9001 et QSE ne désignent pas la même chose",
+                "missionPhasesTitle": "Préparer l’organisation sans produire une documentation de façade",
+                "missionPhases": [
+                    "Cadrer le périmètre et réaliser un diagnostic fondé sur les pratiques, les documents, les indicateurs et les entretiens.",
+                    "Prioriser les écarts selon leur impact, leur récurrence, leur criticité et l’échéance éventuelle d’audit.",
+                    "Mettre à jour les processus, responsabilités, contrôles et preuves avec les équipes qui les appliquent.",
+                    "Conduire les audits internes, préparer la revue de direction, suivre les actions et vérifier leur efficacité."
+                ],
+                "deliverablesTitle": "Livrables de management qualité et QSE",
+                "deliverables": [
+                    "Diagnostic d’écarts et feuille de route priorisée par processus, exigence, responsable et échéance.",
+                    "Cartographie des processus, fiches utiles, matrice des responsabilités et architecture documentaire.",
+                    "Programme et rapports d’audits internes, registre des non-conformités et plan d’actions correctives.",
+                    "Tableau de bord, trame de revue de direction et dossier de préparation à l’audit de certification."
+                ],
+                "supportLinksIntro": "La construction ou l’amélioration du système qualité reste distincte de son animation opérationnelle continue et du pilotage transverse des risques.",
+                "finalCtaTitle": "Qualifier le système, les écarts et l’échéance d’audit",
+                "finalCtaText": "L’échange initial porte sur le périmètre, les référentiels visés, les audits déjà menés, les écarts ouverts et les responsabilités internes.",
+                "finalCtaLabel": "Faire le point sur votre système QSE",
+                "schemaServiceType": "Conseil ISO 9001 et management QSE",
+                "schemaName": "Conseil ISO 9001 et management QSE",
+                "supportLinks": [
+                    {
+                        "href": "/conseil-qualite",
+                        "label": "Conseil qualité et ISO 9001",
+                        "description": "Page de synthèse sur les démarches qualité, audits et amélioration continue."
+                    },
+                    {
+                        "href": "/rgpd",
+                        "label": "RGPD et gouvernance",
+                        "description": "Structurer les obligations, preuves, actions et responsabilités de conformité."
+                    },
+                    {
+                        "href": "/cyber-securite",
+                        "label": "Cybersécurité et résilience",
+                        "description": "Articuler sécurité, continuité, risques et systèmes de management."
+                    },
+                    {
+                        "href": "/direction-qualite-deleguee",
+                        "label": "Direction qualité deleguee : gouvernance, audits et amélioration continue",
+                        "description": ""
+                    },
+                    {
+                        "href": "/practice/mapsi",
+                        "label": "MAPSI – Plateforme GRC pour piloter conformité, risques et systèmes de management",
+                        "description": ""
+                    },
+                    {
+                        "href": "/expertises-audit/controle-interne",
+                        "label": "Audit de contrôle interne",
+                        "description": ""
+                    },
+                    {
+                        "href": "/ressources/qse-performance-et-controle-interne-installer-ladhesion-dans-un-cadre-portuaire-public",
+                        "label": "QSE, performance et contrôle interne : installer l’adhésion dans un cadre portuaire public",
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        {
+            "slug": "assistance-a-maitrise-douvrage",
+            "fields": {
+                "designation": "Assistance à maîtrise d’ouvrage métier",
+                "designation_short": "AMOA métier",
+                "introduction_short": "AMOA métier : analyse des processus, expression des besoins, cahier des charges et préparation de la recette."
+            },
+            "expected_fields": {
+                "designation": "Assistance à maîtrise d’ouvrage ERP et métiers",
+                "designation_short": "AMOA ERP",
+                "introduction_short": "Assistance à maîtrise d’ouvrage ERP et SI : cadrage, expression des besoins, choix solution, conduite de projet et recette."
+            },
+            "narrative": {
+                "metaTitle": "AMOA métier : besoins, cahier des charges et recette | OLING",
+                "headline": "Assistance à maîtrise d’ouvrage métier : besoins et recette",
+                "intro": "OLING accompagne les métiers pour analyser leurs processus, exprimer leurs besoins, préparer le cahier des charges et définir la recette. Pour le choix et le pilotage complet d’un ERP, consultez notre accompagnement AMOA ERP.",
+                "heroCtaLabel": "Cadrer votre besoin métier",
+                "schemaServiceType": "Assistance à maîtrise d’ouvrage métier",
+                "schemaName": "AMOA métier : besoins et recette",
+                "supportLinks": [
+                    {
+                        "href": "/business-apps/erp",
+                        "label": "Notre accompagnement AMOA ERP",
+                        "description": "Pour le choix et le pilotage complet d’un projet ERP."
+                    },
+                    {
+                        "href": "/amoa-si",
+                        "label": "Notre accompagnement AMOA SI",
+                        "description": "Pour la gouvernance et le pilotage transverse des projets SI."
+                    },
+                    {
+                        "href": "/a-propos",
+                        "label": "À propos d’OLING",
+                        "description": "Comprendre le positionnement et les expertises OLING."
+                    },
+                    {
+                        "href": "/contact",
+                        "label": "Contact",
+                        "description": "Qualifier un projet avec OLING."
+                    }
+                ],
+                "metaDescription": "AMOA métier : analyse des processus, expression des besoins, cahier des charges et recette. Retrouvez notre accompagnement spécialisé pour les projets ERP."
+            },
+            "expected_narrative": {
+                "metaTitle": "Assistance à maîtrise d’ouvrage ERP et métiers | OLING",
+                "headline": "Assistance à maîtrise d’ouvrage ERP et métiers",
+                "intro": "Assistance à maîtrise d’ouvrage ERP et SI : cadrage, expression des besoins, choix solution, conduite de projet et recette.",
+                "heroCtaLabel": null,
+                "schemaServiceType": null,
+                "schemaName": null,
+                "supportLinks": [
+                    {
+                        "href": "/a-propos",
+                        "label": "À propos d’OLING",
+                        "description": "Comprendre le positionnement et les expertises OLING."
+                    },
+                    {
+                        "href": "/contact",
+                        "label": "Contact",
+                        "description": "Qualifier un projet avec OLING."
+                    }
+                ],
+                "metaDescription": "Assistance à maîtrise d’ouvrage ERP et SI : cadrage, expression des besoins, choix solution, conduite de projet et recette."
+            }
+        },
+        {
+            "slug": "erp",
+            "fields": {
+                "designation": "AMOA ERP",
+                "designation_short": "AMOA ERP",
+                "introduction_short": "Cadrage, choix et pilotage d’un projet ERP : besoins, consultation, reprise de données, recette et déploiement."
+            },
+            "expected_fields": {
+                "designation": "AMOA ERP, CRM, GMAO, SI Finance et SIRH",
+                "designation_short": "AMOA ERP",
+                "introduction_short": "AMOA progiciels métiers : cadrage, expression de besoin, choix de solution, pilotage, recette, reprise de données et déploiement."
+            },
+            "narrative": {},
+            "expected_narrative": {}
+        }
+    ],
+    "link_rewrites": {
+        "/practice/consulting": "/amoa-si"
+    }
+}

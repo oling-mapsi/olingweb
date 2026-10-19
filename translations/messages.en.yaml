@@ -50,7 +50,8 @@ nav:
         rgpd: GDPR / DPO
         cyber: Cybersecurity / ISO 27001
         pca: BCP / DRP / ISO 22301
-        qse: ISO 9001 / QHSE
+        qse: QHSE management
+        quality: Quality / ISO 9001
         risk_control: Risk & internal control
         ai_act: AI Act compliance
 resources:

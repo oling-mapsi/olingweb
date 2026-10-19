@@ -37,22 +37,22 @@
             ]
         },
         "amoa-erp-applications-metiers": {
-            "nav": "AMOA ERP",
-            "title": "AMOA ERP et applications metiers",
-            "seoTitle": "AMOA ERP et applications metiers pour PME et ETI | OLING",
-            "metaDescription": "OLING accompagne le choix, le cadrage, la mise en oeuvre et la securisation des projets ERP, CRM, GMAO et applications metiers.",
-            "eyebrow": "ERP, CRM, GMAO et applications metiers",
-            "intro": "Cette page soutient l’owner AMOA ERP en présentant le périmètre applications métiers. Pour le cadrage ERP, le cahier des charges, la consultation et le pilotage intégrateur, la page de référence est /business-apps/erp.",
+            "nav": "Applications métiers",
+            "title": "Cadrer la transformation de vos applications métiers",
+            "seoTitle": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+            "metaDescription": "Explorez les accompagnements ERP, CRM, GMAO et SI Finance : processus, données, interfaces et transformation de vos applications métiers.",
+            "eyebrow": "ERP, CRM, GMAO et SI Finance",
+            "intro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information.",
             "situations": [
-                "Choix ou remplacement d'un ERP devenu limitant.",
-                "Projet CRM ou GMAO mal cadre, mal specifie ou mal approprie.",
-                "Besoin de neutralite entre les metiers, les editeurs, les integrateurs et la DSI."
+                "Plusieurs applications métiers à faire évoluer sans multiplier les ruptures de données.",
+                "Besoin de distinguer le rôle de l’ERP, du CRM, de la GMAO ou du SI Finance.",
+                "Trajectoire applicative impliquant métiers, DSI et plusieurs fournisseurs."
             ],
             "interventions": [
-                "Cadrage AMOA, expression de besoin et strategie de consultation.",
-                "Analyse des processus et scenarios de cible.",
-                "Selection de solutions et pilotage des integrateurs.",
-                "Recette, conduite du changement et suivi de mise en production."
+                "Cartographier les processus, les applications et leurs interfaces.",
+                "Délimiter les périmètres et les dépendances entre les chantiers.",
+                "Orienter chaque besoin vers l’accompagnement applicatif adapté.",
+                "Coordonner les arbitrages, les données et l’adoption entre les projets."
             ],
             "deliverables": [
                 "Cartographie des processus cibles",
@@ -65,7 +65,36 @@
                     "practice": "business-apps",
                     "service": "erp"
                 }
-            ]
+            ],
+            "heroTitle": "Cadrer la transformation de vos applications métiers",
+            "metaTitle": "Applications métiers : ERP, CRM, GMAO et SI Finance | OLING",
+            "heroIntro": "Identifiez les applications concernées par votre transformation, leurs processus et leurs interfaces. OLING vous oriente vers le bon accompagnement ERP, CRM, GMAO ou SI Finance, en gardant une vision cohérente du système d’information.",
+            "applicationLinks": [
+                {
+                    "href": "/business-apps/erp",
+                    "label": "Notre accompagnement AMOA ERP",
+                    "description": "Processus intégrés, choix du progiciel et pilotage du projet ERP."
+                },
+                {
+                    "href": "/crm",
+                    "label": "AMOA CRM",
+                    "description": "Processus commerciaux, relation client et référentiel partagé."
+                },
+                {
+                    "href": "/gmao",
+                    "label": "AMOA GMAO",
+                    "description": "Patrimoine, maintenance, mobilité et interventions."
+                },
+                {
+                    "href": "/si-finance",
+                    "label": "AMOA SI Finance",
+                    "description": "Processus financiers, contrôles, reporting et interfaces."
+                }
+            ],
+            "applicationLinksTitle": "Choisir l’accompagnement adapté à votre application",
+            "finalCtaTitle": "Identifier vos priorités applicatives",
+            "finalCtaText": "Précisez les processus, les applications et les interfaces à faire évoluer pour orienter votre projet.",
+            "finalCtaLabel": "Orienter ma transformation applicative"
         },
         "organisation-processus-conduite-du-changement": {
             "nav": "Organisation",

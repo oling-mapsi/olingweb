@@ -1249,8 +1249,16 @@ class PracticeController extends AbstractController
     public function practices(
         PracticeRepository $practiceRepository,
         ServicesRepository $servicesRepository,
-        $slug
+        $slug,
+        Request $request
     ): Response {
+        if ($slug === 'consulting') {
+            $target = $this->generateUrl('amoa_si');
+            $query = $request->getQueryString();
+
+            return $this->redirect($target.($query !== null ? '?'.$query : ''), Response::HTTP_MOVED_PERMANENTLY);
+        }
+
         if ($this->isAmoaAlias($slug)) {
             return $this->redirectToRoute('amoa_si', [], 301);
         }

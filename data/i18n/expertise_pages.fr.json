@@ -262,9 +262,9 @@
             "intro": "Nous aidons les organisations a deployer l'IA sans angle mort de responsabilite: AI Act, protection des donnees, supervision humaine, gestion des fournisseurs et preuves de conformite.",
             "heroImage": "/img/spe/rgpd.png",
             "situations": [
-                "Direction qui veut deployer des usages IA sans exposer l'entreprise a des risques juridiques, contractuels ou reputionnels.",
+                "Direction qui veut deployer des usages IA sans exposer l'entreprise a des risques juridiques, contractuels ou réputationnels.",
                 "Projet IA avec donnees sensibles, exigences de tracabilite ou demandes de preuve croissantes.",
-                "Besoin d'aligner AI Act, RGPD, cybers securite, achats et gouvernance interne."
+                "Besoin d'aligner AI Act, RGPD, cybersécurité, achats et gouvernance interne."
             ],
             "interventions": [
                 "Diagnostic de conformite IA et cartographie des usages, risques et obligations.",

@@ -59,6 +59,8 @@ final class CrmTest extends TestCase
         $s=$e->extract($m,'demo@oling.fr'); self::assertTrue($s['commercial']); self::assertSame('',$s['fields']['organization']??'');
         $m['from']['emailAddress']['address']='demo@oling.fr';$m['toRecipients']=[['emailAddress'=>['address'=>'client@example.invalid']]];$m['body']['content']='Veuillez trouver ci-joint notre proposition commerciale.';
         self::assertSame('sent',$e->extract($m,'demo@oling.fr')['suggested_status']);
+        $m['subject']='Projet ERP — Notre proposition d’accompagnement AMOA';$m['body']['content']='Veuillez trouver ci-joint notre proposition pour le projet ERP.';
+        self::assertTrue($e->extract($m,'demo@oling.fr')['commercial']);
         $m['body']['content']='Newsletter : demande de devis'; self::assertNull($e->extract($m,'demo@oling.fr'));
     }
     public function testGraphRejectsForeignPagination(): void

@@ -33,6 +33,7 @@ class EmailExtractor
         if (preg_match('/offre.{0,35}(non retenue|rejetée)|proposition.{0,35}non retenue/u',$text)) { $status='lost'; }
         elseif (preg_match('/offre.{0,35}(est retenue|a été retenue)|marché.{0,25}(vous est attribué)|bon de commande signé/u',$text)) { $status='won'; }
         elseif (preg_match('/confirmation.{0,25}dépôt|accusé.{0,25}dépôt/u',$text) || ($sent && preg_match('/(ci.joint|en pièce jointe).{0,90}(proposition|devis|offre)/us',$text))) { $status='sent'; }
+        $commercial=$commercial || $status!==null;
         $fields=['title'=>$subject?:'(Sans objet)','summary'=>mb_substr($body,0,2000),'contact'=>$contact['name']??'','email'=>$email];
         // Only explicit labels count as organization/amount; do not invent a company from an address.
         if (preg_match('/(?:Société|Organisation|Entreprise)\s*:\s*([^\r\n]{2,120})/ui',$body,$a)) { $fields['organization']=trim($a[1]); }

@@ -23,7 +23,7 @@ final class CrmSync
             $historyFrom=$since ? $since.'T00:00:00Z' : ($state['history_from']??gmdate('Y-m-d\TH:i:s\Z',strtotime('-12 months')));
             $from=$since ? $since.'T00:00:00Z' : ($state['watermark']??gmdate('Y-m-d\TH:i:s\Z',strtotime('-12 months')));
             $mailbox=$this->config->get('mailbox');
-            $url=$state['next']??('https://graph.microsoft.com/v1.0/users/'.rawurlencode($mailbox).'/messages?'.http_build_query(['$filter'=>'lastModifiedDateTime ge '.$from,'$top'=>50,'$select'=>'id,internetMessageId,conversationId,subject,body,from,toRecipients,webLink,isDraft,receivedDateTime,sentDateTime,internetMessageHeaders']));
+            $url=$state['next']??('https://graph.microsoft.com/v1.0/users/'.rawurlencode($mailbox).'/messages?'.http_build_query(['$filter'=>'lastModifiedDateTime ge '.$from.' and (receivedDateTime ge '.$historyFrom.' or sentDateTime ge '.$historyFrom.')','$top'=>100,'$select'=>'id,internetMessageId,conversationId,subject,body,from,toRecipients,webLink,isDraft,receivedDateTime,sentDateTime,internetMessageHeaders']));
             $token=$this->graph->token();
             $state=['pass'=>$pass,'history_from'=>$historyFrom,'run_started'=>$start,'next'=>$url,'watermark'=>$state['watermark']??null,'last_success'=>$state['last_success']??null,'error'=>null];
             // Bounded work; durable page cursor resumes without losing any page.
@@ -38,7 +38,7 @@ final class CrmSync
                 $url=$result['@odata.nextLink']??null;
                 $state['next']=$url; $state['processed']=($state['processed']??0)+count($result['value']??[]); $state['updated_at']=CrmStore::now();
                 if (!$url && $initial && $pass===1) {
-                    $state=['pass'=>2,'history_from'=>$historyFrom,'watermark'=>null,'run_started'=>$start,'next'=>'https://graph.microsoft.com/v1.0/users/'.rawurlencode($mailbox).'/messages?'.http_build_query(['$filter'=>'lastModifiedDateTime ge '.$historyFrom,'$top'=>50,'$select'=>'id,internetMessageId,conversationId,subject,body,from,toRecipients,webLink,isDraft,receivedDateTime,sentDateTime,internetMessageHeaders'])];
+                    $state=['pass'=>2,'history_from'=>$historyFrom,'watermark'=>null,'run_started'=>$start,'next'=>'https://graph.microsoft.com/v1.0/users/'.rawurlencode($mailbox).'/messages?'.http_build_query(['$filter'=>'lastModifiedDateTime ge '.$historyFrom.' and (receivedDateTime ge '.$historyFrom.' or sentDateTime ge '.$historyFrom.')','$top'=>100,'$select'=>'id,internetMessageId,conversationId,subject,body,from,toRecipients,webLink,isDraft,receivedDateTime,sentDateTime,internetMessageHeaders'])];
                     $this->store->setState('email',$state); return ['new_events'=>$count,'pending'=>true,'pass'=>2];
                 }
                 if (!$url) { $state=['history_from'=>$historyFrom,'last_success'=>CrmStore::now(),'watermark'=>gmdate('Y-m-d\TH:i:s\Z',strtotime($start)-300),'error'=>null,'processed'=>$state['processed']]; }

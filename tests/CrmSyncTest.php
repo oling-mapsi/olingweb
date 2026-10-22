@@ -12,7 +12,7 @@ final class CrmSyncTest extends TestCase
   $config=new CrmConfig('test');$r=new \ReflectionProperty($config,'environment');$r->setValue($config,'prod');$r=new \ReflectionProperty($config,'settings');$r->setValue($config,['email_enabled'=>true,'client_secret'=>'fake','tenant_id'=>'test','client_id'=>'test','mailbox'=>'demo@oling.fr','lock_dir'=>sys_get_temp_dir()]);
   $base=['from'=>['emailAddress'=>['address'=>'client@example.invalid']],'conversationId'=>'same-project','receivedDateTime'=>gmdate('Y-m-d\TH:i:s\Z')];
   $reply=$base+['id'=>'reply','subject'=>'RE: Projet','body'=>['content'=>'Merci pour votre retour.']];
-  $request=$base+['id'=>'request','subject'=>'Demande de devis','body'=>['content'=>'Nous souhaitons un accompagnement.']];
+  $request=$base+['id'=>'request','subject'=>'Demande de devis','body'=>['content'=>'Nous souhaitons un accompagnement. Pouvez-vous nous proposer une mission ?']];
   $http=new MockHttpClient(function($method,$url)use($reply,$request){
    if(str_contains($url,'/token')){self::assertSame('POST',$method);return new MockResponse('{"access_token":"fake"}');}
    self::assertSame('GET',$method);self::assertStringStartsWith('https://graph.microsoft.com/v1.0/',$url);return new MockResponse(json_encode(['value'=>[$reply,$request]]));

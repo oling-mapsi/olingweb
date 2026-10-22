@@ -11,7 +11,7 @@ class EmailExtractor
         $body=mb_substr(html_entity_decode(strip_tags(preg_replace('/<\/?(?:p|div|br)[^>]*>/i',"\n",$m['body']['content']??$m['bodyPreview']??'')),ENT_QUOTES|ENT_HTML5,'UTF-8'),0,200000);
         $text=mb_strtolower($subject."\n".$body);
         $headers=[]; foreach ($m['internetMessageHeaders']??[] as $h) { $headers[strtolower($h['name'])]=$h['value']; }
-        if (isset($headers['list-unsubscribe']) || isset($headers['list-id']) || preg_match('/newsletter|désabonn|unsubscribe|webinaire|webinar|code promo|test interne|\[test\]|veille.{0,30}marchés|sélection.{0,35}appels d.offres|alerte.{0,30}marchés|marchés.{0,25}(du jour|cette semaine)|marchesonline|doubletrade|vecteurplus|achatpublic.info/u',$text)) { return null; }
+        if (isset($headers['list-unsubscribe']) || isset($headers['list-id']) || preg_match('/newsletter|désabonn|unsubscribe|webinaire|webinar|code promo|test interne|\[test\]|veille.{0,30}marchés|sélection.{0,35}appels d.offres|alerte.{0,30}marchés|alerte.{0,35}appel.{0,5}offre|marchés.{0,25}(du jour|cette semaine)|marchesonline|doubletrade|vecteurplus|achatpublic.info/u',$text)) { return null; }
         $from=$m['from']['emailAddress']??[];
         $sent=strtolower($from['address']??'')===strtolower($mailbox);
         // Exact sender + subject + shared reference; the technical sender is never a prospect.

@@ -48,3 +48,19 @@ Retour arrière : arrêter le timer et le service, désactiver `forms_enabled`, 
 Tests : 17 scénarios, 114 assertions avant recette finale : avis/rejeu/enrichissement, refus persistant, corrections manuelles, formulaire direct + email, contact réel, exclusion digest, conversations distinctes/réponses rattachées, isolation locale, authentification/CSRF, mise à jour Kanban et conflit de version. `app:crm:check` teste également les dépendances et templates de production dans une transaction annulée.
 
 Recette navigateur locale : déplacement réel de carte, rechargement confirmant le statut, alternative par sélecteur, fiche et note enregistrées à 390 × 844, présentation bureau. Captures fictives dans `var/crm-v2-desktop.jpg` et `var/crm-v2-mobile.jpg` (hors Git).
+
+## Recette de production du 22 octobre 2026
+
+Les PR OLING #14 et MAPSI #3 ont été intégrées. Le module OLING `f4432f6b68c3` et le raccordement MAPSI `b52e67af6f6c38aea6c3e3bd29daec854dca7c27` ont été déployés réellement. L'agent de veille a exécuté les deux outils : lecture des décisions réussie, import fictif `dry_run=true`, `persisted=false`. Son horaire quotidien de 08h Europe/Paris est conservé.
+
+La recette serveur du formulaire MAPSI a validé la référence stable, le rejeu sans double notification (transport email simulé), le contrôleur authentifié OLING et la déduplication avec la notification structurée. Les écritures de recette CRM ont été annulées ; aucun email de test n'a été envoyé. Les anciens imports sont conservés pour révision.
+
+Correctif de recette : exclusion explicite des alertes AW Solutions, 17 tests / 115 assertions. Le déploiement accepte les entrées de répertoire de `git archive` mais n'extrait que les fichiers autorisés. MAPSI utilise un autoloader optimisé : régénérer celui-ci avec son propriétaire `ubuntu`, avant le cache, y compris lors du retour arrière.
+
+Paquet OLING reproductible (depuis le commit à livrer) :
+
+```sh
+git archive --format=tar.gz -o /tmp/oling-crm-release.tar.gz HEAD src/Service/Crm templates/admin/crm public/crm scripts/crm docs/crm src/Controller/CrmAdminController.php src/Controller/CrmImportController.php src/Controller/CrmFormController.php src/Command/CrmSyncCommand.php src/Command/CrmCheckCommand.php migrations/Version20261022220000.php migrations/Version20261022233000.php
+```
+
+Les empreintes et le commit effectifs se lisent dans `/var/www/oling-current/CRM_RELEASE.json`. Le manifeste de sauvegarde correspondant donne le chemin exact de retour arrière. Ne jamais copier la clé de sauvegarde hors serveur.

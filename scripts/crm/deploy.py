@@ -42,11 +42,12 @@ if phase=='prepare':
  release.mkdir();run(['rsync','-a','--exclude=var/cache/','--exclude=var/log/','--exclude=.git/','--exclude=node_modules/',str(old)+'/',str(release)+'/'])
  with tarfile.open(package) as t:
   for m in t.getmembers():
+   if m.isdir(): continue
    assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
    assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
    if (release/m.name).exists():
     assert prior and prior['files'].get(m.name)==digest(old/m.name),m.name
-  t.extractall(release,filter='data')
+  t.extractall(release,members=[m for m in t.getmembers() if m.isfile()],filter='data')
  run(['python3',str(release/'scripts/crm/patch-navigation.py'),str(release/'templates/admin/_nav.html.twig')])
  for p in [release/'var/cache',release/'var/log']:p.mkdir(parents=True,exist_ok=True)
  run(['chown','-R','deploy:www-data',str(release/'src/Service/Crm'),str(release/'templates/admin/crm'),str(release/'scripts/crm')])
@@ -59,7 +60,8 @@ if phase=='prepare':
  run(['sudo','-u','www-data','env','APP_ENV=prod','APP_DEBUG=0','php','scripts/crm/recipe.php'],cwd=release)
  manifest={'commit':commit,'previous':str(old),'release':str(release),'package_sha256':digest(Path(package)),'backup_sha256':digest(backup/'snapshot.enc'),'files':{}}
  with tarfile.open(package) as t:
-  for m in t.getmembers():manifest['files'][m.name]=digest(release/m.name)
+  for m in t.getmembers():
+   if m.isfile(): manifest['files'][m.name]=digest(release/m.name)
  manifest['files']['templates/admin/_nav.html.twig']=digest(release/'templates/admin/_nav.html.twig')
  (backup/'manifest.json').write_text(json.dumps(manifest,indent=2));(release/'CRM_RELEASE.json').write_text(json.dumps(manifest,indent=2))
  print(json.dumps({'prepared':str(release),'backup':str(backup),'commit':commit}),flush=True)

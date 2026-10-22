@@ -19,6 +19,7 @@ with tarfile.open(package) as t:
  try:
   for m in members:
    dest=root/m.name;temp=dest.with_suffix(dest.suffix+'.crm-new');temp.write_bytes(t.extractfile(m).read());shutil.chown(temp,user='deploy',group='www-data');temp.chmod(0o644);os.replace(temp,dest)
+  subprocess.run(['sudo','-u','ubuntu','composer','dump-autoload','--no-dev','--classmap-authoritative','--no-scripts'],cwd=root,check=True)
   subprocess.run(['sudo','-u','www-data','php','bin/console','cache:clear','--env=prod','--no-debug'],cwd=root,check=True)
   subprocess.run(['sudo','-u','www-data','php','bin/console','lint:container','--env=prod','--no-debug'],cwd=root,check=True)
   subprocess.run(['sudo','-u','www-data','php','bin/console','lint:twig','templates/emails','--env=prod','--no-debug'],cwd=root,check=True)
@@ -27,6 +28,7 @@ with tarfile.open(package) as t:
    saved=backup/m.name
    if saved.exists():shutil.copy2(saved,root/m.name)
    else:(root/m.name).unlink(missing_ok=True)
+  subprocess.run(['sudo','-u','ubuntu','composer','dump-autoload','--no-dev','--classmap-authoritative','--no-scripts'],cwd=root,check=True)
   subprocess.run(['sudo','-u','www-data','php','bin/console','cache:clear','--env=prod','--no-debug'],cwd=root)
   raise
 manifest={'commit':commit,'oling_commit':oling_commit,'files':{f:hashlib.sha256((root/f).read_bytes()).hexdigest() for f in allowed},'backup':str(backup)}

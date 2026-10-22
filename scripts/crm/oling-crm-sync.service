@@ -7,6 +7,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/var/www/oling-current
 Environment=APP_ENV=prod APP_DEBUG=0
+ExecStartPre=/usr/bin/php /var/www/mapsi.fr/bin/console app:crm:retry --env=prod --no-debug
 ExecStart=/usr/bin/php bin/console app:crm:sync --scheduled --no-debug
 TimeoutStartSec=600
 NoNewPrivileges=true

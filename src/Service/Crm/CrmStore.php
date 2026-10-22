@@ -6,7 +6,8 @@ use Doctrine\DBAL\Connection;
 final class CrmStore
 {
     public const STATUSES = ['qualify'=>'À qualifier','follow'=>'À suivre','preparing'=>'En préparation','sent'=>'Offre envoyée / réponse déposée','discussion'=>'En discussion','won'=>'Gagné','lost'=>'Perdu','archived'=>'Archivé'];
-    public const FIELDS = ['organization','title','summary','contact','role','email','phone','buyer','reference','lot','procedure','deadline','amount','amount_kind','owner','next_action','reminder','notice_url','sharepoint_url'];
+    public const DECISIONS = ['review'=>'À examiner','follow'=>'À suivre','reject'=>'Ne pas suivre'];
+    public const FIELDS = ['organization','title','summary','contact','role','email','phone','buyer','reference','lot','procedure','deadline','amount','amount_kind','owner','next_action','reminder','notice_url','sharepoint_url','first_name','last_name','site','form_name','submission_ref','received_at','attribution','consultation_url','documents','relevance','notice_id'];
     public function __construct(private Connection $db) {}
     public static function now(): string { return gmdate('Y-m-d\TH:i:s\Z'); }
     public static function json(array $a): string { return json_encode($a, JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR); }
@@ -20,7 +21,7 @@ final class CrmStore
     {
         $r=$this->db->fetchAssociative('SELECT * FROM crm_deal WHERE id=?',[$id]);
         if (!$r) { throw new \InvalidArgumentException('Affaire introuvable.'); }
-        return array_merge(json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
+        return array_merge(array_fill_keys(self::FIELDS,''), ['decision'=>'review','review_required'=>false,'detected_at'=>$r['updated_at']], json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
     }
     public function all(): array { return array_map(fn($r)=>$this->get($r['id']),$this->db->fetchAllAssociative('SELECT id FROM crm_deal ORDER BY updated_at DESC')); }
     public function history(string $id): array
@@ -38,8 +39,8 @@ final class CrmStore
             if (!array_key_exists($key,$input)) { continue; }
             if (!is_scalar($input[$key]) && $input[$key] !== null) { throw new \InvalidArgumentException('Champ invalide : '.$key); }
             $value=trim((string)$input[$key]);
-            if (mb_strlen($value)>($key==='summary'?12000:1000)) { throw new \InvalidArgumentException('Champ trop long : '.$key); }
-            if ($value!=='' && in_array($key,['notice_url','sharepoint_url']) && (!filter_var($value,FILTER_VALIDATE_URL) || parse_url($value,PHP_URL_SCHEME)!=='https')) { throw new \InvalidArgumentException('Lien HTTPS requis.'); }
+            if (mb_strlen($value)>(in_array($key,['summary','attribution','documents','relevance'])?100000:1000)) { throw new \InvalidArgumentException('Champ trop long : '.$key); }
+            if ($value!=='' && in_array($key,['notice_url','sharepoint_url','consultation_url']) && (!filter_var($value,FILTER_VALIDATE_URL) || parse_url($value,PHP_URL_SCHEME)!=='https')) { throw new \InvalidArgumentException('Lien HTTPS requis.'); }
             if ($value!=='' && $key==='email' && (!filter_var($value,FILTER_VALIDATE_EMAIL)||strlen($value)>254)) { throw new \InvalidArgumentException('Email invalide.'); }
             if ($value!=='' && $key==='amount' && !preg_match('/^\d{1,12}(\.\d{1,2})?$/D',$value)) { throw new \InvalidArgumentException('Montant positif, avec point décimal.'); }
             if ($value!=='' && in_array($key,['deadline','reminder'])) {
@@ -58,7 +59,7 @@ final class CrmStore
         $fields=$this->validate($fields);
         if (empty($fields['title']) || !in_array($kind,['private','public'])) { throw new \InvalidArgumentException('Intitulé et type requis.'); }
         $id=bin2hex(random_bytes(16));
-        $fields += array_fill_keys(self::FIELDS,''); $fields['origin']=$origin; $fields['manual_fields']=[];
+        $fields += array_fill_keys(self::FIELDS,''); $fields['origin']=$origin; $fields['manual_fields']=[]; $fields['decision']='review'; $fields['review_required']=false; $fields['detected_at']=self::now();
         $this->db->insert('crm_deal',['id'=>$id,'data'=>self::json($fields),'status'=>'qualify','kind'=>$kind,'contact_email'=>strtolower($fields['email']),'updated_at'=>self::now(),'version'=>1]);
         return $id;
     }
@@ -77,7 +78,7 @@ final class CrmStore
             foreach ($fields as $key=>$value) { if ($value!==$d[$key]) { $changes[$key]=['before'=>$d[$key],'after'=>$value]; $d[$key]=$value; $d['manual_fields'][$key]=true; } }
             if (empty($d['title'])) { throw new \InvalidArgumentException('Intitulé requis.'); }
             if ($status!==$d['status']) { $d['manual_fields']['status']=true; $changes['status']=['before'=>$d['status'],'after'=>$status]; }
-            $d['status']=$status; $d['kind']=$kind; $this->save($d,$version);
+            $d['status']=$status; $d['kind']=$kind; if ($status!=='qualify') { $d['review_required']=false; } $this->save($d,$version);
             $this->event($id,'manual',['actor'=>$actor,'changes'=>$changes,'note'=>trim($note)]);
         });
     }
@@ -111,15 +112,59 @@ final class CrmStore
                 elseif ($d[$k]!==$v) { $proposals[$k]=$v; }
             }
             $suggested=$source['suggested_status']??null;
-            if ($new && $source['origin']==='watch' && ($source['follow']??false)===true) { $d['status']='follow'; }
-            elseif (isset(self::STATUSES[$suggested??'']) && $suggested!==$d['status']) { $proposals['status']=$suggested; }
-            if ($source['origin']==='watch' && ($source['follow']??false)===true && $d['status']==='qualify' && empty($d['manual_fields']['status'])) { $d['status']='follow'; unset($proposals['status']); }
+            if (isset(self::STATUSES[$suggested??'']) && $suggested!==$d['status']) { $proposals['status']=$suggested; }
+            if ($source['origin']==='watch' && ($source['follow']??false)===true && empty($d['manual_fields']['decision']) && $d['decision']!=='reject') {
+                $d['decision']='follow';
+                if ($d['status']==='qualify' && empty($d['manual_fields']['status'])) { $d['status']='follow'; }
+            }
             $this->save($d,$d['version']);
             $this->db->insert('crm_source',['source_key'=>$key,'deal_id'=>$id]);
             $this->event($id,'source',['origin'=>$source['origin'],'title'=>$source['title'],'url'=>$source['url']??'','excerpt'=>mb_substr($source['excerpt']??'',0,12000),'extracted'=>$source['fields'],'proposals'=>$proposals,'source_key'=>$key]);
             return ['id'=>$id,'duplicate'=>false,'created'=>$new];
         });
     }
+    public function decide(string $id,string $decision,int $version,string $actor): void
+    {
+        if (!isset(self::DECISIONS[$decision])) { throw new \InvalidArgumentException('Décision invalide.'); }
+        $this->db->transactional(function() use($id,$decision,$version,$actor) {
+            $d=$this->get($id);
+            if ($d['origin']!=='watch') { throw new \InvalidArgumentException('Cette fiche n’est pas issue de la veille.'); }
+            $before=$d['decision']; $d['decision']=$decision; $d['manual_fields']['decision']=true;
+            $this->save($d,$version); $this->event($id,'manual',['actor'=>$actor,'note'=>'Décision marché : '.self::DECISIONS[$decision],'changes'=>['decision'=>['before'=>$before,'after'=>$decision]]]);
+        });
+    }
+    /** Bounded, tender-only data available to the watch agent. No contacts or email content. */
+    public function tenderDecisions(int $offset=0): array
+    {
+        $rows=array_values(array_filter($this->all(),fn($d)=>$d['origin']==='watch' && empty($d['merged_into'])));
+        return ['items'=>array_map(fn($d)=>array_intersect_key($d,array_flip(['id','notice_id','title','buyer','reference','lot','notice_url','decision','status','updated_at'])),array_slice($rows,$offset,100)), 'next_offset'=>count($rows)>$offset+100?$offset+100:null];
+    }
+    public function reviewLegacy(): int
+    {
+        if ($this->state('channels_v2')) { return 0; }
+        $count=0;
+        $this->db->transactional(function() use(&$count) {
+            foreach($this->all() as $d) {
+                if ($d['origin']==='email' && $d['status']==='qualify' && empty($d['merged_into']) && !$d['manual_fields']) {
+                    $d['review_required']=true; $this->save($d,$d['version']); ++$count;
+                    $this->event($d['id'],'manual',['actor'=>'Migration canaux','note'=>'Ancien import automatique à réviser. Données et historique conservés.']);
+                }
+                if ($d['origin']==='watch' && $d['status']==='follow' && empty($d['manual_fields']['decision'])) {
+                    $d['decision']='follow'; $this->save($d,$d['version']);
+                }
+            }
+            $this->setState('channels_v2',['at'=>self::now(),'reviewed'=>$count]);
+        });
+        return $count;
+    }
+    public function qualify(string $id,int $version,string $actor): void
+    {
+        $this->db->transactional(function() use($id,$version,$actor) {
+            $d=$this->get($id); $d['review_required']=false; $d['manual_fields']['qualification']=true;
+            $this->save($d,$version); $this->event($id,'manual',['actor'=>$actor,'note'=>'Demande confirmée après révision.']);
+        });
+    }
+    public function identityDeal(string $origin,string $identity): ?array { $id=$this->db->fetchOne('SELECT deal_id FROM crm_identity WHERE identity_key=?',[hash('sha256',$origin.'|'.$identity)]); return $id?$this->get($id):null; }
     public function hasIdentity(string $origin, string $identity): bool
     { return (bool)$this->db->fetchOne("SELECT deal_id FROM crm_identity WHERE identity_key=?",[hash("sha256",$origin."|".$identity)]); }
     public function candidates(array $deal): array

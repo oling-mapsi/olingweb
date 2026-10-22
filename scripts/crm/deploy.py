@@ -34,7 +34,7 @@ if phase=='prepare':
  finally:run(['mysql','-e','DROP DATABASE '+restore])
  # Encrypt full recoverable code, media, environments, Apache config and DB.
  with (backup/'snapshot.tar.gz').open('wb') as f:
-  run(['tar','--exclude=var/cache','--exclude=var/log','--exclude=.git','--exclude=node_modules','-czhf','-','-C','/',str(old).lstrip('/'),'var/www/oling.fr/public/uploads','etc/apache2','etc/oling',str(backup/'database.sql').lstrip('/')],stdout=f,stderr=subprocess.DEVNULL)
+  run(['tar','--exclude=var/cache','--exclude=var/log','--exclude=.git','--exclude=node_modules','-czhf','-','-C','/',str(old).lstrip('/'),'var/www/oling.fr/public/uploads','etc/apache2','etc/oling','var/www/mapsi.fr','var/lib/oling-crm','etc/systemd/system/oling-crm-sync.service','etc/systemd/system/oling-crm-sync.timer',str(backup/'database.sql').lstrip('/')],stdout=f,stderr=subprocess.DEVNULL)
  run(['openssl','enc','-aes-256-cbc','-salt','-pbkdf2','-iter','200000','-in',str(backup/'snapshot.tar.gz'),'-out',str(backup/'snapshot.enc'),'-pass','file:'+str(key)])
  (backup/'snapshot.tar.gz').unlink();(backup/'database.sql').unlink()
  (backup/'snapshot.sha256').write_text(digest(backup/'snapshot.enc'))
@@ -43,7 +43,7 @@ if phase=='prepare':
  with tarfile.open(package) as t:
   for m in t.getmembers():
    assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
-   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/')) or m.name in ['src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php']
+   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
    if (release/m.name).exists():
     assert prior and prior['files'].get(m.name)==digest(old/m.name),m.name
   t.extractall(release,filter='data')
@@ -54,6 +54,7 @@ if phase=='prepare':
  run(['chmod','-R','g+rwX',str(release/'var/cache'),str(release/'var/log')])
  # Migration isolated and additive; never execute unrelated pending migrations.
  if not prior: console('doctrine:migrations:execute','DoctrineMigrations\\Version20261022220000','--up','--no-interaction')
+ if not prior or 'migrations/Version20261022233000.php' not in prior['files']: console('doctrine:migrations:execute','DoctrineMigrations\\Version20261022233000','--up','--no-interaction')
  console('cache:clear','--no-debug');console('lint:container','--no-debug');console('lint:twig','templates/admin/crm','--no-debug')
  run(['sudo','-u','www-data','env','APP_ENV=prod','APP_DEBUG=0','php','scripts/crm/recipe.php'],cwd=release)
  manifest={'commit':commit,'previous':str(old),'release':str(release),'package_sha256':digest(Path(package)),'backup_sha256':digest(backup/'snapshot.enc'),'files':{}}

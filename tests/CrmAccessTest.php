@@ -20,9 +20,13 @@ final class CrmAccessTest extends WebTestCase
         $client->request('POST','/admin/crm/new',['fields'=>['title'=>'Invalid']]);self::assertResponseStatusCodeSame(403);
         $c=$client->request('GET','/admin/crm/new');self::assertResponseIsSuccessful();$token=$c->filter('input[name="_token"]')->attr('value');
         $client->request('POST','/admin/crm/new',['_token'=>$token,'fields'=>['title'=>'Affaire fictive','organization'=>'Exemple'],'kind'=>'public']);self::assertResponseRedirects();
-        $url=$client->getResponse()->headers->get('Location');$c=$client->followRedirect();self::assertResponseIsSuccessful();self::assertSelectorTextContains('h2','Affaire fictive');
+        $url=$client->getResponse()->headers->get('Location');$c=$client->followRedirect();self::assertResponseIsSuccessful();self::assertSelectorTextContains('h1','Affaire fictive');
         $client->request('POST',$url,['_token'=>$token,'version'=>1,'status'=>'sent','kind'=>'public','note'=>'Réponse fictive déposée','fields'=>['deadline'=>'2020-01-01T12:00']]);self::assertResponseRedirects();
-        $client->request('GET','/admin/crm?view=active');self::assertResponseIsSuccessful();self::assertSelectorTextContains('table','Affaire fictive');
+        $client->request('GET','/admin/crm?view=active&mode=list');self::assertResponseIsSuccessful();self::assertSelectorTextContains('table','Affaire fictive');
+        $client->request('POST',$url.'/move',['status'=>'discussion','version'=>2]);self::assertResponseStatusCodeSame(403);
+        $client->request('POST',$url.'/move',['_token'=>$token,'status'=>'discussion','version'=>2]);self::assertResponseIsSuccessful();self::assertSame(3,json_decode($client->getResponse()->getContent(),true)['version']);
+        $client->request('POST',$url.'/move',['_token'=>$token,'status'=>'won','version'=>2]);self::assertResponseStatusCodeSame(409);
+        $client->request('GET',$url);self::assertSelectorTextContains('.crm-badge','En discussion');
         $client->request('GET','/admin/crm/export.csv');self::assertResponseIsSuccessful();self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
     }
 }

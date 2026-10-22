@@ -15,7 +15,7 @@ final class CrmImportTest extends TestCase
   $call=function($method,$params=[], $auth=true, $origin=null)use($controller,$config,$store,$db){$headers=$auth?['HTTP_AUTHORIZATION'=>'Bearer '.str_repeat('x',40)]:[];if($origin){$headers['HTTP_ORIGIN']=$origin;}return $controller->mcp(Request::create('/api/crm/mcp','POST',[],[],[],$headers,json_encode(['jsonrpc'=>'2.0','id'=>1,'method'=>$method,'params'=>$params])),$config,$store,$db);};
   self::assertSame(401,$call('tools/list',[],false)->getStatusCode());self::assertSame(403,$call('tools/list',[],true,'https://evil.example')->getStatusCode());
   self::assertSame('2025-06-18',json_decode($call('initialize',['protocolVersion'=>'2025-06-18'])->getContent(),true)['result']['protocolVersion']);
-  self::assertCount(2,json_decode($call('tools/list')->getContent(),true)['result']['tools']);
+  self::assertCount(3,json_decode($call('tools/list')->getContent(),true)['result']['tools']);
   $p=['name'=>'crm_import_tender','arguments'=>['id'=>'stable-1','title'=>'AMOA fictive','follow'=>false,'fields'=>[],'dry_run'=>true]];
   self::assertStringContainsString('"persisted":false',json_decode($call('tools/call',$p)->getContent(),true)['result']['content'][0]['text']);self::assertCount(0,$store->all());
   $p['arguments']['dry_run']=false;$call('tools/call',$p);self::assertCount(1,$store->all());$id=$store->all()[0]['id'];
@@ -28,8 +28,8 @@ final class CrmImportTest extends TestCase
  }
  public function testStructuredWebsiteNotificationAndAutomatedDeposit():void
  {
-  $extractor=new EmailExtractor();$m=['id'=>'form-1','subject'=>'Nouveau message — Formulaire contact OLING','from'=>['emailAddress'=>['address'=>'demo@oling.fr']],'body'=>['content'=>"Prénom: Camille\nNom: Exemple\nSociété: Exemple SA\nEmail: camille@example.invalid\n\nMessage:\nNous recherchons une expertise RGPD.\n\nAttribution de la demande:\nSource: test"]];
+  $extractor=new EmailExtractor();$m=['id'=>'form-1','subject'=>'Nouveau message — Formulaire contact OLING','from'=>['emailAddress'=>['address'=>'demo@oling.fr']],'body'=>['content'=>"Référence de demande : abcdef1234567890\nPrénom: Camille\nNom: Exemple\nSociété: Exemple SA\nEmail: camille@example.invalid\n\nMessage:\nNous recherchons une expertise RGPD.\n\nAttribution de la demande:\nSource: test"]];
   $s=$extractor->extract($m,'demo@oling.fr');self::assertSame('form',$s['origin']);self::assertSame('Camille Exemple',$s['fields']['contact']);self::assertSame('camille@example.invalid',$s['fields']['email']);
-  $m['from']['emailAddress']['address']='no-reply@example.invalid';$m['subject']='Confirmation de dépôt de votre offre';$m['body']['content']='Votre offre a bien été déposée.';$s=$extractor->extract($m,'demo@oling.fr');self::assertSame('sent',$s['suggested_status']);self::assertTrue($s['commercial']);
+  $m['from']['emailAddress']['address']='no-reply@example.invalid';$m['subject']='Confirmation de dépôt de votre offre';$m['body']['content']='Votre offre a bien été déposée.';$s=$extractor->extract($m,'demo@oling.fr');self::assertSame('sent',$s['suggested_status']);self::assertFalse($s['commercial']);
  }
 }

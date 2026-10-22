@@ -1,6 +1,8 @@
 {% set route = app.request.attributes.get('_route') %}
 <div class="mb-4 admin-nav-wrap">
     <div class="nav nav-pills flex-wrap gap-2">
+<a class="nav-link" href="{{ path('admin_crm') }}">CRM commercial</a>
+
         <a class="nav-link {{ route starts with 'admin_index' ? 'active' : '' }}" href="{{ path('admin_index') }}">Tableau de bord</a>
         <a class="nav-link {{ route starts with 'admin_content' ? 'active' : '' }}" href="{{ path('admin_content_index') }}">Contenus</a>
         <a class="nav-link {{ route starts with 'admin_services' ? 'active' : '' }}" href="{{ path('admin_services_index') }}">Services</a>

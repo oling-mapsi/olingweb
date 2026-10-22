@@ -1,0 +1,76 @@
+<?php
+namespace App\Controller;
+
+use App\Service\Crm\{CrmConfig,CrmStore};
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\HttpFoundation\{Request,JsonResponse,Response};
+use Symfony\Component\Routing\Annotation\Route;
+
+final class CrmImportController
+{
+    #[Route('/api/crm/watch',name:'api_crm_watch',methods:['POST'])]
+    public function import(Request $r,CrmConfig $config,CrmStore $store): JsonResponse
+    {
+        $token=$config->get('import_token');
+        if (!$config->enabled('watch') || strlen($token)<32 || !hash_equals('Bearer '.$token,$r->headers->get('Authorization',''))) { return new JsonResponse(['error'=>'Accès refusé.'],403); }
+        if (strlen($r->getContent())>65536) { return new JsonResponse(['error'=>'Charge trop volumineuse.'],413); }
+        try {
+            $p=json_decode($r->getContent(),true,16,JSON_THROW_ON_ERROR);
+            if (!is_array($p) || !is_string($p['id']??null) || !is_string($p['title']??null) || !is_bool($p['follow']??false) || !is_array($p['fields']??[])) { throw new \InvalidArgumentException(); }
+            // Stable tender identity includes lot, avoiding merging different lots.
+            $fields=$p['fields']??[]; ksort($fields); $p['fields']=$fields; ksort($p);
+            $identity=!empty($fields['reference']) && !empty($fields['buyer']) ? $fields['buyer'].'|'.$fields['reference'].'|'.($fields['lot']??'') : $p['id'];
+            $source=['origin'=>'watch','external_id'=>$p['id'].'|'.hash('sha256',CrmStore::json($p)),'identity'=>'agent-id|'.$p['id'],'aliases'=>[$identity],'title'=>$p['title'],'fields'=>$fields,'url'=>$p['url']??'','kind'=>'public','follow'=>$p['follow']??false];
+            $result=$store->ingest($source); $store->setState('watch',['last_success'=>CrmStore::now(),'agent'=>$p['agent']??'Veille marchés publics OLING']);
+            return new JsonResponse($result+['url'=>'https://oling.fr/admin/crm/'.$result['id']],$result['duplicate']?200:201);
+        } catch (UniqueConstraintViolationException) { return new JsonResponse(['error'=>'Import simultané ; réessayer la même requête.'],409); }
+        catch (\JsonException|\InvalidArgumentException|\TypeError) { return new JsonResponse(['error'=>'JSON invalide : id, title, follow booléen et fields requis ; liens HTTPS.'],422); }
+    }
+
+    #[Route('/api/crm/mcp',name:'api_crm_mcp',methods:['POST','GET','DELETE'])]
+    public function mcp(Request $r,CrmConfig $config,CrmStore $store,Connection $db): Response
+    {
+        $token=$config->get('import_token','');
+        if (!$config->enabled('watch') || !is_string($token) || strlen($token)<32 || !hash_equals('Bearer '.$token,$r->headers->get('Authorization',''))) { return new JsonResponse(['error'=>'Unauthorized'],401,['WWW-Authenticate'=>'Bearer']); }
+        $origin=$r->headers->get('Origin');
+        if ($origin!==null && !in_array($origin,['https://chatgpt.com','https://oling.fr'],true)) { return new JsonResponse(['error'=>'Forbidden origin'],403); }
+        if ($r->getMethod()!=='POST') { return new Response('',405,['Allow'=>'POST']); }
+        if (strlen($r->getContent())>65536) { return new Response('',413); }
+        try { $p=json_decode($r->getContent(),true,16,JSON_THROW_ON_ERROR); } catch (\JsonException) { return $this->rpcError(null,-32700,'Parse error'); }
+        if (!is_array($p) || ($p['jsonrpc']??'')!=='2.0' || !is_string($p['method']??null)) { return $this->rpcError(null,-32600,'Invalid request'); }
+        $id=$p['id']??null; $method=$p['method'];
+        if (!array_key_exists('id',$p)) { return new Response('',202); }
+        if ($method==='initialize') {
+            $version=$p['params']['protocolVersion']??'2025-03-26';
+            $result=['protocolVersion'=>in_array($version,['2025-03-26','2025-06-18','2025-11-25'],true)?$version:'2025-03-26','capabilities'=>['tools'=>new \stdClass()],'serverInfo'=>['name'=>'OLING CRM','version'=>'1.0.0']];
+        } elseif ($method==='ping') { $result=new \stdClass(); }
+        elseif ($method==='tools/list') {
+            $properties=[];
+            foreach (CrmStore::FIELDS as $field) { $properties[$field]=['type'=>'string']; }
+            $result=['tools'=>[
+                ['name'=>'crm_connection_status','description'=>'Vérifier la connexion au CRM OLING sans lire de données commerciales.','inputSchema'=>['type'=>'object','properties'=>new \stdClass(),'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>true,'destructiveHint'=>false,'openWorldHint'=>false]],
+                ['name'=>'crm_import_tender','description'=>'Créer ou enrichir une suggestion de marché public OLING. Réutiliser le même id stable par avis et lot. follow=true uniquement si l’utilisateur demande explicitement à suivre. Les corrections manuelles sont conservées. Aucune lecture des emails, aucun envoi. dry_run=true teste sans conserver de fiche.','inputSchema'=>['type'=>'object','properties'=>['id'=>['type'=>'string','maxLength'=>500],'title'=>['type'=>'string','maxLength'=>1000],'follow'=>['type'=>'boolean'],'url'=>['type'=>'string'],'fields'=>['type'=>'object','properties'=>$properties,'additionalProperties'=>false],'dry_run'=>['type'=>'boolean','default'=>false]],'required'=>['id','title','follow','fields'],'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>false,'destructiveHint'=>false,'idempotentHint'=>true,'openWorldHint'=>false]]
+            ]];
+        } elseif ($method==='tools/call') {
+            $name=$p['params']['name']??''; $args=$p['params']['arguments']??[];
+            if ($name==='crm_connection_status') { $value=['connected'=>true,'environment'=>'production','crm_url'=>'https://oling.fr/admin/crm']; }
+            elseif ($name==='crm_import_tender' && is_array($args)) {
+                $dry=$args['dry_run']??false;
+                if (!is_bool($dry)) { return $this->rpcError($id,-32602,'Invalid dry_run'); }
+                unset($args['dry_run']);
+                $inner=Request::create('/api/crm/watch','POST',[],[],[],['HTTP_AUTHORIZATION'=>'Bearer '.$token],json_encode($args,JSON_THROW_ON_ERROR));
+                if ($dry) { $db->beginTransaction(); }
+                try { $response=$this->import($inner,$config,$store); $value=json_decode($response->getContent(),true); }
+                finally { if ($dry) { $db->rollBack(); } }
+                if ($dry) { unset($value['url'],$value['id']); $value['dry_run']=true; $value['persisted']=false; }
+                if ($response->getStatusCode()>=400) { $result=['isError'=>true,'content'=>[['type'=>'text','text'=>json_encode($value,JSON_UNESCAPED_UNICODE)]]]; return new JsonResponse(['jsonrpc'=>'2.0','id'=>$id,'result'=>$result]); }
+                $store->setState('watch_connection',['last_success'=>CrmStore::now(),'transport'=>'mcp','dry_run'=>$dry]);
+            } else { return $this->rpcError($id,-32602,'Unknown tool or invalid arguments'); }
+            $result=['content'=>[['type'=>'text','text'=>json_encode($value,JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)]]];
+        } else { return $this->rpcError($id,-32601,'Method not found'); }
+        return new JsonResponse(['jsonrpc'=>'2.0','id'=>$id,'result'=>$result],200,['Cache-Control'=>'no-store']);
+    }
+    private function rpcError(mixed $id,int $code,string $message): JsonResponse
+    { return new JsonResponse(['jsonrpc'=>'2.0','id'=>$id,'error'=>['code'=>$code,'message'=>$message]]); }
+}

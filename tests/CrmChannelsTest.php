@@ -35,6 +35,7 @@ final class CrmChannelsTest extends TestCase
   $e=new EmailExtractor();$m=['id'=>'x','from'=>['emailAddress'=>['address'=>'someone@example.invalid']],'subject'=>'Appel d’offres devis proposition','body'=>['content'=>'Voici une consultation et un devis.']];
   self::assertFalse($e->extract($m,'demo@oling.fr')['commercial']);
   $m['subject']='Votre sélection d’appels d’offres';self::assertNull($e->extract($m,'demo@oling.fr'));
+  $m['subject']="AW Solutions - ALERTE SUR APPEL D'OFFRE";self::assertNull($e->extract($m,'demo@oling.fr'));
   $m['subject']='Re: Mission';$m['internetMessageHeaders']=[['name'=>'List-ID','value'=>'digest']];self::assertNull($e->extract($m,'demo@oling.fr'));
  }
  public function testLegacyReviewPreservesFollowedManualAndNotes():void

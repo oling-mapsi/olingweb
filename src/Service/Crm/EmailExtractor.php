@@ -14,11 +14,21 @@ class EmailExtractor
         if (isset($headers['list-unsubscribe']) || isset($headers['list-id']) || preg_match('/newsletter|désabonn|unsubscribe|webinaire|webinar|code promo|test interne|\[test\]/u',$text)) { return null; }
         $from=$m['from']['emailAddress']??[];
         $sent=strtolower($from['address']??'')===strtolower($mailbox);
+        // The existing website sends a structured self-addressed notification.
+        if ($sent && $subject==='Nouveau message — Formulaire contact OLING' && preg_match('/^Email:\s*([^\r\n]+)$/mi',$body,$formEmail) && preg_match('/^Message:\s*\n(.*?)(?:\nAttribution de la demande:|$)/ms',$body,$formBody)) {
+            $email=trim($formEmail[1]);
+            if (!filter_var($email,FILTER_VALIDATE_EMAIL)) { return null; }
+            $fields=['title'=>'Demande via formulaire OLING','summary'=>mb_substr(trim($formBody[1]),0,2000),'email'=>$email];
+            foreach (['Société'=>'organization','Prénom'=>'contact'] as $label=>$field) { if (preg_match('/^'.$label.':\s*([^\r\n]+)$/mi',$body,$v)) { $fields[$field]=trim($v[1]); } }
+            if (preg_match('/^Nom:\s*([^\r\n]+)$/mi',$body,$v)) { $fields['contact']=trim(($fields['contact']??'').' '.trim($v[1])); }
+            return ['origin'=>'form','external_id'=>$mailbox.'|'.($m['internetMessageId']??$m['id']),'identity'=>$mailbox.'|'.($m['conversationId']??$m['id']),'title'=>$fields['title'],'kind'=>'private','fields'=>$fields,'url'=>$m['webLink']??'','excerpt'=>$body,'commercial'=>true];
+        }
+        $automatedDecision=(bool)preg_match('/confirmation.{0,25}dépôt|accusé.{0,25}dépôt|offre.{0,35}(retenue|rejetée)|marché.{0,25}(attribué|notification)/u',$text);
         $contact=$sent ? ($m['toRecipients'][0]['emailAddress']??[]) : $from;
         $email=strtolower($contact['address']??'');
         $ownDomain=substr(strrchr($mailbox,'@')?:'',1);
-        if (!filter_var($email,FILTER_VALIDATE_EMAIL) || substr(strrchr($email,'@')?:'',1)===$ownDomain || preg_match('/no-?reply|nepasrepondre|mailer-daemon/i',$email)) { return null; }
-        $commercial=(bool)preg_match('/demande.{0,50}(devis|proposition|accompagnement|intervention|mission)|proposition (commerciale|financière|technique)|appel d.offres|consultation|cahier des charges|besoin.{0,70}(accompagnement|conseil|formation|assistance)|pouvez.vous.{0,60}(proposer|accompagner|devis)|souhait.{0,60}(rencontrer|échanger|accompagn|mission)|devis|bon de commande|accusé.{0,20}(dépôt|reception)|offre.{0,30}(retenue|rejetée)|marché.{0,25}(attribué|notification)/us',$text);
+        if (!filter_var($email,FILTER_VALIDATE_EMAIL) || substr(strrchr($email,'@')?:'',1)===$ownDomain || (!$automatedDecision && preg_match('/no-?reply|nepasrepondre|mailer-daemon/i',$email))) { return null; }
+        $commercial=$automatedDecision || (bool)preg_match('/demande.{0,50}(devis|proposition|accompagnement|intervention|mission)|proposition (commerciale|financière|technique)|appel d.offres|consultation|cahier des charges|besoin.{0,70}(accompagnement|conseil|formation|assistance)|pouvez.vous.{0,60}(proposer|accompagner|devis)|souhait.{0,60}(rencontrer|échanger|accompagn|mission)|devis|bon de commande|accusé.{0,20}(dépôt|reception)|offre.{0,30}(retenue|rejetée)|marché.{0,25}(attribué|notification)/us',$text);
         $status=null;
         if (preg_match('/offre.{0,35}(non retenue|rejetée)|proposition.{0,35}non retenue/u',$text)) { $status='lost'; }
         elseif (preg_match('/offre.{0,35}(est retenue|a été retenue)|marché.{0,25}(vous est attribué)|bon de commande signé/u',$text)) { $status='won'; }

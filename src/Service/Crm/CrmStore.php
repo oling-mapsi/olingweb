@@ -93,11 +93,16 @@ final class CrmStore
             $existing=$this->db->fetchOne('SELECT deal_id FROM crm_source WHERE source_key=?',[$key]);
             if ($existing) { return ['id'=>$existing,'duplicate'=>true]; }
             $identity=hash('sha256',$source['origin'].'|'.$source['identity']);
-            $id=$this->db->fetchOne('SELECT deal_id FROM crm_identity WHERE identity_key=?',[$identity]);
+            $identities=[$identity];
+            foreach ($source['aliases']??[] as $alias) { if (!is_string($alias) || $alias==='') { throw new \InvalidArgumentException('Identité invalide.'); } $identities[]=hash('sha256',$source['origin'].'|'.$alias); }
+            $id=false;
+            foreach ($identities as $candidate) { $id=$this->db->fetchOne('SELECT deal_id FROM crm_identity WHERE identity_key=?',[$candidate]); if ($id) { break; } }
             $new=!$id;
             if ($new) {
                 $id=$this->create($source['fields'],$source['kind']??'private',$source['origin']);
-                $this->db->insert('crm_identity',['identity_key'=>$identity,'deal_id'=>$id]);
+            }
+            foreach (array_unique($identities) as $identity) {
+                if (!$this->db->fetchOne('SELECT deal_id FROM crm_identity WHERE identity_key=?',[$identity])) { $this->db->insert('crm_identity',['identity_key'=>$identity,'deal_id'=>$id]); }
             }
             $d=$this->get($id); $proposals=[];
             foreach ($source['fields'] as $k=>$v) {

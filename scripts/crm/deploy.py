@@ -15,6 +15,7 @@ def switch(target):
  tmp=Path('/var/www/oling-current-crm-next');assert not tmp.exists() and not tmp.is_symlink();tmp.symlink_to(target);os.replace(tmp,link);run(['systemctl','reload','apache2'])
 
 if phase=='prepare':
+ prior=json.loads((old/'CRM_RELEASE.json').read_text()) if (old/'CRM_RELEASE.json').exists() else None
  assert old.is_dir() and link.is_symlink() and not release.exists() and not backup.exists()
  assert shutil.disk_usage('/var/www').free>2*1024**3
  run(['systemctl','is-active','apache2','mysql'])
@@ -43,7 +44,8 @@ if phase=='prepare':
   for m in t.getmembers():
    assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
    assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/')) or m.name in ['src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php']
-   assert not (release/m.name).exists(),m.name
+   if (release/m.name).exists():
+    assert prior and prior['files'].get(m.name)==digest(old/m.name),m.name
   t.extractall(release,filter='data')
  run(['python3',str(release/'scripts/crm/patch-navigation.py'),str(release/'templates/admin/_nav.html.twig')])
  for p in [release/'var/cache',release/'var/log']:p.mkdir(parents=True,exist_ok=True)
@@ -51,7 +53,7 @@ if phase=='prepare':
  run(['chown','-R','www-data:www-data',str(release/'var/cache'),str(release/'var/log')])
  run(['chmod','-R','g+rwX',str(release/'var/cache'),str(release/'var/log')])
  # Migration isolated and additive; never execute unrelated pending migrations.
- console('doctrine:migrations:execute','DoctrineMigrations\\Version20261022220000','--up','--no-interaction')
+ if not prior: console('doctrine:migrations:execute','DoctrineMigrations\\Version20261022220000','--up','--no-interaction')
  console('cache:clear','--no-debug');console('lint:container','--no-debug');console('lint:twig','templates/admin/crm','--no-debug')
  run(['sudo','-u','www-data','env','APP_ENV=prod','APP_DEBUG=0','php','scripts/crm/recipe.php'],cwd=release)
  manifest={'commit':commit,'previous':str(old),'release':str(release),'package_sha256':digest(Path(package)),'backup_sha256':digest(backup/'snapshot.enc'),'files':{}}

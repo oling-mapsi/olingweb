@@ -19,7 +19,7 @@ Le `vendor` historique est partiellement versionné : pour une installation neuv
 
 - Trois vues : À qualifier, Affaires en cours, À faire ; recherche, filtre type/statut, pagination et CSV. Les offres envoyées restent visibles après échéance.
 - Fiche et historique : notes, montants estimés/proposés, relances, dates Paris affichées, stockage UTC, source et extrait. Champs inconnus laissés vides.
-- Déduplication : clés SHA256 uniques en base, Message-ID par boîte pour emails, identité de conversation ; veille par acheteur/référence/lot ou identifiant stable. Rejouer une page ou un import ne duplique pas les sources.
+- Déduplication : clés SHA256 uniques en base, Message-ID par boîte pour emails, identité de conversation ; veille par identifiant stable avec alias acheteur/référence/lot. Un enrichissement ultérieur de la référence conserve la même fiche. Rejouer une page ou un import ne duplique pas les sources.
 - Une adresse email commune suggère un rapprochement ; aucune fusion automatique par seul contact. Fusion explicite conserve la fiche originale dans l’historique et réaffecte les échanges futurs.
 - Les corrections manuelles, notes et actions sont préservées. Les champs contradictoires et statuts détectés sont proposés avec leur source et validables un par un. Verrouillage optimiste contre les modifications simultanées.
 - Veille explicitement « à suivre » : nouvelle fiche suivie, ou passage de qualification à suivi si aucun statut manuel ne s’y oppose. Autres résultats restent à qualifier.
@@ -38,11 +38,16 @@ Le script affiche un code à confirmer chez Microsoft et enregistre les jetons e
 
 Le client ne fait que GET sur Graph, aucun déplacement, changement de lecture, suppression ou envoi. ID immuables, pagination bornée, curseur persistant après chaque page, reprise sur erreur, verrou interprocessus. Historique par défaut douze mois, `app:crm:sync --since=AAAA-MM-JJ` pour une reprise explicite. Deux passes initiales rattachent aussi les échanges non commerciaux lus avant la demande détectée. Cadence horaire ; timer vérifie toutes les cinq minutes les relances manuelles et reprises de pagination. Les erreurs HTTP sont affichées sans réponse OAuth brute.
 
-Extraction isolée dans `EmailExtractor`, règles déterministes remplaçables. Ollama non actif sur l’hôte lors de l’examen. Aucun contenu d’email n’est transmis à un moteur IA externe. Cette extraction n’assure pas une reconnaissance exhaustive : phrases ambiguës, pièces jointes et projets répartis sur plusieurs conversations nécessitent une qualification/validation. Les emails sont toujours traités comme données, jamais comme instructions exécutables.
+Les notifications structurées du formulaire OLING sont reconnues avec origine `form`, ainsi que les confirmations automatiques explicites de dépôt. Extraction isolée dans `EmailExtractor`, règles déterministes remplaçables. Ollama non actif sur l’hôte lors de l’examen. Aucun contenu d’email n’est transmis à un moteur IA externe. Cette extraction n’assure pas une reconnaissance exhaustive : phrases ambiguës, pièces jointes et projets répartis sur plusieurs conversations nécessitent une qualification/validation. Les emails sont toujours traités comme données, jamais comme instructions exécutables.
 
 Documentation Microsoft : [lecture des messages](https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0), [identifiants immuables](https://learn.microsoft.com/en-us/graph/outlook-immutable-id).
 
 ## Veille marchés
+
+Transport agent : `https://oling.fr/api/crm/mcp`, Streamable HTTP stateless, authentification Bearer. Deux outils : `crm_connection_status` (aucune donnée commerciale) et `crm_import_tender` (création/enrichissement uniquement). Aucun accès aux emails ou lecture globale du CRM n’est exposé. `dry_run: true` teste la chaîne d’import en annulant la transaction ; seule la preuve de connexion est conservée. Dans ChatGPT, application personnalisée avec « Jeton d’accès / clé API », schéma « Porteur ». Le secret est conservé par le gestionnaire d’identifiants du connecteur, jamais dans les instructions de l’agent.
+
+L’agent doit utiliser un identifiant constant par avis/lot, `follow: false` pour les suggestions, `follow: true` seulement après décision explicite de l’utilisateur. Les statuts manuels préexistants restent protégés. Tester connexion, import, enrichissement et rejeu depuis l’agent avant de le déclarer connecté.
+
 
 `POST https://oling.fr/api/crm/watch`, `Authorization: Bearer <secret>`, JSON, taille maximale 64 Kio. Jeton serveur aléatoire d’au moins 32 caractères ; activer `watch_enabled` seulement après raccordement de l’agent. Ne jamais intégrer ce secret dans un prompt, du JavaScript de navigateur ou une URL.
 

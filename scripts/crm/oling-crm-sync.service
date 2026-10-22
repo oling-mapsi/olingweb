@@ -1,0 +1,14 @@
+[Unit]
+Description=OLING CRM Microsoft 365 read-only sync
+After=network-online.target mysql.service
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/oling-current
+Environment=APP_ENV=prod APP_DEBUG=0
+ExecStart=/usr/bin/php bin/console app:crm:sync --scheduled --no-debug
+TimeoutStartSec=600
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077

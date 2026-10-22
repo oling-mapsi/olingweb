@@ -1,0 +1,8 @@
+[Unit]
+Description=OLING CRM scheduler (hourly sync, manual requests within five minutes)
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+[Install]
+WantedBy=timers.target

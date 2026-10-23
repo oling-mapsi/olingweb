@@ -5,7 +5,7 @@ use Doctrine\DBAL\Connection;
 
 final class CrmStore
 {
-    public const STATUSES = ['qualify'=>'À qualifier','follow'=>'À suivre','preparing'=>'En préparation','sent'=>'Offre envoyée / réponse déposée','discussion'=>'En discussion','won'=>'Gagné','lost'=>'Perdu','archived'=>'Archivé'];
+    public const STATUSES = ['qualify'=>'À qualifier','follow'=>'À suivre','preparing'=>'En préparation','sent'=>'Offre envoyée / réponse déposée','discussion'=>'En discussion','won'=>'Gagné','lost'=>'Perdu','no_go'=>'Sans suite','archived'=>'Archivé'];
     public const DECISIONS = ['review'=>'À examiner','follow'=>'À suivre','reject'=>'Ne pas suivre'];
     public const FIELDS = ['organization','title','summary','contact','role','email','phone','buyer','reference','lot','procedure','deadline','amount','amount_kind','owner','next_action','reminder','notice_url','sharepoint_url','first_name','last_name','site','form_name','submission_ref','received_at','attribution','consultation_url','documents','relevance','notice_id'];
     public function __construct(private Connection $db) {}

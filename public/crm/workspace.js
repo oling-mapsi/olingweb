@@ -3,6 +3,48 @@
   const error = document.getElementById('save-error'), feedback = document.getElementById('save-status');
   const field = board.dataset.field || 'status';
   let dragged = null, pointer = null, frame = null, feedbackTimer;
+  let previewCard = null, previewTimer;
+  function closePreview() {
+    clearTimeout(previewTimer);
+    if (!previewCard) return;
+    previewCard.querySelector('.card-details').hidden = true;
+    previewCard.querySelector('.card-details-toggle').setAttribute('aria-expanded', 'false');
+    previewCard.classList.remove('preview-open'); previewCard = null;
+  }
+  function openPreview(card) {
+    clearTimeout(previewTimer); if (dragged || card.dataset.saving) return;
+    if (previewCard !== card) closePreview();
+    previewCard = card; const panel = card.querySelector('.card-details');
+    panel.hidden = false; card.classList.add('preview-open');
+    card.querySelector('.card-details-toggle').setAttribute('aria-expanded', 'true');
+    const r = card.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    const right = r.right + 8, left = r.left - p.width - 8;
+    panel.style.left = Math.max(12, Math.min(right + p.width <= innerWidth - 12 ? right : left >= 12 ? left : r.left, innerWidth - p.width - 12)) + 'px';
+    panel.style.top = Math.max(12, Math.min(r.top, innerHeight - p.height - 12)) + 'px';
+  }
+  for (const card of board.querySelectorAll('.deal-card')) {
+    card.addEventListener('pointerenter', e => {
+      clearTimeout(previewTimer);
+      if (e.pointerType === 'mouse' && !dragged) previewTimer = setTimeout(() => openPreview(card), 300);
+    });
+    card.addEventListener('pointerleave', () => {
+      clearTimeout(previewTimer);
+      if (!card.contains(document.activeElement)) previewTimer = setTimeout(closePreview, 200);
+    });
+    card.addEventListener('focusout', () => setTimeout(() => {
+      if (previewCard === card && !card.contains(document.activeElement) && !card.matches(':hover')) closePreview();
+    }, 0));
+    card.querySelector('.card-details-toggle').addEventListener('click', () => openPreview(card));
+    card.querySelector('.card-details-close').addEventListener('click', () => {
+      closePreview(); card.querySelector('.card-details-toggle').focus();
+    });
+  }
+  document.addEventListener('pointerdown', e => { if (previewCard && !previewCard.contains(e.target)) closePreview(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && previewCard) { const button = previewCard.querySelector('.card-details-toggle'); closePreview(); button.focus(); }
+  });
+  window.addEventListener('resize', closePreview);
+  window.addEventListener('scroll', e => { if (previewCard && !previewCard.querySelector('.card-details').contains(e.target)) closePreview(); }, true);
   function announce(message) {
     clearTimeout(feedbackTimer); feedback.textContent = message; feedback.hidden = false;
     feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 5000);
@@ -35,7 +77,7 @@
       lane.querySelector('.lane-cards').append(card); if (select) select.value = value;
       if (field === 'decision') card.querySelector('.crm-badge').textContent = select.selectedOptions[0].textContent;
       for (const col of board.querySelectorAll('.lane')) col.querySelector('header > span:last-child').textContent = col.querySelectorAll('.deal-card').length;
-      announce('Déplacement enregistré');
+      closePreview(); announce('Déplacement enregistré');
     } catch (e) {
       if (select) select.value = before; feedback.hidden = true;
       error.textContent = e.message; error.hidden = false; error.scrollIntoView({block:'nearest'});
@@ -48,7 +90,7 @@
   board.addEventListener('dragstart', e => {
     const card = e.target.closest('.deal-card');
     if (!card || card.dataset.saving || e.target.closest('select,input,button')) { e.preventDefault(); return; }
-    dragged = card; card.classList.add('dragging');
+    closePreview(); dragged = card; card.classList.add('dragging');
     e.dataTransfer.setData('text/plain', card.dataset.id); e.dataTransfer.effectAllowed = 'move';
   });
   board.addEventListener('dragover', e => {

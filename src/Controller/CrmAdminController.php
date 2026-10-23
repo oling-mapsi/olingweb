@@ -32,8 +32,8 @@ final class CrmAdminController extends AbstractController
             if ($due==='overdue' && (!$date || $date>=CrmStore::now())) { return false; }
             if ($due==='week' && (!$date || $date>gmdate('Y-m-d\\TH:i:s\\Z',time()+7*86400))) { return false; }
             if ($view==='qualify' && $d['status']!=='qualify') { return false; }
-            if ($view==='active' && in_array($d['status'],['qualify','won','lost','archived'])) { return false; }
-            if ($view==='todo' && (in_array($d['status'],['won','lost','archived']) || (!$d['next_action'] && !$d['reminder'] && !$d['deadline']))) { return false; }
+            if ($view==='active' && in_array($d['status'],['qualify','won','lost','no_go','archived'])) { return false; }
+            if ($view==='todo' && (in_array($d['status'],['won','lost','no_go','archived']) || (!$d['next_action'] && !$d['reminder'] && !$d['deadline']))) { return false; }
             return (!$q || str_contains(mb_strtolower(implode(' ',[$d['title'],$d['organization'],$d['contact'],$d['email'],$d['reference']])),$q)) && (!$status || $status===$d['status']) && (!$kind || $kind===$d['kind']);
         }));
         if ($view==='todo') { usort($rows,fn($a,$b)=>strcmp($a['reminder']?:$a['deadline']?:'9999',$b['reminder']?:$b['deadline']?:'9999')); }

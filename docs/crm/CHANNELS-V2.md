@@ -72,3 +72,13 @@ Le portefeuille affiche désormais ensemble les demandes clients, y compris « �
 Les cartes se déplacent dans toutes les vues Kanban. Le portefeuille modifie le statut commercial ; la vue Marchés publics modifie la décision, sans changer le statut. Un statut commercial ne réinitialise jamais « Ne pas suivre ». Une poignée, la surbrillance de destination, le défilement horizontal aux bords et la confirmation d'enregistrement rendent le déplacement visible. Le sélecteur reste disponible au clavier et sur mobile. Les protections de version et CSRF sont conservées.
 
 Recette : 17 tests CRM, 140 assertions, dont visibilité de la qualification et des marchés dans le portefeuille, filtres clients/publics, déplacement de décision, refus persistant et conflit concurrent. Aucune migration supplémentaire. Déploiement par le même overlay et retour arrière par la release précédente.
+
+## Cartes compactes et Sans suite — 23 octobre 2026
+
+Les cartes affichent l'intitulé (deux lignes maximum), la société, une prochaine action sur une ligne et une date synthétique. La recette fictive mesure 110 à 131 px de hauteur sur ordinateur. Les coordonnées, le besoin, les dates complètes et le sélecteur de statut sont dans un panneau flottant : survol souris, bouton Détails sur mobile/clavier, fermeture par croix ou Échap. Le panneau ne modifie pas la hauteur des cartes et reste dans le viewport.
+
+Le statut commercial `no_go` (« Sans suite ») signifie une décision de ne pas poursuivre. Il est disponible dans le Kanban, les fiches et les filtres. Il conserve notes, sources et actions, mais exclut l'affaire des vues actives/relances. Il reste distinct de Perdu, Archivé et de la décision de veille ; les corrections manuelles et les protections concurrentes restent applicables. Aucune migration : le statut est une chaîne existante en base.
+
+Validation : 17 tests / 154 assertions, passage à Sans suite persistant, exclusion des relances et conservation des informations ; glisser-déposer réel de carte compacte, détails au survol et ouverture tactile à 390 px. Version des assets : 4.
+
+Retour arrière : avant utilisation de `no_go`, rebascule normale vers la release précédente. Dès que ce statut existe en base, conserver sa prise en charge dans CrmStore et les exclusions active/todo du contrôleur lors d'un retour arrière visuel ; ne pas revenir intégralement à une version qui ne connaît pas ce statut, ni supprimer ou renommer les données pour le contourner. La sauvegarde complète chiffrée reste disponible.

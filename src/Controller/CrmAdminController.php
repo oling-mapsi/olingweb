@@ -16,13 +16,16 @@ final class CrmAdminController extends AbstractController
     public function index(Request $r): Response
     {
         $this->guard(); $view=$r->query->get('view','portfolio'); $q=mb_strtolower(trim($r->query->get('q',''))); $status=$r->query->get('status',''); $kind=$r->query->get('kind','');
-        $origin=$r->query->get('origin',''); $due=$r->query->get('due',''); $decision=$r->query->get('decision','');
-        $rows=array_values(array_filter($this->store->all(),function($d) use($view,$q,$status,$kind,$origin,$due,$decision) {
+        $segment=$r->query->get('segment',''); $origin=$r->query->get('origin',''); $due=$r->query->get('due',''); $decision=$r->query->get('decision','');
+        $rows=array_values(array_filter($this->store->all(),function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment) {
             if (!empty($d['merged_into'])) { return false; }
             if ($view==='markets' && $d['origin']!=='watch') { return false; }
             if ($view==='clients' && ($d['origin']==='watch' || $d['review_required'])) { return false; }
             if ($view==='review' && !$d['review_required']) { return false; }
-            if (in_array($view,['portfolio','active','todo']) && ($d['review_required'] || ($d['origin']==='watch' ? $d['decision']!=='follow' : $d['status']==='qualify'))) { return false; }
+            if ($view==='portfolio' && $d['review_required']) { return false; }
+            $public=$d['kind']==='public' || $d['origin']==='watch';
+            if (($segment==='markets' && !$public) || ($segment==='clients' && $public)) { return false; }
+            if (in_array($view,['active','todo']) && ($d['review_required'] || ($d['origin']==='watch' ? $d['decision']!=='follow' : $d['status']==='qualify'))) { return false; }
             if ($origin && $origin!==$d['origin']) { return false; }
             if ($decision && $decision!==$d['decision']) { return false; }
             $date=$d['reminder']?:$d['deadline'];
@@ -34,8 +37,9 @@ final class CrmAdminController extends AbstractController
             return (!$q || str_contains(mb_strtolower(implode(' ',[$d['title'],$d['organization'],$d['contact'],$d['email'],$d['reference']])),$q)) && (!$status || $status===$d['status']) && (!$kind || $kind===$d['kind']);
         }));
         if ($view==='todo') { usort($rows,fn($a,$b)=>strcmp($a['reminder']?:$a['deadline']?:'9999',$b['reminder']?:$b['deadline']?:'9999')); }
-        $page=max(1,$r->query->getInt('page',1));
-        return $this->render('admin/crm/index.html.twig',['deals'=>array_slice($rows,($page-1)*50,50),'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$r->query->get('mode','board'),'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
+        $mode=$r->query->get('mode','board')==='list'?'list':'board';
+        $page=$mode==='list'?max(1,$r->query->getInt('page',1)):1;
+        return $this->render('admin/crm/index.html.twig',['deals'=>$mode==='list'?array_slice($rows,($page-1)*50,50):$rows,'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'segment'=>$segment,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$mode,'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
     }
     #[Route('/{id}/move',name:'admin_crm_move',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
     public function move(string $id,Request $r): JsonResponse
@@ -43,7 +47,10 @@ final class CrmAdminController extends AbstractController
         $this->csrf($r);
         try {
             $d=$this->store->get($id);
-            if ($d['origin']==='watch' && $d['decision']!=='follow') { throw new \InvalidArgumentException('Choisissez À suivre avant de travailler ce marché.'); }
+            if ($r->request->has('decision')) {
+                $this->store->decide($id,$r->request->get('decision',''),$r->request->getInt('version'),$this->getUser()->getUserIdentifier());
+                return $this->json(['saved'=>true,'version'=>$this->store->get($id)['version']]);
+            }
             $this->store->edit($id,[],$r->request->get('status',''),$d['kind'],'',$this->getUser()->getUserIdentifier(),$r->request->getInt('version'));
             return $this->json(['saved'=>true,'version'=>$this->store->get($id)['version']]);
         } catch (\InvalidArgumentException|\RuntimeException $e) { return $this->json(['error'=>$e->getMessage()],409); }

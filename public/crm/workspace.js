@@ -1,5 +1,28 @@
 (() => {
   const board = document.querySelector('.board'); if (!board) return;
+  const scroller = document.querySelector('.board-scroll'), density = document.getElementById('board-density');
+  function fitBoard() {
+    scroller.firstElementChild.style.width = board.scrollWidth + 'px';
+    const overflow = board.scrollWidth > board.clientWidth + 2;
+    scroller.hidden = !overflow;
+    document.querySelector('.column-jump').classList.toggle('needed', overflow);
+    board.style.height = Math.max(280, innerHeight - (board.getBoundingClientRect().top + scrollY) - 24) + 'px';
+  }
+  density.addEventListener('click', () => {
+    const expanded = board.classList.toggle('comfortable');
+    density.setAttribute('aria-pressed', String(expanded));
+    density.textContent = expanded ? 'Voir toutes les colonnes' : 'Agrandir les cartes';
+    closePreview(); fitBoard();
+  });
+  scroller.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) board.scrollLeft = scroller.scrollLeft; });
+  board.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) scroller.scrollLeft = board.scrollLeft; });
+  document.querySelector('.column-jump').addEventListener('click', e => {
+    const button = e.target.closest('[data-column]'); if (!button) return;
+    const lane = [...board.children].find(x => x.dataset.value === button.dataset.column);
+    board.scrollLeft = lane.offsetLeft - board.offsetLeft; lane.focus({preventScroll:true});
+  });
+  window.addEventListener('resize', fitBoard);
+  requestAnimationFrame(fitBoard);
   const error = document.getElementById('save-error'), feedback = document.getElementById('save-status');
   const field = board.dataset.field || 'status';
   let dragged = null, pointer = null, frame = null, feedbackTimer;
@@ -73,6 +96,8 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.saved) throw new Error(data.error || 'Enregistrement impossible. Vérifiez votre connexion et rechargez la page.');
       card.dataset.version = data.version;
+      if (data.deadline_html) document.getElementById('deadline-summary').innerHTML = data.deadline_html;
+      fitBoard();
       const lane = [...board.querySelectorAll('.lane')].find(x => x.dataset.value === value);
       lane.querySelector('.lane-cards').append(card); if (select) select.value = value;
       if (field === 'decision') card.querySelector('.crm-badge').textContent = select.selectedOptions[0].textContent;

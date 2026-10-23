@@ -16,7 +16,7 @@ final class CrmClientReset
                 $d=$this->store->get($id);
                 if ($d['kind']!=='private' || $d['origin']==='watch' || $d['review_required'] || !empty($d['merged_into'])) { throw new \RuntimeException('Le périmètre a changé ; suppression annulée.'); }
                 foreach (['crm_identity'=>['identity_key','deleted_i:'],'crm_source'=>['source_key','deleted_s:']] as $table=>[$key,$prefix]) {
-                    foreach ($this->db->fetchFirstColumn('SELECT '.$key.' FROM '.$table.' WHERE deal_id=?',[$id]) as $hash) { $this->store->setState($prefix.$hash,['at'=>CrmStore::now()]); }
+                    foreach ($this->db->fetchFirstColumn('SELECT '.$key.' FROM '.$table.' WHERE deal_id=?',[$id]) as $hash) { $this->store->setState($prefix.$hash,['at'=>CrmStore::now(),'id'=>$id]); }
                 }
                 // Keep only deduplication hashes, never customer fields or email excerpts.
                 foreach (['crm_event','crm_source','crm_identity'] as $table) { $this->db->delete($table,['deal_id'=>$id]); }

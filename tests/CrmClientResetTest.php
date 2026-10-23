@@ -28,7 +28,8 @@ final class CrmClientResetTest extends TestCase
         foreach(['crm_deal'=>'id','crm_event'=>'deal_id','crm_identity'=>'deal_id','crm_source'=>'deal_id'] as $table=>$key) { self::assertSame(0,(int)$this->db->fetchOne('SELECT COUNT(*) FROM '.$table.' WHERE '.$key.' IN (?,?)',[$e,$f])); }
         self::assertTrue($this->store->ingest($email)['deleted']);
         self::assertTrue($this->store->ingest(array_replace($email,['external_id'=>'retry-new-message']))['deleted']);
-        self::assertTrue($form->receive($payload)['deleted']);
+        self::assertTrue($form->receive($payload)['deleted']);self::assertSame($f,$form->receive($payload)['id']);
+        self::assertSame($e,$this->store->ingest($email)['id']);
         self::assertSame($new,$form->receive(array_replace($payload,['site'=>'MAPSI','reference'=>'new-form-123']))['id']);
         self::assertCount(2,$this->store->all());
         $manual=$this->store->create(['title'=>'Saisie manuelle fictive']);self::assertSame('manual',$this->store->get($manual)['origin']);

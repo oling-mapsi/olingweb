@@ -39,7 +39,26 @@ final class CrmAccessTest extends WebTestCase
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>2,'decision'=>'follow']);self::assertResponseStatusCodeSame(409);
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>3,'status'=>'preparing']);self::assertResponseIsSuccessful();self::assertSame('reject',$store->get($market)['decision']);self::assertSame('preparing',$store->get($market)['status']);
         $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>1,'decision'=>'follow']);self::assertResponseStatusCodeSame(409);
-        $client->request('GET','/admin/crm?view=markets');self::assertSelectorExists('.deal-card[draggable="true"]');self::assertSelectorExists('.board[data-field="decision"]');
+        $before=$store->get($market);
+        foreach (['view=markets','view=portfolio&segment=markets'] as $query) {
+            $client->request('GET','/admin/crm?'.$query);self::assertResponseIsSuccessful();
+            self::assertSelectorExists('.board[data-field="status"]');self::assertSelectorCount(9,'.lane');
+            self::assertSelectorExists('.lane[data-value="preparing"] .deal-card[data-id="'.$market.'"]');
+            self::assertSelectorTextContains('.lane[data-value="discussion"]','Affaire fictive'); // Manual public markets too.
+            self::assertSelectorTextNotContains('.board','Client à qualifier');
+            self::assertSelectorNotExists('.lane[data-value="review"]');self::assertSelectorNotExists('.decision-badge');
+            self::assertSelectorCount(2,'nav[aria-label="Navigation principale"] a');
+            self::assertSelectorTextContains('nav[aria-label="Navigation principale"] a.active','Portefeuille');
+            self::assertSelectorCount(3,'.segment-filter a');
+            self::assertSelectorTextContains('.segment-filter .selected','Marchés publics');
+            self::assertSelectorExists('.card-status option[value="preparing"][selected]');
+        }
+        self::assertSame($before,$store->get($market)); // Navigation never rewrites business status or decisions.
+        $client->request('GET','/admin/crm?view=markets&mode=list');
+        self::assertSelectorTextContains('table','En préparation');self::assertSelectorTextNotContains('table','Ne pas suivre');
+        $client->request('GET','/admin/crm?view=active');self::assertSelectorTextContains('.lane[data-value="preparing"]','Marché à examiner');
+        $store->edit($market,['next_action'=>'Préparer la réponse'],'preparing','public','','test',$store->get($market)['version']);
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('.lane[data-value="preparing"]','Marché à examiner');
         $client->request('POST','/admin/crm/'.$private,['_token'=>$token,'version'=>1,'status'=>'follow','kind'=>'private','note'=>'Motif conservé','fields'=>['next_action'=>'Relance fictive','reminder'=>'2026-11-01T10:00']]);self::assertResponseRedirects();
         $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('.board','Client à qualifier');
         $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>2,'status'=>'no_go']);self::assertResponseIsSuccessful();
@@ -63,7 +82,7 @@ final class CrmAccessTest extends WebTestCase
         $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>$version]);self::assertResponseStatusCodeSame(403);
         $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>1,'confirm'=>'delete']);self::assertResponseRedirects('/admin/crm/'.$market);
         self::assertSame($version,$store->get($market)['version']);
-        $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>$version,'confirm'=>'delete']);self::assertResponseRedirects('/admin/crm?view=markets');
+        $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>$version,'confirm'=>'delete']);self::assertResponseRedirects('/admin/crm?view=portfolio&segment=markets');
         $client->followRedirect();self::assertSelectorTextNotContains('.board','Marché à examiner');
         $client->request('GET','/admin/crm/'.$market);self::assertResponseStatusCodeSame(404);
         $client->request('GET',$deleteUrl);self::assertResponseStatusCodeSame(404);

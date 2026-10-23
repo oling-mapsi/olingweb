@@ -2,6 +2,10 @@
 
 Module Symfony privé : `/admin/crm`. Authentification et rôle `ROLE_ADMIN` existants ; toutes les mutations UI sont POST + CSRF. Données commerciales uniquement en production.
 
+## Navigation et avancement
+
+Une seule entrée **Portefeuille**, avec les filtres **Tous / Marchés publics / Clients**, et une entrée **Actions et relances**. Tous les Kanbans et listes affichent les statuts d'avancement enregistrés, y compris pour les marchés de veille et les marchés saisis manuellement. Les anciennes URL `view=markets` et `view=clients` ouvrent le portefeuille filtré correspondant. Les décisions de veille restent accessibles dans la fiche, sans remplacer les colonnes d'avancement ni masquer une affaire déjà en cours dans les actions. Aucun statut existant n'est migré ou réécrit.
+
 ## Politique clients en vigueur depuis le 23 octobre 2026
 
 Alimentation automatique limitée aux formulaires OLING.fr et MAPSI.fr. Les saisies manuelles restent disponibles. Microsoft 365 est désactivé (`email_enabled: false`, `client_intake: forms_only`). La politique `forms_only` est aussi le défaut du code : un ancien indicateur email actif ne suffit pas à relancer la lecture. Toute réactivation exige une nouvelle décision métier et le mode explicite `email_and_forms`. Les instructions Microsoft ci-dessous décrivent la capacité historique, actuellement inactive.

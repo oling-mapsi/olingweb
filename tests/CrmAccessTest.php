@@ -39,6 +39,13 @@ final class CrmAccessTest extends WebTestCase
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>3,'status'=>'preparing']);self::assertResponseIsSuccessful();self::assertSame('reject',$store->get($market)['decision']);self::assertSame('preparing',$store->get($market)['status']);
         $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>1,'decision'=>'follow']);self::assertResponseStatusCodeSame(409);
         $client->request('GET','/admin/crm?view=markets');self::assertSelectorExists('.deal-card[draggable="true"]');self::assertSelectorExists('.board[data-field="decision"]');
+        $client->request('POST','/admin/crm/'.$private,['_token'=>$token,'version'=>1,'status'=>'follow','kind'=>'private','note'=>'Motif conservé','fields'=>['next_action'=>'Relance fictive','reminder'=>'2026-11-01T10:00']]);self::assertResponseRedirects();
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('.board','Client à qualifier');
+        $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>2,'status'=>'no_go']);self::assertResponseIsSuccessful();
+        self::assertSame('no_go',$store->get($private)['status']);self::assertSame('Relance fictive',$store->get($private)['next_action']);
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextNotContains('.board','Client à qualifier');
+        $client->request('GET','/admin/crm');self::assertSelectorTextContains('.lane[data-value="no_go"]','Client à qualifier');
+        $client->request('GET','/admin/crm/'.$private);self::assertSelectorTextContains('.crm-badge','Sans suite');self::assertSelectorTextContains('body','Motif conservé');
         for($i=0;$i<51;++$i) { $store->create(['title'=>'Client fictif '.$i],'private','form'); }
         $client->request('GET','/admin/crm');self::assertSelectorCount(54,'.deal-card');
         $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');

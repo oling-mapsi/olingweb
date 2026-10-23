@@ -17,11 +17,12 @@ final class CrmConfig
     public function enabled(string $channel): bool { return $this->environment === 'prod' && $this->get($channel.'_enabled', false) === true; }
     public function graphReady(): bool
     {
+        if ($this->get('client_intake','forms_only') !== 'email_and_forms') { return false; }
         foreach (['tenant_id','client_id','mailbox'] as $key) { if (!$this->get($key)) { return false; } }
         return $this->enabled('email') && ($this->get('client_secret') || is_readable($this->get('oauth_file','/var/lib/oling-crm/oauth.json')));
     }
     public function status(): array
     {
-        return ['environment'=>$this->environment, 'email'=>$this->graphReady(), 'watch'=>$this->enabled('watch') && strlen($this->get('import_token')) >= 32, 'scheduler'=>$this->enabled('scheduler')];
+        return ['environment'=>$this->environment, 'client_intake'=>$this->get('client_intake','forms_only'), 'forms'=>$this->enabled('forms'), 'email'=>$this->graphReady(), 'watch'=>$this->enabled('watch') && strlen($this->get('import_token')) >= 32, 'scheduler'=>$this->enabled('scheduler')];
     }
 }

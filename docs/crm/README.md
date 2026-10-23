@@ -2,6 +2,12 @@
 
 Module Symfony privé : `/admin/crm`. Authentification et rôle `ROLE_ADMIN` existants ; toutes les mutations UI sont POST + CSRF. Données commerciales uniquement en production.
 
+## Politique clients en vigueur depuis le 23 octobre 2026
+
+Alimentation automatique limitée aux formulaires OLING.fr et MAPSI.fr. Les saisies manuelles restent disponibles. Microsoft 365 est désactivé (`email_enabled: false`, `client_intake: forms_only`). La politique `forms_only` est aussi le défaut du code : un ancien indicateur email actif ne suffit pas à relancer la lecture. Toute réactivation exige une nouvelle décision métier et le mode explicite `email_and_forms`. Les instructions Microsoft ci-dessous décrivent la capacité historique, actuellement inactive.
+
+Voir [nettoyage et contrôle des reprises](CLIENT-INTAKE.md).
+
 ## Développement
 
 Dépôt de travail isolé : `/Users/florestanrouet/myweb/olingw-crm`, branche `feature/oling-crm`.

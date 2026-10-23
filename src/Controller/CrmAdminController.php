@@ -17,11 +17,12 @@ final class CrmAdminController extends AbstractController
     {
         $this->guard(); $view=$r->query->get('view','portfolio'); $q=mb_strtolower(trim($r->query->get('q',''))); $status=$r->query->get('status',''); $kind=$r->query->get('kind','');
         $segment=$r->query->get('segment',''); $origin=$r->query->get('origin',''); $due=$r->query->get('due',''); $decision=$r->query->get('decision','');
-        $all=$this->store->all();
-        $rows=array_values(array_filter($all,function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment) {
+        $all=$this->store->all(); $formsOnly=$this->config->get('client_intake','forms_only')==='forms_only';
+        $rows=array_values(array_filter($all,function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment,$formsOnly) {
             if (!empty($d['merged_into'])) { return false; }
+            if ($formsOnly && $view!=='review' && $d['origin']==='email') { return false; }
             if ($view==='markets' && $d['origin']!=='watch') { return false; }
-            if ($view==='clients' && ($d['origin']==='watch' || $d['review_required'])) { return false; }
+            if ($view==='clients' && ($d['origin']==='watch' || $d['kind']==='public' || $d['review_required'])) { return false; }
             if ($view==='review' && !$d['review_required']) { return false; }
             if ($view==='portfolio' && $d['review_required']) { return false; }
             $public=$d['kind']==='public' || $d['origin']==='watch';

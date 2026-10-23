@@ -8,6 +8,10 @@ Alimentation automatique limitée aux formulaires OLING.fr et MAPSI.fr. Les sais
 
 Voir [nettoyage et contrôle des reprises](CLIENT-INTAKE.md).
 
+Les coordonnées envoyées via le formulaire intégré au chat OLING sont aussi des demandes clients : origine `form`, formulaire `chat_contact`, statut initial `qualify`. Le raccordement traite uniquement un lead enregistré avec consentement, jamais une simple conversation anonyme. La référence stable `OLING|chat-lead-<id>` empêche les doublons lors d’un rejeu et respecte le blocage après suppression. Aucune lecture d’email, aucun appel à un modèle IA ni notification supplémentaire.
+
+Le subscriber livre immédiatement après la réponse réussie du formulaire. La tâche existante reprend les reçus même après une panne de file ou de CRM. La reprise historique du chat est bornée par `crm_state.chat_forms.cursor`, initialisé explicitement au dernier identifiant à exclure lors de l’activation ; sans ce curseur, pas de reprise historique implicite. Pour la mise en service du 23/10/2026 : exclure le lead 1 ancien, reprendre à partir du lead 2 (envoi de contrôle). Activation après bascule : `APP_ENV=prod APP_DEBUG=0 php scripts/crm/enable-chat-recovery.php 2`, puis exécution normale de `app:crm:sync --scheduled`. Ne pas copier ces données en développement.
+
 ## Suppression et blocage des réimports
 
 Depuis une fiche : **Supprimer et bloquer les réimports**, puis confirmation dédiée. Suppression transactionnelle de la fiche, notes, sources, historique et fiches fusionnées ; une fiche modifiée entre-temps exige de recharger. Accès administrateur, POST et CSRF obligatoires. Aucun email ni document externe n’est supprimé.

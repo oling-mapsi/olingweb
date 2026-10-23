@@ -68,6 +68,9 @@ jobs:
       - name: Run focused unit tests
         run: vendor/bin/phpunit --filter 'PublicLeadershipSelectorTest|HomePageSourceTest|TeamProfilesSourceTest|TeamRuntimeArchitectureTest|PublicEditorialDesignSourceTest|SectorVisualAssetsTest|InstitutionalSeoFallbackTest|HomeSectionTwigCompatibilityTest'
 
+      - name: Run CRM integration tests on synthetic data
+        run: SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/phpunit --filter 'App\\Tests\\Crm'
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:

@@ -49,6 +49,12 @@ final class CrmAccessTest extends WebTestCase
         for($i=0;$i<51;++$i) { $store->create(['title'=>'Client fictif '.$i],'private','form'); }
         $client->request('GET','/admin/crm');self::assertSelectorCount(54,'.deal-card');
         $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');
+        $store->edit($market,['deadline'=>'2099-10-24T10:00:00Z'],'preparing','public','','test',$store->get($market)['version']);
+        $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>$store->get($market)['version'],'decision'=>'follow']);
+        self::assertResponseIsSuccessful();self::assertStringContainsString('Marché à examiner',json_decode($client->getResponse()->getContent(),true)['deadline_html']);
+        $client->request('GET','/admin/crm?segment=clients');self::assertSelectorTextContains('#deadline-summary','Marché à examiner');
+        $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>$store->get($market)['version'],'status'=>'no_go']);
+        self::assertResponseIsSuccessful();self::assertStringNotContainsString('Marché à examiner',json_decode($client->getResponse()->getContent(),true)['deadline_html']);
         $client->request('GET','/admin/crm/export.csv');self::assertResponseIsSuccessful();self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
     }
 }

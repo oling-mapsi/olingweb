@@ -1,0 +1,6 @@
+<section class="deadline-kpis" aria-label="Échéances des marchés retenus">
+  <div class="deadline-heading"><strong>Prochaines échéances</strong><small>Marchés retenus · avant dépôt · hors Sans suite</small></div>
+  <div class="deadline-number"><strong>{{ deadlines.soon }}</strong><span>sous 7 jours</span></div>
+  <div class="deadline-number {{ deadlines.overdue?'late':'' }}"><strong>{{ deadlines.overdue }}</strong><span>dépassées</span></div>
+  <div class="deadline-next">{% for item in deadlines.next %}<a href="{{ path('admin_crm_show',{id:item.id}) }}"><time datetime="{{ item.deadline }}">{{ item.deadline|date('d/m · H:i','Europe/Paris') }}</time><span>{{ item.title }}</span></a>{% else %}<span class="crm-muted">Aucune échéance à venir pour les marchés retenus.</span>{% endfor %}{% if deadlines.missing %}<small>{{ deadlines.missing }} marché(s) retenu(s) sans date renseignée</small>{% endif %}</div>
+</section>

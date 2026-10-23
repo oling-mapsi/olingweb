@@ -43,6 +43,24 @@ final class CrmAdminController extends AbstractController
         $page=$mode==='list'?max(1,$r->query->getInt('page',1)):1;
         return $this->render('admin/crm/index.html.twig',['deadlines'=>CrmDeadlines::summarize($all),'deals'=>$mode==='list'?array_slice($rows,($page-1)*50,50):$rows,'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'segment'=>$segment,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$mode,'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
     }
+    #[Route('/{id}/delete',name:'admin_crm_delete',requirements:['id'=>'[a-f0-9]{32}'],methods:['GET','POST'])]
+    public function delete(string $id,Request $r): Response
+    {
+        $this->guard();
+        try { $deal=$this->store->get($id); } catch (\InvalidArgumentException) { throw $this->createNotFoundException(); }
+        if ($r->isMethod('POST')) {
+            $this->csrf($r);
+            if ($r->request->get('confirm')!=='delete') { throw $this->createAccessDeniedException('Confirmation requise.'); }
+            try {
+                $this->store->delete($id,$r->request->getInt('version'));
+                $this->addFlash('success','Fiche supprimée. Ses prochains imports seront ignorés.');
+                return $this->redirectToRoute('admin_crm',['view'=>$deal['kind']==='public'?'markets':'clients']);
+            } catch (\InvalidArgumentException|\RuntimeException $e) {
+                $this->addFlash('danger',$e->getMessage());return $this->redirectToRoute('admin_crm_show',['id'=>$id]);
+            }
+        }
+        return $this->render('admin/crm/delete.html.twig',['deal'=>$deal]);
+    }
     #[Route('/{id}/move',name:'admin_crm_move',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
     public function move(string $id,Request $r): JsonResponse
     {

@@ -36,7 +36,9 @@ try {
  $this->requests->push($req);
  $html=$this->twig->render('admin/crm/show.html.twig',['deal'=>$d,'history'=>$store->history($id),'candidates'=>[],'statuses'=>CrmStore::STATUSES]);
  if(!str_contains($html,'Note fictive de recette')) {throw new \RuntimeException('Template rendering failed');}
- $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
+ $store->delete($tid,$store->get($tid)['version']);$t['external_id'].='-tomorrow';
+ if(empty($store->ingest($t)['deleted'])) {throw new \RuntimeException('Deleted tender resurrected');}
+ $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
 } catch(\Throwable $e) {if($db->isTransactionActive()){$db->rollBack();}$output->writeln('<error>'.$e->getMessage().'</error>');return self::FAILURE;}
 
  }

@@ -27,6 +27,21 @@ final class CrmAccessTest extends WebTestCase
         $client->request('POST',$url.'/move',['_token'=>$token,'status'=>'discussion','version'=>2]);self::assertResponseIsSuccessful();self::assertSame(3,json_decode($client->getResponse()->getContent(),true)['version']);
         $client->request('POST',$url.'/move',['_token'=>$token,'status'=>'won','version'=>2]);self::assertResponseStatusCodeSame(409);
         $client->request('GET',$url);self::assertSelectorTextContains('.crm-badge','En discussion');
+        $store=new \App\Service\Crm\CrmStore($em->getConnection());
+        $private=$store->create(['title'=>'Client à qualifier'],'private','form');
+        $market=$store->ingest(['origin'=>'watch','external_id'=>'test-market','identity'=>'test-market|lot1','title'=>'Marché à examiner','fields'=>[],'kind'=>'public'])['id'];
+        $doubtful=$store->create(['title'=>'Ancien import douteux'],'private','email');$store->reviewLegacy();
+        $client->request('GET','/admin/crm');self::assertSelectorTextContains('.board','Client à qualifier');self::assertSelectorTextContains('.board','Marché à examiner');self::assertSelectorTextNotContains('.board','Ancien import douteux');
+        $client->request('GET','/admin/crm?segment=markets');self::assertSelectorTextContains('.board','Marché à examiner');self::assertSelectorTextNotContains('.board','Client à qualifier');
+        $client->request('GET','/admin/crm?segment=clients&mode=list');self::assertSelectorTextContains('table','Client à qualifier');self::assertSelectorTextNotContains('table','Marché à examiner');
+        $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>2,'decision'=>'reject']);self::assertResponseIsSuccessful();self::assertSame('reject',$store->get($market)['decision']);
+        $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>2,'decision'=>'follow']);self::assertResponseStatusCodeSame(409);
+        $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>3,'status'=>'preparing']);self::assertResponseIsSuccessful();self::assertSame('reject',$store->get($market)['decision']);self::assertSame('preparing',$store->get($market)['status']);
+        $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>1,'decision'=>'follow']);self::assertResponseStatusCodeSame(409);
+        $client->request('GET','/admin/crm?view=markets');self::assertSelectorExists('.deal-card[draggable="true"]');self::assertSelectorExists('.board[data-field="decision"]');
+        for($i=0;$i<51;++$i) { $store->create(['title'=>'Client fictif '.$i],'private','form'); }
+        $client->request('GET','/admin/crm');self::assertSelectorCount(54,'.deal-card');
+        $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');
         $client->request('GET','/admin/crm/export.csv');self::assertResponseIsSuccessful();self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
     }
 }

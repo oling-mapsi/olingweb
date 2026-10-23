@@ -64,3 +64,11 @@ git archive --format=tar.gz -o /tmp/oling-crm-release.tar.gz HEAD src/Service/Cr
 ```
 
 Les empreintes et le commit effectifs se lisent dans `/var/www/oling-current/CRM_RELEASE.json`. Le manifeste de sauvegarde correspondant donne le chemin exact de retour arrière. Ne jamais copier la clé de sauvegarde hors serveur.
+
+## Correction portefeuille / Kanban — 23 octobre 2026
+
+Le portefeuille affiche désormais ensemble les demandes clients, y compris « À qualifier », et les marchés publics, quelle que soit leur décision. Seuls les imports explicitement placés en révision et les doublons fusionnés restent hors de cette vue. Le Kanban montre toutes les fiches correspondantes ; seule la liste est paginée. Trois boutons suffisent pour filtrer : Tous / Marchés publics / Clients ; le filtre marché inclut aussi les fiches publiques créées manuellement.
+
+Les cartes se déplacent dans toutes les vues Kanban. Le portefeuille modifie le statut commercial ; la vue Marchés publics modifie la décision, sans changer le statut. Un statut commercial ne réinitialise jamais « Ne pas suivre ». Une poignée, la surbrillance de destination, le défilement horizontal aux bords et la confirmation d'enregistrement rendent le déplacement visible. Le sélecteur reste disponible au clavier et sur mobile. Les protections de version et CSRF sont conservées.
+
+Recette : 17 tests CRM, 140 assertions, dont visibilité de la qualification et des marchés dans le portefeuille, filtres clients/publics, déplacement de décision, refus persistant et conflit concurrent. Aucune migration supplémentaire. Déploiement par le même overlay et retour arrière par la release précédente.

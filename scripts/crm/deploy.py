@@ -44,7 +44,7 @@ if phase=='prepare':
   for m in t.getmembers():
    if m.isdir(): continue
    assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
-   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
+   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
    if (release/m.name).exists():
     assert prior and prior['files'].get(m.name)==digest(old/m.name),m.name
   t.extractall(release,members=[m for m in t.getmembers() if m.isfile()],filter='data')

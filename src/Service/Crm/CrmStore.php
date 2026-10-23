@@ -125,6 +125,38 @@ final class CrmStore
             return ['id'=>$id,'duplicate'=>false,'created'=>$new];
         });
     }
+    /** Remove the complete record; retain only hashes needed to reject future imports. */
+    public function delete(string $id, int $version): void
+    {
+        $this->db->transactional(function() use($id,$version) {
+            $deal=$this->get($id);
+            if (!empty($deal['merged_into'])) { throw new \InvalidArgumentException('Supprimez la fiche principale du rapprochement.'); }
+            // Optimistic version check also locks this row against concurrent edits/imports.
+            $this->save($deal,$version);
+            $records=[$id=>$deal];$all=$this->all();
+            do {
+                $added=false;
+                foreach ($all as $d) {
+                    if (!isset($records[$d['id']]) && isset($records[$d['merged_into']??''])) { $records[$d['id']]=$d;$added=true; }
+                }
+            } while ($added);
+            foreach ($records as $recordId=>$d) {
+                $watchFields=[];
+                if ($d['kind']==='public' || $d['origin']==='watch') { $watchFields[]=$d; }
+                foreach ($this->history($recordId) as $event) {
+                    if ($event['kind']==='source' && ($event['data']['origin']??'')==='watch') { $watchFields[]=$event['data']['extracted']??[]; }
+                }
+                foreach ($watchFields as $fields) {
+                    foreach (CrmWatchIdentity::aliases($fields) as $alias) { $this->setState('deleted_i:'.hash('sha256','watch|'.$alias),['at'=>self::now(),'id'=>$id]); }
+                }
+                foreach (['crm_identity'=>['identity_key','deleted_i:'],'crm_source'=>['source_key','deleted_s:']] as $table=>[$key,$prefix]) {
+                    foreach ($this->db->fetchFirstColumn('SELECT '.$key.' FROM '.$table.' WHERE deal_id=?',[$recordId]) as $hash) { $this->setState($prefix.$hash,['at'=>self::now(),'id'=>$id]); }
+                }
+                foreach (['crm_event','crm_source','crm_identity'] as $table) { $this->db->delete($table,['deal_id'=>$recordId]); }
+                $this->db->delete('crm_deal',['id'=>$recordId]);
+            }
+        });
+    }
     public function decide(string $id,string $decision,int $version,string $actor): void
     {
         if (!isset(self::DECISIONS[$decision])) { throw new \InvalidArgumentException('Décision invalide.'); }

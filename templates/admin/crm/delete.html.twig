@@ -1,0 +1,18 @@
+{% extends 'admin/crm/layout.html.twig' %}
+{% block crm %}
+<a class="back" href="{{ path('admin_crm_show',{id:deal.id}) }}">← Conserver la fiche</a>
+<h1>Supprimer cette fiche ?</h1>
+<section class="crm-card">
+<h2>{{ deal.title }}</h2>
+{% if deal.reference or deal.lot %}<p>Référence : {{ deal.reference ?: 'Non précisée' }} · Lot : {{ deal.lot ?: 'Non précisé' }}</p>{% endif %}
+<p>La fiche, ses notes, son historique et ses fiches rapprochées seront supprimés définitivement du CRM.</p>
+<p>Les réimports correspondant aux références connues seront bloqués, même si la veille propose de nouveaux détails. Seules des empreintes techniques seront conservées pour reconnaître ces réimports.</p>
+<p>Les emails et documents d’origine restent à leur emplacement.</p>
+<form method="post">
+<input type="hidden" name="_token" value="{{ csrf_token('crm') }}">
+<input type="hidden" name="version" value="{{ deal.version }}">
+<button class="btn" name="confirm" value="delete">Confirmer la suppression et le blocage</button>
+<a class="btn" href="{{ path('admin_crm_show',{id:deal.id}) }}">Annuler</a>
+</form>
+</section>
+{% endblock %}

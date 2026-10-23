@@ -8,6 +8,14 @@ Alimentation automatique limitée aux formulaires OLING.fr et MAPSI.fr. Les sais
 
 Voir [nettoyage et contrôle des reprises](CLIENT-INTAKE.md).
 
+## Suppression et blocage des réimports
+
+Depuis une fiche : **Supprimer et bloquer les réimports**, puis confirmation dédiée. Suppression transactionnelle de la fiche, notes, sources, historique et fiches fusionnées ; une fiche modifiée entre-temps exige de recharger. Accès administrateur, POST et CSRF obligatoires. Aucun email ni document externe n’est supprimé.
+
+Seules les empreintes SHA256 des sources et identités connues restent dans `crm_state` (date et identifiant interne, aucun contenu commercial). Les imports suivants sont ignorés, y compris un enrichissement avec un autre identifiant agent si acheteur/référence/lot correspondent. Les autres lots restent importables. La comparaison normalise casse et espaces ; aucune déduction par titre seul. Un avis sans aucun identifiant ou référence en commun ne peut pas être reconnu comme le même marché.
+
+Le connecteur répond HTTP 200 avec `deleted: true`, `ignored: true`, `reason: deleted_by_user`, sans lien vers une fiche inexistante. L’agent doit considérer cette réponse comme définitive. Les empreintes sont sauvegardées avec la base et doivent être conservées lors des déploiements/retours arrière. Aucune migration nouvelle nécessaire.
+
 ## Développement
 
 Dépôt de travail isolé : `/Users/florestanrouet/myweb/olingw-crm`, branche `feature/oling-crm`.

@@ -56,6 +56,17 @@ final class CrmAccessTest extends WebTestCase
         $client->request('GET','/admin/crm?segment=clients');self::assertSelectorTextContains('#deadline-summary','Marché à examiner');
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>$store->get($market)['version'],'status'=>'no_go']);
         self::assertResponseIsSuccessful();self::assertStringNotContainsString('Marché à examiner',json_decode($client->getResponse()->getContent(),true)['deadline_html']);
+        $deleteUrl='/admin/crm/'.$market.'/delete';$version=$store->get($market)['version'];
+        $client->request('GET',$deleteUrl);self::assertResponseIsSuccessful();self::assertSelectorTextContains('h1','Supprimer cette fiche');
+        self::assertSelectorExists('button[name="confirm"]');self::assertSame($version,$store->get($market)['version']);
+        $client->request('POST',$deleteUrl,['version'=>$version,'confirm'=>'delete']);self::assertResponseStatusCodeSame(403);
+        $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>$version]);self::assertResponseStatusCodeSame(403);
+        $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>1,'confirm'=>'delete']);self::assertResponseRedirects('/admin/crm/'.$market);
+        self::assertSame($version,$store->get($market)['version']);
+        $client->request('POST',$deleteUrl,['_token'=>$token,'version'=>$version,'confirm'=>'delete']);self::assertResponseRedirects('/admin/crm?view=markets');
+        $client->followRedirect();self::assertSelectorTextNotContains('.board','Marché à examiner');
+        $client->request('GET','/admin/crm/'.$market);self::assertResponseStatusCodeSame(404);
+        $client->request('GET',$deleteUrl);self::assertResponseStatusCodeSame(404);
         $client->request('GET','/admin/crm/export.csv');self::assertResponseIsSuccessful();self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
     }
 }

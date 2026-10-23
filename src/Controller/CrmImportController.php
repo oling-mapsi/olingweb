@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Service\Crm\{CrmConfig,CrmStore};
+use App\Service\Crm\{CrmConfig,CrmStore,CrmWatchIdentity};
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpFoundation\{Request,JsonResponse,Response};
@@ -20,12 +20,15 @@ final class CrmImportController
             if (!is_array($p) || !is_string($p['id']??null) || !is_string($p['title']??null) || !is_bool($p['follow']??false) || !is_array($p['fields']??[])) { throw new \InvalidArgumentException(); }
             // Stable tender identity includes lot, avoiding merging different lots.
             $fields=$p['fields']??[]; $fields['notice_id']=$p['id']; ksort($fields); $p['fields']=$fields; ksort($p);
-            $identity=!empty($fields['reference']) && !empty($fields['buyer']) ? $fields['buyer'].'|'.$fields['reference'].'|'.($fields['lot']??'') : $p['id'];
-            $aliases=[$identity]; $legacy=$store->identityDeal('watch','agent-id|'.$p['id']);
-            if (!$legacy || $legacy['lot']==='' || $legacy['lot']===($fields['lot']??'')) { $aliases[]='agent-id|'.$p['id']; }
+            $aliases=CrmWatchIdentity::aliases($fields); $legacy=$store->identityDeal('watch','agent-id|'.$p['id']) ?? $store->identityDeal('watch','notice|'.$p['id'].'|lot|');
+            if ($legacy && ($legacy['lot']==='' || $legacy['lot']===($fields['lot']??''))) {
+                $aliases[]='agent-id|'.$p['id'];
+                if ($legacy['lot']==='') { $aliases[]='notice|'.$p['id'].'|lot|'; }
+            }
             if (preg_match('/newsletter|digest|sélection d.appels|veille quotidienne/ui',$p['title'])) { throw new \InvalidArgumentException(); }
             $source=['origin'=>'watch','external_id'=>$p['id'].'|'.hash('sha256',CrmStore::json($p)),'identity'=>'notice|'.$p['id'].'|lot|'.($fields['lot']??''),'aliases'=>$aliases,'title'=>$p['title'],'fields'=>$fields,'url'=>$p['url']??'','kind'=>'public','follow'=>$p['follow']??false];
             $result=$store->ingest($source); $store->setState('watch',['last_success'=>CrmStore::now(),'agent'=>$p['agent']??'Veille marchés publics OLING']);
+            if (!empty($result['deleted'])) { return new JsonResponse($result+['ignored'=>true,'reason'=>'deleted_by_user','message'=>'Fiche supprimée par l’utilisateur. Ne pas réessayer avec un autre identifiant.']); }
             return new JsonResponse($result+['url'=>'https://oling.fr/admin/crm/'.$result['id']],$result['duplicate']?200:201);
         } catch (UniqueConstraintViolationException) { return new JsonResponse(['error'=>'Import simultané ; réessayer la même requête.'],409); }
         catch (\JsonException|\InvalidArgumentException|\TypeError) { return new JsonResponse(['error'=>'JSON invalide : id, title, follow booléen et fields requis ; liens HTTPS.'],422); }
@@ -54,7 +57,7 @@ final class CrmImportController
             $result=['tools'=>[
                 ['name'=>'crm_tender_decisions','description'=>'Lire les décisions des marchés publics avant chaque import. Paginer jusqu’à next_offset=null. Ne pas réimporter comme nouveau un avis/lot refusé. Aucun email ni contact.','inputSchema'=>['type'=>'object','properties'=>['offset'=>['type'=>'integer','minimum'=>0]],'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>true,'destructiveHint'=>false,'openWorldHint'=>false]],
                 ['name'=>'crm_connection_status','description'=>'Vérifier la connexion au CRM OLING sans lire de données commerciales.','inputSchema'=>['type'=>'object','properties'=>new \stdClass(),'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>true,'destructiveHint'=>false,'openWorldHint'=>false]],
-                ['name'=>'crm_import_tender','description'=>'Créer ou enrichir une suggestion de marché public OLING. Lire crm_tender_decisions avant les imports. Réutiliser le même id stable par avis et lot. Ne jamais importer un digest ou une newsletter. Une décision rejetée reste rejetée. follow=true uniquement si l’utilisateur demande explicitement à suivre. Les corrections manuelles sont conservées. Aucune lecture des emails, aucun envoi. dry_run=true teste sans conserver de fiche.','inputSchema'=>['type'=>'object','properties'=>['id'=>['type'=>'string','maxLength'=>500],'title'=>['type'=>'string','maxLength'=>1000],'follow'=>['type'=>'boolean'],'url'=>['type'=>'string'],'fields'=>['type'=>'object','properties'=>$properties,'additionalProperties'=>false],'dry_run'=>['type'=>'boolean','default'=>false]],'required'=>['id','title','follow','fields'],'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>false,'destructiveHint'=>false,'idempotentHint'=>true,'openWorldHint'=>false]]
+                ['name'=>'crm_import_tender','description'=>'Créer ou enrichir une suggestion de marché public OLING. Lire crm_tender_decisions avant les imports. Réutiliser le même id stable par avis et lot. Ne jamais importer un digest ou une newsletter. Une décision rejetée reste rejetée. Si deleted=true ou ignored=true, la fiche a été supprimée : ne pas la recréer ni changer son identifiant pour réessayer. follow=true uniquement si l’utilisateur demande explicitement à suivre. Les corrections manuelles sont conservées. Aucune lecture des emails, aucun envoi. dry_run=true teste sans conserver de fiche.','inputSchema'=>['type'=>'object','properties'=>['id'=>['type'=>'string','maxLength'=>500],'title'=>['type'=>'string','maxLength'=>1000],'follow'=>['type'=>'boolean'],'url'=>['type'=>'string'],'fields'=>['type'=>'object','properties'=>$properties,'additionalProperties'=>false],'dry_run'=>['type'=>'boolean','default'=>false]],'required'=>['id','title','follow','fields'],'additionalProperties'=>false],'annotations'=>['readOnlyHint'=>false,'destructiveHint'=>false,'idempotentHint'=>true,'openWorldHint'=>false]]
             ]];
         } elseif ($method==='tools/call') {
             $name=$p['params']['name']??''; $args=$p['params']['arguments']??[];

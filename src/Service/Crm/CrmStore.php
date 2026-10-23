@@ -91,11 +91,13 @@ final class CrmStore
         foreach (['url'] as $key) { if (!empty($source[$key]) && (!filter_var($source[$key],FILTER_VALIDATE_URL) || parse_url($source[$key],PHP_URL_SCHEME)!=='https')) { throw new \InvalidArgumentException('Source HTTPS requise.'); } }
         return $this->db->transactional(function() use($source) {
             $key=hash('sha256',$source['origin'].'|'.$source['external_id']);
+            if ($deleted=$this->state('deleted_s:'.$key)) { return ['id'=>$deleted['id']??null,'duplicate'=>true,'deleted'=>true]; }
             $existing=$this->db->fetchOne('SELECT deal_id FROM crm_source WHERE source_key=?',[$key]);
             if ($existing) { return ['id'=>$existing,'duplicate'=>true]; }
             $identity=hash('sha256',$source['origin'].'|'.$source['identity']);
             $identities=[$identity];
             foreach ($source['aliases']??[] as $alias) { if (!is_string($alias) || $alias==='') { throw new \InvalidArgumentException('Identité invalide.'); } $identities[]=hash('sha256',$source['origin'].'|'.$alias); }
+            foreach ($identities as $candidate) { if ($deleted=$this->state('deleted_i:'.$candidate)) { return ['id'=>$deleted['id']??null,'duplicate'=>true,'deleted'=>true]; } }
             $id=false;
             foreach ($identities as $candidate) { $id=$this->db->fetchOne('SELECT deal_id FROM crm_identity WHERE identity_key=?',[$candidate]); if ($id) { break; } }
             $new=!$id;

@@ -32,6 +32,7 @@ final class CrmAccessTest extends WebTestCase
         $market=$store->ingest(['origin'=>'watch','external_id'=>'test-market','identity'=>'test-market|lot1','title'=>'Marché à examiner','fields'=>[],'kind'=>'public'])['id'];
         $doubtful=$store->create(['title'=>'Ancien import douteux'],'private','email');$store->reviewLegacy();
         $client->request('GET','/admin/crm');self::assertSelectorTextContains('.board','Client à qualifier');self::assertSelectorTextContains('.board','Marché à examiner');self::assertSelectorTextNotContains('.board','Ancien import douteux');
+        $client->request('GET','/admin/crm?view=clients');self::assertSelectorTextContains('.board','Client à qualifier');self::assertSelectorTextNotContains('.board','Affaire fictive');
         $client->request('GET','/admin/crm?segment=markets');self::assertSelectorTextContains('.board','Marché à examiner');self::assertSelectorTextNotContains('.board','Client à qualifier');
         $client->request('GET','/admin/crm?segment=clients&mode=list');self::assertSelectorTextContains('table','Client à qualifier');self::assertSelectorTextNotContains('table','Marché à examiner');
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>2,'decision'=>'reject']);self::assertResponseIsSuccessful();self::assertSame('reject',$store->get($market)['decision']);

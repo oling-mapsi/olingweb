@@ -12,8 +12,9 @@ final class CrmDeadlines
             if (!empty($d['merged_into']) || !empty($d['review_required'])) { continue; }
             if (($d['kind']??'')!=='public' && ($d['origin']??'')!=='watch') { continue; }
             if (in_array($d['status'],['no_go','won','lost','archived','sent','discussion'],true)) { continue; }
-            // Watch decisions are explicit; manually entered tenders use their commercial stage.
-            $selected=($d['origin']??'')==='watch' ? ($d['decision']??'review')==='follow' : in_array($d['status'],['follow','preparing'],true);
+            // A commercial stage also records the user's choice in the unified portfolio.
+            // An explicit watch rejection remains authoritative until changed.
+            $selected=($d['decision']??'review')!=='reject' && ((($d['origin']??'')==='watch' && ($d['decision']??'review')==='follow') || in_array($d['status'],['follow','preparing'],true));
             if (!$selected) { continue; }
             if (empty($d['deadline'])) { ++$missing; continue; }
             try { $date=new \DateTimeImmutable($d['deadline']); } catch (\Exception) { ++$missing; continue; }

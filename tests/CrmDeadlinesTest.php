@@ -4,6 +4,12 @@ use App\Service\Crm\CrmDeadlines;
 use PHPUnit\Framework\TestCase;
 final class CrmDeadlinesTest extends TestCase
 {
+    public function testKanbanSelectionAlsoCountsWatchMarketsAwaitingReview(): void
+    {
+        $base=['id'=>'a','title'=>'Choix Kanban fictif','kind'=>'public','origin'=>'watch','decision'=>'review','deadline'=>'2026-10-24T10:00:00Z'];
+        $result=CrmDeadlines::summarize([array_replace($base,['status'=>'follow']),array_replace($base,['id'=>'b','status'=>'preparing'])],new \DateTimeImmutable('2026-10-23T10:00:00Z'));
+        self::assertSame(2,$result['soon']);self::assertSame(2,$result['total']);
+    }
     public function testEligibilityAndTimeBoundaries(): void
     {
         $now=new \DateTimeImmutable('2026-10-23T12:00:00+02:00');
@@ -13,6 +19,7 @@ final class CrmDeadlinesTest extends TestCase
         foreach (['review','reject'] as $decision) { $excluded[]=array_replace($base,['decision'=>$decision]); }
         $excluded[]=array_replace($base,['merged_into'=>'other']);
         $excluded[]=array_replace($base,['review_required'=>true]);
+        $excluded[]=array_replace($base,['decision'=>'reject','status'=>'preparing']);
         $excluded[]=array_replace($base,['origin'=>'manual','kind'=>'private','status'=>'follow']);
         $excluded[]=array_replace($base,['origin'=>'manual','status'=>'qualify']);
         self::assertSame(['soon'=>0,'overdue'=>0,'missing'=>0,'total'=>0,'next'=>[]],CrmDeadlines::summarize($excluded,$now));

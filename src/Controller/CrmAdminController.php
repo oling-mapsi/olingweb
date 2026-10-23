@@ -17,17 +17,20 @@ final class CrmAdminController extends AbstractController
     {
         $this->guard(); $view=$r->query->get('view','portfolio'); $q=mb_strtolower(trim($r->query->get('q',''))); $status=$r->query->get('status',''); $kind=$r->query->get('kind','');
         $segment=$r->query->get('segment',''); $origin=$r->query->get('origin',''); $due=$r->query->get('due',''); $decision=$r->query->get('decision','');
+        // Old bookmarks now use the same portfolio and saved progress as the type filters.
+        if (in_array($view,['markets','clients'],true)) {
+            $segment=$view; $view='portfolio';
+            $r->query->set('view',$view); $r->query->set('segment',$segment);
+        }
         $all=$this->store->all(); $formsOnly=$this->config->get('client_intake','forms_only')==='forms_only';
         $rows=array_values(array_filter($all,function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment,$formsOnly) {
             if (!empty($d['merged_into'])) { return false; }
             if ($formsOnly && $view!=='review' && $d['origin']==='email') { return false; }
-            if ($view==='markets' && $d['origin']!=='watch') { return false; }
-            if ($view==='clients' && ($d['origin']==='watch' || $d['kind']==='public' || $d['review_required'])) { return false; }
             if ($view==='review' && !$d['review_required']) { return false; }
             if ($view==='portfolio' && $d['review_required']) { return false; }
             $public=$d['kind']==='public' || $d['origin']==='watch';
             if (($segment==='markets' && !$public) || ($segment==='clients' && $public)) { return false; }
-            if (in_array($view,['active','todo']) && ($d['review_required'] || ($d['origin']==='watch' ? $d['decision']!=='follow' : $d['status']==='qualify'))) { return false; }
+            if (in_array($view,['active','todo']) && ($d['review_required'] || ($d['status']==='qualify' && !($d['origin']==='watch' && $d['decision']==='follow')))) { return false; }
             if ($origin && $origin!==$d['origin']) { return false; }
             if ($decision && $decision!==$d['decision']) { return false; }
             $date=$d['reminder']?:$d['deadline'];
@@ -54,7 +57,7 @@ final class CrmAdminController extends AbstractController
             try {
                 $this->store->delete($id,$r->request->getInt('version'));
                 $this->addFlash('success','Fiche supprimée. Ses prochains imports seront ignorés.');
-                return $this->redirectToRoute('admin_crm',['view'=>$deal['kind']==='public'?'markets':'clients']);
+                return $this->redirectToRoute('admin_crm',['view'=>'portfolio','segment'=>$deal['kind']==='public' || $deal['origin']==='watch'?'markets':'clients']);
             } catch (\InvalidArgumentException|\RuntimeException $e) {
                 $this->addFlash('danger',$e->getMessage());return $this->redirectToRoute('admin_crm_show',['id'=>$id]);
             }

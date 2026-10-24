@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap-local.php" colors="true" cacheResult="false" convertDeprecationsToExceptions="false">
+<testsuites><testsuite name="AI local"><directory>../../tests/Ai</directory></testsuite></testsuites>
+</phpunit>

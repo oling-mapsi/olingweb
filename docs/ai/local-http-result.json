@@ -1,0 +1,102 @@
+{
+  "at": "2026-10-24T17:35:23.687847+00:00",
+  "target": "127.0.0.1:8094",
+  "fixtures_only": true,
+  "real_codex_started": false,
+  "checks": [
+    {
+      "check": "anonymous_requires_login",
+      "passed": true
+    },
+    {
+      "check": "fixture_admin_login",
+      "passed": true
+    },
+    {
+      "check": "view_home",
+      "passed": true
+    },
+    {
+      "check": "private_headers_home",
+      "passed": true
+    },
+    {
+      "check": "view_missions",
+      "passed": true
+    },
+    {
+      "check": "private_headers_missions",
+      "passed": true
+    },
+    {
+      "check": "view_assets",
+      "passed": true
+    },
+    {
+      "check": "private_headers_assets",
+      "passed": true
+    },
+    {
+      "check": "view_prompts",
+      "passed": true
+    },
+    {
+      "check": "private_headers_prompts",
+      "passed": true
+    },
+    {
+      "check": "host_only_http_only_same_site_session",
+      "passed": true
+    },
+    {
+      "check": "invalid_csrf_create_refused",
+      "passed": true
+    },
+    {
+      "check": "route_isolation_127.0.0.1/admin/ai",
+      "passed": true
+    },
+    {
+      "check": "route_isolation_crm.localhost/ai/login",
+      "passed": true
+    },
+    {
+      "check": "route_isolation_ai.localhost/admin/crm",
+      "passed": true
+    },
+    {
+      "check": "ai_session_not_accepted_crm.localhost",
+      "passed": true
+    },
+    {
+      "check": "ai_session_not_accepted_127.0.0.1",
+      "passed": true
+    },
+    {
+      "check": "relay_disabled",
+      "passed": true
+    },
+    {
+      "check": "tracking_not_connected",
+      "passed": true
+    },
+    {
+      "check": "fixture_reader_authenticates",
+      "passed": true
+    },
+    {
+      "check": "non_admin_refused",
+      "passed": true
+    },
+    {
+      "check": "logout",
+      "passed": true
+    },
+    {
+      "check": "logout_revokes_access",
+      "passed": true
+    }
+  ],
+  "cookie_values_saved": false,
+  "csrf_values_saved": false
+}

@@ -2,9 +2,13 @@
 
 Le logo PNG officiel fourni par OLING est conservé sans modification dans `public/crm/oling-logo.png`.
 
-Le Kanban affiche les neuf colonnes sur une largeur d'au moins 1200 px. Les cartes défilent verticalement dans chaque colonne. « Agrandir les cartes » ouvre un mode plus large ; une barre horizontale située au-dessus du tableau et les boutons de colonnes permettent de rejoindre directement chaque étape. Les mêmes accès sont proposés sur petit écran. Le détail reste disponible au survol, au clic et au clavier ; le déplacement reste versionné et protégé par CSRF.
+## Interface locale V2.1 — en attente de validation
 
-Les KPI sont calculés sur tout le portefeuille, indépendamment du filtre affiché. Sont retenus les marchés ayant une décision explicite `follow`, ou un statut commercial `follow` / `preparing` choisi dans le portefeuille, y compris lorsque la décision de veille est encore `review`. Une décision explicite `reject` reste exclue jusqu'à sa modification. Sont exclus les doublons fusionnés, imports à réviser, décisions non retenues, clients privés, statuts `no_go`, `won`, `lost`, `archived`, et réponses déjà déposées (`sent`, `discussion`). Le bloc affiche les échéances sous sept jours, dépassées, les trois prochaines dates ordonnées et le nombre de dates manquantes. Les heures sont affichées en Europe/Paris. Le déplacement de carte ou le changement de décision recalcule immédiatement le bloc.
+Le Kanban affiche cinq étapes actives par défaut. Le filtre En cours / Clôturées / Toutes les étapes conserve les neuf statuts existants. Les colonnes ont une largeur minimale de 235 px sur ordinateur ; les cinq colonnes tiennent à 1280 et 1440 px. Sur petit écran, le défilement reste interne, avec accès aux colonnes et barre supérieure. Les détails des cartes s’ouvrent au clic ou au clavier. Actions et relances s’ouvre en liste, sauf choix explicite du Kanban.
+
+Les KPI conservent exactement le calcul de `CrmDeadlines` livré avant cette évolution : tout le portefeuille, marchés et propositions clients, sous sept jours (retards inclus), au-delà et propositions envoyées/en discussion. Les statuts commerciaux `follow` / `preparing` priment sur la décision de veille ; une veille explicitement sélectionnée reste éligible en `qualify`. Les exclusions, dates manquantes et bornes Europe/Paris sont inchangées. Les listes restent disponibles au survol, au clic et au clavier. La description précédente de cette page (marchés uniquement, exclusion systématique de `reject`) était obsolète ; voir le README pour le périmètre actuel.
+
+Recette, captures, limites et fichiers : [UX V2.1](UX-V2.1.md). Cette évolution est locale, sans fusion ni déploiement. Les informations d’exploitation ci-dessous décrivent l’installation existante, pas une intervention effectuée pour V2.1.
 
 ## Domaine et exploitation
 

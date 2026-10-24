@@ -22,3 +22,11 @@ Captures : [1440](two-row-workspace/1440.png), [1280](two-row-workspace/1280.png
 ## Livraison
 
 Overlay CRM uniquement, sans migration ni configuration de connecteur. L'application IA désormais présente partage la configuration de sécurité : le déploiement vérifie son manifeste actif si ce fichier a changé depuis le dernier manifeste CRM. Tout écart non couvert reste bloquant. Le patch CRM laisse la configuration combinée IA/CRM strictement identique. Sauvegarde, preuve de restauration SQL, copie chiffrée locale et SQL privé Dropbox avant activation ; release précédente conservée.
+
+## Clôtures : Sans suite et retour Kanban
+
+Trois zones de 144 px minimum sur ordinateur : Perdue, Gagnée, Sans suite. Leur clic ouvre la **liste** du statut, en conservant le segment et les filtres. Le bouton **Kanban** revient au portefeuille actif (À qualifier → En discussion), conserve B2B/B2G et efface les autres filtres. Les compteurs incluent Sans suite.
+
+Pendant un déplacement, les zones sont repérées par un contour plein. La cible active devient bleu foncé, avec texte blanc, contour épais, ombre et mention « Déposer ici », sans modifier la hauteur des commandes. Le retrait de la carte du tableau ne supprime pas la surbrillance de la zone de clôture.
+
+Recette : 68 tests CRM / 750 assertions ; les trois transitions, conflits de version, compteurs et parcours liste → Kanban sont couverts. PHP/Twig/container/JS valides. Bureau 1280 px et mobile 375 px sans débordement de page ; deux lignes conservées sur ordinateur. [Bureau](closing-navigation/1280.png), [mobile](closing-navigation/375.png), [état actif sur fixture synthétique](closing-navigation/hover-fixture.png). Aucun changement de données réelles, de migration ou de connecteur.

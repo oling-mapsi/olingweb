@@ -68,7 +68,7 @@ final class CrmAdminController extends AbstractController
     }
     private function closedCounts(array $all, Request $r): array
     {
-        $counts=['lost'=>0,'won'=>0];
+        $counts=['lost'=>0,'won'=>0,'no_go'=>0];
         foreach ($this->filteredRows($all,$r,true) as $deal) {
             if (isset($counts[$deal['status']])) { ++$counts[$deal['status']]; }
         }

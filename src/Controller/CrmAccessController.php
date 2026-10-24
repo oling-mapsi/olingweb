@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class CrmAccessController extends AbstractController
 {
-    #[Route('/crm/login', name: 'crm_login', methods: ['GET', 'POST'])]
+    #[Route('/crm/login', name: 'admin_crm_login', methods: ['GET', 'POST'])]
     public function login(Request $request, AuthenticationUtils $authentication): Response
     {
         if (!in_array($request->getHost(), ['crm.oling.fr', 'crm.localhost'], true)) { throw $this->createNotFoundException(); }
@@ -20,6 +20,6 @@ final class CrmAccessController extends AbstractController
         ]);
     }
 
-    #[Route('/crm/logout', name: 'crm_logout', methods: ['POST'])]
+    #[Route('/crm/logout', name: 'admin_crm_logout', methods: ['POST'])]
     public function logout(): never { throw new \LogicException('Handled by the CRM firewall.'); }
 }

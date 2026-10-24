@@ -27,6 +27,8 @@ final class CrmStandaloneAccessTest extends WebTestCase
         $client->request('GET','https://crm.oling.fr/admin/crm'); self::assertResponseRedirects('/crm/login');
         $c=$client->followRedirect(); self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h1','Votre espace commercial');
+        // Public response decorators exclude internal admin_* routes; the visible URL stays /crm/login.
+        self::assertSame('admin_crm_login', $client->getRequest()->attributes->get('_route'));
         self::assertSelectorNotExists('a[href*="oling.fr/admin"]');
         self::assertNotNull($client->getCookieJar()->get('OLINGCRMSESSID','/','crm.oling.fr'));
         $client->request('POST','https://crm.oling.fr/crm/login',['_username'=>'shared-account','_password'=>'Synthetic-password-42','_csrf_token'=>'invalid']);

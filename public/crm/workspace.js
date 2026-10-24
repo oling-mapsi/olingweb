@@ -36,7 +36,7 @@
     const overflow = board.scrollWidth > board.clientWidth + 2;
     scroller.hidden = !overflow;
     document.querySelector('.column-jump').classList.toggle('needed', overflow);
-    board.style.height = Math.max(360, innerHeight - (board.getBoundingClientRect().top + scrollY) - 24) + 'px';
+    board.style.height = Math.max(Math.min(560, innerHeight * .75), innerHeight - (board.getBoundingClientRect().top + scrollY) - 16) + 'px';
   }
   scroller.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) board.scrollLeft = scroller.scrollLeft; });
   board.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) scroller.scrollLeft = board.scrollLeft; });

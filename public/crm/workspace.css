@@ -204,3 +204,64 @@ body.crm-workspace {
 :where(.crm-workspace) .footer { padding:14px 16px; }
 :where(.crm-workspace) .compact-footer button, :where(.crm-workspace) .column-jump button { min-height:40px; }
 }
+
+/* Workspace chrome: filters in the top bar, summary beside the heading. */
+:where(.crm-workspace) .app-header { background:white; border-bottom:1px solid var(--line); }
+:where(.crm-workspace) .topbar { min-height:64px; padding:6px 24px; border-bottom:0; }
+:where(.crm-workspace) .brand img { width:40px; height:40px; }
+:where(.crm-workspace) .session-action { margin-left:auto; }
+:where(.crm-workspace) .session-action button { font-size:13px; padding:6px 12px; }
+:where(.crm-workspace) .app-header .portfolio-filters { padding:6px 24px 10px; gap:12px; align-items:center; }
+:where(.crm-workspace) .app-header .filters { gap:8px; align-items:center; }
+:where(.crm-workspace) .app-header .filters input, :where(.crm-workspace) .app-header .filters select { margin-top:0; }
+:where(.crm-workspace) .crm { padding-top:14px; }
+:where(.crm-workspace) .workspace-heading { display:grid; grid-template-columns:minmax(220px,.7fr) minmax(0,1.7fr); gap:24px; margin-bottom:8px; }
+:where(.crm-workspace) .workspace-heading h1 { margin-bottom:0; }
+:where(.crm-workspace) .workspace-heading .action-kpis { grid-template-columns:repeat(3,minmax(0,1fr)); padding:0; gap:8px; margin:0; background:transparent; border:0; }
+:where(.crm-workspace) .workspace-heading .deadline-heading { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:4px 12px; padding:0; align-items:center; }
+:where(.crm-workspace) .workspace-heading .deadline-heading>strong { display:none; }
+:where(.crm-workspace) .workspace-heading .deadline-heading small { margin:0; }
+:where(.crm-workspace) .workspace-heading .kpi-trigger { padding:7px 10px; display:grid; grid-template-columns:28px 1fr; align-items:center; gap:1px 7px; }
+:where(.crm-workspace) .workspace-heading .kpi-trigger>strong { grid-row:1/3; font-size:26px; }
+:where(.crm-workspace) .workspace-heading .kpi-trigger>small { grid-column:2; }
+:where(.crm-workspace) .view-toolbar { margin:8px 0; }
+:where(.crm-workspace) .view-toolbar .board-help { margin-right:auto; }
+:where(.crm-workspace) .view-toolbar .crm-actions { align-items:center; }
+:where(.crm-workspace) .crm-login { min-height:100dvh; }
+body.crm-login { display:grid; place-items:center; min-height:100dvh; padding:24px; }
+:where(.crm-workspace) .login-card { width:100%; max-width:430px; background:white; border:1px solid var(--line); border-radius:12px; padding:32px; box-shadow:0 12px 48px #172c3a12; }
+:where(.crm-workspace) .login-card h1 { margin-top:28px; }
+:where(.crm-workspace) .login-card label { margin-top:18px; }
+:where(.crm-workspace) .login-card form>button { width:100%; margin-top:24px; }
+:where(.crm-workspace) .login-caption { color:var(--muted); margin:24px 0 0; font-size:13px; }
+@media(max-width:1100px) {
+  :where(.crm-workspace) .workspace-heading { grid-template-columns:1fr; gap:10px; }
+  :where(.crm-workspace) .app-header .portfolio-filters { align-items:stretch; }
+  :where(.crm-workspace) .view-toolbar { flex-wrap:wrap; }
+  :where(.crm-workspace) .view-toolbar>.segmented { flex-shrink:0; }
+  :where(.crm-workspace) .view-toolbar .board-help { order:3; flex-basis:100%; }
+  :where(.crm-workspace) .view-toolbar .crm-actions { margin-left:auto; }
+  :where(.crm-workspace) .workspace-heading .kpi-popover { right:0; left:auto; max-width:calc(100vw - 48px); }
+}
+@media(max-width:700px) {
+  :where(.crm-workspace) .topbar { padding:6px 12px; gap:4px 12px; }
+  :where(.crm-workspace) .app-header .portfolio-filters { padding:4px 12px 8px; gap:6px; }
+  :where(.crm-workspace) .app-header .filters { display:flex; flex-wrap:wrap; gap:6px; }
+  :where(.crm-workspace) .app-header .filters label { display:block; }
+  :where(.crm-workspace) .app-header .filters .search { flex:1 1 100%; }
+  :where(.crm-workspace) .app-header .filters label:not(.search) { flex:1; }
+  :where(.crm-workspace) .app-header .filters .reset-filter { flex-basis:100%; }
+  :where(.crm-workspace) .workspace-heading { gap:8px; }
+  :where(.crm-workspace) .workspace-heading .action-kpis { gap:5px; }
+  :where(.crm-workspace) .workspace-heading .kpi-trigger { display:flex; flex-direction:column; align-items:flex-start; gap:2px; height:100%; padding:7px; }
+  :where(.crm-workspace) .workspace-heading .kpi-trigger>strong { font-size:24px; }
+  :where(.crm-workspace) .workspace-heading .action-kpi { position:static; }
+  :where(.crm-workspace) .workspace-heading .action-kpis { position:relative; }
+  :where(.crm-workspace) .workspace-heading .kpi-popover { top:100%; left:0; right:0; max-width:none; width:100%; }
+  :where(.crm-workspace) .view-toolbar { gap:6px; }
+  :where(.crm-workspace) .view-toolbar .board-help { order:3; flex-basis:100%; }
+  :where(.crm-workspace) .view-toolbar .crm-actions { margin-left:auto; gap:8px; }
+  :where(.crm-workspace) .view-toolbar .crm-actions>a:not(.btn) { font-size:13px; }
+  :where(.crm-workspace) .view-toolbar .primary { padding:7px 9px; }
+  :where(.crm-workspace) .login-card { padding:24px; }
+}

@@ -1,0 +1,1 @@
+<input type="hidden" name="_token" value="{{ csrf_token('ai_control') }}"><input type="hidden" name="request_key" value="{{ request_key }}">{% if mission is defined %}<input type="hidden" name="version" value="{{ mission.version }}">{% endif %}

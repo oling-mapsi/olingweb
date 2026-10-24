@@ -1,5 +1,10 @@
 (() => {
   // Delegation also covers KPI HTML refreshed after a Kanban move, and the list view.
+  const portfolioMenu = document.querySelector('.portfolio-menu');
+  document.addEventListener('click', e => { if (portfolioMenu && !portfolioMenu.contains(e.target)) portfolioMenu.open = false; });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && portfolioMenu?.open) { portfolioMenu.open = false; portfolioMenu.querySelector('summary').focus(); }
+  });
   let activeKpi = null;
   function closeKpi(restoreFocus = false) {
     if (!activeKpi) return;
@@ -12,6 +17,9 @@
     if (activeKpi !== kpi) closeKpi();
     activeKpi = kpi; kpi.querySelector('.kpi-popover').hidden = false;
     kpi.querySelector('.kpi-trigger').setAttribute('aria-expanded', 'true');
+    const panel = kpi.querySelector('.kpi-popover'), r = kpi.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    panel.style.left = Math.max(12, Math.min(r.left, innerWidth - p.width - 12)) + 'px';
+    panel.style.top = Math.max(12, Math.min(kpi.classList.contains('footer-feed') ? r.top - p.height - 4 : r.bottom + 4, innerHeight - p.height - 12)) + 'px';
   }
   document.addEventListener('pointerover', e => {
     const kpi = e.target.closest('.action-kpi');
@@ -29,6 +37,7 @@
     if (activeKpi && !activeKpi.contains(document.activeElement) && !activeKpi.matches(':hover')) closeKpi();
   }, 0));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && activeKpi) closeKpi(true); });
+  window.addEventListener('resize', () => closeKpi());
   const board = document.querySelector('.board'); if (!board) return;
   const scroller = document.querySelector('.board-scroll');
   function fitBoard() {
@@ -36,7 +45,8 @@
     const overflow = board.scrollWidth > board.clientWidth + 2;
     scroller.hidden = !overflow;
     document.querySelector('.column-jump').classList.toggle('needed', overflow);
-    board.style.height = Math.max(Math.min(560, innerHeight * .75), innerHeight - (board.getBoundingClientRect().top + scrollY) - 16) + 'px';
+    const footerHeight = document.querySelector('.footer').getBoundingClientRect().height;
+    board.style.height = Math.max(260, innerHeight - (board.getBoundingClientRect().top + scrollY) - footerHeight - 8) + 'px';
   }
   scroller.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) board.scrollLeft = scroller.scrollLeft; });
   board.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) scroller.scrollLeft = board.scrollLeft; });
@@ -47,9 +57,11 @@
   });
   window.addEventListener('resize', fitBoard);
   requestAnimationFrame(fitBoard);
+  const chromeObserver = new ResizeObserver(() => requestAnimationFrame(fitBoard));
+  for (const el of document.querySelectorAll('.app-header,.workspace-toolbar,.footer')) chromeObserver.observe(el);
   const error = document.getElementById('save-error'), feedback = document.getElementById('save-status');
   const field = board.dataset.field || 'status';
-  const closingTargets = [...document.querySelectorAll('[data-close-status]')];
+  const closingTargets = [...document.querySelectorAll('.outcome-drop')];
   let saving = false, permissionDenied = false;
   let dragged = null, pointer = null, frame = null, feedbackTimer;
   let previewCard = null;
@@ -113,7 +125,7 @@
     saving = true;
     closingTargets.forEach(target => {
       target.setAttribute('aria-disabled', 'true');
-      if (target.dataset.closeStatus === value) target.setAttribute('aria-busy', 'true');
+      if (target.dataset.dropStatus === value) target.setAttribute('aria-busy', 'true');
     });
     const keyboardMove = document.activeElement === select;
     card.dataset.saving = '1'; card.setAttribute('aria-busy', 'true'); card.draggable = false;
@@ -177,39 +189,25 @@
     closePreview(); dragged = card; card.classList.add('dragging');
     e.dataTransfer.setData('text/plain', card.dataset.id); e.dataTransfer.effectAllowed = 'move';
   });
-  board.addEventListener('dragover', e => {
+  document.addEventListener('dragover', e => {
     if (!dragged) return;
     e.preventDefault(); e.dataTransfer.dropEffect = 'move'; pointer = {x:e.clientX,y:e.clientY};
-    const lane = e.target.closest('.lane');
-    closingTargets.forEach(x => x.classList.remove('drop-target'));
-    board.querySelectorAll('.lane').forEach(x => x.classList.toggle('drop-target', x === lane));
+    const lane = e.target.closest('.lane,.outcome-drop');
+    document.querySelectorAll('.lane,.outcome-drop').forEach(x => x.classList.toggle('drop-target', x === lane));
     if (!frame) frame = requestAnimationFrame(scrollWhileDragging);
   });
-  board.addEventListener('drop', e => {
+  document.addEventListener('drop', e => {
     if (!dragged) return; e.preventDefault();
-    const card = dragged, lane = e.target.closest('.lane'); clearDrag();
-    if (lane) save(card, lane.dataset.value);
+    const card = dragged, lane = e.target.closest('.lane,.outcome-drop'); clearDrag();
+    if (lane) save(card, lane.dataset.dropStatus || lane.dataset.value);
   });
   closingTargets.forEach(target => {
     target.addEventListener('click', e => { if (saving || permissionDenied) e.preventDefault(); });
-    target.addEventListener('dragover', e => {
-      if (!dragged || saving || permissionDenied) return;
-      e.preventDefault(); e.dataTransfer.dropEffect = 'move'; pointer = null;
-      document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
-      target.classList.add('drop-target');
-    });
-    target.addEventListener('dragleave', e => {
-      if (!target.contains(e.relatedTarget)) target.classList.remove('drop-target');
-    });
-    target.addEventListener('drop', e => {
-      if (!dragged) return;
-      e.preventDefault(); const card = dragged; clearDrag();
-      save(card, target.dataset.closeStatus);
-    });
+
   });
   board.addEventListener('dragleave', e => {
     if (!board.contains(e.relatedTarget)) {
-      board.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+      document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
       pointer = null;
     }
   });

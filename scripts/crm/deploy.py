@@ -55,7 +55,14 @@ if phase=='prepare':
  run(['python3',str(release/'scripts/crm/patch-navigation.py'),str(release/'templates/admin/_nav.html.twig')])
  # Preserve all server-specific main-firewall protections; add only the isolated CRM context.
  security='config/packages/security.yaml'
- if prior and security in prior['files']: assert prior['files'][security]==digest(old/security)
+ if prior and security in prior['files']:
+  expected=prior['files'][security]
+  # A later AI overlay may own this shared configuration; verify its exact active manifest.
+  if expected!=digest(old/security) and (old/'AI_RELEASE.json').is_file():
+   ai=json.loads((old/'AI_RELEASE.json').read_text())
+   assert ai.get('release')==str(old), 'AI manifest does not describe the active release'
+   expected=ai.get('files',{}).get(security)
+  assert expected==digest(old/security), 'Unverified security configuration drift'
  run(['python3',str(release/'scripts/crm/patch-security.py'),str(release/security)])
  for p in [release/'var/cache',release/'var/log']:p.mkdir(parents=True,exist_ok=True)
  run(['chown','-R','deploy:www-data',str(release/'src/Service/Crm'),str(release/'templates/admin/crm'),str(release/'scripts/crm')])

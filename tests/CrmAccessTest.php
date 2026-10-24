@@ -44,16 +44,16 @@ final class CrmAccessTest extends WebTestCase
             $client->request('GET','/admin/crm?'.$query);self::assertResponseIsSuccessful();
             self::assertSelectorExists('.board[data-field="status"]');self::assertSelectorCount(5,'.lane');
             self::assertSelectorNotExists('a[href*="view=review"]');
-            self::assertSelectorCount(3,'.kpi-trigger');
+            self::assertSelectorCount(3,'#deadline-summary .kpi-trigger');
             self::assertSelectorExists('.kpi-popover[hidden]');
             self::assertSelectorExists('.lane[data-value="preparing"] .deal-card[data-id="'.$market.'"]');
             self::assertSelectorTextContains('.lane[data-value="discussion"]','Affaire fictive'); // Manual public markets too.
             self::assertSelectorTextNotContains('.board','Client à qualifier');
             self::assertSelectorNotExists('.lane[data-value="review"]');self::assertSelectorNotExists('.decision-badge');
-            self::assertSelectorCount(2,'nav[aria-label="Navigation principale"] a');
-            self::assertSelectorTextContains('nav[aria-label="Navigation principale"] a.active','Portefeuille');
-            self::assertSelectorCount(3,'.segment-filter a');
-            self::assertSelectorTextContains('.segment-filter .selected','Marchés publics');
+            self::assertSelectorCount(4,'nav[aria-label="Navigation principale"] a');
+            self::assertSelectorTextContains('nav[aria-label="Navigation principale"] summary.active','Portefeuille');
+            self::assertSelectorCount(3,'.portfolio-options a');
+            self::assertSelectorTextContains('.portfolio-options [aria-current=page]','B2G');
             self::assertSelectorExists('.card-status option[value="preparing"][selected]');
         }
         self::assertSame($before,$store->get($market)); // Navigation never rewrites business status or decisions.
@@ -73,7 +73,7 @@ final class CrmAccessTest extends WebTestCase
         $client->request('GET','/admin/crm/'.$private);self::assertSelectorTextContains('.crm-badge','Sans suite');self::assertSelectorTextContains('body','Motif conservé');
         for($i=0;$i<51;++$i) { $store->create(['title'=>'Client fictif '.$i],'private','form'); }
         $client->request('GET','/admin/crm');self::assertSelectorCount(53,'.deal-card');
-        $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');
+        $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');self::assertSelectorTextContains('.display-count','50 / 53');
         $store->edit($market,['deadline'=>'2099-10-24T10:00:00Z'],'preparing','public','','test',$store->get($market)['version']);
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>$store->get($market)['version'],'decision'=>'follow']);
         self::assertResponseIsSuccessful();self::assertStringContainsString('Marché à examiner',json_decode($client->getResponse()->getContent(),true)['deadline_html']);

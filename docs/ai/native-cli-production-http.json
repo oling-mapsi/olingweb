@@ -1,0 +1,160 @@
+{
+  "at": "2026-10-24T18:28:08.937676+00:00",
+  "checks": [
+    {
+      "host": "oling.fr",
+      "path": "/",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "host": "oling.fr",
+      "path": "/login",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "host": "crm.oling.fr",
+      "path": "/crm/login",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "host": "crm.oling.fr",
+      "path": "/admin/crm",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/ai/login",
+      "method": "GET",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "cookie": {
+        "name": "OLINGAISESSID",
+        "present": true,
+        "host_only": true,
+        "secure": true,
+        "http_only": true,
+        "same_site_lax": true
+      },
+      "private_headers": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/ai",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/ai?view=missions",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/ai?view=assets",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/ai?view=prompts",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/api/ai/mcp",
+      "method": "GET",
+      "status": 503,
+      "expected": 503,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/api/ai-relay",
+      "method": "POST",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "host": "oling.fr",
+      "path": "/admin/ai",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "host": "crm.oling.fr",
+      "path": "/ai/login",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/crm",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/var/ai-private",
+      "method": "GET",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "host": "ai.oling.fr",
+      "path": "/admin/ai/assets/00000000000000000000000000000000",
+      "method": "GET",
+      "status": 302,
+      "expected": 302,
+      "passed": true
+    }
+  ],
+  "certificate": {
+    "verified": true,
+    "verification": "system curl default trust store, ssl_verify_result=0; no insecure flag",
+    "not_after_from_certbot": "2027-01-22"
+  },
+  "passed": true,
+  "authenticated_production_recipe": "not_executed_no_user_credentials_or_session_extracted",
+  "local_authenticated_recipe": "passed_with_fixtures",
+  "native_connection": "not_connected",
+  "cookies_or_csrf_values_saved": false
+}

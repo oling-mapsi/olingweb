@@ -1,6 +1,6 @@
 {
-  "status": "local-tested-awaiting-parent-publication-validation",
-  "base": "9ce56a3be5a56af7a8039d3cf91c4f82d2436188",
+  "status": "publication-authorized-local-regression-passed",
+  "base": "7a86077d0673e2089cacc116c18fbe9cb061d09c",
   "branch": "codex/ai-native-tracking-cli",
   "production_unchanged": true,
   "production_mission_created": false,
@@ -25,9 +25,10 @@
       "passed": true
     },
     "crm": {
-      "tests": 53,
-      "assertions": 643,
-      "passed": true
+      "tests": 55,
+      "assertions": 660,
+      "passed": true,
+      "test_files": 14
     },
     "lints": {
       "php_files": 3,
@@ -63,7 +64,7 @@
   "not_verified": [
     "Live SSH command invocation",
     "Production first mission",
-    "Native task existence by platform API",
+    "Model and effort of native thread",
     "MySQL concurrency"
   ],
   "files": [
@@ -87,6 +88,22 @@
       "path": "docs/ai/native-cli.md",
       "sha256": "5f3e90f5bc1e4b636475a374f4f035a36654263cfa39db19f3bb0bcba3841f90",
       "bytes": 8002
+    },
+    {
+      "path": "scripts/ai/phpunit-crm.xml",
+      "sha256": "a955fc68c5d654e1d79ef34dbf71cacdff479497faac5ab0b8c4121627a8947f",
+      "bytes": 747
+    },
+    {
+      "path": "scripts/ai/deploy-track.py",
+      "sha256": "a86fea56e3c5e94eff8f774a86c5c05634d0f4664ab3eaf910925acdff5b9155",
+      "bytes": 5015
     }
-  ]
+  ],
+  "native_reference_observation": {
+    "task_id": "01a16e5d-b400-71a8-87e7-134d4cb7b0c7",
+    "exists_in_platform_read_thread": true,
+    "server_attestation": false,
+    "model_and_effort_exposed": false
+  }
 }

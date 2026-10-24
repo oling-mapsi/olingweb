@@ -38,7 +38,7 @@ final class CrmStandaloneAccessTest extends WebTestCase
         self::assertResponseRedirects('/admin/crm');
         $client->followRedirect(); self::assertResponseIsSuccessful();
         self::assertSelectorCount(5,'.lane'); self::assertSelectorExists('.app-header .portfolio-filters');
-        self::assertSelectorExists('.workspace-heading #deadline-summary');
+        self::assertSelectorExists('.workspace-toolbar #deadline-summary');
         self::assertSelectorNotExists('.admin-link');
         self::assertSame($hash,$em->find(User::class,$u->getId())->getPassword());
         $client->request('GET','https://crm.oling.fr/admin'); self::assertResponseRedirects('/admin/crm');

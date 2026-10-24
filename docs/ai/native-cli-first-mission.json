@@ -1,0 +1,74 @@
+{
+  "production": true,
+  "release": "oling-ai-track-bd415b349451",
+  "code_commit": "bd415b349451fb42db88a2a3167193529f072db8",
+  "pull_request": "https://github.com/oling-mapsi/olingweb/pull/33",
+  "owner_username": "florestan",
+  "owner_id": 2,
+  "pilot_task_id": "01a16e14-ad4d-71c7-a614-f31bf5a4f0d7",
+  "intended_native_task_id": "01a16e5d-b400-71a8-87e7-134d4cb7b0c7",
+  "create_response": {
+    "ok": true,
+    "identity_source": "operator_supplied_cli_options",
+    "native_task_verified": false,
+    "task_reference_source": "operator_declared_not_platform_verified",
+    "execution_triggered": false,
+    "result": {
+      "mission_id": "0c1365ed78526eadbef15420d21f4fc3",
+      "version": 1,
+      "status": "requested",
+      "run_id": null,
+      "execution_triggered": false
+    }
+  },
+  "create_replay_identical": true,
+  "pending": "Association requires established model and effort; no values inferred",
+  "result_recorded": false,
+  "human_review_or_closure": false,
+  "mission_url": "https://ai.oling.fr/admin/ai/missions/0c1365ed78526eadbef15420d21f4fc3",
+  "prompt_response": {
+    "ok": true,
+    "identity_source": "operator_supplied_cli_options",
+    "native_task_verified": false,
+    "task_reference_source": "operator_declared_not_platform_verified",
+    "execution_triggered": false,
+    "result": {
+      "mission_id": "0c1365ed78526eadbef15420d21f4fc3",
+      "version": 2,
+      "status": "requested",
+      "run_id": null,
+      "execution_triggered": false
+    }
+  },
+  "prompt_note": "Replaced the generic local-only template with this explicitly authorized mission scope; original prompt version retained.",
+  "observed": {
+    "mission_id": "0c1365ed78526eadbef15420d21f4fc3",
+    "owner_id": 2,
+    "status": "requested",
+    "version": 2,
+    "runs": 0,
+    "assets": 0,
+    "reviews": 0,
+    "events": 2,
+    "binding": null,
+    "event_kinds": [
+      "created",
+      "ai_mission_prompt"
+    ]
+  },
+  "publication": {
+    "merge_commit": "20cf028183fbe154781c7529daf7cfc3bb30d1e7",
+    "previous_release": "oling-crm-7a86077d0673",
+    "unchanged_existing_files": 549,
+    "public_http_checks_passed": 17,
+    "command_available": true
+  },
+  "counts_verified_sql": {
+    "matching_missions": 1,
+    "runs": 0,
+    "assets": 0,
+    "reviews": 0,
+    "events": 2
+  },
+  "association_status": "pending_not_executed_missing_established_model_and_effort"
+}

@@ -8,6 +8,10 @@ source = target.read_text()
 block = Path(__file__).with_name('crm-firewall.yaml').read_text()
 if block in source:
     raise SystemExit(0)
+previous = block.replace('admin_crm_login', 'crm_login').replace('admin_crm_logout', 'crm_logout')
+if previous in source:
+    target.write_text(source.replace(previous, block, 1))
+    raise SystemExit(0)
 assert '        crm:' not in source, 'Unexpected existing CRM firewall; inspect before replacing'
 assert source.count('    firewalls:\n') == 1
 target.write_text(source.replace('    firewalls:\n', '    firewalls:\n' + block, 1))

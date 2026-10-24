@@ -88,6 +88,25 @@ final class CrmWorkspaceTest extends WebTestCase
         self::assertStringContainsString('Action corrigée',$data['card_html']);
         self::assertFalse($data['due_matches']['overdue']);
         self::assertTrue($data['due_matches']['week']);
+
+        // The same rule applies to drag/drop, full-form saves and the sent shortcut.
+        $private=$store->create(['title'=>'Client relance automatique','next_action'=>'Préparer']);
+        $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>1,'status'=>'sent']);
+        self::assertResponseIsSuccessful(); $data=json_decode($client->getResponse()->getContent(),true);
+        self::assertStringContainsString('Relancer le client sur l’offre envoyée',$data['card_html']);
+        self::assertStringContainsString('Relance',$data['card_html']);
+        $client->request('GET','/admin/crm?view=todo&q=Client+relance+automatique');
+        self::assertSelectorTextContains('tbody','Relancer le client sur l’offre envoyée');
+        foreach (['save','sent'] as $action) {
+            $store->edit($private,[],'preparing','private','','test',$store->get($private)['version']);
+            $c=$client->request('GET','/admin/crm/'.$private);
+            $token=$c->filter('input[name="_token"]')->first()->attr('value');
+            $client->request('POST','/admin/crm/'.$private,['_token'=>$token,'version'=>$store->get($private)['version'],'action'=>$action,'status'=>'sent','kind'=>'private','fields'=>['reminder'=>'','next_action'=>'Préparer']]);
+            self::assertResponseRedirects(); $client->followRedirect();
+            self::assertSame('sent',$store->get($private)['status']);
+            self::assertNotEmpty($store->get($private)['reminder']);
+            self::assertSame('Relancer le client sur l’offre envoyée',$store->get($private)['next_action']);
+        }
     }
     /** @dataProvider temporalCases */
     public function testEveryRelevantDateMatchesItsOwnPeriod(string $status,string $reminder,string $deadline,array $expected): void

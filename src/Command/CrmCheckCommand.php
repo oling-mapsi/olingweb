@@ -22,8 +22,11 @@ try {
  $s=$extractor->extract($m,'demo@oling.fr');if(!$s['commercial']) {throw new \RuntimeException('Detection failed');}
  $r=$store->ingest($s);$id=$r['id'];if(!$store->ingest($s)['duplicate']) {throw new \RuntimeException('Dedup failed');}
  $d=$store->get($id);$store->edit($id,['next_action'=>'Appeler','organization'=>'Correction manuelle'],'sent','private','Note fictive de recette','recette',$d['version']);
+ $sent=$store->get($id);$expected=(new \DateTimeImmutable('now',new \DateTimeZone('Europe/Paris')))->modify('+7 days')->format('Y-m-d');
+ if($sent['next_action']!=='Relancer le client sur l’offre envoyée'||(new \DateTimeImmutable($sent['reminder']))->setTimezone(new \DateTimeZone('Europe/Paris'))->format('Y-m-d')!==$expected) {throw new \RuntimeException('Client J+7 follow-up failed');}
+ $store->edit($id,['next_action'=>'Appeler'],'sent','private','','recette',$sent['version']);
  $s['external_id'].='-reply';$s['fields']['organization']='Valeur extraite';$s['suggested_status']='won';$store->ingest($s);$d=$store->get($id);
- if($d['status']!=='sent'||$d['organization']!=='Correction manuelle'||$d['next_action']!=='Appeler'||count($store->history($id))!==3) {throw new \RuntimeException('Preservation failed');}
+ if($d['status']!=='sent'||$d['organization']!=='Correction manuelle'||$d['next_action']!=='Appeler'||count($store->history($id))!==4) {throw new \RuntimeException('Preservation failed');}
  $t=['origin'=>'watch','identity'=>'recipe-tender-'.$id,'external_id'=>'recipe-tender-'.$id,'title'=>'Avis fictif','kind'=>'public','fields'=>['reference'=>'TEST-'.$id],'follow'=>false];
  $tid=$store->ingest($t)['id'];$store->decide($tid,'reject',2,'recette');$t['external_id'].='-update';$t['follow']=true;$store->ingest($t);
  if($store->get($tid)['decision']!=='reject'){throw new \RuntimeException('Rejected tender resurrected');}
@@ -38,7 +41,7 @@ try {
  if(!str_contains($html,'Note fictive de recette')) {throw new \RuntimeException('Template rendering failed');}
  $store->delete($tid,$store->get($tid)['version']);$t['external_id'].='-tomorrow';
  if(empty($store->ingest($t)['deleted'])) {throw new \RuntimeException('Deleted tender resurrected');}
- $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
+ $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','client_offer_followup'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
 } catch(\Throwable $e) {if($db->isTransactionActive()){$db->rollBack();}$output->writeln('<error>'.$e->getMessage().'</error>');return self::FAILURE;}
 
  }

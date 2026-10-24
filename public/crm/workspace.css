@@ -260,7 +260,7 @@ body.crm-shell { display:flex; flex-direction:column; min-height:100dvh; }
 .crm-shell .footer-feed .kpi-trigger { display:flex; flex-direction:row; gap:6px; width:auto; padding:4px; min-height:28px; border:0; background:transparent; font-size:12px; font-weight:500; }
 .crm-shell .footer-feed .kpi-popover li { padding:10px 2px; }
 .crm-shell .footer-feed .kpi-popover p { margin:3px 0; }
-@media(max-width:1150px) {
+@media(max-width:1200px) {
   .crm-shell .topbar { flex-wrap:wrap; gap:8px 12px; }
   .crm-shell .topbar .filters { order:3; flex-basis:100%; }
   .crm-shell .workspace-toolbar { flex-wrap:wrap; gap:6px 10px; }

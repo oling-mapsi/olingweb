@@ -2,6 +2,8 @@
 
 24 octobre 2026 · Branche locale `feat/crm-ux-v2-1` · Aucun merge, push ou déploiement.
 
+Rapport initial conservé comme historique. Les corrections approuvées, les résultats actualisés et les captures finales figurent dans [la recette finale](UX-V2.1-FINAL.md). Celle-ci remplace notamment la description ci-dessous du filtrage par première date.
+
 ## Audit préalable
 
 Base : `origin/main` à `d315a1c8` (PR24). L’ancienne branche `feat/crm-action-kpis`, à `8cbce815`, avait le même contenu applicatif. Les cinq modifications préexistantes dans `vendor` ont été conservées et exclues du commit. Aucun AGENTS.md supplémentaire dans ce checkout.

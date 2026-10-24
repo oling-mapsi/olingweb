@@ -52,24 +52,32 @@ final class CrmAdminController extends AbstractController
         $page=$mode==='list'?max(1,$r->query->getInt('page',1)):1;
         return $this->render('admin/crm/index.html.twig',['scope'=>$scope,'columns'=>$columns,'deadlines'=>CrmDeadlines::summarize($all),'deals'=>$mode==='list'?array_slice($rows,($page-1)*50,50):$rows,'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'segment'=>$segment,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$mode,'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
     }
-    /** Presentation priority: separate real reminders from submissions still to be made. */
-    private static function agendaDate(array $deal): ?int
+    /** Relevant dates are independent; a completed submission is not a pending action. */
+    private static function agendaDates(array $deal): array
     {
         $values=[$deal['reminder']];
         if (!in_array($deal['status'],['sent','discussion','won','lost','no_go','archived'],true)) { $values[]=$deal['deadline']; }
-        $dates=array_filter(array_map(fn($value)=>$value?strtotime($value):false,$values),fn($value)=>$value!==false);
+        return array_values(array_filter(array_map(fn($value)=>$value?strtotime($value):false,$values),fn($value)=>$value!==false));
+    }
+    /** Chronological ordering only; never use this minimum to decide filter membership. */
+    private static function agendaDate(array $deal): ?int
+    {
+        $dates=self::agendaDates($deal);
         return $dates?min($dates):null;
     }
     private static function matchesDue(array $deal,string $due,\DateTimeImmutable $now): bool
     {
-        $date=self::agendaDate($deal);
-        return match ($due) {
-            'overdue'=>$date!==null && $date<$now->getTimestamp(),
-            'today'=>$date!==null && $date>=$now->setTime(0,0)->getTimestamp() && $date<$now->modify('tomorrow')->setTime(0,0)->getTimestamp(),
-            'week'=>$date!==null && $date>=$now->getTimestamp() && $date<=$now->modify('+7 days')->getTimestamp(),
-            'undated'=>!$deal['reminder'],
-            default=>true,
-        };
+        if ($due==='undated') { return !$deal['reminder']; }
+        if (!in_array($due,['overdue','today','week'],true)) { return true; }
+        foreach (self::agendaDates($deal) as $date) {
+            $matches=match ($due) {
+                'overdue'=>$date<$now->getTimestamp(),
+                'today'=>$date>=$now->setTime(0,0)->getTimestamp() && $date<$now->modify('tomorrow')->setTime(0,0)->getTimestamp(),
+                'week'=>$date>=$now->getTimestamp() && $date<=$now->modify('+7 days')->getTimestamp(),
+            };
+            if ($matches) { return true; }
+        }
+        return false;
     }
     #[Route('/{id}/delete',name:'admin_crm_delete',requirements:['id'=>'[a-f0-9]{32}'],methods:['GET','POST'])]
     public function delete(string $id,Request $r): Response

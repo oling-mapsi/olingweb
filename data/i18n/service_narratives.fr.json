@@ -400,11 +400,11 @@
             ]
         },
         "consulting/reforme-facturation-electronique-amoa": {
-            "metaTitle": "AMOA facturation électronique : cadrage RFE et mise en œuvre | OLING",
-            "metaDescription": "AMOA facturation électronique : cadrage des flux, conformité, choix de plateforme agréée, interfaces ERP, recette et conduite du changement.",
-            "eyebrow": "AMOA facturation electronique",
-            "headline": "AMOA Réforme de la facturation électronique (RFE)",
-            "intro": "AMOA réforme de la facturation électronique : cadrage, conformité, choix de solutions, conduite du changement et mise en œuvre.",
+            "metaTitle": "Cadrage des flux et recette RFE | Service OLING",
+            "metaDescription": "Service de cadrage RFE : cartographie des flux, données et interfaces ERP, préparation de la recette, gestion des rejets et plan de bascule.",
+            "eyebrow": "Cadrage opérationnel RFE",
+            "headline": "Cadrer les flux et la recette de facturation électronique",
+            "intro": "Intervention ciblée pour documenter les flux entrants et sortants, fiabiliser les données et interfaces, puis préparer la recette et la bascule RFE.",
             "hideLegacyDescription": true,
             "showHeroCta": false,
             "coverageTitle": "Quand engager une AMOA facturation électronique",

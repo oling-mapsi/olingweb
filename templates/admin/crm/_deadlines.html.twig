@@ -1,13 +1,12 @@
 <section class="deadline-kpis action-kpis" aria-label="Échéances et propositions à relancer">
-  <div class="deadline-heading"><strong>Échéances & relances</strong><small>Marchés et clients · Tout le portefeuille</small>{% if deadlines.missing %}<small class="kpi-missing">{{ deadlines.missing }} dossier(s) sans échéance · non compté(s)</small>{% endif %}</div>
   {% for key,label in {soon:'À remettre sous 7 jours',later:'À remettre après 7 jours',awaiting:'En attente de réponse'} %}
     <div class="action-kpi" data-kpi="{{ key }}">
-      <button type="button" class="kpi-trigger" aria-expanded="false" aria-controls="kpi-list-{{ key }}">
-        <strong>{{ attribute(deadlines,key) }}</strong><span>{{ label }}</span><small>{{ key=='soon'?'Retards inclus'~(deadlines.overdue?' · '~deadlines.overdue~' en retard':''):(key=='awaiting'?'Offres envoyées / en discussion':'Dates de dépôt / remise') }} <span aria-hidden="true">⌄</span></small>
+      <button type="button" class="kpi-trigger" aria-expanded="false" aria-controls="kpi-list-{{ key }}" aria-label="{{ attribute(deadlines,key) }} · {{ label }}{{ key=='soon'?' · Retards inclus':'' }}">
+        <strong>{{ attribute(deadlines,key) }}</strong><span>{{ {soon:"−7 j",later:"+7 j",awaiting:"Attente client"}[key] }}</span><small class="sr-only">{{ key=='soon'?'Retards inclus'~(deadlines.overdue?' · '~deadlines.overdue~' en retard':''):(key=='awaiting'?'Offres envoyées / en discussion':'Dates de dépôt / remise') }} <span aria-hidden="true">⌄</span></small>
       </button>
       <div id="kpi-list-{{ key }}" class="kpi-popover" role="region" aria-label="{{ label }}" hidden>
         <header><strong>{{ label }}</strong><button type="button" class="kpi-close" aria-label="Fermer la liste">×</button></header>
-        {% if key=='soon' %}<p class="kpi-scope-note">Dépôts et remises à venir sous 7 jours, retards inclus. Le filtre Actions « 7 prochains jours » porte uniquement sur les dates à venir.</p>{% endif %}
+        <p class="kpi-scope-note">Marchés publics et clients · Tout le portefeuille.</p>{% if key=='soon' %}<p class="kpi-scope-note">Dépôts et remises à venir sous 7 jours, retards inclus. Le filtre Actions « 7 prochains jours » porte uniquement sur les dates à venir.</p>{% endif %}
         <ul>{% for item in attribute(deadlines.lists,key) %}<li><a href="{{ path('admin_crm_show',{id:item.id}) }}"><span class="kpi-item-title">{{ item.title }}</span><small>{{ item.kind }} · {% if item.date %}{{ key=='awaiting'?'Relance':'Échéance' }} <time datetime="{{ item.date }}">{{ item.date|date('d/m/Y · H:i','Europe/Paris') }}</time>{{ item.overdue?' · En retard':'' }}{% else %}Relance à planifier{% endif %}</small></a></li>{% else %}<li class="kpi-empty">{{ key=='awaiting'?'Aucune proposition en attente de réponse.':'Aucune échéance dans cette période.' }}</li>{% endfor %}</ul>{% if key=='soon' and deadlines.missing %}<div class="kpi-undated"><strong>Échéances à renseigner</strong>{% for item in deadlines.missing_items %}<a href="{{ path('admin_crm_show',{id:item.id}) }}">{{ item.title }}</a>{% endfor %}</div>{% endif %}
       </div>
     </div>

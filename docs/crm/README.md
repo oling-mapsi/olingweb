@@ -6,6 +6,10 @@ Module Symfony privé : `/admin/crm`. Authentification et rôle `ROLE_ADMIN` exi
 
 Trois indicateurs calculés sur tout le portefeuille, indépendamment des filtres : échéances à remettre sous 7 jours (retards inclus et signalés), au-delà de 7 jours, propositions envoyées ou en discussion en attente de réponse. Les marchés et demandes clients à suivre/en préparation sont inclus ; les statuts commerciaux priment sur les anciennes décisions de veille. Une sélection de veille explicite reste éligible au stade À qualifier. Les fiches Sans suite, gagnées, perdues, archivées, fusionnées ou issues de l’ancien import email sont exclues. La borne J+7 utilise Europe/Paris, changement d’heure compris. Les dates manquantes ne sont pas comptées et sont signalées. Les listes complètes sont accessibles au survol, au clic et au clavier, avec liens vers les fiches. Les propositions en attente ne nécessitent pas d’échéance ; leur date de relance sert au tri. Le lien Imports à réviser est retiré après nettoyage de l’historique.
 
+## Espace compact
+
+Voir [la disposition à deux lignes et sa recette](TWO-ROW-WORKSPACE.md).
+
 ## Interface V2.1
 
 Cinq colonnes actives par défaut, filtre En cours / Clôturées / Toutes les étapes, détails des cartes au clic, textes et contrastes renforcés. Actions et relances s’ouvre en liste : relance et dépôt sont séparés, triés par la première date utile. Une date de dépôt d’une offre déjà envoyée n’est pas présentée comme une relance en retard. Aucun calcul de KPI ni donnée métier n’est modifié.

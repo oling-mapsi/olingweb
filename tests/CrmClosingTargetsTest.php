@@ -32,8 +32,8 @@ final class CrmClosingTargetsTest extends WebTestCase
         $c=$client->request('GET','/admin/crm'.$query); self::assertResponseIsSuccessful();
         self::assertSelectorTextSame('[data-closed-count="won"]','1'); self::assertSelectorTextSame('[data-closed-count="lost"]','1');
         self::assertSelectorCount(1,'.deal-card'); self::assertSelectorExists('.card-status option[value="won"]');
-        self::assertSame('/admin/crm/export.csv',$c->selectLink('Exporter CSV')->attr('href'));
-        self::assertSame('lost',$c->filter('.crm-actions > .closure-targets')->children()->first()->attr('data-close-status'));
+        self::assertSame('/admin/crm/export.csv',$c->filter('.export-link')->attr('href'));
+        self::assertSame('lost',$c->filter('.workspace-toolbar > .outcome-zones')->children()->first()->attr('data-drop-status'));
         if ($preview=getenv('CRM_PREVIEW_HTML')) { file_put_contents($preview,$client->getResponse()->getContent()); }
         $token=$c->filter('.board')->attr('data-token');
         foreach (['lost','won','follow'] as $status) {
@@ -65,7 +65,7 @@ final class CrmClosingTargetsTest extends WebTestCase
         $client->request('GET','/admin/crm?segment=clients&q=absent'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
         $client->request('GET','/admin/crm?segment=clients&origin=watch'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
         $client->request('GET','/admin/crm?segment=clients&due=week'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
-        $client->request('GET','/admin/crm?mode=list'); self::assertSelectorNotExists('.closure-targets');
+        $client->request('GET','/admin/crm?mode=list'); self::assertSelectorCount(2,'.outcome-drop');
         $client->request('GET','/admin/crm/export.csv'); self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
         $csv=$client->getInternalResponse()->getContent(); self::assertStringContainsString('Alpha gagnée',$csv); self::assertStringContainsString('Alpha perdue',$csv);

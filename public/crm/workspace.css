@@ -243,11 +243,15 @@ body.crm-shell { display:flex; flex-direction:column; min-height:100dvh; }
 .crm-shell .kpi-popover { position:fixed; right:auto; bottom:auto; width:min(390px,calc(100vw - 24px)); max-height:min(420px,60dvh); }
 .crm-shell .action-kpi:last-child .kpi-popover { right:auto; }
 .crm-shell .outcome-zones { display:flex; gap:6px; }
-.crm-shell .outcome-drop { display:flex; align-items:center; justify-content:center; min-height:40px; padding:7px 12px; border:1px dashed currentColor; border-radius:7px; font-weight:600; }
+.crm-shell .outcome-drop { display:flex; align-items:center; justify-content:center; position:relative; min-width:144px; min-height:44px; padding:9px 16px; border:2px dashed currentColor; border-radius:7px; font-weight:600; }
 .crm-shell .outcome-count { margin-left:6px; font-size:12px; border-radius:12px; background:#ffffffb3; padding:1px 5px; }
 .crm-shell .outcome-lost { color:var(--late); background:#fff6f4; }
 .crm-shell .outcome-won { color:var(--green); background:#edf6ef; }
-.crm-shell .outcome-drop.drop-target { outline:3px solid currentColor; outline-offset:1px; background:var(--tint); }
+.crm-shell .outcome-no_go { color:#6b4c14; background:#fff7e5; }
+.crm-shell.crm-dragging .outcome-drop { border-style:solid; box-shadow:0 0 0 2px #246da329; }
+.crm-shell .outcome-drop.drop-target { z-index:240; outline:4px solid #153f64; outline-offset:3px; background:#154f7a; color:white; border:2px solid white; box-shadow:0 8px 24px #153f6459; transform:translateY(-2px); }
+.crm-shell .outcome-drop.drop-target .outcome-count { background:white; color:#154f7a; }
+.crm-shell .outcome-drop.drop-target::after { content:"Déposer ici"; pointer-events:none; position:absolute; top:calc(100% + 7px); left:50%; transform:translateX(-50%); padding:3px 10px; border-radius:4px; background:#153f64; color:white; font-size:12px; white-space:nowrap; }
 .crm-shell .export-link { padding:8px 2px; }
 .crm-shell .new-deal { white-space:nowrap; padding:8px 10px; }
 .crm-shell .board { min-height:260px; gap:10px; }
@@ -256,7 +260,7 @@ body.crm-shell { display:flex; flex-direction:column; min-height:100dvh; }
 .crm-shell .footer-feed .kpi-trigger { display:flex; flex-direction:row; gap:6px; width:auto; padding:4px; min-height:28px; border:0; background:transparent; font-size:12px; font-weight:500; }
 .crm-shell .footer-feed .kpi-popover li { padding:10px 2px; }
 .crm-shell .footer-feed .kpi-popover p { margin:3px 0; }
-@media(max-width:1150px) {
+@media(max-width:1200px) {
   .crm-shell .topbar { flex-wrap:wrap; gap:8px 12px; }
   .crm-shell .topbar .filters { order:3; flex-basis:100%; }
   .crm-shell .workspace-toolbar { flex-wrap:wrap; gap:6px 10px; }
@@ -282,9 +286,9 @@ body.crm-shell { display:flex; flex-direction:column; min-height:100dvh; }
   .crm-shell .action-kpis .action-kpi { flex:1; }
   .crm-shell .action-kpis .kpi-trigger { justify-content:center; padding:7px; }
   .crm-shell .action-kpis .kpi-trigger>strong { font-size:18px; }
-  .crm-shell .outcome-drop { padding:7px 6px; font-size:13px; }
+  .crm-shell .outcome-drop { flex:1; min-width:0; padding:7px 6px; font-size:13px; }
   .crm-shell .outcome-count { margin-left:4px; padding:1px 4px; }
-  .crm-shell .outcome-zones { gap:4px; }
+  .crm-shell .outcome-zones { gap:6px; flex-basis:100%; }
   .crm-shell .column-jump.needed { flex-wrap:nowrap; overflow-x:auto; }
   .crm-shell .column-jump button { flex-shrink:0; }
   .crm-shell .new-deal { font-size:13px; padding:8px 4px; }

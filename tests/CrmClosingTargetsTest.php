@@ -36,12 +36,22 @@ final class CrmClosingTargetsTest extends WebTestCase
         self::assertSame('lost',$c->filter('.workspace-toolbar > .outcome-zones')->children()->first()->attr('data-drop-status'));
         if ($preview=getenv('CRM_PREVIEW_HTML')) { file_put_contents($preview,$client->getResponse()->getContent()); }
         $token=$c->filter('.board')->attr('data-token');
-        foreach (['lost','won','follow'] as $status) {
+        foreach (['lost'=>'Alpha perdue','won'=>'Alpha gagnée','no_go'=>'Alpha sans suite'] as $status=>$title) {
+            $c=$client->request('GET','/admin/crm'.$query);
+            $client->click($c->filter('[data-drop-status="'.$status.'"]')->link());
+            self::assertResponseIsSuccessful(); self::assertSelectorNotExists('.board');
+            self::assertSelectorCount(1,'tbody tr'); self::assertSelectorTextContains('tbody',$title);
+            $c=$client->getCrawler(); $client->click($c->selectLink('Kanban')->link());
+            self::assertSelectorCount(5,'.lane'); self::assertSelectorExists('.lane[data-value="qualify"]');
+            self::assertSelectorExists('.lane[data-value="discussion"]'); self::assertSelectorTextContains('.board','Alpha à clôturer');
+            self::assertSelectorNotExists('.lane[data-value="'.$status.'"]');
+        }
+        foreach (['lost','won','no_go','follow'] as $status) {
             $version=$store->get($moving)['version'];
             $client->request('POST','/admin/crm/'.$moving.'/move'.$query,['_token'=>$token,'version'=>$version,'status'=>$status]);
             self::assertResponseIsSuccessful(); $data=json_decode($client->getResponse()->getContent(),true);
             self::assertTrue($data['saved']); self::assertSame($status,$store->get($moving)['status']);
-            self::assertSame(['lost'=>$status==='lost'?2:1,'won'=>$status==='won'?2:1],$data['closed_counts']);
+            self::assertSame(['lost'=>$status==='lost'?2:1,'won'=>$status==='won'?2:1,'no_go'=>$status==='no_go'?2:1],$data['closed_counts']);
             $history=count($store->history($moving));
             // A duplicate/stale request must not apply a second transition or event.
             $client->request('POST','/admin/crm/'.$moving.'/move'.$query,['_token'=>$token,'version'=>$version,'status'=>$status]);
@@ -49,6 +59,7 @@ final class CrmClosingTargetsTest extends WebTestCase
             $client->request('GET','/admin/crm'.$query);
             self::assertSelectorTextSame('[data-closed-count="won"]',(string)$data['closed_counts']['won']);
             self::assertSelectorTextSame('[data-closed-count="lost"]',(string)$data['closed_counts']['lost']);
+            self::assertSelectorTextSame('[data-closed-count="no_go"]',(string)$data['closed_counts']['no_go']);
             self::assertSelectorCount($status==='follow'?1:0,'.deal-card');
         }
         $before=$store->get($moving);
@@ -65,7 +76,7 @@ final class CrmClosingTargetsTest extends WebTestCase
         $client->request('GET','/admin/crm?segment=clients&q=absent'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
         $client->request('GET','/admin/crm?segment=clients&origin=watch'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
         $client->request('GET','/admin/crm?segment=clients&due=week'); self::assertSelectorTextSame('[data-closed-count="won"]','0');
-        $client->request('GET','/admin/crm?mode=list'); self::assertSelectorCount(2,'.outcome-drop');
+        $client->request('GET','/admin/crm?mode=list'); self::assertSelectorCount(3,'.outcome-drop');
         $client->request('GET','/admin/crm/export.csv'); self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('Content-Type','text/csv; charset=UTF-8');
         $csv=$client->getInternalResponse()->getContent(); self::assertStringContainsString('Alpha gagnée',$csv); self::assertStringContainsString('Alpha perdue',$csv);

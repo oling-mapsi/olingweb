@@ -1,0 +1,25 @@
+ai_tracking:
+    host: '^ai\.(oling\.fr|localhost)$'
+    pattern: ^/api/ai/mcp$
+    security: false # Separate OAuth resource adapter; unavailable by default, no session fallback.
+ai_relay:
+    host: '^ai\.(oling\.fr|localhost)$'
+    pattern: ^/api/ai-relay$
+    security: false # Always returns 403 in V1 simple; no activation path.
+ai:
+    host: '^ai\.(oling\.fr|localhost)$'
+    lazy: true
+    provider: app_user_provider
+    login_throttling:
+        max_attempts: 5
+        interval: '15 minutes'
+    form_login:
+        login_path: admin_ai_login
+        check_path: admin_ai_login
+        enable_csrf: true
+        default_target_path: admin_ai
+        always_use_default_target_path: true
+    logout:
+        path: admin_ai_logout
+        target: admin_ai_login
+        enable_csrf: true

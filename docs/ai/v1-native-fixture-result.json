@@ -1,0 +1,104 @@
+{
+  "fixture_only": true,
+  "live_native_connection": false,
+  "model_executed": false,
+  "steps": [
+    {
+      "operation": "ai_mission_create",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 1,
+        "status": "requested",
+        "run_id": null,
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_associate",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 2,
+        "status": "associated",
+        "run_id": "fba5c47c32b3581475fee2f6f0f49f6f",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_event",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 3,
+        "status": "external_running",
+        "run_id": "fba5c47c32b3581475fee2f6f0f49f6f",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_result",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 4,
+        "status": "result_received",
+        "run_id": "fba5c47c32b3581475fee2f6f0f49f6f",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_mission_review",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 5,
+        "status": "correction_requested",
+        "run_id": "fba5c47c32b3581475fee2f6f0f49f6f",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_associate",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 6,
+        "status": "associated",
+        "run_id": "a0741a0aa8710924474bc1f011a069ab",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_event",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 7,
+        "status": "external_running",
+        "run_id": "a0741a0aa8710924474bc1f011a069ab",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_task_result",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 8,
+        "status": "result_received",
+        "run_id": "a0741a0aa8710924474bc1f011a069ab",
+        "execution_triggered": false
+      }
+    },
+    {
+      "operation": "ai_mission_review",
+      "response": {
+        "mission_id": "4bb2295636db2c542d67ad0449a71f13",
+        "version": 9,
+        "status": "ready_for_validation",
+        "run_id": "a0741a0aa8710924474bc1f011a069ab",
+        "execution_triggered": false
+      }
+    }
+  ],
+  "current_status": "ready_for_validation",
+  "mission_path": "/admin/ai/missions/4bb2295636db2c542d67ad0449a71f13",
+  "browser_closure": {
+    "status": "closed",
+    "fixture_only": true,
+    "verified": "UI transition and display only; no real task or model"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-24T16:35:03.462312+00:00",
+  "status": "blocked_before_inference",
+  "user_authorization": "approved-two-local-tests",
+  "executed": false,
+  "threadId": null,
+  "turnId": null,
+  "output": null,
+  "expected": "OLING_AI_ROUNDTRIP_42",
+  "auth_used_for_inference": false,
+  "new_api_key_created": false,
+  "relay_enabled": false,
+  "runtime_gate_changed": false,
+  "reason": "Effective zero-tool execution cannot be attested from the documented interfaces and installed public protocol schema; stopped before app-server/thread/start/turn/start.",
+  "checks_completed": [
+    "official configuration and app-server documentation reviewed",
+    "installed app-server --help read",
+    "installed public schema inspected",
+    "existing runtime gate preserved"
+  ],
+  "noToolsEnforcement": "not-certified",
+  "full_application_roundtrip": "not-executed",
+  "evidence": "docs/ai/local-qualification.md"
+}

@@ -1,0 +1,370 @@
+{
+  "base": "876770b48e09e135b890ff617bc1a81b6ee4c730",
+  "branch": "codex/ai-control-local",
+  "status": "v1-simple-local-qualified-publication-authorized-pending",
+  "native_connection": "not-connected",
+  "autonomous_relay": "unconditionally-disabled",
+  "migrations": [
+    "DoctrineMigrations\\Version20261024180000",
+    "DoctrineMigrations\\Version20261024220000"
+  ],
+  "checks": {
+    "ai_php": {
+      "tests": 22,
+      "assertions": 165,
+      "result": "passed"
+    },
+    "crm_php": {
+      "tests": 53,
+      "assertions": 643,
+      "result": "passed",
+      "test_files": 13
+    },
+    "http": {
+      "passed": 23,
+      "failed": 0
+    },
+    "browser": "fixture-closed-desktop-and-mobile-server-stopped",
+    "lints": {
+      "php_files": 25,
+      "twig": 6,
+      "yaml": 2,
+      "container": "passed",
+      "python": "passed",
+      "security_overlay": "preserved-and-idempotent"
+    }
+  },
+  "production_files": [
+    "migrations/Version20261024180000.php",
+    "migrations/Version20261024220000.php",
+    "scripts/ai/ai-firewalls.yaml",
+    "scripts/ai/patch-security.py",
+    "src/Controller/Ai/AiController.php",
+    "src/Controller/Ai/AiRelayController.php",
+    "src/Controller/Ai/AiTrackingController.php",
+    "src/Service/Ai/AiArtifacts.php",
+    "src/Service/Ai/AiHostSubscriber.php",
+    "src/Service/Ai/AiNativeRegistry.php",
+    "src/Service/Ai/AiSchema.php",
+    "src/Service/Ai/AiStore.php",
+    "src/Service/Ai/AiTrackingAccess.php",
+    "src/Service/Ai/AiTrackingContract.php",
+    "src/Service/Ai/AiTrackingSchema.php",
+    "src/Service/Ai/AiWorkflow.php",
+    "templates/ai_control/_fields.html.twig",
+    "templates/ai_control/_missions.html.twig",
+    "templates/ai_control/base.html.twig",
+    "templates/ai_control/index.html.twig",
+    "templates/ai_control/login.html.twig",
+    "templates/ai_control/mission.html.twig"
+  ],
+  "files": [
+    {
+      "path": "config/packages/security.yaml",
+      "sha256": "053509ce7fb82c267049027443c95adb96f9f6bc70c9eadd3407deba126b1f4f",
+      "bytes": 3587
+    },
+    {
+      "path": "docs/ai/README.md",
+      "sha256": "653636f02ca5c16e96ef39a26ff2abce2a8070218b2652ebbafb6b519e1b5924",
+      "bytes": 2470
+    },
+    {
+      "path": "docs/ai/blockers.md",
+      "sha256": "6e16cbbe00e636655b64b9c64bc238a4ecf08c7390c1237e740f0a1fabc6e879",
+      "bytes": 613
+    },
+    {
+      "path": "docs/ai/deployment-plan.md",
+      "sha256": "8fd48358e37efdfd3325c6b107bcda1c86104a56b5aee81a79439d6bcf92b1da",
+      "bytes": 4326
+    },
+    {
+      "path": "docs/ai/local-http-result.json",
+      "sha256": "ad17d4d522529b0ebf1c8ee9727a58b2bf0a9404c7d38461411729a7b0dd8f6f",
+      "bytes": 1961
+    },
+    {
+      "path": "docs/ai/local-qualification.md",
+      "sha256": "2ddff410e8947adb9a145dda350a5fa182ae37495ef30d0e15e60e730279abd3",
+      "bytes": 6420
+    },
+    {
+      "path": "docs/ai/mcp-contract.md",
+      "sha256": "37e415cde43a385b8c1b51550373f62337a89b9c5a8ec7ecbadef4a0218d86a7",
+      "bytes": 4448
+    },
+    {
+      "path": "docs/ai/mcp-tools.json",
+      "sha256": "734af396b171daa808fd6c9f0c9f4b770de0ce77d4115a669d03b8d62ecca635",
+      "bytes": 13387
+    },
+    {
+      "path": "docs/ai/probe-result.json",
+      "sha256": "d2985fb45b32ced5d71bf3ec98e0474d52b7867b9305bce4be97ddabdd275fd8",
+      "bytes": 919
+    },
+    {
+      "path": "docs/ai/review-cycle-2.md",
+      "sha256": "c65dbbfcef452279657bb85bb4e6391d4bed51b5e428fedfa8ff71e49f1176ca",
+      "bytes": 5932
+    },
+    {
+      "path": "docs/ai/review-fixes.md",
+      "sha256": "22a48be1919b130f4f2fbc49c239054900a811ab2aea9e98462b6e19ea639f4c",
+      "bytes": 3971
+    },
+    {
+      "path": "docs/ai/screenshots/mission-desktop.jpg",
+      "sha256": "71c31e26e3b07972d360bbc6d9b47be463c95d5bab4218c74ba95bb8dae09447",
+      "bytes": 89469
+    },
+    {
+      "path": "docs/ai/screenshots/mission-mobile.jpg",
+      "sha256": "ab84cb7df9d9d2001de51c37eb7b953d5ae74d7a29ed311cc189c893972c488d",
+      "bytes": 45435
+    },
+    {
+      "path": "docs/ai/screenshots/v1-simple-desktop.jpg",
+      "sha256": "6b38f5933066086f9c43618d63e94c15c17761116007de5981c1c842677bbd6b",
+      "bytes": 106857
+    },
+    {
+      "path": "docs/ai/screenshots/v1-simple-mobile.jpg",
+      "sha256": "6d61927c4ab97808452c7db68e94894505ea37ae32477b05767be9c02602e0e5",
+      "bytes": 48151
+    },
+    {
+      "path": "docs/ai/test-report.md",
+      "sha256": "ab56b65f40cc343d81acff241770ce3e3daca0bb068655f6377080bbbaf6d8b2",
+      "bytes": 3427
+    },
+    {
+      "path": "docs/ai/v1-native-fixture-result.json",
+      "sha256": "e42341942e453e07dc157784577dcf4b808d353275fecc0db6d53381a1473468",
+      "bytes": 2926
+    },
+    {
+      "path": "migrations/Version20261024180000.php",
+      "sha256": "aca82f08f5fed4f6d2dcb562d235a9dc556028663ec956b7e7b4144e47f735ba",
+      "bytes": 592
+    },
+    {
+      "path": "migrations/Version20261024220000.php",
+      "sha256": "e687892c4926adaa8efea3528a50d75aa8a5f98dd2be08d8c14daea02f4b33d3",
+      "bytes": 556
+    },
+    {
+      "path": "scripts/ai/.gitignore",
+      "sha256": "bdfebb2d8cae11f81b170a81ec1c3316116285ff4b5e4295a96f7ef32e66def8",
+      "bytes": 35
+    },
+    {
+      "path": "scripts/ai/ai-firewalls.yaml",
+      "sha256": "03ac4864a0c63cfeb5803cc3c218677fff733acdcd92f0ab2203c15513c02815",
+      "bytes": 796
+    },
+    {
+      "path": "scripts/ai/app-server.mjs",
+      "sha256": "119d6ff803f353f11072a8b09081f08ad6aafc398d536c7965c009573dc1af1d",
+      "bytes": 12309
+    },
+    {
+      "path": "scripts/ai/app-server.test.mjs",
+      "sha256": "32eae703ea6ff122c5947cf7f29bbc2f1f7d355816cdd376c313b86cc75d9bee",
+      "bytes": 8141
+    },
+    {
+      "path": "scripts/ai/bootstrap-local.php",
+      "sha256": "1e67e0c000bbde86cb7faa02beb5fedd7cd23f5485fd4efceb90aaf4baa4f8c3",
+      "bytes": 1284
+    },
+    {
+      "path": "scripts/ai/deploy.py",
+      "sha256": "950cc701cc7f8c9618e877183ad1ab04c1d164923be5934afb0aa1eea9976d5c",
+      "bytes": 7363
+    },
+    {
+      "path": "scripts/ai/local-console.php",
+      "sha256": "ff77fd77a729248ff3af63b9ea275d9114fb79520f09b89f7857714b2fdcf172",
+      "bytes": 183
+    },
+    {
+      "path": "scripts/ai/local-fixture.php",
+      "sha256": "689ca2cf6fc5e7ead2f1011730aece7c71e531c742b5f579cfedb957f23a055f",
+      "bytes": 1830
+    },
+    {
+      "path": "scripts/ai/local-http-smoke.py",
+      "sha256": "4bfeb625f814d2185f008c6bf34714eecefd79d9ef3fd900226c9daaf080d34b",
+      "bytes": 5189
+    },
+    {
+      "path": "scripts/ai/local-router.php",
+      "sha256": "cb9d9a526cb892539638d97eefebfb95521e6a702f02d73d7f042c9f7f6d7fab",
+      "bytes": 620
+    },
+    {
+      "path": "scripts/ai/native-fixture-flow.php",
+      "sha256": "9b4766cd22ce56f3d89faae9b9fc1cd6178981e8944136fa733950df8a78af55",
+      "bytes": 3616
+    },
+    {
+      "path": "scripts/ai/patch-security.py",
+      "sha256": "c6d9dca7cdde6b98f892ebdebe5747d5a5d9e24ec75ca2431fe62357214ca6fc",
+      "bytes": 570
+    },
+    {
+      "path": "scripts/ai/phpunit-crm.xml",
+      "sha256": "8685f22d7dc29904c92973e2a3f38289931ff24a64162e0c6a8538640d3205aa",
+      "bytes": 701
+    },
+    {
+      "path": "scripts/ai/phpunit.xml",
+      "sha256": "ecc4a79bec043414de516f73b6563e860a775825a367c6bd9f82395a632b7a92",
+      "bytes": 268
+    },
+    {
+      "path": "scripts/ai/probe.mjs",
+      "sha256": "9a96f12261619546e8d4cc06d5e20695fd60a42e93f07a2993a51e599c993558",
+      "bytes": 1475
+    },
+    {
+      "path": "scripts/ai/relay.mjs",
+      "sha256": "b032690985c584827aabef14657b72e14fb923fab091c32030c8e088ed9a6882",
+      "bytes": 8152
+    },
+    {
+      "path": "scripts/ai/relay.test.mjs",
+      "sha256": "dcece9eb5a4696a9a1a6e6c1a8f7452104938b5c18fe5580d496f6d3a11d80bb",
+      "bytes": 7183
+    },
+    {
+      "path": "scripts/ai/termination.test.mjs",
+      "sha256": "c7d939e59c9545bd6ed3c152d5c81cc9e9981dbacec3decb90bd8eb094a47275",
+      "bytes": 2551
+    },
+    {
+      "path": "src/Controller/Ai/AiController.php",
+      "sha256": "d98a8ed5ce7f7627469d32de2d2bf631b4ce37523b91132d425d5bd05f9f1c21",
+      "bytes": 4703
+    },
+    {
+      "path": "src/Controller/Ai/AiRelayController.php",
+      "sha256": "3d8c861cf013426194d708b6ac9c914ae4f77f458519cdb88a640a56c933ca9e",
+      "bytes": 560
+    },
+    {
+      "path": "src/Controller/Ai/AiTrackingController.php",
+      "sha256": "37cd225915d5ccd5e69e87879cc3eb58febe4d3ce5f20911dc5aa33a9dc6f679",
+      "bytes": 4192
+    },
+    {
+      "path": "src/Service/Ai/AiArtifacts.php",
+      "sha256": "0b4a557856e2fcba469d2926315b835b5bb8750fff128caabe90b49458c5af41",
+      "bytes": 1444
+    },
+    {
+      "path": "src/Service/Ai/AiHostSubscriber.php",
+      "sha256": "108fb91dd407b83593d064aec481bf612b55932cac6dc3c7a7dc3b6e00e90c54",
+      "bytes": 2516
+    },
+    {
+      "path": "src/Service/Ai/AiNativeRegistry.php",
+      "sha256": "13733009e1fa13357faaef00d94225e016537e5c42b14ed19508c3f3ea683237",
+      "bytes": 14211
+    },
+    {
+      "path": "src/Service/Ai/AiSchema.php",
+      "sha256": "b17ea519fb4ddcfd17f68bda05586e174e029aa4fdc25593329a43d0fbb37033",
+      "bytes": 4085
+    },
+    {
+      "path": "src/Service/Ai/AiStore.php",
+      "sha256": "1f0b037535ad6e49e447aa0eb4d4a7b1e4f8b2f45f8c6aaffde74adc8983fd0d",
+      "bytes": 18637
+    },
+    {
+      "path": "src/Service/Ai/AiTrackingAccess.php",
+      "sha256": "2fcc6767d5bef8d919a21d8f47df1e886c2f1ba98f917fdf783f81aa975727ab",
+      "bytes": 673
+    },
+    {
+      "path": "src/Service/Ai/AiTrackingContract.php",
+      "sha256": "17cfac64683fa2d66c8750b7c548e59bfb33b9c8ef6a3fe47bf2086931604ac2",
+      "bytes": 6948
+    },
+    {
+      "path": "src/Service/Ai/AiTrackingSchema.php",
+      "sha256": "57d7b8de097eb90de9e41c1cc095d837100b3358bf3111f9797e67a281102b87",
+      "bytes": 991
+    },
+    {
+      "path": "src/Service/Ai/AiWorkflow.php",
+      "sha256": "2e36209ebf3bad2ea8806313e0ca1e37543a5cb8dd5389169323ef56c4104ebb",
+      "bytes": 978
+    },
+    {
+      "path": "templates/ai_control/_fields.html.twig",
+      "sha256": "cc655c20a309c46a963df726a604097d2186f6693b6470bb77f5690e1af28dce",
+      "bytes": 245
+    },
+    {
+      "path": "templates/ai_control/_missions.html.twig",
+      "sha256": "301faacd7452a8bde77027c1872bea8fe7880d5aacfed0f3bd35b1f41fb62013",
+      "bytes": 560
+    },
+    {
+      "path": "templates/ai_control/base.html.twig",
+      "sha256": "b8d18d1bd81ea18e0c7cc69678ece430535e295639cd565f246823d1b7ce75e6",
+      "bytes": 4728
+    },
+    {
+      "path": "templates/ai_control/index.html.twig",
+      "sha256": "0553c76690c76f4ee2989af46f98782014f11733ccaa2aa77c397c02c9c489ac",
+      "bytes": 3281
+    },
+    {
+      "path": "templates/ai_control/login.html.twig",
+      "sha256": "0eedf2cf0d1e62553a5a9cff2dc4e0c135dbd2b0089966cc04f47398cbb5e474",
+      "bytes": 928
+    },
+    {
+      "path": "templates/ai_control/mission.html.twig",
+      "sha256": "a8a6d507ff6440466bd975c4f7ef6d3b944ab158c3b2d2f7137213ff69aba4ca",
+      "bytes": 6112
+    },
+    {
+      "path": "tests/Ai/AiAccessTest.php",
+      "sha256": "b25e13570f1b0a58271e1f913c9831aa03db6c04eb680e3e0412e0d658ff5dd7",
+      "bytes": 5417
+    },
+    {
+      "path": "tests/Ai/AiConcurrencyTest.php",
+      "sha256": "7ed7167df8bce46af654757d7427679c78946969a79bc627b6a8db25f9ed42c1",
+      "bytes": 3018
+    },
+    {
+      "path": "tests/Ai/AiNativeRegistryTest.php",
+      "sha256": "734c0687da40e224891e49f35036dcff0fee3a573a773abccc8042ce282b9f9c",
+      "bytes": 9923
+    },
+    {
+      "path": "tests/Ai/AiRelayAccessTest.php",
+      "sha256": "38af1bb5e85ebe07cd2ab80a7fc3a7dad54c50cbc3db1f95203b032f51de9ffe",
+      "bytes": 5134
+    },
+    {
+      "path": "tests/Ai/AiTrackingHttpTest.php",
+      "sha256": "1a41eface4b59a280c074422c59ccbaf94f0251a6ca3923cd46ecf3ae17084bb",
+      "bytes": 3928
+    },
+    {
+      "path": "tests/Ai/AiWorkflowTest.php",
+      "sha256": "7efd2caaee90829e2e376b869db967b2b93b91ae73effa5e9cc6e6eb2cefa286",
+      "bytes": 8267
+    }
+  ],
+  "code_digest_format": "sha256 of sorted UTF8 path + space + file sha256 + newline; excluding docs",
+  "code_digest_sha256": "ec8bbc0ed24f52243ce22d662b1fdfd13cbf95534bb76b7f814e49fd55612120"
+}

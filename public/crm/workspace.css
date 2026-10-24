@@ -265,3 +265,21 @@ body.crm-login { display:grid; place-items:center; min-height:100dvh; padding:24
   :where(.crm-workspace) .view-toolbar .primary { padding:7px 9px; }
   :where(.crm-workspace) .login-card { padding:24px; }
 }
+
+/* Compact closing targets share the existing move transaction and keyboard menu. */
+:where(.crm-workspace) .view-toolbar { flex-wrap:wrap; }
+:where(.crm-workspace) .closure-targets { display:flex; gap:8px; }
+:where(.crm-workspace) .closure-target { --closing-ink:#8c4d49; --closing-bg:#fbf0ef; --closing-line:#dcb7b2; display:flex; align-items:center; gap:7px; min-height:40px; padding:8px 10px; border:1px dashed var(--closing-line); border-radius:9px; color:var(--closing-ink); background:var(--closing-bg); font-size:12px; font-weight:650; white-space:nowrap; transition:background .15s,box-shadow .15s; }
+:where(.crm-workspace) .closure-won { --closing-ink:#32664b; --closing-bg:#edf7f0; --closing-line:#a8cbb4; }
+:where(.crm-workspace) .closure-target:hover { text-decoration:none; border-style:solid; }
+:where(.crm-workspace) .closure-icon { font-size:17px; font-weight:400; line-height:1; }
+:where(.crm-workspace) .closure-count { min-width:22px; padding:1px 6px; border-radius:20px; background:#fff; text-align:center; font-variant-numeric:tabular-nums; }
+:where(.crm-workspace) .closure-target.drop-target { border-style:solid; outline:2px solid var(--closing-ink); outline-offset:2px; box-shadow:0 4px 14px #172c3a14; }
+:where(.crm-workspace) .closure-saving { display:none; }
+:where(.crm-workspace) .closure-target[aria-busy=true] .closure-saving { display:inline; }
+:where(.crm-workspace) .closure-target[aria-disabled=true] { opacity:.65; cursor:wait; }
+@media(max-width:700px) {
+  :where(.crm-workspace) .closure-targets { flex-basis:100%; width:100%; }
+  :where(.crm-workspace) .closure-target { flex:1; justify-content:center; padding:8px 6px; gap:5px; }
+}
+@media(prefers-reduced-motion:reduce) { :where(.crm-workspace) .closure-target { transition:none; } }

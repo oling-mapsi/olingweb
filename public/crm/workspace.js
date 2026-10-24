@@ -49,6 +49,8 @@
   requestAnimationFrame(fitBoard);
   const error = document.getElementById('save-error'), feedback = document.getElementById('save-status');
   const field = board.dataset.field || 'status';
+  const closingTargets = [...document.querySelectorAll('[data-close-status]')];
+  let saving = false, permissionDenied = false;
   let dragged = null, pointer = null, frame = null, feedbackTimer;
   let previewCard = null;
   function closePreview() {
@@ -91,7 +93,7 @@
   function clearDrag() {
     dragged?.classList.remove('dragging'); dragged = null; pointer = null;
     cancelAnimationFrame(frame); frame = null;
-    board.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+    document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
   }
   function scrollWhileDragging() {
     if (!dragged || !pointer) { frame = null; return; }
@@ -104,15 +106,35 @@
   }
   async function save(card, value) {
     const select = card.querySelector('.card-status'), before = card.closest('.lane').dataset.value;
-    if (card.dataset.saving || value === before) return;
+    if (saving || permissionDenied || card.dataset.saving || value === before) {
+      if (select) select.value = before;
+      return;
+    }
+    saving = true;
+    closingTargets.forEach(target => {
+      target.setAttribute('aria-disabled', 'true');
+      if (target.dataset.closeStatus === value) target.setAttribute('aria-busy', 'true');
+    });
     const keyboardMove = document.activeElement === select;
     card.dataset.saving = '1'; card.setAttribute('aria-busy', 'true'); card.draggable = false;
     error.hidden = true; announce('Enregistrement…'); if (select) select.disabled = true;
     try {
-      const response = await fetch(card.dataset.url, {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'}, body:new URLSearchParams({_token:board.dataset.token,version:card.dataset.version,[field]:value})});
+      const url = new URL(card.dataset.url, location.href);
+      url.search = location.search; // Same filter context for authoritative closing totals.
+      const response = await fetch(url, {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'}, body:new URLSearchParams({_token:board.dataset.token,version:card.dataset.version,[field]:value})});
       const data = await response.json().catch(() => ({}));
+      if (response.redirected || response.status === 401 || response.status === 403) {
+        permissionDenied = true;
+        board.querySelectorAll('.deal-card').forEach(item => { item.draggable = false; });
+        board.querySelectorAll('.card-status').forEach(item => { item.disabled = true; });
+        throw new Error('Session expirée ou permission insuffisante. Rechargez la page pour vérifier vos accès.');
+      }
       if (!response.ok || !data.saved) throw new Error(data.error || 'Enregistrement impossible. Vérifiez votre connexion et rechargez la page.');
       card.dataset.version = data.version;
+      for (const [status, count] of Object.entries(data.closed_counts || {})) {
+        const counter = document.querySelector(`[data-closed-count="${status}"]`);
+        if (counter) counter.textContent = count;
+      }
       closePreview(); closeKpi();
       if (data.deadline_html) document.getElementById('deadline-summary').innerHTML = data.deadline_html;
       const lane = [...board.querySelectorAll('.lane')].find(x => x.dataset.value === value);
@@ -139,14 +161,19 @@
       if (select) select.value = before; feedback.hidden = true;
       error.textContent = e.message; error.hidden = false; error.scrollIntoView({block:'nearest'});
     } finally {
-      delete card.dataset.saving; card.removeAttribute('aria-busy'); card.draggable = true;
-      if (select) select.disabled = false;
+      saving = false;
+      closingTargets.forEach(target => {
+        target.removeAttribute('aria-busy');
+        if (!permissionDenied) target.removeAttribute('aria-disabled');
+      });
+      delete card.dataset.saving; card.removeAttribute('aria-busy'); card.draggable = !permissionDenied;
+      if (select) select.disabled = permissionDenied;
     }
   }
   board.addEventListener('change', e => { if (e.target.matches('.card-status')) save(e.target.closest('.deal-card'), e.target.value); });
   board.addEventListener('dragstart', e => {
     const card = e.target.closest('.deal-card');
-    if (!card || card.dataset.saving || e.target.closest('select,input,button')) { e.preventDefault(); return; }
+    if (!card || saving || permissionDenied || card.dataset.saving || e.target.closest('select,input,button')) { e.preventDefault(); return; }
     closePreview(); dragged = card; card.classList.add('dragging');
     e.dataTransfer.setData('text/plain', card.dataset.id); e.dataTransfer.effectAllowed = 'move';
   });
@@ -154,6 +181,7 @@
     if (!dragged) return;
     e.preventDefault(); e.dataTransfer.dropEffect = 'move'; pointer = {x:e.clientX,y:e.clientY};
     const lane = e.target.closest('.lane');
+    closingTargets.forEach(x => x.classList.remove('drop-target'));
     board.querySelectorAll('.lane').forEach(x => x.classList.toggle('drop-target', x === lane));
     if (!frame) frame = requestAnimationFrame(scrollWhileDragging);
   });
@@ -162,5 +190,29 @@
     const card = dragged, lane = e.target.closest('.lane'); clearDrag();
     if (lane) save(card, lane.dataset.value);
   });
+  closingTargets.forEach(target => {
+    target.addEventListener('click', e => { if (saving || permissionDenied) e.preventDefault(); });
+    target.addEventListener('dragover', e => {
+      if (!dragged || saving || permissionDenied) return;
+      e.preventDefault(); e.dataTransfer.dropEffect = 'move'; pointer = null;
+      document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+      target.classList.add('drop-target');
+    });
+    target.addEventListener('dragleave', e => {
+      if (!target.contains(e.relatedTarget)) target.classList.remove('drop-target');
+    });
+    target.addEventListener('drop', e => {
+      if (!dragged) return;
+      e.preventDefault(); const card = dragged; clearDrag();
+      save(card, target.dataset.closeStatus);
+    });
+  });
+  board.addEventListener('dragleave', e => {
+    if (!board.contains(e.relatedTarget)) {
+      board.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+      pointer = null;
+    }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') clearDrag(); });
   document.addEventListener('dragend', clearDrag);
 })();

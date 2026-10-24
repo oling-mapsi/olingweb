@@ -28,14 +28,32 @@ final class CrmAdminController extends AbstractController
         if (!in_array($scope,['active','closed','all'],true)) { $scope='active'; }
         $columns=array_filter(CrmStore::STATUSES,fn($key)=>$scope==='all' || ($scope==='closed')===in_array($key,$closed,true),ARRAY_FILTER_USE_KEY);
         if ($view==='todo') { $columns=array_diff_key(CrmStore::STATUSES,array_flip($closed)); }
+        $all=$this->store->all();
+        $rows=$this->filteredRows($all,$r);
+        if ($view==='todo') { usort($rows,fn($a,$b)=>((self::agendaDate($a)??PHP_INT_MAX)<=>(self::agendaDate($b)??PHP_INT_MAX)) ?: strcmp($a['title'],$b['title']) ?: strcmp($a['id'],$b['id'])); }
+        $mode=$r->query->get('mode',$view==='todo'?'list':'board')==='list'?'list':'board';
+        $page=$mode==='list'?max(1,$r->query->getInt('page',1)):1;
+        return $this->render('admin/crm/index.html.twig',['closed_counts'=>$this->closedCounts($all,$r),'scope'=>$scope,'columns'=>$columns,'deadlines'=>CrmDeadlines::summarize($all),'deals'=>$mode==='list'?array_slice($rows,($page-1)*50,50):$rows,'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'segment'=>$segment,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$mode,'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
+    }
+    /** The closing targets replace the stage/scope filter; all other portfolio filters apply. */
+    private function filteredRows(array $all, Request $r, bool $closedTotals=false): array
+    {
+        $view=$r->query->get('view','portfolio'); $segment=$r->query->get('segment','');
+        if (in_array($view,['markets','clients'],true)) { $segment=$view; $view='portfolio'; }
+        $q=mb_strtolower(trim($r->query->get('q',''))); $status=$r->query->get('status','');
+        $kind=$r->query->get('kind',''); $origin=$r->query->get('origin','');
+        $due=$r->query->get('due',''); $decision=$r->query->get('decision','');
+        $scope=$r->query->get('scope',$view==='portfolio' && !$status?'active':'all');
+        if (!in_array($scope,['active','closed','all'],true)) { $scope='active'; }
+        $closed=['won','lost','no_go','archived'];
+        $formsOnly=$this->config->get('client_intake','forms_only')==='forms_only';
         $now=new \DateTimeImmutable('now',new \DateTimeZone('Europe/Paris'));
-        $all=$this->store->all(); $formsOnly=$this->config->get('client_intake','forms_only')==='forms_only';
-        $rows=array_values(array_filter($all,function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment,$formsOnly,$scope,$closed,$now) {
+        return array_values(array_filter($all,function($d) use($view,$q,$status,$kind,$origin,$due,$decision,$segment,$formsOnly,$scope,$closed,$now,$closedTotals) {
             if (!empty($d['merged_into'])) { return false; }
             if ($formsOnly && $view!=='review' && $d['origin']==='email') { return false; }
             if ($view==='review' && !$d['review_required']) { return false; }
             if ($view==='portfolio' && $d['review_required']) { return false; }
-            if ($view==='portfolio' && $scope!=='all' && ($scope==='closed')!==in_array($d['status'],$closed,true)) { return false; }
+            if (!$closedTotals && $view==='portfolio' && $scope!=='all' && ($scope==='closed')!==in_array($d['status'],$closed,true)) { return false; }
             $public=$d['kind']==='public' || $d['origin']==='watch';
             if (($segment==='markets' && !$public) || ($segment==='clients' && $public)) { return false; }
             if (in_array($view,['active','todo']) && ($d['review_required'] || ($d['status']==='qualify' && !($d['origin']==='watch' && $d['decision']==='follow')))) { return false; }
@@ -45,12 +63,16 @@ final class CrmAdminController extends AbstractController
             if ($view==='qualify' && $d['status']!=='qualify') { return false; }
             if ($view==='active' && in_array($d['status'],['qualify','won','lost','no_go','archived'])) { return false; }
             if ($view==='todo' && (in_array($d['status'],['won','lost','no_go','archived']) || (!$d['next_action'] && !$d['reminder'] && !$d['deadline']))) { return false; }
-            return (!$q || str_contains(mb_strtolower(implode(' ',[$d['title'],$d['organization'],$d['contact'],$d['email'],$d['reference']])),$q)) && (!$status || $status===$d['status']) && (!$kind || $kind===$d['kind']);
+            return (!$q || str_contains(mb_strtolower(implode(' ',[$d['title'],$d['organization'],$d['contact'],$d['email'],$d['reference']])),$q)) && ($closedTotals || !$status || $status===$d['status']) && (!$kind || $kind===$d['kind']);
         }));
-        if ($view==='todo') { usort($rows,fn($a,$b)=>((self::agendaDate($a)??PHP_INT_MAX)<=>(self::agendaDate($b)??PHP_INT_MAX)) ?: strcmp($a['title'],$b['title']) ?: strcmp($a['id'],$b['id'])); }
-        $mode=$r->query->get('mode',$view==='todo'?'list':'board')==='list'?'list':'board';
-        $page=$mode==='list'?max(1,$r->query->getInt('page',1)):1;
-        return $this->render('admin/crm/index.html.twig',['scope'=>$scope,'columns'=>$columns,'deadlines'=>CrmDeadlines::summarize($all),'deals'=>$mode==='list'?array_slice($rows,($page-1)*50,50):$rows,'total'=>count($rows),'page'=>$page,'view'=>$view,'q'=>$q,'status'=>$status,'kind'=>$kind,'statuses'=>CrmStore::STATUSES,'origin'=>$origin,'segment'=>$segment,'due'=>$due,'decision'=>$decision,'decisions'=>CrmStore::DECISIONS,'mode'=>$mode,'connections'=>$this->config->status(),'sync'=>$this->store->state('email'),'watch'=>$this->store->state('watch'),'forms'=>$this->store->state('forms')]);
+    }
+    private function closedCounts(array $all, Request $r): array
+    {
+        $counts=['lost'=>0,'won'=>0];
+        foreach ($this->filteredRows($all,$r,true) as $deal) {
+            if (isset($counts[$deal['status']])) { ++$counts[$deal['status']]; }
+        }
+        return $counts;
     }
     /** Relevant dates are independent; a completed submission is not a pending action. */
     private static function agendaDates(array $deal): array
@@ -111,7 +133,7 @@ final class CrmAdminController extends AbstractController
             $updated=$this->store->get($id); $dueMatches=[];
             $now=new \DateTimeImmutable('now',new \DateTimeZone('Europe/Paris'));
             foreach (['overdue','today','week','undated'] as $due) { $dueMatches[$due]=self::matchesDue($updated,$due,$now); }
-            return $this->json(['saved'=>true,'due_matches'=>$dueMatches,'card_html'=>$this->renderView('admin/crm/_card.html.twig',['d'=>$updated,'statuses'=>CrmStore::STATUSES]),'version'=>$updated['version'],'deadline_html'=>$this->renderView('admin/crm/_deadlines.html.twig',['deadlines'=>CrmDeadlines::summarize($this->store->all())])]);
+            return $this->json(['saved'=>true,'closed_counts'=>$this->closedCounts($this->store->all(),$r),'due_matches'=>$dueMatches,'card_html'=>$this->renderView('admin/crm/_card.html.twig',['d'=>$updated,'statuses'=>CrmStore::STATUSES]),'version'=>$updated['version'],'deadline_html'=>$this->renderView('admin/crm/_deadlines.html.twig',['deadlines'=>CrmDeadlines::summarize($this->store->all())])]);
         } catch (\InvalidArgumentException|\RuntimeException $e) { return $this->json(['error'=>$e->getMessage()],409); }
     }
     #[Route('/new',name:'admin_crm_new',methods:['GET','POST'])]

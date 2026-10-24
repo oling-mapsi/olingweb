@@ -1,0 +1,49 @@
+OLING CRM — zones de clôture du Kanban — 24 octobre 2026
+
+Cible vérifiée en lecture seule dans Chrome :
+https://crm.oling.fr/admin/crm?view=portfolio&scope=active&segment=clients&mode=board&page=1
+Onglet « CRM | OLING », écran « Demandes clients », Kanban et lien « Exporter CSV ».
+Correspondance source : templates/admin/crm/index.html.twig.
+
+Isolation :
+Branche feat/crm-closed-dropzones, base origin/main 6ab5d1b3 (PR #28, relance J+7).
+Worktree : /Users/florestanrouet/Documents/Codex/2026-10-24/task-2/crm-closed-dropzones
+Checkout source CRM conservé sur 7e70ee6e avec ses cinq modifications vendor préexistantes.
+Aucun fichier du chantier ai.oling.fr consulté ou modifié.
+Modifications locales non commitées ; aucun push, merge, déploiement ou envoi.
+Aucun déplacement réel en production, accès SSH/DNS ou lecture de .env/secret.
+Aucun AGENTS.md/SKILL.md applicable trouvé dans le dépôt ou ses chemins d’instructions inspectés.
+
+Comportement :
+Deux cibles compactes « Clôturée perdue » (rouge atténué) et « Clôturée gagnée » (vert), avant CSV dans le Kanban du portefeuille.
+Statuts existants lost / won ; POST /admin/crm/{id}/move existant, même CSRF et contrôle de version.
+Compteurs calculés par le serveur au rendu et dans la réponse du déplacement.
+Définition : recherche, segment, origine, type, décision, échéance et règles de visibilité du portefeuille conservés ; les cibles remplacent seulement les filtres étape/status et scope (En cours/Clôturées), de sorte que leurs totaux restent utiles quand les colonnes actives sont affichées. Cette convention est explicitée dans l’aide accessible.
+Un clic sur une cible ouvre le statut correspondant avec les autres filtres conservés.
+Aucune mise à jour optimiste : carte et compteur inchangés pendant l’enregistrement et sur rejet.
+Un seul déplacement à la fois par page empêche doubles dépôts et réponses désordonnées.
+403/401/redirection de connexion : carte conservée, erreur visible et édition bloquée jusqu’au rafraîchissement.
+Escape/dragend/dragleave effacent la surbrillance ; sélecteur Avancement dans Détails et export CSV conservés.
+
+Validation :
+35 tests PHP, 298 assertions : CrmClosingTargetsTest, CrmWorkspaceTest, CrmClientFollowUpTest, CrmDeadlinesTest, CrmTest.
+9/9 scénarios navigateur avec le vrai workspace.js et réponses fetch simulées : perdu, gagné, doubles dépôts, conflit 409, permission 403, session redirigée, réseau, annulation, drag entre colonnes et alternative clavier/export (certains scénarios groupés).
+PHP syntax checks, node --check et git diff --check : OK.
+Rendu Twig validé par les tests fonctionnels.
+Chrome : desktop 1280 x 900 et mobile 375 x 812 ; largeur du document identique à celle du viewport, pas de débordement de page.
+Captures : desktop-1280.jpg, desktop.jpg, mobile-375.jpg, browser-tests.jpg.
+
+Reproduction des tests depuis le worktree :
+CRM_TEST_AUTOLOAD=/Users/florestanrouet/myweb/olingw-crm/vendor/autoload.php SYMFONY_DEPRECATIONS_HELPER=disabled php /Users/florestanrouet/myweb/olingw-crm/vendor/bin/phpunit --bootstrap tests/fixtures/crm-bootstrap.php --filter 'Crm(ClosingTargets|Workspace|ClientFollowUp|Deadlines|Test)' tests
+
+Le vendor suivi par Git est incomplet (polyfill-php83 absent). Le bootstrap fixture utilise l’autoloader déjà disponible du checkout CRM en lecture seule, et remappe App/Tests vers CE worktree. Chemins Kernel et CrmAdminController vérifiés par réflexion. Aucune installation de dépendance. Les dépréciations Symfony/Doctrine préexistantes sont désactivées dans la commande finale (première exécution les a signalées sans échec d’assertion).
+
+Aperçu :
+http://127.0.0.1:8097/ — rendu statique issu des fixtures du test PHP, conservé ouvert dans Chrome.
+http://127.0.0.1:8097/tests.html — bouton d’exécution des scénarios UI simulés.
+Serveur lié uniquement à 127.0.0.1, routeur à liste fermée, aucune initialisation d’application ni endpoint commercial.
+Pour générer l’aperçu : ajouter CRM_PREVIEW_HTML="$PWD/var/closing-preview/index.html" à la commande PHPUnit du test CrmClosingTargetsTest (créer var/closing-preview avant).
+Pour relancer le serveur : php -S 127.0.0.1:8097 tests/fixtures/crm-preview-router.php
+
+Limites :
+Aperçu statique, navigation commerciale volontairement indisponible. Persistance et export testés séparément par le contrôleur réel sur SQLite en mémoire ; interactions JS testées dans Chrome par événements DOM synthétiques. Aucun test de mutation en production. Aucun blocage restant. Aucun refus d’approbation automatique ; l’ouverture du port local, initialement interdite par le sandbox, a été autorisée en escalade.

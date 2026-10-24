@@ -1,0 +1,109 @@
+{
+  "status": "publication-authorized-local-regression-passed",
+  "base": "7a86077d0673e2089cacc116c18fbe9cb061d09c",
+  "branch": "codex/ai-native-tracking-cli",
+  "production_unchanged": true,
+  "production_mission_created": false,
+  "credentials_created": false,
+  "native_model_executed": false,
+  "owner_lookup": "exact confirmed email matched one existing admin; no credential columns read",
+  "application_files": [
+    "src/Command/AiTrackCommand.php",
+    "src/Service/Ai/AiNativeRegistry.php"
+  ],
+  "migrations": [],
+  "tests": {
+    "wrapper": {
+      "tests": 5,
+      "assertions": 109,
+      "passed": true,
+      "included_in_ai_total": true
+    },
+    "ai": {
+      "tests": 27,
+      "assertions": 274,
+      "passed": true
+    },
+    "crm": {
+      "tests": 55,
+      "assertions": 660,
+      "passed": true,
+      "test_files": 14
+    },
+    "lints": {
+      "php_files": 3,
+      "container": true,
+      "diff_check": true
+    },
+    "console_registration": true,
+    "real_cli_stdin_invalid_operation": {
+      "exit": 2,
+      "error": "invalid_request"
+    }
+  },
+  "idempotence_evidence": {
+    "environment": "synthetic SQLite and real CommandTester stdin",
+    "exact_replays": [
+      "create",
+      "associate",
+      "result"
+    ],
+    "persisted_counts": {
+      "mission": 1,
+      "run": 1,
+      "asset": 1,
+      "review": 1,
+      "tracking_receipt": 5,
+      "event": 5
+    },
+    "final_state": "ready_for_validation",
+    "closure": null,
+    "shell_marker_created": false,
+    "native_task_verified": false
+  },
+  "not_verified": [
+    "Live SSH command invocation",
+    "Production first mission",
+    "Model and effort of native thread",
+    "MySQL concurrency"
+  ],
+  "files": [
+    {
+      "path": "src/Command/AiTrackCommand.php",
+      "sha256": "f09132ad0c7fd53086c0416fb3c2cca5a3c35b5c0cefdc031fdc31739e0b836a",
+      "bytes": 6733
+    },
+    {
+      "path": "src/Service/Ai/AiNativeRegistry.php",
+      "sha256": "2f440d64ec54775c9d9d4b87ea6a6e20692b8f3cad952e5e0351d2e84010a4a5",
+      "bytes": 14345,
+      "expected_previous_sha256": "13733009e1fa13357faaef00d94225e016537e5c42b14ed19508c3f3ea683237"
+    },
+    {
+      "path": "tests/Ai/AiTrackCommandTest.php",
+      "sha256": "a57d1d0767cc7e6b72e701fd5e04e724cfbfc5a0070c4f5b5fe06064e1588bd4",
+      "bytes": 11139
+    },
+    {
+      "path": "docs/ai/native-cli.md",
+      "sha256": "5f3e90f5bc1e4b636475a374f4f035a36654263cfa39db19f3bb0bcba3841f90",
+      "bytes": 8002
+    },
+    {
+      "path": "scripts/ai/phpunit-crm.xml",
+      "sha256": "a955fc68c5d654e1d79ef34dbf71cacdff479497faac5ab0b8c4121627a8947f",
+      "bytes": 747
+    },
+    {
+      "path": "scripts/ai/deploy-track.py",
+      "sha256": "a86fea56e3c5e94eff8f774a86c5c05634d0f4664ab3eaf910925acdff5b9155",
+      "bytes": 5015
+    }
+  ],
+  "native_reference_observation": {
+    "task_id": "01a16e5d-b400-71a8-87e7-134d4cb7b0c7",
+    "exists_in_platform_read_thread": true,
+    "server_attestation": false,
+    "model_and_effort_exposed": false
+  }
+}

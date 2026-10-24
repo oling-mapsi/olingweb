@@ -1,6 +1,6 @@
 # Suivi par tâche native — commande ponctuelle
 
-**Préparé et testé localement ; non déployé.** Aucun changement de compte, d’OAuth, de MCP, de service ou de relais. Le registre conserve les résultats ; il ne lance jamais Codex.
+**Commande publiée ; correction des métadonnées informatives inconnues en cours de finalisation.** Aucun changement de compte, d’OAuth, de MCP, de service ou de relais. Le registre conserve les résultats ; il ne lance jamais Codex.
 
 ## Invocation et frontière de confiance
 
@@ -40,7 +40,7 @@ Titre : **Raccorder le suivi natif OLING IA**. Projet : `oling-ai`. Sujet : ce w
 Séquence proposée après approbation :
 
 1. `ai_mission_create`, event_id `native-link-01a16e5d-create-v1`, titre ci-dessus, brief décrivant le lot réellement réalisé et ses critères, project `oling-ai`. Conserver mission_id/version retournés.
-2. `ai_task_associate`, event_id `native-link-01a16e5d-associate-v1`, task_id ci-dessus, task_url `codex://threads/01a16e5d-b400-71a8-87e7-134d4cb7b0c7`, modèle/effort effectifs fournis par le pilote. **Ne pas deviner le modèle/effort**, ils ne sont pas vérifiés par la commande.
+2. `ai_task_associate`, event_id `native-link-01a16e5d-associate-v1`, task_id ci-dessus, task_url `codex://threads/01a16e5d-b400-71a8-87e7-134d4cb7b0c7`, modèle/effort effectifs rapportés par le pilote, ou marqueur réservé `unknown` pour chaque valeur non exposée. Ces métadonnées ne sont jamais des paramètres d’exécution et ne sont pas vérifiées par la commande.
 3. `ai_task_event`, event_id `native-link-01a16e5d-started-v1`, event `started`, run_id courant : suivi d’une tâche existante, aucun lancement ni prétention à connaître son horodatage initial.
 4. `ai_task_result`, event_id `native-link-01a16e5d-result-v1`, bilan exact, vrais liens de commit/PR une fois publiés, contrôles réellement exécutés. Rapporter séparément ce qui n’est pas vérifié. Rejouer exactement cet événement pour constater le même reçu et un seul asset.
 5. `ai_mission_get` : vérifier états, références et provenance dans le registre. État attendu à ce stade : `result_received`. Pas de fausse revue ni de clôture automatique. Une revue ultérieure exige un vrai reviewer et ses références.
@@ -53,4 +53,12 @@ Deux fichiers applicatifs seulement : `src/Command/AiTrackCommand.php` (nouveau)
 
 Avant publication : relecture du diff et des tests, commit/PR/CI selon procédure existante, préflight de la release active. Sous verrou `/var/lock/oling-deploy-cms-p0.lock`, sauvegarde vérifiée et copie de la release courante ; vérifier le hash de l’ancien AiNativeRegistry et l’absence de la nouvelle commande avant overlay. Garder le stockage privé lié, appliquer les deux fichiers seulement, linter/cache avec PHP8.4 existant, bascule atomique, renouveler les caches PHP et smoke OLING/CRM/AI. Pas de réexécution de migration. Rollback par retour de symlink ; préserver tables et assets.
 
-Publication et première écriture de la mission proposée attendent ensemble le point de validation du parent. La release AI précédente demeure active et le MCP reste à503 ; le relais reste refusé403.
+La publication et l’écriture de cette mission ont été explicitement autorisées. La mission existante est `0c1365ed78526eadbef15420d21f4fc3` : ne pas la recréer. Consulter son état et les dernières preuves avant reprise. Le MCP reste à503 et le relais reste refusé403.
+
+## Métadonnées informatives non renseignées
+
+Les colonnes `ai_run.model` et `ai_run.effort` sont NOT NULL (varchar100 et varchar16). Pour ne modifier ni le schéma ni les anciennes données, la valeur réservée `unknown` représente explicitement une métadonnée non fournie. Null, chaîne vide, types incorrects, longueurs dépassées et efforts non reconnus restent refusés. Les valeurs connues conservent leur validation existante.
+
+Le journal d’association/revue et les lectures de run incluent une qualité dérivée : `source=operator_report`, `verification=not_independently_verified`, et pour chaque champ `not_provided` ou `reported`. Le client ne peut pas remplacer ce marqueur par une prétendue vérification. L’interface affiche « non renseigné » et indique qu’aucune valeur n’est déduite ; le marqueur ne désigne aucun modèle réellement exécuté. Aucun paramètre Codex n’est changé.
+
+Cette correction porte uniquement sur AiTrackingContract, AiNativeRegistry et le template de mission. Aucune migration ni authentification modifiée. La reprise autorisée de la mission existante associera le fil réel avec model=unknown et effort=unknown, puis enregistrera le résultat réel et son rejeu avant lecture des compteurs, sans revue ni clôture.

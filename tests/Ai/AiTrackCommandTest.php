@@ -100,6 +100,42 @@ final class AiTrackCommandTest extends TestCase
         self::assertSame('executor_report_not_independently_verified',$detail['result']['runs'][0]['report']['verification']);
     }
 
+    public function testUnknownMetadataRemainsExplicitAndIdempotentIncludingReview(): void
+    {
+        $m=$this->create();
+        $args=self::base($m,'fixture-unknown-assoc')+['task_id'=>self::TASK,'task_url'=>'codex://threads/'.self::TASK,'model'=>'unknown','effort'=>'unknown'];
+        [$code,$a]=$this->call('ai_task_associate',$args,['--apply'=>true,'--native-task-id'=>self::TASK]);self::assertSame(0,$code);
+        [$code,$again]=$this->call('ai_task_associate',$args,['--apply'=>true,'--native-task-id'=>self::TASK]);self::assertSame($a,$again);
+        $m=$a['result'];
+        [$code,$detail]=$this->call('ai_mission_get',['mission_id'=>$m['mission_id']]);self::assertSame(0,$code);
+        $run=$detail['result']['runs'][0];self::assertSame('unknown',$run['model']);self::assertSame('unknown',$run['effort']);
+        self::assertSame(['source'=>'operator_report','verification'=>'not_independently_verified','model'=>'not_provided','effort'=>'not_provided'],$run['metadata_quality']);
+        [$code]=$this->call('ai_mission_get',['mission_id'=>$m['mission_id']],['--owner-username'=>'beta']);self::assertSame(3,$code);
+        [$code,$received]=$this->call('ai_task_result',self::base($m,'fixture-unknown-result')+['run_id'=>$m['run_id'],'summary'=>'Synthetic result only','proofs'=>[['label'=>'Synthetic','url'=>'https://github.com/example/fixture']],'checks'=>[]],['--apply'=>true]);self::assertSame(0,$code);
+        $m=$received['result'];
+        [$code,$review]=$this->call('ai_mission_review',self::base($m,'fixture-unknown-review')+['run_id'=>$m['run_id'],'verdict'=>'approve','feedback'=>'Synthetic review only','review_task_id'=>self::REVIEW,'model'=>'unknown','effort'=>'unknown'],['--apply'=>true,'--native-task-id'=>self::REVIEW]);
+        self::assertSame(0,$code);self::assertSame('ready_for_validation',$review['result']['status']);
+        foreach ($this->db->fetchAllAssociative("SELECT data FROM ai_event WHERE kind IN ('ai_task_associate','ai_mission_review')") as $e) {
+            $quality=json_decode($e['data'],true)['metadata_quality'];self::assertSame('not_provided',$quality['model']);self::assertSame('not_provided',$quality['effort']);
+        }
+        self::assertSame(1,(int)$this->db->fetchOne('SELECT COUNT(*) FROM ai_run'));
+        self::assertSame(1,(int)$this->db->fetchOne('SELECT COUNT(*) FROM ai_asset'));
+    }
+
+    public function testKnownMixedAndInvalidMetadataPreserveValidation(): void
+    {
+        $quality=\App\Service\Ai\AiTrackingContract::metadataQuality('fixture-model','high');
+        self::assertSame('reported',$quality['model']);self::assertSame('reported',$quality['effort']);
+        self::assertSame('not_provided',\App\Service\Ai\AiTrackingContract::metadataQuality('fixture-model','unknown')['effort']);
+        self::assertSame('not_provided',\App\Service\Ai\AiTrackingContract::metadataQuality('unknown','high')['model']);
+        $m=$this->create();$base=self::base($m,'fixture-invalid-metadata')+['task_id'=>self::TASK,'task_url'=>'codex://threads/'.self::TASK,'model'=>'unknown','effort'=>'unknown'];
+        foreach ([['model'=>null],['effort'=>null],['model'=>''],['effort'=>''],['model'=>str_repeat('x',101)],['effort'=>'maximum'],['effort'=>42],['model'=>[]]] as $invalid) {
+            [$code]=$this->call('ai_task_associate',array_replace($base,$invalid),['--apply'=>true,'--native-task-id'=>self::TASK]);self::assertSame(2,$code);
+        }
+        self::assertSame(0,(int)$this->db->fetchOne('SELECT COUNT(*) FROM ai_run'));
+        $schema=new Schema();AiSchema::add($schema);self::assertTrue($schema->getTable('ai_run')->getColumn('model')->getNotnull());self::assertTrue($schema->getTable('ai_run')->getColumn('effort')->getNotnull());
+    }
+
     public function testOwnerAndActorAreOutsidePayloadAndMustBeAllowed(): void
     {
         foreach (['reader','absent','ALPHA'] as $name) {

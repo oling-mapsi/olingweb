@@ -162,7 +162,8 @@
                 "model": {
                     "type": "string",
                     "minLength": 1,
-                    "maxLength": 100
+                    "maxLength": 100,
+                    "description": "Modèle rapporté uniquement ; marqueur réservé unknown si non renseigné."
                 },
                 "effort": {
                     "type": "string",
@@ -172,8 +173,10 @@
                         "high",
                         "xhigh",
                         "max",
-                        "ultra"
-                    ]
+                        "ultra",
+                        "unknown"
+                    ],
+                    "description": "Métadonnée rapportée uniquement ; unknown si non renseignée, jamais un paramètre d’exécution."
                 }
             },
             "required": [
@@ -384,7 +387,8 @@
                 "model": {
                     "type": "string",
                     "minLength": 1,
-                    "maxLength": 100
+                    "maxLength": 100,
+                    "description": "Modèle rapporté uniquement ; marqueur réservé unknown si non renseigné."
                 },
                 "effort": {
                     "type": "string",
@@ -394,8 +398,10 @@
                         "high",
                         "xhigh",
                         "max",
-                        "ultra"
-                    ]
+                        "ultra",
+                        "unknown"
+                    ],
+                    "description": "Métadonnée rapportée uniquement ; unknown si non renseignée, jamais un paramètre d’exécution."
                 }
             },
             "required": [

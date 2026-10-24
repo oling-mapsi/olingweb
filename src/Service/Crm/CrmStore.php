@@ -75,6 +75,7 @@ final class CrmStore
         $fields=$this->validate($fields);
         $this->db->transactional(function() use($id,$fields,$status,$kind,$note,$actor,$version) {
             $d=$this->get($id); $changes=[];
+            $fields=array_replace($fields,ClientOfferFollowUp::onTransition($d,$status,$kind,new \DateTimeImmutable('now')));
             foreach ($fields as $key=>$value) { if ($value!==$d[$key]) { $changes[$key]=['before'=>$d[$key],'after'=>$value]; $d[$key]=$value; $d['manual_fields'][$key]=true; } }
             if (empty($d['title'])) { throw new \InvalidArgumentException('Intitulé requis.'); }
             if ($status!==$d['status']) { $d['manual_fields']['status']=true; $changes['status']=['before'=>$d['status'],'after'=>$status]; }

@@ -12,6 +12,12 @@ Cinq colonnes actives par défaut, filtre En cours / Clôturées / Toutes les é
 
 Voir [la recette et les captures V2.1](UX-V2.1.md). V2.1 intégrée par la PR #25. Voir aussi [la disposition compacte et la connexion autonome](COMPACT-AUTONOMOUS.md).
 
+## Relance automatique des offres clients
+
+À chaque passage d’un client privé en **Offre envoyée**, la prochaine action devient « Relancer le client sur l’offre envoyée » et la relance est fixée à J+7 calendaires, à la même heure de Paris (stockage UTC). Cette action remplace l’ancienne action/date de relance, avec avant/après conservés dans l’historique. Elle apparaît dans **Actions et relances**, sur la carte et dans la fiche ; elle reste modifiable après envoi.
+
+La règle couvre le Kanban, la fiche et les raccourcis. Une simple sauvegarde au statut déjà envoyé ne décale pas la date. Un nouveau passage vers ce statut recrée l’échéance à J+7. Les marchés publics et toutes les fiches d’origine veille sont exclus. Les offres déjà envoyées avant livraison ne sont pas reprises rétroactivement. Aucun email envoyé, aucune nouvelle tâche système ni migration.
+
 ## Navigation et avancement
 
 Une seule entrée **Portefeuille**, avec les filtres **Tous / Marchés publics / Clients**, et une entrée **Actions et relances**. Tous les Kanbans et listes affichent les statuts d'avancement enregistrés, y compris pour les marchés de veille et les marchés saisis manuellement. Les anciennes URL `view=markets` et `view=clients` ouvrent le portefeuille filtré correspondant. Les décisions de veille restent accessibles dans la fiche, sans remplacer les colonnes d'avancement ni masquer une affaire déjà en cours dans les actions. Aucun statut existant n'est migré ou réécrit.

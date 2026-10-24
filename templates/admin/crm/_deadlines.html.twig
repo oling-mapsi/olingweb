@@ -1,9 +1,9 @@
 <section class="deadline-kpis action-kpis" aria-label="Échéances et propositions à relancer">
-  <div class="deadline-heading"><strong>Échéances & relances</strong><small>Marchés publics et propositions clients</small>{% if deadlines.missing %}<small class="kpi-missing">{{ deadlines.missing }} dossier(s) sans échéance · non compté(s)</small>{% endif %}</div>
+  <div class="deadline-heading"><strong>Échéances & relances</strong><small>Marchés retenus et propositions clients · Tout le portefeuille</small>{% if deadlines.missing %}<small class="kpi-missing">{{ deadlines.missing }} dossier(s) sans échéance · non compté(s)</small>{% endif %}</div>
   {% for key,label in {soon:'À remettre sous 7 jours',later:'À remettre au-delà de 7 jours',awaiting:'Propositions en attente de réponse'} %}
     <div class="action-kpi" data-kpi="{{ key }}">
       <button type="button" class="kpi-trigger" aria-expanded="false" aria-controls="kpi-list-{{ key }}">
-        <strong>{{ attribute(deadlines,key) }}</strong><span>{{ label }}</span><small>{{ key=='soon' and deadlines.overdue ? 'dont '~deadlines.overdue~' en retard' : (key=='awaiting'?'Envoyées ou en discussion · à relancer':'Marchés et propositions à remettre') }} <span aria-hidden="true">⌄</span></small>
+        <strong>{{ attribute(deadlines,key) }}</strong><span>{{ label }}</span><small>{{ key=='soon' and deadlines.overdue ? 'dont '~deadlines.overdue~' en retard' : (key=='awaiting'?'Envoyées ou en discussion · à relancer':'Dates de dépôt / remise · hors relances') }} <span aria-hidden="true">⌄</span></small>
       </button>
       <div id="kpi-list-{{ key }}" class="kpi-popover" role="region" aria-label="{{ label }}" hidden>
         <header><strong>{{ label }}</strong><button type="button" class="kpi-close" aria-label="Fermer la liste">×</button></header>

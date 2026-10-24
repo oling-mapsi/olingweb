@@ -42,7 +42,7 @@ final class CrmAccessTest extends WebTestCase
         $before=$store->get($market);
         foreach (['view=markets','view=portfolio&segment=markets'] as $query) {
             $client->request('GET','/admin/crm?'.$query);self::assertResponseIsSuccessful();
-            self::assertSelectorExists('.board[data-field="status"]');self::assertSelectorCount(9,'.lane');
+            self::assertSelectorExists('.board[data-field="status"]');self::assertSelectorCount(5,'.lane');
             self::assertSelectorNotExists('a[href*="view=review"]');
             self::assertSelectorCount(3,'.kpi-trigger');
             self::assertSelectorExists('.kpi-popover[hidden]');
@@ -61,16 +61,18 @@ final class CrmAccessTest extends WebTestCase
         self::assertSelectorTextContains('table','En préparation');self::assertSelectorTextNotContains('table','Ne pas suivre');
         $client->request('GET','/admin/crm?view=active');self::assertSelectorTextContains('.lane[data-value="preparing"]','Marché à examiner');
         $store->edit($market,['next_action'=>'Préparer la réponse'],'preparing','public','','test',$store->get($market)['version']);
-        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('.lane[data-value="preparing"]','Marché à examiner');
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('table','Marché à examiner');self::assertSelectorNotExists('.board');
         $client->request('POST','/admin/crm/'.$private,['_token'=>$token,'version'=>1,'status'=>'follow','kind'=>'private','note'=>'Motif conservé','fields'=>['next_action'=>'Relance fictive','reminder'=>'2026-11-01T10:00']]);self::assertResponseRedirects();
-        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('.board','Client à qualifier');
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextContains('table','Client à qualifier');
         $client->request('POST','/admin/crm/'.$private.'/move',['_token'=>$token,'version'=>2,'status'=>'no_go']);self::assertResponseIsSuccessful();
         self::assertSame('no_go',$store->get($private)['status']);self::assertSame('Relance fictive',$store->get($private)['next_action']);
-        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextNotContains('.board','Client à qualifier');
-        $client->request('GET','/admin/crm');self::assertSelectorTextContains('.lane[data-value="no_go"]','Client à qualifier');
+        $client->request('GET','/admin/crm?view=todo');self::assertSelectorTextNotContains('table','Client à qualifier');
+        $client->request('GET','/admin/crm');self::assertSelectorNotExists('.lane[data-value="no_go"]');
+        $client->request('GET','/admin/crm?scope=closed');self::assertSelectorCount(4,'.lane');self::assertSelectorTextContains('.lane[data-value="no_go"]','Client à qualifier');
+        $client->request('GET','/admin/crm?scope=all');self::assertSelectorCount(9,'.lane');
         $client->request('GET','/admin/crm/'.$private);self::assertSelectorTextContains('.crm-badge','Sans suite');self::assertSelectorTextContains('body','Motif conservé');
         for($i=0;$i<51;++$i) { $store->create(['title'=>'Client fictif '.$i],'private','form'); }
-        $client->request('GET','/admin/crm');self::assertSelectorCount(54,'.deal-card');
+        $client->request('GET','/admin/crm');self::assertSelectorCount(53,'.deal-card');
         $client->request('GET','/admin/crm?mode=list');self::assertSelectorCount(50,'tbody tr');
         $store->edit($market,['deadline'=>'2099-10-24T10:00:00Z'],'preparing','public','','test',$store->get($market)['version']);
         $client->request('POST','/admin/crm/'.$market.'/move',['_token'=>$token,'version'=>$store->get($market)['version'],'decision'=>'follow']);

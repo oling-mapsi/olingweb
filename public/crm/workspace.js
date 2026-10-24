@@ -30,20 +30,14 @@
   }, 0));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && activeKpi) closeKpi(true); });
   const board = document.querySelector('.board'); if (!board) return;
-  const scroller = document.querySelector('.board-scroll'), density = document.getElementById('board-density');
+  const scroller = document.querySelector('.board-scroll');
   function fitBoard() {
     scroller.firstElementChild.style.width = board.scrollWidth + 'px';
     const overflow = board.scrollWidth > board.clientWidth + 2;
     scroller.hidden = !overflow;
     document.querySelector('.column-jump').classList.toggle('needed', overflow);
-    board.style.height = Math.max(280, innerHeight - (board.getBoundingClientRect().top + scrollY) - 24) + 'px';
+    board.style.height = Math.max(360, innerHeight - (board.getBoundingClientRect().top + scrollY) - 24) + 'px';
   }
-  density.addEventListener('click', () => {
-    const expanded = board.classList.toggle('comfortable');
-    density.setAttribute('aria-pressed', String(expanded));
-    density.textContent = expanded ? 'Voir toutes les colonnes' : 'Agrandir les cartes';
-    closePreview(); fitBoard();
-  });
   scroller.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) board.scrollLeft = scroller.scrollLeft; });
   board.addEventListener('scroll', () => { if (Math.abs(board.scrollLeft - scroller.scrollLeft) > 1) scroller.scrollLeft = board.scrollLeft; });
   document.querySelector('.column-jump').addEventListener('click', e => {
@@ -56,16 +50,15 @@
   const error = document.getElementById('save-error'), feedback = document.getElementById('save-status');
   const field = board.dataset.field || 'status';
   let dragged = null, pointer = null, frame = null, feedbackTimer;
-  let previewCard = null, previewTimer;
+  let previewCard = null;
   function closePreview() {
-    clearTimeout(previewTimer);
     if (!previewCard) return;
     previewCard.querySelector('.card-details').hidden = true;
     previewCard.querySelector('.card-details-toggle').setAttribute('aria-expanded', 'false');
     previewCard.classList.remove('preview-open'); previewCard = null;
   }
   function openPreview(card) {
-    clearTimeout(previewTimer); if (dragged || card.dataset.saving) return;
+    if (dragged || card.dataset.saving) return;
     if (previewCard !== card) closePreview();
     previewCard = card; const panel = card.querySelector('.card-details');
     panel.hidden = false; card.classList.add('preview-open');
@@ -75,29 +68,22 @@
     panel.style.left = Math.max(12, Math.min(right + p.width <= innerWidth - 12 ? right : left >= 12 ? left : r.left, innerWidth - p.width - 12)) + 'px';
     panel.style.top = Math.max(12, Math.min(r.top, innerHeight - p.height - 12)) + 'px';
   }
-  for (const card of board.querySelectorAll('.deal-card')) {
-    card.addEventListener('pointerenter', e => {
-      clearTimeout(previewTimer);
-      if (e.pointerType === 'mouse' && !dragged) previewTimer = setTimeout(() => openPreview(card), 300);
-    });
-    card.addEventListener('pointerleave', () => {
-      clearTimeout(previewTimer);
-      if (!card.contains(document.activeElement)) previewTimer = setTimeout(closePreview, 200);
-    });
-    card.addEventListener('focusout', () => setTimeout(() => {
-      if (previewCard === card && !card.contains(document.activeElement) && !card.matches(':hover')) closePreview();
-    }, 0));
-    card.querySelector('.card-details-toggle').addEventListener('click', () => openPreview(card));
-    card.querySelector('.card-details-close').addEventListener('click', () => {
-      closePreview(); card.querySelector('.card-details-toggle').focus();
-    });
-  }
+  board.addEventListener('click', e => {
+    const card = e.target.closest('.deal-card'); if (!card) return;
+    if (e.target.closest('.card-details-toggle')) {
+      if (previewCard === card) closePreview(); else openPreview(card);
+    } else if (e.target.closest('.card-details-close')) {
+      closePreview(); card.querySelector('.card-details-toggle').focus({preventScroll:true});
+    }
+  });
+  board.addEventListener('focusout', () => setTimeout(() => {
+    if (previewCard && !previewCard.contains(document.activeElement)) closePreview();
+  }, 0));
   document.addEventListener('pointerdown', e => { if (previewCard && !previewCard.contains(e.target)) closePreview(); });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && previewCard) { const button = previewCard.querySelector('.card-details-toggle'); closePreview(); button.focus(); }
   });
   window.addEventListener('resize', closePreview);
-  window.addEventListener('scroll', e => { if (previewCard && !previewCard.querySelector('.card-details').contains(e.target)) closePreview(); }, true);
   function announce(message) {
     clearTimeout(feedbackTimer); feedback.textContent = message; feedback.hidden = false;
     feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 5000);
@@ -119,6 +105,7 @@
   async function save(card, value) {
     const select = card.querySelector('.card-status'), before = card.closest('.lane').dataset.value;
     if (card.dataset.saving || value === before) return;
+    const keyboardMove = document.activeElement === select;
     card.dataset.saving = '1'; card.setAttribute('aria-busy', 'true'); card.draggable = false;
     error.hidden = true; announce('Enregistrement…'); if (select) select.disabled = true;
     try {
@@ -126,13 +113,28 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.saved) throw new Error(data.error || 'Enregistrement impossible. Vérifiez votre connexion et rechargez la page.');
       card.dataset.version = data.version;
+      closePreview(); closeKpi();
       if (data.deadline_html) document.getElementById('deadline-summary').innerHTML = data.deadline_html;
-      fitBoard();
       const lane = [...board.querySelectorAll('.lane')].find(x => x.dataset.value === value);
-      lane.querySelector('.lane-cards').append(card); if (select) select.value = value;
-      if (field === 'decision') card.querySelector('.crm-badge').textContent = select.selectedOptions[0].textContent;
+      const hiddenByFilter = (board.dataset.due && data.due_matches?.[board.dataset.due] === false)
+        || (board.dataset.statusFilter && board.dataset.statusFilter !== value)
+        || (board.dataset.view === 'todo' && value === 'qualify' && card.dataset.selectedWatch !== '1');
+      if (lane && !hiddenByFilter) {
+        lane.querySelector('.lane-cards').append(card);
+        if (data.card_html) {
+          const template = document.createElement('template'); template.innerHTML = data.card_html.trim();
+          const updated = template.content.firstElementChild; card.replaceWith(updated);
+          if (keyboardMove) updated.querySelector('.card-details-toggle').focus({preventScroll:true});
+        } else if (select) select.value = value;
+        announce('Déplacement enregistré');
+      } else {
+        card.remove(); board.dataset.total = Math.max(0, Number(board.dataset.total) - 1);
+        document.querySelectorAll('[data-board-total]').forEach(el => { el.textContent = board.dataset.total; });
+        if (keyboardMove) (document.querySelector('select[name="scope"]') || board).focus({preventScroll:true});
+        announce('Statut enregistré. La fiche reste accessible dans le portefeuille avec le filtre Toutes les étapes.');
+      }
       for (const col of board.querySelectorAll('.lane')) col.querySelector('header > span:last-child').textContent = col.querySelectorAll('.deal-card').length;
-      closePreview(); announce('Déplacement enregistré');
+      fitBoard();
     } catch (e) {
       if (select) select.value = before; feedback.hidden = true;
       error.textContent = e.message; error.hidden = false; error.scrollIntoView({block:'nearest'});

@@ -1,0 +1,5 @@
+{% if value %}
+  {% set timestamp=value|date('U') %}{% set now='now'|date('U') %}
+  <span class="date-value"><span>{{ label }} · </span><time datetime="{{ value }}">{{ value|date('d/m/Y · H:i','Europe/Paris') }}</time></span>
+  {% if actionable %}{% if timestamp < now %}<small class="date-marker overdue">En retard</small>{% elseif value|date('Y-m-d','Europe/Paris')=='now'|date('Y-m-d','Europe/Paris') %}<small class="date-marker soon">Aujourd’hui</small>{% elseif timestamp <= date('now', 'Europe/Paris').modify('+7 days')|date('U') %}<small class="date-marker soon">Sous 7 jours</small>{% endif %}{% endif %}
+{% else %}<span class="crm-muted">{{ empty }}</span>{% endif %}

@@ -1,0 +1,38 @@
+[
+  {
+    "board": 1392,
+    "content": 1392,
+    "lanes": 5,
+    "page": 1440,
+    "secondary": "13px",
+    "title": "15px",
+    "width": 1440
+  },
+  {
+    "board": 1232,
+    "content": 1232,
+    "lanes": 5,
+    "page": 1280,
+    "secondary": "13px",
+    "title": "15px",
+    "width": 1280
+  },
+  {
+    "board": 720,
+    "content": 1231,
+    "lanes": 5,
+    "page": 768,
+    "secondary": "13px",
+    "title": "15px",
+    "width": 768
+  },
+  {
+    "board": 343,
+    "content": 1556,
+    "lanes": 5,
+    "page": 375,
+    "secondary": "13px",
+    "title": "15px",
+    "width": 375
+  }
+]

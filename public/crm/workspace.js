@@ -1,4 +1,34 @@
 (() => {
+  // Delegation also covers KPI HTML refreshed after a Kanban move, and the list view.
+  let activeKpi = null;
+  function closeKpi(restoreFocus = false) {
+    if (!activeKpi) return;
+    const trigger = activeKpi.querySelector('.kpi-trigger');
+    activeKpi.querySelector('.kpi-popover').hidden = true;
+    trigger.setAttribute('aria-expanded', 'false'); activeKpi = null;
+    if (restoreFocus) trigger.focus({preventScroll:true});
+  }
+  function openKpi(kpi) {
+    if (activeKpi !== kpi) closeKpi();
+    activeKpi = kpi; kpi.querySelector('.kpi-popover').hidden = false;
+    kpi.querySelector('.kpi-trigger').setAttribute('aria-expanded', 'true');
+  }
+  document.addEventListener('pointerover', e => {
+    const kpi = e.target.closest('.action-kpi');
+    if (e.pointerType === 'mouse' && kpi && !kpi.contains(e.relatedTarget)) openKpi(kpi);
+  });
+  document.addEventListener('pointerout', e => {
+    if (activeKpi && activeKpi.contains(e.target) && !activeKpi.contains(e.relatedTarget) && !activeKpi.contains(document.activeElement)) closeKpi();
+  });
+  document.addEventListener('click', e => {
+    if (e.target.closest('.kpi-trigger')) openKpi(e.target.closest('.action-kpi'));
+    else if (e.target.closest('.kpi-close')) closeKpi(true);
+    else if (activeKpi && !activeKpi.contains(e.target)) closeKpi();
+  });
+  document.addEventListener('focusout', () => setTimeout(() => {
+    if (activeKpi && !activeKpi.contains(document.activeElement) && !activeKpi.matches(':hover')) closeKpi();
+  }, 0));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && activeKpi) closeKpi(true); });
   const board = document.querySelector('.board'); if (!board) return;
   const scroller = document.querySelector('.board-scroll'), density = document.getElementById('board-density');
   function fitBoard() {

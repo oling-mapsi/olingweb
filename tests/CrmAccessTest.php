@@ -43,6 +43,9 @@ final class CrmAccessTest extends WebTestCase
         foreach (['view=markets','view=portfolio&segment=markets'] as $query) {
             $client->request('GET','/admin/crm?'.$query);self::assertResponseIsSuccessful();
             self::assertSelectorExists('.board[data-field="status"]');self::assertSelectorCount(9,'.lane');
+            self::assertSelectorNotExists('a[href*="view=review"]');
+            self::assertSelectorCount(3,'.kpi-trigger');
+            self::assertSelectorExists('.kpi-popover[hidden]');
             self::assertSelectorExists('.lane[data-value="preparing"] .deal-card[data-id="'.$market.'"]');
             self::assertSelectorTextContains('.lane[data-value="discussion"]','Affaire fictive'); // Manual public markets too.
             self::assertSelectorTextNotContains('.board','Client à qualifier');

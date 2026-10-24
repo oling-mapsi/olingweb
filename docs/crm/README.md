@@ -2,6 +2,10 @@
 
 Module Symfony privé : `/admin/crm`. Authentification et rôle `ROLE_ADMIN` existants ; toutes les mutations UI sont POST + CSRF. Données commerciales uniquement en production.
 
+## Échéances et propositions à relancer
+
+Trois indicateurs calculés sur tout le portefeuille, indépendamment des filtres : échéances à remettre sous 7 jours (retards inclus et signalés), au-delà de 7 jours, propositions envoyées ou en discussion en attente de réponse. Les marchés et demandes clients à suivre/en préparation sont inclus ; les statuts commerciaux priment sur les anciennes décisions de veille. Une sélection de veille explicite reste éligible au stade À qualifier. Les fiches Sans suite, gagnées, perdues, archivées, fusionnées ou issues de l’ancien import email sont exclues. La borne J+7 utilise Europe/Paris, changement d’heure compris. Les dates manquantes ne sont pas comptées et sont signalées. Les listes complètes sont accessibles au survol, au clic et au clavier, avec liens vers les fiches. Les propositions en attente ne nécessitent pas d’échéance ; leur date de relance sert au tri. Le lien Imports à réviser est retiré après nettoyage de l’historique.
+
 ## Navigation et avancement
 
 Une seule entrée **Portefeuille**, avec les filtres **Tous / Marchés publics / Clients**, et une entrée **Actions et relances**. Tous les Kanbans et listes affichent les statuts d'avancement enregistrés, y compris pour les marchés de veille et les marchés saisis manuellement. Les anciennes URL `view=markets` et `view=clients` ouvrent le portefeuille filtré correspondant. Les décisions de veille restent accessibles dans la fiche, sans remplacer les colonnes d'avancement ni masquer une affaire déjà en cours dans les actions. Aucun statut existant n'est migré ou réécrit.
@@ -39,7 +43,7 @@ Le `vendor` historique est partiellement versionné : pour une installation neuv
 
 ## Fonctionnement
 
-- Trois vues : À qualifier, Affaires en cours, À faire ; recherche, filtre type/statut, pagination et CSV. Les offres envoyées restent visibles après échéance.
+- Portefeuille unique filtrable (Tous, Marchés publics, Clients) et vue Actions et relances ; recherche, Kanban/liste, pagination et CSV. Les offres envoyées restent visibles après échéance.
 - Fiche et historique : notes, montants estimés/proposés, relances, dates Paris affichées, stockage UTC, source et extrait. Champs inconnus laissés vides.
 - Déduplication : clés SHA256 uniques en base, Message-ID par boîte pour emails, identité de conversation ; veille par identifiant stable avec alias acheteur/référence/lot. Un enrichissement ultérieur de la référence conserve la même fiche. Rejouer une page ou un import ne duplique pas les sources.
 - Une adresse email commune suggère un rapprochement ; aucune fusion automatique par seul contact. Fusion explicite conserve la fiche originale dans l’historique et réaffecte les échanges futurs.

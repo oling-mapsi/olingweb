@@ -60,7 +60,7 @@ Correctif de recette : exclusion explicite des alertes AW Solutions, 17 tests / 
 Paquet OLING reproductible (depuis le commit à livrer) :
 
 ```sh
-git archive --format=tar.gz -o /tmp/oling-crm-release.tar.gz HEAD src/Service/Crm templates/admin/crm public/crm scripts/crm docs/crm src/Controller/CrmAdminController.php src/Controller/CrmImportController.php src/Controller/CrmFormController.php src/Command/CrmSyncCommand.php src/Command/CrmCheckCommand.php migrations/Version20261022220000.php migrations/Version20261022233000.php
+git archive --format=tar.gz -o /tmp/oling-crm-release.tar.gz <SHA_INTEGRE> src/Service/Crm templates/admin/crm public/crm scripts/crm docs/crm src/Controller/CrmAccessController.php src/Controller/CrmAdminController.php src/Controller/CrmImportController.php src/Controller/CrmFormController.php src/Command/CrmSyncCommand.php src/Command/CrmCheckCommand.php migrations/Version20261022220000.php migrations/Version20261022233000.php
 ```
 
 Les empreintes et le commit effectifs se lisent dans `/var/www/oling-current/CRM_RELEASE.json`. Le manifeste de sauvegarde correspondant donne le chemin exact de retour arrière. Ne jamais copier la clé de sauvegarde hors serveur.

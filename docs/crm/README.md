@@ -6,11 +6,11 @@ Module Symfony privé : `/admin/crm`. Authentification et rôle `ROLE_ADMIN` exi
 
 Trois indicateurs calculés sur tout le portefeuille, indépendamment des filtres : échéances à remettre sous 7 jours (retards inclus et signalés), au-delà de 7 jours, propositions envoyées ou en discussion en attente de réponse. Les marchés et demandes clients à suivre/en préparation sont inclus ; les statuts commerciaux priment sur les anciennes décisions de veille. Une sélection de veille explicite reste éligible au stade À qualifier. Les fiches Sans suite, gagnées, perdues, archivées, fusionnées ou issues de l’ancien import email sont exclues. La borne J+7 utilise Europe/Paris, changement d’heure compris. Les dates manquantes ne sont pas comptées et sont signalées. Les listes complètes sont accessibles au survol, au clic et au clavier, avec liens vers les fiches. Les propositions en attente ne nécessitent pas d’échéance ; leur date de relance sert au tri. Le lien Imports à réviser est retiré après nettoyage de l’historique.
 
-## Interface V2.1 (branche locale, non déployée)
+## Interface V2.1
 
 Cinq colonnes actives par défaut, filtre En cours / Clôturées / Toutes les étapes, détails des cartes au clic, textes et contrastes renforcés. Actions et relances s’ouvre en liste : relance et dépôt sont séparés, triés par la première date utile. Une date de dépôt d’une offre déjà envoyée n’est pas présentée comme une relance en retard. Aucun calcul de KPI ni donnée métier n’est modifié.
 
-Voir [la recette et les captures V2.1](UX-V2.1.md). Branche locale `feat/crm-ux-v2-1`, sans fusion ni déploiement autorisé.
+Voir [la recette et les captures V2.1](UX-V2.1.md). V2.1 intégrée par la PR #25. Voir aussi [la disposition compacte et la connexion autonome](COMPACT-AUTONOMOUS.md).
 
 ## Navigation et avancement
 
@@ -36,14 +36,14 @@ Le connecteur répond HTTP 200 avec `deleted: true`, `ignored: true`, `reason: d
 
 ## Développement
 
-Dépôt de travail isolé : `/Users/florestanrouet/myweb/olingw-crm`, branche UX locale `feat/crm-ux-v2-1`.
+Dépôt de travail isolé : `/Users/florestanrouet/myweb/olingw-crm`, branche `feat/crm-compact-autonomous`.
 
 ```sh
 composer install --no-scripts
 scripts/crm/local-start.sh
 ```
 
-Adresse : http://127.0.0.1:8092/admin/crm. Le premier lancement crée une base SQLite synthétique et un compte `crm-demo` ; mot de passe aléatoire dans `var/crm-local-login.txt` (0600, ignoré). `.env.local`, base et identifiants ne sont jamais livrés. Config de lancement : environnement dev, mailer null, connecteurs désactivés. Ne jamais copier une base réelle dans cette base locale.
+Adresse autonome : http://crm.localhost:8092 ; administration historique : http://127.0.0.1:8092/admin/crm. Le premier lancement crée une base SQLite synthétique et un compte `crm-demo` ; mot de passe aléatoire dans `var/crm-local-login.txt` (0600, ignoré). `.env.local`, base et identifiants ne sont jamais livrés. Config de lancement : environnement dev, mailer null, connecteurs désactivés. Ne jamais copier une base réelle dans cette base locale.
 
 Le `vendor` historique est partiellement versionné : pour une installation neuve, reconstruire complètement les dépendances depuis `composer.lock`, ne pas se fier au répertoire présent dans Git. Le déploiement CRM réutilise les dépendances homologuées de la release serveur (aucune nouvelle dépendance).
 

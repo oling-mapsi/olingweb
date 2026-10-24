@@ -11,6 +11,23 @@ security:
                 class: App\Entity\User
                 property: username
     firewalls:
+        crm:
+            host: '^crm\.(oling\.fr|localhost)$'
+            lazy: true
+            provider: app_user_provider
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
+            form_login:
+                login_path: crm_login
+                check_path: crm_login
+                enable_csrf: true
+                default_target_path: admin_crm
+                always_use_default_target_path: true
+            logout:
+                path: crm_logout
+                target: crm_login
+                enable_csrf: true
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

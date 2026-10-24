@@ -13,6 +13,10 @@ def console(*args): return run(['sudo','-u','www-data','env','APP_ENV=prod','APP
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def switch(target):
  tmp=Path('/var/www/oling-current-crm-next');assert not tmp.exists() and not tmp.is_symlink();tmp.symlink_to(target);os.replace(tmp,link);run(['systemctl','reload','apache2'])
+ # The production PHP runtime is independent from Apache; renew its realpath/opcode cache.
+ if shutil.which('docker'):
+  runtime=subprocess.run(['docker','inspect','--format','{{.State.Running}}','oling-php84'],capture_output=True,text=True)
+  if runtime.returncode==0 and runtime.stdout.strip()=='true': run(['docker','kill','--signal=USR2','oling-php84'],stdout=subprocess.DEVNULL)
 
 if phase=='prepare':
  prior=json.loads((old/'CRM_RELEASE.json').read_text()) if (old/'CRM_RELEASE.json').exists() else None
@@ -44,11 +48,15 @@ if phase=='prepare':
   for m in t.getmembers():
    if m.isdir(): continue
    assert m.isfile() and not m.name.startswith('/') and '..' not in Path(m.name).parts
-   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
+   assert m.name.startswith(('src/Service/Crm/','templates/admin/crm/','scripts/crm/','docs/crm/','public/crm/')) or m.name in ['src/Controller/CrmAccessController.php','src/Controller/CrmFormController.php','src/Controller/CrmAdminController.php','src/Controller/CrmImportController.php','src/Command/CrmSyncCommand.php','src/Command/CrmCheckCommand.php','src/Command/CrmCheckCommand.php','migrations/Version20261022220000.php','migrations/Version20261022233000.php']
    if (release/m.name).exists():
     assert prior and prior['files'].get(m.name)==digest(old/m.name),m.name
   t.extractall(release,members=[m for m in t.getmembers() if m.isfile()],filter='data')
  run(['python3',str(release/'scripts/crm/patch-navigation.py'),str(release/'templates/admin/_nav.html.twig')])
+ # Preserve all server-specific main-firewall protections; add only the isolated CRM context.
+ security='config/packages/security.yaml'
+ if prior and security in prior['files']: assert prior['files'][security]==digest(old/security)
+ run(['python3',str(release/'scripts/crm/patch-security.py'),str(release/security)])
  for p in [release/'var/cache',release/'var/log']:p.mkdir(parents=True,exist_ok=True)
  run(['chown','-R','deploy:www-data',str(release/'src/Service/Crm'),str(release/'templates/admin/crm'),str(release/'scripts/crm')])
  run(['chown','-R','www-data:www-data',str(release/'var/cache'),str(release/'var/log')])
@@ -63,6 +71,7 @@ if phase=='prepare':
   for m in t.getmembers():
    if m.isfile(): manifest['files'][m.name]=digest(release/m.name)
  manifest['files']['templates/admin/_nav.html.twig']=digest(release/'templates/admin/_nav.html.twig')
+ manifest['files'][security]=digest(release/security)
  (backup/'manifest.json').write_text(json.dumps(manifest,indent=2));(release/'CRM_RELEASE.json').write_text(json.dumps(manifest,indent=2))
  print(json.dumps({'prepared':str(release),'backup':str(backup),'commit':commit}),flush=True)
 elif phase=='activate':

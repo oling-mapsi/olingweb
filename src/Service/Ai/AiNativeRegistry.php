@@ -45,7 +45,7 @@ final class AiNativeRegistry
                 if($binding)$this->db->update('ai_native_binding',$values,['mission_id'=>$id]);else $this->db->insert('ai_native_binding',['mission_id'=>$id]+$values);
                 $run=bin2hex(random_bytes(16));
                 $this->db->insert('ai_run',['id'=>$run,'mission_id'=>$id,'role'=>(int)$m['corrections']?'correct':'execute','model'=>$args['model'],'effort'=>$args['effort'],'status'=>'associated','executor'=>$actor,'thread_id'=>$args['task_id'],'created_at'=>time(),'request_key'=>hash('sha256','native-run:'.$id.':'.$args['event_id']),'ordinal'=>1+(int)$this->db->fetchOne('SELECT MAX(ordinal) FROM ai_run WHERE mission_id=?',[$id])]);
-                $this->change($m,'associated',['executor'=>$actor]);$data=['run_id'=>$run,'task_id'=>$args['task_id']];
+                $this->change($m,'associated',['executor'=>$actor]);$data=['run_id'=>$run,'task_id'=>$args['task_id'],'task_reference_source'=>'operator_declared_not_platform_verified'];
             } elseif($tool==='ai_task_event') {
                 $r=$this->run($m,$binding,$actor,$args['run_id']);
                 if($args['event']==='started') {AiWorkflow::assertState($m['status'],['associated']);$state='external_running';$runStatus='external_running';}
@@ -61,7 +61,7 @@ final class AiNativeRegistry
                 $this->db->update('ai_run',['status'=>'completed','output'=>$output],['id'=>$r['id']]);$this->change($m,'result_received');$data=['run_id'=>$r['id'],'source'=>'executor_report','proof_count'=>count($args['proofs'])];
             } elseif($tool==='ai_mission_review') {
                 $r=$this->run($m,$binding,$actor,$args['run_id']);AiWorkflow::assertState($m['status'],['result_received','under_review']);
-                $this->decision($m,$r,$args['verdict'],$args['feedback'],0,false);$data=['run_id'=>$r['id'],'verdict'=>$args['verdict'],'source'=>'external_review_not_human_validation','review_task_id'=>$args['review_task_id'],'model'=>$args['model'],'effort'=>$args['effort']];
+                $this->decision($m,$r,$args['verdict'],$args['feedback'],0,false);$data=['run_id'=>$r['id'],'verdict'=>$args['verdict'],'source'=>'external_review_not_human_validation','task_reference_source'=>'operator_declared_not_platform_verified','review_task_id'=>$args['review_task_id'],'model'=>$args['model'],'effort'=>$args['effort']];
             }
             $this->event($id,$tool,$actor,$data);return $this->snapshot($id,$owner);
         });

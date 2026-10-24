@@ -103,7 +103,7 @@
     feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 5000);
   }
   function clearDrag() {
-    dragged?.classList.remove('dragging'); dragged = null; pointer = null;
+    dragged?.classList.remove('dragging'); document.body.classList.remove('crm-dragging'); dragged = null; pointer = null;
     cancelAnimationFrame(frame); frame = null;
     document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
   }
@@ -186,8 +186,13 @@
   board.addEventListener('dragstart', e => {
     const card = e.target.closest('.deal-card');
     if (!card || saving || permissionDenied || card.dataset.saving || e.target.closest('select,input,button')) { e.preventDefault(); return; }
-    closePreview(); dragged = card; card.classList.add('dragging');
+    closePreview(); closeKpi(); dragged = card; card.classList.add('dragging'); document.body.classList.add('crm-dragging');
     e.dataTransfer.setData('text/plain', card.dataset.id); e.dataTransfer.effectAllowed = 'move';
+  });
+  document.addEventListener('dragenter', e => {
+    if (!dragged) return;
+    const target = e.target.closest('.lane,.outcome-drop');
+    document.querySelectorAll('.lane,.outcome-drop').forEach(x => x.classList.toggle('drop-target', x === target));
   });
   document.addEventListener('dragover', e => {
     if (!dragged) return;
@@ -207,7 +212,7 @@
   });
   board.addEventListener('dragleave', e => {
     if (!board.contains(e.relatedTarget)) {
-      document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+      board.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
       pointer = null;
     }
   });

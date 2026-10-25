@@ -1,5 +1,5 @@
 from pathlib import Path
-import os,json,hashlib,subprocess,fcntl,urllib.request,re,concurrent.futures,datetime,tarfile
+import os,json,hashlib,subprocess,fcntl,urllib.request,re,concurrent.futures,datetime,tarfile,time
 work=Path('/home/ubuntu/oling-questionnaire-20261025');m=json.loads((work/'manifest.json').read_text());pointer=Path('/var/www/oling-current');old=Path(m['expected_release']);new=old.with_name('oling-questionnaire-context-20261025')
 lock=open('/var/lock/oling-deploy-cms-p0.lock','w');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
@@ -23,11 +23,22 @@ def before(p):
 with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:baseline=dict(pool.map(before,paths))
 def switch(target):
  temp=pointer.with_name('oling-current.questionnaire-next');assert not os.path.lexists(temp);temp.symlink_to(target);os.replace(temp,pointer)
+def reload_runtime():
+ subprocess.run(['docker','kill','--signal=USR2','oling-php84'],check=True)
+ subprocess.run(['systemctl','reload','apache2'],check=True)
 subprocess.run(['apache2ctl','configtest'],check=True)
 assert pointer.resolve()==old
 switch(new)
 try:
- subprocess.run(['systemctl','reload','apache2'],check=True)
+ reload_runtime()
+ # FPM workers retain PHP realpath/opcache across an Apache-only reload.
+ for attempt in range(15):
+  try:
+   status,html=get('/crm')
+   if status==200 and 'data-qualification-context="crm"' in html and 'data-chat-erp-form' not in html:break
+  except Exception:pass
+  time.sleep(1)
+ else:raise RuntimeError('New PHP release did not become ready')
  checks=[]
  for row in rows:
   p=row['path'];status,html=get(p);assert status==200,p
@@ -45,4 +56,4 @@ try:
  proof={'deployed':True,'at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'release':str(new),'previous_release':str(old),'checks':checks,'assets_verified':True,'database_changed':False,'production_form_submissions':0,'rollback':'Atomic switch of /var/www/oling-current to previous_release, then reload apache2'}
  (work/'deployment-proof.json').write_text(json.dumps(proof,indent=2));print(json.dumps(proof,indent=2))
 except BaseException:
- switch(old);subprocess.run(['systemctl','reload','apache2'],check=True);print('ROLLED_BACK');raise
+ switch(old);reload_runtime();print('ROLLED_BACK');raise

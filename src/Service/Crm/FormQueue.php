@@ -13,13 +13,17 @@ final class FormQueue
         FormIntake::source($p);
         $dir=$this->config->get('forms_dir','/var/lib/oling-crm/forms');
         $file=$dir.'/'.hash('sha256',$p['site'].'|'.$p['reference']).'.json';
+        // The PHP runtime may not mount the scheduler's spool. A healthy CRM
+        // must still receive the already-persisted receipt synchronously.
+        try { $result=$this->intake->receive($p); if (is_file($file)) { @unlink($file); } return $result; }
+        catch (\Throwable) { /* Persist for retry; the website receipt is the final recovery source. */ }
         if (!is_file($file)) {
+            if (!is_dir($dir) || !is_writable($dir)) { throw new \RuntimeException('File formulaire indisponible.'); }
             $tmp=tempnam($dir,'queue-'); if ($tmp===false) { throw new \RuntimeException('File formulaire indisponible.'); }
             chmod($tmp,0600);
             if (file_put_contents($tmp,CrmStore::json($p),LOCK_EX)===false || !rename($tmp,$file)) { @unlink($tmp); throw new \RuntimeException('File formulaire indisponible.'); }
         }
-        try { $result=$this->intake->receive($p); @unlink($file); return $result; }
-        catch (\Throwable) { return ['pending'=>true]; }
+        return ['pending'=>true];
     }
     public function flush(): array
     {

@@ -1,26 +1,29 @@
+{% set qualificationContext = qualification_context() %}
 {% set chatLocale = app.request.locale|default('fr') %}
 {% set privacyRoutes = {fr: 'polrgpd', en: 'polrgpd_en', es: 'polrgpd_es'} %}
 {% set privacyRoute = privacyRoutes[chatLocale]|default('polrgpd') %}
 <div
   id="oling-chat-widget"
   class="oling-chat-widget"
+  data-qualification-context="{{ qualificationContext.need }}"
+  data-source-path="{{ qualificationContext.sourcePath }}"
+  data-qualification-prefill="{{ ('qualification.prefill.' ~ qualificationContext.need)|trans({}, 'qualification') }}"
   data-create-url="{{ path('api_chat_conversation_create') }}"
   data-show-url-template="{{ path('api_chat_conversation_show', {token: 'CHAT_TOKEN'}) }}"
   data-message-url-template="{{ path('api_chat_conversation_message', {token: 'CHAT_TOKEN'}) }}"
   data-lead-url-template="{{ path('api_chat_conversation_lead', {token: 'CHAT_TOKEN'}) }}"
   data-scoping-note-url-template="{{ path('api_chat_conversation_scoping_note', {token: 'CHAT_TOKEN'}) }}"
-  data-erp-questionnaire-url-template="{{ path('api_chat_conversation_erp_questionnaire', {token: 'CHAT_TOKEN'}) }}"
+  {% if qualificationContext.erpAllowed %}data-erp-questionnaire-url-template="{{ path('api_chat_conversation_erp_questionnaire', {token: 'CHAT_TOKEN'}) }}"{% endif %}
   data-csrf-token="{{ csrf_token('chat_widget') }}"
-  data-contact-fallback-url="{{ path('contact', {chat_fallback: 1}) }}"
+  data-contact-fallback-url="{{ qualification_contact_url(path('contact', {chat_fallback: 1})) }}"
   data-privacy-url="{{ path(privacyRoute) }}"
   data-storage-version="2026-08-25-chat-format-v1"
   data-contact-phone="01 89 70 15 60"
   data-contact-email="contact@oling.fr"
 >
-  <script type="application/json" data-chat-i18n>{{ {
+  <script type="application/json" data-chat-i18n>{{ (qualificationContext.erpAllowed ? {
     loadingOpenErp: 'chat.loading_open_erp'|trans,
     loadingGenerateErp: 'chat.loading_generate_erp'|trans,
-    loadingReset: 'chat.loading_reset'|trans,
     errorOpenErp: 'chat.error_open_erp'|trans,
     errorSubmitErp: 'chat.error_submit_erp'|trans,
     erpSent: 'chat.erp_sent'|trans,
@@ -33,7 +36,7 @@
     erpClarifications: 'chat.erp.clarifications'|trans,
     erpDownloadPdf: 'chat.erp.download_pdf'|trans,
     erpNotice: 'chat.erp.notice'|trans
-    , contactForm: 'chat.contact_form'|trans,
+  } : {})|merge({ loadingReset: 'chat.loading_reset'|trans, contactForm: 'chat.contact_form'|trans,
     contactIntro: 'chat.js.contact_intro'|trans,
     sourcePage: 'common.page'|trans,
     sourceExpertise: 'chat.js.source_expertise'|trans,
@@ -63,7 +66,7 @@
     leadSending: 'chat.js.lead_sending'|trans,
     leadSubmitError: 'chat.js.lead_submit_error'|trans,
     resetError: 'chat.js.reset_error'|trans
-  }|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  })|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
   <button type="button" class="oling-chat-widget__launcher" aria-controls="oling-chat-panel" aria-expanded="false" aria-label="{{ 'chat.launcher_aria'|trans }}">
     <span class="oling-chat-widget__launcher-voice" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -98,6 +101,7 @@
 
       <div class="oling-chat-widget__messages" data-chat-messages></div>
 
+      {% if qualificationContext.erpAllowed %}
       <form class="oling-chat-widget__lead d-none" data-chat-erp-form>
         <div class="oling-chat-widget__lead-head">
           <div class="oling-chat-widget__lead-title">{{ 'chat.erp.title'|trans }}</div>
@@ -150,6 +154,7 @@
       </form>
 
       <div class="oling-chat-widget__lead d-none" data-chat-erp-result></div>
+      {% endif %}
 
       <div class="oling-chat-widget__lead d-none" data-chat-lead>
         <div class="oling-chat-widget__lead-head">
@@ -209,7 +214,7 @@
         </button>
       </div>
       <div class="oling-chat-widget__composer-footer">
-        <p class="oling-chat-widget__composer-note">{{ 'chat.ai_notice'|trans }} <a href="{{ path('contact', {chat_fallback: 1}) }}" data-chat-bypass="true">{{ 'chat.contact_form'|trans }}</a></p>
+        <p class="oling-chat-widget__composer-note">{{ 'chat.ai_notice'|trans }} <a href="{{ qualification_contact_url(path('contact', {chat_fallback: 1})) }}" data-chat-bypass="true">{{ 'chat.contact_form'|trans }}</a></p>
         <div class="oling-chat-widget__composer-bar">
           <div class="oling-chat-widget__composer-tools">
             <button type="button" class="oling-chat-widget__aux oling-chat-widget__aux-button d-none" data-chat-reset data-label="{{ 'chat.reset'|trans }}" aria-label="{{ 'chat.reset'|trans }}" title="{{ 'chat.reset'|trans }}">

@@ -152,6 +152,9 @@ class ChatApiController extends AbstractController
     ): JsonResponse {
         $this->assertCsrf($request);
         $conversation = $this->requireConversation($token, $conversationManager);
+        if (!\App\Service\QualificationContext::allowsErp($conversation->getSourcePath())) {
+            return $this->json(['success' => false, 'message' => 'Questionnaire indisponible pour ce parcours.'], Response::HTTP_FORBIDDEN);
+        }
         $payload = $this->decodePayload($request);
 
         if (!$rateLimitGuard->isAccepted($request)) {

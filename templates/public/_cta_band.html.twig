@@ -16,10 +16,10 @@
       </div>
       <div class="oling-cta-band__actions">
         {% set primaryRoute = primaryCta.route ?? 'contact' %}
-        <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+        <a class="btn btn-primary" href="{{ qualification_contact_url(localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({}))) }}">{{ primaryCta.label }}</a>
         {% if secondaryCta is defined and secondaryCta %}
           {% set secondaryRoute = secondaryCta.route ?? 'contact' %}
-          <a class="btn btn-outline-dark" href="{{ localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+          <a class="btn btn-outline-dark" href="{{ qualification_contact_url(localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({}))) }}">{{ secondaryCta.label }}</a>
         {% endif %}
         {% if phoneCta is defined and phoneCta %}
           <a class="btn btn-outline-light" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">{{ 'common.call_us'|trans }}</a>

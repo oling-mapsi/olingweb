@@ -35,6 +35,12 @@ final class ContactReceiptSubscriber implements EventSubscriberInterface
             $result=$this->queue->enqueue($payload);
             $receipt['crm_status']=!empty($result['pending'])?'pending':(!empty($result['deleted'])?'ignored':'delivered');
         } catch (\Throwable) { $receipt['crm_status']='pending'; $this->logger->error('crm_form_delivery_pending',['channel'=>$route]); }
+        if (($receipt['crm_status'] ?? '') === 'pending') {
+            $receipt['success'] = false;
+            $receipt['persisted'] = true;
+            $receipt['message'] = 'Votre demande est enregistrée. Sa transmission est temporairement en attente et sera réessayée automatiquement.';
+            $response->setStatusCode(202);
+        }
         $response->setData($receipt);
     }
 }

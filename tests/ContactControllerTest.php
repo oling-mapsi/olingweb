@@ -31,6 +31,15 @@ class ContactControllerTest extends TestCase
         self::assertTrue($this->payload($response)['success']);
     }
 
+    public function testMissingConsentIsRejectedWithoutSideEffects(): void
+    {
+        $payload=$this->validPayload();unset($payload['consent']);
+        $entityManager=$this->createMock(EntityManagerInterface::class);$entityManager->expects(self::never())->method('persist');
+        $mailer=$this->createMock(MailerInterface::class);$mailer->expects(self::never())->method('send');
+        $response=$this->submit($payload,true,null,$entityManager,$mailer);
+        self::assertFalse($this->payload($response)['success']);
+    }
+
     public function testMissingAndInvalidCsrfAreRejectedWithoutSideEffects(): void
     {
         foreach (['', 'invalid'] as $token) {

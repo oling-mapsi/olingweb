@@ -259,7 +259,7 @@
             {% endif %}
           </div>
           <div class="d-flex flex-wrap gap-2">
-            <a class="btn btn-primary" href="{{ path('contact') }}">{{ conversionCtaLabel }}</a>
+            <a class="btn btn-primary" href="{{ qualification_contact_url(path('contact')) }}">{{ conversionCtaLabel }}</a>
             {% if landingNarrative.phoneCta|default(false) or pageSlug in ['crm', 'gmao', 'si-finance', 'cyber-securite'] %}
               <a class="btn btn-outline-dark" href="tel:+33189701560" data-demand-phone="owner" data-demand-location="final">Ou appelez-nous au 01 89 70 15 60</a>
             {% endif %}
@@ -269,7 +269,7 @@
     </section>
   {% endif %}
 
-  {% if pageSlug == 'erp-progiciel' %}
+  {% if pageSlug == 'erp-progiciel' and qualification_context().erpAllowed %}
     <section class="oling-section oling-section--tight">
       <div class="container">
         <div class="oling-surface p-4">

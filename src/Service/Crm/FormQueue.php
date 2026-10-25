@@ -62,11 +62,15 @@ final class FormQueue
         return ['site'=>'OLING','reference'=>'chat-lead-'.$lead['id'],'fields'=>[
             'contact'=>$lead['full_name'],'email'=>$lead['email'],'phone'=>$lead['phone']??'',
             'organization'=>$lead['company'],'summary'=>$lead['need_description'],'form_name'=>'chat_contact',
-            'received_at'=>$lead['created_at'],'attribution'=>CrmStore::json(['source_path'=>$lead['source_path']??'','source_url'=>$lead['source_url']??''])
+            'received_at'=>$lead['created_at'],'attribution'=>CrmStore::json(['source_path'=>$lead['source_path']??'','source_url'=>$lead['source_url']??'','need_type'=>\App\Service\QualificationContext::need($lead['source_path']??'')])
         ]];
     }
     public static function olingPayload(array $m,array $attribution=[]): array
     {
+        if ($attribution) {
+            $path=\App\Service\QualificationContext::path($attribution['demandLandingPage']??'');
+            $attribution += ['source_path'=>$path,'source_url'=>'https://oling.fr'.$path,'need_type'=>\App\Service\QualificationContext::need($path)];
+        }
         return ['site'=>'OLING','reference'=>$m['submission_id'],'fields'=>['first_name'=>$m['first_name'],'last_name'=>$m['last_name'],'email'=>$m['work_email'],'organization'=>$m['company'],'summary'=>$m['details'],'form_name'=>'contact','received_at'=>$m['created_at']??'','attribution'=>$attribution?CrmStore::json($attribution):'']];
     }
 }

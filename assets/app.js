@@ -410,6 +410,10 @@ $(document).ready(function () {
     '/consulting/amoa-ia-pilotage-de-projets-ia-et-agents-metier': 'amoa-ia',
   };
 
+  const qualificationWidget = document.getElementById('oling-chat-widget');
+  const qualificationNeed = qualificationWidget?.dataset.qualificationContext || 'contact';
+  if (qualificationNeed !== 'contact') demandOwnerByPath[window.location.pathname.replace(/\/$/, '')] = qualificationNeed;
+
   const normalizeDemandPath = (path) => path.replace(/\/$/, '') || '/';
 
   const safeReferrer = () => {
@@ -558,12 +562,16 @@ $(document).ready(function () {
     return 'body';
   };
 
-  const demandAttributionForForm = () => {
+  function demandAttributionForForm() {
     const stored = readDemandAttribution();
-    return stored || {
+    const attribution = stored || {
       ...initialDemandContext,
       firstLandingPage: initialDemandContext.landingPage,
     };
+    if (qualificationNeed !== 'contact') {
+      return { ...attribution, ctaSource: qualificationNeed, landingPage: qualificationWidget.dataset.sourcePath };
+    }
+    return attribution;
   };
 
   const populateDemandFields = () => {

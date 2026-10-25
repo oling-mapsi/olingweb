@@ -24,11 +24,11 @@
           <div class="oling-shell-hero__actions">
             {% if primaryCta is defined and primaryCta %}
               {% set primaryRoute = primaryCta.route ?? 'contact' %}
-              <a class="btn btn-primary" href="{{ localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({})) }}">{{ primaryCta.label }}</a>
+              <a class="btn btn-primary" href="{{ qualification_contact_url(localizedRoutePaths[primaryRoute]|default(null) ?: path(primaryRoute, primaryCta.routeParams|default({}))) }}">{{ primaryCta.label }}</a>
             {% endif %}
             {% if secondaryCta is defined and secondaryCta %}
               {% set secondaryRoute = secondaryCta.route ?? 'contact' %}
-              <a class="btn btn-outline-dark" href="{{ localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({})) }}">{{ secondaryCta.label }}</a>
+              <a class="btn btn-outline-dark" href="{{ qualification_contact_url(localizedRoutePaths[secondaryRoute]|default(null) ?: path(secondaryRoute, secondaryCta.routeParams|default({}))) }}">{{ secondaryCta.label }}</a>
             {% endif %}
             {% if externalCta is defined and externalCta %}
               <a class="btn btn-outline-dark" href="{{ externalCta.href }}" target="_blank" rel="noopener">{{ externalCta.label }}</a>

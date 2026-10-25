@@ -274,6 +274,11 @@ const initChatWidget = () => {
     CHAT_I18N = {};
   }
 
+  const pageContext = root.dataset.qualificationContext || 'contact';
+  const sourcePath = root.dataset.sourcePath || window.location.pathname;
+  const sourceUrl = window.location.origin + sourcePath;
+  const erpAllowed = Boolean(root.dataset.erpQuestionnaireUrlTemplate);
+
   const launcher = root.querySelector('.oling-chat-widget__launcher');
   const panel = root.querySelector('.oling-chat-widget__panel');
   const body = root.querySelector('.oling-chat-widget__body');
@@ -313,6 +318,8 @@ const initChatWidget = () => {
   };
 
   const trackChatEvent = (name, details = {}) => {
+    if (document.body?.dataset.analyticsExcluded === '1' || localStorage.getItem('oling_cookie_consent') !== 'all') return;
+    details = { ...details, demand_cluster: pageContext };
     try {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -330,7 +337,7 @@ const initChatWidget = () => {
     }
   };
 
-  const storageVersion = root.dataset.storageVersion || '1';
+  const storageVersion = `${root.dataset.storageVersion || '1'}:${sourcePath}`;
   if (window.localStorage.getItem(CHAT_STORAGE_VERSION_KEY) !== storageVersion) {
     window.localStorage.removeItem(CHAT_STORAGE_KEY);
     window.localStorage.setItem(CHAT_STORAGE_VERSION_KEY, storageVersion);
@@ -588,7 +595,7 @@ const initChatWidget = () => {
     });
 
     const payload = await parseJson(response);
-    if (!response.ok) {
+    if (!response.ok || payload.success === false) {
       throw new Error(payload.message || (CHAT_I18N.genericError || 'Une erreur est survenue.'));
     }
 
@@ -658,8 +665,8 @@ const initChatWidget = () => {
     const payload = await request(root.dataset.createUrl, {
       method: 'POST',
       body: JSON.stringify({
-        sourcePath: window.location.pathname,
-        sourceUrl: window.location.href,
+        sourcePath,
+        sourceUrl,
         referrer: document.referrer || null,
         locale: document.documentElement.lang || 'fr',
         analyticsSessionId: window.olingAnalytics?.sessionId?.() || null,
@@ -707,6 +714,9 @@ const initChatWidget = () => {
     if (latestScoping?.content) {
       visitorMessages.push(latestScoping.content);
     }
+    if (!visitorMessages.length && root.dataset.qualificationPrefill) {
+      visitorMessages.push(root.dataset.qualificationPrefill);
+    }
     if (!visitorMessages.length) {
       if (state.lastProjectContext) {
         visitorMessages.push(state.lastProjectContext);
@@ -723,7 +733,7 @@ const initChatWidget = () => {
 
     const qualification = state.conversation.qualification || {};
     const label = (value, fallback = 'à compléter') => value || fallback;
-    const sourceUrl = window.location.href;
+    const sourceUrl = window.location.origin + sourcePath;
     const contextText = visitorMessages.join(' / ').trim();
     const normalizedContext = contextText.toLowerCase();
     const projectContextLines = [];
@@ -737,7 +747,7 @@ const initChatWidget = () => {
         projectContextLines.push('Secteur : société de gestion d’actifs financiers');
       }
     }
-    if (normalizedContext.includes('erp') && (normalizedContext.includes('proposition') || normalizedContext.includes('methodologie') || normalizedContext.includes('méthodologie') || normalizedContext.includes('livrables') || normalizedContext.includes('cout') || normalizedContext.includes('coût'))) {
+    if (erpAllowed && normalizedContext.includes('erp') && (normalizedContext.includes('proposition') || normalizedContext.includes('methodologie') || normalizedContext.includes('méthodologie') || normalizedContext.includes('livrables') || normalizedContext.includes('cout') || normalizedContext.includes('coût'))) {
       projectContextLines.push('Objet : Demande de proposition — AMOA ERP industriel');
       if (normalizedContext.includes('pme') || normalizedContext.includes('40 utilisateur')) {
         projectContextLines.push('Contexte : PME industrielle, environ 40 utilisateurs ERP');
@@ -825,8 +835,8 @@ const initChatWidget = () => {
       method: 'POST',
       body: JSON.stringify({
         content,
-        sourcePath: window.location.pathname,
-        sourceUrl: window.location.href,
+        sourcePath,
+        sourceUrl,
       }),
     });
 
@@ -889,7 +899,7 @@ const initChatWidget = () => {
   };
 
   const openErpQuestionnaire = async () => {
-    if (state.loading) return;
+    if (!erpAllowed || state.loading) return;
     setOpen(true);
     setError('');
     setLoading(true, CHAT_I18N.loadingOpenErp || 'Ouverture du questionnaire ERP...');
@@ -904,7 +914,7 @@ const initChatWidget = () => {
   };
 
   const submitErpQuestionnaire = async () => {
-    if (!state.token || !erpForm) return;
+    if (!erpAllowed || !state.token || !erpForm) return;
     const payload = await request(erpQuestionnaireUrl(state.token), {
       method: 'POST',
       body: JSON.stringify({
@@ -913,6 +923,7 @@ const initChatWidget = () => {
         conversionPage: window.location.pathname,
       }),
     });
+    if (payload.success !== true) throw new Error(CHAT_I18N.errorSubmitErp || CHAT_I18N.genericError);
     trackChatEvent('erp_questionnaire_confirmed');
     renderConversation(payload.conversation);
     renderErpResult(payload.summary || {}, payload.pdfUrl || '');
@@ -977,8 +988,10 @@ const initChatWidget = () => {
       body: JSON.stringify(payload),
     });
 
+    if (response.success !== true || response.crm_status === 'pending') {
+      throw new Error(response.message || CHAT_I18N.genericError);
+    }
     trackChatEvent('lead_confirmed');
-    trackChatEvent('lead_submission_confirmed');
     renderConversation(response.conversation);
     setError('');
   };

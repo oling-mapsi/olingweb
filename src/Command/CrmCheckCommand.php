@@ -30,6 +30,9 @@ try {
  $t=['origin'=>'watch','identity'=>'recipe-tender-'.$id,'external_id'=>'recipe-tender-'.$id,'title'=>'Avis fictif','kind'=>'public','fields'=>['reference'=>'TEST-'.$id],'follow'=>false];
  $tid=$store->ingest($t)['id'];$store->decide($tid,'reject',2,'recette');$t['external_id'].='-update';$t['follow']=true;$store->ingest($t);
  if($store->get($tid)['decision']!=='reject'){throw new \RuntimeException('Rejected tender resurrected');}
+ $beforeDce=$store->get($tid);$store->setDceReceived($tid,true,$beforeDce['version'],'recette');
+ $t['external_id'].='-dce';$t['fields']['dce_received']=false;$store->ingest($t);$afterDce=$store->get($tid);
+ if(!$afterDce['dce_received']||$afterDce['status']!==$beforeDce['status']||$afterDce['decision']!==$beforeDce['decision']) {throw new \RuntimeException('DCE preservation failed');}
  $p=['site'=>'OLING','reference'=>$id,'fields'=>['first_name'=>'Camille','last_name'=>'Exemple','email'=>'test@example.invalid','summary'=>'Besoin intégral fictif']];
  $fi=new FormIntake($store);$fid=$fi->receive($p)['id'];if($fi->receive($p,'recipe-email-'.$id,'https://outlook.office.com/mail/id/test')['id']!==$fid){throw new \RuntimeException('Form replay failed');}
  // Render production templates against synthetic data; authenticated HTTP is covered locally.
@@ -41,7 +44,7 @@ try {
  if(!str_contains($html,'Note fictive de recette')) {throw new \RuntimeException('Template rendering failed');}
  $store->delete($tid,$store->get($tid)['version']);$t['external_id'].='-tomorrow';
  if(empty($store->ingest($t)['deleted'])) {throw new \RuntimeException('Deleted tender resurrected');}
- $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','client_offer_followup'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
+ $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','client_offer_followup'=>'PASS','dce_confirmation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
 } catch(\Throwable $e) {if($db->isTransactionActive()){$db->rollBack();}$output->writeln('<error>'.$e->getMessage().'</error>');return self::FAILURE;}
 
  }

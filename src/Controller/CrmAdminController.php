@@ -119,6 +119,18 @@ final class CrmAdminController extends AbstractController
         }
         return $this->render('admin/crm/delete.html.twig',['deal'=>$deal]);
     }
+    #[Route('/{id}/dce',name:'admin_crm_dce',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
+    public function dce(string $id,Request $r): JsonResponse
+    {
+        $this->csrf($r);
+        try {
+            $value=$r->request->get('received');
+            if (!in_array($value,['0','1'],true)) { throw new \InvalidArgumentException('État DCE invalide.'); }
+            $this->store->setDceReceived($id,$value==='1',$r->request->getInt('version'),$this->getUser()->getUserIdentifier());
+            $d=$this->store->get($id);
+            return $this->json(['saved'=>true,'version'=>$d['version'],'dce_received'=>$d['dce_received']]);
+        } catch (\InvalidArgumentException|\RuntimeException $e) { return $this->json(['error'=>$e->getMessage()],409); }
+    }
     #[Route('/{id}/move',name:'admin_crm_move',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
     public function move(string $id,Request $r): JsonResponse
     {

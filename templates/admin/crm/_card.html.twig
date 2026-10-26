@@ -9,7 +9,14 @@
     {% if d.deadline %}{% include 'admin/crm/_date.html.twig' with {value:d.deadline,label:d.kind=='public' or d.origin=='watch'?'Dépôt':'Remise',empty:'',actionable:d.status not in ['sent','discussion','won','lost','no_go','archived']} only %}{% endif %}
     {% if not d.reminder and not d.deadline and not d.next_action %}<small class="crm-muted">Aucune date renseignée</small>{% endif %}
   </div>
-  <div class="compact-footer"><button type="button" class="card-details-toggle" aria-expanded="false" aria-controls="details-{{ d.id }}" aria-label="Détails de {{ d.title }}">Détails ↗</button></div>
+  <div class="compact-footer">
+    {% if d.kind=='public' or d.origin=='watch' %}
+      <button type="button" class="dce-toggle" data-url="{{ path('admin_crm_dce',{id:d.id}) }}" aria-pressed="{{ d.dce_received ? 'true':'false' }}" aria-label="DCE obtenu — {{ d.title }}" title="{{ d.dce_received ? 'DCE obtenu':'DCE à obtenir' }} — Dossier de consultation des entreprises : cliquez pour {{ d.dce_received ? 'annuler la confirmation':'confirmer sa réception' }}">
+        <span class="dce-dot" aria-hidden="true">{{ d.dce_received ? '✓':'' }}</span><span class="dce-label">DCE</span>
+      </button>
+    {% endif %}
+    <button type="button" class="card-details-toggle" aria-expanded="false" aria-controls="details-{{ d.id }}" aria-label="Détails de {{ d.title }}">Détails ↗</button>
+  </div>
   <section id="details-{{ d.id }}" class="card-details" aria-labelledby="details-title-{{ d.id }}" hidden>
     <button type="button" class="card-details-close" aria-label="Fermer les détails">×</button>
     <h4 id="details-title-{{ d.id }}">{{ d.title }}</h4>

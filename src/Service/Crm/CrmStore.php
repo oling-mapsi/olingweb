@@ -21,7 +21,7 @@ final class CrmStore
     {
         $r=$this->db->fetchAssociative('SELECT * FROM crm_deal WHERE id=?',[$id]);
         if (!$r) { throw new \InvalidArgumentException('Affaire introuvable.'); }
-        return array_merge(array_fill_keys(self::FIELDS,''), ['decision'=>'review','review_required'=>false,'detected_at'=>$r['updated_at']], json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
+        return array_merge(array_fill_keys(self::FIELDS,''), ['decision'=>'review','review_required'=>false,'dce_received'=>false,'detected_at'=>$r['updated_at']], json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
     }
     public function all(): array { return array_map(fn($r)=>$this->get($r['id']),$this->db->fetchAllAssociative('SELECT id FROM crm_deal ORDER BY updated_at DESC')); }
     public function history(string $id): array
@@ -81,6 +81,17 @@ final class CrmStore
             if ($status!==$d['status']) { $d['manual_fields']['status']=true; $changes['status']=['before'=>$d['status'],'after'=>$status]; }
             $d['status']=$status; $d['kind']=$kind; if ($status!=='qualify') { $d['review_required']=false; } $this->save($d,$version);
             $this->event($id,'manual',['actor'=>$actor,'changes'=>$changes,'note'=>trim($note)]);
+        });
+    }
+    /** Manual-only confirmation: imports and ordinary edits cannot set or clear it. */
+    public function setDceReceived(string $id, bool $received, int $version, string $actor): void
+    {
+        $this->db->transactional(function() use($id,$received,$version,$actor) {
+            $d=$this->get($id);
+            if ($d['kind']!=='public' && $d['origin']!=='watch') { throw new \InvalidArgumentException('Le DCE concerne uniquement les marchés publics.'); }
+            $before=$d['dce_received']; $d['dce_received']=$received; $d['manual_fields']['dce_received']=true;
+            $this->save($d,$version);
+            $this->event($id,'manual',['actor'=>$actor,'note'=>$received?'Dossier de consultation des entreprises obtenu.':'Dossier de consultation des entreprises à obtenir.','changes'=>['dce_received'=>['before'=>$before,'after'=>$received]]]);
         });
     }
     // Exact thread/reference identities only. An email address alone never merges projects.

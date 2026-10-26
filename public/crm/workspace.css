@@ -300,3 +300,14 @@ body.crm-login { display:grid; place-items:center; min-height:100dvh; padding:24
 :where(.crm-workspace) .login-card label { margin-top:18px; }
 :where(.crm-workspace) .login-card form>button { width:100%; margin-top:24px; }
 :where(.crm-workspace) .login-caption { color:var(--muted); margin:24px 0 0; font-size:13px; }
+
+/* Manual DCE confirmation stays on the existing card footer row. */
+:where(.crm-workspace) .compact-footer { gap:6px; flex-wrap:wrap; }
+:where(.crm-workspace) .compact-footer .dce-toggle { display:inline-flex; align-items:center; gap:6px; margin-right:auto; min-height:40px; padding:4px 7px; white-space:nowrap; color:#53616b; background:#f4f6f8; border:1px solid #89959f; }
+:where(.crm-workspace) .dce-dot { display:inline-flex; align-items:center; justify-content:center; flex:0 0 14px; width:14px; height:14px; border:2px solid currentColor; border-radius:50%; font-size:10px; font-weight:800; line-height:1; }
+:where(.crm-workspace) .dce-toggle[aria-pressed=true] { color:#16613f; background:#e8f5ed; border-color:#2b8058; }
+:where(.crm-workspace) .dce-toggle[aria-pressed=true] .dce-dot { color:white; background:#197347; border-color:#197347; }
+:where(.crm-workspace) .dce-toggle:hover { box-shadow:0 0 0 2px #19734730; }
+:where(.crm-workspace) .dce-toggle:focus-visible { outline:3px solid #154f7a; outline-offset:2px; }
+:where(.crm-workspace) .dce-toggle:disabled { opacity:.65; cursor:wait; }
+@media (pointer:coarse) { :where(.crm-workspace) .compact-footer .dce-toggle { min-height:44px; } }

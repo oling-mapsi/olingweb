@@ -11,8 +11,12 @@
   </div>
   <div class="compact-footer">
     {% if d.kind=='public' or d.origin=='watch' %}
-      <button type="button" class="dce-toggle" data-url="{{ path('admin_crm_dce',{id:d.id}) }}" aria-pressed="{{ d.dce_received ? 'true':'false' }}" aria-label="DCE obtenu — {{ d.title }}" title="{{ d.dce_received ? 'DCE obtenu':'DCE à obtenir' }} — Dossier de consultation des entreprises : cliquez pour {{ d.dce_received ? 'annuler la confirmation':'confirmer sa réception' }}">
-        <span class="dce-dot" aria-hidden="true">{{ d.dce_received ? '✓':'' }}</span><span class="dce-label">DCE</span>
+      <button type="button" class="receipt-toggle dce-toggle" data-field="dce_received" data-label="DCE" data-description="Dossier de consultation des entreprises" data-url="{{ path('admin_crm_dce',{id:d.id}) }}" aria-pressed="{{ d.dce_received ? 'true':'false' }}" aria-label="DCE obtenu — {{ d.title }}" title="{{ d.dce_received ? 'DCE obtenu':'DCE à obtenir' }} — Dossier de consultation des entreprises : cliquez pour {{ d.dce_received ? 'annuler la confirmation':'confirmer sa réception' }}">
+        <span class="receipt-dot" aria-hidden="true">{{ d.dce_received ? '✓':'' }}</span><span class="dce-label">DCE</span>
+      </button>
+    {% else %}
+      <button type="button" class="receipt-toggle cc-toggle" data-field="cc_received" data-label="Cadrage" data-description="Cahier des charges ou échange d’avant-vente" data-url="{{ path('admin_crm_cc',{id:d.id}) }}" aria-pressed="{{ d.cc_received ? 'true':'false' }}" aria-label="CC — Cadrage obtenu — {{ d.title }}" title="{{ d.cc_received ? 'Cadrage obtenu':'Cadrage à obtenir' }} : cahier des charges ou échange d’avant-vente — cliquez pour {{ d.cc_received ? 'annuler la confirmation':'confirmer le cadrage' }}">
+        <span class="receipt-dot" aria-hidden="true">{{ d.cc_received ? '✓':'' }}</span><span>CC</span>
       </button>
     {% endif %}
     <button type="button" class="card-details-toggle" aria-expanded="false" aria-controls="details-{{ d.id }}" aria-label="Détails de {{ d.title }}">Détails ↗</button>

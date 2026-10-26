@@ -21,7 +21,7 @@ final class CrmStore
     {
         $r=$this->db->fetchAssociative('SELECT * FROM crm_deal WHERE id=?',[$id]);
         if (!$r) { throw new \InvalidArgumentException('Affaire introuvable.'); }
-        return array_merge(array_fill_keys(self::FIELDS,''), ['decision'=>'review','review_required'=>false,'dce_received'=>false,'detected_at'=>$r['updated_at']], json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
+        return array_merge(array_fill_keys(self::FIELDS,''), ['decision'=>'review','review_required'=>false,'dce_received'=>false,'cc_received'=>false,'detected_at'=>$r['updated_at']], json_decode($r['data'],true), ['id'=>$r['id'],'status'=>$r['status'],'kind'=>$r['kind'],'version'=>(int)$r['version'],'updated_at'=>$r['updated_at']]);
     }
     public function all(): array { return array_map(fn($r)=>$this->get($r['id']),$this->db->fetchAllAssociative('SELECT id FROM crm_deal ORDER BY updated_at DESC')); }
     public function history(string $id): array
@@ -92,6 +92,17 @@ final class CrmStore
             $before=$d['dce_received']; $d['dce_received']=$received; $d['manual_fields']['dce_received']=true;
             $this->save($d,$version);
             $this->event($id,'manual',['actor'=>$actor,'note'=>$received?'Dossier de consultation des entreprises obtenu.':'Dossier de consultation des entreprises à obtenir.','changes'=>['dce_received'=>['before'=>$before,'after'=>$received]]]);
+        });
+    }
+    /** Manual B2B qualification, independent from public tender documents. */
+    public function setCcReceived(string $id, bool $received, int $version, string $actor): void
+    {
+        $this->db->transactional(function() use($id,$received,$version,$actor) {
+            $d=$this->get($id);
+            if ($d['kind']!=='private' || $d['origin']==='watch') { throw new \InvalidArgumentException('Le cadrage CC concerne uniquement les affaires B2B.'); }
+            $before=$d['cc_received']; $d['cc_received']=$received; $d['manual_fields']['cc_received']=true;
+            $this->save($d,$version);
+            $this->event($id,'manual',['actor'=>$actor,'note'=>$received?'Cadrage obtenu : cahier des charges ou échange d’avant-vente.':'Cadrage à obtenir : cahier des charges ou échange d’avant-vente.','changes'=>['cc_received'=>['before'=>$before,'after'=>$received]]]);
         });
     }
     // Exact thread/reference identities only. An email address alone never merges projects.

@@ -131,6 +131,18 @@ final class CrmAdminController extends AbstractController
             return $this->json(['saved'=>true,'version'=>$d['version'],'dce_received'=>$d['dce_received']]);
         } catch (\InvalidArgumentException|\RuntimeException $e) { return $this->json(['error'=>$e->getMessage()],409); }
     }
+    #[Route('/{id}/cc',name:'admin_crm_cc',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
+    public function cc(string $id,Request $r): JsonResponse
+    {
+        $this->csrf($r);
+        try {
+            $value=$r->request->get('received');
+            if (!in_array($value,['0','1'],true)) { throw new \InvalidArgumentException('État CC invalide.'); }
+            $this->store->setCcReceived($id,$value==='1',$r->request->getInt('version'),$this->getUser()->getUserIdentifier());
+            $d=$this->store->get($id);
+            return $this->json(['saved'=>true,'version'=>$d['version'],'cc_received'=>$d['cc_received']]);
+        } catch (\InvalidArgumentException|\RuntimeException $e) { return $this->json(['error'=>$e->getMessage()],409); }
+    }
     #[Route('/{id}/move',name:'admin_crm_move',requirements:['id'=>'[a-f0-9]{32}'],methods:['POST'])]
     public function move(string $id,Request $r): JsonResponse
     {

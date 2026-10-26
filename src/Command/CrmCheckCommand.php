@@ -27,6 +27,8 @@ try {
  $store->edit($id,['next_action'=>'Appeler'],'sent','private','','recette',$sent['version']);
  $s['external_id'].='-reply';$s['fields']['organization']='Valeur extraite';$s['suggested_status']='won';$store->ingest($s);$d=$store->get($id);
  if($d['status']!=='sent'||$d['organization']!=='Correction manuelle'||$d['next_action']!=='Appeler'||count($store->history($id))!==4) {throw new \RuntimeException('Preservation failed');}
+ $store->setCcReceived($id,true,$d['version'],'recette');$s['external_id'].='-cc';$s['fields']['cc_received']=false;$store->ingest($s);$d=$store->get($id);
+ if(!$d['cc_received']||$d['status']!=='sent'||$d['next_action']!=='Appeler') {throw new \RuntimeException('CC preservation failed');}
  $t=['origin'=>'watch','identity'=>'recipe-tender-'.$id,'external_id'=>'recipe-tender-'.$id,'title'=>'Avis fictif','kind'=>'public','fields'=>['reference'=>'TEST-'.$id],'follow'=>false];
  $tid=$store->ingest($t)['id'];$store->decide($tid,'reject',2,'recette');$t['external_id'].='-update';$t['follow']=true;$store->ingest($t);
  if($store->get($tid)['decision']!=='reject'){throw new \RuntimeException('Rejected tender resurrected');}
@@ -44,7 +46,7 @@ try {
  if(!str_contains($html,'Note fictive de recette')) {throw new \RuntimeException('Template rendering failed');}
  $store->delete($tid,$store->get($tid)['version']);$t['external_id'].='-tomorrow';
  if(empty($store->ingest($t)['deleted'])) {throw new \RuntimeException('Deleted tender resurrected');}
- $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','client_offer_followup'=>'PASS','dce_confirmation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
+ $db->rollBack();$output->writeln(json_encode(['identification'=>'PASS','creation'=>'PASS','deduplication'=>'PASS','manual_preservation'=>'PASS','client_offer_followup'=>'PASS','dce_confirmation'=>'PASS','cc_confirmation'=>'PASS','template_rendering'=>'PASS','tender_decision'=>'PASS','form_email_dedup'=>'PASS','delete_reimport_block'=>'PASS','persisted_test_rows'=>0])); return self::SUCCESS;
 } catch(\Throwable $e) {if($db->isTransactionActive()){$db->rollBack();}$output->writeln('<error>'.$e->getMessage().'</error>');return self::FAILURE;}
 
  }

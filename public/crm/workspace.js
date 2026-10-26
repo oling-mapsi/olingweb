@@ -138,7 +138,7 @@
       if (response.redirected || response.status === 401 || response.status === 403) {
         permissionDenied = true;
         board.querySelectorAll('.deal-card').forEach(item => { item.draggable = false; });
-        board.querySelectorAll('.card-status,.dce-toggle').forEach(item => { item.disabled = true; });
+        board.querySelectorAll('.card-status,.receipt-toggle').forEach(item => { item.disabled = true; });
         throw new Error('Session expirée ou permission insuffisante. Rechargez la page pour vérifier vos accès.');
       }
       if (!response.ok || !data.saved) throw new Error(data.error || 'Enregistrement impossible. Vérifiez votre connexion et rechargez la page.');
@@ -182,28 +182,30 @@
       if (select) select.disabled = permissionDenied;
     }
   }
-  async function saveDce(button) {
+  async function saveReceipt(button) {
     const card = button.closest('.deal-card');
     if (saving || permissionDenied || dragged || card.dataset.saving) return;
     const received = button.getAttribute('aria-pressed') !== 'true';
     saving = true; card.dataset.saving = '1'; card.draggable = false;
     button.disabled = true; button.setAttribute('aria-busy', 'true');
-    closePreview(); error.hidden = true; announce('Enregistrement du DCE…');
+    closePreview(); error.hidden = true; announce('Enregistrement : ' + button.dataset.label + '…');
     try {
       const response = await fetch(button.dataset.url, {method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'}, body:new URLSearchParams({_token:board.dataset.token,version:card.dataset.version,received:received?'1':'0'})});
       const data = await response.json().catch(() => ({}));
       if (response.redirected || response.status === 401 || response.status === 403) {
         permissionDenied = true;
         board.querySelectorAll('.deal-card').forEach(item => { item.draggable = false; });
-        board.querySelectorAll('.card-status,.dce-toggle').forEach(item => { item.disabled = true; });
+        board.querySelectorAll('.card-status,.receipt-toggle').forEach(item => { item.disabled = true; });
         throw new Error('Session expirée ou permission insuffisante. Rechargez la page pour vérifier vos accès.');
       }
       if (!response.ok || !data.saved) throw new Error(data.error || 'Enregistrement impossible. Vérifiez votre connexion et rechargez la page.');
       card.dataset.version = data.version;
-      button.setAttribute('aria-pressed', data.dce_received ? 'true' : 'false');
-      button.querySelector('.dce-dot').textContent = data.dce_received ? '✓' : '';
-      button.title = (data.dce_received ? 'DCE obtenu' : 'DCE à obtenir') + ' — Dossier de consultation des entreprises : cliquez pour ' + (data.dce_received ? 'annuler la confirmation' : 'confirmer sa réception');
-      announce(data.dce_received ? 'DCE obtenu : enregistré.' : 'DCE à obtenir : enregistré.');
+      const confirmed = data[button.dataset.field];
+      button.setAttribute('aria-pressed', confirmed ? 'true' : 'false');
+      button.querySelector('.receipt-dot').textContent = confirmed ? '✓' : '';
+      const state = button.dataset.label + (confirmed ? ' obtenu' : ' à obtenir');
+      button.title = state + ' — ' + button.dataset.description + ' : cliquez pour ' + (confirmed ? 'annuler la confirmation' : 'confirmer');
+      announce(state + ' : enregistré.');
     } catch (e) {
       feedback.hidden = true; error.textContent = e.message; error.hidden = false;
       error.scrollIntoView({block:'nearest'});
@@ -213,7 +215,7 @@
       if (!permissionDenied) button.focus({preventScroll:true});
     }
   }
-  board.addEventListener('click', e => { const button = e.target.closest('.dce-toggle'); if (button) saveDce(button); });
+  board.addEventListener('click', e => { const button = e.target.closest('.receipt-toggle'); if (button) saveReceipt(button); });
   board.addEventListener('change', e => { if (e.target.matches('.card-status')) save(e.target.closest('.deal-card'), e.target.value); });
   board.addEventListener('dragstart', e => {
     const card = e.target.closest('.deal-card');
